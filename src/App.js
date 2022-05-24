@@ -1,14 +1,25 @@
 import React from "react";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link
+} from "react-router-dom";
 
 /* Import Components */
-import Header from "./header/Header";
+import Home from "./templates/home/Home.js";
+import Search from "./templates/search/Search.js";
 
 class App extends React.Component {
     render() {
         return (
-            <div>
-                <Header />
-            </div>
+            <Router>
+
+                <Routes>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/" element={<Search />} />
+                </Routes>
+            </Router>
         );
     }
 }

@@ -1,0 +1,14 @@
+.filterMenu {
+    background-color: white;
+    height: calc(100vh - 7.77rem);
+    -webkit-box-shadow: 5px 1px 16px -4px rgba(0,0,0,0.74); 
+    box-shadow: 5px 1px 16px -4px rgba(0,0,0,0.74);
+}
+
+.search_searchBarTitle {
+    font-size: 18px;
+}
+
+.search_searchBar {
+    width: 100%;
+}

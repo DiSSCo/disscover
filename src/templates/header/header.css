@@ -1,6 +1,7 @@
 .header {
     height: 80px;
-    background-color: #2e5cb8;
+    background-color: rgb(46, 92, 184, 0.80);
+    position: relative;
 }
 
 .headerTitle {

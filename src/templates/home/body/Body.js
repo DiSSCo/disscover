@@ -22,7 +22,7 @@ const Body = () => {
         SpecimenSearch(searchQuery, Process);
 
         function Process(result) {
-            navigate('/', {
+            navigate('/search', {
                 state: {
                     data: result
                 }

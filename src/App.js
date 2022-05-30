@@ -1,4 +1,3 @@
-import React from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -7,14 +6,14 @@ import {
 
 /* Import Components */
 import Home from "./templates/home/Home.js";
-import Search from "./templates/search/Search.js";
+import SearchIndex from "./templates/search/Index.js";
 
 const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/home" element={<Home />} />
-                <Route path="/" element={<Search />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/search/*" element={<SearchIndex />} />
             </Routes>
         </Router>
     );

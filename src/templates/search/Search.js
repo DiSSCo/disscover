@@ -16,8 +16,6 @@ const Search = () => {
         }
     }, []);
 
-    console.log(searchResults);
-
     return (
         <div className="d-flex flex-column min-vh-100">
             <Header />

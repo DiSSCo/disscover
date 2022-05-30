@@ -1,0 +1,59 @@
+import { Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
+/* Import Components */
+import TableRow from './TableRow';
+
+const ResultsTable = (props) => {
+    let searchResults = props.searchResults;
+    
+    let navigate = useNavigate();
+
+    if (searchResults) {
+        // console.log(searchResults)
+    } else {
+        searchResults = [];
+    }
+
+    function RedirectToSpecimenPage(index) {
+        const specimen = searchResults[index];
+
+        /* Temporary id */
+        const specimenId = specimen['@id'].replace('test/', '');
+
+        navigate('./specimen/' + specimenId, {
+            state: {
+                data: specimen
+            }
+        });
+    }
+
+    return (
+        <div className="search_resultsTable">
+            <Row className="search_tableHeader">
+                <Col md="3">
+                    Scientific Name
+                </Col>
+                <Col md="3">
+                    Locality
+                </Col>
+                <Col md="3">
+                    Basis of Record
+                </Col>
+                <Col md="3">
+                    Institution
+                </Col>
+            </Row>
+
+            <Row className="search_resultsTableContent">
+                <Col md="12">
+                    {searchResults.map((searchResult, i) => (
+                        <TableRow specimen={searchResult} position={i} onClick={(index) => RedirectToSpecimenPage(index)} key={searchResult['@id']} />
+                    ))}
+                </Col>
+            </Row>
+        </div>
+    );
+}
+
+export default ResultsTable;

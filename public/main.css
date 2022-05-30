@@ -1,4 +1,11 @@
 /* Declaring global variables */
 :root {
     --main-color: #2e5cb8;
+    --main-color-light: #d6e0f5;
+}
+
+body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
 }

@@ -1,5 +1,6 @@
-import React from "react";
-import {Container, Row, Col} from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import './body.css';
 
 /* Import Components */
@@ -10,67 +11,60 @@ import SampleOccurrence from "./sampleOccurence/SampleOccurence";
 /* Import API functions */
 import SpecimenSearch from "../../../api/SpecimenSearch.js";
 
-class Body extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchQuery: '',
-            specimenSearchResults: ''
+const Body = () => {
+    const [searchQuery, setSearchQuery] = useState();
+
+    function UpdateSearchQuery(query) {
+        setSearchQuery(query.target.value);
+    }
+
+    function HandleSearch() {
+        SpecimenSearch(searchQuery, Process);
+
+        function Process(result) {
+            navigate('/', {
+                state: {
+                    data: result
+                }
+            });
         }
     }
 
-    updateSearchQuery(query) {
-        this.setState({
-            searchQuery: query.target.value
-        });
-    }
+    const items = [
+        'Frogger', 'Frogger', 'Frogger',
+        'Frogger', 'Frogger', 'Frogger',
+        'Frogger', 'Frogger', 'Frogger'
+    ];
 
-    handleSearch() {
-        const searchQuery = this.state.searchQuery;
+    const navigate = useNavigate();
 
-        SpecimenSearch(searchQuery, process);
-
-        function process(result) {
-            console.log(result);
-
-            
-        }
-    }
-
-    render() {
-        const items = [
-            'Frogger', 'Frogger', 'Frogger',
-            'Frogger', 'Frogger', 'Frogger',
-            'Frogger', 'Frogger', 'Frogger'
-        ];
-
-        return (
-            <>
+    return (
+        <>
             <TitleImage />
-                <Container fluid>
-                    <SearchBar 
-                        onSearch={() => this.handleSearch()} 
-                        updateSearchQuery={(query) => this.updateSearchQuery(query)} 
-                    />
+            <Container fluid>
+                <SearchBar
+                    onSearch={() => HandleSearch()}
+                    updateSearchQuery={(query) => UpdateSearchQuery(query)}
+                />
 
-                    <Row>
-                        <Col md={{span: "10", offset: "1"}} className="sampleOccurences">
-                            <Row>
-                                <h3 className="sampleOccurencesTitle">
-                                    Explore froggies
-                                </h3>
-                            </Row>
-                            <Row>
-                                {items.map((value, index) => {
-                                    return <SampleOccurrence />
-                                })}
-                            </Row>
-                        </Col>
-                    </Row>
-                </Container>
-            </>
-        );
-    }
+                <Row>
+                    <Col md={{ span: "10", offset: "1" }} className="sampleOccurences">
+                        <Row>
+                            <h3 className="sampleOccurencesTitle">
+                                Explore froggies
+                            </h3>
+                        </Row>
+                        <Row>
+                            {items.map((value, index) => {
+                                return <SampleOccurrence />
+                            })}
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
+        </>
+    )
+
 }
 
 export default Body;

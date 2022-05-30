@@ -1,22 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 /* Import Components */
 import Header from "../header/Header.js";
 import Body from "./body/Body.js";
 import Footer from "../footer/Footer.js";
 
-class Search extends React.Component {
-    render() {
-        return (
-            <div className="d-flex flex-column min-vh-100">
-                <Header />
+const Search = () => {
+    let location = useLocation();
+    const [searchResults, setSearchResults] = useState();
 
-                <Body />
+    useEffect(() => {
+        if (location.state) {
+            setSearchResults(location.state.data);
+        }
+    }, []);
 
-                <Footer />
-            </div>
-        );
-    }
+    console.log(searchResults);
+
+    return (
+        <div className="d-flex flex-column min-vh-100">
+            <Header />
+
+            <Body searchResults={searchResults} />
+
+            <Footer />
+        </div>
+    );
 }
+
+
 
 export default Search;

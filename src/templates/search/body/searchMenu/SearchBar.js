@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from 'react-bootstrap';
 
-function SearchBar(props) {
+const SearchBar = (props) => {
     return (
         <Row>
             <Col md={{ span: 10, offset: 1 }}>

@@ -5,18 +5,16 @@ import Header from "../header/Header.js";
 import Body from "./body/Body.js";
 import Footer from "../footer/Footer.js";
 
-class Home extends React.Component {
-    render() {
-        return (
-            <div>
-                <Header />
+const Home = () => {
+    return (
+        <div>
+            <Header />
 
-                <Body />
+            <Body />
 
-                <Footer />
-            </div>
-        );
-    }
+            <Footer />
+        </div>
+    );
 }
 
 export default Home;

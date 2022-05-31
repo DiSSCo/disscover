@@ -10,7 +10,7 @@ const SearchBar = (props) => {
                 </h2>
                 <Row>
                     <Col md={{ span: 12 }} className="search_searchBar">
-                        <input type="text" id="search_searchBar" class="search_searchBarInput" onChange={props.updateSearchQuery} value={props.searchQuery} placeholder="Thalassodromeus" />
+                        <input type="text" id="search_searchBar" className="search_searchBarInput" onChange={props.updateSearchQuery} value={props.searchQuery} placeholder="Thalassodromeus" />
                         <button type="submit" className="search_searchBarSubmit" onClick={props.onSearch}>
                             <i className="fa-solid fa-magnifying-glass" />
                         </button>

@@ -4,8 +4,8 @@ function SpecimenSearch(query, callback) {
     if (query) {
         const endPoint = "api/v1/specimen/search";
         const params = {
-            query: "'" + query + "'",
-            pageSize: 20
+            query: query,
+            pageSize: 25
         }
 
         $.ajax({

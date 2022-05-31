@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 /* Import Components */
 import TableRow from './TableRow';
+import DefaultTableRow from './DefaultTableRow';
 
 const ResultsTable = (props) => {
     let searchResults = props.searchResults;
@@ -27,7 +28,7 @@ const ResultsTable = (props) => {
             }
         });
     }
-
+    
     return (
         <div className="search_resultsTable">
             <Row className="search_tableHeader">
@@ -47,9 +48,9 @@ const ResultsTable = (props) => {
 
             <Row className="search_resultsTableContent">
                 <Col md="12">
-                    {searchResults.map((searchResult, i) => (
+                    {searchResults.length > 0 ? searchResults.map((searchResult, i) => (
                         <TableRow specimen={searchResult} position={i} onClick={(index) => RedirectToSpecimenPage(index)} key={searchResult['@id']} />
-                    ))}
+                    )) : <DefaultTableRow />}
                 </Col>
             </Row>
         </div>

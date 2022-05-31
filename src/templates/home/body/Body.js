@@ -22,9 +22,12 @@ const Body = () => {
         SpecimenSearch(searchQuery, Process);
 
         function Process(result) {
+            localStorage.setItem('searchQuery', searchQuery);
+
             navigate('/search', {
                 state: {
-                    data: result
+                    searchQuery: searchQuery,
+                    searchResults: result
                 }
             });
         }

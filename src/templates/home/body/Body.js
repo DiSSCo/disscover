@@ -6,7 +6,7 @@ import './body.css';
 /* Import Components */
 import TitleImage from "./titleImage/TitleImage";
 import SearchBar from "./searchBar/SearchBar";
-import SampleOccurrence from "./sampleOccurrence/SampleOccurence";
+import SampleOccurrence from "./sampleOccurrence/SampleOccurrence";
 
 /* Import API functions */
 import SpecimenSearch from "../../../api/SpecimenSearch.js";

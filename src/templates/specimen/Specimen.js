@@ -6,7 +6,7 @@ import Header from '../header/Header';
 import Body from './body/Body.js';
 import Footer from '../footer/Footer';
 
-const SpecimenPage = () => {
+const Specimen = () => {
     let location = useLocation();
 
     const [specimen, setSpecimen] = useState();
@@ -30,4 +30,4 @@ const SpecimenPage = () => {
     }
 }
 
-export default SpecimenPage;
+export default Specimen;

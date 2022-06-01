@@ -1,15 +1,12 @@
-import { Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 /* Import Components */
-import Header from '../../header/Header';
+import Header from '../header/Header';
 import Body from './body/Body.js';
-import Footer from '../../footer/Footer';
+import Footer from '../footer/Footer';
 
 const SpecimenPage = () => {
-    const { specimenId } = useParams();
-
     let location = useLocation();
 
     const [specimen, setSpecimen] = useState();

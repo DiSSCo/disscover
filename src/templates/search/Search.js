@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 /* Import Components */
 import Header from "../header/Header.js";
 import Body from "./body/Body.js";

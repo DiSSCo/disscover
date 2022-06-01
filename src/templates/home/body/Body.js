@@ -6,7 +6,7 @@ import './body.css';
 /* Import Components */
 import TitleImage from "./titleImage/TitleImage";
 import SearchBar from "./searchBar/SearchBar";
-import SampleOccurrence from "./sampleOccurence/SampleOccurence";
+import SampleOccurrence from "./sampleOccurrence/SampleOccurence";
 
 /* Import API functions */
 import SpecimenSearch from "../../../api/SpecimenSearch.js";
@@ -58,7 +58,7 @@ const Body = () => {
                             </h3>
                         </Row>
                         <Row>
-                            {items.map((value, index) => {
+                            {items.map(() => {
                                 return <SampleOccurrence />
                             })}
                         </Row>

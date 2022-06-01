@@ -1,6 +1,6 @@
 import {Row, Col} from 'react-bootstrap';
 
-function DefaultTableRow(props) {
+function DefaultTableRow() {
     return (
         <Row className="search_tableRow">
             <Col md="12">

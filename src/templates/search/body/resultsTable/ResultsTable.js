@@ -10,19 +10,14 @@ const ResultsTable = (props) => {
     
     let navigate = useNavigate();
 
-    if (searchResults) {
-        // console.log(searchResults)
-    } else {
+    if (!searchResults) {
         searchResults = [];
     }
 
     function RedirectToSpecimenPage(index) {
         const specimen = searchResults[index];
 
-        /* Temporary id */
-        const specimenId = specimen['@id'].replace('test/', '');
-
-        navigate('./specimen/' + specimenId, {
+        navigate('/specimen/' + specimen['@id'], {
             state: {
                 data: specimen
             }

@@ -3,6 +3,7 @@ import "./header.css";
 import { Container, Row, Col } from "react-bootstrap";
 
 /* Import Components */
+import Login from '../login/Login.js';
 
 
 const Header = () => {
@@ -11,15 +12,13 @@ const Header = () => {
             <Row>
                 <Col md="5">
                     <h1 className="headerTitle">
-                        DiSSCo Annotation Portal
+                        DiSSCo Curation and Annotation Portal
                     </h1>
                 </Col>
                 <Col md="7">
                     <Row>
                         <Col md={{ span: 2, offset: 10 }}>
-                            <button className="loginButton">
-                                Login
-                            </button>
+                            <Login />
                         </Col>
                     </Row>
                 </Col>

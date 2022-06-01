@@ -6,16 +6,23 @@ import {
 
 /* Import Components */
 import Home from "./templates/home/Home.js";
-import SearchIndex from "./templates/search/Index.js";
+import Search from "./templates/search/Search.js";
+import Specimen from "./templates/specimen/Specimen.js";
+
+/* Import Main.css */
+import './main.css';
 
 const App = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/search/*" element={<SearchIndex />} />
-            </Routes>
-        </Router>
+        <>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/specimen/*" element={<Specimen />} />
+                </Routes>
+            </Router>
+        </>
     );
 }
 

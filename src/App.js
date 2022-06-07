@@ -4,6 +4,7 @@ import {
     Route
 } from "react-router-dom";
 
+
 /* Import Components */
 import Home from "./templates/home/Home.js";
 import Search from "./templates/search/Search.js";

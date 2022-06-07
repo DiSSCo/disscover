@@ -44,25 +44,25 @@
 
 
 /* Sample Occurence(s) */
-.sampleOccurencesTitle {
+.sampleSpecimensTitle {
     font-size: 23px;
     color: var(--main-color);
 }
 
-.sampleOccurences {
+.sampleSpecimens {
     margin-top: 50px !important;
 }
 
-.sampleOccurence {
+.sampleSpecimen {
     margin-bottom: 30px;
 }
 
-.sampleOccurenceImage {
+.sampleSpecimenImage {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
 
-.sampleOccurenceName {
+.sampleSpecimenName {
     border-left: 1px solid #333333;
     border-right: 1px solid #333333;
     border-bottom: 1px solid #333333;

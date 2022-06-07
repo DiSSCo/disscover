@@ -6,7 +6,7 @@ import './body.css';
 /* Import Components */
 import TitleImage from "./titleImage/TitleImage";
 import SearchBar from "./searchBar/SearchBar";
-import SampleOccurrence from "./sampleSpecimen/SampleSpecimen";
+import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
 
 /* Import API functions */
 import SpecimenSearch from "../../../api/SpecimenSearch";
@@ -51,15 +51,15 @@ const Body = () => {
                 />
 
                 <Row>
-                    <Col md={{ span: "10", offset: "1" }} className="sampleOccurences">
+                    <Col md={{ span: "10", offset: "1" }} className="sampleSpecimens">
                         <Row>
-                            <h3 className="sampleOccurencesTitle">
+                            <h3 className="sampleSpecimensTitle">
                                 Explore froggies
                             </h3>
                         </Row>
                         <Row>
                             {items.map(() => {
-                                return <SampleOccurrence />
+                                return <SampleSpecimen />
                             })}
                         </Row>
                     </Col>

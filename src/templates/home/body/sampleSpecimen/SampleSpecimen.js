@@ -5,7 +5,7 @@ function SampleSpecimen() {
     return (
         <Col md="4" className="sampleSpecimen">
             <Row>
-                <img className="sampleSpecimenImage" src="https://www.teunstuinposters.nl/site/tuinposters/96/zoom/tuinposter_kikker.jpg" />
+                <img className="sampleSpecimenImage" src="https://medialib.naturalis.nl/file/id/RGM.1332243_1/format/large" />
             </Row>
             <Row>
                 <Col>

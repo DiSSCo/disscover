@@ -1,7 +1,7 @@
 /* Import Components */
-import Header from "../header/Header.js";
-import Body from "./body/Body.js";
-import Footer from "../footer/Footer.js";
+import Header from "../header/Header";
+import Body from "./body/Body";
+import Footer from "../footer/Footer";
 
 const Search = () => {
     return (
@@ -14,7 +14,5 @@ const Search = () => {
         </div>
     );
 }
-
-
 
 export default Search;

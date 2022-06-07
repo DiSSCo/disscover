@@ -6,10 +6,10 @@ import './body.css';
 /* Import Components */
 import TitleImage from "./titleImage/TitleImage";
 import SearchBar from "./searchBar/SearchBar";
-import SampleOccurrence from "./sampleOccurrence/SampleOccurrence";
+import SampleOccurrence from "./sampleSpecimen/SampleSpecimen";
 
 /* Import API functions */
-import SpecimenSearch from "../../../api/SpecimenSearch.js";
+import SpecimenSearch from "../../../api/SpecimenSearch";
 
 const Body = () => {
     const [searchQuery, setSearchQuery] = useState();

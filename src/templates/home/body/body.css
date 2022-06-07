@@ -3,9 +3,8 @@
 .bodyTitleImage {
     background-image: url('https://www.dissco.eu/wp-content/uploads/woods-bg.jpg');
     height: 400px;
-    width: 100%;
     margin-top: -100px;
-    position: absolute;
+    position: absolute !important;
     z-index: -1;
 }
 

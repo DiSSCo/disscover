@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import axios from 'axios';
 
 function SpecimenSearch(query, callback) {
     if (query) {
@@ -8,14 +8,16 @@ function SpecimenSearch(query, callback) {
             pageSize: 25
         }
 
-        $.ajax({
-            method: "GET",
+        axios({
+            method: "get",
             url: endPoint,
-            contentType: "application/json",
-            data: params,
-            success: function (result) {
-                callback(result);
-            }
+            params: params,
+            responseType: 'json'
+        }).then(function(result) {
+            callback(result['data']);
+        }).catch(error => {
+            /* To be raplced by logger */
+            console.warn(error);
         });
     }
 }

@@ -3,6 +3,7 @@
     --main-color: #0C86C6;
     --main-color-light: #d6e0f5;
     --main-color-dark: #205692;
+    --main-color-darker: #1c497d;
 
     --greyXLight: #F4F4F1;
     --greyLight: #E9E8E3;
@@ -33,4 +34,17 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+}
+
+a {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.textOverflow {
+	overflow: hidden; 
+    white-space: nowrap; 
+	text-overflow: ellipsis;
 }

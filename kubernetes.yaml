@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ucas
+  labels:
+    app: ucas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ucas
+  template:
+    metadata:
+      labels:
+        app: ucas
+    spec:
+      containers:
+        - name: ucas
+          image: public.ecr.aws/dissco/ucas:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+      restartPolicy: Always

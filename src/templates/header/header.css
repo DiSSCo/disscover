@@ -9,3 +9,40 @@
     color: white;
     font-weight: bold;
 }
+
+
+/* Login button */
+
+.loginButton {
+    width: 80%;
+    height: 30px;
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    margin: 25px 0px 0px 10%;
+}
+
+
+/* Profile */
+.header_profile {
+    background-color: var(--main-color-darker);
+    color: white;
+    height: 60px;
+    line-height: 45px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: 0px 10% 0px 10% !important;
+}
+
+.header_profilePic {
+    border: 3px solid white;
+    border-radius: 4px;
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 0;
+}
+
+.header_profilePicName {
+    text-align: right;
+}

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import './body.css';
 
 /* Import components */
 import SearchBar from "./searchMenu/SearchBar";
 import ResultsTable from "./resultsTable/ResultsTable";
 
 /* Import API */
-import SpecimenSearch from "../../../api/SpecimenSearch.js";
+import SpecimenSearch from "api/specimen/SpecimenSearch.js";
+
 
 const Body = () => {
     let location = useLocation();
@@ -17,23 +17,6 @@ const Body = () => {
 
     const [searchQuery, setSearchQuery] = useState();
     const [searchResults, setSearchResults] = useState();
-
-    useEffect(() => {
-        const memorySearchQuery = localStorage.getItem('searchQuery');
-
-        if (memorySearchQuery) {
-            HandleSearch(memorySearchQuery);
-        } else if (memorySearchQuery == '') {
-            setSearchQuery('');
-
-            setLoaded(true);
-        } else if (location.state.searchResults) {
-            setSearchQuery(location.state.searchQuery);
-            setSearchResults(location.state.searchResults);
-
-            setLoaded(true);
-        }
-    }, []);
 
     function UpdateSearchQuery(query) {
         setSearchQuery(query.target.value);
@@ -61,6 +44,23 @@ const Body = () => {
         }
     }
 
+    useEffect(() => {
+        const memorySearchQuery = localStorage.getItem('searchQuery');
+
+        if (memorySearchQuery) {
+            HandleSearch(memorySearchQuery);
+        } else if (memorySearchQuery === '') {
+            setSearchQuery('');
+
+            setLoaded(true);
+        } else if (location.state.searchResults) {
+            setSearchQuery(location.state.searchQuery);
+            setSearchResults(location.state.searchResults);
+
+            setLoaded(true);
+        }
+    }, []);
+
     if (loaded) {
         return (
             <>
@@ -75,8 +75,8 @@ const Body = () => {
                         </Col>
                         <Col md="10">
                             <Row>
-                                <Col md={{ span: '12'}} className="search_resultsSection">
-                                    <ResultsTable searchResults={searchResults}/>
+                                <Col md={{ span: '12' }} className="search_resultsSection">
+                                    <ResultsTable searchResults={searchResults} />
                                 </Col>
                             </Row>
                         </Col>

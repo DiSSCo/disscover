@@ -1,6 +1,6 @@
 function LoginButton(props) {
     return(
-        <button className="loginButton" onClick={() => props.onClick()}>
+        <button className="loginButton" onClick={() => props.login()}>
             Login
         </button>
     );

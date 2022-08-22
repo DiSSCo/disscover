@@ -1,8 +1,17 @@
 .footer {
     background-color: #333333;
+    height: 80px;
 }
 
-.footerText {
+.footer_text {
     color: white;
-    padding: 2%;
+    font-size: 13px;
+}
+
+.footer_link {
+    color: var(--main-color) !important;
+}
+
+.footer_logo {
+    height: 50px;
 }

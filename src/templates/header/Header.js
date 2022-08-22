@@ -1,25 +1,33 @@
-import React from "react";
-import "./header.css";
 import { Container, Row, Col } from "react-bootstrap";
+import UserService from 'keycloak/Keycloak';
+import "./header.css";
 
 /* Import Components */
-import Login from '../login/Login.js';
+import Login from './login/Login';
+import Profile from './profile/Profile';
 
 
 const Header = () => {
+    const token = UserService.getToken();
+
     return (
         <Container fluid className="header">
             <Row>
-                <Col md="5">
-                    <h1 className="headerTitle">
-                        DiSSCo Curation and Annotation Portal
+                <Col md={{ span: 6 }}>
+                    <h1 className="ms-5 headerTitle">
+                        Unified Curation and Annotation System
                     </h1>
                 </Col>
-                <Col md="7">
+                <Col md={{ span: 2, offset: 4 }}>
                     <Row>
-                        <Col md={{ span: 2, offset: 10 }}>
-                            <Login />
-                        </Col>
+                        {token ?
+                            <Col md={{ span: 12 }}>
+                                <Profile />
+                            </Col>
+                            : <Col md={{ span: 10 }}>
+                                <Login />
+                            </Col>
+                        }
                     </Row>
                 </Col>
             </Row>

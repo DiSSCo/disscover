@@ -1,50 +1,71 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import "./body.css";
+import { Link } from 'react-router-dom';
 
-/* Fontawesome icons */
+/* Import components */
+import SpecimenInfo from './specimenInfo/SpecimenInfo';
+import SpecimenImages from './specimenMedia/SpecimenMedia';
+import MidsMeter from './midsMeter/MidsMeter';
+
+/* Import icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFrog } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faComment } from '@fortawesome/free-solid-svg-icons'
+
 
 const Body = (props) => {
-    const specimen = props.specimen['ods:authoritative'];
+    let specimen = {}
+
+
+
+    specimen['auth'] = props.specimen['ods:authoritative'];
+    specimen['unmapped'] = props.specimen['ods:unmapped'];
+
+    console.log(specimen);
 
     return (
         <Container fluid>
-            <Row>
-                <Col md={{ span: 6, offset: 1 }}>
+            <Row className='specimen_content'>
+                <Col md={{ span: 10, offset: 1 }} className="h-100">
                     <Row>
-                        <Col md={{ span: 10 }} className="specimen_rightTitleBlock">
+                        <Col md={{ span: 8 }}>
                             <Row>
-                                <Col md={{ span: 1 }} className="specimen_basisOfRecordSymbolBlock">
-                                    <i className="icon">
-                                        <FontAwesomeIcon icon={faFrog} className="specimen_basisOfRecordSymbol" />
-                                    </i>
+                                <Col md={{ span: 12 }}>
+                                    <SpecimenInfo specimen={specimen} />
                                 </Col>
-                                <Col md={{ span: 11 }} className="specimen_titleBlock">
-                                    <h2 className="specimen_title"> {specimen['ods:name']} </h2>
+                            </Row>
+                            <Row>
+                                <Col md={{ span: 12 }}>
+                                    {specimen['unmapped']['has_image'] && <SpecimenImages specimenImages={specimen['unmapped']['url']} />}
                                 </Col>
                             </Row>
                         </Col>
-
-                        <Col md={{ span: 10 }} className="specimen_rightContentBlock">
+                        <Col md={{ span: 4 }}>
                             <Row>
-                                <Col md={{ span: 3 }} className="specimen_detailTitleBlock">
-                                    <Row>
-                                        <Col md={{ span: 10, offset: 1 }}>
-                                            <p> Institution: </p>
-                                            <p> Specimen type: </p>
-                                        </Col>
-                                    </Row>
+                                <Col md={{ span: 6 }} className='specimen_annotateBlock'>
+                                    <Link to={'/annotate/' + specimen['auth']['ods:physicalSpecimenId']} state={{ specimen: specimen, mode: 'annotate' }}>
+                                        <Row>
+                                            <Col md={{ span: 12 }} className="">
+                                                Annotate
+                                                <FontAwesomeIcon icon={faComment} className="ps-2" />
+                                            </Col>
+                                        </Row>
+                                    </Link>
                                 </Col>
-                                <Col md={{ span: 9 }} className="specimen_detailContentBlock">
-                                    <Row>
-                                        <Col md={{ span: 12 }}>
-                                            <p> {specimen['ods:institutionCode']} </p>
-                                            <p> {specimen['ods:materialType']} </p>
-                                        </Col>
-                                    </Row>
+
+                                <Col md={{ span: 6 }} className='specimen_annotateBlock curate'>
+                                    <Link to={'/annotate/' + specimen['auth']['ods:physicalSpecimenId']} state={{ specimen: specimen, mode: 'curate' }}>
+                                        <Row>
+                                            <Col md={{ span: 12 }}>
+                                                Curate
+                                                <FontAwesomeIcon icon={faPencil} className="ps-2" />
+                                            </Col>
+                                        </Row>
+                                    </Link>
                                 </Col>
-                                <Col md={{ span: 10 }} className="folder" />
+                            </Row>
+                            <Row className="mt-4">
+                                <Col md={{ span: 12 }}>
+                                    <MidsMeter specimen={specimen} mode='annotate' />
+                                </Col>
                             </Row>
                         </Col>
                     </Row>

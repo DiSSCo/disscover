@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ucas
+spec:
+  selector:
+    app: ucas
+  ports:
+    - protocol: TCP
+      port: 3000
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ucas-route
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`sandbox.dissco.tech`) && PathPrefix(`/ucas`)
+      kind: Rule
+      services:
+        - name: ucas
+          namespace: default
+          port: 3000
+      middlewares:
+        - name: ucas-route-strip-prefix
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: ucas-route-strip-prefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /ucas

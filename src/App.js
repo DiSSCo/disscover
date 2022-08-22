@@ -3,15 +3,19 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-
+import './main.css';
 
 /* Import Components */
-import Home from "./templates/home/Home.js";
-import Search from "./templates/search/Search.js";
-import Specimen from "./templates/specimen/Specimen.js";
+import Home from "templates/home/Home";
+import Search from "templates/search/Search";
 
-/* Import Main.css */
-import './main.css';
+import Specimen from "templates/specimen/Specimen";
+import JSON_Specimen from "templates/specimen/JSON_Specimen";
+
+import Annotate from "templates/annotate/Annotate";
+
+import Profile from "templates/profile/Profile";
+
 
 const App = () => {
     return (
@@ -20,7 +24,13 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/search" element={<Search />} />
-                    <Route path="/specimen/*" element={<Specimen />} />
+
+                    <Route path="/ds/:id" element={<Specimen />} />
+                    <Route path="/ds_json/:id" element={<JSON_Specimen />} />
+
+                    <Route path="/annotate/:id" element={<Annotate />} />
+
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </Router>
         </>

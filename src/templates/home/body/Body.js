@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import './body.css';
@@ -9,7 +9,7 @@ import SearchBar from "./searchBar/SearchBar";
 import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
 
 /* Import API functions */
-import SpecimenSearch from "../../../api/SpecimenSearch";
+import SpecimenSearch from "../../../api/specimen/SpecimenSearch";
 
 const Body = () => {
     const [searchQuery, setSearchQuery] = useState();
@@ -54,7 +54,7 @@ const Body = () => {
                     <Col md={{ span: "10", offset: "1" }} className="sampleSpecimens">
                         <Row>
                             <h3 className="sampleSpecimensTitle">
-                                Explore froggies
+                                Explore Sabertoothed Cats
                             </h3>
                         </Row>
                         <Row>

@@ -1,12 +1,13 @@
 import Keycloak from "keycloak-js";
 
+
 const keycloak = new Keycloak({
     url: "https://login-demo.dissco.eu/auth",
     realm: "dissco",
     clientId: "orchestration-service"
 });
 
-const initKeyCloak = () => {
+const initKeyCloak = (callback) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
@@ -14,12 +15,15 @@ const initKeyCloak = () => {
     })
         .then((authenticated) => {
             if (!authenticated) {
-                // console.log("User is not authenticated");
+                console.log("User is not authenticated");
+            } else {
+                
             }
-        })
-        .catch(/*console.error*/);
-}
 
+            callback();
+        })
+        .catch(console.error);
+}
 
 const doLogin = keycloak.login;
 
@@ -36,6 +40,8 @@ const updateToken = (successCallback) =>
 
 const getUsername = () => keycloak.tokenParsed?.preferred_username;
 
+const getSubject = () => keycloak.subject;
+
 const hasRole = (roles) => roles.some((role) => keycloak.hasRealmRole(role));
 
 const UserService = {
@@ -44,6 +50,7 @@ const UserService = {
     doLogout,
     isLoggedIn,
     getToken,
+    getSubject,
     updateToken,
     getUsername,
     hasRole

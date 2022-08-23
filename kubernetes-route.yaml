@@ -18,20 +18,9 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`sandbox.dissco.tech`) && PathPrefix(`/ucas`)
+    - match: Host(`sandbox.dissco.tech`)
       kind: Rule
       services:
         - name: ucas
           namespace: default
           port: 3000
-      middlewares:
-        - name: ucas-route-strip-prefix
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: ucas-route-strip-prefix
-spec:
-  stripPrefix:
-    prefixes:
-      - /ucas

@@ -13,9 +13,9 @@ function DeleteAnnotation(prefix, suffix, token, callback) {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-        }).then(function(result) {
+        }).then(function() {
             if (callback) {
-                callback(result['data']);
+                callback(true);
             }
         }).catch(error => {
             /* To be replaced by logger */

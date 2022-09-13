@@ -7,13 +7,9 @@ function FilterSpecimen(specimen) {
         Other: {}
     };
 
-    console.log(specimen);
-
-    for (let authProperty in specimen['ods:authoritative']) {
-        authProperty = authProperty.replace('ods:', '');
-
-        if (AnnotationFilterLayer[authProperty]) {
-            let propertyInfo = { ...AnnotationFilterLayer[authProperty], ...{ value: specimen['ods:authoritative']['ods:' + authProperty] } };
+    for (let property in AnnotationFilterLayer) {
+        if (property in specimen) {
+            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property] } };
 
             if (propertyInfo['rules']) {
                 CheckRules(propertyInfo, Process);
@@ -26,20 +22,26 @@ function FilterSpecimen(specimen) {
                     specimenProperties[propertyInfo['group']] = {};
                 }
 
-                specimenProperties[propertyInfo['group']][authProperty] = propertyInfo;
+                specimenProperties[propertyInfo['group']][property] = propertyInfo;
             }
-        } else {
-            specimenProperties['Other'][authProperty] = {
-                displayName: authProperty,
-                annotatable: true,
-                value: specimen['ods:authoritative']['ods:' + authProperty]
-            }
-        }
-    }
+        } else if (`dwc:${property}` in specimen['data']) {
+            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dwc:${property}`] } };
 
-    for (const property in specimen['ods:unmapped']) {
-        if (AnnotationFilterLayer[property]) {
-            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['ods:unmapped'][property] } };
+            if (propertyInfo['rules']) {
+                CheckRules(propertyInfo, Process);
+            } else {
+                Process(propertyInfo);
+            }
+
+            function Process(propertyInfo) {
+                if (!specimenProperties[propertyInfo['group']]) {
+                    specimenProperties[propertyInfo['group']] = {};
+                }
+
+                specimenProperties[propertyInfo['group']][property] = propertyInfo;
+            }
+        } else if (`dcterms:${property}` in specimen['data']) {
+            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dcterms:${property}`] } };
 
             if (propertyInfo['rules']) {
                 CheckRules(propertyInfo, Process);
@@ -55,26 +57,53 @@ function FilterSpecimen(specimen) {
                 specimenProperties[propertyInfo['group']][property] = propertyInfo;
             }
         } else {
-            specimenProperties['Other'][property] = {
-                displayName: property,
-                annotatable: true,
-                value: specimen['ods:unmapped'][property]
+            let defaultValue;
+
+            if ('default' in AnnotationFilterLayer[property]) {
+                defaultValue = AnnotationFilterLayer[property]['default'];
+            } else {
+                defaultValue = 'Undefined';
             }
+
+            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: defaultValue } };
+
+            if (!specimenProperties[propertyInfo['group']]) {
+                specimenProperties[propertyInfo['group']] = {};
+            }
+
+            specimenProperties[propertyInfo['group']][property] = propertyInfo;
         }
     }
+
+    // if (specimen['ods:images']) {
+    //     if (!specimenProperties['Media']) {
+    //         specimenProperties['Media'] = [];
+    //     }
+
+    //     specimen['ods:images'].forEach((image, _i) => {
+    //         if (specimenProperties['Media']['images']) {
+    //             specimenProperties['Media']['images'].push(image['ods:imageURI']);
+    //         } else {
+    //             specimenProperties['Media']['images'] = [image['ods:imageURI']];
+    //         }
+    //     });
+    // }
 
     function CheckRules(propertyInfo, callback) {
         propertyInfo['rules'].forEach((rule, _i) => {
             switch (rule) {
                 case "list":
-                    propertyInfo['value'] = propertyInfo['value'].join(', ');
+                    if (propertyInfo['value']) {
+                        propertyInfo['value'] = propertyInfo['value'].join(', ');
+                    } else {
+                        propertyInfo['value'] = 'Undefined';
+                    }
             }
         });
 
         callback(propertyInfo);
     }
 
-    // console.log(specimenProperties);
     return specimenProperties;
 }
 

@@ -14,7 +14,7 @@ function SearchBar(props) {
 
     return (
         <Row>
-            <Col md={{ span: 5, offset: 1 }} className="searchBarBlock">
+            <Col md={{ span: 5 }} className="searchBarBlock ps-4 pt-4">
                 <h2 className="searchBarTitle">
                     Search for specimens:
                 </h2>
@@ -26,7 +26,7 @@ function SearchBar(props) {
                             onChange={props.updateSearchQuery}
                             onKeyPress={HandleKeyPress}
                             className="searchBar" 
-                            placeholder="Antarctopelta" 
+                            placeholder="Cryolophosaurus" 
                         />
                         <button type="submit" className="searchBarSubmit" onClick={props.onSearch}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />

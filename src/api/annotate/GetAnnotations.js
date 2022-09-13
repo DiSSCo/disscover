@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 
-function GetAnnotations(prefix, suffix, callback) {
-    if (prefix && suffix) {
-        const endPoint = 'specimen/' + prefix + '/' + suffix + '/annotations';
+function GetAnnotations(handle, callback) {
+    if (handle) {
+        const endPoint = `specimens/${handle}/annotations`;
 
         axios({
             method: "get",

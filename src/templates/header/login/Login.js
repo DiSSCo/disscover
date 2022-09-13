@@ -1,3 +1,4 @@
+import { Row, Col } from 'react-bootstrap';
 import UserService from 'keycloak/Keycloak';
 
 /* Import Components*/
@@ -10,7 +11,11 @@ const Login = () => {
     }
 
     return (
-        <LoginButton login={Login} />
+        <Row>
+            <Col md={{span: 2, offset: 10}}>
+                <LoginButton login={Login} />
+            </Col>
+        </Row>
     );
 }
 

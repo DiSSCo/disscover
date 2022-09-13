@@ -1,3 +1,11 @@
+/* Style for Home Page */
+
+.homeTitle {
+    font-size: 23px;
+    color: var(--main-color);
+}
+
+
 /* Title Image */
 
 .bodyTitleImage {
@@ -13,7 +21,6 @@
 .searchBarBlock {
     height: 125px;
     margin-top: 200px !important;
-    padding-top: 20px;
     background-color: white;
     border-radius: 8px;
     -webkit-box-shadow: 5px 2px 11px 2px rgba(0,0,0,0.54); 
@@ -44,29 +51,60 @@
 
 
 /* Sample Occurence(s) */
-.sampleSpecimensTitle {
-    font-size: 23px;
-    color: var(--main-color);
+
+.sampleSpecimenInfo {
+    background-color: rgb(46, 92, 184, 0.60);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    padding-top: 20%;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transition: 0.4s;
 }
 
-.sampleSpecimens {
-    margin-top: 50px !important;
+.sampleSpecimenInfo:hover {
+    opacity: 1;
 }
 
-.sampleSpecimen {
-    margin-bottom: 30px;
+.sampleSpecimenButton {
+    background-color: rgb(46, 92, 184, 0.60);
+    border: 2px solid white;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: 0.4s;
 }
 
-.sampleSpecimenImage {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+.sampleSpecimenButton:hover {
+    background-color: white;
+    color: #333333;
 }
 
-.sampleSpecimenName {
-    border-left: 1px solid #333333;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    padding: 2% 0px 2% 5%;
+
+/* Recent Annotations */
+
+.recentAnnotation {
+    border: 2px solid var(--main-color-darker);
+}
+
+
+/* Recent added Specimens */
+
+.recentAddedSpecimen {
+    border: 2px solid var(--main-color-darker);
+    overflow: hidden;
+}
+
+.recentAddedSpecimenIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 80px;
+    color: #b3b3b3;
+    transform: rotate(45deg);
 }

@@ -1,16 +1,12 @@
 import { Row, Col } from 'react-bootstrap';
 
 
-const SpecimenImages = (props) => {
-    let specimenImages = props.specimenImages;
-
-    if (typeof (specimenImages) == 'string') {
-        specimenImages = [specimenImages];
-    }
+const SpecimenMedia = (props) => {
+    let specimenMedia = props.specimenMedia;
 
     return (
-        <Row className="specimen_mediaGallery">
-            <Col md={{span: 11}} className="specimen_mediaGalleryTitleBlock">
+        <Row>
+            <Col md={{ span: 11 }} className="specimen_mediaGalleryTitleBlock mt-4">
                 <Row>
                     <Col className="col-md-auto specimen_mediaGalleryTitle">
                         Media gallery
@@ -19,21 +15,33 @@ const SpecimenImages = (props) => {
             </Col>
             <Col md={{ span: 11 }} className="specimen_mediaGalleryContent">
                 <div className="specimen_mediaSlider">
-                    {specimenImages.map((img, i) =>
-                            <img className="specimen_media"
-                                src={img}
-                                alt={'Specimen ' + i}
-                            />
-                    )}
+                    {specimenMedia.map((mediaItem, i) => {
+                        switch (mediaItem['format']) {
+                            case 'image/jpeg':
+                                return (
+                                    <Row>
+                                        <Col className="col-md-auto">
+                                            <div className="w-100 position-relative">
+                                                <img className="specimen_media"
+                                                    src={mediaItem['mediaUrl']}
+                                                    alt={'Specimen ' + i}
+                                                />
 
-                    <img className="specimen_media" src="https://medialib.naturalis.nl/file/id/RGM.1332243_1/format/large" alt='Test' />
-                    <img className="specimen_media" src="https://medialib.naturalis.nl/file/id/RGM.1332243_1/format/large" alt='Test' />
-                    <img className="specimen_media" src="https://medialib.naturalis.nl/file/id/RGM.1332243_1/format/large" alt='Test' />
-                    <img className="specimen_media" src="https://medialib.naturalis.nl/file/id/RGM.1332243_1/format/large" alt='Test' />
+                                                <div className="specimen_mediaCover p-5">
+                                                    Media Cover
+                                                    <br />
+                                                    Click for more information
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                );
+                        }
+                    })}
                 </div>
             </Col>
         </Row>
     );
 }
 
-export default SpecimenImages;
+export default SpecimenMedia;

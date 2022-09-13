@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, /*useParams*/ } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import './annotate.css';
 
 /* Import components */
@@ -14,7 +14,7 @@ import FilterSpecimen from 'api/specimen/FilterSpecimen';
 
 const Annotate = () => {
     const location = useLocation();;
-    // const params = useParams();
+    const params = useParams();
 
     let mode = 'annotate';
     let mids = false;
@@ -31,21 +31,19 @@ const Annotate = () => {
     const [specimen, setSpecimen] = useState();
 
     if (!specimen) {
-        // if (location.state) {
-        //     setSpecimen(location.state.specimen);
-        // } else if (!specimen && params['id']) {
-        /* Temporary disablement */
-        // const specimenId = params['id'];
-        const specimenId = 'Smilodon Populator';
+        if (location.state) {
+            const filteredSpecimen = location.state.specimen;
 
-        GetSpecimen(specimenId, Process);
+            setSpecimen(filteredSpecimen);
+        } else if (!specimen && params['prefix'] && params['suffix']) {
+            GetSpecimen(params['prefix'], params['suffix'], Process);
 
-        function Process(result) {
-            const specimen = FilterSpecimen(result);
+            function Process(result) {
+                const specimen = FilterSpecimen(result);
 
-            setSpecimen(specimen);
+                setSpecimen(specimen);
+            }
         }
-        // }
     } else {
         return (
             <div className="d-flex flex-column min-vh-100">

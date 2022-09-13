@@ -11,7 +11,7 @@ const Home = () => {
 
             <Body />
 
-            <Footer />
+            <Footer home={'home'} />
         </div>
     );
 }

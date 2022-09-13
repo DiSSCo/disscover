@@ -12,12 +12,10 @@ function InsertAnnotation(annotation, token, callback) {
             responseType: 'json',
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`
             },
-        }).then(function(result) {
-            if (typeof(result['data']) == 'string') {
-                callback(true);
-            }
+        }).then(function (result) {
+            callback(result['data']);
         }).catch(error => {
             /* To be replaced by logger */
             console.warn(error);

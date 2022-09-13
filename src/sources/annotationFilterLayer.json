@@ -5,16 +5,28 @@
         "annotatable": true,
         "mids": ""
     },
-    "name": {
-        "displayName": "Name",
+    "physicalSpecimenIdType": {
+        "displayName": "Physical specemin identifier type",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "specimenName": {
+        "displayName": "Scientific name",
         "group": "Specimen",
         "annotatable": true,
         "mids": {
             "level": 1
         }
     },
+    "scientificNameAuthorship": {
+        "displayName": "Scientific name authorship",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
     "names": {
-        "displayName": "Names",
+        "displayName": "Scientific names",
         "group": "Specimen",
         "annotatable": true,
         "mids": "",
@@ -22,20 +34,13 @@
             "list"
         ]
     },
-    "highertaxon": {
-        "displayName": "Higher taxon",
+    "taxonRank": {
+        "displayName": "Taxon rank",
         "group": "Specimen",
         "annotatable": true,
         "mids": ""
     },
-    "highertaxon_facet": {
-        "displayName": "Higher taxon facet",
-        "group": "Specimen",
-        "annotatable": true,
-        "mids": ""
-
-    },
-    "highertaxa": {
+    "associatedTaxa": {
         "displayName": "Higher taxa",
         "group": "Specimen",
         "annotatable": true,
@@ -44,13 +49,25 @@
             "list"
         ]
     },
-    "higherrank": {
+    "higherClassification": {
         "displayName": "Higher rank",
         "group": "Specimen",
         "annotatable": true,
         "mids": ""
     },
-    "materialType": {
+    "specificEpithet": {
+        "displayName": "Specific epithet",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "infraspecificEpithet": {
+        "displayName": "Infraspecific epithet",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "type": {
         "displayName": "Specimen type",
         "group": "Specimen",
         "annotatable": true,
@@ -58,8 +75,110 @@
             "level": 1
         }
     },
+    "typeStatus": {
+        "displayName": "Type status",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "kingdom": {
+        "displayName": "Kingdom",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "phylum": {
+        "displayName": "Phylum",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "class": {
+        "displayName": "Class",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "order": {
+        "displayName": "Order",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "family": {
+        "displayName": "Family",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "genus": {
+        "displayName": "Genus",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "subgenus": {
+        "displayName": "Sub genus",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "nomenclaturalCode": {
+        "displayName": "Nomenclatural code",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "lifeStage": {
+        "displayName": "Life stage",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "sex": {
+        "displayName": "Sex",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
     "is_mineral": {
         "displayName": "Mineral",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "identifiedBy": {
+        "displayName": "Identified by",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "dateIdentified": {
+        "displayName": "Date identified",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "eventDate": {
+        "displayName": "Event date",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimEventDate": {
+        "displayName": "Verbatim event date",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "individualCount": {
+        "displayName": "Individual count",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "preparations": {
+        "displayName": "Preparations",
         "group": "Specimen",
         "annotatable": true,
         "mids": ""
@@ -84,9 +203,87 @@
         "annotatable": true,
         "mids": ""
     },
+    "locality": {
+        "displayName": "Locality",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "habitat": {
+        "displayName": "Habitat",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "county": {
+        "displayName": "County",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "stateProvince": {
+        "displayName": "State/Province",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "continent": {
+        "displayName": "Continent",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "island": {
+        "displayName": "Island",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimCoordinates": {
+        "displayName": "Verbatim coordinates",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "decimalLatitude": {
+        "displayName": "Latitude",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "decimalLongitude": {
+        "displayName": "Longitude",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "coordinateUncertaintyInMeters": {
+        "displayName": "Coordinate uncertainty in metres",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "geodeticDatum": {
+        "displayName": "Geodetic datum",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimDepth": {
+        "displayName": "Verbatim depth",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimElevation": {
+        "displayName": "Verbatim elevation",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
 
 
-    "institution": {
+    "institutionID": {
         "displayName": "Institution",
         "group": "Organisation",
         "annotatable": true,
@@ -130,13 +327,13 @@
         "annotatable": true,
         "mids": ""
     },
-    "collectioncode": {
+    "physicalSpecimenCollection": {
         "displayName": "Collection code",
         "group": "Organisation",
         "annotatable": true,
         "mids": ""
     },
-    "providerurl": {
+    "sourceSystemId": {
         "displayName": "Provider URL",
         "group": "Organisation",
         "annotatable": true,
@@ -144,6 +341,18 @@
     },
 
 
+    "id": {
+        "displayName": "Handle identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "datasetId": {
+        "displayName": "Dataset identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    }, 
     "midsLevel": {
         "displayName": "MIDS level",
         "group": "Meta",
@@ -151,8 +360,32 @@
         "mids": "",
         "value": 0
     },
+    "modified": {
+        "displayName": "Modified",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
     "last_harvested_processing": {
         "displayName": "Last harvested",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "license": {
+        "displayName": "License",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "rightsHolder": {
+        "displayName": "Rights holder",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "informationWithheld": {
+        "displayName": "Information withheld",
         "group": "Meta",
         "annotatable": true,
         "mids": ""
@@ -169,17 +402,21 @@
         "annotatable": true,
         "mids": ""
     },
-    "_version_": {
-        "displayName": "Version",
+    "dwcaId": {
+        "displayName": "Darwin Core Archive identifier",
         "group": "Meta",
         "annotatable": true,
         "mids": ""
     },
-
-
-    "has_image": {
-        "displayName": "Image(s)",
-        "group": "Media",
+    "otherCatalogNumbers": {
+        "displayName": "Other catalog numbers",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "version": {
+        "displayName": "Version",
+        "group": "Meta",
         "annotatable": true,
         "mids": ""
     }

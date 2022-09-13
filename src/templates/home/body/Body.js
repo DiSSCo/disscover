@@ -7,9 +7,11 @@ import './body.css';
 import TitleImage from "./titleImage/TitleImage";
 import SearchBar from "./searchBar/SearchBar";
 import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
+import RecentAnnotations from "./recentAnnotations/RecentAnnotations";
+import RecentAdded from "./recentAdded/RecentAdded";
 
 /* Import API functions */
-import SpecimenSearch from "../../../api/specimen/SpecimenSearch";
+import SpecimenSearch from "api/specimen/SpecimenSearch";
 
 const Body = () => {
     const [searchQuery, setSearchQuery] = useState();
@@ -34,9 +36,7 @@ const Body = () => {
     }
 
     const items = [
-        'Frogger', 'Frogger', 'Frogger',
-        'Frogger', 'Frogger', 'Frogger',
-        'Frogger', 'Frogger', 'Frogger'
+        'Frogger', 'Frogger', 'Frogger', 'Frogger'
     ];
 
     const navigate = useNavigate();
@@ -45,22 +45,53 @@ const Body = () => {
         <>
             <TitleImage />
             <Container fluid>
-                <SearchBar
-                    onSearch={() => HandleSearch()}
-                    updateSearchQuery={(query) => UpdateSearchQuery(query)}
-                />
-
                 <Row>
-                    <Col md={{ span: "10", offset: "1" }} className="sampleSpecimens">
-                        <Row>
-                            <h3 className="sampleSpecimensTitle">
-                                Explore Sabertoothed Cats
-                            </h3>
+                    <Col md={{ span: 10, offset: 1 }}>
+                        <SearchBar
+                            onSearch={() => HandleSearch()}
+                            updateSearchQuery={(query) => UpdateSearchQuery(query)}
+                        />
+
+                        <Row className="mt-5">
+                            <Col md={{ span: 12 }}>
+                                <Row>
+                                    <Col>
+                                        <h3 className="homeTitle">
+                                            Explore Sabertoothed Cats
+                                        </h3>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    {items.map(() => {
+                                        return <SampleSpecimen />
+                                    })}
+                                </Row>
+                            </Col>
                         </Row>
-                        <Row>
-                            {items.map(() => {
-                                return <SampleSpecimen />
-                            })}
+
+                        <Row className="mt-5">
+                            <Col md={{ span: 6 }}>
+                                <Row>
+                                    <Col>
+                                        <h3 className="homeTitle">
+                                            Recently Annotated
+                                        </h3>
+                                    </Col>
+                                </Row>
+                                
+                                <RecentAnnotations />
+                            </Col>
+                            <Col md={{ span: 6 }}>
+                                <Row>
+                                    <Col>
+                                        <h3 className="homeTitle">
+                                            Recently added Specimens
+                                        </h3>
+                                    </Col>
+                                </Row>
+
+                                <RecentAdded />
+                            </Col>
                         </Row>
                     </Col>
                 </Row>

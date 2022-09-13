@@ -16,9 +16,7 @@ function PatchAnnotation(annotation, token, callback) {
                 'Authorization': `Bearer ${token}`,
             },
         }).then(function(result) {
-            if (typeof(result['data']) == 'string') {
-                callback(true);
-            }
+            callback(result['data']);
         }).catch(error => {
             /* To be replaced by logger */
             console.warn(error);

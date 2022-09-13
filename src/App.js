@@ -25,10 +25,10 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/search" element={<Search />} />
 
-                    <Route path="/ds/:id" element={<Specimen />} />
-                    <Route path="/ds_json/:id" element={<JSON_Specimen />} />
+                    <Route path="/ds/:prefix/:suffix" element={<Specimen />} />
+                    <Route path="/ds_json/:prefix/:suffix" element={<JSON_Specimen />} />
 
-                    <Route path="/annotate/:id" element={<Annotate />} />
+                    <Route path="/annotate/:prefix/:suffix" element={<Annotate />} />
 
                     <Route path="/profile" element={<Profile />} />
                 </Routes>

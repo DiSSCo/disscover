@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import components */
@@ -11,10 +10,9 @@ import { faFrog, faComment, faPencil, faChevronDown } from '@fortawesome/free-so
 
 const SpecimenBar = (props) => {
     const specimen = props.specimen;
-    const mids = props.mids;
     const midsDetailsVisibility = props.midsDetailsVisibility;
     const scrollToMids = props.scrollToMids;
-    
+
     let mode = props.mode;
 
     function SetMode(mode) {
@@ -24,17 +22,17 @@ const SpecimenBar = (props) => {
     return (
         <Row className="h-100 annotate_specimenBar">
             <Col md={{ span: 5 }}>
-                <Row className="h-50">
+                <Row>
                     <Col md={{ span: 1 }} className="annotate_basisOfRecordSymbolBlock">
                         <i className="icon">
                             <FontAwesomeIcon icon={faFrog} />
                         </i>
                     </Col>
-                    <Col md={{ span: 11 }} className="annotate_titleBlock">
-                        {specimen['Specimen']['name']['value']}
+                    <Col className="col-md-auto annotate_titleBlock">
+                        {specimen['Specimen']['specimenName']['value']}
                     </Col>
                 </Row>
-                <Row className="h-50">
+                <Row>
                     <Col md={{ span: 12 }} className="annotate_annotateBlocks">
                         <Row>
                             {mode === 'annotate' ?
@@ -82,13 +80,11 @@ const SpecimenBar = (props) => {
                         </Row>
                     </Col>
 
-
-                    <MidsDetails 
+                    <MidsDetails
                         visibility={midsDetailsVisibility}
                         specimen={specimen}
                         scrollToMids={scrollToMids}
                     />
-
                 </Row>
             </Col>
         </Row>

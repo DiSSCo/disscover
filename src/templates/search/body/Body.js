@@ -8,6 +8,7 @@ import ResultsTable from "./resultsTable/ResultsTable";
 
 /* Import API */
 import SpecimenSearch from "api/specimen/SpecimenSearch.js";
+import FilterSpecimen from "api/specimen/FilterSpecimen";
 
 
 const Body = () => {
@@ -37,6 +38,10 @@ const Body = () => {
         }
 
         function Process(result) {
+            result.forEach((searchResult, i) => {
+                result[i] = FilterSpecimen(searchResult);
+            });
+
             setSearchResults(result);
             setSearchQuery(localStorage.getItem('searchQuery'));
 
@@ -63,26 +68,28 @@ const Body = () => {
 
     if (loaded) {
         return (
-            <>
-                <Container fluid>
-                    <Row>
-                        <Col md="2" className="search_filterMenu">
-                            <SearchBar
-                                searchQuery={searchQuery}
-                                onSearch={() => HandleSearch()}
-                                updateSearchQuery={(query) => UpdateSearchQuery(query)}
-                            />
-                        </Col>
-                        <Col md="10">
-                            <Row>
-                                <Col md={{ span: '12' }} className="search_resultsSection">
-                                    <ResultsTable searchResults={searchResults} />
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Container>
-            </>
+            <Container fluid className="mt-4">
+                <Row>
+                    <Col md={{ span: 10, offset: 1 }}>
+                        <Row>
+                            <Col md="2" className="search_filterMenu">
+                                <SearchBar
+                                    searchQuery={searchQuery}
+                                    onSearch={() => HandleSearch()}
+                                    updateSearchQuery={(query) => UpdateSearchQuery(query)}
+                                />
+                            </Col>
+                            <Col md="10">
+                                <Row>
+                                    <Col md={{ span: 12 }} className="search_resultsSection">
+                                        <ResultsTable searchResults={searchResults} />
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

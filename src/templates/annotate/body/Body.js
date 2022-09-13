@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import components */
 import SpecimenBar from "./specimenBar/SpecimenBar";
 import AnnotateSection from './annotateSection/AnnotateSection';
 
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
+
 
 const Body = (props) => {
     const specimen = props.specimen;
     const mids = props.mids;
 
-    console.log(specimen)
+    useEffect(() => {
+        if (mids) {
+            ToggleMidsDetails();
+        }
+    }, []);
 
     const [mode, setMode] = useState(props.mode);
 
@@ -43,16 +52,24 @@ const Body = (props) => {
     if (specimen) {
         return (
             <Container fluid>
-                <Row className="annotate_content">
+                <Row className="annotate_content mt-4">
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
                         <Row>
-                            <Col md={{ span: 12 }} className="pb-4 annotate_specimenBarBlock">
+                            <Link to={'/ds/' + specimen['Meta']['id']['value']} state={{ specimen: specimen }}>
+                                <Col className="annotate_returnTo">
+                                    Return to overview
+                                    <FontAwesomeIcon icon={faArrowTurnDown} className="annotate_returnToIcon ms-2" />
+                                </Col>
+                            </Link>
+                        </Row>
+
+                        <Row>
+                            <Col md={{ span: 12 }} className="annotate_specimenBarBlock pb-4 mt-3">
                                 <Row>
                                     <Col md={{ span: 12 }} className="annotate_specimenBar">
                                         <SpecimenBar
                                             specimen={specimen}
                                             mode={mode}
-                                            mids={mids}
                                             midsDetailsVisibility={midsDetailsVisibility}
                                             scrollToMids={scrollToMids}
 

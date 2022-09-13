@@ -4,6 +4,7 @@
     --main-color-light: #d6e0f5;
     --main-color-dark: #205692;
     --main-color-darker: #1c497d;
+    --main-color-green: #009973;
 
     --greyXLight: #F4F4F1;
     --greyLight: #E9E8E3;
@@ -47,4 +48,8 @@ a {
 	overflow: hidden; 
     white-space: nowrap; 
 	text-overflow: ellipsis;
+}
+
+.strong {
+    font-weight: bold;
 }

@@ -1,15 +1,20 @@
 .annotate_content {
     height: calc(100vh - 160px);
-    padding-top: 40px !important;
+}
+
+.annotate_returnTo {
+    color: var(--main-color);
+}
+
+.annotate_returnToIcon {
+    transform: rotate(90deg);
 }
 
 
 /* Sticky information top bar */
 
 .annotate_specimenBarBlock {
-    -webkit-box-shadow: 0px 22px 21px -17px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 22px 21px -17px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 22px 21px -17px rgba(0, 0, 0, 0.75);
+    border-bottom: 1px solid var(--main-color-darker);
 }
 
 .annotate_specimenBar {
@@ -19,15 +24,15 @@
 .annotate_basisOfRecordSymbolBlock {
     border-top-left-radius: 8px;
     text-align: center;
-    color: var(--main-color);
-    border-left: 2px solid var(--main-color);
-    border-top: 2px solid var(--main-color);
+    color: var(--main-color-darker);
+    border-left: 2px solid var(--main-color-darker);
+    border-top: 2px solid var(--main-color-darker);
     line-height: 40px;
     font-size: 22px;
 }
 
 .annotate_titleBlock {
-    background-color: var(--main-color);
+    background-color: var(--main-color-darker);
     color: white;
     font-size: 22px;
     border-top-right-radius: 8px;

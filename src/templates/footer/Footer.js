@@ -2,19 +2,56 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import './footer.css';
 
-/* Import media */
-import DisscoLogo from 'webroot/img/dissco-logo-web.svg';
 
+const Footer = (props) => {
+    const home = props.home;
+    const currentYear = new Date().getFullYear();
 
-const Footer = () => {
     return (
-        <Container fluid className="footer mt-auto">
+        <Container fluid className={"footer mt-auto " + home}>
             <Row>
-                <Col md={{offset: 1 }} className="col-md-auto mt-3">
-                    <img src={DisscoLogo} alt="DiSSCo logo" className="footer_logo" />
-                </Col>
-                <Col md={{ span: 2 }} className="footer_text mt-3">
-                    Also see the <a href="https://dissco.eu" className="footer_link"> DiSSCo website </a>
+                <Col md={{ offset: 1 }} className="col-md-10 pt-3 footer_text">
+                    <Row>
+                        <Col md={{ span: 4 }}>
+                            <Row>
+                                <Col>
+                                    <span className="strong"> DiSSCo: </span> Distributed System of Scientific Collections
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    Privacy Policy
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    Also see the <a href="https://dissco.eu" className="footer_link"> DiSSCo website </a>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    © DiSSCo {currentYear}
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col md={{ span: 2 }}>
+                            <Row>
+                                <Col>
+                                    <span className="strong"> Sitemap: </span>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    Homepage
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-2">
+                                    Specimen Search
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>

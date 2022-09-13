@@ -70,14 +70,14 @@ const AnnotateModal = (props) => {
                                                             />
                                                             <FontAwesomeIcon
                                                                 icon={faSave}
-                                                                onClick={() => props.UpdateAnnotation(modalAnnotation, propertyKey)}
+                                                                onClick={() => props.UpdateAnnotation(modalAnnotation, propertyKey, key)}
                                                                 className="annotate_editIcon save"
                                                             />
                                                             <br />
                                                             <FontAwesomeIcon
                                                                 icon={faTrash}
                                                                 className="annotate_editIcon delete"
-                                                                onClick={() => props.RemoveAnnotation(modalAnnotation)}
+                                                                onClick={() => props.RemoveAnnotation(modalAnnotation, propertyKey, key)}
                                                             />
                                                         </>
                                                         : editHover === propertyKey &&

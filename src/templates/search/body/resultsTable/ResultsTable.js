@@ -10,9 +10,9 @@ const ResultsTable = (props) => {
     function RedirectToSpecimenPage(index) {
         const specimen = searchResults[index];
 
-        navigate('/ds/' + specimen['ods:authoritative']['ods:physicalSpecimenId'], {
+        navigate(`/ds/${specimen['Meta']['id']['value']}`, {
             state: {
-                data: specimen
+                specimen: specimen
             }
         });
     }
@@ -57,20 +57,20 @@ const ResultsTable = (props) => {
         };
 
         for (const i in searchResults) {
-            const specimen = searchResults[i]['ods:authoritative'];
+            const specimen = searchResults[i];
 
             tableData.push({
                 'index': i,
-                'name': specimen['ods:name'],
-                'country': 'Country',
-                'specimen_type': 'Basis of record',
-                'organisation': specimen['ods:institution']
+                'name': specimen['Specimen']['specimenName']['value'],
+                'country': specimen['Location']['country']['value'],
+                'specimen_type': specimen['Specimen']['type']['value'],
+                'organisation': specimen['Organisation']['institutionID']['value']
             });
         }
     }
 
     return (
-        <div className="search_resultsTable">
+        <div className="search_resultsTable ps-4">
             <BootstrapTable
                 keyField='id'
                 data={tableData}

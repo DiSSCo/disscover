@@ -14,16 +14,12 @@ import AnnotateModal from './AnnotateModal';
 
 
 const AnnotateSection = (props) => {
-    /* Static prefix and suffix (API thingy) */
-    const prefix = 'test';
-    const suffix = '4202abb205887d6cea6d';
-
     const token = UserService.getToken();
     const specimen = props.specimen;
 
     /* Modal handling */
     const [modalToggle, setModalToggle] = useState(false);
-    const [modalProperty, setModalProperty] = useState({'property': ''});
+    const [modalProperty, setModalProperty] = useState({ 'property': '' });
     const [modalAnnotations, setModalAnnotations] = useState([]);
 
     function ToggleModal(property = null, displayName = null, currentValue = null) {
@@ -43,7 +39,7 @@ const AnnotateSection = (props) => {
 
         function GetPropertyAnnotations(property) {
             /* Search for annotations data and put into view */
-            GetAnnotations(prefix, suffix, Process);
+            GetAnnotations(specimen['Meta']['id']['value'], Process);
 
             function Process(annotations) {
                 setModalAnnotations(annotations);
@@ -60,18 +56,30 @@ const AnnotateSection = (props) => {
     function SaveAnnotation() {
         if (annotationInput) {
             const annotation = {
-                target: prefix + '/' + suffix,
                 type: 'Annotation',
+                motivation: 'http://hdl.handle.net/pid-motivation-correcting',
                 body: {
-                    text: annotationInput
+                    type: 'TextualBody',
+                    value: annotationInput,
+                    reference: 'https://bionomia.net/Q3822242'
+                },
+                target: {
+                    type: 'https://hdl.handle.net/digitalSpecimen-type',
+                    id: `https://hdl.handle.net/${specimen['Meta']['id']['value']}`,
+                    indvProp: modalProperty['property']
                 }
-            };
+            };            
 
             InsertAnnotation(annotation, token, Process);
 
             function Process(result) {
                 if (result) {
+                    const copyModalAnnotations = { ...modalAnnotations };
+                    const newIndex = Object.keys(copyModalAnnotations).length;
 
+                    copyModalAnnotations[newIndex] = result;
+
+                    setModalAnnotations(copyModalAnnotations);
                 }
             }
 
@@ -107,24 +115,39 @@ const AnnotateSection = (props) => {
         setEditMode(editObject);
     }
 
-    function UpdateAnnotation(annotation, propertyKey) {
-        annotation['body']['text'] = modifications[propertyKey];
+    function UpdateAnnotation(annotation, propertyKey, index) {
+        annotation['body']['value'] = modifications[propertyKey];
 
         PatchAnnotation(annotation, token, Process);
 
         function Process(result) {
             ToggleEditMode(propertyKey);
             UpdateModifications(null, propertyKey, true);
+
+            const copyModalAnnotations = { ...modalAnnotations };
+
+            copyModalAnnotations[index] = result;
+
+            setModalAnnotations(copyModalAnnotations);
         }
     }
 
-    function RemoveAnnotation(annotation) {
+    function RemoveAnnotation(annotation, propertyKey, index) {
         const fixes = annotation['id'].split('/');
 
         DeleteAnnotation(fixes[0], fixes[1], token, Process);
 
-        function Process(result) {
-            console.log(result);
+        function Process(success) {
+            if (success) {
+                ToggleEditMode(propertyKey);
+                UpdateModifications(null, propertyKey, true);
+
+                const copyModalAnnotations = { ...modalAnnotations };
+
+                delete copyModalAnnotations[index];
+
+                setModalAnnotations(copyModalAnnotations);
+            }
         }
     }
 
@@ -177,8 +200,8 @@ const AnnotateSection = (props) => {
                 SaveAnnotation={() => SaveAnnotation()}
                 ToggleEditMode={(propertyKey) => ToggleEditMode(propertyKey)}
                 UpdateModifications={(input, propertyKey) => UpdateModifications(input, propertyKey)}
-                UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
-                RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
+                UpdateAnnotation={(annotation, propertyKey, index) => UpdateAnnotation(annotation, propertyKey, index)}
+                RemoveAnnotation={(annotation, propertyKey, index) => RemoveAnnotation(annotation, propertyKey, index)}
             />
         </div >
     );

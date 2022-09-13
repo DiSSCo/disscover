@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 
-function GetSpecimen(handle, callback) {
+function GetSpecimenDigitalMedia(handle, callback) {
     if (handle) {
-        const endPoint = `specimens/${handle}`;
+        const endPoint = `specimens/${handle}/digitalmedia`;
 
         axios({
             method: "get",
             url: endPoint,
             responseType: 'json'
-        }).then(function(result) {
+        }).then(function (result) {
             callback(result['data']);
         }).catch(error => {
             /* To be replaced by logger */
@@ -18,4 +18,4 @@ function GetSpecimen(handle, callback) {
     }
 }
 
-export default GetSpecimen;
+export default GetSpecimenDigitalMedia;

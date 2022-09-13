@@ -1,6 +1,11 @@
 .footer {
     background-color: #333333;
-    height: 80px;
+    height: 160px;
+    margin-bottom: -112px;
+}
+
+.footer.home {
+    margin-top: 60px !important;
 }
 
 .footer_text {

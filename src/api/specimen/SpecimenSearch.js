@@ -1,8 +1,9 @@
 import axios from 'axios';
 
+
 function SpecimenSearch(query, callback) {
     if (query) {
-        const endPoint = "specimen/search";
+        const endPoint = "specimens/search";
         const params = {
             query: query,
             pageSize: 25
@@ -14,7 +15,6 @@ function SpecimenSearch(query, callback) {
             params: params,
             responseType: 'json'
         }).then(function(result) {
-            console.log(result);
             callback(result['data']);
         }).catch(error => {
             /* To be replaced by logger */

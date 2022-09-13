@@ -1,41 +1,84 @@
 .specimen_content {
-    margin-top: 40px !important;
+    height: calc(100vh - 208px)
 }
 
 .specimen_titleBlock {
-    background-color: var(--main-color);
-    border-top-right-radius: 8px;
-    color: white;
     height: 40px;
-    padding: 0px 0px 0px 2% !important;
+    border-bottom: 1px solid var(--main-color-darker);
+}
+
+.specimen_titleBlockSub {
+    border-top: 2px solid var(--main-color-darker);
+    border-right: 2px solid var(--main-color-darker);
+    border-top-right-radius: 8px;
+    height: 40px;
 }
 
 .specimen_basisOfRecordSymbolBlock {
-    border: 2px solid var(--main-color);
+    border-left: 2px solid var(--main-color-darker);
+    border-top: 2px solid var(--main-color-darker);
+    border-right: 2px solid var(--main-color-darker);
     border-top-left-radius: 8px;
     text-align: center;
-    line-height: 40px;
-    color: var(--main-color);
+    color: var(--main-color-darker);
     font-size: 24px;
 }
 
 .specimen_title {
     font-size: 24px;
-    line-height: 40px;
+    line-height: 35px;
     font-weight: bold;
 }
 
-.specimen_rightContentBlock {
-    z-index: 1;
-    border-bottom: 1px solid #cccccc;
-    border-left: 1px solid #cccccc;
-    border-right: 1px solid #cccccc;
-    height: 400px;
-    padding-top: 2%;
+.specimen_versionBlock {
+    background-color: var(--greyLight);
+    height: 40px;
+}
+
+.specimen_versionBlock.active {
+    height: auto;
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    border: 1px solid var(--main-color-darker);
+}
+
+.specimen_versionOption {
+    height: 40px;
+    border: none;
     background-color: white;
-    -webkit-box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75);
+}
+
+.specimen_versionOption:hover {
+    background-color: var(--greyLight);
+}
+
+.specimen_versionOption.chosen {
+    background-color: var(--main-color-darker);
+    color: white;
+}
+
+.specimen_versionOptionIcon {
+    position: absolute;
+    right: 0;
+    margin: 2% 10% 0px 0px;
+    transition: 0.3s;
+    transform: rotate(0deg);
+}
+
+.specimen_versionOptionIcon.active {
+    transform: rotate(180deg);
+}
+
+.specimen_contentBlock {
+    z-index: 1;
+    /* border-bottom: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc; */
+    height: 400px;
+    /* -webkit-box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75);
-    box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75); */
 }
 
 .specimen_mainDetailsBlock {
@@ -47,9 +90,19 @@
     font-size: 14px;
 }
 
+.specimen_detailSpecimenBackdrop {
+    position: absolute;
+    color: var(--greyDark);
+    opacity: 20%;
+    bottom: 0;
+    right: 0;
+    font-size: 220px;
+    transform: scaleX(-1);
+}
+
 .specimen_detailTitle {
-    font-size: 14px;
-    color: var(--main-color);
+    font-size: 15px;
+    font-weight: bold;
     margin: 0px 0px 2% 0px;
 }
 
@@ -58,77 +111,55 @@
     font-size: 14px;
 }
 
-.specimen_detailLinks {
+.specimen_detailSub {
     z-index: 1;
-    margin-left: 4%;
+}
+
+.specimen_detailLinksBlock {
+    height: 30%;
+}
+
+.specimen_detailLinks {
     border-top: 1px solid var(--grey);
+    border-left: 1px solid var(--main-color-darker);    
 }
 
-
-/* Version labels */
-
-.specimen_versionLabelRow {
-    height: 30px;
+.specimen_detailLink {
+    font-size: 14px;
 }
 
-.specimen_versionTab {
-    background-color: var(--grey);
-    z-index: 0;
-    margin-left: -30px;
-    height: 30px;
-    line-height: 30px;
-    cursor: pointer;
-    transition: 0.4s;
-}
-
-.specimen_versionTab.active {
-    margin-left: -100px;
-}
-
-.specimen_versionTabIcon {
-    transition: 0.4s;
-    transform: rotate(0deg);
-}
-
-.specimen_versionTabIcon.active {
-    transform: rotate(180deg);
-}
-
-.specimen_versionLabel {
-    background-color: #009973;
-    color: white;
-    width: 120px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 15px;
+.specimen_detailLinkProperty {
     font-weight: bold;
-    z-index: 0;
-    transition: 0.4s;
-}
-
-.specimen_versionLabel.active {
-    margin-left: -100px
 }
 
 
 /* Curate and annotate menu block */
+
 .specimen_annotateBlock {
-    height: 50px;
-    background-color: var(--main-color);
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     font-size: 18px;
     text-align: center;
+    border: 1px solid var(--main-color);
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.specimen_annotateBlock:hover {
+    background-color: var(--main-color);
+    color: white;
 }
 
 .specimen_annotateBlock.curate {
-    background-color: #009973;
+    border: 1px solid var(--main-color-green);
+}
+
+.specimen_annotateBlock.curate:hover {
+    background-color: var(--main-color-green);
 }
 
 
 /* Media */
-.specimen_mediaGallery {
-    margin-top: 5% !important;
-}
 
 .specimen_mediaGalleryContent {
     overflow-x: scroll;
@@ -147,17 +178,17 @@
 .specimen_mediaGalleryTitleBlock {
     height: 30px;
     line-height: 30px;
-    background-color: var(--grey);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom: 1px solid var(--main-color-darker);
 }
 
 .specimen_mediaGalleryTitle {
-    color: white;
+    background-color: white;
     font-weight: bold;
-    background-color: var(--main-color);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    border-left: 2px solid var(--main-color-darker);
+    border-top: 2px solid var(--main-color-darker);
+    border-right: 2px solid var(--main-color-darker);
 }
 
 .specimen_mediaBlock {
@@ -170,18 +201,35 @@
     height: 200px;
     margin: 0px;
     display: inline-block;
-    border: 4px solid white;
+    border-left: 2px solid var(--main-color-darker);
+}
+
+.specimen_mediaCover {
+    background-color: rgb(46, 92, 184, 0.60);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.specimen_mediaCover:hover {
+    opacity: 100;
 }
 
 
 /* MIDS meter */
-.specimen_midsMeter {
-    margin-top: 5% !important;
-}
 
 .specimen_midsMeterBlock {
-    border: 1px solid #333333;
-    padding: 3% 2% 3% 2%;
+    border: 1px solid var(--main-color-darker);
+}
+
+.specimen_midsMeterTitle {
+    font-size: 16px;
 }
 
 .specimen_midsMeterTitleRight {
@@ -190,5 +238,7 @@
 
 .specimen_midsMeterBar {
     background-color: var(--main-color);
+    border: 1px solid #333333;
     text-align: center;
+    font-weight: bold;
 }

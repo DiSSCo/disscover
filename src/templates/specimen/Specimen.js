@@ -8,7 +8,9 @@ import Body from './body/Body';
 import Footer from '../footer/Footer';
 
 /* Import API */
-import GetSpecimen from '../../api/specimen/GetSpecimen';
+import GetSpecimen from 'api/specimen/GetSpecimen';
+import FilterSpecimen from 'api/specimen/FilterSpecimen';
+import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 
 
 const Specimen = () => {
@@ -19,14 +21,32 @@ const Specimen = () => {
 
     useEffect(() => {
         if (location.state) {
-            setSpecimen(location.state.data);
-        } else if (params['id']) {
-            const specimenId = params['id'];
+            if (location.state.version) {
+                if (location.state.specimen['Meta']['version']['value'] !== location.state.version) {
+                    GetSpecimen(location.state.specimen['Meta']['id']['value'], Process);
+                }
+            } else {
+                setSpecimen(location.state.specimen);
+            }
+        } else if (params['prefix'] && params['suffix']) {
+            GetSpecimen(`${params['prefix']}/${params['suffix']}`, Process);
+        }
 
-            GetSpecimen(specimenId, Process);
+        function Process(result) {
+            const filteredSpecimen = FilterSpecimen(result);
 
-            function Process(result) {
-                setSpecimen(result);
+            setSpecimen(filteredSpecimen);
+
+            GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], ProcessFurther);
+
+            function ProcessFurther(media) {
+                if (media) {
+                    const completeSpecimen = {...filteredSpecimen};
+
+                    completeSpecimen['media'] = media;
+
+                    setSpecimen(completeSpecimen);
+                }
             }
         }
     }, []);

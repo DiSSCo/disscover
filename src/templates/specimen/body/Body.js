@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 /* Import components */
 import SpecimenInfo from './specimenInfo/SpecimenInfo';
-import SpecimenImages from './specimenMedia/SpecimenMedia';
+import SpecimenMedia from './specimenMedia/SpecimenMedia';
 import MidsMeter from './midsMeter/MidsMeter';
 
 /* Import icons */
@@ -12,18 +12,11 @@ import { faPencil, faComment } from '@fortawesome/free-solid-svg-icons'
 
 
 const Body = (props) => {
-    let specimen = {}
-
-
-
-    specimen['auth'] = props.specimen['ods:authoritative'];
-    specimen['unmapped'] = props.specimen['ods:unmapped'];
-
-    console.log(specimen);
+    const specimen = props.specimen;
 
     return (
-        <Container fluid>
-            <Row className='specimen_content'>
+        <Container fluid className="mt-5 specimen_content">
+            <Row>
                 <Col md={{ span: 10, offset: 1 }} className="h-100">
                     <Row>
                         <Col md={{ span: 8 }}>
@@ -34,16 +27,16 @@ const Body = (props) => {
                             </Row>
                             <Row>
                                 <Col md={{ span: 12 }}>
-                                    {specimen['unmapped']['has_image'] && <SpecimenImages specimenImages={specimen['unmapped']['url']} />}
+                                    {specimen['media'] && <SpecimenMedia specimenMedia={specimen['media']} />}
                                 </Col>
                             </Row>
                         </Col>
                         <Col md={{ span: 4 }}>
                             <Row>
-                                <Col md={{ span: 6 }} className='specimen_annotateBlock'>
-                                    <Link to={'/annotate/' + specimen['auth']['ods:physicalSpecimenId']} state={{ specimen: specimen, mode: 'annotate' }}>
+                                <Col md={{ span: 4, offset: 3 }} className='specimen_annotateBlock'>
+                                    <Link to={'/annotate/' + specimen['Meta']['id']['value']} state={{ specimen: specimen, mode: 'annotate' }}>
                                         <Row>
-                                            <Col md={{ span: 12 }} className="">
+                                            <Col md={{ span: 12 }}>
                                                 Annotate
                                                 <FontAwesomeIcon icon={faComment} className="ps-2" />
                                             </Col>
@@ -51,8 +44,8 @@ const Body = (props) => {
                                     </Link>
                                 </Col>
 
-                                <Col md={{ span: 6 }} className='specimen_annotateBlock curate'>
-                                    <Link to={'/annotate/' + specimen['auth']['ods:physicalSpecimenId']} state={{ specimen: specimen, mode: 'curate' }}>
+                                <Col md={{ span: 4, offset: 1 }} className='specimen_annotateBlock curate'>
+                                    <Link to={'/annotate/' + specimen['Meta']['id']['value']} state={{ specimen: specimen, mode: 'curate' }}>
                                         <Row>
                                             <Col md={{ span: 12 }}>
                                                 Curate

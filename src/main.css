@@ -1,0 +1,23 @@
+/* Declaring global variables */
+:root {
+    --main-color: #2e5cb8;
+    --main-color-light: #d6e0f5;
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+}
+
+.root {
+    width: 100%;
+    overflow-y: scroll;
+    position: fixed;
+}
+
+.icon {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}

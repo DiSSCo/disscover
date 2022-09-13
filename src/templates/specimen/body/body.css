@@ -1,0 +1,46 @@
+.specimen_rightTitleBlock {
+    margin-top: 40px !important;
+}
+
+.specimen_titleBlock {
+    background-color: var(--main-color-light);
+    border-top-right-radius: 8px;
+    height: 40px;
+    padding: 0px 0px 0px 2% !important;
+}
+
+.specimen_basisOfRecordSymbolBlock {
+    background-color: var(--main-color);
+    border-top-left-radius: 8px;
+    text-align: center;
+}
+
+.specimen_basisOfRecordSymbol {
+    line-height: 40px;
+    color: white;
+    font-size: 24px;
+}
+
+.specimen_title {
+    font-size: 28px;
+    line-height: 40px;
+}
+
+.specimen_rightContentBlock {
+    border-bottom: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    height: 400px;
+    padding-top: 2%;
+    background-color: white;
+}
+
+.folder {
+    background-color: #333333;
+    height: 400px;
+    position: absolute;
+    width: 42% !important;
+    margin-top: -0px !important;
+    margin-left: 20px !important;
+    z-index: -1;
+}

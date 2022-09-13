@@ -1,0 +1,72 @@
+/* Title Image */
+
+.bodyTitleImage {
+    background-image: url('https://www.dissco.eu/wp-content/uploads/woods-bg.jpg');
+    height: 400px;
+    margin-top: -100px;
+    position: absolute !important;
+    z-index: -1;
+}
+
+
+/* Search Bar */
+.searchBarBlock {
+    height: 125px;
+    margin-top: 200px !important;
+    padding-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    -webkit-box-shadow: 5px 2px 11px 2px rgba(0,0,0,0.54); 
+    box-shadow: 5px 2px 11px 2px rgba(0,0,0,0.54);
+}
+
+.searchBarTitle {
+    font-size: 22px;
+}
+
+.searchBar {
+    height: 40px;
+}
+
+.searchBar::placeholder {
+    font-style: italic;
+}
+
+.searchBarSubmit {
+    height: 40px;
+    width: 40px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+
+/* Sample Occurence(s) */
+.sampleSpecimensTitle {
+    font-size: 23px;
+    color: var(--main-color);
+}
+
+.sampleSpecimens {
+    margin-top: 50px !important;
+}
+
+.sampleSpecimen {
+    margin-bottom: 30px;
+}
+
+.sampleSpecimenImage {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.sampleSpecimenName {
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 2% 0px 2% 5%;
+}

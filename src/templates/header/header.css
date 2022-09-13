@@ -1,0 +1,11 @@
+.header {
+    height: 80px;
+    background-color: rgb(46, 92, 184, 0.80);
+}
+
+.headerTitle {
+    font-size: 22px;
+    line-height: 80px;
+    color: white;
+    font-weight: bold;
+}

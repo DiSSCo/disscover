@@ -1,17 +1,17 @@
 import axios from 'axios';
 
 
-function DeleteAnnotation(prefix, suffix, token, callback) {
-    if (prefix && suffix) {
-        const endPoint = 'annotations/' + prefix + '/' + suffix;
+function DeleteAnnotation(handle, token, callback) {
+    if (handle) {
+        const endPoint = `annotations/${handle}`;
+
+        console.log(endPoint);
 
         axios({
             method: "delete",
             url: endPoint,
-            responseType: 'json',
             headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`
             },
         }).then(function() {
             if (callback) {

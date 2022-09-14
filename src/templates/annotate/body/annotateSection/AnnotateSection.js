@@ -39,7 +39,7 @@ const AnnotateSection = (props) => {
 
         function GetPropertyAnnotations(property) {
             /* Search for annotations data and put into view */
-            GetAnnotations(specimen['Meta']['id']['value'], Process);
+            GetAnnotations(specimen['Meta']['id']['value'], token, Process);
 
             function Process(annotations) {
                 setModalAnnotations(annotations);
@@ -57,7 +57,7 @@ const AnnotateSection = (props) => {
         if (annotationInput) {
             const annotation = {
                 type: 'Annotation',
-                motivation: 'http://hdl.handle.net/pid-motivation-correcting',
+                motivation: 'https://hdl.handle.net/pid-motivation-correcting',
                 body: {
                     type: 'TextualBody',
                     value: annotationInput,
@@ -133,9 +133,7 @@ const AnnotateSection = (props) => {
     }
 
     function RemoveAnnotation(annotation, propertyKey, index) {
-        const fixes = annotation['id'].split('/');
-
-        DeleteAnnotation(fixes[0], fixes[1], token, Process);
+        DeleteAnnotation(annotation['id'], token, Process);
 
         function Process(success) {
             if (success) {

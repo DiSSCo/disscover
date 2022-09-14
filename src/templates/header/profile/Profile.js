@@ -8,7 +8,7 @@ const Profile = () => {
     return (
 
         <Row>
-            <Col md={{ span: 3, offset: 9 }} className="mt-1">
+            <Col md={{ span: 12 }} className="mt-1">
                 <Row className="justify-content-end">
                     <Col className="header_profile col-md-auto">
                         <Link to='/profile'>

@@ -14,7 +14,7 @@ const SearchBar = (props) => {
 
     return (
         <Row>
-            <Col md={{ span: 12 }} className="search_searchBar py-3 px-4">
+            <Col md={{ span: 12 }} className="search_searchBar pt-3 pb-4 px-4">
                 <Row>
                     <Col md={{ span: 12 }} className="search_searchBar">
                         <h2 className="search_searchBarTitle">

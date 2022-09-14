@@ -95,15 +95,15 @@ const AnnotateModal = (props) => {
                                                                 <Col md={{ span: 10 }} className="annotate_annotationMessage me edit">
                                                                     <textarea
                                                                         className="annotate_editTextarea"
-                                                                        defaultValue={modalAnnotation['body']['text']}
+                                                                        defaultValue={modalAnnotation['body']['value']}
                                                                         onChange={(input) => props.UpdateModifications(input, propertyKey)}
                                                                     />
                                                                 </Col>
                                                                 : <Col md={{ span: 10 }} className="annotate_annotationMessage me">
-                                                                    {modalAnnotation['body']['text']}
+                                                                    {modalAnnotation['body']['value']}
                                                                 </Col>
                                                             : <Col md={{ span: 10 }} className="annotate_annotationMessage me">
-                                                                {modalAnnotation['body']['text']}
+                                                                {modalAnnotation['body']['value']}
                                                             </Col>
                                                         }
 
@@ -133,7 +133,7 @@ const AnnotateModal = (props) => {
                                                     />
                                                 </Col>
                                                 <Col md={{ span: 10 }} className="annotate_annotationMessage">
-                                                    {modalAnnotations[key]['body']['text']}
+                                                    {modalAnnotations[key]['body']['value']}
                                                 </Col>
                                             </Row>
                                         </Col>

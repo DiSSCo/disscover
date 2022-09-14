@@ -3,19 +3,33 @@ import axios from 'axios';
 
 function PatchAnnotation(annotation, token, callback) {
     if (annotation) {
-        const fixes = annotation['id'].split('/');
-        const endPoint = '/annotations/' + fixes[0] + '/' + fixes[1];
+        const endPoint = `/annotations/${annotation['id']}`;
+
+        const patchAnnotation = {
+            type: 'Annotation',
+            motivation: 'https://hdl.handle.net/pid-motivation-correcting',
+            body: {
+                type: 'TextualBody',
+                value: annotation['body']['value'],
+                reference: 'https://bionomia.net/Q3822242'
+            },
+            target: {
+                type: 'https://hdl.handle.net/digitalSpecimen-type',
+                id: annotation['target']['id'],
+                indvProp: annotation['target']['indvProp']
+            }
+        }
 
         axios({
             method: "patch",
             url: endPoint,
-            data: annotation,
+            data: patchAnnotation,
             responseType: 'json',
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`
             },
-        }).then(function(result) {
+        }).then(function (result) {
             callback(result['data']);
         }).catch(error => {
             /* To be replaced by logger */

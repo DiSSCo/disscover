@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Components */
@@ -9,10 +9,11 @@ const MidsDetails = (props) => {
     const visibility = props.visibility;
     const specimen = props.specimen;
 
+    const scrollMidsContainerRef = useRef(null);
     const scrollToMids = props.scrollToMids;
 
     function ScrollMids(ref) {
-        ref.current.scrollIntoView({behavior: 'smooth'});
+        scrollMidsContainerRef.current.scrollTop = ref.current.offsetTop;
     }
 
     return (
@@ -26,7 +27,7 @@ const MidsDetails = (props) => {
                             </Col>
                         </Row>
                         <Row className="h-100">
-                            <Col md={{ span: 12 }} className="annotate_midsDetailsSections">
+                            <Col md={{ span: 12 }} className="annotate_midsDetailsSections" ref={scrollMidsContainerRef}>
                                 {Object.keys(specimen).map((key, _i) => {
                                     return (
                                         <MidsDetailsRow

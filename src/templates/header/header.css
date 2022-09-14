@@ -87,3 +87,26 @@
 .header_profilePicName {
     text-align: right;
 }
+
+
+/* Navigation */
+
+.navItem {
+    border-left: 1px solid var(--main-color-light);
+    border-right: 1px solid var(--main-color-light);
+    transition: 0.4s;
+    height: 40px;
+    line-height: 40px;
+}
+
+.navItem.home {
+    color: white;
+}
+
+.navItem:hover {
+    background-color: var(--greyXLight);
+}
+
+.navItem.home:hover {
+    color: #333333;
+}

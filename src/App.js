@@ -12,6 +12,7 @@ import Search from "templates/search/Search";
 import Specimen from "templates/specimen/Specimen";
 import JSON_Specimen from "templates/specimen/JSON_Specimen";
 
+import DefaultAnnotate from "templates/annotate/DefaultAnnotate";
 import Annotate from "templates/annotate/Annotate";
 
 import Profile from "templates/profile/Profile";
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/ds/:prefix/:suffix" element={<Specimen />} />
                     <Route path="/ds_json/:prefix/:suffix" element={<JSON_Specimen />} />
 
+                    <Route path="/annotate" element={<DefaultAnnotate />} />
                     <Route path="/annotate/:prefix/:suffix" element={<Annotate />} />
 
                     <Route path="/profile" element={<Profile />} />

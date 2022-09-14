@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 
-function GetAnnotations(handle, callback) {
+function GetAnnotations(handle, token, callback) {
     if (handle) {
         const endPoint = `specimens/${handle}/annotations`;
 
         axios({
             method: "get",
             url: endPoint,
-            responseType: 'json'
+            responseType: 'json',
         }).then(function(result) {
             callback(result['data']);
         }).catch(error => {

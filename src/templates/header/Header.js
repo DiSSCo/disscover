@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import UserService from 'keycloak/Keycloak';
 import "./header.css";
@@ -6,6 +6,7 @@ import "./header.css";
 /* Import Components */
 import Login from './login/Login';
 import Profile from './profile/Profile';
+import Navigation from "./navigation/Navigation";
 
 /* Import Media */
 import DisscoLogo from 'webroot/img/dissco-logo-web.svg';
@@ -24,7 +25,9 @@ const Header = () => {
                     <Col md={{ span: 12 }} className="pt-3 px-5">
                         <Row>
                             <Col className="col-md-auto">
-                                <img src={DisscoLogoWhite} alt="DiSSCo logo" className="header_logo" />
+                                <Link to='/'>
+                                    <img src={DisscoLogoWhite} alt="DiSSCo logo" className="header_logo" />
+                                </Link>
                             </Col>
                             <Col className="col-md-auto">
                                 <h1 className="header_homeTitle">
@@ -36,14 +39,18 @@ const Header = () => {
                             </Col>
                             <Col>
                                 <Row>
-                                    {token ?
-                                        <Col md={{ span: 12 }}>
+                                    <Col md={{ span: 9 }} className="pt-2">
+                                        <Row className="justify-content-end">
+                                            <Navigation home={'home'} />
+                                        </Row>
+                                    </Col>
+                                    <Col>
+                                        {token ?
                                             <Profile />
-                                        </Col>
-                                        : <Col md={{ span: 12 }}>
-                                            <Login />
-                                        </Col>
-                                    }
+                                            : <Login />
+                                        }
+
+                                    </Col>
                                 </Row>
                             </Col>
                         </Row>
@@ -59,7 +66,9 @@ const Header = () => {
                     <Col md={{ span: 10, offset: 1 }} className="header pt-3">
                         <Row>
                             <Col className="col-md-auto">
-                                <img src={DisscoLogo} alt="DiSSCo logo" className="header_logo" />
+                                <Link to='/'>
+                                    <img src={DisscoLogo} alt="DiSSCo logo" className="header_logo" />
+                                </Link>
                             </Col>
                             <Col className="col-md-auto">
                                 <h1 className="header_title">
@@ -69,14 +78,18 @@ const Header = () => {
                             </Col>
                             <Col>
                                 <Row>
-                                    {token ?
-                                        <Col md={{ span: 12 }}>
+                                    <Col md={{ span: 9 }} className="pt-2">
+                                        <Row className="justify-content-end">
+                                            <Navigation />
+                                        </Row>
+                                    </Col>
+                                    <Col>
+                                        {token ?
                                             <Profile />
-                                        </Col>
-                                        : <Col md={{ span: 12 }}>
-                                            <Login />
-                                        </Col>
-                                    }
+                                            : <Login />
+                                        }
+
+                                    </Col>
                                 </Row>
                             </Col>
                         </Row>

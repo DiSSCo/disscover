@@ -46,7 +46,7 @@ const AnnotateRow = (props) => {
                                                 <Col 
                                                     md={{ span: 2, offset: 1 }} 
                                                     className="annotate_annotateIndication"
-                                                    onClick={(midsHandle) => 
+                                                    onClick={() => 
                                                         props.UpdateScrollToMids('midsHandle_' + key)
                                                     }
                                                 >

@@ -32,21 +32,25 @@ const Annotate = () => {
 
     if (!specimen) {
         if (location.state) {
-            const filteredSpecimen = location.state.specimen;
-
-            setSpecimen(filteredSpecimen);
-        } else if (!specimen && params['prefix'] && params['suffix']) {
-            GetSpecimen(params['prefix'], params['suffix'], Process);
-
-            function Process(result) {
-                const specimen = FilterSpecimen(result);
-
-                setSpecimen(specimen);
+            if (location.state.version) {
+                if (location.state.specimen['Meta']['version']['value'] !== location.state.version) {
+                    GetSpecimen(location.state.specimen['Meta']['id']['value'], Process);
+                }
+            } else {
+                setSpecimen(location.state.specimen);
             }
+        } else if (params['prefix'] && params['suffix']) {
+            GetSpecimen(`${params['prefix']}/${params['suffix']}`, Process);
+        }
+
+        function Process(result) {
+            const specimen = FilterSpecimen(result);
+
+            setSpecimen(specimen);
         }
     } else {
         return (
-            <div className="d-flex flex-column min-vh-100">
+            <div className="d-flex flex-column min-vh-100" style={{ overflow: 'clip' }}>
                 <Header />
 
                 <Body specimen={specimen} mode={mode} mids={mids} />

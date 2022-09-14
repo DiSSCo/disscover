@@ -59,8 +59,8 @@
 }
 
 .annotate_midsMeterBlock {
-    background-color: var(--greyXLight);
     padding: 2%;
+    border: 1px solid var(--main-color-darker);
 }
 
 .annotate_midsMeterBar {
@@ -114,6 +114,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    position: relative;
 }
 
 .annotate_midsDetailsSection {

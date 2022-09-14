@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 /* Import components */
 import SearchBar from "./searchMenu/SearchBar";
+import SearchFilters from "./searchMenu/SearchFilters";
 import ResultsTable from "./resultsTable/ResultsTable";
 
 /* Import API */
@@ -78,6 +79,8 @@ const Body = () => {
                                     onSearch={() => HandleSearch()}
                                     updateSearchQuery={(query) => UpdateSearchQuery(query)}
                                 />
+
+                                <SearchFilters />
                             </Col>
                             <Col md="10">
                                 <Row>

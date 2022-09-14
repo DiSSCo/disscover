@@ -301,7 +301,9 @@
         "displayName": "Abbreviation",
         "group": "Organisation",
         "annotatable": true,
-        "mids": ""
+        "mids": {
+            "level": 1
+        }
     },
     "datasourcecountry": {
         "displayName": "Publishing country",
@@ -345,7 +347,9 @@
         "displayName": "Handle identifier",
         "group": "Meta",
         "annotatable": true,
-        "mids": ""
+        "mids": {
+            "level": 1
+        }
     },
     "datasetId": {
         "displayName": "Dataset identifier",
@@ -382,7 +386,9 @@
         "displayName": "Rights holder",
         "group": "Meta",
         "annotatable": true,
-        "mids": ""
+        "mids": {
+            "level": 1
+        }
     },
     "informationWithheld": {
         "displayName": "Information withheld",
@@ -418,6 +424,8 @@
         "displayName": "Version",
         "group": "Meta",
         "annotatable": true,
-        "mids": ""
+        "mids": {
+            "level": 1
+        }
     }
 }

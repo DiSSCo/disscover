@@ -352,7 +352,7 @@
         }
     },
     "datasetId": {
-        "displayName": "Dataset identifier",
+        "displayName": "Specimen found in dataset",
         "group": "Meta",
         "annotatable": true,
         "mids": ""

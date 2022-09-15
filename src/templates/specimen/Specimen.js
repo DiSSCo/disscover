@@ -21,13 +21,7 @@ const Specimen = () => {
 
     useEffect(() => {
         if (location.state) {
-            if (location.state.version) {
-                if (location.state.specimen['Meta']['version']['value'] !== location.state.version) {
-                    GetSpecimen(location.state.specimen['Meta']['id']['value'], Process);
-                }
-            } else {
-                setSpecimen(location.state.specimen);
-            }
+            setSpecimen(location.state.specimen);
         } else if (params['prefix'] && params['suffix']) {
             GetSpecimen(`${params['prefix']}/${params['suffix']}`, Process);
         }
@@ -51,12 +45,22 @@ const Specimen = () => {
         }
     }, []);
 
+    function LoadSpecimenVersion(handle, version) {
+        GetSpecimen(handle, Process, version);
+
+        function Process(result) {
+            const filteredSpecimen = FilterSpecimen(result);
+
+            setSpecimen(filteredSpecimen);
+        }
+    }
+
     if (specimen) {
         return (
             <div className="d-flex flex-column min-vh-100">
                 <Header />
 
-                <Body specimen={specimen} />
+                <Body specimen={specimen} LoadSpecimenVersion={(handle, version) => LoadSpecimenVersion(handle, version)} />
 
                 <Footer />
             </div>

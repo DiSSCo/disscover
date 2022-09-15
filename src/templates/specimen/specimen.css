@@ -47,6 +47,8 @@
     height: 40px;
     border: none;
     background-color: white;
+    border-top: 1px solid var(--greyXLight);
+    border-bottom: 1px solid var(--greyXLight);
 }
 
 .specimen_versionOption:hover {
@@ -56,6 +58,7 @@
 .specimen_versionOption.chosen {
     background-color: var(--main-color-darker);
     color: white;
+    border: none;
 }
 
 .specimen_versionOptionIcon {
@@ -72,13 +75,7 @@
 
 .specimen_contentBlock {
     z-index: 1;
-    /* border-bottom: 1px solid #cccccc;
-    border-left: 1px solid #cccccc;
-    border-right: 1px solid #cccccc; */
     height: 400px;
-    /* -webkit-box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75);
-    box-shadow: 10px 10px 26px -6px rgba(0, 0, 0, 0.75); */
 }
 
 .specimen_mainDetailsBlock {

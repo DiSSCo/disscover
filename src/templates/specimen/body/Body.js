@@ -22,7 +22,7 @@ const Body = (props) => {
                         <Col md={{ span: 8 }}>
                             <Row>
                                 <Col md={{ span: 12 }}>
-                                    <SpecimenInfo specimen={specimen} />
+                                    <SpecimenInfo specimen={specimen} LoadSpecimenVersion={(handle, version) => props.LoadSpecimenVersion(handle, version)} />
                                 </Col>
                             </Row>
                             <Row>

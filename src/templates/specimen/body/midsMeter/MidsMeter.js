@@ -17,7 +17,7 @@ const MidsMeter = (props) => {
                         Completion level (MIDS)
                     </Col>
                     <Col md={{ span: 3 }} className="specimen_midsMeterTitleRight">
-                        <Link to={'/annotate/' + specimen['Specimen']['physicalSpecimenId']['value']} state={{ specimen: specimen, mode: 'annotate', mids: true }}>
+                        <Link to={`/annotate/${specimen['Meta']['id']['value']}`} state={{ specimen: specimen, mode: 'annotate', mids: true }}>
                             Details
                             <FontAwesomeIcon icon={faChevronRight} />
                         </Link>

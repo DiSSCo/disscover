@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import API */
@@ -35,7 +34,7 @@ const SpecimenInfo = (props) => {
         useEffect(() => {
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    if (versionTabsActive) {
+                    if (versionTabsActive && event.target.className !== 'specimen_versionOption') {
                         ToggleVersionTabs();
                     }
                 }
@@ -65,6 +64,10 @@ const SpecimenInfo = (props) => {
         }
     }
 
+    function UpdateVersion(version) {
+
+    }
+
     return (
         <Row>
             <Col md={{ span: 12 }}>
@@ -85,42 +88,44 @@ const SpecimenInfo = (props) => {
                     <Col md={{ span: 2 }}>
                         <Row className="position-relative">
                             <Col md={{ span: 12 }} className={"specimen_versionBlock " + versionTabsActive}>
-                                {(versionTabs.length > 1) ? versionTabs.map((key, _i) => {
-                                    if (key === specimen['Meta']['version']['value']) {
-                                        return (
-                                            <Row>
-                                                <button md={{ span: 12 }}
-                                                    className="specimen_versionOption chosen"
-                                                    type="button"
-                                                    onClick={() => ToggleVersionTabs()}
-                                                    ref={versionTabRef}
-                                                >
-                                                    {`Version ${key}`}
-                                                    <FontAwesomeIcon
-                                                        icon={faChevronDown}
-                                                        className={"specimen_versionOptionIcon " + versionTabsActive}
-                                                    />
-                                                </button>
-                                            </Row>
-                                        );
-                                    } else {
-                                        return (
-                                            <Row>
-                                                <Link to={'/ds/' + specimen['Meta']['id']['value']} state={{ specimen: specimen, version: key }}>
-                                                    <button md={{ span: 12 }} className="specimen_versionOption">
-                                                        {`Version ${key}`}
-                                                    </button>
-                                                </Link>
-                                            </Row>
-                                        );
-                                    }
-                                }) :
+                                {(versionTabs.length > 1) ?
                                     <Row>
+                                        <button md={{ span: 12 }}
+                                            className="specimen_versionOption chosen"
+                                            type="button"
+                                            onClick={() => ToggleVersionTabs()}
+                                            ref={versionTabRef}
+                                        >
+                                            {`Version ${specimen['Meta']['version']['value']}`}
+                                            <FontAwesomeIcon
+                                                icon={faChevronDown}
+                                                className={"specimen_versionOptionIcon " + versionTabsActive}
+                                            />
+                                        </button>
+                                    </Row>
+                                    : <Row>
                                         <button md={{ span: 12 }} className="specimen_versionOption chosen">
                                             {`Version ${specimen['Meta']['version']['value']}`}
                                         </button>
                                     </Row>
                                 }
+
+                                {(versionTabs.length > 1) && versionTabs.map((key, _i) => {
+                                    if (key !== specimen['Meta']['version']['value']) {
+                                        return (
+                                            <Row>
+                                                <div key={key}
+                                                    version={key}
+                                                    className="specimen_versionOption"
+                                                    onClick={() => props.LoadSpecimenVersion(specimen['Meta']['id']['value'], key)}
+                                                >
+                                                    {`Version ${key}`}
+                                                </div>
+                                            </Row>
+
+                                        );
+                                    }
+                                })}
                             </Col>
                         </Row>
                     </Col>

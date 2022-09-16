@@ -64,73 +64,78 @@ const SpecimenInfo = (props) => {
         }
     }
 
-    function UpdateVersion(version) {
-
-    }
-
     return (
         <Row>
-            <Col md={{ span: 12 }}>
+            <Col md={{ span: 11 }} className="specimen_fixedTitleBlock">
                 <Row>
-                    <Col md={{ span: 9 }} className="specimen_titleBlock">
+                    <Col md={{ span: 10, offset: 1 }}>
                         <Row>
-                            <Col md={{ span: 1 }} className="specimen_basisOfRecordSymbolBlock">
-                                <i className="icon">
-                                    <FontAwesomeIcon icon={faFrog} />
-                                </i>
-                            </Col>
-                            <Col className="col-md-auto specimen_titleBlockSub">
-                                <h2 className="specimen_title"> {specimen['Specimen']['specimenName']['value']} </h2>
-                            </Col>
-                        </Row>
-                    </Col>
+                            <Col md={{ span: 8 }} className="specimen_fixedTitleBlockMargin">
+                                <Row>
+                                    <Col md={{ span: 10 }} className="specimen_titleBlock">
+                                        <Row>
+                                            <Col md={{ span: 1 }} className="specimen_basisOfRecordSymbolBlock">
+                                                <i className="icon">
+                                                    <FontAwesomeIcon icon={faFrog} />
+                                                </i>
+                                            </Col>
+                                            <Col className="col-md-auto specimen_titleBlockSub">
+                                                <h2 className="specimen_title"> {specimen['Specimen']['specimenName']['value']} </h2>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col md={{ span: 2 }}>
+                                        <Row className="position-relative">
+                                            <Col md={{ span: 12 }} className={"specimen_versionBlock " + versionTabsActive}>
+                                                {(versionTabs.length > 1) ?
+                                                    <Row>
+                                                        <button
+                                                            className="specimen_versionOption chosen"
+                                                            type="button"
+                                                            onClick={() => ToggleVersionTabs()}
+                                                            ref={versionTabRef}
+                                                        >
+                                                            {`Version ${specimen['Meta']['version']['value']}`}
+                                                            <FontAwesomeIcon
+                                                                icon={faChevronDown}
+                                                                className={`specimen_versionOptionIcon ${versionTabsActive} mx-4`}
+                                                            />
+                                                        </button>
+                                                    </Row>
+                                                    : <Row>
+                                                        <button md={{ span: 12 }} className="specimen_versionOption chosen">
+                                                            {`Version ${specimen['Meta']['version']['value']}`}
+                                                        </button>
+                                                    </Row>
+                                                }
 
-                    <Col md={{ span: 2 }}>
-                        <Row className="position-relative">
-                            <Col md={{ span: 12 }} className={"specimen_versionBlock " + versionTabsActive}>
-                                {(versionTabs.length > 1) ?
-                                    <Row>
-                                        <button md={{ span: 12 }}
-                                            className="specimen_versionOption chosen"
-                                            type="button"
-                                            onClick={() => ToggleVersionTabs()}
-                                            ref={versionTabRef}
-                                        >
-                                            {`Version ${specimen['Meta']['version']['value']}`}
-                                            <FontAwesomeIcon
-                                                icon={faChevronDown}
-                                                className={"specimen_versionOptionIcon " + versionTabsActive}
-                                            />
-                                        </button>
-                                    </Row>
-                                    : <Row>
-                                        <button md={{ span: 12 }} className="specimen_versionOption chosen">
-                                            {`Version ${specimen['Meta']['version']['value']}`}
-                                        </button>
-                                    </Row>
-                                }
+                                                <div className={`specimen_versionOptions ${versionTabsActive}`}>
+                                                    {(versionTabs.length > 1) && versionTabs.map((key, _i) => {
+                                                        if (key !== specimen['Meta']['version']['value']) {
+                                                            return (
+                                                                <Row>
+                                                                    <div key={key}
+                                                                        version={key}
+                                                                        className="specimen_versionOption"
+                                                                        onClick={() => props.LoadSpecimenVersion(specimen['Meta']['id']['value'], key)}
+                                                                    >
+                                                                        {`Version ${key}`}
+                                                                    </div>
+                                                                </Row>
 
-                                {(versionTabs.length > 1) && versionTabs.map((key, _i) => {
-                                    if (key !== specimen['Meta']['version']['value']) {
-                                        return (
-                                            <Row>
-                                                <div key={key}
-                                                    version={key}
-                                                    className="specimen_versionOption"
-                                                    onClick={() => props.LoadSpecimenVersion(specimen['Meta']['id']['value'], key)}
-                                                >
-                                                    {`Version ${key}`}
+                                                            );
+                                                        }
+                                                    })}
                                                 </div>
-                                            </Row>
-
-                                        );
-                                    }
-                                })}
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
                             </Col>
                         </Row>
                     </Col>
                 </Row>
-            </Col>
+            </Col >
 
             <Col md={{ span: 11 }} className="specimen_contentBlock">
                 <Row className="specimen_mainDetailsBlock">
@@ -233,7 +238,7 @@ const SpecimenInfo = (props) => {
             <Col md={{ span: 11 }}>
 
             </Col>
-        </Row>
+        </Row >
     );
 }
 

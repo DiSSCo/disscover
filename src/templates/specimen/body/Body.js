@@ -1,63 +1,79 @@
+import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 /* Import components */
 import SpecimenInfo from './specimenInfo/SpecimenInfo';
 import SpecimenMedia from './specimenMedia/SpecimenMedia';
 import MidsMeter from './midsMeter/MidsMeter';
-
-/* Import icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faComment } from '@fortawesome/free-solid-svg-icons'
+import AnnotateSection from './annotate/AnnotateSection';
 
 
 const Body = (props) => {
     const specimen = props.specimen;
 
+    const [midsDetailsVisibility, setMidsDetailsVisibility] = useState('hidden');
+
+    function ToggleMidsDetails() {
+        if (midsDetailsVisibility) {
+            setMidsDetailsVisibility('');
+        } else {
+            setMidsDetailsVisibility('hidden');
+        }
+    }
+
+    const [scrollToMids, setScrollToMids] = useState();
+
+    function UpdateScrollToMids(midsHandle) {
+        if (midsDetailsVisibility) {
+            ToggleMidsDetails();
+        }
+
+        setTimeout(function () {
+            setScrollToMids(midsHandle);
+        }, 400)
+    }
+
     return (
         <Container fluid className="mt-5 specimen_content">
-            <Row>
+            <Row className="h-100">
                 <Col md={{ span: 10, offset: 1 }} className="h-100">
-                    <Row>
-                        <Col md={{ span: 8 }}>
+                    <Row className="h-100">
+                        <Col md={{ span: 8 }} className="h-100 specimen_contentScroll">
                             <Row>
                                 <Col md={{ span: 12 }}>
                                     <SpecimenInfo specimen={specimen} LoadSpecimenVersion={(handle, version) => props.LoadSpecimenVersion(handle, version)} />
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={{ span: 12 }}>
-                                    {specimen['media'] && <SpecimenMedia specimenMedia={specimen['media']} />}
+                                <Col>
+                                    <AnnotateSection
+                                        specimen={specimen}
+
+                                        UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
+                                        ToggleMidsDetails={() => ToggleMidsDetails()}
+                                    />
                                 </Col>
                             </Row>
                         </Col>
                         <Col md={{ span: 4 }}>
-                            <Row>
-                                <Col md={{ span: 4, offset: 3 }} className='specimen_annotateBlock'>
-                                    <Link to={'/annotate/' + specimen['Meta']['id']['value']} state={{ specimen: specimen, mode: 'annotate' }}>
-                                        <Row>
-                                            <Col md={{ span: 12 }}>
-                                                Annotate
-                                                <FontAwesomeIcon icon={faComment} className="ps-2" />
-                                            </Col>
-                                        </Row>
-                                    </Link>
-                                </Col>
+                            {specimen['media'] &&
+                                <Row>
+                                    <Col md={{ span: 12 }}>
+                                        {<SpecimenMedia specimenMedia={specimen['media']} />}
+                                    </Col>
+                                </Row>
+                            }
 
-                                <Col md={{ span: 4, offset: 1 }} className='specimen_annotateBlock curate'>
-                                    <Link to={'/annotate/' + specimen['Meta']['id']['value']} state={{ specimen: specimen, mode: 'curate' }}>
-                                        <Row>
-                                            <Col md={{ span: 12 }}>
-                                                Curate
-                                                <FontAwesomeIcon icon={faPencil} className="ps-2" />
-                                            </Col>
-                                        </Row>
-                                    </Link>
-                                </Col>
-                            </Row>
                             <Row className="mt-4">
                                 <Col md={{ span: 12 }}>
-                                    <MidsMeter specimen={specimen} mode='annotate' />
+                                    <MidsMeter
+                                        specimen={specimen} mode='annotate'
+                                        midsDetailsVisibility={midsDetailsVisibility}
+                                        scrollToMids={scrollToMids}
+
+                                        UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
+                                        ToggleMidsDetails={() => ToggleMidsDetails()}
+                                    />
                                 </Col>
                             </Row>
                         </Col>

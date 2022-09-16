@@ -1,34 +1,45 @@
-import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+
+/* Import Components */
+import MidsDetails from './MidsDetails';
 
 /* Fontawesome icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 
 const MidsMeter = (props) => {
     const specimen = props.specimen;
+    const midsDetailsVisibility = props.midsDetailsVisibility;
+    const scrollToMids = props.scrollToMids;
 
     return (
         <Row>
             <Col md={{ span: 12 }} className="specimen_midsMeterBlock py-4">
                 <Row>
-                    <Col md={{ span: 7, offset: 1 }} className="specimen_midsMeterTitle">
+                    <Col md={{ span: 8, offset: 1 }}>
                         Completion level (MIDS)
                     </Col>
-                    <Col md={{ span: 3 }} className="specimen_midsMeterTitleRight">
-                        <Link to={`/annotate/${specimen['Meta']['id']['value']}`} state={{ specimen: specimen, mode: 'annotate', mids: true }}>
-                            Details
-                            <FontAwesomeIcon icon={faChevronRight} />
-                        </Link>
+                    <Col md={{ span: 2 }} className="annotate_midsMeterTitleRight">
+                        <FontAwesomeIcon
+                            icon={faChevronDown}
+                            onClick={() => props.ToggleMidsDetails()}
+                            className={"annotate_midsMeterChevronDown " + midsDetailsVisibility}
+                        />
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 10, offset: 1 }} className="specimen_midsMeterBar mt-2">
+                    <Col md={{ span: 10, offset: 1 }} className="annotate_midsMeterBar">
                         Lv {specimen['Meta']['midsLevel']['value']}.
                     </Col>
                 </Row>
             </Col>
+
+            <MidsDetails
+                visibility={midsDetailsVisibility}
+                specimen={specimen}
+                scrollToMids={scrollToMids}
+            />
         </Row>
     );
 }

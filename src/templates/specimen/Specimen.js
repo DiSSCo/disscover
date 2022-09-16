@@ -35,7 +35,7 @@ const Specimen = () => {
 
             function ProcessFurther(media) {
                 if (media) {
-                    const completeSpecimen = {...filteredSpecimen};
+                    const completeSpecimen = { ...filteredSpecimen };
 
                     completeSpecimen['media'] = media;
 
@@ -52,12 +52,22 @@ const Specimen = () => {
             const filteredSpecimen = FilterSpecimen(result);
 
             setSpecimen(filteredSpecimen);
+
+            GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], ProcessFurther);
+
+            function ProcessFurther(media) {
+                const completeSpecimen = { ...filteredSpecimen };
+
+                completeSpecimen['media'] = media;
+
+                setSpecimen(completeSpecimen);
+            }
         }
     }
 
     if (specimen) {
         return (
-            <div className="d-flex flex-column min-vh-100">
+            <div className="d-flex flex-column min-vh-100 overflow-hidden">
                 <Header />
 
                 <Body specimen={specimen} LoadSpecimenVersion={(handle, version) => LoadSpecimenVersion(handle, version)} />

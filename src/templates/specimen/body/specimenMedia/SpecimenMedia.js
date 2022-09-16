@@ -6,16 +6,16 @@ const SpecimenMedia = (props) => {
 
     return (
         <Row>
-            <Col md={{ span: 11 }} className="specimen_mediaGalleryTitleBlock mt-4">
+            <Col md={{ span: 12 }} className="specimen_mediaGalleryTitleBlock mt-4">
                 <Row>
                     <Col className="col-md-auto specimen_mediaGalleryTitle">
                         Media gallery
                     </Col>
                 </Row>
             </Col>
-            <Col md={{ span: 11 }} className="specimen_mediaGalleryContent">
+            <Col md={{ span: 12 }} className="specimen_mediaGalleryContent">
                 <div className="specimen_mediaSlider">
-                    {specimenMedia.map((mediaItem, i) => {
+                    {(specimenMedia.length > 0) ? specimenMedia.map((mediaItem, i) => {
                         switch (mediaItem['format']) {
                             case 'image/jpeg':
                                 return (
@@ -37,7 +37,13 @@ const SpecimenMedia = (props) => {
                                     </Row>
                                 );
                         }
-                    })}
+                    })
+                        : <Row>
+                            <Col className="mx-3 my-2">
+                                No media yet
+                            </Col>
+                        </Row>
+                    }
                 </div>
             </Col>
         </Row>

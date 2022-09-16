@@ -2,9 +2,29 @@
     height: calc(100vh - 208px)
 }
 
+.specimen_contentScroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.specimen_contentBlock {
+    margin-top: 40px !important;
+}
+
+.specimen_fixedTitleBlock {
+    position: fixed;
+    left: 0;
+    z-index: 2;
+}
+
+.specimen_fixedTitleBlockMargin {
+    margin-left: 0.9% !important;
+}
+
 .specimen_titleBlock {
     height: 40px;
     border-bottom: 1px solid var(--main-color-darker);
+    background-color: white;
 }
 
 .specimen_titleBlockSub {
@@ -38,17 +58,27 @@
 .specimen_versionBlock.active {
     height: auto;
     position: absolute;
-    z-index: 2;
     right: 0;
     border: 1px solid var(--main-color-darker);
+}
+
+.specimen_versionOptions {
+    display: none;
+}
+
+.specimen_versionOptions.active {
+    display: block;
 }
 
 .specimen_versionOption {
     height: 40px;
     border: none;
     background-color: white;
+    text-align: center;
+    line-height: 40px;
     border-top: 1px solid var(--greyXLight);
     border-bottom: 1px solid var(--greyXLight);
+    cursor: pointer;
 }
 
 .specimen_versionOption:hover {
@@ -64,7 +94,7 @@
 .specimen_versionOptionIcon {
     position: absolute;
     right: 0;
-    margin: 2% 10% 0px 0px;
+    margin-top: 12px;
     transition: 0.3s;
     transform: rotate(0deg);
 }
@@ -73,13 +103,13 @@
     transform: rotate(180deg);
 }
 
-.specimen_contentBlock {
+.specimen_Block {
     z-index: 1;
     height: 400px;
 }
 
 .specimen_mainDetailsBlock {
-    height: 70%;
+    height: 100%;
 }
 
 .specimen_detailSpecimen {
@@ -130,32 +160,6 @@
 }
 
 
-/* Curate and annotate menu block */
-
-.specimen_annotateBlock {
-    height: 40px;
-    line-height: 40px;
-    font-size: 18px;
-    text-align: center;
-    border: 1px solid var(--main-color);
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.specimen_annotateBlock:hover {
-    background-color: var(--main-color);
-    color: white;
-}
-
-.specimen_annotateBlock.curate {
-    border: 1px solid var(--main-color-green);
-}
-
-.specimen_annotateBlock.curate:hover {
-    background-color: var(--main-color-green);
-}
-
-
 /* Media */
 
 .specimen_mediaGalleryContent {
@@ -164,12 +168,12 @@
     padding: 0 !important;
     margin: 0 !important;
     height: inherit;
+    background-color: var(--greyXLight);
 }
 
 .specimen_mediaSlider {
     width: max-content;
     height: 200px;
-    background-color: var(--greyXLight);
 }
 
 .specimen_mediaGalleryTitleBlock {

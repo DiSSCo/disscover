@@ -65,7 +65,7 @@ const SpecimenInfo = (props) => {
     }
 
     return (
-        <Row>
+        <Row className="mb-5">
             <Col md={{ span: 11 }} className="specimen_fixedTitleBlock">
                 <Row>
                     <Col md={{ span: 10, offset: 1 }}>
@@ -113,8 +113,8 @@ const SpecimenInfo = (props) => {
                                                     {(versionTabs.length > 1) && versionTabs.map((key, _i) => {
                                                         if (key !== specimen['Meta']['version']['value']) {
                                                             return (
-                                                                <Row>
-                                                                    <div key={key}
+                                                                <Row key={key}>
+                                                                    <div
                                                                         version={key}
                                                                         className="specimen_versionOption"
                                                                         onClick={() => props.LoadSpecimenVersion(specimen['Meta']['id']['value'], key)}
@@ -234,9 +234,6 @@ const SpecimenInfo = (props) => {
                         </Row>
                     </Col>
                 </Row>
-            </Col>
-            <Col md={{ span: 11 }}>
-
             </Col>
         </Row >
     );

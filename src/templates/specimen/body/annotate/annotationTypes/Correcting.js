@@ -1,7 +1,7 @@
 import { Row, Col } from 'react-bootstrap';
 
 
-const ErrorCorrection = () => {
+const Correcting = () => {
     return (
         <Row>
             <Col>
@@ -11,4 +11,4 @@ const ErrorCorrection = () => {
     )
 }
 
-export default ErrorCorrection;
+export default Correcting;

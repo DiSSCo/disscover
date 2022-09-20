@@ -1,57 +1,58 @@
+import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
+
+/* Import API */
+import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 
 
 const RecentAnnotations = () => {
-    return (
-        <Row className="px-2"> 
-            <Col>
-                <Row>
-                    <Col md={{ span: 10 }} className="recentAnnotation my-2">
-                        <Row>
-                            <Col>
-                                Spinosaurus Aegyptiacus
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                Skeeto annotated on Specimen Type, Invalid Value
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+    const [recentSpecimens, setRecentSpecimens] = useState();
 
-                <Row>
-                    <Col md={{ span: 10 }} className="recentAnnotation my-2">
-                        <Row>
-                            <Col>
-                                Dracorex Hogwartsia
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                Skeeto annotated on Specimen Type, Invalid Value
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+    useEffect(() => {
+        GetRecentSpecimens(Process);
 
-                <Row>
-                    <Col md={{ span: 10 }} className="recentAnnotation my-2">
-                        <Row>
-                            <Col>
-                                Diploceraspis Conemaughensis
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                Skeeto annotated on Specimen Type, Invalid Value
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-    );
+        function Process(specimens) {
+            setRecentSpecimens(specimens);
+        }
+    }, []);
+
+    if (recentSpecimens) {
+        return (
+            <Row className="px-2">
+                <Col>
+                    {recentSpecimens.map((specimen, i) => {
+                        if (!specimen['specimenName']) {
+                            specimen['specimenName'] = 'Undefined name';
+                        }
+
+                        let rowClass = '';
+
+                        if (!(i % 2 === 0)) {
+                            rowClass = 'even';
+                        }
+
+                        return (
+                            <Row>
+                                <Col md={{ span: 10 }} className={`recentAnnotation my-2 ${rowClass}`}>
+                                    <Row>
+                                        <Col>
+                                            {specimen['specimenName']}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        );
+
+                    })}
+                </Col>
+            </Row>
+        );
+    }
 }
 
 export default RecentAnnotations;

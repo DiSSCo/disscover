@@ -25,6 +25,7 @@ const MidsDetailsRow = (props) => {
                             if (specimenProperty['mids']) {
                                 return (
                                     <MidsDetailsProperty
+                                        key={key}
                                         specimenProperty={specimenProperty}
                                         property={key}
                                         scrollToMids={scrollToMids}

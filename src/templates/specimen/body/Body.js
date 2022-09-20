@@ -44,7 +44,7 @@ const Body = (props) => {
                                     <SpecimenInfo specimen={specimen} LoadSpecimenVersion={(handle, version) => props.LoadSpecimenVersion(handle, version)} />
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="mt-5">
                                 <Col>
                                     <AnnotateSection
                                         specimen={specimen}

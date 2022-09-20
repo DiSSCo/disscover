@@ -1,3 +1,5 @@
+import './home.css';
+
 /* Import Components */
 import Header from "../header/Header.js";
 import Body from "./body/Body.js";

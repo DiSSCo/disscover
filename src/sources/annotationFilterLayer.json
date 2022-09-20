@@ -1,12 +1,107 @@
-{   
+{
+    "id": {
+        "displayName": "Handle identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "datasetId": {
+        "displayName": "Specimen found in dataset",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "link"
+        ]
+    },
+    "midsLevel": {
+        "displayName": "MIDS level",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": "",
+        "value": 0
+    },
+    "modified": {
+        "displayName": "Modified",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "last_harvested_processing": {
+        "displayName": "Last harvested",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "license": {
+        "displayName": "License",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "rightsHolder": {
+        "displayName": "Rights holder",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "informationWithheld": {
+        "displayName": "Information withheld",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "datasourceurl": {
+        "displayName": "Source URL",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "link"
+        ]
+    },
+    "geocase_id": {
+        "displayName": "GeoCASe identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "dwcaId": {
+        "displayName": "Darwin Core Archive identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "otherCatalogNumbers": {
+        "displayName": "Other catalog numbers",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "version": {
+        "displayName": "Version",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    
     "physicalSpecimenId": {
         "displayName": "Physical specimen identifier",
         "group": "Specimen",
         "annotatable": true,
-        "mids": ""
+        "mids": "",
+        "rules": [
+            "link"
+        ]
     },
     "physicalSpecimenIdType": {
-        "displayName": "Physical specemin identifier type",
+        "displayName": "Physical specimen identifier type",
         "group": "Specimen",
         "annotatable": true,
         "mids": ""
@@ -184,7 +279,6 @@
         "mids": ""
     },
 
-
     "country": {
         "displayName": "Country",
         "group": "Location",
@@ -282,7 +376,6 @@
         "mids": ""
     },
 
-
     "institutionID": {
         "displayName": "Institution",
         "group": "Organisation",
@@ -340,92 +433,5 @@
         "group": "Organisation",
         "annotatable": true,
         "mids": ""
-    },
-
-
-    "id": {
-        "displayName": "Handle identifier",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": {
-            "level": 1
-        }
-    },
-    "datasetId": {
-        "displayName": "Specimen found in dataset",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    }, 
-    "midsLevel": {
-        "displayName": "MIDS level",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": "",
-        "value": 0
-    },
-    "modified": {
-        "displayName": "Modified",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "last_harvested_processing": {
-        "displayName": "Last harvested",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "license": {
-        "displayName": "License",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "rightsHolder": {
-        "displayName": "Rights holder",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": {
-            "level": 1
-        }
-    },
-    "informationWithheld": {
-        "displayName": "Information withheld",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "datasourceurl": {
-        "displayName": "Source URL",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "geocase_id": {
-        "displayName": "GeoCASe identifier",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "dwcaId": {
-        "displayName": "Darwin Core Archive identifier",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "otherCatalogNumbers": {
-        "displayName": "Other catalog numbers",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": ""
-    },
-    "version": {
-        "displayName": "Version",
-        "group": "Meta",
-        "annotatable": true,
-        "mids": {
-            "level": 1
-        }
     }
 }

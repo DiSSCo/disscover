@@ -13,7 +13,7 @@ function SearchBar(props) {
     }
 
     return (
-        <Row>
+        <Row className="homeSearchBar">
             <Col md={{ span: 2 }} className="searchBarGreetingBlock pt-4">
                 <h3 className="searchBarGreeting">
                     Welcome to the DiSSCo Unified Curation and Annotation System!

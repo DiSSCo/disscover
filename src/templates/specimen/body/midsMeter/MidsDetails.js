@@ -31,6 +31,7 @@ const MidsDetails = (props) => {
                                 {Object.keys(specimen).map((key, _i) => {
                                     return (
                                         <MidsDetailsRow
+                                            key={key}
                                             specimenGroup={specimen[key]}
                                             group={key}
                                             scrollToMids={scrollToMids}

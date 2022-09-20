@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-function GetAnnotations(handle, token, callback) {
+function GetAnnotations(handle, callback) {
     if (handle) {
         const endPoint = `specimens/${handle}/annotations`;
 

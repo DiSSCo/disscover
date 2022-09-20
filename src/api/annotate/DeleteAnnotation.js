@@ -5,8 +5,6 @@ function DeleteAnnotation(handle, token, callback) {
     if (handle) {
         const endPoint = `annotations/${handle}`;
 
-        console.log(endPoint);
-
         axios({
             method: "delete",
             url: endPoint,

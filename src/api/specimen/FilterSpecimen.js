@@ -75,33 +75,29 @@ function FilterSpecimen(specimen) {
         }
     }
 
-    // if (specimen['ods:images']) {
-    //     if (!specimenProperties['Media']) {
-    //         specimenProperties['Media'] = [];
-    //     }
-
-    //     specimen['ods:images'].forEach((image, _i) => {
-    //         if (specimenProperties['Media']['images']) {
-    //             specimenProperties['Media']['images'].push(image['ods:imageURI']);
-    //         } else {
-    //             specimenProperties['Media']['images'] = [image['ods:imageURI']];
-    //         }
-    //     });
-    // }
-
     function CheckRules(propertyInfo, callback) {
         propertyInfo['rules'].forEach((rule, _i) => {
-            switch (rule) {
-                case "list":
-                    if (propertyInfo['value']) {
+            if (propertyInfo['value']) {
+                switch (rule) {
+                    case "list":
                         propertyInfo['value'] = propertyInfo['value'].join(', ');
-                    } else {
-                        propertyInfo['value'] = 'Undefined';
-                    }
+                    case "link":
+                        propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
+                }
+            } else {
+                propertyInfo['value'] = "Undefined";
             }
         });
 
         callback(propertyInfo);
+    }
+
+    if (Object.keys(specimenProperties['Other']).length === 0) {
+        delete specimenProperties['Other'];
+    } else {
+        const other = specimenProperties['other'];
+        delete specimenProperties['Other'];
+        specimenProperties['other'] = other;
     }
 
     return specimenProperties;

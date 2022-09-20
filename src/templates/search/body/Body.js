@@ -10,6 +10,7 @@ import ResultsTable from "./resultsTable/ResultsTable";
 /* Import API */
 import SpecimenSearch from "api/specimen/SpecimenSearch.js";
 import FilterSpecimen from "api/specimen/FilterSpecimen";
+import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 
 
 const Body = () => {
@@ -41,9 +42,18 @@ const Body = () => {
         function Process(result) {
             result.forEach((searchResult, i) => {
                 result[i] = FilterSpecimen(searchResult);
+
+                GetSpecimenDigitalMedia(result[i]['Meta']['id']['value'], ProcessFurther);
+
+                function ProcessFurther(media) {
+                    if (media) {
+                        result[i]['media'] = media;
+                    }
+                }
             });
 
             setSearchResults(result);
+
             setSearchQuery(localStorage.getItem('searchQuery'));
 
             setLoaded(true);

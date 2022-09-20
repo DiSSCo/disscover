@@ -11,8 +11,6 @@ const AnnotateRow = (props) => {
     const toggledAnnotationRows = props.toggledAnnotationRows;
     const modalAnnotations = props.modalAnnotations;
 
-    console.log(modalAnnotations);
-
     return (
         <Row>
             <Col md={{ span: 12 }} className="mt-4 annotate_annotateSection">

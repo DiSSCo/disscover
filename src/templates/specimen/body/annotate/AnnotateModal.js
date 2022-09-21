@@ -9,7 +9,7 @@ import Correcting from './annotationTypes/Correcting';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faSave, faTrash, faPencil, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faSave, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
 
 
 const AnnotateModal = (props) => {
@@ -33,6 +33,26 @@ const AnnotateModal = (props) => {
             setEditHover(propertyKey);
         } else {
             setEditHover('');
+        }
+    }
+
+    function RenderEditMode(propertyKey, modalAnnotation) {
+        if (editMode[modalProperty['property']] === propertyKey) {
+            return (
+                <Col md={{ span: 10 }} className="annotate_annotationMessage me edit">
+                    <textarea
+                        className="annotate_editTextarea"
+                        defaultValue={modalAnnotation['body']['value']}
+                        onChange={(input) => props.UpdateModifications(input, propertyKey)}
+                    />
+                </Col>
+            );
+        } else {
+            return (
+                <Col md={{ span: 10 }} className="annotate_annotationMessage me">
+                    {modalAnnotation['body']['value']}
+                </Col>
+            );
         }
     }
 
@@ -145,17 +165,7 @@ const AnnotateModal = (props) => {
                                                         <Col md={{ span: 10 }}>
                                                             <Row>
                                                                 {editMode[modalProperty['property']] ?
-                                                                    (editMode[modalProperty['property']] === propertyKey) ?
-                                                                        <Col md={{ span: 10 }} className="annotate_annotationMessage me edit">
-                                                                            <textarea
-                                                                                className="annotate_editTextarea"
-                                                                                defaultValue={modalAnnotation['body']['value']}
-                                                                                onChange={(input) => props.UpdateModifications(input, propertyKey)}
-                                                                            />
-                                                                        </Col>
-                                                                        : <Col md={{ span: 10 }} className="annotate_annotationMessage me">
-                                                                            {modalAnnotation['body']['value']}
-                                                                        </Col>
+                                                                    RenderEditMode(propertyKey, modalAnnotation)
                                                                     : <Col md={{ span: 10 }} className="annotate_annotationMessage me">
                                                                         {modalAnnotation['body']['value']}
                                                                     </Col>

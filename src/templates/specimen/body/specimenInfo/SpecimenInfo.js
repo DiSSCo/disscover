@@ -167,10 +167,8 @@ const SpecimenInfo = (props) => {
                                             <Col>
                                                 <p>
                                                     Locality: {specimen['Location']['locality'] ?
-                                                        ' ' + specimen['Location']['locality']['value']
-                                                        : ' ' + specimen['Location']['area_name'] ?
-                                                            ' ' + specimen['Location']['area_name']['value']
-                                                            : ' Unknown'}
+                                                        ` ${specimen['Location']['locality']['value']}`
+                                                        : ' Unknown'}
                                                 </p>
                                             </Col>
                                         </Row>

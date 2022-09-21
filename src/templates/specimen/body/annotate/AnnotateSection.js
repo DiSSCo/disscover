@@ -217,8 +217,8 @@ const AnnotateSection = (props) => {
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
                     ToggleEditMode={(propertyKey) => ToggleEditMode(propertyKey)}
                     UpdateModifications={(input, propertyKey) => UpdateModifications(input, propertyKey)}
-                    UpdateAnnotation={(annotation, propertyKey, index) => UpdateAnnotation(annotation, propertyKey, index)}
-                    RemoveAnnotation={(annotation, propertyKey, index) => RemoveAnnotation(annotation, propertyKey, index)}
+                    UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
+                    RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
                 />
             }
         </div >

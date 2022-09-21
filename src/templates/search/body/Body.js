@@ -69,10 +69,12 @@ const Body = () => {
             setSearchQuery('');
 
             setLoaded(true);
-        } else if (location.state.searchResults) {
+        } else if (location.state) {
             setSearchQuery(location.state.searchQuery);
             setSearchResults(location.state.searchResults);
 
+            setLoaded(true);
+        } else {
             setLoaded(true);
         }
     }, []);

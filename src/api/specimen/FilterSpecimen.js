@@ -8,88 +8,29 @@ function FilterSpecimen(specimen) {
     };
 
     for (let property in AnnotationFilterLayer) {
+        let propertyInfo;
+
         if (property in specimen) {
-            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property] } };
-
-            if (propertyInfo['rules']) {
-                CheckRules(propertyInfo, Process);
-            } else {
-                Process(propertyInfo);
-            }
-
-            function Process(propertyInfo) {
-                if (!specimenProperties[propertyInfo['group']]) {
-                    specimenProperties[propertyInfo['group']] = {};
-                }
-
-                specimenProperties[propertyInfo['group']][property] = propertyInfo;
-            }
+            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property] } };
         } else if (`dwc:${property}` in specimen['data']) {
-            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dwc:${property}`] } };
-
-            if (propertyInfo['rules']) {
-                CheckRules(propertyInfo, Process);
-            } else {
-                Process(propertyInfo);
-            }
-
-            function Process(propertyInfo) {
-                if (!specimenProperties[propertyInfo['group']]) {
-                    specimenProperties[propertyInfo['group']] = {};
-                }
-
-                specimenProperties[propertyInfo['group']][property] = propertyInfo;
-            }
+            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dwc:${property}`] } };
         } else if (`dcterms:${property}` in specimen['data']) {
-            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dcterms:${property}`] } };
-
-            if (propertyInfo['rules']) {
-                CheckRules(propertyInfo, Process);
-            } else {
-                Process(propertyInfo);
-            }
-
-            function Process(propertyInfo) {
-                if (!specimenProperties[propertyInfo['group']]) {
-                    specimenProperties[propertyInfo['group']] = {};
-                }
-
-                specimenProperties[propertyInfo['group']][property] = propertyInfo;
-            }
+            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dcterms:${property}`] } };
         } else {
-            let defaultValue;
+            let defaultValue = "Undefined";
 
             if ('default' in AnnotationFilterLayer[property]) {
                 defaultValue = AnnotationFilterLayer[property]['default'];
-            } else {
-                defaultValue = 'Undefined';
             }
 
-            let propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: defaultValue } };
-
-            if (!specimenProperties[propertyInfo['group']]) {
-                specimenProperties[propertyInfo['group']] = {};
-            }
-
-            specimenProperties[propertyInfo['group']][property] = propertyInfo;
+            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: defaultValue } };
         }
+
+        CheckRules(property, propertyInfo, Process);
     }
 
-    function CheckRules(propertyInfo, callback) {
-        propertyInfo['rules'].forEach((rule, _i) => {
-            if (propertyInfo['value']) {
-                switch (rule) {
-                    case "list":
-                        propertyInfo['value'] = propertyInfo['value'].join(', ');
-                    case "link":
-                        propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
-                }
-            } else {
-                propertyInfo['value'] = "Undefined";
-            }
-        });
-
-        callback(propertyInfo);
+    function Process(property, propertyInfo) {
+        specimenProperties[propertyInfo['group']] = { ...specimenProperties[propertyInfo['group']], [property]: propertyInfo };
     }
 
     if (Object.keys(specimenProperties['Other']).length === 0) {
@@ -101,6 +42,28 @@ function FilterSpecimen(specimen) {
     }
 
     return specimenProperties;
+}
+
+function CheckRules(property, propertyInfo, callback) {
+    if (propertyInfo['rules']) {
+        propertyInfo['rules'].forEach((rule, _i) => {
+            if (propertyInfo['value']) {
+                switch (rule) {
+                    case "list":
+                        if (typeof propertyInfo['value'] === 'array') {
+                            propertyInfo['value'] = propertyInfo['value'].join(', ');
+                        }
+                    case "link":
+                        propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
+                        break;
+                }
+            } else {
+                propertyInfo['value'] = "Undefined";
+            }
+        });
+    }
+
+    callback(property, propertyInfo);
 }
 
 export default FilterSpecimen;

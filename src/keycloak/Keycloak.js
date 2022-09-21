@@ -16,8 +16,6 @@ const initKeyCloak = (callback) => {
         .then((authenticated) => {
             if (!authenticated) {
                 console.log("User is not authenticated");
-            } else {
-                
             }
 
             callback();

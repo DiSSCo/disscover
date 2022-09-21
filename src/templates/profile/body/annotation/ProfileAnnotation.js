@@ -6,7 +6,7 @@ import { faFrog } from '@fortawesome/free-solid-svg-icons';
 
 
 const ProfileAnnotation = (props) => {
-    const annotation = props.annotation;
+    // const annotation = props.annotation;
 
     return (
         <Col md={{ span: 4 }}>

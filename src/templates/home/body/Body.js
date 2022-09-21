@@ -7,7 +7,6 @@ import SearchBar from "./searchBar/SearchBar";
 import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
 import RecentAnnotations from "./recentAnnotations/RecentAnnotations";
 import RecentAdded from "./recentAdded/RecentAdded";
-import Statistics from "./statistics/Statistics";
 import ObliqueBanner from './ObliqueBanner';
 
 /* Import API functions */
@@ -125,12 +124,6 @@ const Body = () => {
                                 </Row>
                             </Col>
                         </Row>
-
-                        {/* <Row className="mt-5">
-                            <Col>
-                                <Statistics />
-                            </Col>
-                        </Row> */}
                     </Col>
                 </Row>
             </Container>

@@ -4,8 +4,6 @@ import { Row, Col } from 'react-bootstrap';
 const SpecimenMedia = (props) => {
     let specimenMedia = props.specimenMedia;
 
-    console.log(specimenMedia);
-
     return (
         <Row>
             <Col md={{ span: 12 }} className="specimen_mediaGalleryTitleBlock mt-4">
@@ -19,48 +17,60 @@ const SpecimenMedia = (props) => {
                 <div className="specimen_mediaSlider">
                     <Row>
                         {(specimenMedia.length > 0) ? specimenMedia.map((mediaItem, i) => {
-                            console.log(mediaItem);
+                            return (
+                                <Col className="col-md-auto">
+                                    <div className="w-100 position-relative">
+                                        <img className="specimen_media"
+                                            src={mediaItem['mediaUrl']}
+                                            alt={'Specimen ' + i}
+                                        />
 
-                            switch (mediaItem['format']) {
-                                case 'image/jpeg':
-                                    return (
+                                        <div className="specimen_mediaCover p-5">
+                                            Media Cover
+                                            <br />
+                                            Click for more information
+                                        </div>
+                                    </div>
+                                </Col>
+                            );
+                            // switch (mediaItem['format']) {
+                            //     case 'image/jpeg':
+                            //         return (
 
-                                        <Col className="col-md-auto">
-                                            <div className="w-100 position-relative">
-                                                <img className="specimen_media"
-                                                    src={mediaItem['mediaUrl']}
-                                                    alt={'Specimen ' + i}
-                                                />
+                            //             <Col className="col-md-auto">
+                            //                 <div className="w-100 position-relative">
+                            //                     <img className="specimen_media"
+                            //                         src={mediaItem['mediaUrl']}
+                            //                         alt={'Specimen ' + i}
+                            //                     />
 
-                                                <div className="specimen_mediaCover p-5">
-                                                    Media Cover
-                                                    <br />
-                                                    Click for more information
-                                                </div>
-                                            </div>
-                                        </Col>
+                            //                     <div className="specimen_mediaCover p-5">
+                            //                         Media Cover
+                            //                         <br />
+                            //                         JPEG - Click for more information
+                            //                     </div>
+                            //                 </div>
+                            //             </Col>
 
-                                    );
-                                default:
-                                    return (
+                            //         );
+                            //     default:
+                            //         return (
+                            //             <Col className="col-md-auto">
+                            //                 <div className="w-100 position-relative">
+                            //                     <img className="specimen_media"
+                            //                         src={mediaItem['mediaUrl']}
+                            //                         alt={'Specimen ' + i}
+                            //                     />
 
-                                        <Col className="col-md-auto">
-                                            <div className="w-100 position-relative">
-                                                <img className="specimen_media"
-                                                    src={mediaItem['mediaUrl']}
-                                                    alt={'Specimen ' + i}
-                                                />
-
-                                                <div className="specimen_mediaCover p-5">
-                                                    Media Cover
-                                                    <br />
-                                                    Click for more information
-                                                </div>
-                                            </div>
-                                        </Col>
-
-                                    );
-                            }
+                            //                     <div className="specimen_mediaCover p-5">
+                            //                         Media Cover
+                            //                         <br />
+                            //                         Click for more information
+                            //                     </div>
+                            //                 </div>
+                            //             </Col>
+                            //         );
+                            // }
                         })
                             : <Row>
                                 <Col className="mx-3 my-2">

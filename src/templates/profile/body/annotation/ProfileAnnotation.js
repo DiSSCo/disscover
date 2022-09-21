@@ -5,9 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFrog } from '@fortawesome/free-solid-svg-icons';
 
 
-const ProfileAnnotation = (props) => {
-    // const annotation = props.annotation;
-
+const ProfileAnnotation = () => {
     return (
         <Col md={{ span: 4 }}>
             <Col md={{ span: 12 }} 

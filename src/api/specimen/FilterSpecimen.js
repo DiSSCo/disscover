@@ -50,9 +50,10 @@ function CheckRules(property, propertyInfo, callback) {
             if (propertyInfo['value']) {
                 switch (rule) {
                     case "list":
-                        if (typeof propertyInfo['value'] === 'array') {
+                        if (Array.isArray(propertyInfo['value'])) {
                             propertyInfo['value'] = propertyInfo['value'].join(', ');
                         }
+                        break;
                     case "link":
                         propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
                         break;

@@ -63,8 +63,6 @@ const AnnotateSection = (props) => {
     }
 
     function SaveAnnotation(annotation) {
-        console.log(annotation);
-
         if (annotation) {
             const newAnnotation = {
                 type: 'Annotation',
@@ -92,8 +90,6 @@ const AnnotateSection = (props) => {
                     } else {
                         copyModalAnnotations[modalProperty['property']][result['id']] = result;
                     }
-
-                    console.log(copyModalAnnotations);
 
                     setModalAnnotations(copyModalAnnotations);
                 }
@@ -141,8 +137,6 @@ const AnnotateSection = (props) => {
             const copyModalAnnotations = { ...modalAnnotations };
 
             copyModalAnnotations[modalProperty['property']][result['id']] = result;
-
-            console.log(copyModalAnnotations);
 
             setModalAnnotations(copyModalAnnotations);
         }

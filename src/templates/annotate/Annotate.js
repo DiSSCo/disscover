@@ -1,7 +1,8 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import './annotate.css';
 
 /* Import Components */
 import Header from 'templates/header/Header';
+import Body from './body/Body';
 import Footer from 'templates/footer/Footer';
 
 
@@ -10,17 +11,7 @@ const Annotate = () => {
         <div className="d-flex flex-column min-vh-100">
             <Header />
 
-            <Container fluid>
-                <Row>
-                    <Col md={{ span: 10, offset: 1 }} className="pt-5">
-                        <Row>
-                            Default annotation page <br />
-                            Maybe show the user's annotations and global activity (like homepage) <br />
-                            Or direct specimen search with redirect to Search page
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
+            <Body />
 
             <Footer />
         </div>

@@ -4,8 +4,11 @@ import parse from 'html-react-parser';
 import UserService from 'keycloak/Keycloak';
 
 /* Import Components */
-import RelationshipLink from './annotationTypes/RelationshipLink';
+import Commenting from './annotationTypes/Commenting';
+import Linking from './annotationTypes/Linking';
 import Correcting from './annotationTypes/Correcting';
+import QualityFlagging from './annotationTypes/QualityFlagging';
+import Adding from './annotationTypes/Adding';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -58,7 +61,10 @@ const AnnotateModal = (props) => {
 
     const [annotationType, setAnnotationType] = useState();
     const annotationTypes = [{
-        key: "link",
+        key: "commenting",
+        displayName: "Commenting"
+    }, {
+        key: "linking",
         displayName: "Relationship/Link"
     }, {
         key: "correcting",
@@ -67,10 +73,7 @@ const AnnotateModal = (props) => {
         key: "quality_flagging",
         displayName: "Quality flag"
     }, {
-        key: "score_of_annotation",
-        displayName: "Score of annotation"
-    }, {
-        key: "addition",
+        key: "adding",
         displayName: "Addition"
     }
     ];
@@ -78,16 +81,34 @@ const AnnotateModal = (props) => {
     function RenderAnnotationType() {
         if (annotationType) {
             switch (annotationType) {
-                case 'link':
-                    return (<RelationshipLink
+                case 'commenting':
+                    return (<Commenting
+                        modalProperty={modalProperty}
+                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                    />);
+                case 'linking':
+                    return (<Linking
                         modalProperty={modalProperty}
                         SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
                     />);
                 case 'correcting':
-                    return (<Correcting />);
+                    return (<Correcting
+                        modalProperty={modalProperty}
+                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                    />);
+                case 'quality_flagging':
+                    return (<QualityFlagging
+                        modalProperty={modalProperty}
+                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                    />);
+                case 'adding':
+                    return (<Adding
+                        modalProperty={modalProperty}
+                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                    />);
             }
         } else {
-            return (<RelationshipLink
+            return (<Commenting
                 modalProperty={modalProperty}
                 SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
             />);
@@ -109,8 +130,8 @@ const AnnotateModal = (props) => {
                     </Modal.Header>
 
                     <Modal.Body className="annotate_modalBody">
-                        <Row>
-                            <Col className="col-md-auto annotate_modalCurrentValue py-1 mx-3">
+                        <Row className="px-2">
+                            <Col md={{ span: 12 }} className="annotate_modalCurrentValue py-2">
                                 <span className="annotate_modalCurrentValueTitle"> Current value: </span>
 
                                 {(typeof modalProperty['currentValue'] === 'string') &&
@@ -124,6 +145,8 @@ const AnnotateModal = (props) => {
                             <Col md={{ span: 12 }}>
                                 {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
                                     const modalAnnotation = propertyAnnotations[key];
+                                    const isoDate = new Date(Date.parse(modalAnnotation['created']));
+                                    const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
 
                                     const propertyKey = modalProperty['property'] + key;
 
@@ -179,6 +202,11 @@ const AnnotateModal = (props) => {
                                                                     />
                                                                 </Col>
                                                             </Row>
+                                                            <Row>
+                                                                <Col className="col-md-auto annotate_annotationDate">
+                                                                    {`${date} · Username`}
+                                                                </Col>
+                                                            </Row>
                                                         </Col>
                                                     </Row>
                                                 </Col>
@@ -198,6 +226,11 @@ const AnnotateModal = (props) => {
                                                         </Col>
                                                         <Col md={{ span: 10 }} className="annotate_annotationMessage">
                                                             {modalAnnotations[key]['body']['value']}
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col className="col-md-auto annotate_annotationDate">
+                                                            {`${date} · Username`}
                                                         </Col>
                                                     </Row>
                                                 </Col>
@@ -246,29 +279,6 @@ const AnnotateModal = (props) => {
                     </Modal.Body>
                 </Col>
             </Row>
-
-            {/* <Modal.Footer className="annotate_modalFooter">
-                <Row className="w-100">
-                    <Col md={{ span: 11 }}>
-                        <textarea
-                            className="w-100 annotate_annotationInput"
-                            onChange={(annotationInput) => props.UpdateAnnotationInput(annotationInput)}
-                            value={annotationInput}
-                            disabled={!(UserService.isLoggedIn())}
-                        />
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                        <button
-                            type="button"
-                            className="annotate_annotationSubmit"
-                            onClick={() => props.SaveAnnotation()}
-                            disabled={!(UserService.isLoggedIn())}
-                        >
-                            <FontAwesomeIcon icon={faPaperPlane} />
-                        </button>
-                    </Col>
-                </Row>
-            </Modal.Footer> */}
         </Modal >
     );
 }

@@ -253,7 +253,7 @@
 }
 
 .annotate_modalCurrentValue {
-    border: 2px solid var(--main-color-darker);
+    border-bottom: 2px solid var(--main-color-darker);
 }
 
 .annotate_modalCurrentValueTitle {
@@ -274,6 +274,11 @@
 .annotate_annotationMessage.edit {
     background-color: #404040;
     color: white
+}
+
+.annotate_annotationDate {
+    font-size: 12px;
+    color: var(--greyDark);
 }
 
 .annotate_editIcon {
@@ -301,26 +306,6 @@
     background-color: inherit;
     border: none;
     color: inherit;
-}
-
-.annotate_modalFooter {
-    height: 12%;
-    background-color: white;
-    justify-content: initial !important;
-}
-
-.annotate_annotationInput {
-    font-size: 14px;
-    resize: none;
-}
-
-.annotate_annotationSubmit {
-    background-color: var(--main-color);
-    border: none;
-    width: 30px;
-    margin-left: -15px;
-    height: 95%;
-    color: white;
 }
 
 

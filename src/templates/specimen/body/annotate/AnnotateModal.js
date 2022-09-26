@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { Modal, Row, Col } from 'react-bootstrap';
 import parse from 'html-react-parser';
-import UserService from 'keycloak/Keycloak';
 
 /* Import Components */
-import Commenting from './annotationTypes/Commenting';
-import Linking from './annotationTypes/Linking';
-import Correcting from './annotationTypes/Correcting';
-import QualityFlagging from './annotationTypes/QualityFlagging';
-import Adding from './annotationTypes/Adding';
+import CommentingForm from './annotationTypes/commenting/CommentingForm';
+import CommentingMessage from './annotationTypes/commenting/CommentingMessage';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faSave, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
+import LinkingForm from './annotationTypes/linking/LinkingForm';
+import LinkingMessage from './annotationTypes/linking/LinkingMessage';
+
+import CorrectingForm from './annotationTypes/correcting/CorrectingForm';
+import CorrectingMessage from './annotationTypes/correcting/CorrectingMessage';
+
+import QualityFlaggingForm from './annotationTypes/qualityFlagging/QualityFlaggingForm';
+import QualityFlaggingMessage from './annotationTypes/qualityFlagging/QualityFlaggingMessage';
+
+import AddingForm from './annotationTypes/adding/AddingForm';
+import AddingMessage from './annotationTypes/adding/AddingMessage';
 
 
 const AnnotateModal = (props) => {
@@ -20,6 +24,8 @@ const AnnotateModal = (props) => {
     const modalAnnotations = props.modalAnnotations;
     const modalProperty = props.modalProperty;
     const editMode = props.editMode;
+    const annotationType = props.annotationType;
+    const annotationTypes = props.annotationTypes;
 
     let propertyAnnotations = [];
 
@@ -42,7 +48,7 @@ const AnnotateModal = (props) => {
     function RenderEditMode(propertyKey, modalAnnotation) {
         if (editMode[modalProperty['property']] === propertyKey) {
             return (
-                <Col md={{ span: 10 }} className="annotate_annotationMessage me edit">
+                <Col md={{ span: 12 }} className="annotate_annotationMessage me edit">
                     <textarea
                         className="annotate_editTextarea"
                         defaultValue={modalAnnotation['body']['value']}
@@ -52,71 +58,60 @@ const AnnotateModal = (props) => {
             );
         } else {
             return (
-                <Col md={{ span: 10 }} className="annotate_annotationMessage me">
+                <Col md={{ span: 12 }} className="annotate_annotationMessage me">
                     {modalAnnotation['body']['value']}
                 </Col>
             );
         }
     }
 
-    const [annotationType, setAnnotationType] = useState();
-    const annotationTypes = [{
-        key: "commenting",
-        displayName: "Commenting"
-    }, {
-        key: "linking",
-        displayName: "Relationship/Link"
-    }, {
-        key: "correcting",
-        displayName: "Error correction"
-    }, {
-        key: "quality_flagging",
-        displayName: "Quality flag"
-    }, {
-        key: "adding",
-        displayName: "Addition"
-    }
-    ];
-
     function RenderAnnotationType() {
         if (annotationType) {
             switch (annotationType) {
                 case 'commenting':
-                    return (<Commenting
+                    return (<CommentingForm
                         modalProperty={modalProperty}
                         SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
                     />);
                 case 'linking':
-                    return (<Linking
+                    return (<LinkingForm
                         modalProperty={modalProperty}
                         SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
                     />);
                 case 'correcting':
-                    return (<Correcting
+                    return (<CorrectingForm
                         modalProperty={modalProperty}
                         SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
                     />);
                 case 'quality_flagging':
-                    return (<QualityFlagging
+                    return (<QualityFlaggingForm
                         modalProperty={modalProperty}
                         SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
                     />);
                 case 'adding':
-                    return (<Adding
+                    return (<AddingForm
                         modalProperty={modalProperty}
                         SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
                     />);
             }
         } else {
-            return (<Commenting
+            return (<CommentingForm
                 modalProperty={modalProperty}
                 SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
             />);
         }
     }
 
+    const annotationMessageTypes = {
+        'commenting': CommentingMessage,
+        'correcting': CorrectingMessage,
+        'adding': AddingMessage,
+        'quality_flagging': QualityFlaggingMessage,
+        'linking': LinkingMessage
+    }
+
     function UpdateAnnotationType(type) {
-        setAnnotationType(type);
+        props.SetAnnotationType(type);
     }
 
     return (
@@ -145,98 +140,26 @@ const AnnotateModal = (props) => {
                             <Col md={{ span: 12 }}>
                                 {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
                                     const modalAnnotation = propertyAnnotations[key];
-                                    const isoDate = new Date(Date.parse(modalAnnotation['created']));
-                                    const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
-
                                     const propertyKey = modalProperty['property'] + key;
 
-                                    if (UserService.getSubject() === modalAnnotation['creator']) {
-                                        return (
-                                            <Row key={propertyKey} className="mb-3">
-                                                <Col md={{ span: 12 }}>
-                                                    <Row onMouseEnter={() => IsHover(true, propertyKey)}
-                                                        onMouseLeave={() => IsHover(false, propertyKey)}>
-                                                        <Col md={{ span: 2 }}>
-                                                            {editMode[modalProperty['property']] ?
-                                                                (editMode[modalProperty['property']] === propertyKey) &&
-                                                                <>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faXmark}
-                                                                        onClick={() => props.ToggleEditMode(propertyKey)}
-                                                                        className="annotate_editIcon xmark"
-                                                                    />
-                                                                    <FontAwesomeIcon
-                                                                        icon={faSave}
-                                                                        onClick={() => props.UpdateAnnotation(modalAnnotation, propertyKey)}
-                                                                        className="annotate_editIcon save"
-                                                                    />
-                                                                    <br />
-                                                                    <FontAwesomeIcon
-                                                                        icon={faTrash}
-                                                                        className="annotate_editIcon delete"
-                                                                        onClick={() => props.RemoveAnnotation(modalAnnotation, propertyKey)}
-                                                                    />
-                                                                </>
-                                                                : editHover === propertyKey &&
-                                                                <FontAwesomeIcon
-                                                                    icon={faPencil}
-                                                                    onClick={() => props.ToggleEditMode(propertyKey)}
-                                                                    className="annotate_editIcon pencil"
-                                                                />
-                                                            }
-                                                        </Col>
-                                                        <Col md={{ span: 10 }}>
-                                                            <Row>
-                                                                {editMode[modalProperty['property']] ?
-                                                                    RenderEditMode(propertyKey, modalAnnotation)
-                                                                    : <Col md={{ span: 10 }} className="annotate_annotationMessage me">
-                                                                        {modalAnnotation['body']['value']}
-                                                                    </Col>
-                                                                }
+                                    const MessageComponent = annotationMessageTypes[modalAnnotation['motivation']];
 
-                                                                <Col md={{ span: 2 }}>
-                                                                    <img
-                                                                        src="https://crafatar.com/avatars/af781660900a493687708eee23874086?size=64&overlay"
-                                                                        className="img-fluid"
-                                                                        alt="User avatar"
-                                                                    />
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col className="col-md-auto annotate_annotationDate">
-                                                                    {`${date} · Username`}
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        );
-                                    } else {
-                                        return (
-                                            <Row key={key} className="mb-3">
-                                                <Col md={{ span: 10 }}>
-                                                    <Row>
-                                                        <Col md={{ span: 2 }}>
-                                                            <img
-                                                                src="https://crafatar.com/avatars/af781660900a493687708eee23874086?size=64&overlay"
-                                                                className="img-fluid"
-                                                                alt="User avatar"
-                                                            />
-                                                        </Col>
-                                                        <Col md={{ span: 10 }} className="annotate_annotationMessage">
-                                                            {modalAnnotations[key]['body']['value']}
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col className="col-md-auto annotate_annotationDate">
-                                                            {`${date} · Username`}
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        );
-                                    }
+                                    return (
+                                        <MessageComponent uniqueKey={key}
+                                            modalAnnotation={modalAnnotation}
+                                            propertyKey={propertyKey}
+                                            editMode={editMode}
+                                            modalProperty={modalProperty}
+                                            editHover={editHover}
+
+                                            IsHover={(toggle, propertyKey) => IsHover(toggle, propertyKey)}
+                                            RenderEditMode={(propertyKey, modalAnnotation) => RenderEditMode(propertyKey, modalAnnotation)}
+
+                                            ToggleEditMode={(propertyKey) => props.ToggleEditMode(propertyKey)}
+                                            UpdateAnnotation={(modalAnnotation, propertyKey) => props.UpdateAnnotation(modalAnnotation, propertyKey)}
+                                            RemoveAnnotation={(modalAnnotation, propertyKey) => props.RemoveAnnotation(modalAnnotation, propertyKey)}
+                                        />
+                                    );
                                 }) : 'No annotations yet'}
                             </Col>
                         </Row>
@@ -248,7 +171,7 @@ const AnnotateModal = (props) => {
                         Dismiss
                     </button>
 
-                    <Modal.Body className="annotate_modalBody right">
+                    <Modal.Body className="annotate_modalBody right mb-3">
                         <Row>
                             <Col md={{ span: 12 }}>
                                 <p> Select an annotation type: </p>

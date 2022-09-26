@@ -12,7 +12,7 @@ const Login = () => {
 
     return (
         <Row>
-            <Col md={{span: 8, offset: 4}}>
+            <Col md={{span: 12}}>
                 <LoginButton login={Login} />
             </Col>
         </Row>

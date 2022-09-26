@@ -55,6 +55,7 @@ function CheckRules(property, propertyInfo, callback) {
                         }
                         break;
                     case "link":
+                        
                         propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
                         break;
                 }

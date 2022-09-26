@@ -48,6 +48,26 @@ const AnnotateSection = (props) => {
         }
     }
 
+    const [annotationType, setAnnotationType] = useState();
+
+    const annotationTypes = [{
+        key: "commenting",
+        displayName: "Commenting"
+    }, {
+        key: "linking",
+        displayName: "Relationship/Link"
+    }, {
+        key: "correcting",
+        displayName: "Error correction"
+    }, {
+        key: "quality_flagging",
+        displayName: "Quality flag"
+    }, {
+        key: "adding",
+        displayName: "Addition"
+    }
+    ];
+
     function ToggleModal(property = null, displayName = null, currentValue = null) {
         setModalToggle(!modalToggle);
 
@@ -64,22 +84,9 @@ const AnnotateSection = (props) => {
 
     function SaveAnnotation(annotation) {
         if (annotation) {
-            const newAnnotation = {
-                type: 'Annotation',
-                motivation: 'https://hdl.handle.net/pid-motivation-correcting',
-                body: {
-                    type: annotation['property'],
-                    value: annotation['value'],
-                    reference: annotation['motivation']
-                },
-                target: {
-                    type: 'https://hdl.handle.net/digitalSpecimen-type',
-                    id: `https://hdl.handle.net/${specimen['Meta']['id']['value']}`,
-                    indvProp: annotation['property']
-                }
-            };
+            annotation['target']['id'] = `https://hdl.handle.net/${specimen['Meta']['id']['value']}`
 
-            InsertAnnotation(newAnnotation, token, Process);
+            InsertAnnotation(annotation, token, Process);
 
             function Process(result) {
                 if (result) {
@@ -132,6 +139,7 @@ const AnnotateSection = (props) => {
 
         function Process(result) {
             ToggleEditMode(propertyKey);
+
             UpdateModifications(null, propertyKey, true);
 
             const copyModalAnnotations = { ...modalAnnotations };
@@ -206,6 +214,8 @@ const AnnotateSection = (props) => {
                     modalAnnotations={modalAnnotations}
                     modalProperty={modalProperty}
                     editMode={editMode}
+                    annotationType={annotationType}
+                    annotationTypes={annotationTypes}
 
                     ToggleModal={() => ToggleModal()}
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
@@ -213,6 +223,7 @@ const AnnotateSection = (props) => {
                     UpdateModifications={(input, propertyKey) => UpdateModifications(input, propertyKey)}
                     UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
                     RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
+                    SetAnnotationType={(type) => setAnnotationType(type)}
                 />
             }
         </div >

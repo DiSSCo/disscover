@@ -13,7 +13,7 @@ const Home = () => {
 
             <Body />
 
-            <Footer home={'home'} />
+            <Footer page={'home'} />
         </div>
     );
 }

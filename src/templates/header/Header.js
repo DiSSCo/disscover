@@ -1,5 +1,5 @@
 import { useLocation, Link } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Navbar, Nav, TabContainer } from "react-bootstrap";
 import UserService from 'keycloak/Keycloak';
 import "./header.css";
 
@@ -20,9 +20,10 @@ const Header = () => {
     if (location.pathname === '/') {
         /* Render Header for Home Page */
         return (
-            <Container fluid className="header_home">
-                <Row>
-                    <Col md={{ span: 12 }} className="pt-3 px-5">
+
+            <Navbar expand="lg" className="p-0">
+                <Container fluid className="header_home px-5">
+                    <Navbar.Brand>
                         <Row>
                             <Col className="col-md-auto">
                                 <Link to='/'>
@@ -37,26 +38,75 @@ const Header = () => {
                                     UCAS <span className="header_homeProofOfConcept"> (Proof of concept) </span>
                                 </h2>
                             </Col>
+                        </Row>
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse className="basic-navbar-nav">
+                        <Row className="w-100">
                             <Col>
-                                <Row>
-                                    <Col md={{ span: 9 }} className="pt-2">
-                                        <Row className="justify-content-end">
-                                            <Navigation home={'home'} />
-                                        </Row>
-                                    </Col>
-                                    <Col>
-                                        {token ?
-                                            <Profile />
-                                            : <Login />
-                                        }
+                                <Nav className="justify-content-end mt-1">
+                                    <Nav.Link href={"/"} className="navItem home px-3">
+                                        Home
+                                    </Nav.Link>
 
-                                    </Col>
-                                </Row>
+                                    <Nav.Link href={"/search"} className="navItem home px-3">
+                                        Search
+                                    </Nav.Link>
+
+                                    <Nav.Link href={"/annotate"} className="navItem home px-3">
+                                        Annotate
+                                    </Nav.Link>
+
+                                </Nav>
+                            </Col>
+                            <Col className="col-md-auto">
+                                {token ?
+                                    <Profile />
+                                    : <Login />
+                                }
                             </Col>
                         </Row>
-                    </Col>
-                </Row>
-            </Container>
+                    </Navbar.Collapse>
+
+                    {/* <Row>
+                        <Col md={{ span: 12 }} className="pt-3 px-5">
+                            <Row>
+                                <Col className="col-md-auto">
+                                    <Link to='/'>
+                                        <img src={DisscoLogoWhite} alt="DiSSCo logo" className="header_logo" />
+                                    </Link>
+                                </Col>
+                                <Col className="col-md-auto">
+                                    <h1 className="header_homeTitle">
+                                        Unified Curation and Annotation System
+                                    </h1>
+                                    <h2 className="header_homeSubTitle">
+                                        UCAS <span className="header_homeProofOfConcept"> (Proof of concept) </span>
+                                    </h2>
+                                </Col>
+                                <Col>
+                                    <Row>
+                                        <Col md={{ span: 9 }} className="pt-2">
+                                            <Row className="justify-content-end">
+                                                <Navigation home={'home'} />
+                                            </Row>
+                                        </Col>
+                                        <Col>
+                                            {token ?
+                                                <Profile />
+                                                : <Login />
+                                            }
+
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row> */}
+                </Container>
+            </Navbar>
+
+
         );
     } else {
         /* Render Header for Content Pages */

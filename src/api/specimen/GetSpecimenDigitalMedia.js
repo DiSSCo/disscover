@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 
-function GetSpecimenDigitalMedia(handle, callback) {
+function GetSpecimenDigitalMedia(specimen, callback) {
+    const handle = specimen['Meta']['id']['value'];
+
     if (handle) {
         const endPoint = `specimens/${handle}/digitalmedia`;
 
@@ -10,7 +12,7 @@ function GetSpecimenDigitalMedia(handle, callback) {
             url: endPoint,
             responseType: 'json'
         }).then(function (result) {
-            callback(result['data']);
+            callback(result['data'], specimen);
         }).catch(error => {
             /* To be replaced by logger */
             console.warn(error);

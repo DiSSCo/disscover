@@ -23,46 +23,30 @@ const Specimen = () => {
         if (location.state) {
             setSpecimen(location.state.specimen);
         } else if (params['prefix'] && params['suffix']) {
-            GetSpecimen(`${params['prefix']}/${params['suffix']}`, Process);
-        }
-
-        function Process(result) {
-            const filteredSpecimen = FilterSpecimen(result);
-
-            setSpecimen(filteredSpecimen);
-
-            GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], ProcessFurther);
-
-            function ProcessFurther(media) {
-                if (media) {
-                    const completeSpecimen = { ...filteredSpecimen };
-
-                    completeSpecimen['media'] = media;
-
-                    setSpecimen(completeSpecimen);
-                }
-            }
+            GetSpecimen(`${params['prefix']}/${params['suffix']}`, ProcessSpecimen);
         }
     }, []);
 
-    function LoadSpecimenVersion(handle, version) {
-        GetSpecimen(handle, Process, version);
+    function ProcessSpecimen(specimen) {
+        const filteredSpecimen = FilterSpecimen(specimen);
 
-        function Process(result) {
-            const filteredSpecimen = FilterSpecimen(result);
+        setSpecimen(filteredSpecimen);
 
-            setSpecimen(filteredSpecimen);
+        GetSpecimenDigitalMedia(filteredSpecimen, ProcessMedia);
+    }
 
-            GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], ProcessFurther);
+    function ProcessMedia(media, specimenObject) {
+        if (media) {
+            const completeSpecimen = { ...specimenObject };
 
-            function ProcessFurther(media) {
-                const completeSpecimen = { ...filteredSpecimen };
+            completeSpecimen['media'] = media;
 
-                completeSpecimen['media'] = media;
-
-                setSpecimen(completeSpecimen);
-            }
+            setSpecimen(completeSpecimen);
         }
+    }
+
+    function LoadSpecimenVersion(handle, version) {
+        GetSpecimen(handle, ProcessSpecimen, version);
     }
 
     if (specimen) {
@@ -72,7 +56,7 @@ const Specimen = () => {
 
                 <Body specimen={specimen} LoadSpecimenVersion={(handle, version) => LoadSpecimenVersion(handle, version)} />
 
-                <Footer />
+                <Footer page={"ds"} />
             </div>
         );
     }

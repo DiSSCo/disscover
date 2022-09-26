@@ -33,44 +33,6 @@ const SpecimenMedia = (props) => {
                                     </div>
                                 </Col>
                             );
-                            // switch (mediaItem['format']) {
-                            //     case 'image/jpeg':
-                            //         return (
-
-                            //             <Col className="col-md-auto">
-                            //                 <div className="w-100 position-relative">
-                            //                     <img className="specimen_media"
-                            //                         src={mediaItem['mediaUrl']}
-                            //                         alt={'Specimen ' + i}
-                            //                     />
-
-                            //                     <div className="specimen_mediaCover p-5">
-                            //                         Media Cover
-                            //                         <br />
-                            //                         JPEG - Click for more information
-                            //                     </div>
-                            //                 </div>
-                            //             </Col>
-
-                            //         );
-                            //     default:
-                            //         return (
-                            //             <Col className="col-md-auto">
-                            //                 <div className="w-100 position-relative">
-                            //                     <img className="specimen_media"
-                            //                         src={mediaItem['mediaUrl']}
-                            //                         alt={'Specimen ' + i}
-                            //                     />
-
-                            //                     <div className="specimen_mediaCover p-5">
-                            //                         Media Cover
-                            //                         <br />
-                            //                         Click for more information
-                            //                     </div>
-                            //                 </div>
-                            //             </Col>
-                            //         );
-                            // }
                         })
                             : <Row>
                                 <Col className="mx-3 my-2">

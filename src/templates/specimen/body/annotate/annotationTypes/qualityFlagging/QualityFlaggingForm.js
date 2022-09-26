@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 
 
-const Adding = (props) => {
+const QualityFlaggingForm = (props) => {
     const modalProperty = props.modalProperty;
     const [formData, setFormData] = useState();
 
@@ -10,10 +10,18 @@ const Adding = (props) => {
         const form = formData.target.form;
 
         const annotation = {
-            property: form[0].value,
-            value: form[2].value,
-            motivation: form[3].value
-        }
+            type: 'Annotation',
+            motivation: 'quality_flagging',
+            body: {
+                type: form[0].value,
+                value: form[2].value,
+                description: form[3].value
+            },
+            target: {
+                type: 'digital_specimen',
+                indvProp: form[0].value
+            }
+        };
 
         props.SaveAnnotation(annotation);
     }
@@ -24,8 +32,7 @@ const Adding = (props) => {
                 <Row>
                     <Col md={{ span: 9 }}>
                         <div className="annotate_annotationTypeContext px-2 py-2">
-                            This annotation type is used when adding new values to
-                            previously empty attributes.
+                            This annotation type is used when flagging a quality issue.
                         </div>
                     </Col>
                 </Row>
@@ -46,7 +53,7 @@ const Adding = (props) => {
                     </Row>
                     <Row className="mt-3">
                         <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> Value: </p>
+                            <p className="annotate_annotationTypeFieldTitle"> Flag: </p>
                             <input className="annotate_annotationTypeField"
                                 name="value"
                             />
@@ -54,7 +61,7 @@ const Adding = (props) => {
                     </Row>
                     <Row className="mt-3">
                         <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> Motivation: </p>
+                            <p className="annotate_annotationTypeFieldTitle"> Remarks: </p>
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
                                 name="motivation"
@@ -78,4 +85,4 @@ const Adding = (props) => {
     );
 }
 
-export default Adding;
+export default QualityFlaggingForm;

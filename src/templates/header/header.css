@@ -55,9 +55,7 @@
 /* Login button */
 
 .header_loginButton {
-    width: 60%;
     height: 30px;
-    margin-left: Calc(100% - 60%);
     background-color: white;
     border: 1px solid var(--main-color-darker);
     border-radius: 4px;
@@ -93,20 +91,26 @@
 
 /* Navigation */
 
+.navbar-collapse.show {
+    background-color: white;
+    padding: 2%;
+}
+
 .navItem {
     border-left: 1px solid var(--main-color-light);
     border-right: 1px solid var(--main-color-light);
     transition: 0.4s;
     height: 40px;
     line-height: 40px;
+    font-size: 15px;
 }
 
 .navItem.home {
-    color: white;
+    background-color: white;
 }
 
 .navItem:hover {
-    background-color: var(--greyXLight);
+    background-color: var(--greyLight);
 }
 
 .navItem.home:hover {

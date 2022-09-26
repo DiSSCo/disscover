@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const GetRecentSpecimens = (callback) => {
+function GetRecentSpecimens(callback) {
     const endPoint = "/specimens"
 
     axios({

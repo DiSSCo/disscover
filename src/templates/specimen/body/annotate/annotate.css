@@ -194,6 +194,10 @@
     font-style: italic;
 }
 
+.annotate_annotatePropertyLink {
+    color: var(--main-color);
+}
+
 .annotate_annotateIndication {
     font-size: 13px;
     background-color: #009973;
@@ -206,7 +210,8 @@
 /* Annotate modal */
 
 .annotate_modal .modal-dialog {
-    height: 65%;
+    height: 80%;
+    overflow: hidden;
     margin: 0 auto;
 }
 
@@ -250,6 +255,8 @@
 
 .annotate_modalBody.right {
     margin-top: 50px !important;
+    height: 78%;
+    overflow-y: scroll;
 }
 
 .annotate_modalCurrentValue {
@@ -260,10 +267,31 @@
     font-weight: bold;
 }
 
+.annotate_annotationMessageType {
+    font-size: 14px;
+    font-weight: bold;
+    border-left: 1px solid var(--main-color-darker);
+    border-top: 1px solid var(--main-color-darker);
+    border-right: 1px solid var(--main-color-darker);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.annotate_annotationMessageBlock {
+    border-left: 1px solid var(--main-color-darker);
+    border-bottom: 1px solid var(--main-color-darker);
+    border-right: 1px solid var(--main-color-darker);
+}
+
+.annotate_annotationMessageBlockTopBorder {
+    border-top: 1px solid var(--main-color-darker);
+}
+
 .annotate_annotationMessage {
+    padding-top: 2%;
+    padding-bottom: 3%;
     background-color: #e6e6e6;
     font-size: 14px;
-    padding-top: 1%;
     transition: 0.4s;
 }
 
@@ -276,8 +304,15 @@
     color: white
 }
 
+.annotate_annotationMessageRemarks {
+    font-size: 13px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
 .annotate_annotationDate {
     font-size: 12px;
+    margin-top: 1% !important;
     color: var(--greyDark);
 }
 

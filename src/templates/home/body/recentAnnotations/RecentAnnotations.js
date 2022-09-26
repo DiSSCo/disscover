@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import API */
-import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
+import GetRecentAnnotations from 'api/annotate/GetRecentAnnotations';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,26 +11,28 @@ import { faBug } from '@fortawesome/free-solid-svg-icons';
 
 
 const RecentAnnotations = () => {
-    const [recentSpecimens, setRecentSpecimens] = useState();
+    const [recentAnnotations, setRecentAnnotations] = useState();
 
     useEffect(() => {
-        GetRecentSpecimens(Process);
+        if (!recentAnnotations) {
+            GetRecentAnnotations(Process);
 
-        function Process(specimens) {
-            setRecentSpecimens(specimens);
+            function Process(annotations) {
+                setRecentAnnotations(annotations);
+            }
         }
     }, []);
 
     const [backgroundHover, setBackgroundHover] = useState({});
 
-    if (recentSpecimens) {
+    if (recentAnnotations) {
         return (
             <Row className="px-2">
                 <Col md={{ span: 12 }}>
                     <Row>
-                        {recentSpecimens.map((specimen, i) => {
-                            if (!specimen['specimenName']) {
-                                specimen['specimenName'] = 'Undefined name';
+                        {recentAnnotations.map((annotation, i) => {
+                            if (!annotation['specimen']['specimenName']) {
+                                annotation['specimen']['specimenName'] = 'Undefined name';
                             }
 
                             return (
@@ -41,15 +43,15 @@ const RecentAnnotations = () => {
                                             onMouseEnter={() => setBackgroundHover({ [i]: 'active' })}
                                             onMouseLeave={() => setBackgroundHover({})}
                                         >
-                                            <Link to={`/ds/${specimen['id']}`}>
+                                            <Link to={`/ds/${annotation['specimen']['id']}`}>
                                                 <Row className="recentAnnotationInfo py-2">
                                                     <Col md={{ span: 10 }}>
                                                         <Row>
                                                             <Col md={{ span: 12 }} className="recentAnnotationTitle">
-                                                                {specimen['specimenName']}
+                                                                {annotation['specimen']['specimenName']}
                                                             </Col>
                                                             <Col md={{ span: 12 }}>
-                                                                Scientific Name was annoted by: Username
+                                                                {`${annotation['target']['indvProp']}`} was annoted by: Username
                                                             </Col>
                                                         </Row>
                                                     </Col>

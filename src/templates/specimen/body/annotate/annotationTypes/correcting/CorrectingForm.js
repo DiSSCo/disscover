@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 
-const QualityFlagging = (props) => {
+const CorrectingForm = (props) => {
     const modalProperty = props.modalProperty;
     const [formData, setFormData] = useState();
 
@@ -10,10 +10,19 @@ const QualityFlagging = (props) => {
         const form = formData.target.form;
 
         const annotation = {
-            property: form[0].value,
-            value: form[2].value,
-            motivation: form[3].value
-        }
+            type: 'Annotation',
+            motivation: 'correcting',
+            body: {
+                type: form[0].value,
+                value: form[2].value,
+                reference: form[3].value,
+                description: form[4].value
+            },
+            target: {
+                type: 'digital_specimen',
+                indvProp: form[0].value
+            }
+        };
 
         props.SaveAnnotation(annotation);
     }
@@ -24,7 +33,8 @@ const QualityFlagging = (props) => {
                 <Row>
                     <Col md={{ span: 9 }}>
                         <div className="annotate_annotationTypeContext px-2 py-2">
-                            This annotation type is used when flagging a quality issue.
+                            This annotation type is used when correcting an existing value
+                            of an attribute that is deemed invalid.
                         </div>
                     </Col>
                 </Row>
@@ -33,9 +43,9 @@ const QualityFlagging = (props) => {
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input type="hidden"
+                            <input type="hidden" 
                                 name="attribute"
-                                value={modalProperty['property']}
+                                value={modalProperty['property']} 
                             />
                             <input className="annotate_annotationTypeField"
                                 disabled
@@ -45,7 +55,7 @@ const QualityFlagging = (props) => {
                     </Row>
                     <Row className="mt-3">
                         <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> Flag: </p>
+                            <p className="annotate_annotationTypeFieldTitle"> Value: </p>
                             <input className="annotate_annotationTypeField"
                                 name="value"
                             />
@@ -53,10 +63,18 @@ const QualityFlagging = (props) => {
                     </Row>
                     <Row className="mt-3">
                         <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> Motivation: </p>
+                            <p className="annotate_annotationTypeFieldTitle"> Reference: </p>
+                            <input className="annotate_annotationTypeField"
+                                name="reference"
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>
+                            <p className="annotate_annotationTypeFieldTitle"> Remarks: </p>
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
-                                name="motivation"
+                                name="remarks"
                             />
                         </Col>
                     </Row>
@@ -77,4 +95,4 @@ const QualityFlagging = (props) => {
     );
 }
 
-export default QualityFlagging;
+export default CorrectingForm;

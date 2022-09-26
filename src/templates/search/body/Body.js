@@ -43,7 +43,7 @@ const Body = () => {
             result.forEach((searchResult, i) => {
                 result[i] = FilterSpecimen(searchResult);
 
-                GetSpecimenDigitalMedia(result[i]['Meta']['id']['value'], ProcessFurther);
+                GetSpecimenDigitalMedia(result[i], ProcessFurther);
 
                 function ProcessFurther(media) {
                     if (media) {

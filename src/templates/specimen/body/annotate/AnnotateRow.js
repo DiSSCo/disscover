@@ -1,4 +1,5 @@
 import { Row, Col } from 'react-bootstrap';
+import parse from 'html-react-parser';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,7 +29,7 @@ const AnnotateRow = (props) => {
                         <Row>
                             {Object.keys(specimenGroup).map((key, i) => {
                                 const specimenProperty = specimenGroup[key];
-                                
+
                                 return (
                                     <Col key={key} md={{ span: 6 }} className="annotate_annotateItem">
                                         <Row>
@@ -37,7 +38,12 @@ const AnnotateRow = (props) => {
                                                 <span className="annotate_annotatePropertyName">
                                                     {specimenProperty['displayName'] + ': '}
                                                 </span>
-                                                {specimenProperty['value']}
+
+                                                {(typeof specimenProperty['value'] === 'string') &&
+                                                    specimenProperty['value'].includes('<a') ?
+                                                    <span className="annotate_annotatePropertyLink"> {parse(specimenProperty['value'])} </span>
+                                                    : specimenProperty['value']
+                                                }
                                             </Col>
 
                                             {specimenProperty['mids'] &&

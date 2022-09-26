@@ -1,9 +1,5 @@
 /* Annotate Overview Page */
 
-.annotate_content {
-    height: calc(100vh - 160px);
-}
-
 .annotate_overviewTitle {
     font-size: 20px;
 }

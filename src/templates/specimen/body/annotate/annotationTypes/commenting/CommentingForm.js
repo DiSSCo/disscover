@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 
 
-const Linking = (props) => {
+const CommentingForm = (props) => {
     const modalProperty = props.modalProperty;
     const [formData, setFormData] = useState();
 
@@ -10,10 +10,17 @@ const Linking = (props) => {
         const form = formData.target.form;
 
         const annotation = {
-            property: form[0].value,
-            value: form[2].value,
-            motivation: form[3].value
-        }
+            type: 'Annotation',
+            motivation: 'commenting',
+            body: {
+                type: form[0].value,
+                value: form[2].value
+            },
+            target: {
+                type: 'digital_specimen',
+                indvProp: form[0].value
+            }
+        };
 
         props.SaveAnnotation(annotation);
     }
@@ -24,8 +31,8 @@ const Linking = (props) => {
                 <Row>
                     <Col md={{ span: 9 }}>
                         <div className="annotate_annotationTypeContext px-2 py-2">
-                            This annotation type is used when a false relationship or link is
-                            detected and needs to be replaced with a valid one.
+                            This annotation type is used when commenting on specimen
+                            attributes.
                         </div>
                     </Col>
                 </Row>
@@ -34,9 +41,9 @@ const Linking = (props) => {
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input type="hidden" 
+                            <input type="hidden"
                                 name="attribute"
-                                value={modalProperty['property']} 
+                                value={modalProperty['property']}
                             />
                             <input className="annotate_annotationTypeField"
                                 disabled
@@ -46,18 +53,10 @@ const Linking = (props) => {
                     </Row>
                     <Row className="mt-3">
                         <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> New link: </p>
-                            <input className="annotate_annotationTypeField"
-                                name="value"
-                            />
-                        </Col>
-                    </Row>
-                    <Row className="mt-3">
-                        <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> Motivation: </p>
+                            <p className="annotate_annotationTypeFieldTitle"> Comment: </p>
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
-                                name="motivation"
+                                name="value"
                             />
                         </Col>
                     </Row>
@@ -78,4 +77,4 @@ const Linking = (props) => {
     );
 }
 
-export default Linking;
+export default CommentingForm;

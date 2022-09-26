@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 
-const Commenting = (props) => {
+const AddingForm = (props) => {
     const modalProperty = props.modalProperty;
     const [formData, setFormData] = useState();
 
@@ -10,10 +10,18 @@ const Commenting = (props) => {
         const form = formData.target.form;
 
         const annotation = {
-            property: form[0].value,
-            value: form[2].value,
-            motivation: form[3].value
-        }
+            type: 'Annotation',
+            motivation: 'adding',
+            body: {
+                type: form[0].value,
+                value: form[2].value,
+                description: form[3].value
+            },
+            target: {
+                type: 'digital_specimen',
+                indvProp: form[0].value
+            }
+        };
 
         props.SaveAnnotation(annotation);
     }
@@ -24,8 +32,8 @@ const Commenting = (props) => {
                 <Row>
                     <Col md={{ span: 9 }}>
                         <div className="annotate_annotationTypeContext px-2 py-2">
-                            This annotation type is used when commenting on specimen
-                            attributes.
+                            This annotation type is used when adding new values to
+                            previously empty attributes.
                         </div>
                     </Col>
                 </Row>
@@ -46,10 +54,18 @@ const Commenting = (props) => {
                     </Row>
                     <Row className="mt-3">
                         <Col>
-                            <p className="annotate_annotationTypeFieldTitle"> Comment: </p>
+                            <p className="annotate_annotationTypeFieldTitle"> Value: </p>
+                            <input className="annotate_annotationTypeField"
+                                name="value"
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>
+                            <p className="annotate_annotationTypeFieldTitle"> Remarks: </p>
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
-                                name="value"
+                                name="remarks"
                             />
                         </Col>
                     </Row>
@@ -70,4 +86,4 @@ const Commenting = (props) => {
     );
 }
 
-export default Commenting;
+export default AddingForm;

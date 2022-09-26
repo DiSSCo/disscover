@@ -4,13 +4,13 @@ import './footer.css';
 
 
 const Footer = (props) => {
-    const home = props.home;
+    const page = props.page;
     const currentYear = new Date().getFullYear();
 
     return (
-        <Container fluid className={"footer mt-auto " + home}>
+        <Container fluid className={"footer mt-auto " + page}>
             <Row>
-                <Col md={{ offset: 1 }} className="col-md-10 pt-3 footer_text">
+                <Col md={{ offset: 1 }} className="col-md-10 py-3 footer_text">
                     <Row>
                         <Col md={{ span: 4 }}>
                             <Row>

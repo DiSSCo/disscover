@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import './body.css';
 
 /* Import components */
 import SearchBar from "./searchMenu/SearchBar";
+import SearchFilters from "./searchMenu/SearchFilters";
 import ResultsTable from "./resultsTable/ResultsTable";
 
 /* Import API */
-import SpecimenSearch from "../../../api/SpecimenSearch.js";
+import SpecimenSearch from "api/specimen/SpecimenSearch.js";
+import FilterSpecimen from "api/specimen/FilterSpecimen";
+import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
+
 
 const Body = () => {
     let location = useLocation();
@@ -17,23 +20,6 @@ const Body = () => {
 
     const [searchQuery, setSearchQuery] = useState();
     const [searchResults, setSearchResults] = useState();
-
-    useEffect(() => {
-        const memorySearchQuery = localStorage.getItem('searchQuery');
-
-        if (memorySearchQuery) {
-            HandleSearch(memorySearchQuery);
-        } else if (memorySearchQuery == '') {
-            setSearchQuery('');
-
-            setLoaded(true);
-        } else if (location.state.searchResults) {
-            setSearchQuery(location.state.searchQuery);
-            setSearchResults(location.state.searchResults);
-
-            setLoaded(true);
-        }
-    }, []);
 
     function UpdateSearchQuery(query) {
         setSearchQuery(query.target.value);
@@ -54,35 +40,71 @@ const Body = () => {
         }
 
         function Process(result) {
+            result.forEach((searchResult, i) => {
+                result[i] = FilterSpecimen(searchResult);
+
+                GetSpecimenDigitalMedia(result[i]['Meta']['id']['value'], ProcessFurther);
+
+                function ProcessFurther(media) {
+                    if (media) {
+                        result[i]['media'] = media;
+                    }
+                }
+            });
+
             setSearchResults(result);
+
             setSearchQuery(localStorage.getItem('searchQuery'));
 
             setLoaded(true);
         }
     }
 
+    useEffect(() => {
+        const memorySearchQuery = localStorage.getItem('searchQuery');
+
+        if (memorySearchQuery) {
+            HandleSearch(memorySearchQuery);
+        } else if (memorySearchQuery === '') {
+            setSearchQuery('');
+
+            setLoaded(true);
+        } else if (location.state) {
+            setSearchQuery(location.state.searchQuery);
+            setSearchResults(location.state.searchResults);
+
+            setLoaded(true);
+        } else {
+            setLoaded(true);
+        }
+    }, []);
+
     if (loaded) {
         return (
-            <>
-                <Container fluid>
-                    <Row>
-                        <Col md="2" className="search_filterMenu">
-                            <SearchBar
-                                searchQuery={searchQuery}
-                                onSearch={() => HandleSearch()}
-                                updateSearchQuery={(query) => UpdateSearchQuery(query)}
-                            />
-                        </Col>
-                        <Col md="10">
-                            <Row>
-                                <Col md={{ span: '12'}} className="search_resultsSection">
-                                    <ResultsTable searchResults={searchResults}/>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Container>
-            </>
+            <Container fluid className="mt-4">
+                <Row>
+                    <Col md={{ span: 10, offset: 1 }}>
+                        <Row>
+                            <Col md="2" className="search_filterMenu">
+                                <SearchBar
+                                    searchQuery={searchQuery}
+                                    onSearch={() => HandleSearch()}
+                                    updateSearchQuery={(query) => UpdateSearchQuery(query)}
+                                />
+
+                                <SearchFilters />
+                            </Col>
+                            <Col md="10">
+                                <Row>
+                                    <Col md={{ span: 12 }} className="search_resultsSection">
+                                        <ResultsTable searchResults={searchResults} />
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

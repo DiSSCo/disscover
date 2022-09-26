@@ -1,0 +1,245 @@
+.specimen_content {
+    height: calc(100vh - 208px)
+}
+
+.specimen_contentScroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.specimen_contentBlock {
+    margin-top: 40px !important;
+}
+
+.specimen_fixedTitleBlock {
+    position: fixed;
+    left: 0;
+    z-index: 2;
+}
+
+.specimen_fixedTitleBlockMargin {
+    margin-left: 0.9% !important;
+}
+
+.specimen_titleBlock {
+    height: 40px;
+    border-bottom: 1px solid var(--main-color-darker);
+    background-color: white;
+}
+
+.specimen_titleBlockSub {
+    border-top: 2px solid var(--main-color-darker);
+    border-right: 2px solid var(--main-color-darker);
+    border-top-right-radius: 8px;
+    height: 40px;
+}
+
+.specimen_basisOfRecordSymbolBlock {
+    border-left: 2px solid var(--main-color-darker);
+    border-top: 2px solid var(--main-color-darker);
+    border-right: 2px solid var(--main-color-darker);
+    border-top-left-radius: 8px;
+    text-align: center;
+    color: var(--main-color-darker);
+    font-size: 24px;
+}
+
+.specimen_title {
+    font-size: 24px;
+    line-height: 35px;
+    font-weight: bold;
+}
+
+.specimen_versionBlock {
+    background-color: var(--greyLight);
+    height: 40px;
+}
+
+.specimen_versionBlock.active {
+    height: auto;
+    position: absolute;
+    right: 0;
+    border: 1px solid var(--main-color-darker);
+}
+
+.specimen_versionOptions {
+    display: none;
+}
+
+.specimen_versionOptions.active {
+    display: block;
+}
+
+.specimen_versionOption {
+    height: 40px;
+    border: none;
+    background-color: white;
+    text-align: center;
+    line-height: 40px;
+    border-top: 1px solid var(--greyXLight);
+    border-bottom: 1px solid var(--greyXLight);
+    cursor: pointer;
+}
+
+.specimen_versionOption:hover {
+    background-color: var(--greyLight);
+}
+
+.specimen_versionOption.chosen {
+    background-color: var(--main-color-darker);
+    color: white;
+    border: none;
+}
+
+.specimen_versionOptionIcon {
+    position: absolute;
+    right: 0;
+    margin-top: 12px;
+    transition: 0.3s;
+    transform: rotate(0deg);
+}
+
+.specimen_versionOptionIcon.active {
+    transform: rotate(180deg);
+}
+
+.specimen_Block {
+    z-index: 1;
+    height: 400px;
+}
+
+.specimen_mainDetailsBlock {
+    height: 100%;
+}
+
+.specimen_detailSpecimen {
+    background-color: var(--greyXLight);
+    font-size: 14px;
+}
+
+.specimen_detailSpecimenBackdrop {
+    position: absolute;
+    color: var(--greyDark);
+    opacity: 20%;
+    bottom: 0;
+    right: 0;
+    font-size: 220px;
+    transform: scaleX(-1);
+}
+
+.specimen_detailTitle {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0px 0px 2% 0px;
+}
+
+.specimen_detailOrganisation {
+    background-color: var(--main-color-light);
+    font-size: 14px;
+}
+
+.specimen_detailSub {
+    z-index: 1;
+}
+
+.specimen_detailLinksBlock {
+    height: 30%;
+}
+
+.specimen_detailLinks {
+    border-top: 1px solid var(--grey);
+    border-left: 1px solid var(--main-color-darker);    
+}
+
+.specimen_detailLink {
+    font-size: 14px;
+}
+
+.specimen_detailLinkProperty {
+    font-weight: bold;
+}
+
+
+/* Media */
+
+.specimen_mediaGalleryContent {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: inherit;
+    background-color: var(--greyXLight);
+}
+
+.specimen_mediaSlider {
+    width: max-content;
+    height: 200px;
+}
+
+.specimen_mediaGalleryTitleBlock {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid var(--main-color-darker);
+}
+
+.specimen_mediaGalleryTitle {
+    background-color: white;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-left: 2px solid var(--main-color-darker);
+    border-top: 2px solid var(--main-color-darker);
+    border-right: 2px solid var(--main-color-darker);
+}
+
+.specimen_mediaBlock {
+    margin: 0px !important;
+    padding: 0px !important;
+    display: inline-block;
+}
+
+.specimen_media {
+    height: 200px;
+    margin: 0px;
+    display: inline-block;
+    border-left: 2px solid var(--main-color-darker);
+}
+
+.specimen_mediaCover {
+    background-color: rgb(46, 92, 184, 0.60);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.specimen_mediaCover:hover {
+    opacity: 100;
+}
+
+
+/* MIDS meter */
+
+.specimen_midsMeterBlock {
+    border: 1px solid var(--main-color-darker);
+}
+
+.specimen_midsMeterTitle {
+    font-size: 16px;
+}
+
+.specimen_midsMeterTitleRight {
+    text-align: right;
+}
+
+.specimen_midsMeterBar {
+    background-color: var(--main-color);
+    border: 1px solid #333333;
+    text-align: center;
+    font-weight: bold;
+}

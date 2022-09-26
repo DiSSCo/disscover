@@ -1,9 +1,10 @@
-import React from "react";
+import './home.css';
 
 /* Import Components */
 import Header from "../header/Header.js";
 import Body from "./body/Body.js";
 import Footer from "../footer/Footer.js";
+
 
 const Home = () => {
     return (
@@ -12,7 +13,7 @@ const Home = () => {
 
             <Body />
 
-            <Footer />
+            <Footer home={'home'} />
         </div>
     );
 }

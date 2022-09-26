@@ -1,50 +1,80 @@
+import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import "./body.css";
 
-/* Fontawesome icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFrog } from '@fortawesome/free-solid-svg-icons'
+/* Import components */
+import SpecimenInfo from './specimenInfo/SpecimenInfo';
+import SpecimenMedia from './specimenMedia/SpecimenMedia';
+import MidsMeter from './midsMeter/MidsMeter';
+import AnnotateSection from './annotate/AnnotateSection';
+
 
 const Body = (props) => {
-    const specimen = props.specimen['ods:authoritative'];
+    const specimen = props.specimen;
+
+    const [midsDetailsVisibility, setMidsDetailsVisibility] = useState('hidden');
+
+    function ToggleMidsDetails() {
+        if (midsDetailsVisibility) {
+            setMidsDetailsVisibility('');
+        } else {
+            setMidsDetailsVisibility('hidden');
+        }
+    }
+
+    const [scrollToMids, setScrollToMids] = useState();
+
+    function UpdateScrollToMids(midsHandle) {
+        if (midsDetailsVisibility) {
+            ToggleMidsDetails();
+        }
+
+        setTimeout(function () {
+            setScrollToMids(midsHandle);
+        }, 400)
+    }
 
     return (
-        <Container fluid>
-            <Row>
-                <Col md={{ span: 6, offset: 1 }}>
-                    <Row>
-                        <Col md={{ span: 10 }} className="specimen_rightTitleBlock">
+        <Container fluid className="mt-5 specimen_content">
+            <Row className="h-100">
+                <Col md={{ span: 10, offset: 1 }} className="h-100">
+                    <Row className="h-100">
+                        <Col md={{ span: 8 }} className="h-100 specimen_contentScroll">
                             <Row>
-                                <Col md={{ span: 1 }} className="specimen_basisOfRecordSymbolBlock">
-                                    <i className="icon">
-                                        <FontAwesomeIcon icon={faFrog} className="specimen_basisOfRecordSymbol" />
-                                    </i>
+                                <Col md={{ span: 12 }}>
+                                    <SpecimenInfo specimen={specimen} LoadSpecimenVersion={(handle, version) => props.LoadSpecimenVersion(handle, version)} />
                                 </Col>
-                                <Col md={{ span: 11 }} className="specimen_titleBlock">
-                                    <h2 className="specimen_title"> {specimen['ods:name']} </h2>
+                            </Row>
+                            <Row className="mt-5">
+                                <Col>
+                                    <AnnotateSection
+                                        specimen={specimen}
+
+                                        UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
+                                        ToggleMidsDetails={() => ToggleMidsDetails()}
+                                    />
                                 </Col>
                             </Row>
                         </Col>
+                        <Col md={{ span: 4 }}>
+                            {specimen['media'] &&
+                                <Row>
+                                    <Col md={{ span: 12 }}>
+                                        {<SpecimenMedia specimenMedia={specimen['media']} />}
+                                    </Col>
+                                </Row>
+                            }
 
-                        <Col md={{ span: 10 }} className="specimen_rightContentBlock">
-                            <Row>
-                                <Col md={{ span: 3 }} className="specimen_detailTitleBlock">
-                                    <Row>
-                                        <Col md={{ span: 10, offset: 1 }}>
-                                            <p> Institution: </p>
-                                            <p> Specimen type: </p>
-                                        </Col>
-                                    </Row>
+                            <Row className="mt-4">
+                                <Col md={{ span: 12 }}>
+                                    <MidsMeter
+                                        specimen={specimen} mode='annotate'
+                                        midsDetailsVisibility={midsDetailsVisibility}
+                                        scrollToMids={scrollToMids}
+
+                                        UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
+                                        ToggleMidsDetails={() => ToggleMidsDetails()}
+                                    />
                                 </Col>
-                                <Col md={{ span: 9 }} className="specimen_detailContentBlock">
-                                    <Row>
-                                        <Col md={{ span: 12 }}>
-                                            <p> {specimen['ods:institutionCode']} </p>
-                                            <p> {specimen['ods:materialType']} </p>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                                <Col md={{ span: 10 }} className="folder" />
                             </Row>
                         </Col>
                     </Row>

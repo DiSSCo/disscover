@@ -1,0 +1,359 @@
+/* Style for Home Page */
+
+.homeTitle {
+    font-size: 23px;
+    color: var(--main-color);
+}
+
+
+/* Title Image */
+
+.bodyTitleImage {
+    background-image: url('https://www.dissco.eu/wp-content/uploads/woods-bg.jpg');
+    height: 400px;
+    margin-top: -100px;
+    position: absolute !important;
+    z-index: -1;
+}
+
+
+/* Search Bar */
+
+.homeSearchBar {
+    z-index: 1;
+    position: relative;
+    margin-top: 280px !important;
+}
+
+.searchBarGreetingBlock {
+    height: 125px;
+    background-color: var(--main-color);
+    color: white;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
+    box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
+}
+
+.searchBarGreeting {
+    font-size: 18px;
+    text-align: center;
+}
+
+.searchBarBlock {
+    height: 125px;
+    background-color: white;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
+    box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
+}
+
+.searchBarTitle {
+    font-size: 22px;
+}
+
+.searchBar {
+    height: 40px;
+}
+
+.searchBar::placeholder {
+    font-style: italic;
+}
+
+.searchBarSubmit {
+    height: 40px;
+    width: 40px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+
+/* Intro Text */
+
+.home_introTitle {
+    font-size: 30px;
+}
+
+.home_introText {
+    font-size: 15px;
+}
+
+
+/* Sample Occurence(s) */
+
+.sampleSpecimenInfo {
+    background-color: rgb(46, 92, 184, 0.60);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    padding-top: 20%;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.sampleSpecimenInfo:hover {
+    opacity: 1;
+}
+
+.sampleSpecimenButton {
+    background-color: rgb(46, 92, 184, 0.60);
+    border: 2px solid white;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: 0.4s;
+}
+
+.sampleSpecimenButton:hover {
+    background-color: white;
+    color: #333333;
+}
+
+
+/* Recent Annotations */
+
+.home_recentSection {
+    width: 100%;
+    height: 100%;
+}
+
+.home_recentSectionBackground {
+    background-color: var(--greyLight);
+    position: absolute;
+    margin-left: -11%;
+    margin-top: -1%;
+    width: 100vw !important;
+    height: 102%;
+    z-index: 0;
+}
+
+.home_recentSectionBody {
+    z-index: 1;
+    position: relative;
+}
+
+.recentAnnotation {
+    border: 2px solid var(--main-color-darker);
+}
+
+.recentAnnotation.even {
+    background-color: var(--main-color-dark);
+    color: white;
+}
+
+
+/* Recent added Specimens */
+
+.recentAddedSpecimen {
+    border: 2px solid var(--main-color-darker);
+    overflow: hidden;
+}
+
+.recentAddedSpecimen.even {
+    background-color: var(--main-color-darker);
+    color: white;
+}
+
+.recentAddedSpecimenIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 80px;
+    color: #b3b3b3;
+    transform: rotate(45deg);
+}
+
+
+/* Statistics */
+
+.statisticsBanner {
+    position: absolute;
+    width: 90%;
+    margin-left: -9%;
+    background-color: var(--main-color-darker);
+}
+
+
+/* Oblique Banner */
+
+.obliqueBanner {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 0;
+}
+
+.obliqueBannerShadow {
+    z-index: 1;
+    position: absolute;
+    height: 450px;
+    width: 100%;
+    top: 0;
+    background-color: rgba(51, 51, 51, 0.2);
+}
+
+.obliqueHeadDiv {
+    height: 450px;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+}
+
+.obliqueDivOne {
+    position: absolute;
+    background-color: black;
+    border: 1px solid black;
+    overflow: hidden;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    margin-left: -18%;
+
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+
+    -webkit-transform: skewX(-30deg);
+    -ms-transform: skewX(-30deg);
+    transform: skewX(-25deg);
+}
+
+.obliqueDivOneImage {
+    width: 160%;
+    height: 100%;
+    margin-left: -33%;
+    -webkit-transform: skewX(30deg) scaleX(-1);
+    -ms-transform: skewX(30deg) scaleX(-1);
+    transform: skewX(25deg) scaleX(-1);
+}
+
+.obliqueDivTwo {
+    position: absolute;
+    background-color: black;
+    border: 1px solid black;
+    overflow: hidden;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    margin-left: 7%;
+
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+
+    -webkit-transform: skewX(-30deg);
+    -ms-transform: skewX(-30deg);
+    transform: skewX(-25deg);
+}
+
+.obliqueDivTwoImage {
+    width: 160%;
+    height: 100%;
+    margin-left: -26%;
+    -webkit-transform: skewX(30deg) scaleX(-1);
+    -ms-transform: skewX(30deg) scaleX(-1);
+    transform: skewX(25deg) scaleX(-1);
+}
+
+.obliqueDivThree {
+    position: absolute;
+    background-color: black;
+    border: 1px solid black;
+    overflow: hidden;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    margin-left: 32%;
+
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+
+    -webkit-transform: skewX(-30deg);
+    -ms-transform: skewX(-30deg);
+    transform: skewX(-25deg);
+}
+
+.obliqueDivThreeImage {
+    width: 160%;
+    height: 100%;
+    margin-left: -25%;
+    -webkit-transform: skewX(30deg) scaleX(-1);
+    -ms-transform: skewX(30deg) scaleX(-1);
+    transform: skewX(25deg) scaleX(-1);
+}
+
+.obliqueDivFour {
+    position: absolute;
+    background-color: black;
+    border: 1px solid black;
+    overflow: hidden;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    margin-left: 57%;
+
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+
+    -webkit-transform: skewX(-30deg);
+    -ms-transform: skewX(-30deg);
+    transform: skewX(-25deg);
+}
+
+.obliqueDivFourImage {
+    width: 150%;
+    height: 100%;
+    margin-left: -25%;
+    -webkit-transform: skewX(30deg);
+    -ms-transform: skewX(30deg);
+    transform: skewX(25deg);
+}
+
+.obliqueDivFive {
+    position: absolute;
+    background-color: black;
+    border: 1px solid black;
+    overflow: hidden;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    margin-left: 82%;
+
+    -webkit-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+
+    -webkit-transform: skewX(-30deg);
+    -ms-transform: skewX(-30deg);
+    transform: skewX(-25deg);
+}
+
+.obliqueDivFiveImage {
+    width: 120%;
+    height: 100%;
+    margin-left: -45%;
+    -webkit-transform: skewX(30deg);
+    -ms-transform: skewX(30deg);
+    transform: skewX(25deg);
+}

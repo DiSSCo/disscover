@@ -1,0 +1,437 @@
+{
+    "id": {
+        "displayName": "Handle identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "datasetId": {
+        "displayName": "Specimen found in dataset",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "link"
+        ]
+    },
+    "midsLevel": {
+        "displayName": "MIDS level",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": "",
+        "value": 0
+    },
+    "modified": {
+        "displayName": "Modified",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "last_harvested_processing": {
+        "displayName": "Last harvested",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "license": {
+        "displayName": "License",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "rightsHolder": {
+        "displayName": "Rights holder",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "informationWithheld": {
+        "displayName": "Information withheld",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "datasourceurl": {
+        "displayName": "Source URL",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "link"
+        ]
+    },
+    "geocase_id": {
+        "displayName": "GeoCASe identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "dwcaId": {
+        "displayName": "Darwin Core Archive identifier",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "otherCatalogNumbers": {
+        "displayName": "Other catalog numbers",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "version": {
+        "displayName": "Version",
+        "group": "Meta",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    
+    "physicalSpecimenId": {
+        "displayName": "Physical specimen identifier",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "link"
+        ]
+    },
+    "physicalSpecimenIdType": {
+        "displayName": "Physical specimen identifier type",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "specimenName": {
+        "displayName": "Scientific name",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "scientificNameAuthorship": {
+        "displayName": "Scientific name authorship",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "names": {
+        "displayName": "Scientific names",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "list"
+        ]
+    },
+    "taxonRank": {
+        "displayName": "Taxon rank",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "associatedTaxa": {
+        "displayName": "Higher taxa",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": "",
+        "rules": [
+            "list"
+        ]
+    },
+    "higherClassification": {
+        "displayName": "Higher rank",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "specificEpithet": {
+        "displayName": "Specific epithet",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "infraspecificEpithet": {
+        "displayName": "Infraspecific epithet",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "type": {
+        "displayName": "Specimen type",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "typeStatus": {
+        "displayName": "Type status",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "kingdom": {
+        "displayName": "Kingdom",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "phylum": {
+        "displayName": "Phylum",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "class": {
+        "displayName": "Class",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "order": {
+        "displayName": "Order",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "family": {
+        "displayName": "Family",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "genus": {
+        "displayName": "Genus",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "subgenus": {
+        "displayName": "Sub genus",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "nomenclaturalCode": {
+        "displayName": "Nomenclatural code",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "lifeStage": {
+        "displayName": "Life stage",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "sex": {
+        "displayName": "Sex",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "is_mineral": {
+        "displayName": "Mineral",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "identifiedBy": {
+        "displayName": "Identified by",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "dateIdentified": {
+        "displayName": "Date identified",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "eventDate": {
+        "displayName": "Event date",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimEventDate": {
+        "displayName": "Verbatim event date",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "individualCount": {
+        "displayName": "Individual count",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+    "preparations": {
+        "displayName": "Preparations",
+        "group": "Specimen",
+        "annotatable": true,
+        "mids": ""
+    },
+
+    "country": {
+        "displayName": "Country",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "country_original": {
+        "displayName": "Original country",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "country_code": {
+        "displayName": "Country code",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "locality": {
+        "displayName": "Locality",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "habitat": {
+        "displayName": "Habitat",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "county": {
+        "displayName": "County",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "stateProvince": {
+        "displayName": "State/Province",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "continent": {
+        "displayName": "Continent",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "island": {
+        "displayName": "Island",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimCoordinates": {
+        "displayName": "Verbatim coordinates",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "decimalLatitude": {
+        "displayName": "Latitude",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "decimalLongitude": {
+        "displayName": "Longitude",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "coordinateUncertaintyInMeters": {
+        "displayName": "Coordinate uncertainty in metres",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "geodeticDatum": {
+        "displayName": "Geodetic datum",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimDepth": {
+        "displayName": "Verbatim depth",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+    "verbatimElevation": {
+        "displayName": "Verbatim elevation",
+        "group": "Location",
+        "annotatable": true,
+        "mids": ""
+    },
+
+    "institutionID": {
+        "displayName": "Institution",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "institutionCode": {
+        "displayName": "Institution code",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    },
+    "datasetownerabbrev": {
+        "displayName": "Abbreviation",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": {
+            "level": 1
+        }
+    },
+    "datasourcecountry": {
+        "displayName": "Publishing country",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    },
+    "providername": {
+        "displayName": "Provider name",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    },
+    "providercountry": {
+        "displayName": "Provider country",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    },
+    "provideraddress": {
+        "displayName": "Address",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    },
+    "physicalSpecimenCollection": {
+        "displayName": "Collection code",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    },
+    "sourceSystemId": {
+        "displayName": "Provider URL",
+        "group": "Organisation",
+        "annotatable": true,
+        "mids": ""
+    }
+}

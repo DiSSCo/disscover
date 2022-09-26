@@ -1,7 +1,22 @@
 /* Declaring global variables */
 :root {
-    --main-color: #2e5cb8;
+    --main-color: #0C86C6;
     --main-color-light: #d6e0f5;
+    --main-color-dark: #205692;
+    --main-color-darker: #1c497d;
+    --main-color-green: #009973;
+
+    --greyXLight: #F4F4F1;
+    --greyLight: #E9E8E3;
+    --grey: #D9D9DF;
+    --greyMedium: #B4B4BF;
+    --greyDark: #868696;
+
+    --new: #10C1FF;
+    --handled: #F7A112;
+    --approved: #3DCA77;
+    --denied: #E74C3C;
+    --resolved: var(--greyMedium);
 }
 
 body {
@@ -20,4 +35,21 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+}
+
+a {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.textOverflow {
+	overflow: hidden; 
+    white-space: nowrap; 
+	text-overflow: ellipsis;
+}
+
+.strong {
+    font-weight: bold;
 }

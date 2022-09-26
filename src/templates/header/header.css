@@ -1,11 +1,114 @@
-.header {
+/* Home Page header */
+
+.header_home {
     height: 80px;
     background-color: rgb(46, 92, 184, 0.80);
+    position: relative;
+    z-index: 2;
 }
 
-.headerTitle {
+.header_homeTitle {
     font-size: 22px;
-    line-height: 80px;
     color: white;
     font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.header_homeSubTitle {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.header_homeProofOfConcept {
+    font-size: 16px;
+    font-style: italic;
+}
+
+
+/* Content Pages header */
+
+.header {
+    height: 80px;
+    position: relative;
+    border-bottom: 1px solid var(--grey);
+}
+
+.header_logo {
+    width: 125px;
+}
+
+.header_title {
+    font-size: 20px;
+    line-height: 55px;
+    color: var(--main-color-darker);
+    font-weight: bold;
+}
+
+.header_proofOfConcept {
+    font-size: 16px;
+    font-style: italic;
+}
+
+
+/* Login button */
+
+.header_loginButton {
+    width: 60%;
+    height: 30px;
+    margin-left: Calc(100% - 60%);
+    background-color: white;
+    border: 1px solid var(--main-color-darker);
+    border-radius: 4px;
+    transition: 0.4s;
+}
+
+.header_loginButton:hover {
+    background-color: var(--main-color-darker);
+    color: white;
+}
+
+
+/* Profile */
+.header_profile {
+    line-height: 45px;
+    background-color: var(--main-color-darker);
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+}
+
+.header_profilePic {
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 35px;
+    height: 35px;
+}
+
+.header_profilePicName {
+    text-align: right;
+}
+
+
+/* Navigation */
+
+.navItem {
+    border-left: 1px solid var(--main-color-light);
+    border-right: 1px solid var(--main-color-light);
+    transition: 0.4s;
+    height: 40px;
+    line-height: 40px;
+}
+
+.navItem.home {
+    color: white;
+}
+
+.navItem:hover {
+    background-color: var(--greyXLight);
+}
+
+.navItem.home:hover {
+    color: #333333;
 }

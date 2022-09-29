@@ -1,0 +1,149 @@
+import { useEffect, useState } from 'react';
+import { Row, Col } from 'react-bootstrap';
+
+/* Import API */
+import GetAnnotations from 'api/annotate/GetAnnotations';
+
+
+const AnnotationsOverview = (props) => {
+    const specimenHandle = props.specimenHandle;
+
+    const [tabs, setTabs] = useState({
+        annotations: 'active',
+        quality_flagging: ''
+    });
+    const [overviewAnnotations, setOverviewAnnotations] = useState();
+
+    useEffect(() => {
+        GetAnnotations(specimenHandle, Process);
+
+        function Process(annotations) {
+            const newOverviewAnnotations = {
+                quality_flags: [],
+                annotations: []
+            };
+
+            annotations.forEach(annotation => {
+                if (annotation['motivation'] === 'quality_flagging') {
+                    newOverviewAnnotations['quality_flags'].push(annotation);
+                }
+
+                newOverviewAnnotations['annotations'].push(annotation);
+            });
+
+            setOverviewAnnotations(newOverviewAnnotations);
+        }
+    }, [])
+
+    function switchTab(tab) {
+        const copyTabs = { ...tabs };
+
+        copyTabs['annotations'] = '';
+        copyTabs['quality_flagging'] = '';
+
+        copyTabs[[tab]] = 'active';
+
+        setTabs(copyTabs);
+    }
+
+    if (overviewAnnotations) {
+        return (
+            <Row className="h-100">
+                <Col md={{ span: 12 }} className="h-100">
+                    <Row>
+                        <Col md={{ span: 4 }}
+                            className={`specimen_annotationsOverviewTab left pb-1 text-center ${tabs['annotations']}`}
+                            onClick={() => switchTab('annotations')}
+                        >
+                            Annotations
+                        </Col>
+                        <Col md={{ span: 4 }}
+                            className={`specimen_annotationsOverviewTab right pb-1 text-center ${tabs['quality_flagging']}`}
+                            onClick={() => switchTab('quality_flagging')}
+                        >
+                            Quality flags
+                        </Col>
+                    </Row>
+                    <Row className="specimen_annotationsOverviewRow">
+                        {(tabs['annotations'] === 'active') ?
+                            <Col className="specimen_annotationsOverviewSection">
+                                <Row>
+                                    <Col className="specimen_annotationsOverviewSectionProps">
+                                        <Row>
+                                            <Col md={{ span: 5 }}>
+                                                Attribute
+                                            </Col>
+                                            <Col md={{ span: 4 }}>
+                                                Type
+                                            </Col>
+                                            <Col md={{ span: 3 }}>
+                                                Created
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+
+                                {(overviewAnnotations['annotations'].length > 0) ? overviewAnnotations['annotations'].map((annotation, i) => {
+                                    const isoDate = new Date(Date.parse(annotation['created']));
+                                    const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
+
+                                    return (
+                                        <Row key={i}>
+                                            <Col className="specimen_annotationsOverviewSectionRow py-1">
+                                                <Row>
+                                                    <Col md={{ span: 5 }}>
+                                                        {annotation['target']['indvProp']}
+                                                    </Col>
+                                                    <Col md={{ span: 4 }}>
+                                                        {annotation['motivation']}
+                                                    </Col>
+                                                    <Col md={{ span: 3 }}>
+                                                        {date}
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    );
+                                }) : <p >test </p>
+                                }
+                            </Col>
+                            : <Col className="specimen_annotationsOverviewSection">
+                                <Row>
+                                    <Col className="specimen_annotationsOverviewSectionProps">
+                                        <Row>
+                                            <Col md={{ span: 5 }}>
+                                                Attribute
+                                            </Col>
+                                            <Col md={{ span: 7 }}>
+                                                Flag
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+
+                                {overviewAnnotations['quality_flags'].map((annotation, i) => {
+                                    return (
+                                        <Row key={i}>
+                                            <Col className="specimen_annotationsOverviewSectionRow">
+                                                <Row>
+                                                    <Col md={{ span: 5 }}>
+                                                        {annotation['target']['indvProp']}
+                                                    </Col>
+                                                    <Col md={{ span: 7 }}>
+                                                        {annotation['body']['value']}
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    );
+                                })}
+                            </Col>
+                        }
+                    </Row>
+                </Col>
+            </Row>
+        );
+    }
+}
+
+export default AnnotationsOverview;

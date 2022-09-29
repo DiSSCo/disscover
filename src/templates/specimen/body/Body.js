@@ -3,9 +3,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import components */
 import SpecimenInfo from './specimenInfo/SpecimenInfo';
-import SpecimenMedia from './specimenMedia/SpecimenMedia';
-import MidsMeter from './midsMeter/MidsMeter';
 import AnnotateSection from './annotate/AnnotateSection';
+import MidsMeter from './midsMeter/MidsMeter';
+import SpecimenMedia from './specimenMedia/SpecimenMedia';
+import AnnotationsOverview from './annotationsOverview/AnnotationsOverview';
 
 
 const Body = (props) => {
@@ -56,14 +57,6 @@ const Body = (props) => {
                             </Row>
                         </Col>
                         <Col md={{ span: 4 }}>
-                            {specimen['media'] &&
-                                <Row>
-                                    <Col md={{ span: 12 }}>
-                                        {<SpecimenMedia specimenMedia={specimen['media']} />}
-                                    </Col>
-                                </Row>
-                            }
-
                             <Row className="mt-4">
                                 <Col md={{ span: 12 }}>
                                     <MidsMeter
@@ -76,6 +69,20 @@ const Body = (props) => {
                                     />
                                 </Col>
                             </Row>
+
+                            <Row className="mt-4 specimen_annotationsOverview">
+                                <Col className="h-100">
+                                    <AnnotationsOverview specimenHandle={specimen['Meta']['id']['value']} />
+                                </Col>
+                            </Row>
+
+                            {specimen['media'] &&
+                                <Row>
+                                    <Col md={{ span: 12 }}>
+                                        {<SpecimenMedia specimenMedia={specimen['media']} />}
+                                    </Col>
+                                </Row>
+                            }
                         </Col>
                     </Row>
                 </Col>

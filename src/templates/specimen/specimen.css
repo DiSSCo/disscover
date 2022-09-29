@@ -243,3 +243,49 @@
     text-align: center;
     font-weight: bold;
 }
+
+
+/* Annotations overview */
+
+.specimen_annotationsOverview {
+    height: 40%;
+    overflow: hidden;
+}
+
+.specimen_annotationsOverviewTab { 
+    border-top: 2px solid var(--main-color-darker);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.specimen_annotationsOverviewTab.left {
+    border-left: 2px solid var(--main-color-darker);
+    border-top-left-radius: 8px;
+}
+
+.specimen_annotationsOverviewTab.right {
+    border-right: 2px solid var(--main-color-darker);
+    border-top-right-radius: 8px;
+}
+
+.specimen_annotationsOverviewTab.active {
+    background-color: var(--main-color-darker);
+    color: white;
+    cursor: default;
+}
+
+.specimen_annotationsOverviewRow {
+    height: Calc(100% - 28px);
+    overflow-y: scroll;
+    border: 1px solid var(--main-color-darker);
+}
+
+.specimen_annotationsOverviewSectionProps {
+    font-size: 14px;
+    background-color: var(--greyXLight);
+}
+
+.specimen_annotationsOverviewSectionRow {
+    font-size: 14px;
+    border-bottom: 1px solid var(--greyXLight);
+}

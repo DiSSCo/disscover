@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Row, Col } from 'react-bootstrap';
 import parse from 'html-react-parser';
+import UserService from 'keycloak/Keycloak';
 
 /* Import Components */
 import CommentingForm from './annotationTypes/commenting/CommentingForm';
@@ -27,13 +28,58 @@ const AnnotateModal = (props) => {
     const annotationType = props.annotationType;
     const annotationTypes = props.annotationTypes;
 
+    const [formData, setFormData] = useState({
+        attribute: modalProperty['property'],
+        annotationTypes: {
+            commenting: {},
+            adding: {},
+            correcting: {},
+            quality_flagging: {},
+            linking: {}
+        }
+    });
+
     let propertyAnnotations = [];
 
     if (modalAnnotations) {
         if (modalAnnotations[modalProperty['property']]) {
-            propertyAnnotations = modalAnnotations[modalProperty['property']];
+            propertyAnnotations = JSON.parse(JSON.stringify(modalAnnotations[modalProperty['property']]));
         }
     }
+
+    useEffect(() => {
+        if (propertyAnnotations) {
+            const userId = UserService.getSubject();
+            let localValues = {
+                commenting: {},
+                adding: {},
+                correcting: {},
+                quality_flagging: {},
+                linking: {}
+            }
+
+            if (propertyAnnotations['commenting']) {
+                localValues['commenting'] = JSON.parse(JSON.stringify(propertyAnnotations['commenting'][userId]['body']));
+            }
+            if (propertyAnnotations['adding']) {
+                localValues['adding'] = JSON.parse(JSON.stringify(propertyAnnotations['adding'][userId]['body']));
+            }
+            if (propertyAnnotations['correcting']) {
+                localValues['correcting'] = JSON.parse(JSON.stringify(propertyAnnotations['correcting'][userId]['body']));
+            }
+            if (propertyAnnotations['quality_flagging']) {
+                localValues['quality_flagging'] = JSON.parse(JSON.stringify(propertyAnnotations['quality_flagging'][userId]['body']));
+            }
+            if (propertyAnnotations['linking']) {
+                localValues['linking'] = JSON.parse(JSON.stringify(propertyAnnotations['linking'][userId]['body']));
+            }
+
+            setFormData({
+                attribute: modalProperty,
+                annotationTypes: localValues,
+            });
+        }
+    }, [modalToggle]);
 
     const [editHover, setEditHover] = useState();
 
@@ -48,7 +94,7 @@ const AnnotateModal = (props) => {
     function RenderEditMode(propertyKey, modalAnnotation) {
         if (editMode[modalProperty['property']] === propertyKey) {
             return (
-                <Col md={{ span: 12 }} className="annotate_annotationMessage me edit">
+                <Col md={{ span: 12 }} className="annotate_annotationMessage edit">
                     <textarea
                         className="annotate_editTextarea"
                         defaultValue={modalAnnotation['body']['value']}
@@ -58,54 +104,168 @@ const AnnotateModal = (props) => {
             );
         } else {
             return (
-                <Col md={{ span: 12 }} className="annotate_annotationMessage me">
+                <Col md={{ span: 12 }} className="annotate_annotationMessage">
                     {modalAnnotation['body']['value']}
                 </Col>
             );
         }
     }
 
-    function RenderAnnotationType() {
-        if (annotationType) {
-            switch (annotationType) {
-                case 'commenting':
-                    return (<CommentingForm
-                        modalProperty={modalProperty}
-                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-                    />);
-                case 'linking':
-                    return (<LinkingForm
-                        modalProperty={modalProperty}
-                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-                    />);
-                case 'correcting':
-                    return (<CorrectingForm
-                        modalProperty={modalProperty}
-                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-                    />);
-                case 'quality_flagging':
-                    return (<QualityFlaggingForm
-                        modalProperty={modalProperty}
-                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-                    />);
-                case 'adding':
-                    return (<AddingForm
-                        modalProperty={modalProperty}
-                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-                    />);
+    function RenderMultipleMode(annotationType) {
+        useEffect(() => {
+            const formDataCopy = { ...formData };
+
+            if (!Array.isArray(formDataCopy['annotationTypes'][annotationType]['value'])) {
+                formDataCopy['annotationTypes'][annotationType]['value'] = [formData['annotationTypes'][annotationType]['value']];
+
+                setFormData(formDataCopy);
+            }
+        }, []);
+
+        function AddField() {
+            const copyFormData = { ...formData };
+
+            copyFormData['annotationTypes'][annotationType]['value'].push('');
+
+            setFormData(copyFormData);
+        }
+
+        if (formData) {
+            return (
+                <>
+                    <Row>
+                        {Object.keys(formData['annotationTypes'][annotationType]['value']).map((index, _i) => {
+                            return (
+                                <Col key={index}
+                                    md={{ span: 12 }}
+                                    className="mb-2"
+                                >
+                                    <input className="annotate_annotationTypeField"
+                                        name="value"
+                                        defaultValue={formData['annotationTypes'][annotationType]['value'][index]}
+                                        onChange={(value) => UpdateFormData('adding', 'value', value, index)}
+                                        autoComplete="false"
+                                    />
+                                </Col>
+                            );
+                        })}
+                    </Row>
+                    <Row className="mt-1">
+                        <Col>
+                            <button type="button"
+                                className="annotate_annotationTypeMultipleAdd"
+                                onClick={() => AddField()}
+                            >
+                                Add field
+                            </button>
+                        </Col>
+                    </Row>
+                </>
+            );
+        }
+    }
+
+    function UpdateFormData(annotationType, formField, value, index = -1) {
+        const formDataCopy = { ...formData };
+
+        if (index >= 0) {
+            if (!formDataCopy['annotationTypes'][annotationType][[formField]]) {
+                formDataCopy['annotationTypes'][annotationType][[formField]] = [];
+                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value.target.value;
+            } else {
+                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value.target.value;
             }
         } else {
-            return (<CommentingForm
-                modalProperty={modalProperty}
-                SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-            />);
+            formDataCopy['annotationTypes'][annotationType][[formField]] = value.target.value;
+        }
+
+        setFormData(formDataCopy);
+    }
+
+    function SubmitForm(annotationType) {
+        const annotation = {
+            type: 'Annotation',
+            motivation: annotationType,
+            body: {
+                type: modalProperty['property'],
+                ...formData['annotationTypes'][annotationType]
+            },
+            target: {
+                type: 'digital_specimen',
+                indvProp: modalProperty['property']
+            }
+        };
+
+        props.SaveAnnotation(annotation);
+    }
+
+    function RenderAnnotationType() {
+        if (formData) {
+            if (annotationType) {
+                switch (annotationType) {
+                    case 'commenting':
+                        return (<CommentingForm
+                            modalProperty={modalProperty}
+                            formData={formData['annotationTypes']}
+
+                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                        />);
+                    case 'linking':
+                        return (<LinkingForm
+                            modalProperty={modalProperty}
+                            formData={formData['annotationTypes']}
+
+                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                        />);
+                    case 'correcting':
+                        return (<CorrectingForm
+                            modalProperty={modalProperty}
+                            formData={formData['annotationTypes']}
+
+                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                        />);
+                    case 'quality_flagging':
+                        return (<QualityFlaggingForm
+                            modalProperty={modalProperty}
+                            formData={formData['annotationTypes']}
+
+                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                        />);
+                    case 'adding':
+                        return (<AddingForm
+                            modalProperty={modalProperty}
+                            formData={formData['annotationTypes']}
+
+                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            RenderMultipleMode={(annotationType, latestAnnotationData) => RenderMultipleMode(annotationType, latestAnnotationData)}
+                        />);
+                }
+            } else {
+                return (<CommentingForm
+                    modalProperty={modalProperty}
+                    formData={formData['annotationTypes']}
+
+                    UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                    SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                    SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
+                />);
+            }
         }
     }
 
     const annotationMessageTypes = {
         'commenting': CommentingMessage,
-        'correcting': CorrectingMessage,
         'adding': AddingMessage,
+        'correcting': CorrectingMessage,
         'quality_flagging': QualityFlaggingMessage,
         'linking': LinkingMessage
     }
@@ -139,27 +299,32 @@ const AnnotateModal = (props) => {
                         <Row className="mt-4">
                             <Col md={{ span: 12 }}>
                                 {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
-                                    const modalAnnotation = propertyAnnotations[key];
+                                    const modalAnnotations = propertyAnnotations[key];
                                     const propertyKey = modalProperty['property'] + key;
 
-                                    const MessageComponent = annotationMessageTypes[modalAnnotation['motivation']];
+                                    const MessageComponent = annotationMessageTypes[key];
 
-                                    return (
-                                        <MessageComponent uniqueKey={key}
-                                            modalAnnotation={modalAnnotation}
-                                            propertyKey={propertyKey}
-                                            editMode={editMode}
-                                            modalProperty={modalProperty}
-                                            editHover={editHover}
+                                    for (const annotationKey in modalAnnotations) {
+                                        const modalAnnotation = modalAnnotations[annotationKey];
 
-                                            IsHover={(toggle, propertyKey) => IsHover(toggle, propertyKey)}
-                                            RenderEditMode={(propertyKey, modalAnnotation) => RenderEditMode(propertyKey, modalAnnotation)}
+                                        return (
+                                            <MessageComponent key={key}
+                                                uniqueKey={key}
+                                                modalAnnotation={modalAnnotation}
+                                                propertyKey={propertyKey}
+                                                editMode={editMode}
+                                                modalProperty={modalProperty}
+                                                editHover={editHover}
 
-                                            ToggleEditMode={(propertyKey) => props.ToggleEditMode(propertyKey)}
-                                            UpdateAnnotation={(modalAnnotation, propertyKey) => props.UpdateAnnotation(modalAnnotation, propertyKey)}
-                                            RemoveAnnotation={(modalAnnotation, propertyKey) => props.RemoveAnnotation(modalAnnotation, propertyKey)}
-                                        />
-                                    );
+                                                IsHover={(toggle, propertyKey) => IsHover(toggle, propertyKey)}
+                                                RenderEditMode={(propertyKey, modalAnnotation) => RenderEditMode(propertyKey, modalAnnotation)}
+
+                                                ToggleEditMode={(propertyKey) => props.ToggleEditMode(propertyKey)}
+                                                UpdateAnnotation={(modalAnnotation, propertyKey) => props.UpdateAnnotation(modalAnnotation, propertyKey)}
+                                                RemoveAnnotation={(modalAnnotation, propertyKey) => props.RemoveAnnotation(modalAnnotation, propertyKey)}
+                                            />
+                                        );
+                                    }
                                 }) : 'No annotations yet'}
                             </Col>
                         </Row>

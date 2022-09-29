@@ -7,7 +7,7 @@ import { faXmark, faSave, faTrash, faPencil } from '@fortawesome/free-solid-svg-
 
 
 const CorrectingMessage = (props) => {
-    const key = props.key;
+    const key = props.uniqueKey;
     const modalAnnotation = props.modalAnnotation;
     const propertyKey = props.propertyKey;
     const editMode = props.editMode;
@@ -60,11 +60,11 @@ const CorrectingMessage = (props) => {
                         </Col>
                         <Col md={{ span: 10 }}>
                             <Row>
-                                <Col md={{ span: 10 }} className="annotate_annotationMessageBlock">
+                                <Col md={{ span: 10 }} className="annotate_annotationMessageBlock me">
                                     <Row>
                                         {editMode[modalProperty['property']] ?
                                             props.RenderEditMode(propertyKey, modalAnnotation)
-                                            : <Col md={{ span: 12 }} className="annotate_annotationMessage me">
+                                            : <Col md={{ span: 12 }} className="annotate_annotationMessage">
                                                 {modalAnnotation['body']['value']}
                                             </Col>
                                         }

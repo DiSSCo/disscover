@@ -38,9 +38,9 @@ const AnnotateSection = (props) => {
                 const annotation = annotations[i];
 
                 if (!annotationsForModal[annotation['target']['indvProp']]) {
-                    annotationsForModal[annotation['target']['indvProp']] = { [annotation['id']]: annotation };
+                    annotationsForModal[annotation['target']['indvProp']] = { [annotation['motivation']]: { [annotation['creator']]: annotation } };
                 } else {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['id']] = annotation;
+                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = { [annotation['creator']]: annotation };
                 }
             }
 
@@ -68,15 +68,20 @@ const AnnotateSection = (props) => {
     }
     ];
 
-    function ToggleModal(property = null, displayName = null, currentValue = null) {
+    function ToggleModal(property = null, propertyObject) {
         setModalToggle(!modalToggle);
+
+        if (!modalToggle) {
+            setAnnotationType('commenting');
+        }
 
         if (property && property !== modalProperty['property']) {
             let copyModalProperty = { ...modalProperty };
 
             copyModalProperty['property'] = property;
-            copyModalProperty['displayName'] = displayName;
-            copyModalProperty['currentValue'] = currentValue;
+            copyModalProperty['displayName'] = propertyObject['displayName'];
+            copyModalProperty['currentValue'] = propertyObject['value'];
+            copyModalProperty['multiple'] = propertyObject['multiple'];
 
             setModalProperty(copyModalProperty);
         }
@@ -93,9 +98,9 @@ const AnnotateSection = (props) => {
                     const copyModalAnnotations = { ...modalAnnotations };
 
                     if (!copyModalAnnotations[modalProperty['property']]) {
-                        copyModalAnnotations[modalProperty['property']] = { [result['id']]: result }
+                        copyModalAnnotations[modalProperty['property']] = { [result['motivation']]: { [result['creator']]: result } }
                     } else {
-                        copyModalAnnotations[modalProperty['property']][result['id']] = result;
+                        copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
                     }
 
                     setModalAnnotations(copyModalAnnotations);
@@ -144,7 +149,7 @@ const AnnotateSection = (props) => {
 
             const copyModalAnnotations = { ...modalAnnotations };
 
-            copyModalAnnotations[modalProperty['property']][result['id']] = result;
+            copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
 
             setModalAnnotations(copyModalAnnotations);
         }
@@ -160,7 +165,7 @@ const AnnotateSection = (props) => {
 
                 const copyModalAnnotations = { ...modalAnnotations };
 
-                delete copyModalAnnotations[modalProperty['property']][annotation['id']];
+                delete copyModalAnnotations[modalProperty['property']][annotation['motivation']][annotation['creator']];
 
                 setModalAnnotations(copyModalAnnotations);
             }
@@ -188,7 +193,6 @@ const AnnotateSection = (props) => {
                     <Col md={{ span: 12 }}>
                         {Object.keys(specimen).map((key, _i) => {
                             if (key != 'Auth') {
-
                                 return (
                                     <AnnotateRow
                                         key={key}

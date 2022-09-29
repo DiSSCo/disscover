@@ -1,30 +1,14 @@
-import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 
 const LinkingForm = (props) => {
     const modalProperty = props.modalProperty;
-    const [formData, setFormData] = useState();
+    const formData = props.formData['linking'];
 
-    function SubmitForm() {
-        const form = formData.target.form;
+    const HandleSubmit = event => {
+        event.preventDefault();
 
-        const annotation = {
-            type: 'Annotation',
-            motivation: 'linking',
-            body: {
-                type: form[0].value,
-                value: form[2].value,
-                based_on: form[3].value,
-                description: form[4].value
-            },
-            target: {
-                type: 'digital_specimen',
-                indvProp: form[0].value
-            }
-        };
-
-        props.SaveAnnotation(annotation);
+        props.SubmitForm('linking');
     }
 
     return (
@@ -39,18 +23,15 @@ const LinkingForm = (props) => {
                     </Col>
                 </Row>
 
-                <form className="mt-4" onChange={(form) => setFormData(form)}>
+                <form className="mt-4" onSubmit={HandleSubmit}>
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input type="hidden" 
-                                name="attribute"
-                                value={modalProperty['property']} 
-                            />
                             <input className="annotate_annotationTypeField"
                                 disabled
                                 name="attributeValue"
-                                value={modalProperty['displayName']} />
+                                value={modalProperty['displayName']}
+                            />
                         </Col>
                     </Row>
                     <Row className="mt-3">
@@ -58,6 +39,9 @@ const LinkingForm = (props) => {
                             <p className="annotate_annotationTypeFieldTitle"> New link: </p>
                             <input className="annotate_annotationTypeField"
                                 name="value"
+                                defaultValue={formData && formData['value']}
+                                autoComplete="false"
+                                onChange={(value) => props.UpdateFormData('linking', 'value', value)}
                             />
                         </Col>
                     </Row>
@@ -66,6 +50,9 @@ const LinkingForm = (props) => {
                             <p className="annotate_annotationTypeFieldTitle"> Based on: </p>
                             <input className="annotate_annotationTypeField"
                                 name="based_on"
+                                defaultValue={formData && formData['based_on']}
+                                autoComplete="false"
+                                onChange={(basedOn) => props.UpdateFormData('linking', 'based_on', basedOn)}
                             />
                         </Col>
                     </Row>
@@ -75,16 +62,18 @@ const LinkingForm = (props) => {
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
                                 name="remarks"
+                                defaultValue={formData && formData['description']}
+                                onChange={(remarks) => props.UpdateFormData('linking', 'description', remarks)}
                             />
                         </Col>
                     </Row>
 
                     <Row className="mt-4">
                         <Col>
-                            <button type="button"
+                            <button type="submit"
                                 value="Save annotation"
                                 className="annotate_annotationTypeSubmit"
-                                onClick={() => SubmitForm()}>
+                            >
                                 Save annotation
                             </button>
                         </Col>

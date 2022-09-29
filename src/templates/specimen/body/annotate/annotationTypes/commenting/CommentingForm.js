@@ -1,28 +1,15 @@
-import { useState } from "react";
+import { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 
 const CommentingForm = (props) => {
     const modalProperty = props.modalProperty;
-    const [formData, setFormData] = useState();
+    const formData = props.formData['commenting'];
 
-    function SubmitForm() {
-        const form = formData.target.form;
+    const HandleSubmit = event => {
+        event.preventDefault();
 
-        const annotation = {
-            type: 'Annotation',
-            motivation: 'commenting',
-            body: {
-                type: form[0].value,
-                value: form[2].value
-            },
-            target: {
-                type: 'digital_specimen',
-                indvProp: form[0].value
-            }
-        };
-
-        props.SaveAnnotation(annotation);
+        props.SubmitForm('commenting');
     }
 
     return (
@@ -37,18 +24,15 @@ const CommentingForm = (props) => {
                     </Col>
                 </Row>
 
-                <form className="mt-4" onChange={(form) => setFormData(form)}>
+                <form className="mt-4" onSubmit={HandleSubmit}>
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input type="hidden"
-                                name="attribute"
-                                value={modalProperty['property']}
-                            />
                             <input className="annotate_annotationTypeField"
                                 disabled
                                 name="attributeValue"
-                                value={modalProperty['displayName']} />
+                                value={modalProperty['displayName']}
+                            />
                         </Col>
                     </Row>
                     <Row className="mt-3">
@@ -57,16 +41,18 @@ const CommentingForm = (props) => {
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
                                 name="value"
+                                defaultValue={formData['value']}
+                                onChange={(value) => props.UpdateFormData('commenting', 'value', value)}
                             />
                         </Col>
                     </Row>
 
                     <Row className="mt-4">
                         <Col>
-                            <button type="button"
+                            <button type="submit"
                                 value="Save annotation"
                                 className="annotate_annotationTypeSubmit"
-                                onClick={() => SubmitForm()}>
+                            >
                                 Save annotation
                             </button>
                         </Col>

@@ -1,29 +1,14 @@
-import { useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 
 
 const QualityFlaggingForm = (props) => {
     const modalProperty = props.modalProperty;
-    const [formData, setFormData] = useState();
+    const formData = props.formData['quality_flagging'];
 
-    function SubmitForm() {
-        const form = formData.target.form;
+    const HandleSubmit = event => {
+        event.preventDefault();
 
-        const annotation = {
-            type: 'Annotation',
-            motivation: 'quality_flagging',
-            body: {
-                type: form[0].value,
-                value: form[2].value,
-                description: form[3].value
-            },
-            target: {
-                type: 'digital_specimen',
-                indvProp: form[0].value
-            }
-        };
-
-        props.SaveAnnotation(annotation);
+        props.SubmitForm('quality_flagging');
     }
 
     return (
@@ -37,18 +22,15 @@ const QualityFlaggingForm = (props) => {
                     </Col>
                 </Row>
 
-                <form className="mt-4" onChange={(form) => setFormData(form)}>
+                <form className="mt-4" onSubmit={HandleSubmit}>
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input type="hidden"
-                                name="attribute"
-                                value={modalProperty['property']}
-                            />
                             <input className="annotate_annotationTypeField"
                                 disabled
                                 name="attributeValue"
-                                value={modalProperty['displayName']} />
+                                value={modalProperty['value']}
+                            />
                         </Col>
                     </Row>
                     <Row className="mt-3">
@@ -56,6 +38,8 @@ const QualityFlaggingForm = (props) => {
                             <p className="annotate_annotationTypeFieldTitle"> Flag: </p>
                             <input className="annotate_annotationTypeField"
                                 name="value"
+                                defaultValue={formData && formData['value']}
+                                onChange={(value) => props.UpdateFormData('quality_flagging', 'value', value)}
                             />
                         </Col>
                     </Row>
@@ -64,17 +48,19 @@ const QualityFlaggingForm = (props) => {
                             <p className="annotate_annotationTypeFieldTitle"> Remarks: </p>
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
-                                name="motivation"
+                                name="remarks"
+                                defaultValue={formData && formData['description']}
+                                onChange={(remarks) => props.UpdateFormData('quality_flagging', 'description', remarks)}
                             />
                         </Col>
                     </Row>
 
                     <Row className="mt-4">
                         <Col>
-                            <button type="button"
+                            <button type="submit"
                                 value="Save annotation"
                                 className="annotate_annotationTypeSubmit"
-                                onClick={() => SubmitForm()}>
+                            >
                                 Save annotation
                             </button>
                         </Col>

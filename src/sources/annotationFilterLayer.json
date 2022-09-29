@@ -246,6 +246,7 @@
         "displayName": "Identified by",
         "group": "Specimen",
         "annotatable": true,
+        "multiple": true,
         "mids": ""
     },
     "dateIdentified": {

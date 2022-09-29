@@ -268,35 +268,28 @@
 }
 
 .annotate_annotationMessageType {
+    background-color: var(--main-color-darker);
+    color: white;
     font-size: 14px;
     font-weight: bold;
-    border-left: 1px solid var(--main-color-darker);
-    border-top: 1px solid var(--main-color-darker);
-    border-right: 1px solid var(--main-color-darker);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
 .annotate_annotationMessageBlock {
-    border-left: 1px solid var(--main-color-darker);
-    border-bottom: 1px solid var(--main-color-darker);
-    border-right: 1px solid var(--main-color-darker);
+    border: 1px solid var(--main-color-darker);
+    background-color: #e6e6e6;
 }
 
-.annotate_annotationMessageBlockTopBorder {
-    border-top: 1px solid var(--main-color-darker);
+.annotate_annotationMessageBlock.me {
+    background-color: var(--main-color-light);
 }
 
 .annotate_annotationMessage {
     padding-top: 2%;
     padding-bottom: 3%;
-    background-color: #e6e6e6;
     font-size: 14px;
     transition: 0.4s;
-}
-
-.annotate_annotationMessage.me {
-    background-color: var(--main-color-light);
 }
 
 .annotate_annotationMessage.edit {
@@ -384,4 +377,9 @@
 .annotate_annotationTypeSubmit:hover {
     background-color: var(--main-color-darker);
     color: white;
+}
+
+.annotate_annotationTypeMultipleAdd {
+    font-size: 13px;
+    background-color: var(--grey);
 }

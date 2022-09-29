@@ -17,8 +17,6 @@ const CommentingMessage = (props) => {
     const isoDate = new Date(Date.parse(modalAnnotation['created']));
     const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
 
-    console.log(modalAnnotation);
-
     if (UserService.getSubject() === modalAnnotation['creator']) {
         return (
             <Row key={propertyKey} className="mb-3">
@@ -62,7 +60,7 @@ const CommentingMessage = (props) => {
                         </Col>
                         <Col md={{ span: 10 }}>
                             <Row>
-                                <Col md={{ span: 10 }} className="annotate_annotationMessageBlock">
+                                <Col md={{ span: 10 }} className="annotate_annotationMessageBlock me">
                                     <Row>
                                         {editMode[modalProperty['property']] ?
                                             props.RenderEditMode(propertyKey, modalAnnotation)

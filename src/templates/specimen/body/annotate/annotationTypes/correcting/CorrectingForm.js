@@ -1,30 +1,14 @@
-import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 
 const CorrectingForm = (props) => {
     const modalProperty = props.modalProperty;
-    const [formData, setFormData] = useState();
+    const formData = props.formData['correcting'];
 
-    function SubmitForm() {
-        const form = formData.target.form;
+    const HandleSubmit = event => {
+        event.preventDefault();
 
-        const annotation = {
-            type: 'Annotation',
-            motivation: 'correcting',
-            body: {
-                type: form[0].value,
-                value: form[2].value,
-                reference: form[3].value,
-                description: form[4].value
-            },
-            target: {
-                type: 'digital_specimen',
-                indvProp: form[0].value
-            }
-        };
-
-        props.SaveAnnotation(annotation);
+        props.SubmitForm('correcting');
     }
 
     return (
@@ -39,18 +23,15 @@ const CorrectingForm = (props) => {
                     </Col>
                 </Row>
 
-                <form className="mt-4" onChange={(form) => setFormData(form)}>
+                <form className="mt-4" onSubmit={HandleSubmit}>
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input type="hidden" 
-                                name="attribute"
-                                value={modalProperty['property']} 
-                            />
                             <input className="annotate_annotationTypeField"
                                 disabled
                                 name="attributeValue"
-                                value={modalProperty['displayName']} />
+                                value={modalProperty['displayName']}
+                            />
                         </Col>
                     </Row>
                     <Row className="mt-3">
@@ -58,6 +39,9 @@ const CorrectingForm = (props) => {
                             <p className="annotate_annotationTypeFieldTitle"> Value: </p>
                             <input className="annotate_annotationTypeField"
                                 name="value"
+                                defaultValue={formData && formData['value']}
+                                autoComplete="false"
+                                onChange={(value) => props.UpdateFormData('correcting', 'value', value)}
                             />
                         </Col>
                     </Row>
@@ -66,6 +50,9 @@ const CorrectingForm = (props) => {
                             <p className="annotate_annotationTypeFieldTitle"> Reference: </p>
                             <input className="annotate_annotationTypeField"
                                 name="reference"
+                                defaultValue={formData && formData['reference']}
+                                autoComplete="false"
+                                onChange={(reference) => props.UpdateFormData('correcting', 'reference', reference)}
                             />
                         </Col>
                     </Row>
@@ -75,16 +62,18 @@ const CorrectingForm = (props) => {
                             <textarea className="annotate_annotationTypeTextArea"
                                 rows="4"
                                 name="remarks"
+                                defaultValue={formData && formData['description']}
+                                onChange={(remarks) => props.UpdateFormData('correcting', 'description', remarks)}
                             />
                         </Col>
                     </Row>
 
                     <Row className="mt-4">
                         <Col>
-                            <button type="button"
+                            <button type="submit"
                                 value="Save annotation"
                                 className="annotate_annotationTypeSubmit"
-                                onClick={() => SubmitForm()}>
+                            >
                                 Save annotation
                             </button>
                         </Col>

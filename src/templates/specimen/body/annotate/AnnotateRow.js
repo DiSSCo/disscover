@@ -34,7 +34,7 @@ const AnnotateRow = (props) => {
                                     <Col key={key} md={{ span: 6 }} className="annotate_annotateItem">
                                         <Row>
                                             <Col md={{ span: 8 }} className="annotate_annotateProperty"
-                                                onClick={() => props.ToggleModal(key, specimenProperty['displayName'], specimenProperty['value'])} key={specimenProperty['group'] + i.toString()}>
+                                                onClick={() => props.ToggleModal(key, specimenProperty)} key={specimenProperty['group'] + i.toString()}>
                                                 <span className="annotate_annotatePropertyName">
                                                     {specimenProperty['displayName'] + ': '}
                                                 </span>

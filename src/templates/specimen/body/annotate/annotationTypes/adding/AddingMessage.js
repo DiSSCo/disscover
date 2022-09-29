@@ -7,7 +7,7 @@ import { faXmark, faSave, faTrash, faPencil } from '@fortawesome/free-solid-svg-
 
 
 const AddingMessage = (props) => {
-    const key = props.key;
+    const key = props.uniqueKey;
     const modalAnnotation = props.modalAnnotation;
     const propertyKey = props.propertyKey;
     const editMode = props.editMode;
@@ -16,6 +16,14 @@ const AddingMessage = (props) => {
 
     const isoDate = new Date(Date.parse(modalAnnotation['created']));
     const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
+
+    let displayValue;
+
+    if (Array.isArray(modalAnnotation['body']['value'])) {
+        displayValue = modalAnnotation['body']['value'].join(', ')
+    } else {
+        displayValue = modalAnnotation['body']['value'];
+    }
 
     if (UserService.getSubject() === modalAnnotation['creator']) {
         return (
@@ -60,12 +68,12 @@ const AddingMessage = (props) => {
                         </Col>
                         <Col md={{ span: 10 }}>
                             <Row>
-                                <Col md={{ span: 10 }} className="annotate_annotationMessageBlock">
+                                <Col md={{ span: 10 }} className="annotate_annotationMessageBlock me">
                                     <Row>
                                         {editMode[modalProperty['property']] ?
                                             props.RenderEditMode(propertyKey, modalAnnotation)
                                             : <Col md={{ span: 12 }} className="annotate_annotationMessage me">
-                                                {modalAnnotation['body']['value']}
+                                                {displayValue}
                                             </Col>
                                         }
                                     </Row>
@@ -107,7 +115,7 @@ const AddingMessage = (props) => {
                             />
                         </Col>
                         <Col md={{ span: 10 }} className="annotate_annotationMessage">
-                            {modalAnnotation['body']['value']}
+                            {modalAnnotation['body']['displayValue']}
                         </Col>
                     </Row>
                     <Row>

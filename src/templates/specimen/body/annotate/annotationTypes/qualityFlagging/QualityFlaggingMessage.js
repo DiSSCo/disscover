@@ -94,6 +94,11 @@ const QualityFlaggingMessage = (props) => {
             <Row key={key} className="mb-3">
                 <Col md={{ span: 10 }}>
                     <Row>
+                        <Col md={{ offset: 2 }} className="col-md-auto annotate_annotationMessageType">
+                            Quality flag
+                        </Col>
+                    </Row>
+                    <Row>
                         <Col md={{ span: 2 }}>
                             <img
                                 src="https://crafatar.com/avatars/af781660900a493687708eee23874086?size=64&overlay"
@@ -101,12 +106,16 @@ const QualityFlaggingMessage = (props) => {
                                 alt="User avatar"
                             />
                         </Col>
-                        <Col md={{ span: 10 }} className="annotate_annotationMessage">
-                            {modalAnnotation['body']['value']}
+                        <Col md={{ span: 10 }} className="annotate_annotationMessageBlock">
+                            <Row>
+                                <Col md={{ span: 12 }} className="annotate_annotationMessage">
+                                    {modalAnnotation['body']['value']}
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="col-md-auto annotate_annotationDate">
+                        <Col md={{ offset: 2 }} className="col-md-auto annotate_annotationDate">
                             {`${date} · Username`}
                         </Col>
                     </Row>

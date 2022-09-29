@@ -39,7 +39,7 @@ const AnnotateModal = (props) => {
         }
     });
 
-    let propertyAnnotations = [];
+    let propertyAnnotations;
 
     if (modalAnnotations) {
         if (modalAnnotations[modalProperty['property']]) {
@@ -59,19 +59,29 @@ const AnnotateModal = (props) => {
             }
 
             if (propertyAnnotations['commenting']) {
-                localValues['commenting'] = JSON.parse(JSON.stringify(propertyAnnotations['commenting'][userId]['body']));
+                if (propertyAnnotations['commenting'][userId]) {
+                    localValues['commenting'] = JSON.parse(JSON.stringify(propertyAnnotations['commenting'][userId]['body']));
+                }
             }
             if (propertyAnnotations['adding']) {
-                localValues['adding'] = JSON.parse(JSON.stringify(propertyAnnotations['adding'][userId]['body']));
+                if (propertyAnnotations['commenting'][userId]) {
+                    localValues['adding'] = JSON.parse(JSON.stringify(propertyAnnotations['adding'][userId]['body']));
+                }
             }
             if (propertyAnnotations['correcting']) {
-                localValues['correcting'] = JSON.parse(JSON.stringify(propertyAnnotations['correcting'][userId]['body']));
+                if (propertyAnnotations['correcting'][userId]) {
+                    localValues['correcting'] = JSON.parse(JSON.stringify(propertyAnnotations['correcting'][userId]['body']));
+                }
             }
             if (propertyAnnotations['quality_flagging']) {
-                localValues['quality_flagging'] = JSON.parse(JSON.stringify(propertyAnnotations['quality_flagging'][userId]['body']));
+                if (propertyAnnotations['quality_flagging'][userId]) {
+                    localValues['quality_flagging'] = JSON.parse(JSON.stringify(propertyAnnotations['quality_flagging'][userId]['body']));
+                }
             }
             if (propertyAnnotations['linking']) {
-                localValues['linking'] = JSON.parse(JSON.stringify(propertyAnnotations['linking'][userId]['body']));
+                if (propertyAnnotations['linking'][userId]) {
+                    localValues['linking'] = JSON.parse(JSON.stringify(propertyAnnotations['linking'][userId]['body']));
+                }
             }
 
             setFormData({

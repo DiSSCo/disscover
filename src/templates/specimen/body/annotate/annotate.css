@@ -278,7 +278,7 @@
 
 .annotate_annotationMessageBlock {
     border: 1px solid var(--main-color-darker);
-    background-color: #e6e6e6;
+    background-color: var(--greyXLight);
 }
 
 .annotate_annotationMessageBlock.me {

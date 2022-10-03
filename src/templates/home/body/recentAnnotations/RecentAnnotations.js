@@ -26,6 +26,8 @@ const RecentAnnotations = () => {
     const [backgroundHover, setBackgroundHover] = useState({});
 
     if (recentAnnotations) {
+        console.log(recentAnnotations);
+
         return (
             <Row className="px-2">
                 <Col md={{ span: 12 }}>

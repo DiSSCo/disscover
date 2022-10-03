@@ -32,9 +32,11 @@ const AnnotateRow = (props) => {
 
                                 return (
                                     <Col key={key} md={{ span: 6 }} className="annotate_annotateItem">
-                                        <Row>
+                                        <Row className="h-100">
                                             <Col md={{ span: 8 }} className="annotate_annotateProperty"
-                                                onClick={() => props.ToggleModal(key, specimenProperty)} key={specimenProperty['group'] + i.toString()}>
+                                                onClick={() => props.ToggleModal(key, specimenProperty)}
+                                                key={specimenProperty['group'] + i.toString()}
+                                            >
                                                 <span className="annotate_annotatePropertyName">
                                                     {specimenProperty['displayName'] + ': '}
                                                 </span>
@@ -46,7 +48,7 @@ const AnnotateRow = (props) => {
                                                 }
                                             </Col>
 
-                                            {specimenProperty['mids'] &&
+                                            {specimenProperty['mids'] ?
                                                 <Col md={{ span: 2, offset: 1 }}
                                                     className="annotate_annotateIndication"
                                                     onClick={() =>
@@ -55,6 +57,7 @@ const AnnotateRow = (props) => {
                                                 >
                                                     MIDS {specimenProperty['mids']['level']}
                                                 </Col>
+                                                : <Col md={{ span: 2, offset: 1 }} />
                                             }
 
                                             {modalAnnotations[key] &&

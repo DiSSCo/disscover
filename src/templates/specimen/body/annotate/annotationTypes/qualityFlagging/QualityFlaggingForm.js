@@ -29,7 +29,7 @@ const QualityFlaggingForm = (props) => {
                             <input className="annotate_annotationTypeField"
                                 disabled
                                 name="attributeValue"
-                                value={modalProperty['value']}
+                                value={modalProperty['property']}
                             />
                         </Col>
                     </Row>

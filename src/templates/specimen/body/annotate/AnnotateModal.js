@@ -48,7 +48,7 @@ const AnnotateModal = (props) => {
     }
 
     useEffect(() => {
-        if (propertyAnnotations) {
+        if (propertyAnnotations && modalToggle) {
             const userId = UserService.getSubject();
             let localValues = {
                 commenting: {},
@@ -85,8 +85,19 @@ const AnnotateModal = (props) => {
             }
 
             setFormData({
-                attribute: modalProperty,
+                attribute: modalProperty['property'],
                 annotationTypes: localValues,
+            });
+        } else {
+            setFormData({
+                attribute: '',
+                annotationTypes: {
+                    commenting: {},
+                    adding: {},
+                    correcting: {},
+                    quality_flagging: {},
+                    linking: {}
+                }
             });
         }
     }, [modalToggle]);

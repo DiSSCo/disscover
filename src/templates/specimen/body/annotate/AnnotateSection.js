@@ -189,8 +189,8 @@ const AnnotateSection = (props) => {
     return (
         <div>
             {modalAnnotations &&
-                <Row>
-                    <Col md={{ span: 12 }}>
+                <Row className="mt-5">
+                    <Col md={{ span: 11 }}>
                         {Object.keys(specimen).map((key, _i) => {
                             if (key != 'Auth') {
                                 return (

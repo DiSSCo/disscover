@@ -25,7 +25,11 @@ function GetRecentAnnotations(callback) {
 
                 test.push(annotation);
 
-                if (i == 9) {
+                Test();
+            }
+
+            function Test() {
+                if (test.length >= 10) {
                     callback(test);
                 }
             }

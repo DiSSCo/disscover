@@ -1,143 +1,4 @@
-.annotate_content {
-    height: calc(100vh - 160px);
-}
-
-.annotate_returnTo {
-    color: var(--main-color);
-}
-
-.annotate_returnToIcon {
-    transform: rotate(90deg);
-}
-
-
-/* Sticky information top bar */
-
-.annotate_specimenBarBlock {
-    border-bottom: 1px solid var(--main-color-darker);
-}
-
-.annotate_specimenBar {
-    height: 80px;
-}
-
-.annotate_basisOfRecordSymbolBlock {
-    border-top-left-radius: 8px;
-    text-align: center;
-    color: var(--main-color-darker);
-    border-left: 2px solid var(--main-color-darker);
-    border-top: 2px solid var(--main-color-darker);
-    line-height: 40px;
-    font-size: 22px;
-}
-
-.annotate_titleBlock {
-    background-color: var(--main-color-darker);
-    color: white;
-    font-size: 22px;
-    border-top-right-radius: 8px;
-    font-weight: bold;
-    line-height: 40px;
-}
-
-.annotate_annotateBlocks {
-    background-color: var(--grey);
-}
-
-.annotate_annotateBlock {
-    background-color: var(--greyMedium);
-    line-height: 40px;
-    font-size: 18px;
-    text-align: center;
-    cursor: pointer;
-    opacity: 80%;
-}
-
-.annotate_annotateBlock.active {
-    opacity: 100%;
-    background-color: #009973;
-}
-
-.annotate_midsMeterBlock {
-    padding: 2%;
-    border: 1px solid var(--main-color-darker);
-}
-
-.annotate_midsMeterBar {
-    background-color: var(--main-color);
-    text-align: center;
-    font-weight: bold;
-}
-
-.annotate_midsMeterTitleRight {
-    text-align: right;
-}
-
-.annotate_midsMeterChevronDown {
-    transform: rotate(180deg);
-    transition: 0.4s;
-    cursor: pointer;
-}
-
-.annotate_midsMeterChevronDown.hidden {
-    transform: rotate(0deg);
-}
-
-
-/* MIDS details block */
-.annotate_midsDetails {
-    position: relative;
-}
-
-.annotate_midsDetailsBlock {
-    background-color: var(--greyXLight);
-    width: 100%;
-    height: 350px;
-    left: 0;
-    overflow: hidden;
-    transition: 0.4s;
-    border-left: 1px solid #333333;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-}
-
-.annotate_midsDetailsBlock.hidden {
-    height: 0px;
-}
-
-.annotate_midsDetailsBlockTitle {
-    font-size: 16px;
-}
-
-.annotate_midsDetailsSections {
-    height: 90%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    position: relative;
-}
-
-.annotate_midsDetailsSection {
-    border-left: 1px solid var(--main-color);
-}
-
-.annotate_midsDetailsSectionTitle {
-    font-size: 15px;
-    font-style: italic;
-    border-bottom: 1px solid;
-}
-
-.annotate_midsDetailsSectionContent {
-    font-size: 14px;
-}
-
-.annotate_midsDetailsIndication {
-    font-size: 13px;
-    background-color: #009973;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-}
+/* Styling for annotation components on Specimen Page */
 
 
 /* Annotate Sections */
@@ -180,6 +41,7 @@
     padding-top: 2.5px;
     padding-bottom: 2.5px;
     transition: 0.4s;
+    cursor: default;
 }
 
 .annotate_annotateItem:hover {
@@ -204,22 +66,31 @@
     text-align: center;
     color: white;
     font-weight: bold;
+    height: fit-content;
 }
 
 
 /* Annotate modal */
 
 .annotate_modal .modal-dialog {
-    height: 80%;
-    overflow: hidden;
-    margin: 0 auto;
+    height: 100%;
+    margin: 0 auto !important;
 }
 
 .annotate_modal .modal-content {
     background-color: rgba(255, 255, 255, 0);
-    height: 100%;
-    margin-top: 11.2%;
+    height: 84.8%;
+    overflow: hidden;
+    padding-top: 11.2%;
     border: none;
+}
+
+.annotate_modalFormSection {
+    display: none;
+}
+
+.annotate_modalFormSection.active {
+    display: block;
 }
 
 .annotate_modalHeader {
@@ -237,7 +108,6 @@
     position: absolute;
     height: 30px;
     margin-top: 20px;
-    margin-right: 2.5%;
     right: 0;
     top: 0;
     padding: 0px 2% 0px 2%;
@@ -250,21 +120,40 @@
 
 .annotate_modalBody {
     background-color: white;
-    height: 100%;
+    height: Calc(100% - 50px);
 }
 
 .annotate_modalBody.right {
     margin-top: 50px !important;
-    height: 78%;
     overflow-y: scroll;
 }
 
 .annotate_modalCurrentValue {
     border-bottom: 2px solid var(--main-color-darker);
+    height: 40px;
 }
 
 .annotate_modalCurrentValueTitle {
     font-weight: bold;
+}
+
+.annotate_modalAnnotationsBody {
+    height: Calc(100% - 40px);
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.annotate_modalAddAnnotationButton {
+    height: 30px;
+    border: 2px solid var(--main-color-darker);
+    line-height: 30px;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.annotate_modalAddAnnotationButton:hover {
+    background-color: var(--main-color-darker);
+    color: white;
 }
 
 .annotate_annotationMessageType {
@@ -272,6 +161,16 @@
     color: white;
     font-size: 14px;
     font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.annotate_annotationMessageVersion {
+    font-size: 14px;
+    text-align: center;
+    border-left: 1px solid var(--main-color-darker);
+    border-top: 1px solid var(--main-color-darker);
+    border-right: 1px solid var(--main-color-darker);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
@@ -285,9 +184,12 @@
     background-color: var(--main-color-light);
 }
 
+.annotate_annotationMessageBlock.edit {
+    background-color: var(--main-color-green);
+    color: white;
+}
+
 .annotate_annotationMessage {
-    padding-top: 2%;
-    padding-bottom: 3%;
     font-size: 14px;
     transition: 0.4s;
 }
@@ -338,7 +240,6 @@
 
 
 /* Annotation types */
-
 
 .annotate_annotationTypeSelect {
     background-color: var(--main-color);

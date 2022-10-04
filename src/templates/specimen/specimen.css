@@ -226,7 +226,24 @@
 /* MIDS meter */
 
 .specimen_midsMeterBlock {
+    padding: 2%;
     border: 1px solid var(--main-color-darker);
+}
+
+.specimen_midsMeterBar {
+    background-color: var(--main-color);
+    text-align: center;
+    font-weight: bold;
+}
+
+.specimen_midsMeterChevronDown {
+    transform: rotate(180deg);
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.specimen_midsMeterChevronDown.hidden {
+    transform: rotate(0deg);
 }
 
 .specimen_midsMeterTitle {
@@ -241,6 +258,63 @@
     background-color: var(--main-color);
     border: 1px solid #333333;
     text-align: center;
+    font-weight: bold;
+}
+
+
+/* MIDS details block */
+
+.specimen_midsDetails {
+    position: relative;
+}
+
+.specimen_midsDetailsBlock {
+    background-color: var(--greyXLight);
+    width: 100%;
+    height: 350px;
+    left: 0;
+    overflow: hidden;
+    transition: 0.4s;
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+.specimen_midsDetailsBlock.hidden {
+    height: 0px;
+}
+
+.specimen_midsDetailsBlockTitle {
+    font-size: 16px;
+}
+
+.specimen_midsDetailsSections {
+    height: 90%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+.specimen_midsDetailsSection {
+    border-left: 1px solid var(--main-color);
+}
+
+.specimen_midsDetailsSectionTitle {
+    font-size: 15px;
+    font-style: italic;
+    border-bottom: 1px solid;
+}
+
+.specimen_midsDetailsSectionContent {
+    font-size: 14px;
+}
+
+.specimen_midsDetailsIndication {
+    font-size: 13px;
+    background-color: #009973;
+    text-align: center;
+    color: white;
     font-weight: bold;
 }
 
@@ -275,17 +349,25 @@
 }
 
 .specimen_annotationsOverviewRow {
-    height: Calc(100% - 28px);
-    overflow-y: scroll;
+    height: Calc(100% - 30px);
     border: 1px solid var(--main-color-darker);
 }
 
 .specimen_annotationsOverviewSectionProps {
     font-size: 14px;
-    background-color: var(--greyXLight);
+    border-bottom: 1px solid var(--main-color-darker);
+}
+
+.specimen_annotationsOverviewSectionRows {
+    height: Calc(100% - 30px);
+    overflow-y: scroll;
 }
 
 .specimen_annotationsOverviewSectionRow {
     font-size: 14px;
     border-bottom: 1px solid var(--greyXLight);
+}
+
+.specimen_annotationsOverviewSectionRow.even {
+    background-color: var(--main-color-light);
 }

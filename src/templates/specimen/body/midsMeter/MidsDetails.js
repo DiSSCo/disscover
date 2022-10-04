@@ -13,21 +13,22 @@ const MidsDetails = (props) => {
     const scrollToMids = props.scrollToMids;
 
     function ScrollMids(ref) {
+        console.log(ref.current.scrollTop);
         scrollMidsContainerRef.current.scrollTop = ref.current.offsetTop;
     }
 
     return (
-        <Col md={{ span: 12 }} className="annotate_midsDetails">
-            <div className={"position-absolute annotate_midsDetailsBlock " + visibility}>
+        <Col md={{ span: 12 }} className="specimen_midsDetails">
+            <div className={"position-absolute specimen_midsDetailsBlock " + visibility}>
                 <Row className="h-100 m-3">
                     <Col md={{ span: 12 }} className="h-100">
                         <Row>
-                            <Col md={{ span: 12 }} className="annotate_midsDetailsBlockTitle">
+                            <Col md={{ span: 12 }} className="specimen_midsDetailsBlockTitle">
                                 MIDS indications
                             </Col>
                         </Row>
                         <Row className="h-100">
-                            <Col md={{ span: 12 }} className="annotate_midsDetailsSections" ref={scrollMidsContainerRef}>
+                            <Col md={{ span: 12 }} className="specimen_midsDetailsSections" ref={scrollMidsContainerRef}>
                                 {Object.keys(specimen).map((key, _i) => {
                                     return (
                                         <MidsDetailsRow

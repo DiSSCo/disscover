@@ -66,9 +66,9 @@ const AnnotationsOverview = (props) => {
                     </Row>
                     <Row className="specimen_annotationsOverviewRow">
                         {(tabs['annotations'] === 'active') ?
-                            <Col className="specimen_annotationsOverviewSection">
+                            <Col className="h-100">
                                 <Row>
-                                    <Col className="specimen_annotationsOverviewSectionProps">
+                                    <Col className="specimen_annotationsOverviewSectionProps py-1">
                                         <Row>
                                             <Col md={{ span: 5 }}>
                                                 Attribute
@@ -83,33 +83,42 @@ const AnnotationsOverview = (props) => {
                                     </Col>
                                 </Row>
 
-                                {(overviewAnnotations['annotations'].length > 0) ? overviewAnnotations['annotations'].map((annotation, i) => {
-                                    const isoDate = new Date(Date.parse(annotation['created']));
-                                    const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
+                                <Row className="specimen_annotationsOverviewSectionRows">
+                                    <Col>
+                                        {(overviewAnnotations['annotations'].length > 0) ? overviewAnnotations['annotations'].map((annotation, i) => {
+                                            const isoDate = new Date(Date.parse(annotation['created']));
+                                            const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
 
-                                    return (
-                                        <Row key={i}>
-                                            <Col className="specimen_annotationsOverviewSectionRow py-1">
-                                                <Row>
-                                                    <Col md={{ span: 5 }}>
-                                                        {annotation['target']['indvProp']}
-                                                    </Col>
-                                                    <Col md={{ span: 4 }}>
-                                                        {annotation['motivation']}
-                                                    </Col>
-                                                    <Col md={{ span: 3 }}>
-                                                        {date}
+                                            let even = "even";
+
+                                            if (!(i % 2) == 0) {
+                                                even = "";
+                                            }
+
+                                            return (
+                                                <Row key={i}>
+                                                    <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}>
+                                                        <Row>
+                                                            <Col md={{ span: 5 }}>
+                                                                {annotation['target']['indvProp']}
+                                                            </Col>
+                                                            <Col md={{ span: 4 }}>
+                                                                {annotation['motivation']}
+                                                            </Col>
+                                                            <Col md={{ span: 3 }}>
+                                                                {date}
+                                                            </Col>
+                                                        </Row>
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                        </Row>
-                                    );
-                                }) : <p >test </p>
-                                }
+                                            );
+                                        }) : <p> No annotations yet </p>}
+                                    </Col>
+                                </Row>
                             </Col>
-                            : <Col className="specimen_annotationsOverviewSection">
+                            : <Col className="h-100">
                                 <Row>
-                                    <Col className="specimen_annotationsOverviewSectionProps">
+                                    <Col className="specimen_annotationsOverviewSectionProps py-1">
                                         <Row>
                                             <Col md={{ span: 5 }}>
                                                 Attribute
@@ -121,22 +130,32 @@ const AnnotationsOverview = (props) => {
                                     </Col>
                                 </Row>
 
-                                {overviewAnnotations['quality_flags'].map((annotation, i) => {
-                                    return (
-                                        <Row key={i}>
-                                            <Col className="specimen_annotationsOverviewSectionRow">
-                                                <Row>
-                                                    <Col md={{ span: 5 }}>
-                                                        {annotation['target']['indvProp']}
-                                                    </Col>
-                                                    <Col md={{ span: 7 }}>
-                                                        {annotation['body']['value']}
+                                <Row className="specimen_annotationsOverviewSectionRows">
+                                    <Col>
+                                        {overviewAnnotations['quality_flags'].map((annotation, i) => {
+                                            let even = "even";
+
+                                            if (!(i % 2) == 0) {
+                                                even = "";
+                                            }
+
+                                            return (
+                                                <Row key={i}>
+                                                    <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}>
+                                                        <Row>
+                                                            <Col md={{ span: 5 }}>
+                                                                {annotation['target']['indvProp']}
+                                                            </Col>
+                                                            <Col md={{ span: 7 }}>
+                                                                {annotation['body']['value']}
+                                                            </Col>
+                                                        </Row>
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                        </Row>
-                                    );
-                                })}
+                                            );
+                                        })}
+                                    </Col>
+                                </Row>
                             </Col>
                         }
                     </Row>

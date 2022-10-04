@@ -11,14 +11,14 @@ const MidsDetailsRow = (props) => {
 
     return (
         <Row>
-            <Col md={{ span: 12 }} className="ms-3 mt-3 mb-3 annotate_midsDetailsSection">
+            <Col md={{ span: 12 }} className="ms-3 mt-3 mb-3 specimen_midsDetailsSection">
                 <Row>
-                    <Col className="col-md-auto annotate_midsDetailsSectionTitle">
+                    <Col className="col-md-auto specimen_midsDetailsSectionTitle">
                         {group}
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 12 }} className="annotate_midsDetailsSectionContent">
+                    <Col md={{ span: 12 }} className="specimen_midsDetailsSectionContent">
                         {Object.keys(specimenGroup).map((key, _i) => {
                             const specimenProperty = specimenGroup[key];
 

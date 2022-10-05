@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 const LinkingForm = (props) => {
     const modalProperty = props.modalProperty;
     const formData = props.formData['linking'];
+    const annotationExists = props.annotationExists;
 
     const HandleSubmit = event => {
         event.preventDefault();
@@ -69,14 +70,23 @@ const LinkingForm = (props) => {
                     </Row>
 
                     <Row className="mt-4">
-                        <Col>
+                        <Col className="col-md-auto">
                             <button type="submit"
-                                value="Save annotation"
                                 className="annotate_annotationTypeSubmit"
                             >
                                 Save annotation
                             </button>
                         </Col>
+                        {annotationExists &&
+                            <Col className="col-md-auto">
+                                <button type="button"
+                                    className="annotate_annotationTypeRemove"
+                                    onClick={() => props.RemoveAnnotation('linking')}
+                                >
+                                    Remove Annotation
+                                </button>
+                            </Col>
+                        }
                     </Row>
                 </form>
             </Col>

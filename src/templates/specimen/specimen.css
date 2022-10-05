@@ -230,12 +230,6 @@
     border: 1px solid var(--main-color-darker);
 }
 
-.specimen_midsMeterBar {
-    background-color: var(--main-color);
-    text-align: center;
-    font-weight: bold;
-}
-
 .specimen_midsMeterChevronDown {
     transform: rotate(180deg);
     transition: 0.4s;
@@ -255,10 +249,11 @@
 }
 
 .specimen_midsMeterBar {
-    background-color: var(--main-color);
-    border: 1px solid #333333;
+    background-color: var(--main-color-green);
+    border: 1px solid var(--greyLight);
     text-align: center;
     font-weight: bold;
+    color: white;
 }
 
 

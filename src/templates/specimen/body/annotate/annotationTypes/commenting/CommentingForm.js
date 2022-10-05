@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 
 const CommentingForm = (props) => {
     const modalProperty = props.modalProperty;
     const formData = props.formData['commenting'];
+    const annotationExists = props.annotationExists;
 
     const HandleSubmit = event => {
         event.preventDefault();
@@ -48,14 +48,23 @@ const CommentingForm = (props) => {
                     </Row>
 
                     <Row className="mt-4">
-                        <Col>
+                        <Col className="col-md-auto">
                             <button type="submit"
-                                value="Save annotation"
                                 className="annotate_annotationTypeSubmit"
                             >
                                 Save annotation
                             </button>
                         </Col>
+                        {annotationExists &&
+                            <Col className="col-md-auto">
+                                <button type="button"
+                                    className="annotate_annotationTypeRemove"
+                                    onClick={() => props.RemoveAnnotation('commenting')}
+                                >
+                                    Remove Annotation
+                                </button>
+                            </Col>
+                        }
                     </Row>
                 </form>
             </Col>

@@ -6,7 +6,6 @@ import './annotate.css';
 /* Import API */
 import GetAnnotations from 'api/annotate/GetAnnotations';
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
-import PatchAnnotation from 'api/annotate/PatchAnnotation';
 import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
 
 /* Import Components */
@@ -39,8 +38,10 @@ const AnnotateSection = (props) => {
 
                 if (!annotationsForModal[annotation['target']['indvProp']]) {
                     annotationsForModal[annotation['target']['indvProp']] = { [annotation['motivation']]: { [annotation['creator']]: annotation } };
+                } else if (!annotationsForModal[annotation['target']['indvProp']][annotation['motivation']]) {
+                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = {[annotation['creator']]: annotation };
                 } else {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = { [annotation['creator']]: annotation };
+                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']][annotation['creator']] = annotation;
                 }
             }
 
@@ -48,7 +49,7 @@ const AnnotateSection = (props) => {
         }
     }
 
-    const [annotationType, setAnnotationType] = useState();
+    const [annotationType, setAnnotationType] = useState('');
 
     const annotationTypes = [{
         key: "commenting",
@@ -99,8 +100,10 @@ const AnnotateSection = (props) => {
 
                     if (!copyModalAnnotations[modalProperty['property']]) {
                         copyModalAnnotations[modalProperty['property']] = { [result['motivation']]: { [result['creator']]: result } }
-                    } else {
+                    } else if (!copyModalAnnotations[modalProperty['property']][result['motivation']]) {
                         copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
+                    } else {
+                        copyModalAnnotations[modalProperty['property']][result['motivation']][result['creator']] = result ;
                     }
 
                     setModalAnnotations(copyModalAnnotations);
@@ -109,63 +112,30 @@ const AnnotateSection = (props) => {
         }
     }
 
-    const [modifications, setModifications] = useState({});
+    // function UpdateAnnotation(annotation, propertyKey) {
+    //     PatchAnnotation(annotation, token, Process);
 
-    function UpdateModifications(input, propertyKey, remove = false) {
-        let copyModification = { ...modifications };
+    //     function Process(result) {
+    //         const copyModalAnnotations = { ...modalAnnotations };
 
-        if (!remove) {
-            copyModification[propertyKey] = input.target.value;
-        } else {
-            delete copyModification[propertyKey];
-        }
+    //         copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
 
-        setModifications(copyModification);
-    }
+    //         setModalAnnotations(copyModalAnnotations);
+    //     }
+    // }
 
-    const [editMode, setEditMode] = useState({});
+    function RemoveAnnotation(type) {
+        const annotation = modalAnnotations[modalProperty['property']][type][UserService.getSubject()];
 
-    function ToggleEditMode(propertyKey) {
-        let editObject = { ...editMode };
-
-        if (!(modalProperty['property'] in editMode)) {
-            editObject[modalProperty['property']] = propertyKey;
-        } else if (editMode[modalProperty['property']] === propertyKey) {
-            delete editObject[modalProperty['property']];
-        }
-
-        setEditMode(editObject);
-    }
-
-    function UpdateAnnotation(annotation, propertyKey) {
-        annotation['body']['value'] = modifications[propertyKey];
-
-        PatchAnnotation(annotation, token, Process);
-
-        function Process(result) {
-            ToggleEditMode(propertyKey);
-
-            UpdateModifications(null, propertyKey, true);
-
-            const copyModalAnnotations = { ...modalAnnotations };
-
-            copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
-
-            setModalAnnotations(copyModalAnnotations);
-        }
-    }
-
-    function RemoveAnnotation(annotation, propertyKey) {
         DeleteAnnotation(annotation['id'], token, Process);
 
         function Process(success) {
             if (success) {
-                ToggleEditMode(propertyKey);
-                UpdateModifications(null, propertyKey, true);
-
                 const copyModalAnnotations = { ...modalAnnotations };
 
-                delete copyModalAnnotations[modalProperty['property']][annotation['motivation']][annotation['creator']];
+                delete copyModalAnnotations[modalProperty['property']][type][annotation['creator']];
+
+                console.log(copyModalAnnotations);
 
                 setModalAnnotations(copyModalAnnotations);
             }
@@ -217,15 +187,12 @@ const AnnotateSection = (props) => {
                     modalToggle={modalToggle}
                     modalAnnotations={modalAnnotations}
                     modalProperty={modalProperty}
-                    editMode={editMode}
                     annotationType={annotationType}
                     annotationTypes={annotationTypes}
 
                     ToggleModal={() => ToggleModal()}
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
-                    ToggleEditMode={(propertyKey) => ToggleEditMode(propertyKey)}
-                    UpdateModifications={(input, propertyKey) => UpdateModifications(input, propertyKey)}
-                    UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
+                    // UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
                     RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
                     SetAnnotationType={(type) => setAnnotationType(type)}
                 />

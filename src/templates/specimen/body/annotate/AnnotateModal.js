@@ -65,7 +65,7 @@ const AnnotateModal = (props) => {
                 }
             }
             if (propertyAnnotations['adding']) {
-                if (propertyAnnotations['commenting'][userId]) {
+                if (propertyAnnotations['adding'][userId]) {
                     localValues['adding'] = JSON.parse(JSON.stringify(propertyAnnotations['adding'][userId]['body']));
                 }
             }
@@ -157,6 +157,38 @@ const AnnotateModal = (props) => {
         }
     }
 
+    function UpdateAnnotationType(type) {
+        props.SetAnnotationType(type);
+
+        if (Object.keys(formData['annotationTypes'][type]).length > 0) {
+            setEditType(type);
+        }
+    }
+
+    function ToggleAnnotationForm(close = false) {
+        if (annotationFormToggle || close) {
+            setAnnotationFormToggle('');
+        } else {
+            setAnnotationFormToggle('active');
+        }
+    }
+
+    const [editType, setEditType] = useState();
+
+    function ToggleEditMode(type = '') {
+        if (type !== editType) {
+            if (!annotationFormToggle && type) {
+                ToggleAnnotationForm();
+            }
+
+            props.SetAnnotationType(type);
+            setEditType(type);
+        } else {
+            ToggleAnnotationForm(true);
+            setEditType('');
+        }
+    }
+
     function UpdateFormData(annotationType, formField, value, index = -1) {
         const formDataCopy = { ...formData };
 
@@ -189,24 +221,37 @@ const AnnotateModal = (props) => {
         };
 
         props.SaveAnnotation(annotation);
+
+        if (!editType) {
+            setEditType(annotationType);
+        }
     }
 
     function RenderAnnotationType() {
         if (formData) {
+            let annotationExists = false;
+
             if (annotationType) {
+                if (Object.keys(formData['annotationTypes'][annotationType]).length > 0) {
+                    annotationExists = true;
+                }
+
                 switch (annotationType) {
                     case 'commenting':
                         return (<CommentingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
+                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
                         />);
                     case 'linking':
                         return (<LinkingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
+                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -215,6 +260,7 @@ const AnnotateModal = (props) => {
                         return (<CorrectingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
+                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -223,6 +269,7 @@ const AnnotateModal = (props) => {
                         return (<QualityFlaggingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
+                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -231,6 +278,7 @@ const AnnotateModal = (props) => {
                         return (<AddingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
+                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -238,12 +286,17 @@ const AnnotateModal = (props) => {
                         />);
                 }
             } else {
+                if (Object.keys(formData['annotationTypes']['commenting']).length > 0) {
+                    annotationExists = true;
+                }
+
                 return (<CommentingForm
                     modalProperty={modalProperty}
                     formData={formData['annotationTypes']}
 
                     UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                     SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                    RemoveAnnotation={(type) => props.RemoveAnnotation(type)}
                 />);
             }
         }
@@ -257,38 +310,6 @@ const AnnotateModal = (props) => {
         'linking': LinkingMessage
     }
 
-    function UpdateAnnotationType(type) {
-        props.SetAnnotationType(type);
-
-        if (Object.keys(formData['annotationTypes'][type]).length > 0) {
-            setEditType(type);
-        }
-    }
-
-    function ToggleAnnotationForm(close = false) {
-        if (annotationFormToggle || close) {
-            setAnnotationFormToggle('');
-        } else {
-            setAnnotationFormToggle('active');
-        }
-    }
-
-    const [editType, setEditType] = useState();
-
-    function ToggleEditMode(type = null, ref = null) {
-        if (type !== editType) {
-            if (!annotationFormToggle && type) {
-                ToggleAnnotationForm();
-            }
-
-            props.SetAnnotationType(type);
-            setEditType(type);
-        } else {
-            ToggleAnnotationForm(true);
-            setEditType('');
-        }
-    }
-
     let showNewAnnotationButton = "d-none";
 
     for (const key in formData['annotationTypes']) {
@@ -300,8 +321,6 @@ const AnnotateModal = (props) => {
     const scrollModalAnnotationsBodyRef = useRef();
 
     function ScrollToAnnotation(ref) {
-        console.log(ref.current);
-
         scrollModalAnnotationsBodyRef.current.scrollTop = (ref.current.offsetTop - 75);
     }
 
@@ -348,16 +367,20 @@ const AnnotateModal = (props) => {
                                 <Row>
                                     <Col md={{ span: 12 }}>
                                         {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
+
+
                                             const modalAnnotations = propertyAnnotations[key];
                                             const propertyKey = modalProperty['property'] + key;
 
                                             const MessageComponent = annotationMessageTypes[key];
 
+                                            let viewComponents = [];
+
                                             for (const annotationKey in modalAnnotations) {
                                                 const modalAnnotation = modalAnnotations[annotationKey];
 
-                                                return (
-                                                    <MessageComponent key={key}
+                                                if (modalAnnotation['creator'] === UserService.getSubject()) {
+                                                    viewComponents.push(<MessageComponent key={key}
                                                         modalAnnotation={modalAnnotation}
                                                         propertyKey={propertyKey}
                                                         modalProperty={modalProperty}
@@ -365,11 +388,17 @@ const AnnotateModal = (props) => {
 
                                                         ToggleEditMode={(type) => ToggleEditMode(type)}
                                                         ScrollToAnnotation={(ref) => ScrollToAnnotation(ref)}
-                                                        UpdateAnnotation={(modalAnnotation, propertyKey) => props.UpdateAnnotation(modalAnnotation, propertyKey)}
-                                                        RemoveAnnotation={(modalAnnotation, propertyKey) => props.RemoveAnnotation(modalAnnotation, propertyKey)}
-                                                    />
-                                                );
+                                                    />);
+                                                } else {
+                                                    viewComponents.push(<MessageComponent key={key}
+                                                        modalAnnotation={modalAnnotation}
+                                                        propertyKey={propertyKey}
+                                                        modalProperty={modalProperty}
+                                                    />);
+                                                }
                                             }
+
+                                            return (viewComponents);
                                         }) : 'No annotations yet'}
                                     </Col>
                                 </Row>

@@ -1,5 +1,8 @@
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Components */
+import ValueField from '../ValueField';
+
 
 const QualityFlaggingForm = (props) => {
     const modalProperty = props.modalProperty;
@@ -37,10 +40,11 @@ const QualityFlaggingForm = (props) => {
                     <Row className="mt-3">
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Flag: </p>
-                            <input className="annotate_annotationTypeField"
-                                name="value"
-                                defaultValue={formData && formData['value']}
-                                onChange={(value) => props.UpdateFormData('quality_flagging', 'value', value)}
+
+                            <ValueField formData={formData}
+                                modalProperty={modalProperty}
+
+                                UpdateFormData={(value) => props.UpdateFormData('quality_flagging', 'value', value)}
                             />
                         </Col>
                     </Row>

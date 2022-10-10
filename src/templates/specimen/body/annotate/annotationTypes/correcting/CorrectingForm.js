@@ -1,5 +1,8 @@
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Components */
+import ValueField from '../ValueField';
+
 
 const CorrectingForm = (props) => {
     const modalProperty = props.modalProperty;
@@ -38,11 +41,11 @@ const CorrectingForm = (props) => {
                     <Row className="mt-3">
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Value: </p>
-                            <input className="annotate_annotationTypeField"
-                                name="value"
-                                defaultValue={formData && formData['value']}
-                                autoComplete="false"
-                                onChange={(value) => props.UpdateFormData('correcting', 'value', value)}
+
+                            <ValueField formData={formData}
+                                modalProperty={modalProperty}
+
+                                UpdateFormData={(value) => props.UpdateFormData('correcting', 'value', value)}
                             />
                         </Col>
                     </Row>

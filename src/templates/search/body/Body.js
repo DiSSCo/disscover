@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import SearchBar from "./searchMenu/SearchBar";
 import SearchFilters from "./searchMenu/SearchFilters";
 import ResultsTable from "./resultsTable/ResultsTable";
+import Paginator from "templates/general/paginator/Paginator";
 
 /* Import API */
 import SpecimenSearch from "api/specimen/SpecimenSearch.js";
@@ -17,9 +18,10 @@ const Body = () => {
     let location = useLocation();
 
     const [loaded, setLoaded] = useState();
+    const [paginationRange, setPaginationRange] = useState();
 
     const [searchQuery, setSearchQuery] = useState();
-    const [searchResults, setSearchResults] = useState();
+    const [searchResults, setSearchResults] = useState([]);
 
     function UpdateSearchQuery(query) {
         setSearchQuery(query.target.value);
@@ -100,6 +102,27 @@ const Body = () => {
                                         <ResultsTable searchResults={searchResults} />
                                     </Col>
                                 </Row>
+
+                                <Row className="px-5">
+                                    <Col className="col-md-auto search_resultCount py-2">
+                                        {(searchResults.length === 1) ?
+                                            '1 specimen found'
+                                            : `${searchResults.length} specimens found`
+                                        }
+                                    </Col>
+
+                                    {(searchResults.length > 0) &&
+                                        <Col className="col-md-auto">
+                                            <Paginator items={searchResults}
+                                                pageSize={25}
+
+                                                SetPaginationRange={(range) => setPaginationRange(range)}
+                                            />
+                                        </Col>
+                                    }
+                                </Row>
+
+
                             </Col>
                         </Row>
                     </Col>

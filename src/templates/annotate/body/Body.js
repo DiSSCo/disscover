@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
@@ -6,6 +7,8 @@ import AnnotationsTable from './annotationsTable/AnnotationsTable';
 
 
 const Body = () => {
+    const [filter, setFilter] = useState('recentAnnotations')
+
     return (
         <Container fluid>
             <Row>
@@ -17,11 +20,15 @@ const Body = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <AnnotationFilters />
+                            <AnnotationFilters 
+                                SetFilter={(filter) => setFilter(filter)}
+                            />
                         </Col>
                     </Row>
                     <Row className="mt-3">
-                        <AnnotationsTable />
+                        <AnnotationsTable 
+                            filter={filter}
+                        />
                     </Row>
                 </Col>
             </Row>

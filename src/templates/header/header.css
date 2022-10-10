@@ -54,6 +54,10 @@
 
 /* Login button */
 
+.header_loginButtonBlock {
+    padding-right: 0 !important;
+}
+
 .header_loginButton {
     height: 30px;
     background-color: white;

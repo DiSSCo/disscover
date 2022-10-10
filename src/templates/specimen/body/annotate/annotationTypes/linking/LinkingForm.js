@@ -1,5 +1,8 @@
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Components */
+import ValueField from '../ValueField';
+
 
 const LinkingForm = (props) => {
     const modalProperty = props.modalProperty;
@@ -38,12 +41,12 @@ const LinkingForm = (props) => {
                     <Row className="mt-3">
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> New link: </p>
-                            <input className="annotate_annotationTypeField"
-                                name="value"
-                                defaultValue={formData && formData['value']}
-                                autoComplete="false"
-                                onChange={(value) => props.UpdateFormData('linking', 'value', value)}
-                            />
+
+                            <ValueField formData={formData}
+                                    modalProperty={modalProperty}
+
+                                    UpdateFormData={(value) => props.UpdateFormData('linking', 'value', value)}
+                                />
                         </Col>
                     </Row>
                     <Row className="mt-3">

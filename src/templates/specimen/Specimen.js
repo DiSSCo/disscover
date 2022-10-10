@@ -56,7 +56,7 @@ const Specimen = () => {
 
                 <Body specimen={specimen} LoadSpecimenVersion={(handle, version) => LoadSpecimenVersion(handle, version)} />
 
-                <Footer page={"ds"} />
+                <Footer page={"notHome"} />
             </div>
         );
     }

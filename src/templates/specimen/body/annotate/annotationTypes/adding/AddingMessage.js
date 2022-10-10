@@ -6,15 +6,20 @@ import UserService from 'keycloak/Keycloak';
 const AddingMessage = (props) => {
     const modalAnnotation = props.modalAnnotation;
     const propertyKey = props.propertyKey;
+    const annotationType = props.annotationType;
     const editType = props.editType;
 
-    let ref = useRef();
+    let ref = useRef(null);
 
     useEffect(() => {     
         if (editType === 'adding' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
+        } else if (annotationType === 'adding') {
+            setTimeout(function () {
+                props.ScrollToAnnotation(ref);
+            }, 500)
         }
-    }, [editType]);
+    }, [editType, annotationType]);
 
     const isoDate = new Date(Date.parse(modalAnnotation['created']));
     const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;

@@ -7,14 +7,19 @@ const CommentingMessage = (props) => {
     const modalAnnotation = props.modalAnnotation;
     const propertyKey = props.propertyKey;
     const editType = props.editType;
+    const annotationType = props.annotationType;
 
     let ref = useRef();
 
-    useEffect(() => {     
+    useEffect(() => {
         if (editType === 'commenting' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
+        } else if (annotationType === 'commenting') {
+            setTimeout(function () {
+                props.ScrollToAnnotation(ref);
+            }, 500)
         }
-    }, [editType]);
+    }, [editType, annotationType]);
 
     const isoDate = new Date(Date.parse(modalAnnotation['created']));
     const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
@@ -32,7 +37,7 @@ const CommentingMessage = (props) => {
     }
 
     return (
-        <Row key={propertyKey} 
+        <Row key={propertyKey}
             className="mb-3"
             onClick={() => props.ToggleEditMode('commenting')}
             ref={ref}

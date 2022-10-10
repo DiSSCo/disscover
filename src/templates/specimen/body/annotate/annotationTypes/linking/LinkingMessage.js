@@ -7,14 +7,19 @@ const LinkingMessage = (props) => {
     const modalAnnotation = props.modalAnnotation;
     const propertyKey = props.propertyKey;
     const editType = props.editType;
+    const annotationType = props.annotationType;
 
     let ref = useRef();
 
     useEffect(() => {     
         if (editType === 'linking' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
+        } else if (annotationType === 'linking') {
+            setTimeout(function () {
+                props.ScrollToAnnotation(ref);
+            }, 500)
         }
-    }, [editType]);
+    }, [editType, annotationType]);
 
     const isoDate = new Date(Date.parse(modalAnnotation['created']));
     const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;

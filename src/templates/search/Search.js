@@ -12,7 +12,7 @@ const Search = () => {
 
             <Body />
 
-            <Footer />
+            <Footer page={'notHome'} />
         </div>
     );
 }

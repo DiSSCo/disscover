@@ -11,7 +11,7 @@ function FilterSpecimen(specimen) {
         let propertyInfo;
 
         if (property in specimen) {
-            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property] } };
+            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property],  } };
         } else if (`dwc:${property}` in specimen['data']) {
             propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dwc:${property}`] } };
         } else if (`dcterms:${property}` in specimen['data']) {
@@ -58,7 +58,6 @@ function CheckRules(property, propertyInfo, callback) {
                         if (propertyInfo['value'] !== 'Undefined') {
                             propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
                         }
-                        
                         break;
                 }
             } else {

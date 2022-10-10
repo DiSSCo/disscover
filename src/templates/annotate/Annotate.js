@@ -13,7 +13,7 @@ const Annotate = () => {
 
             <Body />
 
-            <Footer />
+            <Footer page={"notHome"} />
         </div>
     )
 }

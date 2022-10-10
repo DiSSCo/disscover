@@ -1,90 +1,114 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Col } from 'react-bootstrap';
+import UserService from 'keycloak/Keycloak';
+
+/* Import API */
+import GetRecentAnnotations from 'api/annotate/GetRecentAnnotations';
+import GetCreatorAnnotations from 'api/annotate/GetCreatorAnnotations';
 
 
-const AnnotationsTable = () => {
-    // let searchResults = props.searchResults;
+const AnnotationsTable = (props) => {
+    const filter = props.filter;
 
-    // let navigate = useNavigate();
+    useEffect(() => {
+        if (filter === 'recentAnnotations') {
+            GetRecentAnnotations(Process);
+        } else if (filter === 'creatorAnnotations') {
+            GetCreatorAnnotations(UserService.getToken(), Process);
+        }
+    }, [filter]);
 
-    // function RedirectToSpecimenPage(index) {
-    //     const specimen = searchResults[index];
+    const [displayAnnotations, setDisplayAnnotations] = useState();
 
-    //     navigate(`/ds/${specimen['Meta']['id']['value']}`, {
-    //         state: {
-    //             specimen: specimen
-    //         }
-    //     });
-    // }
+    function Process(annotations) {
+        // console.log(annotations)
+        setDisplayAnnotations(annotations);
+    }
 
-    /* Set table headers */
-    const tableHeaders = [{
-        dataField: 'index',
-        hidden: true
-    }, {
-        dataField: 'name',
-        text: 'Specimen name',
-        sort: true
-    }, {
-        dataField: 'country',
-        text: 'Attribute',
-        sort: true
-    }, {
-        dataField: 'specimen_type',
-        text: 'Annotation type',
-        sort: true
-    }, {
-        dataField: 'organisation',
-        text: 'Datetime',
-        sort: true
-    }];
+    let navigate = useNavigate();
 
-    /* Set table data */
-    let tableData = [];
-    let rowEvents;
+    function RedirectToSpecimenPage(index) {
+        const specimen = displayAnnotations[index][specimen];
 
-    // if (!searchResults || searchResults['length'] === 0) {
-    //     searchResults = [];
+        navigate(`/ds/${specimen['id']}`, {
+            state: {
+                specimen: specimen
+            }
+        });
+    }
 
-    //     tableData = [{
-    //         'name': 'No specimens were found'
-    //     }];
-    // } else {
-    //     rowEvents = {
-    //         onClick: (_e, row, _rowIndex) => {
-    //             RedirectToSpecimenPage(row['index'])
-    //         }
-    //     };
+    if (displayAnnotations) {
+        /* Set table headers */
+        const tableHeaders = [{
+            dataField: 'index',
+            hidden: true
+        }, {
+            dataField: 'specimen_name',
+            text: 'Specimen name',
+            sort: true
+        }, {
+            dataField: 'attribute',
+            text: 'Attribute',
+            sort: true
+        }, {
+            dataField: 'annotation_type',
+            text: 'Annotation type',
+            sort: true
+        }, {
+            dataField: 'date',
+            text: 'Date',
+            sort: true
+        }];
 
-    //     for (const i in searchResults) {
-    //         const specimen = searchResults[i];
+        /* Set table data */
+        let tableData = [];
+        let rowEvents;
 
-    //         tableData.push({
-    //             'index': i,
-    //             'name': specimen['Specimen']['specimenName']['value'],
-    //             'country': specimen['Location']['country']['value'],
-    //             'specimen_type': specimen['Specimen']['type']['value'],
-    //             'organisation': specimen['Organisation']['institutionID']['value']
-    //         });
-    //     }
-    // }
+        if (!displayAnnotations || displayAnnotations['length'] === 0) {
+            tableData = [{
+                'name': 'No annotations are present'
+            }];
+        } else {
+            rowEvents = {
+                onClick: (_e, row, _rowIndex) => {
+                    RedirectToSpecimenPage(row['index'])
+                }
+            };
 
-    return (
-        <Col className="annotate_resultsTable">
-            <BootstrapTable
-                keyField='id'
-                data={tableData}
-                columns={tableHeaders}
-                // rowEvents={rowEvents}
-                rowClasses='annotate_tableRow'
-                headerClasses='annotate_tableHeader'
-                bodyClasses='annotate_resultsTableContent'
-                classes='annotate_table'
-                striped={true}
-            />
-        </Col>
-    );
+            for (const i in displayAnnotations) {
+                const annotation = displayAnnotations[i];
+
+                const isoDate = new Date(Date.parse(annotation['created']));
+                const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
+
+                tableData.push({
+                    'index': i,
+                    'specimen_name': annotation['specimen']['specimenName'],
+                    'attribute': annotation['target']['indvProp'],
+                    'annotation_type': annotation['motivation'],
+                    'date': date
+                });
+            }
+        }
+
+        return (
+            <Col className="annotate_resultsTable">
+                <BootstrapTable
+                    keyField='id'
+                    data={tableData}
+                    columns={tableHeaders}
+                    // rowEvents={rowEvents}
+                    rowClasses='annotate_tableRow'
+                    headerClasses='annotate_tableHeader'
+                    bodyClasses='annotate_resultsTableContent'
+                    classes='annotate_table'
+                    striped={true}
+                />
+            </Col>
+        );
+    }
 }
 
 export default AnnotationsTable;

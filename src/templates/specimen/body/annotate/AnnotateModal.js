@@ -104,15 +104,14 @@ const AnnotateModal = (props) => {
     }, [modalToggle]);
 
     function RenderMultipleMode(annotationType) {
-        useEffect(() => {
-            const formDataCopy = { ...formData };
+        const formDataCopy = { ...formData };
 
-            if (!Array.isArray(formDataCopy['annotationTypes'][annotationType]['value'])) {
-                formDataCopy['annotationTypes'][annotationType]['value'] = [formData['annotationTypes'][annotationType]['value']];
+        if (!Array.isArray(formDataCopy['annotationTypes'][annotationType]['value'])) {
+            formDataCopy['annotationTypes'][annotationType]['value'] = [formData['annotationTypes'][annotationType]['value']];
 
-                setFormData(formDataCopy);
-            }
-        }, []);
+            setFormData(formDataCopy);
+        }
+
 
         function AddField() {
             const copyFormData = { ...formData };
@@ -255,6 +254,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
                         />);
                     case 'correcting':
                         return (<CorrectingForm
@@ -264,6 +264,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
                         />);
                     case 'quality_flagging':
                         return (<QualityFlaggingForm
@@ -273,6 +274,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
                         />);
                     case 'adding':
                         return (<AddingForm
@@ -282,6 +284,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
                             RenderMultipleMode={(annotationType, latestAnnotationData) => RenderMultipleMode(annotationType, latestAnnotationData)}
                         />);
                 }
@@ -340,8 +343,6 @@ const AnnotateModal = (props) => {
                         </Modal.Title>
                     </Modal.Header>
 
-
-
                     <Modal.Body className="annotate_modalBody">
                         <Row className="px-2">
                             <Col md={{ span: 12 }} className="annotate_modalCurrentValue">
@@ -367,9 +368,8 @@ const AnnotateModal = (props) => {
                                 <Row>
                                     <Col md={{ span: 12 }}>
                                         {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
-
-
                                             const modalAnnotations = propertyAnnotations[key];
+
                                             const propertyKey = modalProperty['property'] + key;
 
                                             const MessageComponent = annotationMessageTypes[key];
@@ -385,6 +385,7 @@ const AnnotateModal = (props) => {
                                                         propertyKey={propertyKey}
                                                         modalProperty={modalProperty}
                                                         editType={editType}
+                                                        annotationType={annotationType}
 
                                                         ToggleEditMode={(type) => ToggleEditMode(type)}
                                                         ScrollToAnnotation={(ref) => ScrollToAnnotation(ref)}
@@ -394,6 +395,7 @@ const AnnotateModal = (props) => {
                                                         modalAnnotation={modalAnnotation}
                                                         propertyKey={propertyKey}
                                                         modalProperty={modalProperty}
+                                                        annotationType={annotationType}
                                                     />);
                                                 }
                                             }
@@ -418,7 +420,7 @@ const AnnotateModal = (props) => {
                             <Col>
                                 <select onChange={e => UpdateAnnotationType(e.target.value)}
                                     className="annotate_annotationTypeSelect px-2 py-2"
-                                    value={annotationType}
+                                    value={annotationType ? annotationType : 'commenting'}
                                 >
                                     {annotationTypes.map((type, _i) => {
                                         return (

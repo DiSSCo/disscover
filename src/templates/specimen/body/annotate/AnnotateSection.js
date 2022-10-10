@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import UserService from 'keycloak/Keycloak';
 import './annotate.css';
 
 /* Import API */
-import GetAnnotations from 'api/annotate/GetAnnotations';
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
 import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
 
@@ -15,41 +14,12 @@ import AnnotateModal from './AnnotateModal';
 
 const AnnotateSection = (props) => {
     const specimen = props.specimen;
+    const modalToggle = props.modalToggle;
+    const modalProperty = props.modalProperty;
+    const modalAnnotations = props.modalAnnotations;
+    const annotationType = props.annotationType;
+
     const token = UserService.getToken();
-
-    /* Modal handling */
-    const [modalToggle, setModalToggle] = useState(false);
-    const [modalProperty, setModalProperty] = useState({ 'property': '' });
-    const [modalAnnotations, setModalAnnotations] = useState();
-
-    useEffect(() => {
-        SetAnnotations();
-    }, []);
-
-    function SetAnnotations() {
-        /* Search for annotations data and put into view */
-        GetAnnotations(specimen['Meta']['id']['value'], Process);
-
-        function Process(annotations) {
-            const annotationsForModal = {};
-
-            for (const i in annotations) {
-                const annotation = annotations[i];
-
-                if (!annotationsForModal[annotation['target']['indvProp']]) {
-                    annotationsForModal[annotation['target']['indvProp']] = { [annotation['motivation']]: { [annotation['creator']]: annotation } };
-                } else if (!annotationsForModal[annotation['target']['indvProp']][annotation['motivation']]) {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = {[annotation['creator']]: annotation };
-                } else {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']][annotation['creator']] = annotation;
-                }
-            }
-
-            setModalAnnotations(annotationsForModal);
-        }
-    }
-
-    const [annotationType, setAnnotationType] = useState('');
 
     const annotationTypes = [{
         key: "commenting",
@@ -66,27 +36,7 @@ const AnnotateSection = (props) => {
     }, {
         key: "adding",
         displayName: "Addition"
-    }
-    ];
-
-    function ToggleModal(property = null, propertyObject) {
-        setModalToggle(!modalToggle);
-
-        if (!modalToggle) {
-            setAnnotationType('commenting');
-        }
-
-        if (property && property !== modalProperty['property']) {
-            let copyModalProperty = { ...modalProperty };
-
-            copyModalProperty['property'] = property;
-            copyModalProperty['displayName'] = propertyObject['displayName'];
-            copyModalProperty['currentValue'] = propertyObject['value'];
-            copyModalProperty['multiple'] = propertyObject['multiple'];
-
-            setModalProperty(copyModalProperty);
-        }
-    }
+    }];
 
     function SaveAnnotation(annotation) {
         if (annotation) {
@@ -103,10 +53,10 @@ const AnnotateSection = (props) => {
                     } else if (!copyModalAnnotations[modalProperty['property']][result['motivation']]) {
                         copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
                     } else {
-                        copyModalAnnotations[modalProperty['property']][result['motivation']][result['creator']] = result ;
+                        copyModalAnnotations[modalProperty['property']][result['motivation']][result['creator']] = result;
                     }
 
-                    setModalAnnotations(copyModalAnnotations);
+                    props.SetModalAnnotations(copyModalAnnotations);
                 }
             }
         }
@@ -135,9 +85,7 @@ const AnnotateSection = (props) => {
 
                 delete copyModalAnnotations[modalProperty['property']][type][annotation['creator']];
 
-                console.log(copyModalAnnotations);
-
-                setModalAnnotations(copyModalAnnotations);
+                props.SetModalAnnotations(copyModalAnnotations);
             }
         }
     }
@@ -171,7 +119,7 @@ const AnnotateSection = (props) => {
                                         toggledAnnotationRows={toggledAnnotationRows}
                                         modalAnnotations={modalAnnotations}
 
-                                        ToggleModal={(property, displayName, currentValue) => ToggleModal(property, displayName, currentValue)}
+                                        ToggleModal={(property, displayName, currentValue) => props.ToggleModal(property, displayName, currentValue)}
                                         ToggleAnnotationRow={(group) => ToggleAnnotationRow(group)}
                                         UpdateScrollToMids={(midsHandle) => props.UpdateScrollToMids(midsHandle)}
                                     />
@@ -190,11 +138,11 @@ const AnnotateSection = (props) => {
                     annotationType={annotationType}
                     annotationTypes={annotationTypes}
 
-                    ToggleModal={() => ToggleModal()}
+                    ToggleModal={() => props.ToggleModal()}
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
                     // UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
                     RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
-                    SetAnnotationType={(type) => setAnnotationType(type)}
+                    SetAnnotationType={(type) => props.SetAnnotationType(type)}
                 />
             }
         </div >

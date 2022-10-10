@@ -4,9 +4,12 @@ import { Row, Col } from 'react-bootstrap';
 /* Import API */
 import GetAnnotations from 'api/annotate/GetAnnotations';
 
+/* Import Sources */
+import AnnotationFilterLayer from 'sources/annotationFilterLayer';
+
 
 const AnnotationsOverview = (props) => {
-    const specimenHandle = props.specimenHandle;
+    const specimen = props.specimen;
 
     const [tabs, setTabs] = useState({
         annotations: 'active',
@@ -15,7 +18,7 @@ const AnnotationsOverview = (props) => {
     const [overviewAnnotations, setOverviewAnnotations] = useState();
 
     useEffect(() => {
-        GetAnnotations(specimenHandle, Process);
+        GetAnnotations(specimen['Meta']['id']['value'], Process);
 
         function Process(annotations) {
             const newOverviewAnnotations = {
@@ -95,9 +98,17 @@ const AnnotationsOverview = (props) => {
                                                 even = "";
                                             }
 
+                                            const Events = () => {
+                                                const propertyObject = AnnotationFilterLayer[annotation['target']['indvProp']];
+
+                                                props.ToggleModal(annotation['target']['indvProp'], propertyObject, annotation['motivation'])
+                                            }
+
                                             return (
                                                 <Row key={i}>
-                                                    <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}>
+                                                    <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
+                                                        onClick={() => {Events()}}
+                                                    >
                                                         <Row>
                                                             <Col md={{ span: 5 }}>
                                                                 {annotation['target']['indvProp']}
@@ -139,9 +150,17 @@ const AnnotationsOverview = (props) => {
                                                 even = "";
                                             }
 
+                                            const Events = () => {
+                                                const propertyObject = AnnotationFilterLayer[annotation['target']['indvProp']];
+
+                                                props.ToggleModal(annotation['target']['indvProp'], propertyObject, annotation['motivation'])
+                                            }
+
                                             return (
                                                 <Row key={i}>
-                                                    <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}>
+                                                    <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
+                                                        onClick={() => {Events()}}
+                                                    >
                                                         <Row>
                                                             <Col md={{ span: 5 }}>
                                                                 {annotation['target']['indvProp']}

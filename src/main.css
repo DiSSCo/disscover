@@ -53,3 +53,23 @@ a {
 .strong {
     font-weight: bold;
 }
+
+
+/* Paginator */
+
+.page-item {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.page-item.active {
+    line-height: 28px;
+    z-index: 0;
+}
+
+.page-link {
+    height: 100%;
+    width: 100%;
+}

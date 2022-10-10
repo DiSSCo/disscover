@@ -1,43 +1,49 @@
 /* Styling for Profile page */
 
 
-/* Profile information */
+/* User information */
 
 .profile_profileBlock {
     padding: 2%;
     background-color: var(--main-color-light);
 }
 
+.profile_profilePicture {
+    width: 80px;
+}
+
+.profile_username {
+    font-size: 25px;
+}
+
+.profile_titleOrganization {
+    font-size: 30px;
+}
+
+
+/* User statistics */
+
+.profile_userStatistic {
+    border: 2px solid #333333;
+}
+
+.profile_testGraph {
+    width: 70%;
+}
+
 
 /* Profile annotations and curations */
-
-.profile_contentTab {
-    background-color: #d9d9d9;
-    cursor: pointer;
-}
-
-.profile_contentTab.active {
-    background-color: var(--main-color);
-    cursor: default;
-}
-
-.profile_content {
-    background-color: var(--main-color-darker);
-    display: none;
-}
-
-.profile_content.active {
-    display: initial;
-}
 
 .profile_annotation {
     font-size: 15px;
     height: 140px;
-    overflow: hidden;
+    border: 1px solid var(--main-color-darker);
 }
 
-.profile_annotationInfo {
-    background-color: rgb(255, 255, 255, 0.85);
+.profile_annotationType {
+    background-color: var(--main-color-darker);
+    color: white;
+    font-weight: bold;
 }
 
 .profile_annotationSpecimenType {
@@ -46,7 +52,7 @@
     padding: 5px 10px 5px 10px;
     position: absolute;
     right: 0;
-    margin-right: 10px;
+    margin-right: 12px;
     border-bottom-left-radius: 5px;
 }
 

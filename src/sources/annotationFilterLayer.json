@@ -168,7 +168,15 @@
         "annotatable": true,
         "mids": {
             "level": 1
-        }
+        },
+        "rules": [
+            "select"
+        ],
+        "options": [
+            "PalaeontologySpecimen",
+            "BotanySpecimen",
+            "PreservedSpecimen"
+        ]
     },
     "typeStatus": {
         "displayName": "Type status",

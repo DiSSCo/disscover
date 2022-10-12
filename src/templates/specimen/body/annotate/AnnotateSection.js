@@ -142,7 +142,7 @@ const AnnotateSection = (props) => {
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
                     // UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
                     RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
-                    SetAnnotationType={(type) => props.SetAnnotationType(type)}
+                    SetAnnotationType={(type, form) => props.SetAnnotationType(type, form)}
                 />
             }
         </div >

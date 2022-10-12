@@ -69,7 +69,7 @@ const Body = () => {
                                                 UCAS is a FAIR annotation and curation platform.
                                                 Human experts and machines can add annotations on Digital Specimens.
                                                 The annotations are stored as FAIR Digital Objects (with a persistent identifier).
-                                                UCAS also keeps track of the transactions on the data as provenance information related 
+                                                UCAS also keeps track of the transactions on the data as provenance information related
                                                 to the curation or annotation events.
                                             </Col>
                                         </Row>
@@ -102,18 +102,22 @@ const Body = () => {
 
                         <Mids />
 
-                        <Row className="mt-5">
+                        <Row className="mt-5 position-relative">
                             <Col md={{ span: 12 }} className="mt-5">
                                 <Row>
                                     <Col>
-                                        <h3 className="home_title">
-                                            Explore: Thematic Section
+                                        <div className="home_thematicSectionBackground" />
+
+                                        <div className="home_thematicSectionBody">
+
+                                        </div>
+                                        <h3 className="home_title secondary">
+                                            Specimen Spotlight
                                         </h3>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <SampleSpecimen />
-                                </Row>
+
+                                <SampleSpecimen />
                             </Col>
                         </Row>
                     </Col>

@@ -1,98 +1,46 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 
+/* Import API */
+import GetDigitalMedias from "api/digitalMedia/getDigitalMedias";
+
+
 function SampleSpecimen() {
-    return (
-        <Row>
-            <Col md="3" className="sampleSpecimen">
-                <Row>
-                    <Col md={{ span: 12 }}>
-                        <div className="w-100 position-relative">
-                            <img className="sampleSpecimenImage w-100"
-                                src="https://api.gbif.org/v1/image/unsafe/fit-in/500x/http%3A%2F%2Fn2t.net%2Fark%3A%2F65665%2Fm356c5f382-f218-400f-8503-91d4dff71b1f"
-                                alt="Example specimen"
-                            />
+    const [digitalMedia, setDigitalMedia] = useState();
 
-                            <div className="sampleSpecimenInfo">
-                                Smilodon Populator
-                                <br />
-                                <button type="button" className="sampleSpecimenButton mt-3">
-                                    Go to Specimen
-                                </button>
-                            </div>
+    useEffect(() => {
+        GetDigitalMedias(Process);
+
+        function Process(result) {
+            setDigitalMedia(result);
+        }
+    }, []);
+
+    if (digitalMedia) {
+        return (
+            <Row className="mt-3 mb-3">
+                <Col>
+                    <div className="home_mediaSliderBlock">
+                        <div className="home_mediaSlider">
+                            {digitalMedia.map((mediaItem, i) => {
+                                return (
+                                    <div key={i} className="home_mediaSliderItem mx-3">
+                                        <Row className="h-25 align-items-center justify-content-center">
+                                            <Col className="home_mediaItemTitle col-md-auto my-2 mx-2">
+                                                {mediaItem['specimen']['specimenName']}
+                                            </Col>
+                                        </Row>
+
+                                        <img src={mediaItem['mediaUrl']} className="home_mediaItem position-absolute w-100 h-75" />
+                                    </div>
+                                );
+                            })}
                         </div>
-
-                    </Col>
-                </Row>
-            </Col>
-
-            <Col md="3" className="sampleSpecimen">
-                <Row>
-                    <Col md={{ span: 12 }}>
-                        <div className="w-100 position-relative">
-                            <img className="sampleSpecimenImage w-100"
-                                src="https://api.gbif.org/v1/image/unsafe/fit-in/500x/http%3A%2F%2Fn2t.net%2Fark%3A%2F65665%2Fm356c5f382-f218-400f-8503-91d4dff71b1f"
-                                alt="Example specimen"
-                            />
-
-                            <div className="sampleSpecimenInfo">
-                                Smilodon Populator
-                                <br />
-                                <button type="button" className="sampleSpecimenButton mt-3">
-                                    Go to Specimen
-                                </button>
-                            </div>
-                        </div>
-
-                    </Col>
-                </Row>
-            </Col>
-
-            <Col md="3" className="sampleSpecimen">
-                <Row>
-                    <Col md={{ span: 12 }}>
-                        <div className="w-100 position-relative">
-                            <img className="sampleSpecimenImage w-100"
-                                src="https://api.gbif.org/v1/image/unsafe/fit-in/500x/http%3A%2F%2Fn2t.net%2Fark%3A%2F65665%2Fm356c5f382-f218-400f-8503-91d4dff71b1f"
-                                alt="Example specimen"
-                            />
-
-                            <div className="sampleSpecimenInfo">
-                                Smilodon Populator
-                                <br />
-                                <button type="button" className="sampleSpecimenButton mt-3">
-                                    Go to Specimen
-                                </button>
-                            </div>
-                        </div>
-
-                    </Col>
-                </Row>
-            </Col>
-
-            <Col md="3" className="sampleSpecimen">
-                <Row>
-                    <Col md={{ span: 12 }}>
-                        <div className="w-100 position-relative">
-                            <img className="sampleSpecimenImage w-100"
-                                src="https://api.gbif.org/v1/image/unsafe/fit-in/500x/http%3A%2F%2Fn2t.net%2Fark%3A%2F65665%2Fm356c5f382-f218-400f-8503-91d4dff71b1f"
-                                alt="Example specimen"
-                            />
-
-                            <div className="sampleSpecimenInfo">
-                                Smilodon Populator
-                                <br />
-                                <button type="button" className="sampleSpecimenButton mt-3">
-                                    Go to Specimen
-                                </button>
-                            </div>
-                        </div>
-
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-    );
+                    </div>
+                </Col>
+            </Row>
+        );
+    }
 }
 
-export default SampleSpecimen;
+export default SampleSpecimen

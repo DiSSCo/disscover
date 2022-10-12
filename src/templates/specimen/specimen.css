@@ -361,8 +361,13 @@
 .specimen_annotationsOverviewSectionRow {
     font-size: 14px;
     border-bottom: 1px solid var(--greyXLight);
+    cursor: pointer;
 }
 
 .specimen_annotationsOverviewSectionRow.even {
     background-color: var(--main-color-light);
+}
+
+.specimen_annotationsOverviewSectionRow:hover {
+    background-color: var(--greyLight);
 }

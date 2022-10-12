@@ -27,7 +27,10 @@
         "annotatable": true,
         "mids": {
             "level": 1
-        }
+        },
+        "rules": [
+            "datetime"
+        ]
     },
     "last_harvested_processing": {
         "displayName": "Last harvested",

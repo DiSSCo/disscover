@@ -103,7 +103,7 @@ const Body = () => {
                                     </Col>
                                 </Row>
 
-                                <Row className="px-5">
+                                <Row className="px-5 mt-3">
                                     <Col className="col-md-auto search_resultCount py-2">
                                         {(searchResults.length === 1) ?
                                             '1 specimen found'

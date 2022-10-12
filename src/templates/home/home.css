@@ -286,6 +286,49 @@
 }
 
 
+/* Thematic Section */
+
+.home_thematicSection {
+    width: 100%;
+    height: 100%;
+}
+
+.home_thematicSectionBackground {
+    background-color: var(--main-color-darker);
+    position: absolute;
+    margin-left: -11%;
+    margin-top: -2%;
+    width: 100vw !important;
+    height: 104%;
+    z-index: -1;
+}
+
+.home_mediaSliderBlock {
+    overflow-x: scroll;
+}
+
+.home_mediaSlider {
+    width: max-content;
+}
+
+.home_mediaSliderItem {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    background-color: white;
+    display: inline-block;
+}
+
+.home_mediaItemTitle {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.home_mediaItem {
+    bottom: 0;
+}
+
+
 /* Oblique Banner */
 
 .obliqueBanner {

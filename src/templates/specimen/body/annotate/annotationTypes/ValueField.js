@@ -1,18 +1,14 @@
+import { useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
+
+
 const ValueField = (props) => {
     const formData = props.formData;
     const modalProperty = props.modalProperty;
 
-    if (modalProperty['options']) {
-        const dataList = <datalist>
-            {modalProperty['options'].map((option, i) => {
-                return (
-                    <option key={i}
-                        value={option}
-                    />
-                );
-            })}
-        </datalist>
+    const [startDate, setStartDate] = useState(new Date(modalProperty['currentValue']));
 
+    if (modalProperty['options']) {
         return (
             <>
                 <datalist id={`dataList`}>
@@ -33,6 +29,16 @@ const ValueField = (props) => {
                 />
 
             </>
+        );
+    } else if (!isNaN(startDate)) {
+        return (
+            <ReactDatePicker selected={startDate} 
+                onChange={(date) => setStartDate(date)}
+                onSelect={(value) => props.UpdateFormData(value)}
+                showTimeSelect
+                dateFormat={"yyyy-MM-dd h:mm"}
+
+            />
         );
     } else {
         return (

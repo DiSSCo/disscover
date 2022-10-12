@@ -14,7 +14,7 @@ const LinkingMessage = (props) => {
     useEffect(() => {     
         if (editType === 'linking' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
-        } else if (annotationType === 'linking') {
+        } else if (annotationType['type'] === 'linking') {
             setTimeout(function () {
                 props.ScrollToAnnotation(ref);
             }, 500)

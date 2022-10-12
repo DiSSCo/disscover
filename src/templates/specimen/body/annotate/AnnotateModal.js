@@ -157,10 +157,12 @@ const AnnotateModal = (props) => {
     }
 
     function UpdateAnnotationType(type) {
-        props.SetAnnotationType(type);
+        props.SetAnnotationType(type, true);
 
         if (Object.keys(formData['annotationTypes'][type]).length > 0) {
             setEditType(type);
+        } else {
+            setEditType('');
         }
     }
 
@@ -169,6 +171,10 @@ const AnnotateModal = (props) => {
             setAnnotationFormToggle('');
         } else {
             setAnnotationFormToggle('active');
+
+            if (Object.keys(formData['annotationTypes']['commenting']).length > 0) {
+                setEditType('commenting');
+            }
         }
     }
 
@@ -180,7 +186,7 @@ const AnnotateModal = (props) => {
                 ToggleAnnotationForm();
             }
 
-            props.SetAnnotationType(type);
+            props.SetAnnotationType(type, true);
             setEditType(type);
         } else {
             ToggleAnnotationForm(true);
@@ -191,15 +197,21 @@ const AnnotateModal = (props) => {
     function UpdateFormData(annotationType, formField, value, index = -1) {
         const formDataCopy = { ...formData };
 
+        if (typeof (value.target.value) === 'object') {
+            value = `${value.getFullYear()}-${value.getMonth() + 1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}:${value.getSeconds()}.${value.getMilliseconds()}`;
+        } else {
+            value = value.target.value;
+        }
+
         if (index >= 0) {
             if (!formDataCopy['annotationTypes'][annotationType][[formField]]) {
                 formDataCopy['annotationTypes'][annotationType][[formField]] = [];
-                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value.target.value;
+                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value;
             } else {
-                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value.target.value;
+                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value;
             }
         } else {
-            formDataCopy['annotationTypes'][annotationType][[formField]] = value.target.value;
+            formDataCopy['annotationTypes'][annotationType][[formField]] = value;
         }
 
         setFormData(formDataCopy);
@@ -230,12 +242,12 @@ const AnnotateModal = (props) => {
         if (formData) {
             let annotationExists = false;
 
-            if (annotationType) {
-                if (Object.keys(formData['annotationTypes'][annotationType]).length > 0) {
+            if (annotationType['type'] && annotationType['form']) {
+                if (Object.keys(formData['annotationTypes'][annotationType['type']]).length > 0) {
                     annotationExists = true;
                 }
 
-                switch (annotationType) {
+                switch (annotationType['type']) {
                     case 'commenting':
                         return (<CommentingForm
                             modalProperty={modalProperty}
@@ -401,7 +413,13 @@ const AnnotateModal = (props) => {
                                             }
 
                                             return (viewComponents);
-                                        }) : 'No annotations yet'}
+                                        })
+                                            : <Row>
+                                                <Col md={{ span: 10, offset: 1 }}>
+                                                    No annotations yet
+                                                </Col>
+                                            </Row>
+                                        }
                                     </Col>
                                 </Row>
                             </Col>
@@ -420,7 +438,7 @@ const AnnotateModal = (props) => {
                             <Col>
                                 <select onChange={e => UpdateAnnotationType(e.target.value)}
                                     className="annotate_annotationTypeSelect px-2 py-2"
-                                    value={annotationType ? annotationType : 'commenting'}
+                                    value={annotationType['type'] ? annotationType['type'] : 'commenting'}
                                 >
                                     {annotationTypes.map((type, _i) => {
                                         return (

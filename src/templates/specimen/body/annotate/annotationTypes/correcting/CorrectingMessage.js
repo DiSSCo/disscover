@@ -14,7 +14,7 @@ const CorrectingMessage = (props) => {
     useEffect(() => {     
         if (editType === 'correcting' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
-        } else if (annotationType === 'correcting') {
+        } else if (annotationType['type'] === 'correcting') {
             setTimeout(function () {
                 props.ScrollToAnnotation(ref);
             }, 500)

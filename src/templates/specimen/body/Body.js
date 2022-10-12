@@ -39,8 +39,17 @@ const Body = (props) => {
 
     const [modalToggle, setModalToggle] = useState(false);
     const [modalProperty, setModalProperty] = useState({ 'property': '' });
-    const [annotationType, setAnnotationType] = useState('');
+    const [annotationType, setAnnotationType] = useState({});
     const [modalAnnotations, setModalAnnotations] = useState();
+
+    function SetAnnotationType(type, form = false) {
+        const copyAnnotationType = { ...annotationType }
+
+        copyAnnotationType['type'] = type;
+        copyAnnotationType['form'] = form;
+
+        setAnnotationType(copyAnnotationType);
+    }
 
     useEffect(() => {
         SetAnnotations();
@@ -74,7 +83,7 @@ const Body = (props) => {
 
         if (!modalToggle) {
             if (type) {
-                setAnnotationType(type);
+                SetAnnotationType(type);
             }
         }
 
@@ -87,10 +96,14 @@ const Body = (props) => {
 
             if (propertyObject['multiple']) {
                 copyModalProperty['multiple'] = propertyObject['multiple'];
+            } else if (copyModalProperty['multiple']) {
+                delete copyModalProperty['multiple'];
             }
 
             if (propertyObject['options']) {
                 copyModalProperty['options'] = propertyObject['options']
+            } else if (copyModalProperty['options']) {
+                delete copyModalProperty['options'];
             }
 
             setModalProperty(copyModalProperty);
@@ -120,7 +133,7 @@ const Body = (props) => {
                                         UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
                                         ToggleMidsDetails={() => ToggleMidsDetails()}
                                         ToggleModal={(property, propertyObject) => ToggleModal(property, propertyObject)}
-                                        SetAnnotationType={(type) => setAnnotationType(type)}
+                                        SetAnnotationType={(type, form) => SetAnnotationType(type, form)}
                                         SetModalAnnotations={(copyModalAnnotations) => setModalAnnotations(copyModalAnnotations)}
                                     />
                                 </Col>
@@ -153,7 +166,7 @@ const Body = (props) => {
                                     <AnnotationsOverview specimen={specimen}
 
                                         ToggleModal={(property, propertyObject, type) => ToggleModal(property, propertyObject, type)}
-                                        SetAnnotationType={(type) => setAnnotationType(type)}
+                                        SetAnnotationType={(type) => SetAnnotationType(type)}
                                     />
                                 </Col>
                             </Row>

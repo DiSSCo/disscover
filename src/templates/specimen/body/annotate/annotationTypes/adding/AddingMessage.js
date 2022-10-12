@@ -14,7 +14,7 @@ const AddingMessage = (props) => {
     useEffect(() => {     
         if (editType === 'adding' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
-        } else if (annotationType === 'adding') {
+        } else if (annotationType['type'] === 'adding') {
             setTimeout(function () {
                 props.ScrollToAnnotation(ref);
             }, 500)

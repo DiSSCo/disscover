@@ -26,7 +26,7 @@ const SearchBar = (props) => {
                             className="search_searchBarInput"
                             onChange={props.updateSearchQuery} value={props.searchQuery}
                             onKeyPress={HandleKeyPress}
-                            placeholder="Thalassodromeus"
+                            placeholder="Iguanodon"
                         />
                         <button type="submit" className="search_searchBarSubmit" onClick={props.onSearch}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />

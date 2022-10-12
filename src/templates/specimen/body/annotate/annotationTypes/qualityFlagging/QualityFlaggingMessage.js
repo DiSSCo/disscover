@@ -14,7 +14,7 @@ const QualityFlaggingMessage = (props) => {
     useEffect(() => {
         if (editType === 'quality_flagging' && UserService.getSubject() === modalAnnotation['creator']) {
             props.ScrollToAnnotation(ref);
-        } else if (annotationType === 'quality_flagging') {
+        } else if (annotationType['type'] === 'quality_flagging') {
             setTimeout(function () {
                 props.ScrollToAnnotation(ref);
             }, 500)

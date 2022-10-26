@@ -47,7 +47,7 @@ function FilterSpecimen(specimen) {
 function CheckRules(property, propertyInfo, callback) {
     if (propertyInfo['rules']) {
         propertyInfo['rules'].forEach((rule, _i) => {
-            if (propertyInfo['value']) {
+            if (propertyInfo['value'] || propertyInfo['value'] === 'Undefined') {
                 switch (rule) {
                     case "list":
                         if (Array.isArray(propertyInfo['value'])) {
@@ -55,9 +55,7 @@ function CheckRules(property, propertyInfo, callback) {
                         }
                         break;
                     case "link":
-                        if (propertyInfo['value'] !== 'Undefined') {
                             propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
-                        }
                         break;
                 }
             } else {

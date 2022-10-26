@@ -6,7 +6,7 @@ import GetDigitalMedias from "api/digitalMedia/getDigitalMedias";
 
 
 function SampleSpecimen() {
-    const [digitalMedia, setDigitalMedia] = useState();
+    const [digitalMedia, setDigitalMedia] = useState([]);
 
     useEffect(() => {
         GetDigitalMedias(Process);
@@ -16,31 +16,97 @@ function SampleSpecimen() {
         }
     }, []);
 
-    if (digitalMedia) {
-        return (
-            <Row className="mt-3 mb-3">
-                <Col>
-                    <div className="home_mediaSliderBlock">
-                        <div className="home_mediaSlider">
-                            {digitalMedia.map((mediaItem, i) => {
-                                return (
-                                    <div key={i} className="home_mediaSliderItem mx-3">
-                                        <Row className="h-25 align-items-center justify-content-center">
-                                            <Col className="home_mediaItemTitle col-md-auto my-2 mx-2">
-                                                {mediaItem['specimen']['specimenName']}
-                                            </Col>
-                                        </Row>
+    const [imageHover, setImageHover] = useState({});
 
-                                        <img src={mediaItem['mediaUrl']} className="home_mediaItem position-absolute w-100 h-75" />
-                                    </div>
+    function ToggleImageHover(i, toggle) {
+        let copyImageHover = { ...imageHover };
+
+        if (!toggle) {
+            delete copyImageHover[i];
+        } else if (Object.keys(imageHover).length >= 1 || toggle) {
+            copyImageHover = { [i]: 'active' };
+        }
+
+        setImageHover(copyImageHover);
+    }
+
+    if (digitalMedia.length > 0) {
+        return (
+            <div className="home_thematicSectionBackground">
+                <Row>
+                    <Col md={{ span: 12 }}>
+                        <Row>
+                            {digitalMedia.slice(0, 6).map((media, i) => {
+                                return (
+                                    <Col key={i} md={{ span: 2 }}
+                                        className="p-0 home_sampleSpecimenImageSection position-relative"
+                                        onMouseEnter={() => ToggleImageHover(i, true)}
+                                        onMouseLeave={() => ToggleImageHover(i, false)}
+                                    >
+                                        <div className={`home_sampleSpecimenImageCover position-absolute ${imageHover[i]}`}>
+                                            Specimen
+                                        </div>
+
+                                        <img src={media['mediaUrl']}
+                                            className={`home_sampleSpecimenImage ${imageHover[i]}`}
+                                        />
+                                    </Col>
                                 );
                             })}
-                        </div>
-                    </div>
-                </Col>
-            </Row>
+                        </Row>
+
+                        <Row>
+                            <Col md={{ span: 1 }} className="home_sampleSpecimenFiller" />
+
+                            {digitalMedia.slice(5, 10).map((media, i) => {
+                                i += 6;
+
+                                return (
+                                    <Col key={i} md={{ span: 2 }}
+                                        className="p-0 home_sampleSpecimenImageSection position-relative"
+                                        onMouseEnter={() => ToggleImageHover(i, true)}
+                                        onMouseLeave={() => ToggleImageHover(i, false)}
+                                    >
+                                        <div className={`home_sampleSpecimenImageCover position-absolute ${imageHover[i]}`}>
+                                            Specimen
+                                        </div>
+
+                                        <img src={media['mediaUrl']}
+                                            className={`home_sampleSpecimenImage ${imageHover[i]}`}
+                                        />
+                                    </Col>
+                                );
+                            })}
+
+                            <Col md={{ span: 1 }} className="home_sampleSpecimenFiller" />
+                        </Row>
+
+                        <Row>
+                            {digitalMedia.slice(10, 16).map((media, i) => {
+                                i += 11;
+
+                                return (
+                                    <Col key={i} md={{ span: 2 }}
+                                        className="p-0 home_sampleSpecimenImageSection position-relative"
+                                        onMouseEnter={() => ToggleImageHover(i, true)}
+                                        onMouseLeave={() => ToggleImageHover(i, false)}
+                                    >
+                                        <div className={`home_sampleSpecimenImageCover position-absolute ${imageHover[i]}`}>
+                                            Specimen
+                                        </div>
+
+                                        <img src={media['mediaUrl']}
+                                            className={`home_sampleSpecimenImage ${imageHover[i]}`}
+                                        />
+                                    </Col>
+                                );
+                            })}
+                        </Row>
+                    </Col>
+                </Row >
+            </div >
         );
     }
 }
 
-export default SampleSpecimen
+export default SampleSpecimen;

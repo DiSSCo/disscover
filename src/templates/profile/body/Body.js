@@ -28,27 +28,28 @@ const Body = () => {
 
     return (
         <Container fluid className="h-100">
-            <Row>
-                <Col md={{ span: 10, offset: 1 }}>
-                    <Row className="mt-5">
-                        <Col md={{ span: 6 }}>
+            <Row className="mt-5">
+                <Col md={{ span: 5, offset: 1 }}>
+                    <Row>
+                        <Col md={{ span: 10 }}>
                             <UserInfo />
-                        </Col>
-                    </Row>
-
-                    <Row className="mt-5">
-                        <Col className="mt-4">
-                            <UserStatistics />
                         </Col>
                     </Row>
 
                     {creatorAnnotations &&
                         <Row className="mt-5">
-                            <Col>
+                            <Col md={{ span: 10 }}>
                                 <CreatorAnnotations creatorAnnotations={creatorAnnotations} />
                             </Col>
                         </Row>
                     }
+                </Col>
+                <Col md={{ span: 5 }}>
+                    <Row>
+                        <Col md={{ span: 12 }}>
+                            <UserStatistics />
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>

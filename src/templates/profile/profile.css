@@ -5,26 +5,38 @@
 
 .profile_profileBlock {
     padding: 2%;
-    background-color: var(--main-color-light);
+    border: 2px solid var(--main-color-darker);
+    border-radius: 8px;
 }
 
 .profile_profilePicture {
-    width: 80px;
+    width: 90px;
+    border-radius: 50%;
+    border: 2px solid var(--greyDark);
 }
 
 .profile_username {
-    font-size: 25px;
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .profile_titleOrganization {
-    font-size: 30px;
+    font-size: 18px;
+    color: var(--greyDark)
+}
+
+.profile_userQuote {
+    background-color: var(--main-color-darker);
+    color: white;
+    font-size: 14px;
 }
 
 
 /* User statistics */
 
 .profile_userStatistic {
-    border: 2px solid #333333;
+    height: 200px;
+    background-color: var(--greyXLight);
 }
 
 .profile_testGraph {
@@ -34,10 +46,35 @@
 
 /* Profile annotations and curations */
 
+.profile_annotationsTitle {
+    background-color: var(--main-color-darker);
+    color: white;
+    font-size: 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.profile_annotationsSection {
+    border: 2px solid var(--main-color-darker);
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.profile_annotationsHeader {
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .profile_annotation {
-    font-size: 15px;
-    height: 140px;
+    font-size: 14px;
     border: 1px solid var(--main-color-darker);
+    height: 50px;
+    line-height: 45px;
+}
+
+.profile_annotation:hover {
+    background-color: var(--main-color-light);
 }
 
 .profile_annotationType {

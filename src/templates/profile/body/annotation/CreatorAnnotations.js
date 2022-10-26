@@ -31,33 +31,52 @@ const CreatorAnnotations = (props) => {
         <Row>
             <Col>
                 <Row>
-                    <Col className="col-md-auto">
+                    <Col className="col-md-auto profile_annotationsTitle">
                         Annotations
                     </Col>
                 </Row>
+                <Row>
+                    <Col className="profile_annotationsSection">
+                        <Row>
+                            <Col className="profile_annotationsHeader">
+                                <Row>
+                                    <Col md={{ span: 3 }}>
+                                        Motivation
+                                    </Col>
+                                    <Col md={{ span: 6 }}>
+                                        Target
+                                    </Col>
+                                    <Col md={{ span: 3 }}>
+                                        Created
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
 
-                {(creatorAnnotations.length > 0) ?
-                    <Row>
-                        <Col>
-                            <Paginator items={creatorAnnotations}
-                                pageSize={6}
+                        {paginatorRange &&
+                            <Row>
+                                {RenderCreatorAnnotations()}
+                            </Row>
+                        }
 
-                                SetPaginationRange={(range) => setPaginationRange(range)}
-                            />
-                        </Col>
-                    </Row>
-                    : <Row>
-                        <Col>
-                            No annotations have been made yet
-                        </Col>
-                    </Row>
-                }
+                        {(creatorAnnotations.length > 0) ?
+                            <Row>
+                                <Col>
+                                    <Paginator items={creatorAnnotations}
+                                        pageSize={6}
 
-                {paginatorRange &&
-                    <Row>
-                        {RenderCreatorAnnotations()}
-                    </Row>
-                }
+                                        SetPaginationRange={(range) => setPaginationRange(range)}
+                                    />
+                                </Col>
+                            </Row>
+                            : <Row>
+                                <Col>
+                                    No annotations have been made yet
+                                </Col>
+                            </Row>
+                        }
+                    </Col>
+                </Row>
             </Col>
         </Row>
     )

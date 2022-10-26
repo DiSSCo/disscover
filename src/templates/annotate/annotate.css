@@ -2,11 +2,44 @@
 
 .annotate_overviewTitle {
     font-size: 20px;
+    background-color: var(--main-color-darker);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+/* Annotation Table */
+
+.annotate_tableHeader {
+    background-color: var(--main-color-light);
+    font-size: 14px;
+}
+
+.annotate_tableRow {
+    font-size: 14px;
+}
+
+.annotate_tableRow:hover {
+    background-color: var(--main-color-light);
+    cursor: pointer;
 }
 
 
 /* Annotattion Filters */
 
+.annotate_filterMenu {
+    border: 1px solid var(--main-color-darker);
+}
+
 .annotate_annotationFilterTab {
     border: 1px solid var(--main-color-darker);
+}
+
+
+/* Annotation Statistics */
+
+.annotate_statisticsSection {
+    height: 200px;
+    background-color: var(--greyLight);
 }

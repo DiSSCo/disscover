@@ -62,18 +62,6 @@ const AnnotateSection = (props) => {
         }
     }
 
-    // function UpdateAnnotation(annotation, propertyKey) {
-    //     PatchAnnotation(annotation, token, Process);
-
-    //     function Process(result) {
-    //         const copyModalAnnotations = { ...modalAnnotations };
-
-    //         copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
-
-    //         setModalAnnotations(copyModalAnnotations);
-    //     }
-    // }
-
     function RemoveAnnotation(type) {
         const annotation = modalAnnotations[modalProperty['property']][type][UserService.getSubject()];
 
@@ -141,7 +129,7 @@ const AnnotateSection = (props) => {
                     ToggleModal={() => props.ToggleModal()}
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
                     // UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
-                    RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
+                    RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                     SetAnnotationType={(type, form) => props.SetAnnotationType(type, form)}
                 />
             }

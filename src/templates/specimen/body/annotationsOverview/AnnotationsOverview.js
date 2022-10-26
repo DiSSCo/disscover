@@ -49,6 +49,12 @@ const AnnotationsOverview = (props) => {
         setTabs(copyTabs);
     }
 
+    const Events = (annotation) => {
+        const propertyObject = AnnotationFilterLayer[annotation['target']['indvProp']];
+
+        props.ToggleModal(propertyObject, annotation['target']['indvProp'], annotation['motivation'])
+    }
+
     if (overviewAnnotations) {
         return (
             <Row className="h-100">
@@ -98,16 +104,10 @@ const AnnotationsOverview = (props) => {
                                                 even = "";
                                             }
 
-                                            const Events = () => {
-                                                const propertyObject = AnnotationFilterLayer[annotation['target']['indvProp']];
-
-                                                props.ToggleModal(annotation['target']['indvProp'], propertyObject, annotation['motivation'])
-                                            }
-
                                             return (
                                                 <Row key={i}>
                                                     <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
-                                                        onClick={() => {Events()}}
+                                                        onClick={() => {Events(annotation)}}
                                                     >
                                                         <Row>
                                                             <Col md={{ span: 5 }}>
@@ -150,16 +150,10 @@ const AnnotationsOverview = (props) => {
                                                 even = "";
                                             }
 
-                                            const Events = () => {
-                                                const propertyObject = AnnotationFilterLayer[annotation['target']['indvProp']];
-
-                                                props.ToggleModal(annotation['target']['indvProp'], propertyObject, annotation['motivation'])
-                                            }
-
                                             return (
                                                 <Row key={i}>
                                                     <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
-                                                        onClick={() => {Events()}}
+                                                        onClick={() => {Events(annotation)}}
                                                     >
                                                         <Row>
                                                             <Col md={{ span: 5 }}>

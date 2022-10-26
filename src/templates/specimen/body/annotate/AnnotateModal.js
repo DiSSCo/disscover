@@ -59,29 +59,11 @@ const AnnotateModal = (props) => {
                 linking: {}
             }
 
-            if (propertyAnnotations['commenting']) {
-                if (propertyAnnotations['commenting'][userId]) {
-                    localValues['commenting'] = JSON.parse(JSON.stringify(propertyAnnotations['commenting'][userId]['body']));
-                }
-            }
-            if (propertyAnnotations['adding']) {
-                if (propertyAnnotations['adding'][userId]) {
-                    localValues['adding'] = JSON.parse(JSON.stringify(propertyAnnotations['adding'][userId]['body']));
-                }
-            }
-            if (propertyAnnotations['correcting']) {
-                if (propertyAnnotations['correcting'][userId]) {
-                    localValues['correcting'] = JSON.parse(JSON.stringify(propertyAnnotations['correcting'][userId]['body']));
-                }
-            }
-            if (propertyAnnotations['quality_flagging']) {
-                if (propertyAnnotations['quality_flagging'][userId]) {
-                    localValues['quality_flagging'] = JSON.parse(JSON.stringify(propertyAnnotations['quality_flagging'][userId]['body']));
-                }
-            }
-            if (propertyAnnotations['linking']) {
-                if (propertyAnnotations['linking'][userId]) {
-                    localValues['linking'] = JSON.parse(JSON.stringify(propertyAnnotations['linking'][userId]['body']));
+            for (const key in localValues) {
+                if (propertyAnnotations[key]) {
+                    if (propertyAnnotations[key][userId]) {
+                        localValues[key] = JSON.parse(JSON.stringify(propertyAnnotations[key][userId]['body']));
+                    }
                 }
             }
 
@@ -240,7 +222,7 @@ const AnnotateModal = (props) => {
 
     function RenderAnnotationType() {
         if (formData) {
-            let annotationExists = false;
+            let annotationExists;
 
             if (annotationType['type'] && annotationType['form']) {
                 if (Object.keys(formData['annotationTypes'][annotationType['type']]).length > 0) {
@@ -297,7 +279,7 @@ const AnnotateModal = (props) => {
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
                             RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
-                            RenderMultipleMode={(annotationType, latestAnnotationData) => RenderMultipleMode(annotationType, latestAnnotationData)}
+                            RenderMultipleMode={(annotationType) => RenderMultipleMode(annotationType)}
                         />);
                 }
             } else {
@@ -344,7 +326,7 @@ const AnnotateModal = (props) => {
             <Row className="h-100 justify-content-center">
                 <Col md={{ span: 6 }} className={`h-100 annotate_modalAnnotationSection ${annotationFormToggle}`}>
                     <div className="w-100 m-0 p-0 position-relative">
-                        <button type="button" onClick={() => [props.ToggleModal(), ToggleAnnotationForm(true), ToggleEditMode()]} className="annotate_modalHeaderButton">
+                        <button type="button" onClick={() => { props.ToggleModal(); ToggleAnnotationForm(true); ToggleEditMode(); }} className="annotate_modalHeaderButton">
                             Dismiss
                         </button>
                     </div>

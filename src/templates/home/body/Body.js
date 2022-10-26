@@ -34,10 +34,6 @@ const Body = () => {
         }
     }
 
-    const items = [
-        'Frogger', 'Frogger', 'Frogger', 'Frogger'
-    ];
-
     const navigate = useNavigate();
 
     return (
@@ -104,20 +100,11 @@ const Body = () => {
 
                         <Row className="mt-5 position-relative">
                             <Col md={{ span: 12 }} className="mt-5">
-                                <Row>
+                                <Row className="mt-4">
                                     <Col>
-                                        <div className="home_thematicSectionBackground" />
-
-                                        <div className="home_thematicSectionBody">
-
-                                        </div>
-                                        <h3 className="home_title secondary">
-                                            Specimen Spotlight
-                                        </h3>
+                                        <SampleSpecimen />
                                     </Col>
                                 </Row>
-
-                                <SampleSpecimen />
                             </Col>
                         </Row>
                     </Col>

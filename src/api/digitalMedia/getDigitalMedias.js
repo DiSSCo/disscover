@@ -11,26 +11,28 @@ function GetDigitalMedias(callback) {
         method: "get",
         url: endPoint,
         params: {
-            pageSize: 10
+            pageSize: 16
         },
         responseType: 'json'
     }).then(function (result) {
         let test = [];
 
-        for (const i in result['data']) {
-            const digitalMedia = result['data'][i];
+        // for (const i in result['data']) {
+        //     const digitalMedia = result['data'][i];
 
-            GetSpecimen(digitalMedia['digitalSpecimenId'], Process);
+        //     GetSpecimen(digitalMedia['digitalSpecimenId'], Process);
 
-            function Process(specimen) {
-                digitalMedia['specimen'] = specimen;
-                test.push(digitalMedia);
+        //     function Process(specimen) {
+        //         digitalMedia['specimen'] = specimen;
+        //         test.push(digitalMedia);
 
-                if (i == 9) {
-                    callback(test);
-                }
-            }
-        }
+        //         if (i == 9) {
+        //             callback(test);
+        //         }
+        //     }
+        // }
+
+        callback(result['data']);
     }).catch(error => {
         /* To be replaced by logger */
         console.warn(error);

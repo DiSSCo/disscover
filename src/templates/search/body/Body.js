@@ -20,6 +20,8 @@ const Body = () => {
     const [loaded, setLoaded] = useState();
     const [paginationRange, setPaginationRange] = useState();
 
+    console.log(paginationRange);
+
     const [searchQuery, setSearchQuery] = useState();
     const [searchResults, setSearchResults] = useState([]);
 

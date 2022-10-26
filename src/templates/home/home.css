@@ -75,42 +75,6 @@
 }
 
 
-/* Sample Occurence(s) */
-
-.sampleSpecimenInfo {
-    background-color: rgb(46, 92, 184, 0.60);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    padding-top: 20%;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.sampleSpecimenInfo:hover {
-    opacity: 1;
-}
-
-.sampleSpecimenButton {
-    background-color: rgb(46, 92, 184, 0.60);
-    border: 2px solid white;
-    color: white;
-    font-size: 16px;
-    border-radius: 8px;
-    transition: 0.4s;
-}
-
-.sampleSpecimenButton:hover {
-    background-color: white;
-    color: #333333;
-}
-
-
 /* Recent Annotations */
 
 .home_recentSection {
@@ -286,7 +250,7 @@
 }
 
 
-/* Thematic Section */
+/* Sample Specimen Section */
 
 .home_thematicSection {
     width: 100%;
@@ -295,13 +259,49 @@
 
 .home_thematicSectionBackground {
     background-color: var(--main-color-darker);
-    position: absolute;
-    margin-left: -11%;
+    margin-left: -10.9%;
     margin-top: -2%;
     width: 100vw !important;
-    height: 104%;
     z-index: -1;
 }
+
+.home_sampleSpecimenImageSection {
+    background-color: var(--main-color-darker);
+}
+
+.home_sampleSpecimenImage {
+    width: 100%;
+    height: 200px;
+    opacity: 0.75;
+    transition: 0.2s;
+}
+
+.home_sampleSpecimenImage.active {
+    opacity: 1;
+}
+
+.home_sampleSpecimenImageCover {
+    top: 40%;
+    bottom: 50%;
+    width: 60%;
+    margin-left: 20% !important;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: white;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.home_sampleSpecimenImageCover.active {
+    opacity: 0.7;
+    font-weight: bold;
+}
+
+.home_sampleSpecimenFiller {
+    background-color: #333333;
+}
+
 
 .home_mediaSliderBlock {
     overflow-x: scroll;
@@ -314,9 +314,19 @@
 .home_mediaSliderItem {
     width: 200px;
     height: 300px;
-    position: relative;
     background-color: white;
     display: inline-block;
+}
+
+.home_mediaSliderItemCover {
+    background-color: #333333;
+    z-index: 1;
+    opacity: 0.2;
+    transition: 0.4s;
+}
+
+.home_mediaSliderItemCover:hover {
+    opacity: 0;
 }
 
 .home_mediaItemTitle {

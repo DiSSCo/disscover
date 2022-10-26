@@ -1,12 +1,11 @@
 import { useLocation, Link } from "react-router-dom";
-import { Container, Row, Col, Navbar, Nav, TabContainer } from "react-bootstrap";
+import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
 import UserService from 'keycloak/Keycloak';
 import "./header.css";
 
 /* Import Components */
 import Login from './login/Login';
 import Profile from './profile/Profile';
-import Navigation from "./navigation/Navigation";
 
 /* Import Media */
 import DisscoLogo from 'webroot/img/dissco-logo-web.svg';
@@ -49,11 +48,11 @@ const Header = () => {
                                     </Nav.Link>
 
                                     <Nav.Link href={"/search"} className="navItem home px-3">
-                                        Search
+                                        Search specimens
                                     </Nav.Link>
 
                                     <Nav.Link href={"/annotate"} className="navItem home px-3">
-                                        Annotate
+                                        Annotations overview
                                     </Nav.Link>
 
                                 </Nav>
@@ -140,11 +139,11 @@ const Header = () => {
                                             </Nav.Link>
 
                                             <Nav.Link href={"/search"} className="navItem home px-3">
-                                                Search
+                                                Search specimens
                                             </Nav.Link>
 
                                             <Nav.Link href={"/annotate"} className="navItem home px-3">
-                                                Annotate
+                                                Annotations overview
                                             </Nav.Link>
 
                                         </Nav>

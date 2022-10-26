@@ -29,7 +29,7 @@ const Profile = () => {
 
                 <Body />
 
-                <Footer page={"home"} />
+                <Footer page={"notHome"} />
             </div>
         );
     }

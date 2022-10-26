@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import API */
@@ -78,7 +78,7 @@ const Body = (props) => {
         }
     }
 
-    function ToggleModal(property = null, propertyObject, type = null) {
+    function ToggleModal(propertyObject, property = null, type = null) {
         setModalToggle(!modalToggle);
 
         if (!modalToggle) {
@@ -132,7 +132,7 @@ const Body = (props) => {
 
                                         UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
                                         ToggleMidsDetails={() => ToggleMidsDetails()}
-                                        ToggleModal={(property, propertyObject) => ToggleModal(property, propertyObject)}
+                                        ToggleModal={(propertyObject, property) => ToggleModal(propertyObject, property)}
                                         SetAnnotationType={(type, form) => SetAnnotationType(type, form)}
                                         SetModalAnnotations={(copyModalAnnotations) => setModalAnnotations(copyModalAnnotations)}
                                     />
@@ -165,7 +165,7 @@ const Body = (props) => {
                                 <Col className="h-100">
                                     <AnnotationsOverview specimen={specimen}
 
-                                        ToggleModal={(property, propertyObject, type) => ToggleModal(property, propertyObject, type)}
+                                        ToggleModal={(propertyObject, property, type) => ToggleModal(propertyObject, property, type)}
                                         SetAnnotationType={(type) => SetAnnotationType(type)}
                                     />
                                 </Col>

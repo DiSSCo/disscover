@@ -14,9 +14,9 @@ const AnnotateRow = (props) => {
 
     return (
         <Row>
-            <Col md={{ span: 12 }} className="mt-4 annotate_annotateSection">
+            <Col md={{ span: 12 }} className="mt-4 border-l-1-primary">
                 <Row>
-                    <Col md={{ span: 4 }} className="annotate_annotateSectionTitle" onClick={() => props.ToggleAnnotationRow(group)}>
+                    <Col md={{ span: 4 }} className="annotate_annotateSectionTitle border-dark border-bottom" onClick={() => props.ToggleAnnotationRow(group)}>
                         {group + ' data'}
                         <FontAwesomeIcon
                             icon={faChevronDown}
@@ -25,32 +25,32 @@ const AnnotateRow = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 12 }} className={`annotate_annotateSectionRow ${toggledAnnotationRows[group]}`}>
+                    <Col md={{ span: 12 }} className={`annotate_annotateSectionRow overflow-hidden ${toggledAnnotationRows[group]}`}>
                         <Row>
                             {Object.keys(specimenGroup).map((key, i) => {
                                 const specimenProperty = specimenGroup[key];
 
                                 return (
-                                    <Col key={key} md={{ span: 6 }} className="annotate_annotateItem">
+                                    <Col key={key} md={{ span: 6 }} className="annotate_annotateItem py-1">
                                         <Row className="h-100">
                                             <Col md={{ span: 8 }} className="annotate_annotateProperty"
                                                 onClick={() => props.ToggleModal(specimenProperty, key)}
                                                 key={specimenProperty['group'] + i.toString()}
                                             >
-                                                <span className="annotate_annotatePropertyName">
+                                                <span className="fst-italic">
                                                     {specimenProperty['displayName'] + ': '}
                                                 </span>
 
                                                 {(typeof specimenProperty['value'] === 'string') &&
                                                     specimenProperty['value'].includes('<a') ?
-                                                    <span className="annotate_annotatePropertyLink"> {parse(specimenProperty['value'])} </span>
+                                                    <span className="c-primary"> {parse(specimenProperty['value'])} </span>
                                                     : specimenProperty['value']
                                                 }
                                             </Col>
 
                                             {specimenProperty['mids'] ?
                                                 <Col md={{ span: 2, offset: 1 }}
-                                                    className="annotate_annotateIndication"
+                                                    className="annotate_annotateIndication bg-green text-white text-center fw-bold"
                                                     onClick={() =>
                                                         props.UpdateScrollToMids('midsHandle_' + key)
                                                     }

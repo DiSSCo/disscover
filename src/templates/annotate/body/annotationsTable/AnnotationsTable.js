@@ -98,7 +98,7 @@ const AnnotationsTable = (props) => {
                 columns={tableHeaders}
                 rowEvents={rowEvents}
                 rowClasses='annotate_tableRow'
-                headerClasses='annotate_tableHeader'
+                headerClasses='annotate_tableHeader bg-primary-light'
                 bodyClasses='annotate_resultsTableContent'
                 classes='annotate_table'
                 striped={true}

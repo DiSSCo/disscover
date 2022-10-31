@@ -14,21 +14,20 @@ const SearchBar = (props) => {
 
     return (
         <Row>
-            <Col md={{ span: 12 }} className="search_searchBar pt-3 pb-4 px-4">
+            <Col md={{ span: 12 }} className="bg-primary-dark pt-3 pb-4 px-4">
                 <Row>
-                    <Col md={{ span: 12 }} className="search_searchBar">
-                        <h2 className="search_searchBarTitle">
+                    <Col md={{ span: 12 }} className="text-white position-relative">
+                        <h6>
                             Search for specimens:
-                        </h2>
+                        </h6>
 
                         <input type="text"
-                            id="search_searchBar"
-                            className="search_searchBarInput"
+                            className="search_searchBar w-100"
                             onChange={props.updateSearchQuery} value={props.searchQuery}
                             onKeyPress={HandleKeyPress}
                             placeholder="Iguanodon"
                         />
-                        <button type="submit" className="search_searchBarSubmit" onClick={props.onSearch}>
+                        <button type="submit" className="search_searchBarSubmit position-absolute bg-white border-0" onClick={props.onSearch}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </Col>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import "./specimen.css";
+import "./specimen.scss";
 
 /* Import Components */
 import Header from '../header/Header';

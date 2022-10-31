@@ -54,12 +54,14 @@ const AddingMessage = (props) => {
                 <Row>
                     <Col md={{ span: 10, offset: 1 }}>
                         <Row>
-                            <Col className="col-md-auto annotate_annotationMessageType">
+                            <Col className="annotate_annotationMessageType col-md-auto fw-bold br-tl br-tr bg-primary-dark text-white">
                                 Addition
                             </Col>
                             <Col>
                                 <Row className="justify-content-end">
-                                    <Col className="col-md-auto annotate_annotationMessageVersion">
+                                    <Col className="annotate_annotationMessageVersion col-md-auto border-l-1-primary-dark border-t-1-primary-dark
+                                        border-r-1-primary-dark br-tl br-tr"
+                                    >
                                         Version {modalAnnotation['version']}
                                     </Col>
                                 </Row>
@@ -71,7 +73,7 @@ const AddingMessage = (props) => {
                 <Row>
                     <Col md={{ span: 10, offset: 1 }}>
                         <Row>
-                            <Col md={{ span: 12 }} className={`annotate_annotationMessageBlock ${me} ${edit}`}>
+                            <Col md={{ span: 12 }} className={`annotate_annotationMessageBlock border-1-primary-dark ${me} ${edit}`}>
                                 <Row>
                                     <Col className="annotate_annotationMessage">
                                         <Row className="mt-1">
@@ -96,7 +98,7 @@ const AddingMessage = (props) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col className="col-md-auto annotate_annotationDate">
+                            <Col className="annotate_annotationDate col-md-auto mt-1">
                                 {`${date} · Username`}
                             </Col>
                         </Row>

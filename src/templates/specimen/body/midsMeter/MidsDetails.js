@@ -18,8 +18,8 @@ const MidsDetails = (props) => {
     }
 
     return (
-        <Col md={{ span: 12 }} className="specimen_midsDetails">
-            <div className={"position-absolute specimen_midsDetailsBlock " + visibility}>
+        <Col md={{ span: 12 }} className="position-relative">
+            <div className={"position-absolute specimen_midsDetailsBlock w-100 overflow-hidden " + visibility}>
                 <Row className="h-100 m-3">
                     <Col md={{ span: 12 }} className="h-100">
                         <Row>
@@ -28,7 +28,7 @@ const MidsDetails = (props) => {
                             </Col>
                         </Row>
                         <Row className="h-100">
-                            <Col md={{ span: 12 }} className="specimen_midsDetailsSections" ref={scrollMidsContainerRef}>
+                            <Col md={{ span: 12 }} className="specimen_midsDetailsSections overflow-scroll position-relative" ref={scrollMidsContainerRef}>
                                 {Object.keys(specimen).map((key, _i) => {
                                     return (
                                         <MidsDetailsRow

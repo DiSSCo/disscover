@@ -1,18 +1,13 @@
 /* Annotate Overview Page */
 
 .annotate_overviewTitle {
-    font-size: 20px;
-    background-color: var(--main-color-darker);
-    color: white;
     font-size: 16px;
-    font-weight: bold;
 }
 
 
 /* Annotation Table */
 
 .annotate_tableHeader {
-    background-color: var(--main-color-light);
     font-size: 14px;
 }
 
@@ -28,13 +23,6 @@
 
 /* Annotattion Filters */
 
-.annotate_filterMenu {
-    border: 1px solid var(--main-color-darker);
-}
-
-.annotate_annotationFilterTab {
-    border: 1px solid var(--main-color-darker);
-}
 
 
 /* Annotation Statistics */

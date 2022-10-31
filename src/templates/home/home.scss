@@ -1,59 +1,26 @@
 /* Style for Home Page */
 
-.home_title {
-    font-size: 23px;
-    color: var(--main-color);
-}
-
-.home_title.secondary {
-    color: white;
-    font-size: 23px;
-}
-
 .home_mainTitle {
-    font-size: 30px;
-    border-left: 2px solid var(--main-color-darker);
+    border-left: 2px solid var(--main-color-dark);
 }
 
 .home_introText {
     font-size: 16px;
 }
 
-
-/* Title Image */
-
-.bodyTitleImage {
-    background-image: url('https://www.dissco.eu/wp-content/uploads/woods-bg.jpg');
-    height: 400px;
-    margin-top: -100px;
-    position: absolute !important;
-    z-index: -1;
+.home_fullWidthBackground {
+    margin-left: -11%;
+    margin-top: -2%;
+    width: 100vw !important;
+    height: 104%;
 }
 
 
 /* Search Bar */
 
-.homeSearchBar {
-    z-index: 1;
-    position: relative;
-    margin-top: 280px !important;
-}
-
-.searchBarGreeting {
-    font-size: 18px;
-    text-align: center;
-}
-
 .searchBarBlock {
     height: 125px;
-    background-color: white;
-    border-radius: 8px;
-    -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
-    box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
-}
-
-.searchBarTitle {
-    font-size: 22px;
+    margin-top: 280px !important;
 }
 
 .searchBar {
@@ -67,63 +34,22 @@
 .searchBarSubmit {
     height: 40px;
     width: 40px;
-    background-color: var(--main-color);
-    color: white;
-    border: none;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
 }
 
 
 /* Recent Annotations */
 
-.home_recentSection {
-    width: 100%;
-    height: 100%;
-}
-
-.home_recentSectionBackground {
-    background-color: #404040;
-    position: absolute;
-    margin-left: -11%;
-    margin-top: -2%;
-    width: 100vw !important;
-    height: 104%;
-}
-
-.home_recentSectionBody {
-    position: relative;
-}
-
-.recentAnnotation {
-    background-color: white;
-    overflow: hidden;
-}
-
-.recentAnnotation.even {
-    background-color: var(--main-color-darker);
-    color: white;
-}
-
-.recentAnnotationInfo {
-    z-index: 1;
-    position: relative;
-}
-
 .recentAnnotationTitle {
-    font-weight: bold;
     font-size: 18px;
 }
 
 .recentAnnotationIcon {
-    position: absolute;
     top: 0;
     left: 0;
     font-size: 70px;
     color: #b3b3b3;
     opacity: 0.7;
     transform: rotate(45deg);
-    z-index: 0;
 }
 
 .recentAnnotationIcon.active {
@@ -183,94 +109,30 @@
 }
 
 .recentAnnotationOverviewButton {
-    color: white;
-    border: 2px solid white;
-    border-radius: 8px;
     font-size: 18px;
     transition: 0.4s;
 }
 
 .recentAnnotationOverviewButton:hover {
     background-color: white;
-    color: #333333;
-}
-
-
-/* Recent added Specimens */
-
-.recentAddedSpecimen {
-    border: 2px solid var(--main-color-darker);
-    overflow: hidden;
-}
-
-.recentAddedSpecimen.even {
-    background-color: var(--main-color-darker);
-    color: white;
-}
-
-.recentAddedSpecimenIcon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 80px;
-    color: #b3b3b3;
-    transform: rotate(45deg);
+    color: #333333 !important;
 }
 
 
 /* MIDS */
 
 .home_midsTitleBlock {
-    background-color: var(--main-color-darker);
-    color: white;
-    font-weight: bold;
     font-size: 18px;
-    text-align: center;
-}
-
-.home_midsContentBlock {
-    border: 2px solid var(--main-color-darker);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
 }
 
 .home_midsArrows {
-    text-align: center;
-    margin-top: auto !important;
-    margin-bottom: auto !important;
     font-size: 20px;
-}
-
-.home_midsArrowLeft {
-    color: var(--main-color-darker);
-}
-
-.home_midsArrowRight {
-    color: var(--main-color);
 }
 
 
 /* Sample Specimen Section */
 
-.home_thematicSection {
-    width: 100%;
-    height: 100%;
-}
-
-.home_thematicSectionBackground {
-    background-color: var(--main-color-darker);
-    margin-left: -10.9%;
-    margin-top: -2%;
-    width: 100vw !important;
-    z-index: -1;
-}
-
-.home_sampleSpecimenImageSection {
-    background-color: var(--main-color-darker);
-}
-
 .home_sampleSpecimenImage {
-    width: 100%;
     height: 200px;
     opacity: 0.75;
     transition: 0.2s;
@@ -287,8 +149,6 @@
     margin-left: 20% !important;
     height: 40px;
     line-height: 40px;
-    text-align: center;
-    background-color: white;
     opacity: 0;
     transition: 0.2s;
 }
@@ -296,46 +156,6 @@
 .home_sampleSpecimenImageCover.active {
     opacity: 0.7;
     font-weight: bold;
-}
-
-.home_sampleSpecimenFiller {
-    background-color: #333333;
-}
-
-
-.home_mediaSliderBlock {
-    overflow-x: scroll;
-}
-
-.home_mediaSlider {
-    width: max-content;
-}
-
-.home_mediaSliderItem {
-    width: 200px;
-    height: 300px;
-    background-color: white;
-    display: inline-block;
-}
-
-.home_mediaSliderItemCover {
-    background-color: #333333;
-    z-index: 1;
-    opacity: 0.2;
-    transition: 0.4s;
-}
-
-.home_mediaSliderItemCover:hover {
-    opacity: 0;
-}
-
-.home_mediaItemTitle {
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.home_mediaItem {
-    bottom: 0;
 }
 
 
@@ -346,7 +166,7 @@
     width: 100%;
     top: 0;
     z-index: 0;
-    border-bottom: 3px solid var(--main-color-darker);
+    border-bottom: 3px solid var(--main-color-dark);
 }
 
 .obliqueBannerShadow {

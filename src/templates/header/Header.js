@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
 import UserService from 'keycloak/Keycloak';
-import "./header.css";
+import "./header.scss";
 
 /* Import Components */
 import Login from './login/Login';
@@ -20,7 +20,7 @@ const Header = () => {
         /* Render Header for Home Page */
         return (
             <Navbar expand="lg" className="p-0">
-                <Container fluid className="header_home px-5">
+                <Container fluid className="header_home px-5 position-relative z-2">
                     <Navbar.Brand>
                         <Row>
                             <Col className="col-md-auto">
@@ -29,11 +29,11 @@ const Header = () => {
                                 </Link>
                             </Col>
                             <Col className="col-md-auto">
-                                <h1 className="header_homeTitle">
+                                <h1 className="header_homeTitle text-white fw-bold m-0">
                                     Unified Curation and Annotation System
                                 </h1>
-                                <h2 className="header_homeSubTitle">
-                                    UCAS <span className="header_homeProofOfConcept"> (Proof of concept) </span>
+                                <h2 className="header_homeSubTitle text-white fw-bold">
+                                    UCAS <span className="header_homeProofOfConcept fst-italic"> (Proof of concept) </span>
                                 </h2>
                             </Col>
                         </Row>
@@ -112,7 +112,7 @@ const Header = () => {
 
             <Container fluid>
                 <Row>
-                    <Col md={{ span: 10, offset: 1 }} className="header">
+                    <Col md={{ span: 10, offset: 1 }} className="header position-relative">
                         <Navbar>
                             <Navbar.Brand>
                                 <Row>
@@ -122,9 +122,9 @@ const Header = () => {
                                         </Link>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <h1 className="header_title">
+                                        <h1 className="header_title c-primary-dark fw-bold">
                                             UCAS
-                                            <span className="header_proofOfConcept"> (Proof of concept) </span>
+                                            <span className="header_proofOfConcept fst-italic"> (Proof of concept) </span>
                                         </h1>
                                     </Col>
                                 </Row>

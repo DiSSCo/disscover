@@ -20,7 +20,7 @@ const AddingForm = (props) => {
             <Col>
                 <Row>
                     <Col md={{ span: 9 }}>
-                        <div className="annotate_annotationTypeContext px-2 py-2">
+                        <div className="annotate_annotationTypeContext px-2 py-2 bg-primary-light">
                             This annotation type is used when adding new values to
                             previously empty attributes.
                         </div>
@@ -31,7 +31,7 @@ const AddingForm = (props) => {
                     <Row>
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Chosen attribute: </p>
-                            <input className="annotate_annotationTypeField"
+                            <input className="annotate_annotationTypeField w-100"
                                 disabled
                                 name="attributeValue"
                                 value={modalProperty['displayName']}
@@ -55,7 +55,7 @@ const AddingForm = (props) => {
                     <Row className="mt-3">
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Remarks: </p>
-                            <textarea className="annotate_annotationTypeTextArea"
+                            <textarea className="annotate_annotationTypeTextArea w-100"
                                 rows="4"
                                 name="remarks"
                                 defaultValue={formData && formData['description']}
@@ -67,7 +67,7 @@ const AddingForm = (props) => {
                     <Row className="mt-4">
                         <Col className="col-md-auto">
                             <button type="submit"
-                                className="annotate_annotationTypeSubmit"
+                                className="annotate_annotationTypeSubmit border-2-primary-dark"
                             >
                                 Save annotation
                             </button>

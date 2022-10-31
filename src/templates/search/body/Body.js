@@ -89,7 +89,7 @@ const Body = () => {
                 <Row>
                     <Col md={{ span: 10, offset: 1 }}>
                         <Row>
-                            <Col md="2" className="search_filterMenu">
+                            <Col md="2" className="search_filterMenu border-2-primary-dark">
                                 <SearchBar
                                     searchQuery={searchQuery}
                                     onSearch={() => HandleSearch()}
@@ -106,7 +106,7 @@ const Body = () => {
                                 </Row>
 
                                 <Row className="px-5 mt-3">
-                                    <Col className="col-md-auto search_resultCount py-2">
+                                    <Col className="search_resultCount col-md-auto py-2">
                                         {(searchResults.length === 1) ?
                                             '1 specimen found'
                                             : `${searchResults.length} specimens found`

@@ -17,12 +17,12 @@ const MidsMeter = (props) => {
         <Row>
             <Col>
                 <Row>
-                    <Col md={{ span: 12 }} className="specimen_midsMeterBlock py-4">
+                    <Col md={{ span: 12 }} className="py-4 border-1-primary-dark">
                         <Row>
                             <Col md={{ span: 8, offset: 1 }}>
                                 Completion level (MIDS)
                             </Col>
-                            <Col md={{ span: 2 }} className="specimen_midsMeterTitleRight">
+                            <Col md={{ span: 2 }} className="text-end">
                                 <FontAwesomeIcon
                                     icon={faChevronDown}
                                     onClick={() => props.ToggleMidsDetails()}
@@ -31,7 +31,7 @@ const MidsMeter = (props) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={{ span: 10, offset: 1 }} className="specimen_midsMeterBar">
+                            <Col md={{ span: 10, offset: 1 }} className="specimen_midsMeterBar bg-green text-center fw-bold text-white">
                                 Lv {specimen['Meta']['midsLevel']['value']}.
                             </Col>
                         </Row>

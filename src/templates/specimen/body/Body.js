@@ -115,14 +115,14 @@ const Body = (props) => {
             <Row className="h-100">
                 <Col md={{ span: 10, offset: 1 }} className="h-100">
                     <Row className="h-100">
-                        <Col md={{ span: 8 }} className="h-100 specimen_contentScroll">
+                        <Col md={{ span: 8 }} className="h-100 overflow-auto">
                             <Row>
                                 <Col md={{ span: 12 }}>
                                     <SpecimenInfo specimen={specimen} LoadSpecimenVersion={(handle, version) => props.LoadSpecimenVersion(handle, version)} />
                                 </Col>
                             </Row>
                             <Row className="mt-5">
-                                <Col>
+                                <Col className="mt-4">
                                     <AnnotateSection
                                         specimen={specimen}
                                         modalToggle={modalToggle}
@@ -161,7 +161,7 @@ const Body = (props) => {
                                 </Col>
                             </Row>
 
-                            <Row className="mt-4 specimen_annotationsOverview">
+                            <Row className="specimen_annotationsOverview mt-4 overflow-hidden">
                                 <Col className="h-100">
                                     <AnnotationsOverview specimen={specimen}
 

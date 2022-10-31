@@ -3,27 +3,18 @@
 .header_home {
     height: 80px;
     background-color: rgb(46, 92, 184, 0.80);
-    position: relative;
-    z-index: 2;
 }
 
 .header_homeTitle {
     font-size: 22px;
-    color: white;
-    font-weight: bold;
-    padding: 0;
-    margin: 0;
 }
 
 .header_homeSubTitle {
-    color: white;
     font-size: 20px;
-    font-weight: bold;
 }
 
 .header_homeProofOfConcept {
     font-size: 16px;
-    font-style: italic;
 }
 
 
@@ -31,7 +22,6 @@
 
 .header {
     height: 80px;
-    position: relative;
     border-bottom: 1px solid var(--grey);
 }
 
@@ -42,13 +32,10 @@
 .header_title {
     font-size: 20px;
     line-height: 55px;
-    color: var(--main-color-darker);
-    font-weight: bold;
 }
 
 .header_proofOfConcept {
     font-size: 16px;
-    font-style: italic;
 }
 
 
@@ -61,7 +48,6 @@
 .header_loginButton {
     height: 30px;
     background-color: white;
-    border: 1px solid var(--main-color-darker);
     border-radius: 4px;
     transition: 0.4s;
 }
@@ -73,11 +59,9 @@
 
 
 /* Profile */
+
 .header_profile {
     line-height: 45px;
-    background-color: var(--main-color-darker);
-    border-radius: 8px;
-    color: white;
     font-size: 15px;
 }
 
@@ -86,10 +70,6 @@
     border-radius: 4px;
     width: 35px;
     height: 35px;
-}
-
-.header_profilePicName {
-    text-align: right;
 }
 
 

@@ -1,4 +1,4 @@
-import './annotate.css';
+import './annotate.scss';
 
 /* Import Components */
 import Header from 'templates/header/Header';

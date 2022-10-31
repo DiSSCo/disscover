@@ -14,9 +14,9 @@ const AnnotationsFilters = (props) => {
 
     return (
         <Row className="h-100">
-            <Col className="annotate_filterMenu">
+            <Col className="border-1-primary-dark">
                 <Row>
-                    <Col className="annotate_overviewTitle p-3">
+                    <Col className="annotate_overviewTitle p-3 bg-primary-dark fw-bold text-white">
                         Annotations overview
                     </Col>
                 </Row>

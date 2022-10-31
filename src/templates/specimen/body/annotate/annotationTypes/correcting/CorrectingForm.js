@@ -20,7 +20,7 @@ const CorrectingForm = (props) => {
             <Col>
                 <Row>
                     <Col md={{ span: 9 }}>
-                        <div className="annotate_annotationTypeContext px-2 py-2">
+                        <div className="annotate_annotationTypeContext px-2 py-2 bg-primary-light">
                             This annotation type is used when correcting an existing value
                             of an attribute that is deemed invalid.
                         </div>
@@ -52,7 +52,7 @@ const CorrectingForm = (props) => {
                     <Row className="mt-3">
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Reference: </p>
-                            <input className="annotate_annotationTypeField"
+                            <input className="annotate_annotationTypeField w-100"
                                 name="reference"
                                 defaultValue={formData && formData['reference']}
                                 autoComplete="false"
@@ -63,7 +63,7 @@ const CorrectingForm = (props) => {
                     <Row className="mt-3">
                         <Col>
                             <p className="annotate_annotationTypeFieldTitle"> Remarks: </p>
-                            <textarea className="annotate_annotationTypeTextArea"
+                            <textarea className="annotate_annotationTypeTextArea w-100"
                                 rows="4"
                                 name="remarks"
                                 defaultValue={formData && formData['description']}
@@ -75,7 +75,7 @@ const CorrectingForm = (props) => {
                     <Row className="mt-4">
                         <Col className="col-md-auto">
                             <button type="submit"
-                                className="annotate_annotationTypeSubmit"
+                                className="annotate_annotationTypeSubmit border-2-primary-dark"
                             >
                                 Save annotation
                             </button>

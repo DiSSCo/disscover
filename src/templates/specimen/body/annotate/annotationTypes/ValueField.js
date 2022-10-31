@@ -21,7 +21,7 @@ const ValueField = (props) => {
                     })}
                 </datalist>
 
-                <input className="annotate_annotationTypeField"
+                <input className="annotate_annotationTypeField w-100"
                     name="value"
                     defaultValue={formData && formData['value']}
                     onChange={(value) => props.UpdateFormData(value)}
@@ -42,7 +42,7 @@ const ValueField = (props) => {
         );
     } else {
         return (
-            <input className="annotate_annotationTypeField"
+            <input className="annotate_annotationTypeField w-100"
                 name="value"
                 defaultValue={formData && formData['value']}
                 onChange={(value) => props.UpdateFormData(value)}

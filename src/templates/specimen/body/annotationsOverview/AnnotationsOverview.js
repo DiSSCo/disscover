@@ -61,23 +61,25 @@ const AnnotationsOverview = (props) => {
                 <Col md={{ span: 12 }} className="h-100">
                     <Row>
                         <Col md={{ span: 4 }}
-                            className={`specimen_annotationsOverviewTab left pb-1 text-center ${tabs['annotations']}`}
+                            className={`specimen_annotationsOverviewTab border-t-2-primary-dark border-l-2-primary-dark br-tl 
+                                pb-1 text-center ${tabs['annotations']}`}
                             onClick={() => switchTab('annotations')}
                         >
                             Annotations
                         </Col>
                         <Col md={{ span: 4 }}
-                            className={`specimen_annotationsOverviewTab right pb-1 text-center ${tabs['quality_flagging']}`}
+                            className={`specimen_annotationsOverviewTab border-t-2-primary-dark border-r-2-primary-dark br-tr
+                                pb-1 text-center ${tabs['quality_flagging']}`}
                             onClick={() => switchTab('quality_flagging')}
                         >
                             Quality flags
                         </Col>
                     </Row>
-                    <Row className="specimen_annotationsOverviewRow">
+                    <Row className="specimen_annotationsOverviewRow border-1-primary-dark">
                         {(tabs['annotations'] === 'active') ?
                             <Col className="h-100">
                                 <Row>
-                                    <Col className="specimen_annotationsOverviewSectionProps py-1">
+                                    <Col className="specimen_annotationsOverviewSectionProps py-1 border-b-1-primary-dark">
                                         <Row>
                                             <Col md={{ span: 5 }}>
                                                 Attribute
@@ -92,7 +94,7 @@ const AnnotationsOverview = (props) => {
                                     </Col>
                                 </Row>
 
-                                <Row className="specimen_annotationsOverviewSectionRows">
+                                <Row className="specimen_annotationsOverviewSectionRows overflow-scroll">
                                     <Col>
                                         {(overviewAnnotations['annotations'].length > 0) ? overviewAnnotations['annotations'].map((annotation, i) => {
                                             const isoDate = new Date(Date.parse(annotation['created']));
@@ -107,7 +109,7 @@ const AnnotationsOverview = (props) => {
                                             return (
                                                 <Row key={i}>
                                                     <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
-                                                        onClick={() => {Events(annotation)}}
+                                                        onClick={() => { Events(annotation) }}
                                                     >
                                                         <Row>
                                                             <Col md={{ span: 5 }}>
@@ -129,7 +131,7 @@ const AnnotationsOverview = (props) => {
                             </Col>
                             : <Col className="h-100">
                                 <Row>
-                                    <Col className="specimen_annotationsOverviewSectionProps py-1">
+                                    <Col className="specimen_annotationsOverviewSectionProps py-1 border-b-1-primary-dark">
                                         <Row>
                                             <Col md={{ span: 5 }}>
                                                 Attribute
@@ -143,7 +145,7 @@ const AnnotationsOverview = (props) => {
 
                                 <Row className="specimen_annotationsOverviewSectionRows">
                                     <Col>
-                                        {overviewAnnotations['quality_flags'].map((annotation, i) => {
+                                        {(overviewAnnotations.length > 0) ? overviewAnnotations['quality_flags'].map((annotation, i) => {
                                             let even = "even";
 
                                             if (!(i % 2) == 0) {
@@ -153,7 +155,7 @@ const AnnotationsOverview = (props) => {
                                             return (
                                                 <Row key={i}>
                                                     <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
-                                                        onClick={() => {Events(annotation)}}
+                                                        onClick={() => { Events(annotation) }}
                                                     >
                                                         <Row>
                                                             <Col md={{ span: 5 }}>
@@ -166,7 +168,8 @@ const AnnotationsOverview = (props) => {
                                                     </Col>
                                                 </Row>
                                             );
-                                        })}
+                                        })
+                                            : <p> No quality flags yet </p> }
                                     </Col>
                                 </Row>
                             </Col>

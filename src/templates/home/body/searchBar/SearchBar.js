@@ -13,11 +13,11 @@ function SearchBar(props) {
     }
 
     return (
-        <Row className="homeSearchBar">
-            <Col md={{ span: 5 }} className="searchBarBlock ps-4 pt-4">
-                <h2 className="searchBarTitle">
+        <Row>
+            <Col md={{ span: 5 }} className="searchBarBlock ps-4 pt-4 bg-white rounded-c shadow-c z-1">
+                <h4>
                     Search for specimens:
-                </h2>
+                </h4>
                 <Row>
                     <Col md={{ span: 12, offset: 0 }}>
                         <input
@@ -28,7 +28,7 @@ function SearchBar(props) {
                             className="searchBar"
                             placeholder="Baculites"
                         />
-                        <button type="submit" className="searchBarSubmit" onClick={props.onSearch}>
+                        <button type="submit" className="searchBarSubmit bg-primary text-white border-0 br-tr br-br" onClick={props.onSearch}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </Col>

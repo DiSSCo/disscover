@@ -70,14 +70,14 @@ const ResultsTable = (props) => {
     }
 
     return (
-        <div className="search_resultsTable ps-4">
+        <div className="ps-4 h-100 overflow-auto">
             <BootstrapTable
                 keyField='id'
                 data={tableData}
                 columns={tableHeaders}
                 rowEvents={rowEvents}
                 rowClasses='search_tableRow'
-                headerClasses='search_tableHeader'
+                headerClasses='search_tableHeader position-sticky bg-primary-light'
                 bodyClasses='search_resultsTableContent'
                 classes='search_table'
                 striped={true}

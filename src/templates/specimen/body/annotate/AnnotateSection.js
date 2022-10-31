@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import UserService from 'keycloak/Keycloak';
-import './annotate.css';
+import './annotate.scss';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';

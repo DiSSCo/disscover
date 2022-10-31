@@ -54,10 +54,12 @@ const Body = () => {
                                     <Col md={{ span: 5 }}>
                                         <Row>
                                             <Col className="home_mainTitle">
-                                                <span className="strong"> U</span>nified we
-                                                <span className="strong"> C</span>urate and
-                                                <span className="strong"> A</span>nnotate <br />
-                                                specimens in this <span className="strong"> S</span>ystem
+                                                <h2 className="fw-normal">
+                                                    <span className="fw-bold"> U</span>nified we
+                                                    <span className="fw-bold"> C</span>urate and
+                                                    <span className="fw-bold"> A</span>nnotate <br />
+                                                    specimens in this <span className="fw-bold"> S</span>ystem
+                                                </h2>
                                             </Col>
                                         </Row>
                                         <Row className="mt-3">
@@ -74,39 +76,11 @@ const Body = () => {
                             </Col>
                         </Row>
 
-                        <Row className="mt-5 position-relative">
-                            <Col>
-                                <Row className="mt-5">
-                                    <Col md={{ span: 12 }} className="home_recentSection">
-                                        <div className="home_recentSectionBackground" />
-
-                                        <div className="home_recentSectionBody">
-                                            <Row>
-                                                <Col>
-                                                    <h3 className="home_title secondary">
-                                                        Recently Annotated
-                                                    </h3>
-                                                </Col>
-                                            </Row>
-
-                                            <RecentAnnotations />
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
+                        <RecentAnnotations />
 
                         <Mids />
 
-                        <Row className="mt-5 position-relative">
-                            <Col md={{ span: 12 }} className="mt-5">
-                                <Row className="mt-4">
-                                    <Col>
-                                        <SampleSpecimen />
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
+                        <SampleSpecimen />
                     </Col>
                 </Row>
             </Container>

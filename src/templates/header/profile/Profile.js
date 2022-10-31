@@ -10,10 +10,10 @@ const Profile = () => {
         <Row>
             <Col md={{ span: 12 }} className="mt-1">
                 <Row className="justify-content-end">
-                    <Col className="header_profile col-md-auto">
+                    <Col className="header_profile col-md-auto bg-primary-dark text-white c-rounded">
                         <Link to='/profile'>
                             <Row>
-                                <Col className="header_profilePicName textOverflow">
+                                <Col className="text-end textOverflow">
                                     Username
                                 </Col>
                                 <Col className="col-md-auto">

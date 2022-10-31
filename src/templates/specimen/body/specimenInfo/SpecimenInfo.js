@@ -34,7 +34,7 @@ const SpecimenInfo = (props) => {
         useEffect(() => {
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    if (versionTabsActive && event.target.className !== 'specimen_versionOption') {
+                    if (versionTabsActive && !event.target.className.includes('specimen_versionOption')) {
                         ToggleVersionTabs();
                     }
                 }
@@ -67,21 +67,24 @@ const SpecimenInfo = (props) => {
     return (
         <>
             <Row>
-                <Col md={{ span: 11 }} className="specimen_fixedTitleBlock">
+                <Col md={{ span: 11 }} className="specimen_fixedTitleBlock position-fixed z-2">
                     <Row>
                         <Col md={{ span: 10, offset: 1 }}>
                             <Row>
                                 <Col md={{ span: 8 }} className="specimen_fixedTitleBlockMargin">
                                     <Row>
-                                        <Col md={{ span: 10 }} className="specimen_titleBlock">
+                                        <Col md={{ span: 10 }} className="specimen_titleBlock bg-white border-b-1-primary-dark">
                                             <Row>
-                                                <Col md={{ span: 1 }} className="specimen_basisOfRecordSymbolBlock">
+                                                <Col md={{ span: 1 }} 
+                                                    className="specimen_basisOfRecordSymbolBlock border-l-2-primary-dark border-t-2-primary-dark
+                                                        border-r-2-primary-dark br-tl text-center"
+                                                >
                                                     <i className="icon">
                                                         <FontAwesomeIcon icon={faFrog} />
                                                     </i>
                                                 </Col>
-                                                <Col className="col-md-auto specimen_titleBlockSub">
-                                                    <h2 className="specimen_title"> {specimen['Specimen']['specimenName']['value']} </h2>
+                                                <Col className="specimen_titleBlockSub col-md-auto border-t-2-primary-dark border-r-2-primary-dark br-tr">
+                                                    <h2 className="specimen_title fw-bold"> {specimen['Specimen']['specimenName']['value']} </h2>
                                                 </Col>
                                             </Row>
                                         </Col>
@@ -99,7 +102,7 @@ const SpecimenInfo = (props) => {
                                                                 {`Version ${specimen['Meta']['version']['value']}`}
                                                                 <FontAwesomeIcon
                                                                     icon={faChevronDown}
-                                                                    className={`specimen_versionOptionIcon ${versionTabsActive} mx-4`}
+                                                                    className={`specimen_versionOptionIcon position-absolute ${versionTabsActive} mx-4`}
                                                                 />
                                                             </button>
                                                         </Row>
@@ -117,7 +120,7 @@ const SpecimenInfo = (props) => {
                                                                     <Row key={key}>
                                                                         <div
                                                                             version={key}
-                                                                            className="specimen_versionOption"
+                                                                            className="specimen_versionOption b-none bg-white text-center"
                                                                             onClick={() => props.LoadSpecimenVersion(specimen['Meta']['id']['value'], key)}
                                                                         >
                                                                             {`Version ${key}`}
@@ -139,8 +142,8 @@ const SpecimenInfo = (props) => {
                 </Col >
             </Row>
             <Row>
-                <Col md={{ span: 11 }} className="specimen_contentBlock">
-                    <Row className="specimen_mainDetailsBlock">
+                <Col md={{ span: 11 }} className="mt-4">
+                    <Row className="h-100 mt-3">
                         <Col md={{ span: 6 }}>
                             <Row className="h-100">
                                 <Col md={{ span: 12 }} className="specimen_detailSpecimen px-3 pt-2 position-relative">
@@ -148,7 +151,7 @@ const SpecimenInfo = (props) => {
                                         <Col md={{ span: 12 }} className="specimen_detailSub">
                                             <Row>
                                                 <Col>
-                                                    <p className="specimen_detailTitle"> Specimen information </p>
+                                                    <p className="specimen_detailTitle fw-bold"> Specimen information </p>
                                                 </Col>
                                             </Row>
                                             <Row>
@@ -183,12 +186,12 @@ const SpecimenInfo = (props) => {
                         </Col>
                         <Col md={{ span: 6 }}>
                             <Row className="h-100">
-                                <Col md={{ span: 12 }} className="specimen_detailOrganisation px-3 pt-2 position-relative">
+                                <Col md={{ span: 12 }} className="specimen_detailOrganisation bg-primary-light px-3 pt-2 position-relative">
                                     <Row>
                                         <Col md={{ span: 12 }} className="specimen_detailSub">
                                             <Row>
                                                 <Col md={{ span: 12 }}>
-                                                    <p className="specimen_detailTitle"> Publishing organisation information </p>
+                                                    <p className="specimen_detailTitle fw-bold"> Publishing organisation information </p>
                                                 </Col>
                                             </Row>
                                             <Row>
@@ -215,20 +218,20 @@ const SpecimenInfo = (props) => {
                     </Row>
 
                     <Row className="specimen_detailLinksBlock">
-                        <Col md={{ span: 11 }} className="specimen_detailLinks mb-4 mt-4 pt-2">
+                        <Col md={{ span: 11 }} className="specimen_detailLinks border-l-1-primary-dark mb-4 mt-4 pt-2">
                             <Row>
                                 <Col>
-                                    <p className="specimen_detailLink">
-                                        <span className="specimen_detailLinkProperty"> Source URL: </span>
-                                        {' ' + specimen['Meta']['datasourceurl']['value']}
+                                    <p>
+                                        <span className="fw-bold"> Source URL: </span>
+                                        {` ${specimen['Meta']['datasourceurl']['value']}`}
                                     </p>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    <p className="specimen_detailLink">
-                                        <span className="specimen_detailLinkProperty"> Provider URL: </span>
-                                        {' ' + specimen['Organisation']['sourceSystemId']['value']}
+                                    <p>
+                                        <span className="fw-bold"> Provider URL: </span>
+                                        {` ${specimen['Organisation']['sourceSystemId']['value']}`}
                                     </p>
                                 </Col>
                             </Row>

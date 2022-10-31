@@ -113,7 +113,7 @@ const AnnotateModal = (props) => {
                                     md={{ span: 12 }}
                                     className="mb-2"
                                 >
-                                    <input className="annotate_annotationTypeField"
+                                    <input className="annotate_annotationTypeField w-100"
                                         name="value"
                                         defaultValue={formData['annotationTypes'][annotationType]['value'][index]}
                                         onChange={(value) => UpdateFormData('adding', 'value', value, index)}
@@ -326,21 +326,24 @@ const AnnotateModal = (props) => {
             <Row className="h-100 justify-content-center">
                 <Col md={{ span: 6 }} className={`h-100 annotate_modalAnnotationSection ${annotationFormToggle}`}>
                     <div className="w-100 m-0 p-0 position-relative">
-                        <button type="button" onClick={() => { props.ToggleModal(); ToggleAnnotationForm(true); ToggleEditMode(); }} className="annotate_modalHeaderButton">
+                        <button type="button" 
+                            onClick={() => { props.ToggleModal(); ToggleAnnotationForm(true); ToggleEditMode(); }} 
+                            className="annotate_modalHeaderButton position-absolute px-3 border-0 bg-backdrop text-white br-tl br-tr"
+                        >
                             Dismiss
                         </button>
                     </div>
 
-                    <Modal.Header className="annotate_modalHeader position-relative">
+                    <Modal.Header className="annotate_modalHeader position-relative bg-primary-blue text-white">
                         <Modal.Title className="annotate_modalHeaderTitle">
                             {modalProperty['displayName']}
                         </Modal.Title>
                     </Modal.Header>
 
-                    <Modal.Body className="annotate_modalBody">
+                    <Modal.Body className="annotate_modalBody bg-white">
                         <Row className="px-2">
-                            <Col md={{ span: 12 }} className="annotate_modalCurrentValue">
-                                <span className="annotate_modalCurrentValueTitle"> Current value: </span>
+                            <Col md={{ span: 12 }} className="annotate_modalCurrentValue border-b-2-primary-dark">
+                                <span className="fw-bold"> Current value: </span>
 
                                 {(typeof modalProperty['currentValue'] === 'string') &&
                                     modalProperty['currentValue'].includes('</') ?
@@ -349,11 +352,11 @@ const AnnotateModal = (props) => {
                                 }
                             </Col>
                         </Row>
-                        <Row className="mt-3 annotate_modalAnnotationsBody" ref={scrollModalAnnotationsBodyRef}>
+                        <Row className="annotate_modalAnnotationsBody mt-3 overflow-scroll" ref={scrollModalAnnotationsBodyRef}>
                             <Col>
                                 <Row>
                                     <Col md={{ offset: 1 }}
-                                        className={`col-md-auto mb-3 annotate_modalAddAnnotationButton ${showNewAnnotationButton}`}
+                                        className={`col-md-auto mb-3 annotate_modalAddAnnotationButton border-2-primary-dark ${showNewAnnotationButton}`}
                                         onClick={() => ToggleAnnotationForm()}
                                     >
                                         Add new annotation
@@ -410,7 +413,7 @@ const AnnotateModal = (props) => {
                 </Col>
 
                 <Col md={{ span: 5 }} className={`position-relative h-100 annotate_modalFormSection ${annotationFormToggle}`}>
-                    <Modal.Body className="annotate_modalBody right mb-3">
+                    <Modal.Body className="annotate_modalBody right bg-white overflow-scroll mb-3">
                         <Row>
                             <Col md={{ span: 12 }}>
                                 <p> Select an annotation type: </p>
@@ -419,7 +422,7 @@ const AnnotateModal = (props) => {
                         <Row>
                             <Col>
                                 <select onChange={e => UpdateAnnotationType(e.target.value)}
-                                    className="annotate_annotationTypeSelect px-2 py-2"
+                                    className="annotate_annotationTypeSelect px-2 py-2 bg-primary-blue border-0 text-white"
                                     value={annotationType['type'] ? annotationType['type'] : 'commenting'}
                                 >
                                     {annotationTypes.map((type, _i) => {

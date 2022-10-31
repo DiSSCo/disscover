@@ -31,28 +31,7 @@ const CreatorAnnotations = (props) => {
         <Row>
             <Col>
                 <Row>
-                    <Col className="col-md-auto profile_annotationsTitle">
-                        Annotations
-                    </Col>
-                </Row>
-                <Row>
                     <Col className="profile_annotationsSection">
-                        <Row>
-                            <Col className="profile_annotationsHeader">
-                                <Row>
-                                    <Col md={{ span: 3 }}>
-                                        Motivation
-                                    </Col>
-                                    <Col md={{ span: 6 }}>
-                                        Target
-                                    </Col>
-                                    <Col md={{ span: 3 }}>
-                                        Created
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-
                         {paginatorRange &&
                             <Row>
                                 {RenderCreatorAnnotations()}
@@ -63,7 +42,7 @@ const CreatorAnnotations = (props) => {
                             <Row>
                                 <Col>
                                     <Paginator items={creatorAnnotations}
-                                        pageSize={6}
+                                        pageSize={8}
 
                                         SetPaginationRange={(range) => setPaginationRange(range)}
                                     />

@@ -2,6 +2,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Components */
 import ValueField from '../ValueField';
+import RemoveBlock from '../RemoveBlock';
 
 
 const QualityFlaggingForm = (props) => {
@@ -59,25 +60,9 @@ const QualityFlaggingForm = (props) => {
                         </Col>
                     </Row>
 
-                    <Row className="mt-4">
-                        <Col className="col-md-auto">
-                            <button type="submit"
-                                className="annotate_annotationTypeSubmit border-2-primary-dark"
-                            >
-                                Save annotation
-                            </button>
-                        </Col>
-                        {(Object.keys(formData).length > 0) &&
-                            <Col className="col-md-auto">
-                                <button type="button"
-                                    className="annotate_annotationTypeRemove"
-                                    onClick={() => props.RemoveAnnotation('quality_flagging')}
-                                >
-                                    Remove Annotation
-                                </button>
-                            </Col>
-                        }
-                    </Row>
+                    <RemoveBlock formData={formData}
+                        RemoveAnnotation={() => props.RemoveAnnotation('quality_flagging')}
+                    />
                 </form>
             </Col>
         </Row>

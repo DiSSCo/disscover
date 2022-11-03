@@ -1,5 +1,8 @@
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Components */
+import RemoveBlock from '../RemoveBlock';
+
 
 const CommentingForm = (props) => {
     const modalProperty = props.modalProperty;
@@ -46,25 +49,9 @@ const CommentingForm = (props) => {
                         </Col>
                     </Row>
 
-                    <Row className="mt-4">
-                        <Col className="col-md-auto">
-                            <button type="submit"
-                                className="annotate_annotationTypeSubmit border-2-primary-dark"
-                            >
-                                Save annotation
-                            </button>
-                        </Col>
-                        {(Object.keys(formData).length > 0) &&
-                            <Col className="col-md-auto">
-                                <button type="button"
-                                    className="annotate_annotationTypeRemove"
-                                    onClick={() => props.RemoveAnnotation('commenting')}
-                                >
-                                    Remove Annotation
-                                </button>
-                            </Col>
-                        }
-                    </Row>
+                    <RemoveBlock formData={formData}
+                        RemoveAnnotation={() => props.RemoveAnnotation('commenting')}
+                    />
                 </form>
             </Col>
         </Row>

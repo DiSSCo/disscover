@@ -6,6 +6,8 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 
 const Mids = () => {
+    const midsLevels = [0, 1, 2, 3];
+
     return (
         <Row className="mt-5">
             <Col md={{ span: 12 }}>
@@ -28,74 +30,30 @@ const Mids = () => {
                 <Row className="mt-5">
                     <Col md={{ span: 12 }}>
                         <Row>
-                            <Col md={{ span: 3 }}>
-                                <Row>
-                                    <Col md={{ span: 10 }}>
-                                        <div>
-                                            <div className="home_midsTitleBlock py-2 bg-primary-dark fw-bold text-white text-center">
-                                                MIDS level 0
-                                            </div>
-                                            <div className="px-4 py-3 br-bl br-br border-2-primary-dark">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                            </div>
-                                        </div>
+                            {midsLevels.map((level, i) => {
+                                return (
+                                    <Col md={{ span: 3 }} key={i}>
+                                        <Row>
+                                            <Col md={{ span: 10 }}>
+                                                <div>
+                                                    <div className="home_midsTitleBlock py-2 bg-primary-dark fw-bold text-white text-center">
+                                                        MIDS level {level}
+                                                    </div>
+                                                    <div className="px-4 py-3 br-bl br-br border-2-primary-dark">
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                            {level < 3 &&
+                                                <Col md={{ span: 2 }} className="home_midsArrows text-center mt-auto mb-auto">
+                                                    <FontAwesomeIcon icon={faChevronRight} className="c-primary-dark" />
+                                                    <FontAwesomeIcon icon={faChevronRight} className="c-primary" />
+                                                </Col>
+                                            }
+                                        </Row>
                                     </Col>
-                                    <Col md={{ span: 2 }} className="home_midsArrows text-center mt-auto mb-auto">
-                                        <FontAwesomeIcon icon={faChevronRight} className="c-primary-dark" />
-                                        <FontAwesomeIcon icon={faChevronRight} className="c-primary" />
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col md={{ span: 3 }}>
-                                <Row>
-                                    <Col md={{ span: 10 }}>
-                                        <div>
-                                            <div className="home_midsTitleBlock py-2 bg-primary-dark fw-bold text-white text-center">
-                                                MIDS level 1
-                                            </div>
-                                            <div className="px-4 py-3 br-bl br-br border-2-primary-dark">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                            </div>
-                                        </div>
-                                    </Col>
-                                    <Col md={{ span: 2 }} className="home_midsArrows text-center mt-auto mb-auto">
-                                        <FontAwesomeIcon icon={faChevronRight} className="c-primary-dark" />
-                                        <FontAwesomeIcon icon={faChevronRight} className="c-primary" />
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col md={{ span: 3 }}>
-                                <Row>
-                                    <Col md={{ span: 10 }}>
-                                        <div>
-                                            <div className="home_midsTitleBlock py-2 bg-primary-dark fw-bold text-white text-center">
-                                                MIDS level 2
-                                            </div>
-                                            <div className="px-4 py-3 br-bl br-br border-2-primary-dark">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                            </div>
-                                        </div>
-                                    </Col>
-                                    <Col md={{ span: 2 }} className="home_midsArrows text-center mt-auto mb-auto">
-                                        <FontAwesomeIcon icon={faChevronRight} className="c-primary-dark" />
-                                        <FontAwesomeIcon icon={faChevronRight} className="c-primary" />
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col md={{ span: 3 }}>
-                                <Row>
-                                    <Col md={{ span: 10 }}>
-                                        <div>
-                                            <div className="home_midsTitleBlock py-2 bg-primary-dark fw-bold text-white text-center">
-                                                MIDS level 3
-                                            </div>
-                                            <div className="px-4 py-3 br-bl br-br border-2-primary-dark">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Col>
+                                );
+                            })}
                         </Row>
                     </Col>
                 </Row>

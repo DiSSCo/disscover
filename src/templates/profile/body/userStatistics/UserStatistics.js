@@ -51,30 +51,22 @@ const UserStatistics = () => {
                 </Row>
 
                 <Row className="mt-5">
-                    <Col md={{ span: 4 }} className="px-4">
-                        <Row>
-                            <Col className="profile_userStatistic d-flex justify-content-center">
-                                <ResponsiveContainer width="100%" height="100%" className="py-2">
-                                    <PieChart width={400} height={400}>
-                                        <Pie data={data01} dataKey="value" cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label />
-                                        <Tooltip />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                    {[1, 2].map((_number, i) => {
+                        return (
+                            <Col md={{ span: 4 }} className="px-4" key={i}>
+                                <Row>
+                                    <Col className="profile_userStatistic d-flex justify-content-center">
+                                        <ResponsiveContainer width="100%" height="100%" className="py-2">
+                                            <PieChart width={400} height={400}>
+                                                <Pie data={data01} dataKey="value" cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label />
+                                                <Tooltip />
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                    </Col>
+                                </Row>
                             </Col>
-                        </Row>
-                    </Col>
-                    <Col md={{ span: 4 }} className="px-4">
-                        <Row>
-                            <Col className="profile_userStatistic d-flex justify-content-center">
-                                <ResponsiveContainer width="100%" height="100%" className="py-2">
-                                    <PieChart width={400} height={400}>
-                                        <Pie data={data01} dataKey="value" cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label />
-                                        <Tooltip />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                            </Col>
-                        </Row>
-                    </Col>
+                        );
+                    })}
                 </Row>
             </Col>
         </Row>

@@ -7,7 +7,6 @@ import ValueField from '../ValueField';
 const QualityFlaggingForm = (props) => {
     const modalProperty = props.modalProperty;
     const formData = props.formData['quality_flagging'];
-    const annotationExists = props.annotationExists;
 
     const HandleSubmit = event => {
         event.preventDefault();
@@ -68,7 +67,7 @@ const QualityFlaggingForm = (props) => {
                                 Save annotation
                             </button>
                         </Col>
-                        {annotationExists &&
+                        {(Object.keys(formData).length > 0) &&
                             <Col className="col-md-auto">
                                 <button type="button"
                                     className="annotate_annotationTypeRemove"

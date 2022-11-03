@@ -222,19 +222,12 @@ const AnnotateModal = (props) => {
 
     function RenderAnnotationType() {
         if (formData) {
-            let annotationExists = false;
-
             if (annotationType['type'] && annotationType['form']) {
-                if (Object.keys(formData['annotationTypes'][annotationType['type']]).length > 0) {
-                    annotationExists = true;
-                }
-
                 switch (annotationType['type']) {
                     case 'commenting':
                         return (<CommentingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
-                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -244,7 +237,6 @@ const AnnotateModal = (props) => {
                         return (<LinkingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
-                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -254,7 +246,6 @@ const AnnotateModal = (props) => {
                         return (<CorrectingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
-                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -264,7 +255,6 @@ const AnnotateModal = (props) => {
                         return (<QualityFlaggingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
-                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -274,7 +264,6 @@ const AnnotateModal = (props) => {
                         return (<AddingForm
                             modalProperty={modalProperty}
                             formData={formData['annotationTypes']}
-                            annotationExists={annotationExists}
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
@@ -283,10 +272,6 @@ const AnnotateModal = (props) => {
                         />);
                 }
             } else {
-                if (Object.keys(formData['annotationTypes']['commenting']).length > 0) {
-                    annotationExists = true;
-                }
-
                 return (<CommentingForm
                     modalProperty={modalProperty}
                     formData={formData['annotationTypes']}

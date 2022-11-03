@@ -7,7 +7,6 @@ import ValueField from '../ValueField';
 const CorrectingForm = (props) => {
     const modalProperty = props.modalProperty;
     const formData = props.formData['correcting'];
-    const annotationExists = props.annotationExists;
 
     const HandleSubmit = event => {
         event.preventDefault();
@@ -80,7 +79,7 @@ const CorrectingForm = (props) => {
                                 Save annotation
                             </button>
                         </Col>
-                        {annotationExists &&
+                        {(Object.keys(formData).length > 0) &&
                             <Col className="col-md-auto">
                                 <button type="button"
                                     className="annotate_annotationTypeRemove"

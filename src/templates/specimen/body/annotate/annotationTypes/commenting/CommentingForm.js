@@ -4,7 +4,6 @@ import { Row, Col } from 'react-bootstrap';
 const CommentingForm = (props) => {
     const modalProperty = props.modalProperty;
     const formData = props.formData['commenting'];
-    const annotationExists = props.annotationExists;
 
     const HandleSubmit = event => {
         event.preventDefault();
@@ -55,7 +54,7 @@ const CommentingForm = (props) => {
                                 Save annotation
                             </button>
                         </Col>
-                        {annotationExists &&
+                        {(Object.keys(formData).length > 0) &&
                             <Col className="col-md-auto">
                                 <button type="button"
                                     className="annotate_annotationTypeRemove"

@@ -19,13 +19,36 @@ import QualityFlaggingMessage from './annotationTypes/qualityFlagging/QualityFla
 import AddingForm from './annotationTypes/adding/AddingForm';
 import AddingMessage from './annotationTypes/adding/AddingMessage';
 
+/* Import API */
+import InsertAnnotation from 'api/annotate/InsertAnnotation';
+import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
+
 
 const AnnotateModal = (props) => {
+    const targetId = props.targetId;
+    const targetType = props.targetType;
+
     const modalToggle = props.modalToggle;
     const modalAnnotations = props.modalAnnotations;
     const modalProperty = props.modalProperty;
     const annotationType = props.annotationType;
-    const annotationTypes = props.annotationTypes;
+
+    const annotationTypes = [{
+        key: "commenting",
+        displayName: "Commenting"
+    }, {
+        key: "linking",
+        displayName: "Relationship/Link"
+    }, {
+        key: "correcting",
+        displayName: "Error correction"
+    }, {
+        key: "quality_flagging",
+        displayName: "Quality flag"
+    }, {
+        key: "adding",
+        displayName: "Addition"
+    }];
 
     const [formData, setFormData] = useState({
         attribute: modalProperty['property'],
@@ -51,6 +74,7 @@ const AnnotateModal = (props) => {
     useEffect(() => {
         if (propertyAnnotations && modalToggle) {
             const userId = UserService.getSubject();
+
             let localValues = {
                 commenting: {},
                 adding: {},
@@ -151,6 +175,10 @@ const AnnotateModal = (props) => {
     function ToggleAnnotationForm(close = false) {
         if (annotationFormToggle || close) {
             setAnnotationFormToggle('');
+
+            if (editType) {
+                setEditType();
+            }
         } else {
             setAnnotationFormToggle('active');
 
@@ -208,15 +236,55 @@ const AnnotateModal = (props) => {
                 ...formData['annotationTypes'][annotationType]
             },
             target: {
-                type: 'digital_specimen',
+                type: targetType,
                 indvProp: modalProperty['property']
             }
         };
 
-        props.SaveAnnotation(annotation);
+        SaveAnnotation(annotation);
 
         if (!editType) {
             setEditType(annotationType);
+        }
+    }
+
+    function SaveAnnotation(annotation) {
+        if (annotation) {
+            annotation['target']['id'] = `https://hdl.handle.net/${targetId}`
+
+            InsertAnnotation(annotation, UserService.getToken(), Process);
+
+            function Process(result) {
+                if (result) {
+                    const copyModalAnnotations = { ...modalAnnotations };
+
+                    if (!copyModalAnnotations[modalProperty['property']]) {
+                        copyModalAnnotations[modalProperty['property']] = { [result['motivation']]: { [result['creator']]: result } }
+                    } else if (!copyModalAnnotations[modalProperty['property']][result['motivation']]) {
+                        copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
+                    } else {
+                        copyModalAnnotations[modalProperty['property']][result['motivation']][result['creator']] = result;
+                    }
+
+                    props.SetModalAnnotations(copyModalAnnotations);
+                }
+            }
+        }
+    }
+
+    function RemoveAnnotation(type) {
+        const annotation = modalAnnotations[modalProperty['property']][type][UserService.getSubject()];
+
+        DeleteAnnotation(annotation['id'], UserService.getToken(), Process);
+
+        function Process(success) {
+            if (success) {
+                const copyModalAnnotations = { ...modalAnnotations };
+
+                delete copyModalAnnotations[modalProperty['property']][type][annotation['creator']];
+
+                props.SetModalAnnotations(copyModalAnnotations);
+            }
         }
     }
 
@@ -238,7 +306,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
+                            RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                         />);
                     case 'linking':
                         return (<LinkingForm
@@ -248,7 +316,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
+                            RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                         />);
                     case 'correcting':
                         return (<CorrectingForm
@@ -258,7 +326,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
+                            RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                         />);
                     case 'quality_flagging':
                         return (<QualityFlaggingForm
@@ -268,7 +336,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
+                            RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                         />);
                     case 'adding':
                         return (<AddingForm
@@ -278,7 +346,7 @@ const AnnotateModal = (props) => {
 
                             UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                             SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
+                            RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                             RenderMultipleMode={(annotationType) => RenderMultipleMode(annotationType)}
                         />);
                 }
@@ -293,7 +361,7 @@ const AnnotateModal = (props) => {
 
                     UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
                     SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                    RemoveAnnotation={(type) => props.RemoveAnnotation(type)}
+                    RemoveAnnotation={(type) => RemoveAnnotation(type)}
                 />);
             }
         }

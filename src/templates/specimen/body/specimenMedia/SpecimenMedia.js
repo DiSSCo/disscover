@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 
@@ -27,11 +28,13 @@ const SpecimenMedia = (props) => {
                                             alt={'Specimen ' + i}
                                         />
 
-                                        <div className="specimen_mediaCover p-5 position-absolute w-100 h-100 fw-bold text-white text-center">
-                                            Media Cover
-                                            <br />
-                                            Click for more information
-                                        </div>
+                                        <Link to={`/dm/${mediaItem['id']}`}>
+                                            <div className="specimen_mediaCover p-5 position-absolute w-100 h-100 fw-bold text-white text-center">
+                                                Media Cover
+                                                <br />
+                                                Click for more information
+                                            </div>
+                                        </Link>
                                     </div>
                                 </Col>
                             );

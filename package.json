@@ -21,10 +21,12 @@
     "react-countup": "^6.3.2",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.1.0",
+    "react-mark-image": "^0.2.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "recharts": "^2.1.15",
     "sass": "^1.55.0",
+    "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,5 +1,4 @@
 import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 
 const ProfileAnnotation = (props) => {

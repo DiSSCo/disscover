@@ -222,7 +222,7 @@ const AnnotateModal = (props) => {
 
     function RenderAnnotationType() {
         if (formData) {
-            let annotationExists;
+            let annotationExists = false;
 
             if (annotationType['type'] && annotationType['form']) {
                 if (Object.keys(formData['annotationTypes'][annotationType['type']]).length > 0) {

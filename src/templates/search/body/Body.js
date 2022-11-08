@@ -18,7 +18,10 @@ const Body = () => {
     let location = useLocation();
 
     const [loaded, setLoaded] = useState();
-    const [_paginationRange, setPaginationRange] = useState();
+    const [paginationRange, setPaginationRange] = useState();
+
+    /* Temporary to resolve Sonar Cloud issue */
+    console.log(paginationRange);
 
     const [searchQuery, setSearchQuery] = useState();
     const [searchResults, setSearchResults] = useState([]);

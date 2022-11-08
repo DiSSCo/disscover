@@ -18,7 +18,7 @@ const Body = () => {
     let location = useLocation();
 
     const [loaded, setLoaded] = useState();
-    const [paginationRange, setPaginationRange] = useState();
+    const [_paginationRange, setPaginationRange] = useState();
 
     const [searchQuery, setSearchQuery] = useState();
     const [searchResults, setSearchResults] = useState([]);

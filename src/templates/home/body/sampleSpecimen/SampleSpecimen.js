@@ -34,21 +34,21 @@ function SampleSpecimen() {
         let imageBlockView = [];
 
         for (let i in digitalMedia.slice(range[0], range[1])) {
-            i = parseInt(i) + range[0];
-            const media = digitalMedia[i];
+            const index = parseInt(i) + range[0];
+            const media = digitalMedia[index];
 
             imageBlockView.push(
                 <Col key={i} md={{ span: 2 }}
                     className="p-0 home_sampleSpecimenImageSection position-relative"
-                    onMouseEnter={() => ToggleImageHover(i, true)}
-                    onMouseLeave={() => ToggleImageHover(i, false)}
+                    onMouseEnter={() => ToggleImageHover(index, true)}
+                    onMouseLeave={() => ToggleImageHover(index, false)}
                 >
-                    <div className={`home_sampleSpecimenImageCover bg-white text-center position-absolute ${imageHover[i]}`}>
+                    <div className={`home_sampleSpecimenImageCover bg-white text-center position-absolute ${imageHover[index]}`}>
                         Specimen
                     </div>
 
                     <img src={media['mediaUrl']}
-                        className={`home_sampleSpecimenImage w-100 ${imageHover[i]}`}
+                        className={`home_sampleSpecimenImage w-100 ${imageHover[index]}`}
                     />
                 </Col>
             );
@@ -73,13 +73,13 @@ function SampleSpecimen() {
                                         <Row>
                                             <Col md={{ span: 1 }} className="home_sampleSpecimenFiller bg-backdrop" />
 
-                                            {RenderImageBlocks([5, 10])}
+                                            {RenderImageBlocks([6, 11])}
 
                                             <Col md={{ span: 1 }} className="home_sampleSpecimenFiller bg-backdrop" />
                                         </Row>
 
                                         <Row>
-                                            {RenderImageBlocks([10, 16])}
+                                            {RenderImageBlocks([11, 17])}
                                         </Row>
                                     </Col>
                                 </Row >

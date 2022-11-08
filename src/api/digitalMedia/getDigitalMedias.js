@@ -8,7 +8,7 @@ function GetDigitalMedias(callback) {
         method: "get",
         url: endPoint,
         params: {
-            pageSize: 16
+            pageSize: 17
         },
         responseType: 'json'
     }).then(function (result) {

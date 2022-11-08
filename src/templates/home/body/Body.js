@@ -76,7 +76,7 @@ const Body = () => {
                             </Col>
                         </Row>
 
-                        <RecentAnnotations />
+                        {/* <RecentAnnotations /> */}
 
                         <Mids />
 

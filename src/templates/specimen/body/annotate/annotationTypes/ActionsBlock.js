@@ -1,7 +1,7 @@
 import { Row, Col } from 'react-bootstrap';
 
 
-const RemoveBlock = (props) => {
+const ActionsBlock = (props) => {
     const formData = props.formData;
 
     return (
@@ -27,4 +27,4 @@ const RemoveBlock = (props) => {
     )
 }
 
-export default RemoveBlock;
+export default ActionsBlock;

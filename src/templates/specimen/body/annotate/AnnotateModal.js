@@ -220,68 +220,29 @@ const AnnotateModal = (props) => {
         }
     }
 
-    function RenderAnnotationType() {
-        if (formData) {
-            if (annotationType['type'] && annotationType['form']) {
-                switch (annotationType['type']) {
-                    case 'commenting':
-                        return (<CommentingForm
-                            modalProperty={modalProperty}
-                            formData={formData['annotationTypes']}
+    function RenderAnnotationType(annotationForm = 'commenting') {
+        const annotationForms = {
+            'commenting': CommentingForm,
+            'adding': AddingForm,
+            'correcting': CorrectingForm,
+            'quality_flagging': QualityFlaggingForm,
+            'linking': LinkingForm
+        };
 
-                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
-                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
-                        />);
-                    case 'linking':
-                        return (<LinkingForm
-                            modalProperty={modalProperty}
-                            formData={formData['annotationTypes']}
+        if (annotationForm) {
+            const AnnotationFormComponent = annotationForms[annotationForm];
 
-                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
-                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
-                        />);
-                    case 'correcting':
-                        return (<CorrectingForm
-                            modalProperty={modalProperty}
-                            formData={formData['annotationTypes']}
+            return (<AnnotationFormComponent
+                modalProperty={modalProperty}
+                formData={formData['annotationTypes']}
 
-                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
-                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
-                        />);
-                    case 'quality_flagging':
-                        return (<QualityFlaggingForm
-                            modalProperty={modalProperty}
-                            formData={formData['annotationTypes']}
-
-                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
-                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
-                        />);
-                    case 'adding':
-                        return (<AddingForm
-                            modalProperty={modalProperty}
-                            formData={formData['annotationTypes']}
-
-                            UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
-                            SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                            RemoveAnnotation={(annotation) => props.RemoveAnnotation(annotation)}
-                            RenderMultipleMode={(annotationType) => RenderMultipleMode(annotationType)}
-                        />);
-                }
-            } else {
-                return (<CommentingForm
-                    modalProperty={modalProperty}
-                    formData={formData['annotationTypes']}
-
-                    UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
-                    SubmitForm={(annotationType) => SubmitForm(annotationType)}
-                    RemoveAnnotation={(type) => props.RemoveAnnotation(type)}
-                />);
-            }
+                UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                RemoveAnnotation={(type) => props.RemoveAnnotation(type)}
+                RenderMultipleMode={(annotationType) => RenderMultipleMode(annotationType)}
+            />);
         }
+
     }
 
     const annotationMessageTypes = {
@@ -290,7 +251,7 @@ const AnnotateModal = (props) => {
         'correcting': CorrectingMessage,
         'quality_flagging': QualityFlaggingMessage,
         'linking': LinkingMessage
-    }
+    };
 
     let showNewAnnotationButton = "d-none";
 
@@ -311,8 +272,8 @@ const AnnotateModal = (props) => {
             <Row className="h-100 justify-content-center">
                 <Col md={{ span: 6 }} className={`h-100 annotate_modalAnnotationSection ${annotationFormToggle}`}>
                     <div className="w-100 m-0 p-0 position-relative">
-                        <button type="button" 
-                            onClick={() => { props.ToggleModal(); ToggleAnnotationForm(true); ToggleEditMode(); }} 
+                        <button type="button"
+                            onClick={() => { props.ToggleModal(); ToggleAnnotationForm(true); ToggleEditMode(); }}
                             className="annotate_modalHeaderButton position-absolute px-3 border-0 bg-backdrop text-white br-tl br-tr"
                         >
                             Dismiss
@@ -426,7 +387,7 @@ const AnnotateModal = (props) => {
                         </Row>
                         <Row>
                             <Col>
-                                {RenderAnnotationType()}
+                                {RenderAnnotationType(annotationType['type'])}
                             </Col>
                         </Row>
                     </Modal.Body>

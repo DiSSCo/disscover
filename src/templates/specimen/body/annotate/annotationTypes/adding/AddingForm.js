@@ -2,7 +2,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Components */
 import ValueField from '../ValueField';
-import RemoveBlock from '../RemoveBlock';
+import ActionsBlock from '../ActionsBlock';
 
 
 const AddingForm = (props) => {
@@ -64,7 +64,7 @@ const AddingForm = (props) => {
                         </Col>
                     </Row>
 
-                    <RemoveBlock formData={formData}
+                    <ActionsBlock formData={formData}
                         RemoveAnnotation={() => props.RemoveAnnotation('adding')}
                     />
                 </form>

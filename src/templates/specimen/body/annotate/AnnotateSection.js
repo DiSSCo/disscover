@@ -128,7 +128,6 @@ const AnnotateSection = (props) => {
 
                     ToggleModal={() => props.ToggleModal()}
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
-                    // UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
                     RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
                     SetAnnotationType={(type, form) => props.SetAnnotationType(type, form)}
                 />

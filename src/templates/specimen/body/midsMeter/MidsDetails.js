@@ -13,7 +13,6 @@ const MidsDetails = (props) => {
     const scrollToMids = props.scrollToMids;
 
     function ScrollMids(ref) {
-        console.log(ref.current.scrollTop);
         scrollMidsContainerRef.current.scrollTop = ref.current.offsetTop;
     }
 

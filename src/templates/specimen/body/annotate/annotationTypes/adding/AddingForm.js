@@ -2,12 +2,12 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Components */
 import ValueField from '../ValueField';
+import ActionsBlock from '../ActionsBlock';
 
 
 const AddingForm = (props) => {
     const modalProperty = props.modalProperty;
     const formData = props.formData['adding'];
-    const annotationExists = props.annotationExists;
 
     const HandleSubmit = event => {
         event.preventDefault();
@@ -64,25 +64,9 @@ const AddingForm = (props) => {
                         </Col>
                     </Row>
 
-                    <Row className="mt-4">
-                        <Col className="col-md-auto">
-                            <button type="submit"
-                                className="annotate_annotationTypeSubmit border-2-primary-dark"
-                            >
-                                Save annotation
-                            </button>
-                        </Col>
-                        {annotationExists &&
-                            <Col className="col-md-auto">
-                                <button type="button"
-                                    className="annotate_annotationTypeRemove"
-                                    onClick={() => props.RemoveAnnotation('adding')}
-                                >
-                                    Remove Annotation
-                                </button>
-                            </Col>
-                        }
-                    </Row>
+                    <ActionsBlock formData={formData}
+                        RemoveAnnotation={() => props.RemoveAnnotation('adding')}
+                    />
                 </form>
             </Col>
         </Row>

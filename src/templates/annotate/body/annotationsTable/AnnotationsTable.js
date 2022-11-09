@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Col } from 'react-bootstrap';
 import UserService from 'keycloak/Keycloak';
@@ -78,7 +79,7 @@ const AnnotationsTable = (props) => {
             const annotation = displayAnnotations[i];
 
             const isoDate = new Date(Date.parse(annotation['created']));
-            const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
+            const date = Moment(isoDate).format('MM-DD-YYYY');
 
             tableData.push({
                 'index': i,

@@ -26,25 +26,6 @@ const Body = () => {
                                     <AnnotationsTable filter={filter} />
                                 </Col>
                             </Row>
-
-                            {/* <Row className="px-5 mt-3">
-                                    <Col className="col-md-auto annotate_resultCount py-2">
-                                        {(searchResults.length === 1) ?
-                                            '1 specimen found'
-                                            : `${searchResults.length} specimens found`
-                                        }
-                                    </Col>
-
-                                    {(searchResults.length > 0) &&
-                                        <Col className="col-md-auto">
-                                            <Paginator items={searchResults}
-                                                pageSize={25}
-
-                                                SetPaginationRange={(range) => setPaginationRange(range)}
-                                            />
-                                        </Col>
-                                    }
-                                </Row> */}
                         </Col>
                     </Row>
 

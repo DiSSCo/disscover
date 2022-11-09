@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: ucas
-          image: public.ecr.aws/dissco/ucas:latest
-          imagePullPolicy: Always
+          image: public.ecr.aws/dissco/unified-curation-and-annotation-service:latest
           ports:
             - containerPort: 3000
       restartPolicy: Always

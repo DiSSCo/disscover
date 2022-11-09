@@ -20,6 +20,7 @@ const Body = () => {
     const [loaded, setLoaded] = useState();
     const [paginationRange, setPaginationRange] = useState();
 
+    /* Temporary to resolve Sonar Cloud issue */
     console.log(paginationRange);
 
     const [searchQuery, setSearchQuery] = useState();

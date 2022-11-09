@@ -1,11 +1,9 @@
+import Moment from 'moment';
 import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 
 const ProfileAnnotation = (props) => {
     const annotation = props.annotation;
-
-    console.log(annotation);
 
     const annotationTypeMapping = {
         commenting: 'Comment',
@@ -16,7 +14,7 @@ const ProfileAnnotation = (props) => {
     }
 
     const isoDate = new Date(Date.parse(annotation['created']));
-    const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
+    const date = Moment(isoDate).format('MM-DD-YYYY');
 
     return (
         <Col md={{ span: 6 }}
@@ -52,19 +50,6 @@ const ProfileAnnotation = (props) => {
                     </Row>
                 </Col>
             </Row >
-            {/* <Link to={`/ds/${annotation['target']['id'].replace('https://hdl.handle.net/', '')}`}>
-                <Row>
-                    <Col md={{ span: 3 }}>
-                        {annotationTypeMapping[annotation['motivation']]}
-                    </Col>
-                    <Col md={{ span: 6 }}>
-                        {annotation['target']['id']}
-                    </Col>
-                    <Col md={{ span: 3 }}>
-                        {date}
-                    </Col>
-                </Row>
-            </Link> */}
         </Col >
     )
 }

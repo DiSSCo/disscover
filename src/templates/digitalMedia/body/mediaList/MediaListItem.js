@@ -9,14 +9,11 @@ const MediaListItem = (props) => {
 
     let digitalMediaContent;
 
-    switch (digitalMediaItem['type']) {
-        case "2DImageObject":
-            digitalMediaContent = <img src={digitalMediaItem['mediaUrl']}
-                alt={digitalMediaItem['id']}
-                className="w-100"
-            />
-
-            break;
+    if (digitalMediaItem['type'] === "2DImageObject") {
+        digitalMediaContent = <img src={digitalMediaItem['mediaUrl']}
+            alt={digitalMediaItem['id']}
+            className="w-100"
+        />
     }
 
     const [hoverOn, setHoverOn] = useState();

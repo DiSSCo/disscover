@@ -7,7 +7,7 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-axios.defaults.baseURL = "http://localhost:3000/api/v1";
+axios.defaults.baseURL = process.env.REACT_APP_AXIOS_URL;
 
 const RenderRoot = () => {
     const root = ReactDOM.createRoot(document.getElementById('root'));

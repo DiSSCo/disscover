@@ -6,14 +6,11 @@ const MediaFrame = (props) => {
 
     let digitalMediaContent;
 
-    switch (digitalMediaItem['MediaMeta']['type']['value']) {
-        case "2DImageObject":
-            digitalMediaContent = <img src={digitalMediaItem['MediaMeta']['mediaUrl']['value']}
-                alt={digitalMediaItem['MediaMeta']['id']['value']}
-                className="w-100 h-100 border border-white"
-            />
-
-            break;
+    if (digitalMediaItem['MediaMeta']['type']['value'] === "2DImageObject") {
+        digitalMediaContent = <img src={digitalMediaItem['MediaMeta']['mediaUrl']['value']}
+            alt={digitalMediaItem['MediaMeta']['id']['value']}
+            className="w-100 h-100 border border-white"
+        />
     }
 
     return (

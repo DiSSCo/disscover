@@ -1,13 +1,22 @@
 .footer {
     background-color: #333333;
-    height: 160px;
-    margin-bottom: -112px;
+    z-index: 2;
 }
 
 .footer.home {
     position: static;
     bottom: 0;
-    margin-top: 4% !important;
+}
+
+.footer.notHome {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: -90px !important;
+    transition: 0.4s;
+}
+
+.footer.notHome.active {
+    margin-bottom: 0px !important;
 }
 
 .footer_text {
@@ -21,4 +30,14 @@
 
 .footer_logo {
     height: 50px;
+}
+
+.footer_toggleIcon {
+    font-size: 15px;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.footer_toggleIcon.active {
+    transform: rotate(180deg);
 }

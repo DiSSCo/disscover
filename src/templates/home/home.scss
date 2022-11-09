@@ -1,56 +1,26 @@
 /* Style for Home Page */
 
-.homeTitle {
-    font-size: 23px;
-    color: var(--main-color);
+.home_mainTitle {
+    border-left: 2px solid var(--main-color-dark);
 }
 
+.home_introText {
+    font-size: 16px;
+}
 
-/* Title Image */
-
-.bodyTitleImage {
-    background-image: url('https://www.dissco.eu/wp-content/uploads/woods-bg.jpg');
-    height: 400px;
-    margin-top: -100px;
-    position: absolute !important;
-    z-index: -1;
+.home_fullWidthBackground {
+    margin-left: -11%;
+    margin-top: -2%;
+    width: 100vw !important;
+    height: 104%;
 }
 
 
 /* Search Bar */
 
-.homeSearchBar {
-    z-index: 1;
-    position: relative;
-    margin-top: 280px !important;
-}
-
-.searchBarGreetingBlock {
-    height: 125px;
-    background-color: var(--main-color);
-    color: white;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
-    box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
-}
-
-.searchBarGreeting {
-    font-size: 18px;
-    text-align: center;
-}
-
 .searchBarBlock {
     height: 125px;
-    background-color: white;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
-    box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
-}
-
-.searchBarTitle {
-    font-size: 22px;
+    margin-top: 280px !important;
 }
 
 .searchBar {
@@ -64,122 +34,128 @@
 .searchBarSubmit {
     height: 40px;
     width: 40px;
-    background-color: var(--main-color);
-    color: white;
-    border: none;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-
-
-/* Intro Text */
-
-.home_introTitle {
-    font-size: 30px;
-}
-
-.home_introText {
-    font-size: 15px;
-}
-
-
-/* Sample Occurence(s) */
-
-.sampleSpecimenInfo {
-    background-color: rgb(46, 92, 184, 0.60);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    padding-top: 20%;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.sampleSpecimenInfo:hover {
-    opacity: 1;
-}
-
-.sampleSpecimenButton {
-    background-color: rgb(46, 92, 184, 0.60);
-    border: 2px solid white;
-    color: white;
-    font-size: 16px;
-    border-radius: 8px;
-    transition: 0.4s;
-}
-
-.sampleSpecimenButton:hover {
-    background-color: white;
-    color: #333333;
 }
 
 
 /* Recent Annotations */
 
-.home_recentSection {
-    width: 100%;
-    height: 100%;
+.recentAnnotationTitle {
+    font-size: 18px;
 }
 
-.home_recentSectionBackground {
-    background-color: var(--greyLight);
-    position: absolute;
-    margin-left: -11%;
-    margin-top: -1%;
-    width: 100vw !important;
-    height: 102%;
-    z-index: 0;
-}
-
-.home_recentSectionBody {
-    z-index: 1;
-    position: relative;
-}
-
-.recentAnnotation {
-    border: 2px solid var(--main-color-darker);
-}
-
-.recentAnnotation.even {
-    background-color: var(--main-color-dark);
-    color: white;
-}
-
-
-/* Recent added Specimens */
-
-.recentAddedSpecimen {
-    border: 2px solid var(--main-color-darker);
-    overflow: hidden;
-}
-
-.recentAddedSpecimen.even {
-    background-color: var(--main-color-darker);
-    color: white;
-}
-
-.recentAddedSpecimenIcon {
-    position: absolute;
+.recentAnnotationIcon {
     top: 0;
-    right: 0;
-    font-size: 80px;
+    left: 0;
+    font-size: 70px;
     color: #b3b3b3;
+    opacity: 0.7;
     transform: rotate(45deg);
 }
 
+.recentAnnotationIcon.active {
+    color: white;
+}
 
-/* Statistics */
-
-.statisticsBanner {
+.recentAnnotationBackground {
     position: absolute;
-    width: 90%;
-    margin-left: -9%;
-    background-color: var(--main-color-darker);
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin-left: -100%;
+    background-color: var(--main-color);
+    transition: 0.4s;
+}
+
+.recentAnnotationBackground.active {
+    margin-left: 0;
+}
+
+.recentAnnotationGo {
+    opacity: 0;
+    background-color: white;
+    border-top-left-radius: 90px;
+    border-bottom-left-radius: 90px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    margin-top: -3%;
+    height: 160%;
+}
+
+.recentAnnotationGo.active {
+    opacity: 1;
+}
+
+.recentAnnotationGoText {
+    opacity: 0;
+    font-weight: bold;
+    color: #333333;
+    position: absolute;
+    height: fit-content;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transition: 0.3s;
+}
+
+.recentAnnotationGoText.active {
+    opacity: 1;
+}
+
+.recentAnnotationOverviewButton {
+    font-size: 18px;
+    transition: 0.4s;
+}
+
+.recentAnnotationOverviewButton:hover {
+    background-color: white;
+    color: #333333 !important;
+}
+
+
+/* MIDS */
+
+.home_midsTitleBlock {
+    font-size: 18px;
+}
+
+.home_midsArrows {
+    font-size: 20px;
+}
+
+
+/* Sample Specimen Section */
+
+.home_sampleSpecimenImage {
+    height: 200px;
+    opacity: 0.75;
+    transition: 0.2s;
+}
+
+.home_sampleSpecimenImage.active {
+    opacity: 1;
+}
+
+.home_sampleSpecimenImageCover {
+    top: 40%;
+    bottom: 50%;
+    width: 60%;
+    margin-left: 20% !important;
+    height: 40px;
+    line-height: 40px;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.home_sampleSpecimenImageCover.active {
+    opacity: 0.7;
+    font-weight: bold;
 }
 
 
@@ -190,6 +166,7 @@
     width: 100%;
     top: 0;
     z-index: 0;
+    border-bottom: 3px solid var(--main-color-dark);
 }
 
 .obliqueBannerShadow {
@@ -211,7 +188,8 @@
 .obliqueDivOne {
     position: absolute;
     background-color: black;
-    border: 1px solid black;
+    -webkit-box-shadow: -2px 4px 10px -1px #000000;
+    box-shadow: -2px 4px 10px -1px #000000;
     overflow: hidden;
     content: '';
     top: 0;
@@ -230,18 +208,19 @@
 }
 
 .obliqueDivOneImage {
-    width: 160%;
+    width: 120%;
     height: 100%;
-    margin-left: -33%;
-    -webkit-transform: skewX(30deg) scaleX(-1);
-    -ms-transform: skewX(30deg) scaleX(-1);
-    transform: skewX(25deg) scaleX(-1);
+    margin-left: -5%;
+    -webkit-transform: skewX(30deg);
+    -ms-transform: skewX(30deg);
+    transform: skewX(25deg);
 }
 
 .obliqueDivTwo {
     position: absolute;
     background-color: black;
-    border: 1px solid black;
+    -webkit-box-shadow: -2px 4px 10px -1px #000000;
+    box-shadow: -2px 4px 10px -1px #000000;
     overflow: hidden;
     content: '';
     top: 0;
@@ -260,9 +239,9 @@
 }
 
 .obliqueDivTwoImage {
-    width: 160%;
+    width: 180%;
     height: 100%;
-    margin-left: -26%;
+    margin-left: -40%;
     -webkit-transform: skewX(30deg) scaleX(-1);
     -ms-transform: skewX(30deg) scaleX(-1);
     transform: skewX(25deg) scaleX(-1);
@@ -271,7 +250,8 @@
 .obliqueDivThree {
     position: absolute;
     background-color: black;
-    border: 1px solid black;
+    -webkit-box-shadow: -2px 4px 10px -1px #000000;
+    box-shadow: -2px 4px 10px -1px #000000;
     overflow: hidden;
     content: '';
     top: 0;
@@ -301,7 +281,8 @@
 .obliqueDivFour {
     position: absolute;
     background-color: black;
-    border: 1px solid black;
+    -webkit-box-shadow: -2px 4px 10px -1px #000000;
+    box-shadow: -2px 4px 10px -1px #000000;
     overflow: hidden;
     content: '';
     top: 0;
@@ -331,7 +312,8 @@
 .obliqueDivFive {
     position: absolute;
     background-color: black;
-    border: 1px solid black;
+    -webkit-box-shadow: -2px 4px 10px -1px #000000;
+    box-shadow: -2px 4px 10px -1px #000000;
     overflow: hidden;
     content: '';
     top: 0;

@@ -26,7 +26,7 @@ const MidsDetailsProperty = (props) => {
                     <Col md={{ span: 6 }} className="textOverflow">
                         {specimenProperty['displayName']}
                     </Col>
-                    <Col md={{ span: 3 }} className="annotate_midsDetailsIndication">
+                    <Col md={{ span: 3 }} className="specimen_midsDetailsIndication bg-green fw-bold text-white text-center">
                         MIDS {specimenProperty['mids']['level']}
                     </Col>
                     <Col md={{ span: 3 }}>

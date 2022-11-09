@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-/* Import components */
+/* Import API */
+import GetAnnotations from 'api/annotate/GetAnnotations';
+
+/* Import Components */
 import SpecimenInfo from './specimenInfo/SpecimenInfo';
-import SpecimenMedia from './specimenMedia/SpecimenMedia';
-import MidsMeter from './midsMeter/MidsMeter';
 import AnnotateSection from './annotate/AnnotateSection';
+import MidsMeter from './midsMeter/MidsMeter';
+import SpecimenMedia from './specimenMedia/SpecimenMedia';
+import AnnotationsOverview from './annotationsOverview/AnnotationsOverview';
 
 
 const Body = (props) => {
@@ -30,7 +34,80 @@ const Body = (props) => {
 
         setTimeout(function () {
             setScrollToMids(midsHandle);
-        }, 400)
+        }, 400);
+    }
+
+    const [modalToggle, setModalToggle] = useState(false);
+    const [modalProperty, setModalProperty] = useState({ 'property': '' });
+    const [annotationType, setAnnotationType] = useState({});
+    const [modalAnnotations, setModalAnnotations] = useState();
+
+    function SetAnnotationType(type, form = false) {
+        const copyAnnotationType = { ...annotationType }
+
+        copyAnnotationType['type'] = type;
+        copyAnnotationType['form'] = form;
+
+        setAnnotationType(copyAnnotationType);
+    }
+
+    useEffect(() => {
+        SetAnnotations();
+    }, []);
+
+    function SetAnnotations() {
+        /* Search for annotations data and put into view */
+        GetAnnotations(specimen['Meta']['id']['value'], Process);
+
+        function Process(annotations) {
+            const annotationsForModal = {};
+
+            for (const i in annotations) {
+                const annotation = annotations[i];
+
+                if (!annotationsForModal[annotation['target']['indvProp']]) {
+                    annotationsForModal[annotation['target']['indvProp']] = { [annotation['motivation']]: { [annotation['creator']]: annotation } };
+                } else if (!annotationsForModal[annotation['target']['indvProp']][annotation['motivation']]) {
+                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = { [annotation['creator']]: annotation };
+                } else {
+                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']][annotation['creator']] = annotation;
+                }
+            }
+
+            setModalAnnotations(annotationsForModal);
+        }
+    }
+
+    function ToggleModal(propertyObject, property = null, type = null) {
+        setModalToggle(!modalToggle);
+
+        if (!modalToggle) {
+            if (type) {
+                SetAnnotationType(type);
+            }
+        }
+
+        if (property && property !== modalProperty['property']) {
+            let copyModalProperty = { ...modalProperty };
+
+            copyModalProperty['property'] = property;
+            copyModalProperty['displayName'] = propertyObject['displayName'];
+            copyModalProperty['currentValue'] = propertyObject['value'];
+
+            if (propertyObject['multiple']) {
+                copyModalProperty['multiple'] = propertyObject['multiple'];
+            } else if (copyModalProperty['multiple']) {
+                delete copyModalProperty['multiple'];
+            }
+
+            if (propertyObject['options']) {
+                copyModalProperty['options'] = propertyObject['options']
+            } else if (copyModalProperty['options']) {
+                delete copyModalProperty['options'];
+            }
+
+            setModalProperty(copyModalProperty);
+        }
     }
 
     return (
@@ -38,28 +115,35 @@ const Body = (props) => {
             <Row className="h-100">
                 <Col md={{ span: 10, offset: 1 }} className="h-100">
                     <Row className="h-100">
-                        <Col md={{ span: 8 }} className="h-100 specimen_contentScroll">
+                        <Col md={{ span: 8 }} className="h-100 overflow-auto">
                             <Row>
                                 <Col md={{ span: 12 }}>
                                     <SpecimenInfo specimen={specimen} LoadSpecimenVersion={(handle, version) => props.LoadSpecimenVersion(handle, version)} />
                                 </Col>
                             </Row>
                             <Row className="mt-5">
-                                <Col>
+                                <Col className="mt-4">
                                     <AnnotateSection
                                         specimen={specimen}
+                                        modalToggle={modalToggle}
+                                        modalProperty={modalProperty}
+                                        modalAnnotations={modalAnnotations}
+                                        annotationType={annotationType}
 
                                         UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
                                         ToggleMidsDetails={() => ToggleMidsDetails()}
+                                        ToggleModal={(propertyObject, property) => ToggleModal(propertyObject, property)}
+                                        SetAnnotationType={(type, form) => SetAnnotationType(type, form)}
+                                        SetModalAnnotations={(copyModalAnnotations) => setModalAnnotations(copyModalAnnotations)}
                                     />
                                 </Col>
                             </Row>
                         </Col>
                         <Col md={{ span: 4 }}>
-                            {specimen['media'] &&
+                            {(Array.isArray(specimen['media'])) &&
                                 <Row>
                                     <Col md={{ span: 12 }}>
-                                        {<SpecimenMedia specimenMedia={specimen['media']} />}
+                                        {specimen['media'].length > 0 && <SpecimenMedia specimenMedia={specimen['media']} />}
                                     </Col>
                                 </Row>
                             }
@@ -73,6 +157,16 @@ const Body = (props) => {
 
                                         UpdateScrollToMids={(midsHandle) => UpdateScrollToMids(midsHandle)}
                                         ToggleMidsDetails={() => ToggleMidsDetails()}
+                                    />
+                                </Col>
+                            </Row>
+
+                            <Row className="specimen_annotationsOverview mt-4 overflow-hidden">
+                                <Col className="h-100">
+                                    <AnnotationsOverview specimen={specimen}
+
+                                        ToggleModal={(propertyObject, property, type) => ToggleModal(propertyObject, property, type)}
+                                        SetAnnotationType={(type) => SetAnnotationType(type)}
                                     />
                                 </Col>
                             </Row>

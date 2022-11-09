@@ -1,39 +1,56 @@
+import Moment from 'moment';
 import { Row, Col } from 'react-bootstrap';
 
-/* Fontawesome icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog } from '@fortawesome/free-solid-svg-icons';
 
+const ProfileAnnotation = (props) => {
+    const annotation = props.annotation;
 
-const ProfileAnnotation = () => {
+    const annotationTypeMapping = {
+        commenting: 'Comment',
+        adding: 'Addition',
+        correcting: 'Correction',
+        quality_flagging: 'Quality Flag',
+        linking: 'Relationship/Link'
+    }
+
+    const isoDate = new Date(Date.parse(annotation['created']));
+    const date = Moment(isoDate).format('MM-DD-YYYY');
+
     return (
-        <Col md={{ span: 4 }}>
-            <Col md={{ span: 12 }} 
-                className="profile_annotation"
-                style={{backgroundImage: 'url("https://api.gbif.org/v1/image/unsafe/fit-in/500x/http%3A%2F%2Fn2t.net%2Fark%3A%2F65665%2Fm356c5f382-f218-400f-8503-91d4dff71b1f")'}}
-            >
-                <Row>
-                    <Col md={{ span: 7 }} className="profile_annotationInfo py-3 px-4">
-                        <Row>
-                            <Col md={{ span: 12 }}>
-                                Specimen Name
-                            </Col>
-                            <Col md={{ span: 12 }}>
-                                Annotations: 0
-                            </Col>
-                            <Col md={{ span: 12 }}>
-                                Last modified: 00-00-0000
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col md={{ span: 5 }} className='position-relative'>
-                        <div className="profile_annotationSpecimenType">
-                            <FontAwesomeIcon icon={faFrog} />
-                        </div>
-                    </Col>
-                </Row>
-            </Col>
-        </Col>
+        <Col md={{ span: 6 }}
+            className="profile_annotation px-4 my-3"
+        >
+            <Row>
+                <Col className="profile_annotationMotivation col-md-auto c-primary">
+                    {annotationTypeMapping[annotation['motivation']]}
+                </Col>
+                <Col className="profile_annotationUpper br-tl br-tr">
+                    {date}
+                </Col>
+            </Row>
+            <Row>
+                <Col className="profile_annotationBody">
+                    <Row className="py-2">
+                        <Col>
+                            <p className="profile_annotationBodySubTitle m-0 c-primary-dark ">
+                                Target
+                            </p>
+
+                            {annotation['target']['id']}
+                        </Col>
+                    </Row>
+                    <Row className="pt-1 pb-3">
+                        <Col>
+                            <p className="profile_annotationBodySubTitle m-0 c-primary-dark ">
+                                Value 
+                            </p>
+
+                            {annotation['body']['value']}
+                        </Col>
+                    </Row>
+                </Col>
+            </Row >
+        </Col >
     )
 }
 

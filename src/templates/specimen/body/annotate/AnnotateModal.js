@@ -1,117 +1,295 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Modal, Row, Col } from 'react-bootstrap';
 import parse from 'html-react-parser';
 import UserService from 'keycloak/Keycloak';
 
 /* Import Components */
-import RelationshipLink from './annotationTypes/RelationshipLink';
-import Correcting from './annotationTypes/Correcting';
+import CommentingForm from './annotationTypes/commenting/CommentingForm';
+import CommentingMessage from './annotationTypes/commenting/CommentingMessage';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faSave, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
+import LinkingForm from './annotationTypes/linking/LinkingForm';
+import LinkingMessage from './annotationTypes/linking/LinkingMessage';
+
+import CorrectingForm from './annotationTypes/correcting/CorrectingForm';
+import CorrectingMessage from './annotationTypes/correcting/CorrectingMessage';
+
+import QualityFlaggingForm from './annotationTypes/qualityFlagging/QualityFlaggingForm';
+import QualityFlaggingMessage from './annotationTypes/qualityFlagging/QualityFlaggingMessage';
+
+import AddingForm from './annotationTypes/adding/AddingForm';
+import AddingMessage from './annotationTypes/adding/AddingMessage';
 
 
 const AnnotateModal = (props) => {
     const modalToggle = props.modalToggle;
     const modalAnnotations = props.modalAnnotations;
     const modalProperty = props.modalProperty;
-    const editMode = props.editMode;
+    const annotationType = props.annotationType;
+    const annotationTypes = props.annotationTypes;
 
-    let propertyAnnotations = [];
+    const [formData, setFormData] = useState({
+        attribute: modalProperty['property'],
+        annotationTypes: {
+            commenting: {},
+            adding: {},
+            correcting: {},
+            quality_flagging: {},
+            linking: {}
+        }
+    });
+
+    let propertyAnnotations;
 
     if (modalAnnotations) {
         if (modalAnnotations[modalProperty['property']]) {
-            propertyAnnotations = modalAnnotations[modalProperty['property']];
+            propertyAnnotations = JSON.parse(JSON.stringify(modalAnnotations[modalProperty['property']]));
         }
     }
 
-    const [editHover, setEditHover] = useState();
+    const [annotationFormToggle, setAnnotationFormToggle] = useState();
 
-    function IsHover(toggle, propertyKey) {
-        if (toggle) {
-            setEditHover(propertyKey);
-        } else {
-            setEditHover('');
-        }
-    }
-
-    function RenderEditMode(propertyKey, modalAnnotation) {
-        if (editMode[modalProperty['property']] === propertyKey) {
-            return (
-                <Col md={{ span: 10 }} className="annotate_annotationMessage me edit">
-                    <textarea
-                        className="annotate_editTextarea"
-                        defaultValue={modalAnnotation['body']['value']}
-                        onChange={(input) => props.UpdateModifications(input, propertyKey)}
-                    />
-                </Col>
-            );
-        } else {
-            return (
-                <Col md={{ span: 10 }} className="annotate_annotationMessage me">
-                    {modalAnnotation['body']['value']}
-                </Col>
-            );
-        }
-    }
-
-    const [annotationType, setAnnotationType] = useState();
-    const annotationTypes = [{
-        key: "link",
-        displayName: "Relationship/Link"
-    }, {
-        key: "correcting",
-        displayName: "Error correction"
-    }, {
-        key: "quality_flagging",
-        displayName: "Quality flag"
-    }, {
-        key: "score_of_annotation",
-        displayName: "Score of annotation"
-    }, {
-        key: "addition",
-        displayName: "Addition"
-    }
-    ];
-
-    function RenderAnnotationType() {
-        if (annotationType) {
-            switch (annotationType) {
-                case 'link':
-                    return (<RelationshipLink
-                        modalProperty={modalProperty}
-                        SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-                    />);
-                case 'correcting':
-                    return (<Correcting />);
+    useEffect(() => {
+        if (propertyAnnotations && modalToggle) {
+            const userId = UserService.getSubject();
+            let localValues = {
+                commenting: {},
+                adding: {},
+                correcting: {},
+                quality_flagging: {},
+                linking: {}
             }
+
+            for (const key in localValues) {
+                if (propertyAnnotations[key]) {
+                    if (propertyAnnotations[key][userId]) {
+                        localValues[key] = JSON.parse(JSON.stringify(propertyAnnotations[key][userId]['body']));
+                    }
+                }
+            }
+
+            setFormData({
+                attribute: modalProperty['property'],
+                annotationTypes: localValues,
+            });
         } else {
-            return (<RelationshipLink
-                modalProperty={modalProperty}
-                SaveAnnotation={(annotation) => props.SaveAnnotation(annotation)}
-            />);
+            setFormData({
+                attribute: '',
+                annotationTypes: {
+                    commenting: {},
+                    adding: {},
+                    correcting: {},
+                    quality_flagging: {},
+                    linking: {}
+                }
+            });
+        }
+    }, [modalToggle]);
+
+    function RenderMultipleMode(annotationType) {
+        const formDataCopy = { ...formData };
+
+        if (!Array.isArray(formDataCopy['annotationTypes'][annotationType]['value'])) {
+            formDataCopy['annotationTypes'][annotationType]['value'] = [formData['annotationTypes'][annotationType]['value']];
+
+            setFormData(formDataCopy);
+        }
+
+
+        function AddField() {
+            const copyFormData = { ...formData };
+
+            copyFormData['annotationTypes'][annotationType]['value'].push('');
+
+            setFormData(copyFormData);
+        }
+
+        if (formData) {
+            return (
+                <>
+                    <Row>
+                        {Object.keys(formData['annotationTypes'][annotationType]['value']).map((index, _i) => {
+                            return (
+                                <Col key={index}
+                                    md={{ span: 12 }}
+                                    className="mb-2"
+                                >
+                                    <input className="annotate_annotationTypeField w-100"
+                                        name="value"
+                                        defaultValue={formData['annotationTypes'][annotationType]['value'][index]}
+                                        onChange={(value) => UpdateFormData('adding', 'value', value, index)}
+                                        autoComplete="false"
+                                    />
+                                </Col>
+                            );
+                        })}
+                    </Row>
+                    <Row className="mt-1">
+                        <Col>
+                            <button type="button"
+                                className="annotate_annotationTypeMultipleAdd"
+                                onClick={() => AddField()}
+                            >
+                                Add field
+                            </button>
+                        </Col>
+                    </Row>
+                </>
+            );
         }
     }
 
     function UpdateAnnotationType(type) {
-        setAnnotationType(type);
+        props.SetAnnotationType(type, true);
+
+        if (Object.keys(formData['annotationTypes'][type]).length > 0) {
+            setEditType(type);
+        } else {
+            setEditType('');
+        }
+    }
+
+    function ToggleAnnotationForm(close = false) {
+        if (annotationFormToggle || close) {
+            setAnnotationFormToggle('');
+        } else {
+            setAnnotationFormToggle('active');
+
+            if (Object.keys(formData['annotationTypes']['commenting']).length > 0) {
+                setEditType('commenting');
+            }
+        }
+    }
+
+    const [editType, setEditType] = useState();
+
+    function ToggleEditMode(type = '') {
+        if (type !== editType) {
+            if (!annotationFormToggle && type) {
+                ToggleAnnotationForm();
+            }
+
+            props.SetAnnotationType(type, true);
+            setEditType(type);
+        } else {
+            ToggleAnnotationForm(true);
+            setEditType('');
+        }
+    }
+
+    function UpdateFormData(annotationType, formField, value, index = -1) {
+        const formDataCopy = { ...formData };
+
+        if (typeof (value.target.value) === 'object') {
+            value = `${value.getFullYear()}-${value.getMonth() + 1}-${value.getDate()} ${value.getHours()}:${value.getMinutes()}:${value.getSeconds()}.${value.getMilliseconds()}`;
+        } else {
+            value = value.target.value;
+        }
+
+        if (index >= 0) {
+            if (!formDataCopy['annotationTypes'][annotationType][[formField]]) {
+                formDataCopy['annotationTypes'][annotationType][[formField]] = [];
+                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value;
+            } else {
+                formDataCopy['annotationTypes'][annotationType][[formField]][index] = value;
+            }
+        } else {
+            formDataCopy['annotationTypes'][annotationType][[formField]] = value;
+        }
+
+        setFormData(formDataCopy);
+    }
+
+    function SubmitForm(annotationType) {
+        const annotation = {
+            type: 'Annotation',
+            motivation: annotationType,
+            body: {
+                type: modalProperty['property'],
+                ...formData['annotationTypes'][annotationType]
+            },
+            target: {
+                type: 'digital_specimen',
+                indvProp: modalProperty['property']
+            }
+        };
+
+        props.SaveAnnotation(annotation);
+
+        if (!editType) {
+            setEditType(annotationType);
+        }
+    }
+
+    function RenderAnnotationType(annotationForm = 'commenting') {
+        const annotationForms = {
+            'commenting': CommentingForm,
+            'adding': AddingForm,
+            'correcting': CorrectingForm,
+            'quality_flagging': QualityFlaggingForm,
+            'linking': LinkingForm
+        };
+
+        if (annotationForm) {
+            const AnnotationFormComponent = annotationForms[annotationForm];
+
+            return (<AnnotationFormComponent
+                modalProperty={modalProperty}
+                formData={formData['annotationTypes']}
+
+                UpdateFormData={(annotationType, formField, value) => UpdateFormData(annotationType, formField, value)}
+                SubmitForm={(annotationType) => SubmitForm(annotationType)}
+                RemoveAnnotation={(type) => props.RemoveAnnotation(type)}
+                RenderMultipleMode={(annotationType) => RenderMultipleMode(annotationType)}
+            />);
+        }
+
+    }
+
+    const annotationMessageTypes = {
+        'commenting': CommentingMessage,
+        'adding': AddingMessage,
+        'correcting': CorrectingMessage,
+        'quality_flagging': QualityFlaggingMessage,
+        'linking': LinkingMessage
+    };
+
+    let showNewAnnotationButton = "d-none";
+
+    for (const key in formData['annotationTypes']) {
+        if (Object.keys(formData['annotationTypes'][key]).length === 0) {
+            showNewAnnotationButton = "";
+        }
+    }
+
+    const scrollModalAnnotationsBodyRef = useRef();
+
+    function ScrollToAnnotation(ref) {
+        scrollModalAnnotationsBodyRef.current.scrollTop = (ref.current.offsetTop - 75);
     }
 
     return (
         <Modal show={modalToggle} size="xl" className="annotate_modal">
-            <Row className="h-100">
-                <Col md={{ span: 5, offset: 1 }}>
-                    <Modal.Header className="annotate_modalHeader">
+            <Row className="h-100 justify-content-center">
+                <Col md={{ span: 6 }} className={`h-100 annotate_modalAnnotationSection ${annotationFormToggle}`}>
+                    <div className="w-100 m-0 p-0 position-relative">
+                        <button type="button"
+                            onClick={() => { props.ToggleModal(); ToggleAnnotationForm(true); ToggleEditMode(); }}
+                            className="annotate_modalHeaderButton position-absolute px-3 border-0 bg-backdrop text-white br-tl br-tr"
+                        >
+                            Dismiss
+                        </button>
+                    </div>
+
+                    <Modal.Header className="annotate_modalHeader position-relative bg-primary-blue text-white">
                         <Modal.Title className="annotate_modalHeaderTitle">
                             {modalProperty['displayName']}
                         </Modal.Title>
                     </Modal.Header>
 
-                    <Modal.Body className="annotate_modalBody">
-                        <Row>
-                            <Col className="col-md-auto annotate_modalCurrentValue py-1 mx-3">
-                                <span className="annotate_modalCurrentValueTitle"> Current value: </span>
+                    <Modal.Body className="annotate_modalBody bg-white">
+                        <Row className="px-2">
+                            <Col md={{ span: 12 }} className="annotate_modalCurrentValue border-b-2-primary-dark">
+                                <span className="fw-bold"> Current value: </span>
 
                                 {(typeof modalProperty['currentValue'] === 'string') &&
                                     modalProperty['currentValue'].includes('</') ?
@@ -120,102 +298,68 @@ const AnnotateModal = (props) => {
                                 }
                             </Col>
                         </Row>
-                        <Row className="mt-4">
-                            <Col md={{ span: 12 }}>
-                                {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
-                                    const modalAnnotation = propertyAnnotations[key];
+                        <Row className="annotate_modalAnnotationsBody mt-3 overflow-scroll" ref={scrollModalAnnotationsBodyRef}>
+                            <Col>
+                                <Row>
+                                    <Col md={{ offset: 1 }}
+                                        className={`col-md-auto mb-3 annotate_modalAddAnnotationButton border-2-primary-dark ${showNewAnnotationButton}`}
+                                        onClick={() => ToggleAnnotationForm()}
+                                    >
+                                        Add new annotation
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md={{ span: 12 }}>
+                                        {propertyAnnotations ? Object.keys(propertyAnnotations).map((key, _i) => {
+                                            const modalAnnotations = propertyAnnotations[key];
 
-                                    const propertyKey = modalProperty['property'] + key;
+                                            const propertyKey = modalProperty['property'] + key;
 
-                                    if (UserService.getSubject() === modalAnnotation['creator']) {
-                                        return (
-                                            <Row key={propertyKey} className="mb-3">
-                                                <Col md={{ span: 12 }}>
-                                                    <Row onMouseEnter={() => IsHover(true, propertyKey)}
-                                                        onMouseLeave={() => IsHover(false, propertyKey)}>
-                                                        <Col md={{ span: 2 }}>
-                                                            {editMode[modalProperty['property']] ?
-                                                                (editMode[modalProperty['property']] === propertyKey) &&
-                                                                <>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faXmark}
-                                                                        onClick={() => props.ToggleEditMode(propertyKey)}
-                                                                        className="annotate_editIcon xmark"
-                                                                    />
-                                                                    <FontAwesomeIcon
-                                                                        icon={faSave}
-                                                                        onClick={() => props.UpdateAnnotation(modalAnnotation, propertyKey)}
-                                                                        className="annotate_editIcon save"
-                                                                    />
-                                                                    <br />
-                                                                    <FontAwesomeIcon
-                                                                        icon={faTrash}
-                                                                        className="annotate_editIcon delete"
-                                                                        onClick={() => props.RemoveAnnotation(modalAnnotation, propertyKey)}
-                                                                    />
-                                                                </>
-                                                                : editHover === propertyKey &&
-                                                                <FontAwesomeIcon
-                                                                    icon={faPencil}
-                                                                    onClick={() => props.ToggleEditMode(propertyKey)}
-                                                                    className="annotate_editIcon pencil"
-                                                                />
-                                                            }
-                                                        </Col>
-                                                        <Col md={{ span: 10 }}>
-                                                            <Row>
-                                                                {editMode[modalProperty['property']] ?
-                                                                    RenderEditMode(propertyKey, modalAnnotation)
-                                                                    : <Col md={{ span: 10 }} className="annotate_annotationMessage me">
-                                                                        {modalAnnotation['body']['value']}
-                                                                    </Col>
-                                                                }
+                                            const MessageComponent = annotationMessageTypes[key];
 
-                                                                <Col md={{ span: 2 }}>
-                                                                    <img
-                                                                        src="https://crafatar.com/avatars/af781660900a493687708eee23874086?size=64&overlay"
-                                                                        className="img-fluid"
-                                                                        alt="User avatar"
-                                                                    />
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                    </Row>
+                                            let viewComponents = [];
+
+                                            for (const annotationKey in modalAnnotations) {
+                                                const modalAnnotation = modalAnnotations[annotationKey];
+
+                                                if (modalAnnotation['creator'] === UserService.getSubject()) {
+                                                    viewComponents.push(<MessageComponent key={key}
+                                                        modalAnnotation={modalAnnotation}
+                                                        propertyKey={propertyKey}
+                                                        modalProperty={modalProperty}
+                                                        editType={editType}
+                                                        annotationType={annotationType}
+
+                                                        ToggleEditMode={(type) => ToggleEditMode(type)}
+                                                        ScrollToAnnotation={(ref) => ScrollToAnnotation(ref)}
+                                                    />);
+                                                } else {
+                                                    viewComponents.push(<MessageComponent key={key}
+                                                        modalAnnotation={modalAnnotation}
+                                                        propertyKey={propertyKey}
+                                                        modalProperty={modalProperty}
+                                                        annotationType={annotationType}
+                                                    />);
+                                                }
+                                            }
+
+                                            return (viewComponents);
+                                        })
+                                            : <Row>
+                                                <Col md={{ span: 10, offset: 1 }}>
+                                                    No annotations yet
                                                 </Col>
                                             </Row>
-                                        );
-                                    } else {
-                                        return (
-                                            <Row key={key} className="mb-3">
-                                                <Col md={{ span: 10 }}>
-                                                    <Row>
-                                                        <Col md={{ span: 2 }}>
-                                                            <img
-                                                                src="https://crafatar.com/avatars/af781660900a493687708eee23874086?size=64&overlay"
-                                                                className="img-fluid"
-                                                                alt="User avatar"
-                                                            />
-                                                        </Col>
-                                                        <Col md={{ span: 10 }} className="annotate_annotationMessage">
-                                                            {modalAnnotations[key]['body']['value']}
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        );
-                                    }
-                                }) : 'No annotations yet'}
+                                        }
+                                    </Col>
+                                </Row>
                             </Col>
                         </Row>
                     </Modal.Body>
                 </Col>
 
-                <Col md={{ span: 5 }} className="position-relative">
-                    <button type="button" onClick={() => props.ToggleModal()} className="annotate_modalHeaderButton">
-                        Dismiss
-                    </button>
-
-                    <Modal.Body className="annotate_modalBody right">
+                <Col md={{ span: 5 }} className={`position-relative h-100 annotate_modalFormSection ${annotationFormToggle}`}>
+                    <Modal.Body className="annotate_modalBody right bg-white overflow-scroll mb-3">
                         <Row>
                             <Col md={{ span: 12 }}>
                                 <p> Select an annotation type: </p>
@@ -223,7 +367,10 @@ const AnnotateModal = (props) => {
                         </Row>
                         <Row>
                             <Col>
-                                <select onChange={e => UpdateAnnotationType(e.target.value)} className="annotate_annotationTypeSelect px-2 py-2">
+                                <select onChange={e => UpdateAnnotationType(e.target.value)}
+                                    className="annotate_annotationTypeSelect px-2 py-2 bg-primary-blue border-0 text-white"
+                                    value={annotationType['type'] ? annotationType['type'] : 'commenting'}
+                                >
                                     {annotationTypes.map((type, _i) => {
                                         return (
                                             <option
@@ -240,35 +387,12 @@ const AnnotateModal = (props) => {
                         </Row>
                         <Row>
                             <Col>
-                                {RenderAnnotationType()}
+                                {RenderAnnotationType(annotationType['type'])}
                             </Col>
                         </Row>
                     </Modal.Body>
                 </Col>
             </Row>
-
-            {/* <Modal.Footer className="annotate_modalFooter">
-                <Row className="w-100">
-                    <Col md={{ span: 11 }}>
-                        <textarea
-                            className="w-100 annotate_annotationInput"
-                            onChange={(annotationInput) => props.UpdateAnnotationInput(annotationInput)}
-                            value={annotationInput}
-                            disabled={!(UserService.isLoggedIn())}
-                        />
-                    </Col>
-                    <Col md={{ span: 1 }}>
-                        <button
-                            type="button"
-                            className="annotate_annotationSubmit"
-                            onClick={() => props.SaveAnnotation()}
-                            disabled={!(UserService.isLoggedIn())}
-                        >
-                            <FontAwesomeIcon icon={faPaperPlane} />
-                        </button>
-                    </Col>
-                </Row>
-            </Modal.Footer> */}
         </Modal >
     );
 }

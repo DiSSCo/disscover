@@ -1,0 +1,259 @@
+/* Custom CSS for Specimen Page */
+
+
+.specimen_content {
+    height: calc(100vh - 208px)
+}
+
+
+/* Specimen Information Block */
+
+.specimen_fixedTitleBlock {
+    left: 0;
+}
+
+.specimen_fixedTitleBlockMargin {
+    margin-left: 0.9% !important;
+}
+
+.specimen_titleBlock {
+    height: 40px;
+}
+
+.specimen_basisOfRecordSymbolBlock {
+    font-size: 24px;
+}
+
+.specimen_titleBlockSub {
+    height: 40px;
+}
+
+.specimen_title {
+    font-size: 24px;
+    line-height: 35px;
+}
+
+.specimen_versionBlock {
+    height: 40px;
+}
+
+.specimen_versionBlock.active {
+    height: auto;
+    position: absolute;
+    right: 0;
+    border: 1px solid var(--main-color-dark);
+}
+
+.specimen_versionOptions {
+    display: none;
+}
+
+.specimen_versionOptions.active {
+    display: block;
+}
+
+.specimen_versionOption {
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px solid var(--greyXLight);
+    border-bottom: 1px solid var(--greyXLight);
+    cursor: pointer;
+}
+
+.specimen_versionOption:hover {
+    background-color: var(--greyLight) !important;
+}
+
+.specimen_versionOption.chosen {
+    background-color: var(--main-color-dark) !important;
+    color: white;
+    border: none;
+}
+
+.specimen_versionOptionIcon {
+    right: 0;
+    margin-top: 12px;
+    transition: 0.3s;
+    transform: rotate(0deg);
+}
+
+.specimen_versionOptionIcon.active {
+    transform: rotate(180deg);
+}
+
+.specimen_detailSpecimen {
+    background-color: var(--greyXLight);
+    font-size: 14px;
+}
+
+.specimen_detailSpecimenBackdrop {
+    position: absolute;
+    color: var(--greyDark);
+    opacity: 20%;
+    bottom: 0;
+    right: 0;
+    font-size: 220px;
+    transform: scaleX(-1);
+}
+
+.specimen_detailTitle {
+    font-size: 15px;
+    margin: 0px 0px 2% 0px;
+}
+
+.specimen_detailOrganisation {
+    font-size: 14px;
+}
+
+.specimen_detailLinksBlock {
+    height: 30%;
+}
+
+.specimen_detailLinks {
+    border-top: 1px solid var(--grey);   
+    font-size: 14px;
+}
+
+
+/* Media */
+
+.specimen_mediaGalleryTitleBlock {
+    height: 30px;
+    line-height: 30px;
+}
+
+.specimen_mediaGalleryContent {
+    background-color: var(--greyXLight);
+}
+
+.specimen_mediaSlider {
+    width: max-content;
+    height: 200px;
+}
+
+.specimen_media {
+    height: 200px;
+}
+
+.specimen_mediaCover {
+    background-color: rgb(46, 92, 184, 0.60);
+    top: 0;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.specimen_mediaCover:hover {
+    opacity: 100;
+}
+
+
+/* MIDS meter */
+
+.specimen_midsMeterChevronDown {
+    transform: rotate(180deg);
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.specimen_midsMeterChevronDown.hidden {
+    transform: rotate(0deg);
+}
+
+.specimen_midsMeterTitle {
+    font-size: 16px;
+}
+
+.specimen_midsMeterBar {
+    border: 1px solid var(--greyLight);
+}
+
+
+/* MIDS Details Block */
+
+.specimen_midsDetailsBlock {
+    background-color: var(--greyXLight);
+    height: 350px;
+    left: 0;
+    transition: 0.4s;
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+.specimen_midsDetailsBlock.hidden {
+    height: 0px;
+}
+
+.specimen_midsDetailsBlockTitle {
+    font-size: 16px;
+}
+
+.specimen_midsDetailsSections {
+    height: 90%;
+    scroll-behavior: smooth;
+}
+
+.specimen_midsDetailsSection {
+    border-left: 1px solid var(--main-color);
+}
+
+.specimen_midsDetailsSectionTitle {
+    font-size: 15px;
+    font-style: italic;
+    border-bottom: 1px solid;
+}
+
+
+/* MIDS Details Section */
+
+.specimen_midsDetailsSectionContent {
+    font-size: 14px;
+}
+
+.specimen_midsDetailsIndication {
+    font-size: 13px;
+}
+
+
+/* Annotations overview */
+
+.specimen_annotationsOverview {
+    height: 40%;
+}
+
+.specimen_annotationsOverviewTab { 
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.specimen_annotationsOverviewTab.active {
+    background-color: var(--main-color-dark);
+    color: white;
+    cursor: default;
+}
+
+.specimen_annotationsOverviewRow {
+    height: Calc(100% - 30px);
+}
+
+.specimen_annotationsOverviewSectionProps {
+    font-size: 14px;
+}
+
+.specimen_annotationsOverviewSectionRows {
+    height: Calc(100% - 30px);
+}
+
+.specimen_annotationsOverviewSectionRow {
+    font-size: 14px;
+    border-bottom: 1px solid var(--greyXLight);
+    cursor: pointer;
+}
+
+.specimen_annotationsOverviewSectionRow.even {
+    background-color: var(--main-color-light);
+}
+
+.specimen_annotationsOverviewSectionRow:hover {
+    background-color: var(--greyLight);
+}

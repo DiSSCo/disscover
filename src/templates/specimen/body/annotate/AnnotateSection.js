@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import UserService from 'keycloak/Keycloak';
-import './annotate.css';
+import './annotate.scss';
 
 /* Import API */
-import GetAnnotations from 'api/annotate/GetAnnotations';
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
-import PatchAnnotation from 'api/annotate/PatchAnnotation';
 import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
 
 /* Import Components */
@@ -16,151 +14,66 @@ import AnnotateModal from './AnnotateModal';
 
 const AnnotateSection = (props) => {
     const specimen = props.specimen;
+    const modalToggle = props.modalToggle;
+    const modalProperty = props.modalProperty;
+    const modalAnnotations = props.modalAnnotations;
+    const annotationType = props.annotationType;
+
     const token = UserService.getToken();
 
-    /* Modal handling */
-    const [modalToggle, setModalToggle] = useState(false);
-    const [modalProperty, setModalProperty] = useState({ 'property': '' });
-    const [modalAnnotations, setModalAnnotations] = useState();
-
-    useEffect(() => {
-        SetAnnotations();
-    }, []);
-
-    function SetAnnotations() {
-        /* Search for annotations data and put into view */
-        GetAnnotations(specimen['Meta']['id']['value'], Process);
-
-        function Process(annotations) {
-            const annotationsForModal = {};
-
-            for (const i in annotations) {
-                const annotation = annotations[i];
-
-                if (!annotationsForModal[annotation['target']['indvProp']]) {
-                    annotationsForModal[annotation['target']['indvProp']] = { [annotation['id']]: annotation };
-                } else {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['id']] = annotation;
-                }
-            }
-
-            setModalAnnotations(annotationsForModal);
-        }
-    }
-
-    function ToggleModal(property = null, displayName = null, currentValue = null) {
-        setModalToggle(!modalToggle);
-
-        if (property && property !== modalProperty['property']) {
-            let copyModalProperty = { ...modalProperty };
-
-            copyModalProperty['property'] = property;
-            copyModalProperty['displayName'] = displayName;
-            copyModalProperty['currentValue'] = currentValue;
-
-            setModalProperty(copyModalProperty);
-        }
-    }
+    const annotationTypes = [{
+        key: "commenting",
+        displayName: "Commenting"
+    }, {
+        key: "linking",
+        displayName: "Relationship/Link"
+    }, {
+        key: "correcting",
+        displayName: "Error correction"
+    }, {
+        key: "quality_flagging",
+        displayName: "Quality flag"
+    }, {
+        key: "adding",
+        displayName: "Addition"
+    }];
 
     function SaveAnnotation(annotation) {
-        console.log(annotation);
-
         if (annotation) {
-            const newAnnotation = {
-                type: 'Annotation',
-                motivation: 'https://hdl.handle.net/pid-motivation-correcting',
-                body: {
-                    type: annotation['property'],
-                    value: annotation['value'],
-                    reference: annotation['motivation']
-                },
-                target: {
-                    type: 'https://hdl.handle.net/digitalSpecimen-type',
-                    id: `https://hdl.handle.net/${specimen['Meta']['id']['value']}`,
-                    indvProp: annotation['property']
-                }
-            };
+            annotation['target']['id'] = `https://hdl.handle.net/${specimen['Meta']['id']['value']}`
 
-            InsertAnnotation(newAnnotation, token, Process);
+            InsertAnnotation(annotation, token, Process);
 
             function Process(result) {
                 if (result) {
                     const copyModalAnnotations = { ...modalAnnotations };
 
                     if (!copyModalAnnotations[modalProperty['property']]) {
-                        copyModalAnnotations[modalProperty['property']] = { [result['id']]: result }
+                        copyModalAnnotations[modalProperty['property']] = { [result['motivation']]: { [result['creator']]: result } }
+                    } else if (!copyModalAnnotations[modalProperty['property']][result['motivation']]) {
+                        copyModalAnnotations[modalProperty['property']][result['motivation']] = { [result['creator']]: result };
                     } else {
-                        copyModalAnnotations[modalProperty['property']][result['id']] = result;
+                        copyModalAnnotations[modalProperty['property']][result['motivation']][result['creator']] = result;
                     }
 
-                    console.log(copyModalAnnotations);
-
-                    setModalAnnotations(copyModalAnnotations);
+                    props.SetModalAnnotations(copyModalAnnotations);
                 }
             }
         }
     }
 
-    const [modifications, setModifications] = useState({});
+    function RemoveAnnotation(type) {
+        const annotation = modalAnnotations[modalProperty['property']][type][UserService.getSubject()];
 
-    function UpdateModifications(input, propertyKey, remove = false) {
-        let copyModification = { ...modifications };
-
-        if (!remove) {
-            copyModification[propertyKey] = input.target.value;
-        } else {
-            delete copyModification[propertyKey];
-        }
-
-        setModifications(copyModification);
-    }
-
-    const [editMode, setEditMode] = useState({});
-
-    function ToggleEditMode(propertyKey) {
-        let editObject = { ...editMode };
-
-        if (!(modalProperty['property'] in editMode)) {
-            editObject[modalProperty['property']] = propertyKey;
-        } else if (editMode[modalProperty['property']] === propertyKey) {
-            delete editObject[modalProperty['property']];
-        }
-
-        setEditMode(editObject);
-    }
-
-    function UpdateAnnotation(annotation, propertyKey) {
-        annotation['body']['value'] = modifications[propertyKey];
-
-        PatchAnnotation(annotation, token, Process);
-
-        function Process(result) {
-            ToggleEditMode(propertyKey);
-            UpdateModifications(null, propertyKey, true);
-
-            const copyModalAnnotations = { ...modalAnnotations };
-
-            copyModalAnnotations[modalProperty['property']][result['id']] = result;
-
-            console.log(copyModalAnnotations);
-
-            setModalAnnotations(copyModalAnnotations);
-        }
-    }
-
-    function RemoveAnnotation(annotation, propertyKey) {
         DeleteAnnotation(annotation['id'], token, Process);
 
         function Process(success) {
             if (success) {
-                ToggleEditMode(propertyKey);
-                UpdateModifications(null, propertyKey, true);
-
                 const copyModalAnnotations = { ...modalAnnotations };
 
-                delete copyModalAnnotations[modalProperty['property']][annotation['id']];
+                delete copyModalAnnotations[modalProperty['property']][type][annotation['creator']];
 
-                setModalAnnotations(copyModalAnnotations);
+                props.SetModalAnnotations(copyModalAnnotations);
             }
         }
     }
@@ -182,11 +95,10 @@ const AnnotateSection = (props) => {
     return (
         <div>
             {modalAnnotations &&
-                <Row>
-                    <Col md={{ span: 12 }}>
+                <Row className="mt-5">
+                    <Col md={{ span: 11 }}>
                         {Object.keys(specimen).map((key, _i) => {
                             if (key != 'Auth') {
-
                                 return (
                                     <AnnotateRow
                                         key={key}
@@ -195,7 +107,7 @@ const AnnotateSection = (props) => {
                                         toggledAnnotationRows={toggledAnnotationRows}
                                         modalAnnotations={modalAnnotations}
 
-                                        ToggleModal={(property, displayName, currentValue) => ToggleModal(property, displayName, currentValue)}
+                                        ToggleModal={(property, displayName, currentValue) => props.ToggleModal(property, displayName, currentValue)}
                                         ToggleAnnotationRow={(group) => ToggleAnnotationRow(group)}
                                         UpdateScrollToMids={(midsHandle) => props.UpdateScrollToMids(midsHandle)}
                                     />
@@ -211,14 +123,13 @@ const AnnotateSection = (props) => {
                     modalToggle={modalToggle}
                     modalAnnotations={modalAnnotations}
                     modalProperty={modalProperty}
-                    editMode={editMode}
+                    annotationType={annotationType}
+                    annotationTypes={annotationTypes}
 
-                    ToggleModal={() => ToggleModal()}
+                    ToggleModal={() => props.ToggleModal()}
                     SaveAnnotation={(annotation) => SaveAnnotation(annotation)}
-                    ToggleEditMode={(propertyKey) => ToggleEditMode(propertyKey)}
-                    UpdateModifications={(input, propertyKey) => UpdateModifications(input, propertyKey)}
-                    UpdateAnnotation={(annotation, propertyKey) => UpdateAnnotation(annotation, propertyKey)}
-                    RemoveAnnotation={(annotation, propertyKey) => RemoveAnnotation(annotation, propertyKey)}
+                    RemoveAnnotation={(annotation) => RemoveAnnotation(annotation)}
+                    SetAnnotationType={(type, form) => props.SetAnnotationType(type, form)}
                 />
             }
         </div >

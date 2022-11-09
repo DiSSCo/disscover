@@ -1,4 +1,4 @@
-import './home.css';
+import './home.scss';
 
 /* Import Components */
 import Header from "../header/Header.js";
@@ -13,7 +13,7 @@ const Home = () => {
 
             <Body />
 
-            <Footer home={'home'} />
+            <Footer page={'home'} />
         </div>
     );
 }

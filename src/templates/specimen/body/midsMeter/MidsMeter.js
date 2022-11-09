@@ -15,31 +15,39 @@ const MidsMeter = (props) => {
 
     return (
         <Row>
-            <Col md={{ span: 12 }} className="specimen_midsMeterBlock py-4">
+            <Col>
                 <Row>
-                    <Col md={{ span: 8, offset: 1 }}>
-                        Completion level (MIDS)
-                    </Col>
-                    <Col md={{ span: 2 }} className="annotate_midsMeterTitleRight">
-                        <FontAwesomeIcon
-                            icon={faChevronDown}
-                            onClick={() => props.ToggleMidsDetails()}
-                            className={"annotate_midsMeterChevronDown " + midsDetailsVisibility}
-                        />
+                    <Col md={{ span: 12 }} className="py-4 border-1-primary-dark">
+                        <Row>
+                            <Col md={{ span: 8, offset: 1 }}>
+                                Completion level (MIDS)
+                            </Col>
+                            <Col md={{ span: 2 }} className="text-end">
+                                <FontAwesomeIcon
+                                    icon={faChevronDown}
+                                    onClick={() => props.ToggleMidsDetails()}
+                                    className={"specimen_midsMeterChevronDown " + midsDetailsVisibility}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={{ span: 10, offset: 1 }} className="specimen_midsMeterBar bg-green text-center fw-bold text-white">
+                                Lv {specimen['Meta']['midsLevel']['value']}.
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 10, offset: 1 }} className="annotate_midsMeterBar">
-                        Lv {specimen['Meta']['midsLevel']['value']}.
-                    </Col>
+                    <MidsDetails
+                        visibility={midsDetailsVisibility}
+                        specimen={specimen}
+                        scrollToMids={scrollToMids}
+                    />
                 </Row>
             </Col>
 
-            <MidsDetails
-                visibility={midsDetailsVisibility}
-                specimen={specimen}
-                scrollToMids={scrollToMids}
-            />
+
+
         </Row>
     );
 }

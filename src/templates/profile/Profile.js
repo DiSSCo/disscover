@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserService from 'keycloak/Keycloak';
-import './profile.css';
+import './profile.scss';
 
 /* Import Components */
 import Header from 'templates/header/Header';
@@ -29,7 +29,7 @@ const Profile = () => {
 
                 <Body />
 
-                <Footer />
+                <Footer page={"notHome"} />
             </div>
         );
     }

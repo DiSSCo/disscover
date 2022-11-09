@@ -3,11 +3,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 /* Import Components */
-import SearchBar from "./searchBar/SearchBar";
-import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
-import RecentAnnotations from "./recentAnnotations/RecentAnnotations";
-import RecentAdded from "./recentAdded/RecentAdded";
 import ObliqueBanner from './ObliqueBanner';
+import SearchBar from "./searchBar/SearchBar";
+import RecentAnnotations from "./recentAnnotations/RecentAnnotations";
+import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
+import Mids from "./mids/Mids";
 
 /* Import API functions */
 import SpecimenSearch from "api/specimen/SpecimenSearch";
@@ -34,10 +34,6 @@ const Body = () => {
         }
     }
 
-    const items = [
-        'Frogger', 'Frogger', 'Frogger', 'Frogger'
-    ];
-
     const navigate = useNavigate();
 
     return (
@@ -57,16 +53,22 @@ const Body = () => {
                                 <Row className="mt-3">
                                     <Col md={{ span: 5 }}>
                                         <Row>
-                                            <Col className="home_introTitle">
-                                                <span className="strong"> U</span>nified we
-                                                <span className="strong"> C</span>urate and
-                                                <span className="strong"> A</span>nnotate <br />
-                                                specimens in this <span className="strong"> S</span>ystem
+                                            <Col className="home_mainTitle">
+                                                <h2 className="fw-normal">
+                                                    <span className="fw-bold"> U</span>nified we
+                                                    <span className="fw-bold"> C</span>urate and
+                                                    <span className="fw-bold"> A</span>nnotate <br />
+                                                    specimens in this <span className="fw-bold"> S</span>ystem
+                                                </h2>
                                             </Col>
                                         </Row>
                                         <Row className="mt-3">
                                             <Col className="home_introText">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                                UCAS is a FAIR annotation and curation platform.
+                                                Human experts and machines can add annotations on Digital Specimens.
+                                                The annotations are stored as FAIR Digital Objects (with a persistent identifier).
+                                                UCAS also keeps track of the transactions on the data as provenance information related
+                                                to the curation or annotation events.
                                             </Col>
                                         </Row>
                                     </Col>
@@ -74,56 +76,11 @@ const Body = () => {
                             </Col>
                         </Row>
 
-                        <Row className="mt-5 position-relative">
-                            <Col>
-                                <Row className="mt-4">
-                                    <Col md={{ span: 6 }} className="home_recentSection">
-                                        <div className="home_recentSectionBackground" />
+                        <RecentAnnotations />
 
-                                        <div className="home_recentSectionBody">
-                                            <Row>
-                                                <Col>
-                                                    <h3 className="homeTitle">
-                                                        Recently Annotated
-                                                    </h3>
-                                                </Col>
-                                            </Row>
+                        <Mids />
 
-                                            <RecentAnnotations />
-                                        </div>
-
-                                    </Col>
-                                    <Col md={{ span: 6 }}>
-                                        <Row>
-                                            <Col>
-                                                <h3 className="homeTitle">
-                                                    Recently added Specimens
-                                                </h3>
-                                            </Col>
-                                        </Row>
-
-                                        <RecentAdded />
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-
-                        <Row className="mt-5">
-                            <Col md={{ span: 12 }}>
-                                <Row>
-                                    <Col>
-                                        <h3 className="homeTitle">
-                                            Explore Sabertoothed Cats
-                                        </h3>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    {items.map(() => {
-                                        return <SampleSpecimen />
-                                    })}
-                                </Row>
-                            </Col>
-                        </Row>
+                        <SampleSpecimen />
                     </Col>
                 </Row>
             </Container>

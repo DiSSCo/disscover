@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import SearchBar from "./searchMenu/SearchBar";
 import SearchFilters from "./searchMenu/SearchFilters";
 import ResultsTable from "./resultsTable/ResultsTable";
+import Paginator from "templates/general/paginator/Paginator";
 
 /* Import API */
 import SpecimenSearch from "api/specimen/SpecimenSearch.js";
@@ -17,9 +18,13 @@ const Body = () => {
     let location = useLocation();
 
     const [loaded, setLoaded] = useState();
+    const [paginationRange, setPaginationRange] = useState();
+
+    /* Temporary to resolve Sonar Cloud issue */
+    console.log(paginationRange);
 
     const [searchQuery, setSearchQuery] = useState();
-    const [searchResults, setSearchResults] = useState();
+    const [searchResults, setSearchResults] = useState([]);
 
     function UpdateSearchQuery(query) {
         setSearchQuery(query.target.value);
@@ -43,7 +48,7 @@ const Body = () => {
             result.forEach((searchResult, i) => {
                 result[i] = FilterSpecimen(searchResult);
 
-                GetSpecimenDigitalMedia(result[i]['Meta']['id']['value'], ProcessFurther);
+                GetSpecimenDigitalMedia(result[i], ProcessFurther);
 
                 function ProcessFurther(media) {
                     if (media) {
@@ -85,7 +90,7 @@ const Body = () => {
                 <Row>
                     <Col md={{ span: 10, offset: 1 }}>
                         <Row>
-                            <Col md="2" className="search_filterMenu">
+                            <Col md="2" className="search_filterMenu border-2-primary-dark">
                                 <SearchBar
                                     searchQuery={searchQuery}
                                     onSearch={() => HandleSearch()}
@@ -100,6 +105,27 @@ const Body = () => {
                                         <ResultsTable searchResults={searchResults} />
                                     </Col>
                                 </Row>
+
+                                <Row className="px-5 mt-3">
+                                    <Col className="search_resultCount col-md-auto py-2">
+                                        {(searchResults.length === 1) ?
+                                            '1 specimen found'
+                                            : `${searchResults.length} specimens found`
+                                        }
+                                    </Col>
+
+                                    {(searchResults.length > 0) &&
+                                        <Col className="col-md-auto">
+                                            <Paginator items={searchResults}
+                                                pageSize={25}
+
+                                                SetPaginationRange={(range) => setPaginationRange(range)}
+                                            />
+                                        </Col>
+                                    }
+                                </Row>
+
+
                             </Col>
                         </Row>
                     </Col>

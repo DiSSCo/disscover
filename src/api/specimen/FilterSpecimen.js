@@ -11,7 +11,7 @@ function FilterSpecimen(specimen) {
         let propertyInfo;
 
         if (property in specimen) {
-            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property] } };
+            propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen[property], } };
         } else if (`dwc:${property}` in specimen['data']) {
             propertyInfo = { ...AnnotationFilterLayer[property], ...{ value: specimen['data'][`dwc:${property}`] } };
         } else if (`dcterms:${property}` in specimen['data']) {
@@ -47,7 +47,7 @@ function FilterSpecimen(specimen) {
 function CheckRules(property, propertyInfo, callback) {
     if (propertyInfo['rules']) {
         propertyInfo['rules'].forEach((rule, _i) => {
-            if (propertyInfo['value']) {
+            if (propertyInfo['value'] || propertyInfo['value'] === 'Undefined') {
                 switch (rule) {
                     case "list":
                         if (Array.isArray(propertyInfo['value'])) {

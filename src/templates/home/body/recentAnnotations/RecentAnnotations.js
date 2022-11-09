@@ -1,54 +1,106 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import API */
-import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
+import GetRecentAnnotations from 'api/annotate/GetRecentAnnotations';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBug } from '@fortawesome/free-solid-svg-icons';
 
 
 const RecentAnnotations = () => {
-    const [recentSpecimens, setRecentSpecimens] = useState();
+    const [recentAnnotations, setRecentAnnotations] = useState();
 
     useEffect(() => {
-        GetRecentSpecimens(Process);
+        if (!recentAnnotations) {
+            GetRecentAnnotations(Process);
 
-        function Process(specimens) {
-            setRecentSpecimens(specimens);
+            function Process(annotations) {
+                setRecentAnnotations(annotations);
+            }
         }
     }, []);
 
-    if (recentSpecimens) {
+    const [backgroundHover, setBackgroundHover] = useState({});
+
+    if (recentAnnotations) {
         return (
-            <Row className="px-2">
+            <Row className="mt-5 position-relative">
                 <Col>
-                    {recentSpecimens.map((specimen, i) => {
-                        if (!specimen['specimenName']) {
-                            specimen['specimenName'] = 'Undefined name';
-                        }
+                    <Row className="mt-5">
+                        <Col md={{ span: 12 }}>
+                            <div className="home_fullWidthBackground position-absolute bg-backdrop" />
 
-                        let rowClass = '';
+                            <div className="position-relative">
+                                <Row>
+                                    <Col>
+                                        <h4 className="text-white">
+                                            Recently Annotated
+                                        </h4>
+                                    </Col>
+                                </Row>
+                                <Row className="px-2">
+                                    <Col md={{ span: 12 }}>
+                                        <Row>
+                                            {recentAnnotations.map((annotation, i) => {
+                                                if (!annotation['specimen']['specimenName']) {
+                                                    annotation['specimen']['specimenName'] = 'Undefined name';
+                                                }
 
-                        if (i % 2 !== 0) {
-                            rowClass = 'even';
-                        }
+                                                return (
+                                                    <Col key={i} md={{ span: 6 }} className="my-2">
+                                                        <Row>
+                                                            <Col md={{ span: 10 }}
+                                                                className="position-relative bg-white overflow-hidden"
+                                                                onMouseEnter={() => setBackgroundHover({ [i]: 'active' })}
+                                                                onMouseLeave={() => setBackgroundHover({})}
+                                                            >
+                                                                <Link to={`/ds/${annotation['specimen']['id']}`}>
+                                                                    <Row className="py-2 position-relative z-1">
+                                                                        <Col md={{ span: 10 }}>
+                                                                            <Row>
+                                                                                <Col md={{ span: 12 }} className="recentAnnotationTitle fw-bold">
+                                                                                    {annotation['specimen']['specimenName']}
+                                                                                </Col>
+                                                                                <Col md={{ span: 12 }}>
+                                                                                    {`${annotation['target']['indvProp']}`} was annoted by: Username
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </Col>
+                                                                        <Col md={{ span: 2 }} className="position-relative">
+                                                                            <div className={`recentAnnotationGoText ${backgroundHover[i]}`}> Go </div>
+                                                                        </Col>
+                                                                    </Row>
 
-                        return (
-                            <Row>
-                                <Col md={{ span: 10 }} className={`recentAnnotation my-2 ${rowClass}`}>
-                                    <Row>
-                                        <Col>
-                                            {specimen['specimenName']}
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
+                                                                    <FontAwesomeIcon icon={faBug} 
+                                                                        className={`recentAnnotationIcon position-absolute z-0 ${backgroundHover[i]}`} 
+                                                                    />
+                                                                    <div className={`recentAnnotationBackground ${backgroundHover[i]}`} />
+                                                                    <div md={{ span: 2 }} className={`position-absolute recentAnnotationGo ${backgroundHover[i]}`} />
+                                                                </Link>
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                );
 
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        );
-
-                    })}
+                                            })}
+                                        </Row>
+                                        <Row className="mt-4">
+                                            <Col className="col-md-auto border border-2 rounded-c border-white text-white recentAnnotationOverviewButton">
+                                                <Link to='/annotate'>
+                                                    <div>
+                                                        Go to Annotation Overview
+                                                    </div>
+                                                </Link>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         );

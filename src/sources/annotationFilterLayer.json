@@ -3,9 +3,7 @@
         "displayName": "Handle identifier",
         "group": "Meta",
         "annotatable": true,
-        "mids": {
-            "level": 1
-        }
+        "mids": ""
     },
     "datasetId": {
         "displayName": "Specimen found in dataset",
@@ -27,7 +25,12 @@
         "displayName": "Modified",
         "group": "Meta",
         "annotatable": true,
-        "mids": ""
+        "mids": {
+            "level": 1
+        },
+        "rules": [
+            "datetime"
+        ]
     },
     "last_harvested_processing": {
         "displayName": "Last harvested",
@@ -39,15 +42,15 @@
         "displayName": "License",
         "group": "Meta",
         "annotatable": true,
-        "mids": ""
+        "mids": {
+            "level": 1
+        }
     },
     "rightsHolder": {
         "displayName": "Rights holder",
         "group": "Meta",
         "annotatable": true,
-        "mids": {
-            "level": 1
-        }
+        "mids": ""
     },
     "informationWithheld": {
         "displayName": "Information withheld",
@@ -86,16 +89,16 @@
         "displayName": "Version",
         "group": "Meta",
         "annotatable": true,
-        "mids": {
-            "level": 1
-        }
+        "mids": ""
     },
     
     "physicalSpecimenId": {
         "displayName": "Physical specimen identifier",
         "group": "Specimen",
         "annotatable": true,
-        "mids": "",
+        "mids": {
+            "level": 1
+        },
         "rules": [
             "link"
         ]
@@ -168,7 +171,15 @@
         "annotatable": true,
         "mids": {
             "level": 1
-        }
+        },
+        "rules": [
+            "select"
+        ],
+        "options": [
+            "PalaeontologySpecimen",
+            "BotanySpecimen",
+            "PreservedSpecimen"
+        ]
     },
     "typeStatus": {
         "displayName": "Type status",
@@ -246,6 +257,7 @@
         "displayName": "Identified by",
         "group": "Specimen",
         "annotatable": true,
+        "multiple": true,
         "mids": ""
     },
     "dateIdentified": {
@@ -394,9 +406,7 @@
         "displayName": "Abbreviation",
         "group": "Organisation",
         "annotatable": true,
-        "mids": {
-            "level": 1
-        }
+        "mids": ""
     },
     "datasourcecountry": {
         "displayName": "Publishing country",

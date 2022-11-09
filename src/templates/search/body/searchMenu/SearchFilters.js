@@ -6,13 +6,13 @@ const SearchFilters = () => {
         <Row>
             <Col className="px-4 py-2">
                 <Row>
-                    <Col className="search_filterMenuTitle">
+                    <Col>
                         Filters
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <input className="search_filterMenuFilter" />
+                        <input className="w-100" />
                     </Col>
                 </Row>
             </Col>

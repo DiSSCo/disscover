@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Annotation } from 'react-mark-image';
 
 

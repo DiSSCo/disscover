@@ -38,6 +38,10 @@ const updateToken = (successCallback) =>
 
 const getUsername = () => keycloak.tokenParsed?.preferred_username;
 
+const getGivenName = () => keycloak.tokenParsed?.given_name;
+
+const getFamilyName = () => keycloak.tokenParsed?.family_name;
+
 const getSubject = () => keycloak.subject;
 
 const hasRole = (roles) => roles.some((role) => keycloak.hasRealmRole(role));
@@ -51,6 +55,8 @@ const UserService = {
     getSubject,
     updateToken,
     getUsername,
+    getGivenName,
+    getFamilyName,
     hasRole
 };
 

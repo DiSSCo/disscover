@@ -10,7 +10,7 @@ const Profile = () => {
         <Row>
             <Col md={{ span: 12 }} className="mt-1">
                 <Row className="justify-content-end">
-                    <Col className="header_profile col-md-auto bg-primary-dark text-white c-rounded">
+                    <Col className="header_profile col-md-auto bg-primary-dark text-white rounded-c">
                         <Link to='/profile'>
                             <Row>
                                 <Col className="text-end textOverflow">

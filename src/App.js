@@ -33,6 +33,7 @@ const App = () => {
                     <Route path="/annotate" element={<Annotate />} />
 
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile/:id" element={<Profile />} />
 
                     <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
                 </Routes>

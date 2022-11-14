@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import UserService from 'keycloak/Keycloak';
 
 /* Import Components */
 import UserInfo from './userInfo/UserInfo';
@@ -12,14 +11,14 @@ import CreatorAnnotations from './annotation/CreatorAnnotations';
 import GetCreatorAnnotations from 'api/annotate/GetCreatorAnnotations';
 
 
-const Body = () => {
-    const token = UserService.getToken();
+const Body = (props) => {
+    const userProfile = props.userProfile;
 
     const [creatorAnnotations, setCreatorAnnotations] = useState({});
 
     useEffect(() => {
-        if (token) {
-            GetCreatorAnnotations(token, Process);
+        if (userProfile['token']) {
+            GetCreatorAnnotations(userProfile['token'], Process);
 
             function Process(result) {
                 setCreatorAnnotations(result);
@@ -32,8 +31,8 @@ const Body = () => {
             <Row className="mt-5">
                 <Col md={{ span: 5, offset: 1 }}>
                     <Row>
-                        <Col md={{ span: 10 }}>
-                            <UserInfo />
+                        <Col md={{ span: 9 }}>
+                            <UserInfo userProfile={userProfile} />
                         </Col>
                     </Row>
 
@@ -53,6 +52,8 @@ const Body = () => {
                     </Row>
                 </Col>
             </Row>
+
+            
         </Container>
     )
 }

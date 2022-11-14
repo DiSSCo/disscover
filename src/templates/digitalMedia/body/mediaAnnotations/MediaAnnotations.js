@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Sources */
@@ -7,8 +8,40 @@ import DigitalMediaFilterLayer from 'sources/digitalMediaFilterLayer';
 const MediaAnnotaions = (props) => {
     const annotations = props.annotations;
 
+    const annotationView = [];
+
     if (annotations) {
         if (Object.keys(annotations).length > 0) {
+            for (const group in annotations) {
+                const annotationGroup = annotations[group];
+
+                for (const key in annotationGroup) {
+                    const annotationObjects = annotationGroup[key];
+
+                    for (const secondKey in annotationGroup[key]) {
+                        const annotationObject = annotationObjects[secondKey];
+                        const propertyObject = DigitalMediaFilterLayer[annotationObject['target']['indvProp']];
+
+                        annotationView.push(
+                            <Row key={secondKey}>
+                                <Col className="digitalMedia_annotationsBlockRow px-4 py-2 border-b-1-primary-dark"
+                                    onClick={() => props.ToggleModal(propertyObject, annotationObject['target']['indvProp'], annotationObject['motivation'])}
+                                >
+                                    <Row key={secondKey}>
+                                        <Col md={{ span: 7 }}>
+                                            {`${annotationObject['target']['indvProp']} `}
+                                        </Col>
+                                        <Col md={{ span: 5 }}>
+                                            {`${annotationObject['motivation']}`}
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        );
+                    }
+                }
+            }
+
             return (
                 <Row className="h-100">
                     <Col>
@@ -27,39 +60,7 @@ const MediaAnnotaions = (props) => {
 
                         <Row>
                             <Col className="digitalMedia_annotationsBlock">
-                                {Object.keys(annotations).map((group, _i) => {
-                                    const annotationGroup = annotations[group];
-
-                                    let annotationView = [];
-
-                                    for (const key in annotationGroup) {
-                                        const annotationObjects = annotationGroup[key];
-
-                                        for (const secondKey in annotationGroup[key]) {
-                                            const annotationObject = annotationObjects[secondKey];
-                                            const propertyObject = DigitalMediaFilterLayer[annotationObject['target']['indvProp']];
-
-                                            annotationView.push(
-                                                <Row>
-                                                    <Col className="digitalMedia_annotationsBlockRow px-4 py-2 border-b-1-primary-dark"
-                                                        onClick={() => props.ToggleModal(propertyObject, annotationObject['target']['indvProp'], annotationObject['motivation'])}
-                                                    >
-                                                        <Row key={secondKey}>
-                                                            <Col md={{ span: 7 }}>
-                                                                {`${annotationObject['target']['indvProp']} `}
-                                                            </Col>
-                                                            <Col md={{ span: 5 }}>
-                                                                {`${annotationObject['motivation']}`}
-                                                            </Col>
-                                                        </Row>
-                                                    </Col>
-                                                </Row>
-                                            );
-                                        }
-                                    }
-
-                                    return annotationView;
-                                })}
+                                {annotationView}
                             </Col>
                         </Row>
                     </Col>

@@ -32,16 +32,16 @@ const Specimen = () => {
 
         setSpecimen(filteredSpecimen);
 
-        GetSpecimenDigitalMedia(filteredSpecimen, ProcessMedia);
-    }
+        GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], ProcessMedia);
 
-    function ProcessMedia(media, specimenObject) {
-        if (media) {
-            const completeSpecimen = { ...specimenObject };
+        function ProcessMedia(media) {
+            if (media) {
+                const completeSpecimen = { ...filteredSpecimen };
 
-            completeSpecimen['media'] = media;
+                completeSpecimen['media'] = media;
 
-            setSpecimen(completeSpecimen);
+                setSpecimen(completeSpecimen);
+            }
         }
     }
 

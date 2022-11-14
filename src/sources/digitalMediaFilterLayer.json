@@ -1,0 +1,86 @@
+{
+    "id": {
+        "displayName": "Handle identifier",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "format": {
+        "displayName": "Format",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "digitalSpecimenId": {
+        "displayName": "Digital specimen identifier",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "mediaUrl": {
+        "displayName": "Media URL",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "sourceSystemId": {
+        "displayName": "Source system identifier",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "type": {
+        "displayName": "Media type",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "version": {
+        "displayName": "Version",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "creator": {
+        "displayName": "Creator",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "description": {
+        "displayName": "Description",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "license": {
+        "displayName": "License",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "publisher": {
+        "displayName": "Publisher",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "references": {
+        "displayName": "References",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "rightsHolder": {
+        "displayName": "Rights holder",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    },
+    "title": {
+        "displayName": "Title",
+        "group": "MediaMeta",
+        "annotatable": true,
+        "mids": ""
+    }
+}

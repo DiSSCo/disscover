@@ -45,8 +45,18 @@ const RecentAnnotations = () => {
                                     <Col md={{ span: 12 }}>
                                         <Row>
                                             {recentAnnotations.map((annotation, i) => {
-                                                if (!annotation['specimen']['specimenName']) {
-                                                    annotation['specimen']['specimenName'] = 'Undefined name';
+                                                /* Temporary solution */
+                                                if (annotation['target']['type'] === 'digital_specimen') {
+                                                    if (!annotation['specimen']['specimenName']) {
+                                                        annotation['targetName'] = 'Undefined name';
+                                                    } else {
+                                                        annotation['targetName'] = annotation['specimen']['specimenName'];
+                                                    }
+
+                                                    annotation['targetPage'] = 'ds';
+                                                } else if (annotation['target']['type'] === 'digital_media') {
+                                                    annotation['targetName'] = annotation['target']['id'];
+                                                    annotation['targetPage'] = 'dm';
                                                 }
 
                                                 return (
@@ -57,12 +67,12 @@ const RecentAnnotations = () => {
                                                                 onMouseEnter={() => setBackgroundHover({ [i]: 'active' })}
                                                                 onMouseLeave={() => setBackgroundHover({})}
                                                             >
-                                                                <Link to={`/ds/${annotation['specimen']['id']}`}>
+                                                                <Link to={`/${annotation['targetPage']}/${annotation['target']['id'].replace('https://hdl.handle.net/', '')}`}>
                                                                     <Row className="py-2 position-relative z-1">
                                                                         <Col md={{ span: 10 }}>
                                                                             <Row>
                                                                                 <Col md={{ span: 12 }} className="recentAnnotationTitle fw-bold">
-                                                                                    {annotation['specimen']['specimenName']}
+                                                                                    {annotation['targetName']}
                                                                                 </Col>
                                                                                 <Col md={{ span: 12 }}>
                                                                                     {`${annotation['target']['indvProp']}`} was annoted by: Username
@@ -74,8 +84,8 @@ const RecentAnnotations = () => {
                                                                         </Col>
                                                                     </Row>
 
-                                                                    <FontAwesomeIcon icon={faBug} 
-                                                                        className={`recentAnnotationIcon position-absolute z-0 ${backgroundHover[i]}`} 
+                                                                    <FontAwesomeIcon icon={faBug}
+                                                                        className={`recentAnnotationIcon position-absolute z-0 ${backgroundHover[i]}`}
                                                                     />
                                                                     <div className={`recentAnnotationBackground ${backgroundHover[i]}`} />
                                                                     <div md={{ span: 2 }} className={`position-absolute recentAnnotationGo ${backgroundHover[i]}`} />

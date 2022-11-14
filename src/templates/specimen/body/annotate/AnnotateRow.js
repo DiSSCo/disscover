@@ -16,7 +16,7 @@ const AnnotateRow = (props) => {
         <Row>
             <Col md={{ span: 12 }} className="mt-4 border-l-1-primary">
                 <Row>
-                    <Col md={{ span: 4 }} className="annotate_annotateSectionTitle border-dark border-bottom" onClick={() => props.ToggleAnnotationRow(group)}>
+                    <Col md={{ span: 4 }} className="annotate_annotateSectionTitle fw-bold border-dark border-bottom" onClick={() => props.ToggleAnnotationRow(group)}>
                         {group + ' data'}
                         <FontAwesomeIcon
                             icon={faChevronDown}

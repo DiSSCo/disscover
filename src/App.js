@@ -16,6 +16,8 @@ import Annotate from "templates/annotate/Annotate";
 
 import Profile from "templates/profile/Profile";
 
+import DigitalMedia from "templates/digitalMedia/DigitalMedia";
+
 
 const App = () => {
     return (
@@ -31,6 +33,8 @@ const App = () => {
                     <Route path="/annotate" element={<Annotate />} />
 
                     <Route path="/profile" element={<Profile />} />
+
+                    <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
                 </Routes>
             </Router>
         </>

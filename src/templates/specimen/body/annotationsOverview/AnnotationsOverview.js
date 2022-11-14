@@ -52,7 +52,7 @@ const AnnotationsOverview = (props) => {
     const Events = (annotation) => {
         const propertyObject = AnnotationFilterLayer[annotation['target']['indvProp']];
 
-        props.ToggleModal(propertyObject, annotation['target']['indvProp'], annotation['motivation'])
+        props.ToggleModal(propertyObject, annotation['target']['indvProp'], annotation['motivation']);
     }
 
     if (overviewAnnotations) {

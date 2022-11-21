@@ -1,11 +1,17 @@
 import Keycloak from "keycloak-js";
 
+/* Import API */
+import GetUser from "api/user/GetUser";
+import InsertUser from "api/user/InsertUser";
+
 
 const keycloak = new Keycloak({
     url: "https://login-demo.dissco.eu/auth",
     realm: "dissco",
     clientId: "orchestration-service"
 });
+
+let disscoUser = localStorage.getItem('disscoUser');
 
 const initKeyCloak = (callback) => {
     keycloak.init({
@@ -16,6 +22,23 @@ const initKeyCloak = (callback) => {
         .then((authenticated) => {
             if (!authenticated) {
                 console.log("User is not authenticated");
+            } else {
+                /* Check if user exists in database */
+                if (!disscoUser || disscoUser !== keycloak.subject) {
+                    GetUser(keycloak.token, keycloak.subject, Process);
+
+                    function Process(result) {
+                        if (!result) {
+                            InsertUser(keycloak.token, keycloak.subject, keycloak.tokenParsed, SetDisscoUser);
+                        } else {
+                            SetDisscoUser(keycloak.subject)
+                        }
+                    }
+
+                    function SetDisscoUser(userId) {
+                        localStorage.setItem('disscoUser', userId);
+                    }
+                }
             }
 
             callback();
@@ -25,7 +48,11 @@ const initKeyCloak = (callback) => {
 
 const doLogin = keycloak.login;
 
-const doLogout = keycloak.logout;
+function doLogout() {
+    localStorage.removeItem('disscoUser');
+
+    keycloak.logout();
+}
 
 const getToken = () => keycloak.token;
 
@@ -44,6 +71,8 @@ const getFamilyName = () => keycloak.tokenParsed?.family_name;
 
 const getSubject = () => keycloak.subject;
 
+const getDisscoUser = () => keycloak.disscoUser;
+
 const hasRole = (roles) => roles.some((role) => keycloak.hasRealmRole(role));
 
 const UserService = {
@@ -57,6 +86,7 @@ const UserService = {
     getUsername,
     getGivenName,
     getFamilyName,
+    getDisscoUser,
     hasRole
 };
 

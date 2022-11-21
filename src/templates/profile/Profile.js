@@ -8,6 +8,9 @@ import Header from 'templates/header/Header';
 import Body from './body/Body';
 import Footer from 'templates/footer/Footer';
 
+/* Import API */
+import GetUser from 'api/user/GetUser';
+
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -21,33 +24,35 @@ const Profile = () => {
     });
 
     useEffect(() => {
-        const copyUserProfile = { ...userProfile };
-
         /* Check if user id is given as a parameter, else if check if logged in, else redirect to home */
-        if (params['id']) {
-            copyUserProfile['id'] = params['id'];
+        if (params['id'] || UserService.isLoggedIn()) {
+            let userId;
 
-            copyUserProfile['username'] = "Undefined";
-            copyUserProfile['givenName'] = "";
-            copyUserProfile['familyName'] = "";
-
-            setUserProfile(copyUserProfile);
-            setLoggedIn(true);
-        } else if (UserService.isLoggedIn()) {
-            copyUserProfile['token'] = UserService.getToken();
-            copyUserProfile['id'] = UserService.getSubject();
-
-            if (UserService.getUsername()) {
-                copyUserProfile['username'] = UserService.getUsername();
+            if (params['id']) {
+                userId = params['id'];
+            } else {
+                userId = UserService.getSubject();
             }
 
-            copyUserProfile['givenName'] = UserService.getGivenName();
-            copyUserProfile['familyName'] = UserService.getFamilyName();
+            GetUser(UserService.getToken(), userId, Process);
+
+        } else {
+            navigate('/');
+        }
+
+        function Process(userData) {
+            const copyUserProfile = {
+                ...userProfile,
+                id: userData['data']['id'],
+                firstName: userData['data']['attributes']['firstName'],
+                lastName: userData['data']['attributes']['lastName'],
+                email: userData['data']['attributes']['email'],
+                orcid: userData['data']['attributes']['orcid'],
+                organization: userData['data']['attributes']['organization']
+            };
 
             setUserProfile(copyUserProfile);
             setLoggedIn(true);
-        } else {
-            navigate('/');
         }
     }, []);
 

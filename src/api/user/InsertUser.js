@@ -10,9 +10,7 @@ function InsertUser(token, id, keycloakParsed, callback) {
                 attributes: {
                     firstName: keycloakParsed.given_name,
                     lastName: keycloakParsed.family_name,
-                    email: keycloakParsed.email,
-                    // orchid: null,
-                    // organization: null
+                    email: keycloakParsed.email
                 }
             },
             links: {

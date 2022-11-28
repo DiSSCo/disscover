@@ -21,9 +21,7 @@ const Body = (props) => {
     const [creatorAnnotations, setCreatorAnnotations] = useState({});
 
     useEffect(() => {
-        if (userProfile['id'] === params['id']) {
-            
-        } else {
+        if (userProfile['id'] !== params['id']) {
             GetCreatorAnnotations(UserService.getToken(), Process);
 
             function Process(result) {
@@ -59,7 +57,7 @@ const Body = (props) => {
                 </Col>
             </Row>
 
-            
+
         </Container>
     )
 }

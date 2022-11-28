@@ -2,9 +2,7 @@ import DigitalMediaFilterLayer from 'sources/digitalMediaFilterLayer';
 
 
 function FilterDigitalMedia(digitalMediaItem) {
-    let digitalMediaItemProperties = {
-        Other: {}
-    };
+    let digitalMediaItemProperties = {};
 
     if (digitalMediaItem) {
         for (let property in DigitalMediaFilterLayer) {
@@ -27,14 +25,6 @@ function FilterDigitalMedia(digitalMediaItem) {
             }
 
             digitalMediaItemProperties[propertyInfo['group']] = { ...digitalMediaItemProperties[propertyInfo['group']], [property]: propertyInfo };
-        }
-
-        if (Object.keys(digitalMediaItemProperties['Other']).length === 0) {
-            delete digitalMediaItemProperties['Other'];
-        } else {
-            const other = digitalMediaItemProperties['other'];
-            delete digitalMediaItemProperties['Other'];
-            digitalMediaItemProperties['other'] = other;
         }
     } else {
         digitalMediaItemProperties['MediaMeta'] = {};

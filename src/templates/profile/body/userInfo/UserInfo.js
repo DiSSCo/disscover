@@ -4,6 +4,7 @@ import UserService from 'keycloak/Keycloak';
 
 /* Import Components */
 import CustomEditIcon from 'templates/general/icons/CustomEditIcon';
+import UserInfoForm from './UserInfoForm';
 
 /* Import API */
 import PatchUser from 'api/user/PatchUser';
@@ -26,29 +27,13 @@ const UserInfo = (props) => {
     const [editMode, setEditMode] = useState(false);
 
     /* Form handling */
-    const [form, setForm] = useState({
-        firstName: userProfile['firstName'],
-        lastName: userProfile['lastName'],
-        email: userProfile['email'],
-        orcid: '',
-        organization: userProfile['organization'],
-    })
+    function SubmitForm(attributes) {
+        if (attributes) {
+            PatchUser(UserService.getToken(), userProfile['id'], attributes, Process);
 
-    function UpdateForm(field, value) {
-        const copyForm = { ...form };
-
-        copyForm[[field]] = value;
-
-        setForm(copyForm);
-    }
-
-    function SubmitForm() {
-        console.log(form);
-
-        PatchUser(UserService.getToken(), userProfile['id'], form, Process);
-
-        function Process(result) {
-            console.log(result);
+            function Process(_result) {
+                /* Do something */
+            }
         }
     }
 
@@ -151,7 +136,7 @@ const UserInfo = (props) => {
                                         </Col>
                                     </Row>
                                 </Col>
-                                : <Col>
+                                : /*<Col>
                                     <Row className="pb-1">
                                         <Col className={`profile_input`}>
                                             <input className="profile_userInfoInput rounded-c w-75 px-2"
@@ -179,11 +164,12 @@ const UserInfo = (props) => {
                                     <Row className="mt-2">
                                         <Col className={`profile_input`}>
                                             <select className="profile_userInfoInput rounded-c w-75 px-2"
-                                                defaultValue={userProfile['orcid']}
-                                                onChange={(input) => UpdateForm('orcid', input.target.value)}
+                                                defaultValue={userProfile['organization']}
+                                                onChange={(input) => UpdateForm('organization', input.target.value)}
                                             >
                                                 {organizations.map((organization, i) => {
-                                                    return (<option value={organization['ror']}>
+                                                    return (<option key={i}
+                                                        value={organization['ror']}>
                                                         {organization['name']}
                                                     </option>);
                                                 })}
@@ -209,7 +195,12 @@ const UserInfo = (props) => {
                                             </button>
                                         </Col>
                                     </Row>
-                                </Col>
+                                </Col>*/
+                                <UserInfoForm userProfile={userProfile}
+                                    organizations={organizations}
+
+                                    SubmitForm={(attributes) => SubmitForm(attributes)}
+                                />
                             }
                         </Row>
                     </Col>

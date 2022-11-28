@@ -136,67 +136,7 @@ const UserInfo = (props) => {
                                         </Col>
                                     </Row>
                                 </Col>
-                                : /*<Col>
-                                    <Row className="pb-1">
-                                        <Col className={`profile_input`}>
-                                            <input className="profile_userInfoInput rounded-c w-75 px-2"
-                                                defaultValue={userProfile['firstName']}
-                                                onChange={(input) => UpdateForm('firstName', input.target.value)}
-                                            />
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-2 pb-1">
-                                        <Col className={`profile_input`}>
-                                            <input className="profile_userInfoInput rounded-c w-75 px-2"
-                                                defaultValue={userProfile['lastName']}
-                                                onChange={(input) => UpdateForm('lastName', input.target.value)}
-                                            />
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-2 pb-1">
-                                        <Col className={`profile_input`}>
-                                            <input className="profile_userInfoInput rounded-c w-75 px-2"
-                                                defaultValue={userProfile['email']}
-                                                onChange={(input) => UpdateForm('email', input.target.value)}
-                                            />
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-2">
-                                        <Col className={`profile_input`}>
-                                            <select className="profile_userInfoInput rounded-c w-75 px-2"
-                                                defaultValue={userProfile['organization']}
-                                                onChange={(input) => UpdateForm('organization', input.target.value)}
-                                            >
-                                                {organizations.map((organization, i) => {
-                                                    return (<option key={i}
-                                                        value={organization['ror']}>
-                                                        {organization['name']}
-                                                    </option>);
-                                                })}
-                                            </select>
-
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-2">
-                                        <Col className={`profile_input`}>
-                                            <input className="profile_userInfoInput rounded-c w-75 px-2"
-                                                value={userProfile['orcid']}
-                                                onChange={(input) => UpdateForm('orcid', input.target.value)}
-                                            />
-                                        </Col>
-                                    </Row>
-
-                                    <Row className="mt-3">
-                                        <Col md={{ span: 3 }}>
-                                            <button className="bg-primary-blue border-0 rounded-c w-100 text-white"
-                                                onClick={() => SubmitForm()}
-                                            >
-                                                Save
-                                            </button>
-                                        </Col>
-                                    </Row>
-                                </Col>*/
-                                <UserInfoForm userProfile={userProfile}
+                                : <UserInfoForm userProfile={userProfile}
                                     organizations={organizations}
 
                                     SubmitForm={(attributes) => SubmitForm(attributes)}

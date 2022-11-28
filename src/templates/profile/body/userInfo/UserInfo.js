@@ -95,46 +95,27 @@ const UserInfo = (props) => {
                             </Col>
                             {!editMode ?
                                 <Col>
-                                    <Row>
-                                        <Col>
-                                            {userProfile['firstName'] ?
-                                                <> {userProfile['firstName']} </>
-                                                : <> Unknown </>
+                                    {Object.entries(userProfile).map((attribute, i) => {
+                                        console.log(attribute);
+                                        if (attribute[0] != 'username' && attribute[0] != 'id') {
+                                            let margin;
+
+                                            if (i > 2) {
+                                                margin = 'mt-3'
                                             }
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-3">
-                                        <Col>
-                                            {userProfile['lastName'] ?
-                                                <> {userProfile['lastName']} </>
-                                                : <> Unknown </>
-                                            }
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-3">
-                                        <Col>
-                                            {userProfile['email'] ?
-                                                <> {userProfile['email']} </>
-                                                : <> Unknown </>
-                                            }
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-3">
-                                        <Col>
-                                            {userProfile['organization'] ?
-                                                <> {userProfile['organization']} </>
-                                                : <> Unknown </>
-                                            }
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-3">
-                                        <Col>
-                                            {userProfile['orcid'] ?
-                                                <> {userProfile['orcid']} </>
-                                                : <> </>
-                                            }
-                                        </Col>
-                                    </Row>
+
+                                            return (
+                                                <Row key={i} className={`${margin}`}>
+                                                    <Col>
+                                                        {attribute[1] ?
+                                                            <> {attribute[1]} </>
+                                                            : <> Unknown </>
+                                                        }
+                                                    </Col>
+                                                </Row>
+                                            );
+                                        }
+                                    })}
                                 </Col>
                                 : <UserInfoForm userProfile={userProfile}
                                     organizations={organizations}

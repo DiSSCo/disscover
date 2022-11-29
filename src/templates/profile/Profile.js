@@ -61,7 +61,9 @@ const Profile = () => {
             <div className="d-flex flex-column min-vh-100">
                 <Header />
 
-                <Body userProfile={userProfile} />
+                <Body userProfile={userProfile} 
+                    SetUserProfile={(userProfile) => setUserProfile(userProfile)}
+                />
 
                 <Footer page={"notHome"} />
             </div>

@@ -31,8 +31,18 @@ const UserInfo = (props) => {
         if (attributes) {
             PatchUser(UserService.getToken(), userProfile['id'], attributes, Process);
 
-            function Process(_result) {
-                /* Do something */
+            function Process(result) {
+                const updatedUserProfile = {
+                    ...userProfile,
+                    firstName: result['data']['attributes']['firstName'],
+                    lastName: result['data']['attributes']['lastName'],
+                    email: result['data']['attributes']['email'],
+                    orcid: result['data']['attributes']['orcid'],
+                    organization: result['data']['attributes']['organization']
+                }
+                
+                props.SetUserProfile(updatedUserProfile);
+                setEditMode(false);
             }
         }
     }
@@ -96,7 +106,6 @@ const UserInfo = (props) => {
                             {!editMode ?
                                 <Col>
                                     {Object.entries(userProfile).map((attribute, i) => {
-                                        console.log(attribute);
                                         if (attribute[0] != 'username' && attribute[0] != 'id') {
                                             let margin;
 

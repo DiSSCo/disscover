@@ -36,7 +36,9 @@ const Body = (props) => {
                 <Col md={{ span: 5, offset: 1 }}>
                     <Row>
                         <Col md={{ span: 9 }}>
-                            <UserInfo userProfile={userProfile} />
+                            <UserInfo userProfile={userProfile} 
+                                SetUserProfile={(userProfile) => props.SetUserProfile(userProfile)}
+                            />
                         </Col>
                     </Row>
 

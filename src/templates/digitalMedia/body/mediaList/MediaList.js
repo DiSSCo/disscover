@@ -19,7 +19,7 @@ const MediaList = (props) => {
         function Process(result) {
             setSpecimenDigitalMediaItems(result);
         }
-    }, []);
+    }, [digitalMediaItem]);
 
     if (specimenDigitalMediaItems) {
         let digitalMediaItemsView = [];

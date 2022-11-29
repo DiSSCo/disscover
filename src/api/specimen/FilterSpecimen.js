@@ -57,6 +57,8 @@ function CheckRules(property, propertyInfo, callback) {
                     case "link":
                         propertyInfo['value'] = propertyInfo['value'].link(propertyInfo['value']);
                         break;
+                    default:
+                        break;
                 }
             } else {
                 propertyInfo['value'] = "Undefined";

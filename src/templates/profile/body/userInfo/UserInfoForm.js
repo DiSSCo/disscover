@@ -10,11 +10,11 @@ const UserInfoForm = (props) => {
         <Col>
             <Formik
                 initialValues={{ 
-                    firstName: "", 
-                    lastName: "", 
-                    email: "", 
-                    organization: "", 
-                    orcid: ""
+                    firstName: userProfile['firstName'], 
+                    lastName: userProfile['lastName'], 
+                    email: userProfile['email'], 
+                    organization: userProfile['organization'], 
+                    orcid: userProfile['orcid']
                 }}
                 onSubmit={async (values) => {
                     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -27,7 +27,6 @@ const UserInfoForm = (props) => {
                         <Col className="profile_input">
                             <Field name="firstName" type="text"
                                 className="profile_userInfoInput rounded-c w-75 px-2"
-                                value={userProfile['firstName']}
                             />
                         </Col>
                     </Row>
@@ -35,7 +34,6 @@ const UserInfoForm = (props) => {
                         <Col className="profile_input">
                             <Field name="lastName" type="text"
                                 className="profile_userInfoInput rounded-c w-75 px-2"
-                                value={userProfile['lastName']}
                             />
                         </Col>
                     </Row>
@@ -43,7 +41,6 @@ const UserInfoForm = (props) => {
                         <Col className="profile_input">
                             <Field name="email" type="email"
                                 className="profile_userInfoInput rounded-c w-75 px-2"
-                                value={userProfile['email']}
                             />
                         </Col>
                     </Row>
@@ -51,7 +48,6 @@ const UserInfoForm = (props) => {
                         <Col className="profile_input">
                             <Field name="organization" as="select"
                                 className="profile_userInfoInput rounded-c w-75 px-2"
-                                value={userProfile['organization']}
                             >
                                 <option value="">
                                     Select an organization
@@ -73,7 +69,6 @@ const UserInfoForm = (props) => {
                         <Col className="profile_input">
                             <Field name="orcid" type="text"
                                 className="profile_userInfoInput rounded-c w-75 px-2"
-                                value={userProfile['orcid']}
                             />
                         </Col>
                     </Row>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Components */
@@ -10,6 +10,9 @@ const CreatorAnnotations = (props) => {
     const creatorAnnotations = props.creatorAnnotations;
 
     const [paginatorRange, setPaginationRange] = useState();
+    const SetPaginationRange = useCallback((paginationRange) => {
+        setPaginationRange(paginationRange);
+    }, []);
 
     function RenderCreatorAnnotations() {
         let creatorAnnotationsView = [];
@@ -44,7 +47,7 @@ const CreatorAnnotations = (props) => {
                                     <Paginator items={creatorAnnotations}
                                         pageSize={8}
 
-                                        SetPaginationRange={(range) => setPaginationRange(range)}
+                                        SetPaginationRange={(range) => SetPaginationRange(range)}
                                     />
                                 </Col>
                             </Row>

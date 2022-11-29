@@ -9,6 +9,7 @@ import UserService from 'keycloak/Keycloak';
 
 const Profile = () => {
     const [user, setUser] = useState({firstName: 'Unknown'});
+    const token = UserService.getToken();
 
     useEffect(() => {
         GetUser(UserService.getToken(), UserService.getSubject(), Process);
@@ -20,7 +21,7 @@ const Profile = () => {
 
             setUser(result['data']['attributes']);
         }
-    }, [UserService.getToken()]);
+    }, [token]);
 
     return (
         <Row>
@@ -31,14 +32,14 @@ const Profile = () => {
                             <Row>
                                 <Col className="text-end textOverflow">
                                     {(user['firstName'] != 'Unknown') ?
-                                        <> {`${user['attributes']['firstName'][0]}. ${user['attributes']['lastName']}`} </>
+                                        <> {`${user['firstName'][0]}. ${user['lastName']}`} </>
                                         : <> {user['firstName']} </>
                                     }
                                 </Col>
                                 <Col className="col-md-auto position-relative d-flex justify-content-center align-items-center">
                                     <div className="header_profilePicture rounded-circle text-center bg-primary text-white z-1">
                                         {(user['firstName'] !== 'Unknown') ?
-                                            <> {user['attributes']['firstName'][0]} </>
+                                            <> {user['firstName'][0]} </>
                                             : <> {user['firstName'][0]} </>
                                         }
                                     </div>

@@ -11,9 +11,7 @@ const keycloak = new Keycloak({
     clientId: "orchestration-service"
 });
 
-let disscoUser = localStorage.getItem('disscoUser');
-
-const initKeyCloak = (callback) => {
+const InitKeyCloak = (callback) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
@@ -24,21 +22,17 @@ const initKeyCloak = (callback) => {
                 console.log("User is not authenticated");
             } else {
                 /* Check if user exists in database */
-                if (!disscoUser || disscoUser !== keycloak.subject) {
+                // if (!disscoUser || disscoUser !== keycloak.subject) {
                     GetUser(keycloak.token, keycloak.subject, Process);
 
                     function Process(result) {
                         if (!result) {
-                            InsertUser(keycloak.token, keycloak.subject, keycloak.tokenParsed, SetDisscoUser);
+                            InsertUser(keycloak.token, keycloak.subject, keycloak.tokenParsed);
                         } else {
-                            SetDisscoUser(keycloak.subject)
+                            // SetDisscoUser(keycloak.subject)
                         }
                     }
-
-                    function SetDisscoUser(userId) {
-                        localStorage.setItem('disscoUser', userId);
-                    }
-                }
+                // }
             }
 
             callback();
@@ -48,11 +42,7 @@ const initKeyCloak = (callback) => {
 
 const doLogin = keycloak.login;
 
-function doLogout() {
-    localStorage.removeItem('disscoUser');
-
-    keycloak.logout();
-}
+const doLogout = () => keycloak.logout;
 
 const getToken = () => keycloak.token;
 
@@ -76,7 +66,7 @@ const getDisscoUser = () => keycloak.disscoUser;
 const hasRole = (roles) => roles.some((role) => keycloak.hasRealmRole(role));
 
 const UserService = {
-    initKeyCloak,
+    InitKeyCloak,
     doLogin,
     doLogout,
     isLoggedIn,

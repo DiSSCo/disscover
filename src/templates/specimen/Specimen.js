@@ -21,7 +21,11 @@ const Specimen = () => {
 
     useEffect(() => {
         if (location.state) {
-            setSpecimen(location.state.specimen);
+            if (!location.state.specimen['media']) {
+                GetSpecimenDigitalMedia(location.state.specimen['Meta']['id']['value'], (media) => ProcessMedia(media, location.state.specimen));
+            } else {
+                setSpecimen(location.state.specimen);
+            }
         } else if (params['prefix'] && params['suffix']) {
             GetSpecimen(`${params['prefix']}/${params['suffix']}`, ProcessSpecimen);
         }
@@ -32,16 +36,16 @@ const Specimen = () => {
 
         setSpecimen(filteredSpecimen);
 
-        GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], ProcessMedia);
+        GetSpecimenDigitalMedia(filteredSpecimen['Meta']['id']['value'], (media) => ProcessMedia(media, filteredSpecimen));
+    }
 
-        function ProcessMedia(media) {
-            if (media) {
-                const completeSpecimen = { ...filteredSpecimen };
+    function ProcessMedia(media, filteredSpecimen) {
+        if (media) {
+            const completeSpecimen = { ...filteredSpecimen };
 
-                completeSpecimen['media'] = media;
+            completeSpecimen['media'] = media;
 
-                setSpecimen(completeSpecimen);
-            }
+            setSpecimen(completeSpecimen);
         }
     }
 

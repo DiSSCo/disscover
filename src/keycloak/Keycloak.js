@@ -22,17 +22,13 @@ const InitKeyCloak = (callback) => {
                 console.log("User is not authenticated");
             } else {
                 /* Check if user exists in database */
-                // if (!disscoUser || disscoUser !== keycloak.subject) {
-                    GetUser(keycloak.token, keycloak.subject, Process);
+                GetUser(keycloak.token, keycloak.subject, Process);
 
-                    function Process(result) {
-                        if (!result) {
-                            InsertUser(keycloak.token, keycloak.subject, keycloak.tokenParsed);
-                        } else {
-                            // SetDisscoUser(keycloak.subject)
-                        }
+                function Process(result) {
+                    if (!result) {
+                        InsertUser(keycloak.token, keycloak.subject, keycloak.tokenParsed);
                     }
-                // }
+                }
             }
 
             callback();

@@ -38,7 +38,7 @@ const Profile = () => {
                                 </Col>
                                 <Col className="col-md-auto position-relative d-flex justify-content-center align-items-center">
                                     <div className="header_profilePicture rounded-circle text-center bg-primary text-white z-1">
-                                        {(user['firstName'] !== 'Unknown') ?
+                                        {(user['firstName'] != 'Unknown') ?
                                             <> {user['firstName'][0]} </>
                                             : <> {user['firstName'][0]} </>
                                         }

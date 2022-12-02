@@ -30,12 +30,12 @@ const Paginator = (props) => {
     }
 
     function SwitchPage(input = 1) {
-        if (input === 'up' && currentPage < pages.length) {
+        if (parseString(input) === 'up' && currentPage < pages.length) {
             const newRange = [(paginationRange[0] + pageSize), (paginationRange[1] + pageSize)];
 
             setCurrentPage(currentPage + 1)
             setPaginationRange(newRange);
-        } else if (input === 'down' && currentPage > 1) {
+        } else if (parseString(input) === 'down' && currentPage > 1) {
             const newRange = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
 
             setCurrentPage(currentPage - 1);

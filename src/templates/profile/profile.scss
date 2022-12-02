@@ -1,11 +1,40 @@
 /* Styling for Profile page */
 
 
-/* User information */
+/* User information and form */
+
+.profile_userInfoBody {
+    font-size: 14px;
+}
+
+.profile_userInfoTitle {
+    font-size: 16px;
+}
+
+.profile_userInfoSubTitle {
+    font-size: 13px;
+    color: var(--greyDark);
+}
 
 .profile_profilePicture {
-    width: 90px;
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    font-size: 26px;
     border: 2px solid var(--greyDark);
+}
+
+.profile_userInfoOutline {
+    border-left: 1px solid var(--main-color-dark);
+    height: 97%;
+}
+
+.profile_userInfoInput {
+    border: 1px solid var(--grey);
+}
+
+.profile_userInfoInput:focus {
+    border: 1px solid var(--main-color);
 }
 
 .profile_username {

@@ -3,15 +3,14 @@ import { Pagination } from "react-bootstrap";
 
 
 const Paginator = (props) => {
-    const items = props.items;
-    const pageSize = props.pageSize;
+    const {items, pageSize, SetPaginationRange} = props;
 
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationRange, setPaginationRange] = useState([0, (pageSize - 1)]);
 
     useEffect(() => {
-        props.SetPaginationRange(paginationRange);
-    }, [paginationRange]);
+        SetPaginationRange(paginationRange);
+    }, [paginationRange, SetPaginationRange]);
 
     const pageCount = items.length / pageSize;
 
@@ -21,7 +20,7 @@ const Paginator = (props) => {
         const page = i + 1;
 
         pages.push(
-            <Pagination.Item key={i} 
+            <Pagination.Item key={i}
                 active={page === currentPage}
                 onClick={() => SwitchPage(page)}
             >
@@ -31,17 +30,17 @@ const Paginator = (props) => {
     }
 
     function SwitchPage(input = 1) {
-        if (input == 'up' && currentPage < pages.length) {
+        if (String(input) === 'up' && currentPage < pages.length) {
             const newRange = [(paginationRange[0] + pageSize), (paginationRange[1] + pageSize)];
 
             setCurrentPage(currentPage + 1)
             setPaginationRange(newRange);
-        } else if (input == 'down' && currentPage > 1) {
+        } else if (String(input) === 'down' && currentPage > 1) {
             const newRange = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
 
             setCurrentPage(currentPage - 1);
             setPaginationRange(newRange);
-        } else if (typeof(input) === 'number') {
+        } else if (typeof (input) === 'number') {
             const newRange = [((pageSize * input) - pageSize), ((pageSize * input) - 1)];
 
             setCurrentPage(input);
@@ -54,7 +53,7 @@ const Paginator = (props) => {
             <Pagination>
                 <Pagination.Prev onClick={() => SwitchPage('down')} />
                 {pages}
-                <Pagination.Next onClick={() => SwitchPage('up')}/>
+                <Pagination.Next onClick={() => SwitchPage('up')} />
             </Pagination>
         </div>
     );

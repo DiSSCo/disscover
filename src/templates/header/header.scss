@@ -72,6 +72,19 @@
     height: 35px;
 }
 
+.header_profilePicture {
+    width: 35px;
+    height: 35px;
+    line-height: 34px;
+    font-size: 22px;
+    border: 2px solid var(--greyDark);
+}
+
+.header_userInfoOutline {
+    border-left: 1px solid var(--main-color-dark);
+    height: 97%;
+}
+
 
 /* Navigation */
 

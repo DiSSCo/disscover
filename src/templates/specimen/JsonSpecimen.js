@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import GetSpecimen from "api/specimen/GetSpecimen";
 
 
-const JSON_Specimen = () => {
+const JsonSpecimen = () => {
     const params = useParams();
 
     const [jsonResponse, setJsonResponse] = useState({});
@@ -27,4 +27,4 @@ const JSON_Specimen = () => {
     }
 }
 
-export default JSON_Specimen;
+export default JsonSpecimen;

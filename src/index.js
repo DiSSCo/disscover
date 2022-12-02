@@ -17,4 +17,4 @@ const RenderRoot = () => {
     );
 }
 
-UserService.initKeyCloak(RenderRoot);
+UserService.InitKeyCloak(RenderRoot);

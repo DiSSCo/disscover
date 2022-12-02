@@ -1,0 +1,25 @@
+/* Custom styling for custom icons */
+
+.editIcon {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.editIcon.active {
+    color: white;
+}
+
+.editIcon:hover {
+    color: white;
+}
+
+.editIconCover {
+    height: 0px;
+    width: 0px;
+    border: 0px solid var(--main-color);
+    transition: border-width 0.2s;
+}
+
+.editIconCover.active {
+    border-width: 15px;
+}

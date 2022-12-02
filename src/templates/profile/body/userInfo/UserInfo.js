@@ -1,37 +1,138 @@
+import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import UserService from 'keycloak/Keycloak';
+
+/* Import Components */
+import CustomEditIcon from 'templates/general/icons/CustomEditIcon';
+import UserInfoForm from './UserInfoForm';
+
+/* Import API */
+import PatchUser from 'api/user/PatchUser';
+import GetOrganizations from 'api/organization/GetOrganizations';
 
 
-const UserInfo = () => {
+const UserInfo = (props) => {
+    const userProfile = props.userProfile;
+
+    const [organizations, setOrganizations] = useState([]);
+
+    useEffect(() => {
+        GetOrganizations(Process);
+
+        function Process(organizations) {
+            setOrganizations(organizations);
+        }
+    }, [])
+
+    const [editMode, setEditMode] = useState(false);
+
+    /* Form handling */
+    function SubmitForm(attributes) {
+        if (attributes) {
+            PatchUser(UserService.getToken(), userProfile['id'], attributes, Process);
+
+            function Process(result) {
+                const updatedUserProfile = {
+                    ...userProfile,
+                    firstName: result['data']['attributes']['firstName'],
+                    lastName: result['data']['attributes']['lastName'],
+                    email: result['data']['attributes']['email'],
+                    orcid: result['data']['attributes']['orcid'],
+                    organization: result['data']['attributes']['organization']
+                }
+                
+                props.SetUserProfile(updatedUserProfile);
+                setEditMode(false);
+            }
+        }
+    }
+
     return (
         <Row>
-            <Col md={{ span: 8 }} className="py-4 px-4 border-2-primary-dark rounded-c">
-                <Row className="justify-content-center">
-                    <Col className="col-md-auto px-4">
-                        <img src="https://crafatar.com/avatars/af781660900a493687708eee23874086?size=64&overlay"
-                            alt="profile_picture"
-                            className="profile_profilePicture rounded-circle"
-                        />
+            <Col md={{ span: 12 }} className="profile_userInfoBody pt-2 pb-1 border-1-primary-light rounded">
+                <Row>
+                    <Col className="col-md-auto position-relative d-flex justify-content-center">
+                        <div className="profile_profilePicture rounded-circle text-center bg-primary text-white z-1">
+                            {userProfile['firstName'] ?
+                                <> {userProfile['firstName'][0].toUpperCase()} </>
+                                : <> {userProfile['username'][0].toUpperCase()} </>
+                            }
+                        </div>
+
+                        <div className="profile_userInfoOutline position-absolute" />
                     </Col>
-                </Row>
-                <Row className="mt-2">
                     <Col>
-                        <Row className="h-50 justify-content-center">
-                            <Col className="profile_username col-md-auto fw-bold">
-                                John Doe
+                        <Row>
+                            <Col className="profile_userInfoTitle py-1 fw-bold">
+                                User information <br />
+                                <span className="profile_userInfoSubTitle"> {userProfile['id']} </span>
                             </Col>
+
+                            {UserService.getSubject() === userProfile['id'] &&
+                                <Col className="col-md-auto d-flex align-items-center me-1">
+                                    <CustomEditIcon ToggleEditMode={() => setEditMode(!editMode)} />
+                                </Col>
+                            }
                         </Row>
-                        <Row className="h-50 justify-content-center">
-                            <Col className="profile_titleOrganization col-md-auto text-truncate">
-                                Naturalis Biodiversity Center
+
+                        <Row className="my-2">
+                            <Col className="col-md-auto pe-0">
+                                <Row>
+                                    <Col>
+                                        First name:
+                                    </Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col>
+                                        Last name:
+                                    </Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col>
+                                        Email address:
+                                    </Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col>
+                                        Organization:
+                                    </Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col>
+                                        ORCID:
+                                    </Col>
+                                </Row>
                             </Col>
+                            {!editMode ?
+                                <Col>
+                                    {Object.entries(userProfile).map((attribute, i) => {
+                                        if (attribute[0] != 'username' && attribute[0] != 'id') {
+                                            let margin;
+
+                                            if (i > 2) {
+                                                margin = 'mt-3'
+                                            }
+
+                                            return (
+                                                <Row key={i} className={`${margin}`}>
+                                                    <Col>
+                                                        {attribute[1] ?
+                                                            <> {attribute[1]} </>
+                                                            : <> Unknown </>
+                                                        }
+                                                    </Col>
+                                                </Row>
+                                            );
+                                        }
+                                    })}
+                                </Col>
+                                : <UserInfoForm userProfile={userProfile}
+                                    organizations={organizations}
+
+                                    SubmitForm={(attributes) => SubmitForm(attributes)}
+                                />
+                            }
                         </Row>
-                    </Col>
-                </Row>
-            </Col>
-            <Col md={{span: 4}} className="ps-4">
-                <Row className="h-100">
-                    <Col className="profile_userQuote px-3 py-2 bg-primary-dark text-white">
-                        Curator of the Petrology and Mineralogy collections at Naturalis Biodiversity Center.
                     </Col>
                 </Row>
             </Col>

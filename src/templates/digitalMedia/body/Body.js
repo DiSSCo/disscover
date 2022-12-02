@@ -40,31 +40,31 @@ const Body = (props) => {
     }
 
     useEffect(() => {
+        function SetAnnotations() {
+            /* Search for annotations data and put into view */
+            GetAnnotations(digitalMediaItem['MediaMeta']['id']['value'], Process);
+
+            function Process(annotations) {
+                const annotationsForModal = {};
+
+                for (const i in annotations) {
+                    const annotation = annotations[i];
+
+                    if (!annotationsForModal[annotation['target']['indvProp']]) {
+                        annotationsForModal[annotation['target']['indvProp']] = { [annotation['motivation']]: { [annotation['creator']]: annotation } };
+                    } else if (!annotationsForModal[annotation['target']['indvProp']][annotation['motivation']]) {
+                        annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = { [annotation['creator']]: annotation };
+                    } else {
+                        annotationsForModal[annotation['target']['indvProp']][annotation['motivation']][annotation['creator']] = annotation;
+                    }
+                }
+
+                setModalAnnotations(annotationsForModal);
+            }
+        }
+
         SetAnnotations();
     }, [digitalMediaItem]);
-
-    function SetAnnotations() {
-        /* Search for annotations data and put into view */
-        GetAnnotations(digitalMediaItem['MediaMeta']['id']['value'], Process);
-
-        function Process(annotations) {
-            const annotationsForModal = {};
-
-            for (const i in annotations) {
-                const annotation = annotations[i];
-
-                if (!annotationsForModal[annotation['target']['indvProp']]) {
-                    annotationsForModal[annotation['target']['indvProp']] = { [annotation['motivation']]: { [annotation['creator']]: annotation } };
-                } else if (!annotationsForModal[annotation['target']['indvProp']][annotation['motivation']]) {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']] = { [annotation['creator']]: annotation };
-                } else {
-                    annotationsForModal[annotation['target']['indvProp']][annotation['motivation']][annotation['creator']] = annotation;
-                }
-            }
-
-            setModalAnnotations(annotationsForModal);
-        }
-    }
 
     function ToggleModal(propertyObject, property = null, type = null) {
         if (UserService.isLoggedIn()) {
@@ -131,7 +131,7 @@ const Body = (props) => {
                                     />
                                 </Col>
                                 <Col className={`digitalMedia_mediaBodyContent ${chosenDigitalMediaTab['annotate']}`}>
-                                    <MediaAnnotaions annotations={modalAnnotations} 
+                                    <MediaAnnotaions annotations={modalAnnotations}
                                         ToggleModal={(propertyObject, property, motivation) => ToggleModal(propertyObject, property, motivation)}
                                     />
                                 </Col>

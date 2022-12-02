@@ -1,5 +1,9 @@
 import Keycloak from "keycloak-js";
 
+/* Import API */
+import GetUser from "api/user/GetUser";
+import InsertUser from "api/user/InsertUser";
+
 
 const keycloak = new Keycloak({
     url: "https://login-demo.dissco.eu/auth",
@@ -7,7 +11,7 @@ const keycloak = new Keycloak({
     clientId: "orchestration-service"
 });
 
-const initKeyCloak = (callback) => {
+const InitKeyCloak = (callback) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
@@ -16,6 +20,15 @@ const initKeyCloak = (callback) => {
         .then((authenticated) => {
             if (!authenticated) {
                 console.log("User is not authenticated");
+            } else {
+                /* Check if user exists in database */
+                GetUser(keycloak.token, keycloak.subject, Process);
+
+                function Process(result) {
+                    if (!result) {
+                        InsertUser(keycloak.token, keycloak.subject, keycloak.tokenParsed);
+                    }
+                }
             }
 
             callback();
@@ -25,7 +38,7 @@ const initKeyCloak = (callback) => {
 
 const doLogin = keycloak.login;
 
-const doLogout = keycloak.logout;
+const doLogout = () => keycloak.logout;
 
 const getToken = () => keycloak.token;
 
@@ -38,12 +51,18 @@ const updateToken = (successCallback) =>
 
 const getUsername = () => keycloak.tokenParsed?.preferred_username;
 
+const getGivenName = () => keycloak.tokenParsed?.given_name;
+
+const getFamilyName = () => keycloak.tokenParsed?.family_name;
+
 const getSubject = () => keycloak.subject;
+
+const getDisscoUser = () => keycloak.disscoUser;
 
 const hasRole = (roles) => roles.some((role) => keycloak.hasRealmRole(role));
 
 const UserService = {
-    initKeyCloak,
+    InitKeyCloak,
     doLogin,
     doLogout,
     isLoggedIn,
@@ -51,6 +70,9 @@ const UserService = {
     getSubject,
     updateToken,
     getUsername,
+    getGivenName,
+    getFamilyName,
+    getDisscoUser,
     hasRole
 };
 

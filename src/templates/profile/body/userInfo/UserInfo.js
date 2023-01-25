@@ -114,7 +114,7 @@ const UserInfo = (props) => {
                                             }
 
                                             return (
-                                                <Row key={i} className={`${margin}`}>
+                                                <Row key={`attribute${i}`} className={`${margin}`}>
                                                     <Col>
                                                         {attribute[1] ?
                                                             <> {attribute[1]} </>

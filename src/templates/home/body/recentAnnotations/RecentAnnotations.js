@@ -60,7 +60,7 @@ const RecentAnnotations = () => {
                                                 }
 
                                                 return (
-                                                    <Col key={i} md={{ span: 6 }} className="my-2">
+                                                    <Col key={`recentAnnotation${i}`} md={{ span: 6 }} className="my-2">
                                                         <Row>
                                                             <Col md={{ span: 10 }}
                                                                 className="position-relative bg-white overflow-hidden"

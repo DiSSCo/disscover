@@ -34,34 +34,34 @@ const Profile = () => {
                 userId = UserService.getSubject();
             }
 
-            GetUser(UserService.getToken(), userId, Process);
+            GetUser(UserService.getToken(), userId, SetUser);
 
         } else {
             navigate('/');
         }
+    }, [navigate, params]);
 
-        function Process(userData) {
-            const copyUserProfile = {
-                ...userProfile,
-                id: userData['data']['id'],
-                firstName: userData['data']['attributes']['firstName'],
-                lastName: userData['data']['attributes']['lastName'],
-                email: userData['data']['attributes']['email'],
-                orcid: userData['data']['attributes']['orcid'],
-                organization: userData['data']['attributes']['organization']
-            };
+    function SetUser(userData) {
+        const copyUserProfile = {
+            ...userProfile,
+            id: userData['data']['id'],
+            firstName: userData['data']['attributes']['firstName'],
+            lastName: userData['data']['attributes']['lastName'],
+            email: userData['data']['attributes']['email'],
+            orcid: userData['data']['attributes']['orcid'],
+            organization: userData['data']['attributes']['organization']
+        };
 
-            setUserProfile(copyUserProfile);
-            setLoggedIn(true);
-        }
-    }, []);
+        setUserProfile(copyUserProfile);
+        setLoggedIn(true);
+    }
 
     if (loggedIn || params['id']) {
         return (
             <div className="d-flex flex-column min-vh-100">
                 <Header />
 
-                <Body userProfile={userProfile} 
+                <Body userProfile={userProfile}
                     SetUserProfile={(userProfile) => setUserProfile(userProfile)}
                 />
 

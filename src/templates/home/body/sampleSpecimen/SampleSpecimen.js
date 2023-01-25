@@ -48,6 +48,7 @@ function SampleSpecimen() {
                     </div>
 
                     <img src={media['mediaUrl']}
+                        alt="homeSampleImage"
                         className={`home_sampleSpecimenImage w-100 ${imageHover[index]}`}
                     />
                 </Col>

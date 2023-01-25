@@ -28,7 +28,7 @@ const Body = (props) => {
                 setCreatorAnnotations(result);
             }
         }
-    }, []);
+    }, [params, userProfile]);
 
     return (
         <Container fluid className="h-100">

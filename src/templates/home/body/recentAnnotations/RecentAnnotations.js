@@ -21,7 +21,7 @@ const RecentAnnotations = () => {
                 setRecentAnnotations(annotations);
             }
         }
-    }, []);
+    }, [recentAnnotations]);
 
     const [backgroundHover, setBackgroundHover] = useState({});
 

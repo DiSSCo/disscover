@@ -9,7 +9,7 @@ import RecentAnnotations from "./recentAnnotations/RecentAnnotations";
 import SampleSpecimen from "./sampleSpecimen/SampleSpecimen";
 import Mids from "./mids/Mids";
 
-/* Import API functions */
+/* Import API */
 import SpecimenSearch from "api/specimen/SpecimenSearch";
 
 const Body = () => {

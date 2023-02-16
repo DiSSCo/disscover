@@ -37,8 +37,8 @@ const UserInfo = (props) => {
                     firstName: result['data']['attributes']['firstName'],
                     lastName: result['data']['attributes']['lastName'],
                     email: result['data']['attributes']['email'],
-                    orcid: result['data']['attributes']['orcid'],
-                    organization: result['data']['attributes']['organization']
+                    organization: result['data']['attributes']['organization'],
+                    orcid: result['data']['attributes']['orcid']
                 }
                 
                 props.SetUserProfile(updatedUserProfile);
@@ -106,7 +106,7 @@ const UserInfo = (props) => {
                             {!editMode ?
                                 <Col>
                                     {Object.entries(userProfile).map((attribute, i) => {
-                                        if (attribute[0] != 'username' && attribute[0] != 'id') {
+                                        if (attribute[0] !== 'username' && attribute[0] !== 'id') {
                                             let margin;
 
                                             if (i > 2) {
@@ -114,7 +114,7 @@ const UserInfo = (props) => {
                                             }
 
                                             return (
-                                                <Row key={i} className={`${margin}`}>
+                                                <Row key={attribute[0]} className={`${margin}`}>
                                                     <Col>
                                                         {attribute[1] ?
                                                             <> {attribute[1]} </>
@@ -123,6 +123,8 @@ const UserInfo = (props) => {
                                                     </Col>
                                                 </Row>
                                             );
+                                        } else {
+                                            return false;
                                         }
                                     })}
                                 </Col>

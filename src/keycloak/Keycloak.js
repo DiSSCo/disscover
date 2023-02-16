@@ -38,7 +38,7 @@ const InitKeyCloak = (callback) => {
 
 const doLogin = keycloak.login;
 
-const doLogout = () => keycloak.logout;
+const doLogout = keycloak.logout;
 
 const getToken = () => keycloak.token;
 

@@ -6,7 +6,7 @@ function LoginButton(props) {
         <Row>
             <Col md={{ span: 12 }} className="pt-2 ps-3 pe-0">
                 <button className="header_loginButton px-4 border-1-primary-dark" onClick={() => props.login()}>
-                    Login
+                    Login / signup
                 </button>
             </Col>
         </Row>

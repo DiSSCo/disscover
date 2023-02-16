@@ -73,7 +73,7 @@ const Body = () => {
         } else {
             setLoaded(true);
         }
-    }, []);
+    }, [location]);
 
     if (loaded) {
         return (

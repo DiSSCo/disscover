@@ -62,6 +62,8 @@ function CheckRules(property: string, propertyInfo: Dict, callback: (property: s
                             propertyInfo['value'] = propertyInfo['value'].join(', ');
                         }
                         break;
+                    case "test":
+                        break
                     default:
                         break;
                 }

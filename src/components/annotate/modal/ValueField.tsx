@@ -1,10 +1,8 @@
 /* Import Dependencies */
-import { useState } from 'react';
-import ReactDatePicker from 'react-datepicker';
-import { FieldArray, Field } from 'formik';
+import { Field } from 'formik';
 
 /* Import Types */
-import { Annotation, Dict } from 'global/Types';
+import { Dict } from 'global/Types';
 
 /* Import Sources */
 import AnnotationFilterLayer from 'sources/annotationFilterLayer.json';
@@ -14,6 +12,7 @@ import DigitalMediaFilterLayer from 'sources/digitalMediaFilterLayer.json';
 /* Props Typing */
 interface Props {
     name: string,
+    value: string | Date,
     property: string,
     targetType: string
 };
@@ -33,15 +32,27 @@ const ValueField = (props: Props) => {
         filteredAnnotation = digitalMediaFilterLayer[property];
     }
 
-    // const [startDate, setStartDate] = useState(new Date(modalProperty['currentValue']));
+    /* Function for tracking start date if property is time related */
+    
+    /* Future Development: implement date field
+        import ReactDatePicker from 'react-datepicker';
+
+        const [startDate, setStartDate] = useState(new Date(modalProperty['currentValue']));
+    
+        return (
+            <ReactDatePicker selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                onSelect={(value) => props.UpdateFormData(value)}
+                showTimeSelect
+                dateFormat={"yyyy-MM-dd h:mm"}
+
+            />
+        );
+    */
 
     if ('options' in filteredAnnotation) {
         return (
             <>
-                <datalist id={`dataList`}>
-
-                </datalist>
-
                 <Field as="select" name={name}>
                     {filteredAnnotation.options.map((option: string) => {
                         return (
@@ -53,25 +64,9 @@ const ValueField = (props: Props) => {
                 </Field>
             </>
         );
-    } /*else if (!isNaN(startDate)) {
+    } else {
         return (
-            <ReactDatePicker selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                onSelect={(value) => props.UpdateFormData(value)}
-                showTimeSelect
-                dateFormat={"yyyy-MM-dd h:mm"}
-
-            />
-        );
-    }*/ else {
-        return (
-            <Field type="text" name={name} />
-
-            // <input className="annotate_annotationTypeField w-100"
-            //     name="value"
-            //     defaultValue={formData && formData['value']}
-            //     onChange={(value) => props.UpdateFormData(value)}
-            // />
+            <Field type="text" name={name} className="w-100" />
         );
     }
 }

@@ -52,9 +52,9 @@ const UserStatistics = () => {
                 </Row>
 
                 <Row className="mt-5">
-                    {[1, 2].map((_number, i) => {
+                    {[1, 2].map((number) => {
                         return (
-                            <Col md={{ span: 4 }} className="px-4" key={i}>
+                            <Col md={{ span: 4 }} className="px-4" key={number}>
                                 <Row>
                                     <Col className="profile_userStatistic d-flex justify-content-center">
                                         <ResponsiveContainer width="100%" height="100%" className="py-2">

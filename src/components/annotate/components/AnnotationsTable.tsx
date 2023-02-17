@@ -40,12 +40,9 @@ const AnnotationsTable = (props: Props) => {
     const [displayAnnotations, setDisplayAnnotations] = useState<Annotation[]>([]);
 
     useEffect(() => {
-        if (!filter || filter === 'globalAnnotations') {
-            /* TODO: Needs pagination and new call */
-            GetRecentAnnotations().then((annotations) => {
-                setDisplayAnnotations(annotations);
-            });
-        } else if (filter === 'recentAnnotations') {
+        /* Future Development: needs different option for recent Annotations */
+        if (!filter || filter === 'globalAnnotations' || filter === 'recentAnnotations') {
+            /* Future Development: Needs pagination and new call */
             GetRecentAnnotations().then((annotations) => {
                 setDisplayAnnotations(annotations);
             });

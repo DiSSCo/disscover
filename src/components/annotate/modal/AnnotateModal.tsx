@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import parse from 'html-react-parser';
 import { Formik, Form } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
@@ -63,6 +63,21 @@ const AnnotateModal = (props: Props) => {
     /* Function for toggling to Annotate mode */
     const [annotateMode, setAnnotateMode] = useState(false);
 
+    /* Function for checking the type of an Annotation value */
+    const CheckAnnotationValue = () => {
+        let annotationValue = [''];
+
+        if (motivationAnnotation) {
+            if (typeof motivationAnnotation.body.value == 'string') {
+                annotationValue = [motivationAnnotation.body.value]
+            } else {
+                annotationValue = motivationAnnotation.body.value;
+            }
+        }
+
+        return annotationValue;
+    }
+
     /* Function for updating the Annotation Target state after succesful submit */
     const UpdateAnnotationTarget = (annotationRecord?: Annotation, remove?: boolean) => {
         if (annotationRecord) {
@@ -102,7 +117,7 @@ const AnnotateModal = (props: Props) => {
                 <Col md={{ span: 6 }} className={`h-100 annotate_modalAnnotationSection `}>
                     <div className="w-100 m-0 p-0 position-relative">
                         <button type="button"
-                            onClick={() => { ToggleModal(); /*ToggleAnnotationForm(true);*/ setAnnotateMode(false); }}
+                            onClick={() => { ToggleModal(); setAnnotateMode(false); }}
                             className="annotate_modalHeaderButton position-absolute px-3 border-0 bg-backdrop text-white br-tl br-tr"
                         >
                             Dismiss
@@ -169,8 +184,7 @@ const AnnotateModal = (props: Props) => {
                             initialValues={{
                                 motivation: annotationMotivation,
                                 property: property,
-                                value: motivationAnnotation ? typeof motivationAnnotation.body.value == 'string' ?
-                                    [motivationAnnotation.body.value] : motivationAnnotation.body.value : [''],
+                                value: CheckAnnotationValue(),
                                 method: !motivationAnnotation ? 'post' : 'patch',
                                 description: '',
                                 based_on: '',

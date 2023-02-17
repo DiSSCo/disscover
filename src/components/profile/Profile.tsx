@@ -45,7 +45,7 @@ const Profile = () => {
             }
         } else {
             if (params['userId']) {
-                /* TODO: Grab foreign user details (and annotations) and display information */
+                /* Future Development: Grab foreign user details (and annotations) and display information */
             } else {
                 navigate('/');
             }
@@ -54,7 +54,7 @@ const Profile = () => {
 
     /* Function for checking Annotations of given User */
     const CheckAnnotations = (user: User) => {
-        /* TODO: replace with general function for getting user annotations */
+        /* Future Development: replace with general function for getting user annotations */
 
         /* TEMPORARY CONSOLE LOG FOR SONAR */
         console.log(user);

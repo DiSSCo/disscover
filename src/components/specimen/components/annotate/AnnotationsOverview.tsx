@@ -92,18 +92,18 @@ const AnnotationsOverview = (props: Props) => {
 
                                     <Row className="specimen_annotationsOverviewSectionRows overflow-scroll">
                                         <Col>
-                                            {(overviewAnnotations.length > 0) ? overviewAnnotations.map((annotation, i) => {
-                                                const isoDate: Date = new Date(annotation.created);
+                                            {(overviewAnnotations.length > 0) ? overviewAnnotations.map((annotation, index) => {
+                                                const isoDate: Date = new Date(annotation.created * 1000);
                                                 const date: string = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
 
                                                 let even = "even";
 
-                                                if (i % 2) {
+                                                if (index % 2) {
                                                     even = "";
                                                 }
 
                                                 return (
-                                                    <Row key={i}>
+                                                    <Row key={annotation.id}>
                                                         <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
                                                             onClick={() => ToggleModal(annotation.target.indvProp, annotation.motivation)}
                                                         >
@@ -141,15 +141,15 @@ const AnnotationsOverview = (props: Props) => {
 
                                     <Row className="specimen_annotationsOverviewSectionRows">
                                         <Col>
-                                            {(qualityFlagAnnotations.length > 0) ? qualityFlagAnnotations.map((annotation, i) => {
+                                            {(qualityFlagAnnotations.length > 0) ? qualityFlagAnnotations.map((annotation, index) => {
                                                 let even = "even";
 
-                                                if (i % 2) {
+                                                if (index % 2) {
                                                     even = "";
                                                 }
 
                                                 return (
-                                                    <Row key={i}>
+                                                    <Row key={annotation.id}>
                                                         <Col className={`specimen_annotationsOverviewSectionRow py-1 ${even}`}
                                                             onClick={() => ToggleModal(annotation.target.indvProp, annotation.motivation)}
                                                         >

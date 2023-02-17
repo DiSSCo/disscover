@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 
 
 const AnnotationStatistics = () => {
-    /* TODO: Use actual data to represent in graphs */
+    /* Future Development: Use actual data to represent in graphs */
     const graphData = [
         { name: 'Group A', value: 400 },
         { name: 'Group B', value: 300 },

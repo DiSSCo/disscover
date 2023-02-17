@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Annotation, Dict } from 'global/Types';
+import { Annotation, Specimen, DigitalMedia, Dict } from 'global/Types';
 
 /* Import API */
 import GetRecentAnnotations from 'api/annotate/GetRecentAnnotations';
@@ -30,30 +30,47 @@ const RecentAnnotations = () => {
             }
 
             annotations.forEach((annotation, index) => {
-                if (annotation.target.type === 'digital_specimen') {
-                    GetSpecimen(annotation.target.id.replace('https://hdl.handle.net/', '')).then((specimen) => {
-                        if (specimen) {
-                            annotations[index].specimen = specimen;
+                GetAnnotationTarget(annotation).then((target) => {
+                    if (target) {
+                        if (annotation.target.type === 'digital_specimen') {
+                            annotations[index].specimen = target as Specimen;
+
+                            counter++;
+
+                            CheckCounter();
+                        } else if (annotation.target.type === 'digital_media') {
+                            annotations[index].digitalMedia = target as DigitalMedia;
+
+                            counter++;
+
+                            CheckCounter();
                         }
-
-                        counter++;
-
-                        CheckCounter();
-                    });
-                } else if (annotation.target.type === 'digital_media') {
-                    GetDigitalMedia(annotation.target.id.replace('https://hdl.handle.net/', '')).then((digitalMedia) => {
-                        if (digitalMedia) {
-                            annotations[index].digitalMedia = digitalMedia;
-                        }
-
-                        counter++;
-
-                        CheckCounter();
-                    });
-                }
+                    }
+                });
             });
         });
     }, []);
+
+    /* Function for fetching Specimen or Digital Media belonging to Annotation */
+    const GetAnnotationTarget = async (annotation: Annotation) => {
+        let target = {} as Specimen | DigitalMedia;
+
+        if (annotation.target.type === 'digital_specimen') {
+            await GetSpecimen(annotation.target.id.replace('https://hdl.handle.net/', '')).then((specimen) => {
+                if (specimen) {
+                    target = specimen;
+                }
+            });
+        } else if (annotation.target.type === 'digital_media') {
+            await GetDigitalMedia(annotation.target.id.replace('https://hdl.handle.net/', '')).then((digitalMedia) => {
+                if (digitalMedia) {
+                    target = digitalMedia;
+                }
+            });
+        }
+
+        return target;
+    }
 
     const [backgroundHover, setBackgroundHover] = useState<Dict>({});
 

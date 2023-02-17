@@ -73,12 +73,12 @@ const UserInfoForm = (props: Props) => {
                                     Select an organization
                                 </option>
 
-                                {organizations.map((organization, i) => {
+                                {organizations.map((organization) => {
                                     return (
-                                        <option key={i}
-                                            value={organization['ror']}
+                                        <option key={organization.ror}
+                                            value={organization.ror}
                                         >
-                                            {organization['name']}
+                                            {organization.name}
                                         </option>
                                     );
                                 })}

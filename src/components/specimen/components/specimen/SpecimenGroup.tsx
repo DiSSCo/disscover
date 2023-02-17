@@ -19,7 +19,7 @@ import { faChevronDown, faPencil } from '@fortawesome/free-solid-svg-icons';
 interface Props {
     propertyGroup: string,
     properties: Dict,
-    active: Boolean,
+    active: boolean,
     TogglePropertyGroup: Function,
     ToggleModal: Function
 };

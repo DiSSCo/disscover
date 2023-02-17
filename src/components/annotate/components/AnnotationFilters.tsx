@@ -38,10 +38,10 @@ const AnnotationsFilters = (props: Props) => {
                     <Col className="annotate_filterSection">
                         <Row className="mt-3">
                             <Col className="col-md-auto">
-                                <select onChange={e => props.SetFilter(e.target.value)}>
-                                    {Object.keys(filterOptions).map((key, i) => {
+                                <select onChange={e => SetFilter(e.target.value)}>
+                                    {Object.keys(filterOptions).map((key) => {
                                         return (
-                                            <option key={i}
+                                            <option key={key}
                                                 value={key}
                                             >
                                                 {filterOptions[key]}

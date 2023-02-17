@@ -106,7 +106,7 @@ export interface Annotation {
     },
     preferenceScore: number,
     creator: string,
-    created: Date,
+    created: number,
     generator: Dict,
     generated: Date,
     deleted_on: Date

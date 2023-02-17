@@ -6,7 +6,6 @@ import { Row, Col, Modal } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
-import { getDigitalMediaAnnotations } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,12 +24,11 @@ const ObservationModal = (props: Props) => {
 
     /* Base Variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
-    const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
 
     /* Functionality for handling new, changed or removed Observation Annotations */
     const [observationAnnotations, setObservationAnnotations] = useState<IAnnotation[]>(
         []
-        // TODO: implement DB annotations: digitalMediaAnnotations.observation ? digitalMediaAnnotations.observation : []
+        // Future Development: implement DB annotations: digitalMediaAnnotations.observation ? digitalMediaAnnotations.observation : []
     );
 
     return (
@@ -44,7 +42,7 @@ const ObservationModal = (props: Props) => {
                                 alt={digitalMedia.id}
                                 onAnnotationsUpdate={(annotations) => setObservationAnnotations(annotations)}
                                 annotations={observationAnnotations}
-                                // TODO: implement DB annotations: annotations={observationAnnotations}
+                                // Future Development: implement DB annotations: annotations={observationAnnotations}
                                 className="h-100"
                             />
 

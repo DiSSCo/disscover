@@ -1,13 +1,22 @@
 /* Import Dependencies */
 import { Field, FieldArray } from 'formik';
 import { Capitalize } from 'global/Utilities';
+import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
+
+/* Import Store */
+import { useAppSelector } from 'app/hooks';
+import { getAnnotateTarget } from "redux/annotate/AnnotateSlice";
 
 /* Import Types */
 import { AnnotationMotivation, Dict } from 'global/Types';
 
 /* Import Sources */
 import AnnotationMotivations from 'sources/annotationMotivations.json';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import ValueField from './ValueField';
@@ -26,8 +35,23 @@ const FormTemplate = (props: Props) => {
     const { motivation, property, targetType, formValues } = props;
 
     /* Base variables */
+    const annotateTarget = useAppSelector(getAnnotateTarget);
     const annotationMotivations: Dict = AnnotationMotivations;
     const motivationSpecs: AnnotationMotivation = annotationMotivations[motivation];
+
+    /* Check if Annotation belonging to motivation has a current value */
+    const annotation = annotateTarget.annotations.find(annotation =>
+        (annotation.motivation === motivation && annotation.creator === KeycloakService.GetSubject())
+    );
+    let annotationValue: string[] = [''];
+
+    if (annotation) {
+        if (Array.isArray(annotation.body.value)) {
+            annotationValue = annotation.body.value;
+        } else {
+            annotationValue = [annotation.body.value];
+        }
+    }
 
     return (
         <Row className="mt-3">
@@ -53,24 +77,48 @@ const FormTemplate = (props: Props) => {
                     <Col>
                         <p className="annotate_annotationTypeFieldTitle"> Value: </p>
 
-                        {/*(annotation.body.value.length > 1) ?
-                            props.RenderMultipleMode('adding')
-                            :*/
-                        }
-
                         <FieldArray name="value">
                             {({ remove, push }) => (
-                                formValues.value.map((value: string, i: number) => {
-                                    const key = `value${i}`;
+                                <>
+                                    {formValues.value.map((value: string | Date, index: number) => {
+                                        const key = `value${index}`;
 
-                                    return (
-                                        <ValueField key={key}
-                                            name={`value.${i}`}
-                                            property={property}
-                                            targetType={targetType}
-                                        />
-                                    );
-                                })
+                                        return (
+                                            <Row className="mt-3" key={key}>
+                                                <Col>
+                                                    <ValueField name={`value.${index}`}
+                                                        value={value}
+                                                        property={property}
+                                                        targetType={targetType}
+                                                    />
+                                                </Col>
+
+                                                {index > 0 &&
+                                                    <Col className="col-md-auto">
+                                                        <button type="button"
+                                                            onClick={() => remove(index)}
+                                                        >
+                                                            <FontAwesomeIcon icon={faX} />
+                                                        </button>
+                                                    </Col>
+                                                }
+                                            </Row>
+                                        );
+                                    })}
+
+                                    <Row className="mt-3">
+                                        {/* If Annotation value is not null, or multiple values exist, show multiple field option */
+                                            (formValues.value.length >= annotationValue.length && formValues.value[0]) &&
+                                            <Col className="col-md-auto">
+                                                <button type="button"
+                                                    onClick={() => push('')}
+                                                >
+                                                    <FontAwesomeIcon icon={faPlus} />
+                                                </button>
+                                            </Col>
+                                        }
+                                    </Row>
+                                </>
                             )}
                         </FieldArray>
                     </Col>

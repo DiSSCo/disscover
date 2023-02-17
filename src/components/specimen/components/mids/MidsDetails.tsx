@@ -12,7 +12,7 @@ import MidsDetailsRow from './MidsDetailsRow';
 
 /* Props Typing */
 interface Props {
-    active: Boolean,
+    active: boolean,
     specimen: Dict
 };
 

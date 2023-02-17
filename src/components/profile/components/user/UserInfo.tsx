@@ -94,7 +94,7 @@ const UserInfo = (props: Props) => {
                                 </Col>
                                 {!editMode ?
                                     <Col>
-                                        {Object.entries(userProfile).map((attribute, i) => {
+                                        {Object.entries(userProfile).map((attribute, index) => {
                                             if (attribute[0] === 'organization') {
                                                 return (
                                                     <Row key={attribute[0]} className="mt-3">
@@ -109,12 +109,12 @@ const UserInfo = (props: Props) => {
                                             } else if (attribute[0] !== 'id') {
                                                 let margin;
 
-                                                if (i > 1) {
+                                                if (index > 1) {
                                                     margin = 'mt-3'
                                                 }
 
                                                 return (
-                                                    <Row key={`attribute${i}`} className={`${margin}`}>
+                                                    <Row key={attribute[0]} className={`${margin}`}>
                                                         <Col>
                                                             {attribute[1] ?
                                                                 <> {attribute[1]} </>

@@ -35,9 +35,9 @@ const Mids = () => {
                 <Row className="mt-5">
                     <Col md={{ span: 12 }}>
                         <Row>
-                            {midsLevels.map((level, i) => {
+                            {midsLevels.map((level) => {
                                 return (
-                                    <Col md={{ span: 3 }} key={i}>
+                                    <Col md={{ span: 3 }} key={level}>
                                         <Row>
                                             <Col md={{ span: 10 }}>
                                                 <div>

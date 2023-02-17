@@ -1,13 +1,16 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import UserModel from 'api/model/UserModel';
+
 /* Import Types */
 import { JSONResult, User, Dict } from 'global/Types';
 
 
 const InsertUser = async (userId?: string, token?: string, keycloakParsed?: Dict) => {
     if (userId && token) {
-        const user = <User>{};
+        let user = <User>{};
 
         const userRecord: JSONResult = {
             data: {
@@ -35,13 +38,9 @@ const InsertUser = async (userId?: string, token?: string, keycloakParsed?: Dict
             }
         }).then((result) => {
             /* Set User */
-            const data: JSONResult = result['data'];
+            const data: JSONResult = result.data;
 
-            user.firstName = data['data']['attributes']['firstName'];
-            user.lastName = data['data']['attributes']['lastName'];
-            user.email = data['data']['attributes']['email'];
-            user.organization = data['data']['attributes']['organization'];
-            user.orcid = data['data']['attributes']['orcid'];
+            user = UserModel(data);
         }).catch((error) => {
             console.warn(error);
         });

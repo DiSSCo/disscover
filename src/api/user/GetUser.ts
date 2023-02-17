@@ -1,13 +1,16 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import UserModel from 'api/model/UserModel';
+
 /* Import Types */
 import { JSONResult, User } from 'global/Types';
 
 
 const GetUser = async (userId?: string, token?: string) => {
     if (userId && token) {
-        const user = <User>{};
+        let user = <User>{};
 
         const endPoint = `users/${userId}`;
 
@@ -21,14 +24,9 @@ const GetUser = async (userId?: string, token?: string) => {
             }
         }).then((result) => {
             /* Set User */
-            const data: JSONResult = result['data'];
+            const data: JSONResult = result.data;
 
-            user.id = data.data.id;
-            user.firstName = data.data.attributes.firstName;
-            user.lastName = data.data.attributes.lastName;
-            user.email = data.data.attributes.email;
-            user.organization = data.data.attributes.organization;
-            user.orcid = data.data.attributes.orcid;
+            user = UserModel(data);
         }).catch((error) => {
             console.warn(error);
         });

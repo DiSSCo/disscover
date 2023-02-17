@@ -52,7 +52,7 @@ const MessageTemplate = (props: Props) => {
     }
 
     /* Format Annotation created date */
-    const isoDate = new Date(annotation.created);
+    const isoDate = new Date(annotation.created * 1000);
     const date = `${(isoDate.getMonth() + 1)}-${isoDate.getDate()}-${isoDate.getFullYear()}`;
 
     /* Function for if Annotation is the user's and pressed, to fire events */

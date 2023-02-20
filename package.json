@@ -70,5 +70,6 @@
   },
   "devDependencies": {
     "@types/react-datepicker": "^4.8.0"
-  }
+  },
+  "proxy": "https://sandbox.dissco.tech"
 }

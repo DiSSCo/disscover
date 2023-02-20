@@ -18,6 +18,10 @@
   --resolved: var(--greyMedium);
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   overflow: hidden;
   margin: 0;

@@ -54,8 +54,10 @@ const Specimen = () => {
 
     /* Onload / Specimen or Version change: Check for Specimen, otherwise grab (specific version) from database */
     useEffect(() => {
-        /* Fetch Specimen if not present or version has changed */
-        if (Object.keys(specimen).length === 0 || (version && specimen.version !== version)) {
+        const specimenId = `${params.prefix}/${params.suffix}`;
+
+        /* Fetch Specimen if not present, not equal to params ID or version has changed */
+        if (Object.keys(specimen).length === 0 || specimen.id !== specimenId || (version && specimen.version !== version)) {
             /* Get Specimen */
             GetSpecimen(`${params['prefix']}/${params['suffix']}`, version).then((specimen) => {
                 if (specimen) {
@@ -130,7 +132,7 @@ const Specimen = () => {
                 motivation: motivation ? motivation : '',
                 target: specimen,
                 targetType: 'digital_specimen',
-                annotations: specimenAnnotations[property]? specimenAnnotations[property] : []
+                annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));
 
             setModalToggle(true);

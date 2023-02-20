@@ -6,6 +6,38 @@
 }
 
 
+/* ID Card */
+
+.specimen_IDCard {
+    border-top-left-radius: 35px;
+    border-bottom-right-radius: 35px;
+}
+
+.specimen_IDCardBackground {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.specimen_IDCardProperty {
+    font-size: 13px;
+}
+
+.specimen_IDCardValue {
+    font-size: 15px;
+}
+
+.specimen_IDCardLogo {
+    filter: grayscale(100%);
+}
+
+.specimen_midsBar {
+    font-size: 14px;
+}
+
+
+
 /* Specimen Information Block */
 
 .specimen_fixedTitleBlock {

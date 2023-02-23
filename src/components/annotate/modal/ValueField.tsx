@@ -5,7 +5,8 @@ import { Field } from 'formik';
 import { Dict } from 'global/Types';
 
 /* Import Sources */
-import AnnotationFilterLayer from 'sources/annotationFilterLayer.json';
+// import AnnotationFilterLayer from 'sources/annotationFilterLayer.json';
+import HarmonisedAttributes from 'sources/hamonisedAttributes.json';
 import DigitalMediaFilterLayer from 'sources/digitalMediaFilterLayer.json';
 
 
@@ -22,12 +23,14 @@ const ValueField = (props: Props) => {
     const { name, property, targetType } = props;
 
     /* Base variables */
-    const annotationFilterLayer: Dict = AnnotationFilterLayer;
+    const harmonisedAttributes: Dict = HarmonisedAttributes;
     const digitalMediaFilterLayer: Dict = DigitalMediaFilterLayer;
     let filteredAnnotation;
 
     if (targetType === 'digital_specimen') {
-        filteredAnnotation = annotationFilterLayer[property];
+        console.log(property);
+
+        filteredAnnotation = harmonisedAttributes[property];
     } else if (targetType === 'digital_media') {
         filteredAnnotation = digitalMediaFilterLayer[property];
     }

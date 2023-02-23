@@ -20,7 +20,6 @@ import Footer from 'components/general/footer/Footer';
 
 /* Import API */
 import SearchSpecimens from "api/specimen/SearchSpecimens";
-import FilterSpecimen from "api/specimen/FilterSpecimen";
 
 
 const Search = () => {
@@ -41,10 +40,7 @@ const Search = () => {
         } else {
             /* Search */
             SearchSpecimens(searchQuery).then((searchResults) => {
-                searchResults.forEach((searchResult, i) => {
-                    searchResults[i].filtered = FilterSpecimen(searchResult);
-                });
-
+                /* Store search results */
                 dispatch(setSpecimenSearchResults(searchResults));
 
                 /* Update params */

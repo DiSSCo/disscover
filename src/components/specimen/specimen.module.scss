@@ -1,41 +1,159 @@
 /* Custom CSS for Specimen Page */
 
 
-.specimen_content {
+.specimenContent {
     height: calc(100vh - 208px)
 }
 
 
 /* ID Card */
 
-.specimen_IDCard {
+.IDCardHead {
+    height: 150px;
+}
+
+.IDCardBlock {
+    height: Calc(100% - 150px);
+}
+
+.IDCardBanner {
+    height: 15%;
+}
+
+.IDCardBannerCover {
+    background-color: #333333;
+    opacity: 0.2;
+}
+
+.IDCard {
     border-top-left-radius: 35px;
     border-bottom-right-radius: 35px;
 }
 
-.specimen_IDCardBackground {
+.IDCardBackground {
     border-top-left-radius: 0.375rem;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 0.375rem;
 }
 
-.specimen_IDCardProperty {
+.IDCardPropertyBlock {
+    transition: 0.4s;
+}
+
+.IDCardPropertyBlock:hover {
+    background-color: var(--main-color-light);
+    cursor: pointer;
+}
+
+.IDCardProperty {
     font-size: 13px;
 }
 
-.specimen_IDCardValue {
+.IDCardValue {
     font-size: 15px;
 }
 
-.specimen_IDCardLogo {
+.IDCardLogo {
     filter: grayscale(100%);
 }
 
-.specimen_midsBar {
+.midsBar {
     font-size: 14px;
 }
 
+/* Version Dropdown */
+
+.versionBlock {
+    height: 40px;
+}
+
+.versionBlock.active {
+    height: auto;
+    position: absolute;
+    right: 0;
+    border: 1px solid var(--main-color-dark);
+}
+
+.versionOptions {
+    display: none;
+}
+
+.versionOptions.active {
+    display: block;
+}
+
+.versionOption {
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px solid var(--greyXLight);
+    border-bottom: 1px solid var(--greyXLight);
+    cursor: pointer;
+}
+
+.versionOption:hover {
+    background-color: var(--greyLight) !important;
+}
+
+.versionOption.chosen {
+    background-color: var(--main-color-dark) !important;
+    color: white;
+    border: none;
+}
+
+.versionOptionIcon {
+    right: 0;
+    margin-top: 12px;
+    transition: 0.3s;
+    transform: rotate(0deg);
+}
+
+.versionOptionIcon.active {
+    transform: rotate(180deg);
+}
+
+
+/* Content Blocks */
+
+.contentBlock {
+    height: Calc(100% - 40px);
+}
+
+/* Digital Specimen Block */
+
+.organizationLogo {
+    filter: grayscale(100%);
+    opacity: 0.4;
+}
+
+/* Original Data Block */
+
+.originalDataTable {
+    height: 95%;
+}
+
+/* Annotations Block */
+
+.annotationFilter {
+    color: gray;
+    font-size: 14px;
+}
+
+.annotationFilter:hover {
+    color: var(--main-color);
+    cursor: pointer;
+}
+
+.annotationFilter.active {
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+/* MIDS Block */
+
+.midsProperty {
+    border: 1px solid var(--main-color);
+}
 
 
 /* Specimen Information Block */
@@ -63,54 +181,6 @@
 .specimen_title {
     font-size: 24px;
     line-height: 35px;
-}
-
-.specimen_versionBlock {
-    height: 40px;
-}
-
-.specimen_versionBlock.active {
-    height: auto;
-    position: absolute;
-    right: 0;
-    border: 1px solid var(--main-color-dark);
-}
-
-.specimen_versionOptions {
-    display: none;
-}
-
-.specimen_versionOptions.active {
-    display: block;
-}
-
-.specimen_versionOption {
-    height: 40px;
-    line-height: 40px;
-    border-top: 1px solid var(--greyXLight);
-    border-bottom: 1px solid var(--greyXLight);
-    cursor: pointer;
-}
-
-.specimen_versionOption:hover {
-    background-color: var(--greyLight) !important;
-}
-
-.specimen_versionOption.chosen {
-    background-color: var(--main-color-dark) !important;
-    color: white;
-    border: none;
-}
-
-.specimen_versionOptionIcon {
-    right: 0;
-    margin-top: 12px;
-    transition: 0.3s;
-    transform: rotate(0deg);
-}
-
-.specimen_versionOptionIcon.active {
-    transform: rotate(180deg);
 }
 
 .specimen_detailSpecimen {

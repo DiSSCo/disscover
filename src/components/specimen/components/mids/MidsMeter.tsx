@@ -65,9 +65,6 @@ const MidsMeter = () => {
                     />
                 </Row>
             </Col>
-
-
-
         </Row>
     );
 }

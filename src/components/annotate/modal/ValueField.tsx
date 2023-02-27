@@ -5,7 +5,6 @@ import { Field } from 'formik';
 import { Dict } from 'global/Types';
 
 /* Import Sources */
-// import AnnotationFilterLayer from 'sources/annotationFilterLayer.json';
 import HarmonisedAttributes from 'sources/hamonisedAttributes.json';
 import DigitalMediaFilterLayer from 'sources/digitalMediaFilterLayer.json';
 

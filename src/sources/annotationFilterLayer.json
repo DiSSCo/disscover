@@ -390,7 +390,7 @@
 
     "institutionID": {
         "displayName": "Institution",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": {
             "level": 1
@@ -398,49 +398,49 @@
     },
     "institutionCode": {
         "displayName": "Institution code",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "datasetownerabbrev": {
         "displayName": "Abbreviation",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "datasourcecountry": {
         "displayName": "Publishing country",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "providername": {
         "displayName": "Provider name",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "providercountry": {
         "displayName": "Provider country",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "provideraddress": {
         "displayName": "Address",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "physicalSpecimenCollection": {
         "displayName": "Collection code",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     },
     "sourceSystemId": {
         "displayName": "Provider URL",
-        "group": "Organisation",
+        "group": "Organization",
         "annotatable": true,
         "mids": ""
     }

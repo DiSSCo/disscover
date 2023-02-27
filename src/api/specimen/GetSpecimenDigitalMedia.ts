@@ -11,15 +11,17 @@ const GetSpecimenDigitalMedia = async (handle: string) => {
 
         const endPoint = `specimens/${handle}/digitalmedia`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json'
+            });
+
             specimenDigitalMedia = result.data;
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimenDigitalMedia;
     }

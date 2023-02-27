@@ -17,15 +17,17 @@ const GetSpecimen = async (handle: string, version?: number) => {
             endPoint = `specimens/${handle}`;
         }
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json'
+            });
+
             specimen = result.data;
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimen;
     }

@@ -11,11 +11,13 @@ const GetSpecimenAnnotations = async (handle: string) => {
 
         const endPoint = `specimens/${handle}/annotations`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json',
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json',
+            });
+
             const annotations: Annotation[] = result.data;
 
             /* Refactor Annotations object */
@@ -26,9 +28,9 @@ const GetSpecimenAnnotations = async (handle: string) => {
                     specimenAnnotations[annotation.target.indvProp] = [annotation];
                 }
             });
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimenAnnotations;
     }

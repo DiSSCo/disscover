@@ -25,23 +25,25 @@ const PatchUser = async (userId: string, attributes: Dict, token?: string) => {
 
         const endPoint = `users/${userId}`
 
-        await axios({
-            method: "patch",
-            url: endPoint,
-            data: userRecord,
-            responseType: 'json',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "patch",
+                url: endPoint,
+                data: userRecord,
+                responseType: 'json',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
             /* Set User */
             const data: JSONResult = result.data;
 
             user = UserModel(data);
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return user;
     }

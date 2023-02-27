@@ -15,16 +15,18 @@ const SearchSpecimens = async (query: string) => {
             pageSize: 25
         }
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            params: params,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                params: params,
+                responseType: 'json'
+            });
+
             searchResults = result.data;
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
     }
 
     return searchResults;

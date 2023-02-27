@@ -8,15 +8,17 @@ const GetSpecimenVersions = async (handle: string) => {
 
         const endPoint: string = `specimens/${handle}/versions`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json'
+            });
+
             specimenVersions = result.data;
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimenVersions;
     }

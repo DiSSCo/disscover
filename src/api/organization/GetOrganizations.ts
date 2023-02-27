@@ -10,15 +10,17 @@ const GetOrganizations = async () => {
 
     const endPoint = "/organisation/tuples"
 
-    await axios({
-        method: "get",
-        url: endPoint,
-        responseType: 'json'
-    }).then((result) => {
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            responseType: 'json'
+        });
+
         organizations = result.data;
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return organizations;
 }

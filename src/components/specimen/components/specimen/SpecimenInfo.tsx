@@ -14,9 +14,6 @@ import { Dict } from 'global/Types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFrog, faChevronDown, faMagnifyingGlass, faLandmark } from '@fortawesome/free-solid-svg-icons'
 
-/* Import Components */
-import MidsBar from '../idCard/MidsBar';
-
 
 /* Props Typing */
 interface Props {

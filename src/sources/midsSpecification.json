@@ -1,0 +1,59 @@
+{
+    "0": {
+        "physicalSpecimenId": {
+            "displayName": "Physical Specimen ID"
+        },
+        "organization": {
+            "displayName": "Organization"
+        }
+    },
+    "1": {
+        "specimenName": {
+            "displayName": "Scientific Name"
+        },
+        "type": {
+            "displayName": "Specimen Type"
+        },
+        "objectType": {
+            "displayName": "Object Type"
+        },
+        "license": {
+            "displayName": "License"
+        },
+        "modified": {
+            "displayName": "Modified",
+            "subs": ["created"]
+        }
+    },
+    "2": {
+        "typeStatus": {
+            "displayName": "Type Status"
+        },
+        "media": {
+            "displayName": "Digital Media"
+        },
+        "quantitativeLocation": {
+            "displayName": "Quantitative Location"
+        },
+        "qualitativeLocation": {
+            "displayName": "Qualitative Location"
+        },
+        "dateCollected": {
+            "displayName": "Date Collected"
+        },
+        "collectingNumber": {
+            "displayName": "Collecting Number"
+        },
+        "collector": {
+            "displayName": "Collector"
+        },
+        "stratigraphy": {
+            "displayName": "Stratigraphy"
+        },
+        "mass": {
+            "displayName": "Mass"
+        }
+    },
+    "3": {
+    }
+}

@@ -3,6 +3,9 @@
   --main-color: #0C86C6;
   --main-color-light: #d6e0f5;
   --main-color-dark: #1c497d;
+  --alt-color-1: #00BAAF;
+  --alt-color-2: #00BED1;
+  --alt-color-3: #0099B9;
   --main-color-green: #009973;
 
   --greyXLight: #F4F4F1;
@@ -224,4 +227,48 @@ a {
 .page-link {
   height: 100%;
   width: 100%;
+}
+
+
+/* Bootstrap class overwrite */
+
+.tab-content {
+  height: Calc(100% - 41px);
+  border-top: 1px solid #d9d9d9;
+}
+
+.nav-tabs .nav-item.show, .nav-tabs .nav-link.active {
+  color: white;
+  background-color: var(--main-color-dark);
+  border-color: none;
+}
+
+.nav-link {
+  color: #333333;
+  font-size: 14px;
+}
+
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link:hover{
+  color: gray
+}
+
+.tab-pane {
+  height: 100%;
+  padding-top: 2%;
+}
+
+
+/* React Datatable overwrite */
+
+.WQNxq {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+.dApqnJ {
+  display: block !important;
 }

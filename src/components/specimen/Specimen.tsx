@@ -7,8 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSpecimen, setSpecimen,
-    getSpecimenDigitalMedia, setSpecimenDigitalMedia,
+    getSpecimen, setSpecimen, setSpecimenDigitalMedia,
     getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
@@ -17,21 +16,17 @@ import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSli
 import { Specimen as SpecimenType } from 'global/Types';
 
 /* Import Styles */
-import "./specimen.scss";
+import styles from './specimen.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
-import SpecimenInfo from './components/specimen/SpecimenInfo';
-import SpecimenProperties from './components/specimen/SpecimenProperties';
-import SpecimenDigitalMedia from './components/specimen/SpecimenDigitalMedia';
-import MidsMeter from './components/mids/MidsMeter';
-import AnnotationsOverview from './components/annotate/AnnotationsOverview';
+import IDCard from './components/IDCard/IDCard';
+import ContentBlock from './components/contentBlock/ContentBlock';
 import AnnotateModal from 'components/annotate/modal/AnnotateModal';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
 import GetSpecimen from 'api/specimen/GetSpecimen';
-import FilterSpecimen from 'api/specimen/FilterSpecimen';
 import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
@@ -46,7 +41,6 @@ const Specimen = () => {
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
-    const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const [version, setVersion] = useState<number>();
@@ -61,16 +55,10 @@ const Specimen = () => {
             /* Get Specimen */
             GetSpecimen(`${params['prefix']}/${params['suffix']}`, version).then((specimen) => {
                 if (specimen) {
-                    /* Filter data */
-                    specimen.filtered = FilterSpecimen(specimen);
-
                     dispatch(setSpecimen(specimen));
-
-                    /* Check Specimen Details */
-                    CheckDetails(specimen);
                 }
             });
-        } else {
+        } else if (Object.keys(specimen).length > 0 && (specimen.version !== version)) {
             /* Check Specimen Details */
             CheckDetails(specimen);
         }
@@ -79,7 +67,7 @@ const Specimen = () => {
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
         /* Check if the specimen annotations differ from the target annotations */
-        if (annotateTarget.annotations.length > 0 &&
+        if (Array.isArray(annotateTarget.annotations) &&
             JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
             CheckAnnotations(specimen);
         }
@@ -146,56 +134,24 @@ const Specimen = () => {
             <Header />
 
             {Object.keys(specimen).length > 0 &&
-                <Container fluid className="mt-5 specimen_content">
+                <Container fluid className={`${styles.specimenContent} mt-5`}>
                     <Row className="h-100">
                         <Col md={{ span: 10, offset: 1 }} className="h-100">
                             <Row className="h-100">
-                                <Col md={{ span: 8 }} className="h-100 overflow-auto">
-                                    <Row>
-                                        <Col md={{ span: 12 }}>
-                                            <SpecimenInfo versions={versions}
-                                                LoadSpecimenVersion={(version: number) => setVersion(version)}
-                                            />
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-5">
-                                        <Col className="mt-4">
-                                            <SpecimenProperties
-                                                ToggleModal={(property: string) => ToggleModal(property)}
-                                            />
-                                        </Col>
-                                    </Row>
+                                <Col md={{ span: 3 }} className="h-100">
+                                    <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
+                                </Col>
+                                <Col md={{ span: 9 }} className="ps-5 h-100">
+                                    <ContentBlock versions={versions}
+                                        LoadSpecimenVersion={(version: number) => setVersion(version)}
+                                    />
                                 </Col>
 
-                                <Col md={{ span: 4 }}>
-                                    {(specimenDigitalMedia.length > 0) &&
-                                        <Row>
-                                            <Col md={{ span: 12 }}>
-                                                <SpecimenDigitalMedia />
-                                            </Col>
-                                        </Row>
-                                    }
-
-                                    <Row className="mt-4">
-                                        <Col md={{ span: 12 }}>
-                                            <MidsMeter />
-                                        </Col>
-                                    </Row>
-
-                                    <Row className="specimen_annotationsOverview mt-4 overflow-hidden">
-                                        <Col className="h-100">
-                                            <AnnotationsOverview
-                                                ToggleModal={(property: string, motivation: string) => ToggleModal(property, motivation)}
-                                            />
-
-                                            {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
-                                                <AnnotateModal modalToggle={modalToggle}
-                                                    ToggleModal={() => ToggleModal()}
-                                                />
-                                            }
-                                        </Col>
-                                    </Row>
-                                </Col>
+                                {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
+                                    <AnnotateModal modalToggle={modalToggle}
+                                        ToggleModal={() => ToggleModal()}
+                                    />
+                                }
                             </Row>
                         </Col>
                     </Row>

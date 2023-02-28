@@ -1,0 +1,39 @@
+{
+    "physicalSpecimenId": {
+        "displayName": "Physical Specimen ID"
+    },
+    "ods:physicalSpecimenIdType": {
+        "displayName": "Physical Specimen ID Type"
+    },
+    "ods:organizationId": {
+        "displayName": "Organization",
+        "annotate": {
+            "fieldType": "select",
+            "options": []
+        }
+    },
+    "ods:specimenName": {
+        "displayName": "Scientific Name"
+    },
+    "ods:datasetId": {
+        "displayName": "Dataset ID"
+    },
+    "ods:physicalSpecimenCollection": {
+        "displayName": "Physical Specimen Collection"
+    },
+    "ods:sourceSystemId": {
+        "displayName": "Source System"
+    },
+    "dwca:id": {
+        "displayName": "DarwinCore Archive ID"
+    },
+    "dcterms:license": {
+        "displayName": "License"
+    },
+    "ods:objectType": {
+        "displayName": "Object Type"
+    },
+    "ods:modified": {
+        "displayName": "Modified"
+    }
+}

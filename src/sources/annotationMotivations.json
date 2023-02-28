@@ -2,30 +2,35 @@
     "commenting": {
         "key": "commenting",
         "displayName": "Commenting",
+        "displayNamePlural": "Comments",
         "additionalFields": {},
-        "context": "This annotation type is used when adding new values to previously empty attributes."
+        "context": "This annotation type is used for commenting on specimen properties or other annotations."
     },
     "linking": {
         "key": "linking",
         "displayName": "Relationship/Link",
+        "displayNamePlural": "Relationships/Links",
         "additionalFields": {"based_on": "string", "description": "textArea"},
         "context": "This annotation type is used when a false relationship or link is detected and needs to be replaced with a valid one."
     },
     "correcting": {
         "key": "correcting",
         "displayName": "Error correction",
+        "displayNamePlural": "Error Corrections",
         "additionalFields": {"reference": "string", "description": "textArea"},
         "context": "This annotation type is used when correcting an existing value of an attribute that is deemed invalid."
     },
     "quality_flagging": {
         "key": "quality_flagging",
         "displayName": "Quality flag",
+        "displayNamePlural": "Quality Flags",
         "additionalFields": {"description": "textArea"},
         "context": "This annotation type is used when flagging a quality issue."
     },
     "adding": {
         "key": "adding",
         "displayName": "Addition",
+        "displayNamePlural": "Additions",
         "additionalFields": {"description": "textArea"},
         "context": "This annotation type is used when adding new values to previously empty attributes."
     }

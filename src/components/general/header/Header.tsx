@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useLocation, Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import KeycloakService from 'keycloak/Keycloak';
 import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
 
@@ -7,6 +8,7 @@ import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
 import "./header.scss";
 
 /* Import Components */
+import Languages from "./components/Languages";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 
@@ -16,8 +18,11 @@ import DisscoLogoWhite from 'webroot/img/dissco-logo-web-white.svg';
 
 
 const Header = () => {
+    /* Hooks */
+    const { t } = useTranslation();
     const location = useLocation();
 
+    /* Base variables */
     const loggedIn = KeycloakService.IsLoggedIn();
 
     /* Determine header lay-out based on location */
@@ -38,7 +43,7 @@ const Header = () => {
                                     Unified Curation and Annotation System
                                 </h1>
                                 <h2 className="header_homeSubTitle text-white fw-bold">
-                                    UCAS <span className="header_homeProofOfConcept fst-italic"> (Proof of concept) </span>
+                                    UCAS <span className="header_homeProofOfConcept fst-italic"> ({t('proof of concept')}) </span>
                                 </h2>
                             </Col>
                         </Row>
@@ -62,6 +67,9 @@ const Header = () => {
 
                                 </Nav>
                             </Col>
+                            <Col className="col-md-auto d-flex align-items-center">
+                                        <Languages />
+                                    </Col>
                             <Col className="col-md-auto">
                                 {loggedIn ?
                                     <Profile />
@@ -93,7 +101,7 @@ const Header = () => {
                                     <Col className="col-md-auto">
                                         <h1 className="header_title c-primary-dark fw-bold">
                                             UCAS
-                                            <span className="header_proofOfConcept fst-italic"> (Proof of concept) </span>
+                                            <span className="header_proofOfConcept fst-italic"> ({t('proof of concept')}) </span>
                                         </h1>
                                     </Col>
                                 </Row>
@@ -116,6 +124,9 @@ const Header = () => {
                                             </Nav.Link>
 
                                         </Nav>
+                                    </Col>
+                                    <Col className="col-md-auto d-flex align-items-center">
+                                        <Languages />
                                     </Col>
                                     <Col className="col-md-auto">
                                         {loggedIn ?

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import axios from "axios";
 import KeycloakService from 'keycloak/Keycloak';
+import './i18n';
 
 /* Import Styles */
 import 'bootstrap/dist/css/bootstrap.min.css';

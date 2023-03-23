@@ -11,18 +11,22 @@ const keycloak = new Keycloak({
     clientId: "orchestration-service"
 });
 
-const InitKeyCloak = (callback: EmptyCallback) => {
+const InitKeyCloak = (callback?: EmptyCallback, token?: string) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
-        pkceMethod: "S256"
+        pkceMethod: "S256",
+        token: token,
+        refreshToken: token
     })
-        .then((authenticated) => {
+        .then((authenticated) => { 
             if (!authenticated) {
                 console.log("User is not authenticated");
             }
 
-            callback();
+            if (callback) {
+                callback();
+            }
         })
         .catch(console.error);
 }

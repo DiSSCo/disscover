@@ -28,8 +28,6 @@ const ValueField = (props: Props) => {
     let filteredAnnotation;
 
     if (targetType === 'digital_specimen') {
-        console.log(property);
-
         filteredAnnotation = harmonisedAttributes[property];
     } else if (targetType === 'digital_media') {
         filteredAnnotation = digitalMediaFilterLayer[property];

@@ -41,8 +41,6 @@ const AnnotateModal = (props: Props) => {
 
     /* Base variables */
     const { property, motivation, target, targetType, annotations } = useAppSelector(getAnnotateTarget);
-
-    const propertyValue = target.filtered[property];
     const annotationMotivations: Dict = AnnotationMotivations;
 
     /* Function for auto scrolling to a selected Annotation */
@@ -133,13 +131,11 @@ const AnnotateModal = (props: Props) => {
                     <Modal.Body className="annotate_modalBody bg-white">
                         <Row className="px-2">
                             <Col md={{ span: 12 }} className="annotate_modalCurrentValue border-b-2-primary-dark">
-                                <span className="fw-bold"> Current value: </span>
+                                <>
+                                    <span className="fw-bold"> Current value: </span>
 
-                                {(typeof propertyValue === 'string') &&
-                                    propertyValue.includes('</') ?
-                                    parse(propertyValue)
-                                    : propertyValue
-                                }
+                                    <span role="annotateModalCurrentValue"> {`${target[property as keyof typeof target]}`} </span>
+                                </>
                             </Col>
                         </Row>
                         <Row className="annotate_modalAnnotationsBody mt-3 overflow-scroll" ref={refModalAnnotations}>

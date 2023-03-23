@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { useState, useRef } from 'react';
-import parse from 'html-react-parser';
 import { Formik, Form } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
 import classNames from 'classnames';

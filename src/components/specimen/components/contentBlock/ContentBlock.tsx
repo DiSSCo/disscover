@@ -23,8 +23,6 @@ import OriginalData from './OriginalData';
 import AnnotationsOverview from './AnnotationsOverview';
 import DigitalMedia from './DigitalMedia';
 import MIDSOverview from './MIDSOverview';
-// import SpecimenProperties from './components/specimen/SpecimenProperties';
-// import SpecimenDigitalMedia from './components/specimen/SpecimenDigitalMedia';
 
 
 /* Props Typing */

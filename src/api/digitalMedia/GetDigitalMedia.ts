@@ -10,15 +10,17 @@ const GetDigitalMedia = async (handle: string) => {
 
     const endPoint = `digitalmedia/${handle}`;
 
-    await axios({
-        method: "get",
-        url: endPoint,
-        responseType: 'json'
-    }).then((result) => {
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            responseType: 'json'
+        });
+
         digitalMedia = result.data;
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return digitalMedia;
 }

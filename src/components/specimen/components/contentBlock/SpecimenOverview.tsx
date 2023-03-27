@@ -36,12 +36,12 @@ const SpecimenOverview = () => {
 
                                 <Row className="mt-3">
                                     <Col>
-                                        Country: Netherlands
+                                        Country: Coming Soon
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
                                     <Col>
-                                        Locality: Gasteren
+                                        Locality: Coming Soon
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
@@ -66,12 +66,12 @@ const SpecimenOverview = () => {
 
                                 <Row className="mt-3">
                                     <Col>
-                                        Name: Naturalis Biodiversity Center
+                                        Name: Coming Soon
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
                                     <Col>
-                                        Country: Netherlands
+                                        Country: Coming Soon
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
@@ -104,12 +104,12 @@ const SpecimenOverview = () => {
 
                                 <Row className="mt-3">
                                     <Col>
-                                        Clade: Dinosauria
+                                        Clade: Coming Soon
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">
                                     <Col>
-                                        Family: Iguanodontidae
+                                        Family: Coming Soon
                                     </Col>
                                 </Row>
                                 <Row className="mt-2">

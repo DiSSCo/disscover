@@ -1,12 +1,15 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Types */
+import { SourceSystem } from 'global/Types';
 
-const GetSpecimenVersions = async (handle: string) => {
+
+const GetSourceSystem = async (handle: string) => {
     if (handle) {
-        let specimenVersions = <number[]>[];
+        let sourceSystem = <SourceSystem>{};
 
-        const endPoint: string = `specimens/${handle}/versions`;
+        let endPoint: string = `source-systems/${handle}`;
 
         try {
             const result = await axios({
@@ -15,13 +18,13 @@ const GetSpecimenVersions = async (handle: string) => {
                 responseType: 'json'
             });
 
-            specimenVersions = result.data;
+            sourceSystem = result.data;
         } catch (error) {
             console.warn(error);
         }
 
-        return specimenVersions;
+        return sourceSystem;
     }
 }
 
-export default GetSpecimenVersions;
+export default GetSourceSystem;

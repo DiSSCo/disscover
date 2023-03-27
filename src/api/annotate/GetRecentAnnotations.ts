@@ -10,15 +10,17 @@ const GetRecentAnnotations = async () => {
 
     const endPoint = "/annotations/latest"
 
-    await axios({
-        method: "get",
-        url: endPoint,
-        responseType: 'json'
-    }).then((result) => {
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            responseType: 'json'
+        });
+
         annotations = result.data;
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return annotations;
 }

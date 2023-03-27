@@ -2,11 +2,11 @@
 import axios from "axios";
 
 /* Import Types */
-import { Organization } from "global/Types";
+import { Organisation } from "global/Types";
 
 
-const GetOrganizations = async () => {
-    let organizations = <Organization[]>[];
+const GetOrganisations = async () => {
+    let organisations = <Organisation[]>[];
 
     const endPoint = "/organisation/tuples"
 
@@ -15,12 +15,12 @@ const GetOrganizations = async () => {
         url: endPoint,
         responseType: 'json'
     }).then((result) => {
-        organizations = result.data;
+        organisations = result.data;
     }).catch((error) => {
         console.warn(error);
     });
 
-    return organizations;
+    return organisations;
 }
 
-export default GetOrganizations;
+export default GetOrganisations;

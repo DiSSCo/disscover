@@ -11,7 +11,7 @@ const UserModel = (result: JSONResult) => {
         firstName: data.attributes.firstName,
         lastName: data.attributes.lastName,
         email: data.attributes.email,
-        organization: data.attributes.organization,
+        organisation: data.attributes.organisation,
         orcid: data.attributes.orcid
     }
 

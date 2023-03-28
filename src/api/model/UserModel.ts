@@ -5,7 +5,7 @@ import { User as UserType, JSONResult } from "global/Types"
 /* User Model for API calls */
 const UserModel = (result: JSONResult) => {
     const data = result.data;
-
+    
     const user: UserType = {
         id: data.id,
         firstName: data.attributes.firstName,

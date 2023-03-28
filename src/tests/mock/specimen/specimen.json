@@ -9,8 +9,8 @@
     "specimenName": "Iguanodon sp.",
     "organisationId": "https://ror.org/05natt857",
     "physicalSpecimenCollection": "MnhnL-Palaeo-Inter",
-    "sourceSystemId": "string",
+    "sourceSystemId": "sourceSystemId",
     "data": {},
     "originalData": {},
-    "dwcaId": "string"
+    "dwcaId": "dwcaId"
 }

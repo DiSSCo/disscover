@@ -1,15 +1,26 @@
 /* Import Components */
-import { MemoryRouter as Router } from 'react-router-dom'
-import { PropsWithChildren } from 'react'
-import { render } from '@testing-library/react'
-import type { RenderOptions } from '@testing-library/react'
-import type { PreloadedState } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
+import { MemoryRouter as Router } from 'react-router-dom';
+import { PropsWithChildren } from 'react';
+import { render } from '@testing-library/react';
+import type { RenderOptions } from '@testing-library/react';
+import type { PreloadedState } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import 'i18n';
 
 /* Import Store */
-import { setupStore } from 'app/store'
-import type { AppStore, RootState } from 'app/store'
+import { setupStore } from 'app/store';
+import type { AppStore, RootState } from 'app/store';
 
+
+/* Mock Keycloak Service */
+jest.mock('keycloak/Keycloak.ts', () => {
+  const KeycloakService = jest.requireActual('tests/mock/keycloak/KeycloakService.ts');
+
+  return {
+    __esModule: true,
+    ...KeycloakService,
+  };
+});
 
 /* This type interface extends the default options for render from RTL, as well
 as allows the user to specify other things such as initialState and store */

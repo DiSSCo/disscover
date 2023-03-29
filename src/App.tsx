@@ -56,30 +56,28 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <Router>
-        <Routes>
-          {/* Home Page */}
-          <Route path="/" element={<Home />} />
+    <Router>
+      <Routes>
+        {/* Home Page */}
+        <Route path="/" element={<Home />} />
 
-          {/* Search Page */}
-          <Route path="/search" element={<Search />} />
+        {/* Search Page */}
+        <Route path="/search" element={<Search />} />
 
-          {/* Specimen Page */}
-          <Route path="/ds/:prefix/:suffix" element={<Specimen />} />
+        {/* Specimen Page */}
+        <Route path="/ds/:prefix/:suffix" element={<Specimen />} />
 
-          {/* Digital Media Page */}
-          <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
+        {/* Digital Media Page */}
+        <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
 
-          {/* Annotations Page */}
-          <Route path="/annotate" element={<Annotate />} />
+        {/* Annotations Page */}
+        <Route path="/annotate" element={<Annotate />} />
 
-          {/* Profile Page */}
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-        </Routes>
-      </Router>
-    </>
+        {/* Profile Page */}
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+      </Routes>
+    </Router>
   );
 }
 

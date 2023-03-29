@@ -30,7 +30,7 @@ export type User = {
     firstName?: string,
     lastName?: string,
     email?: string,
-    organization?: string
+    organisation?: string
     orcid?: string,
 };
 
@@ -48,7 +48,7 @@ export interface Specimen {
     physicalSpecimenId: string,
     physicalSpecimenIdType: string,
     specimenName: string,
-    organizationId: string,
+    organisationId: string,
     datasetId: string,
     physicalSpecimenCollection: string,
     sourceSystemId: string,
@@ -148,9 +148,9 @@ export interface AnnotationMotivation {
 };
 
 
-/* Organization Types */
+/* Organisation Types */
 
-export interface Organization {
+export interface Organisation {
     name: string,
     ror: string
 }

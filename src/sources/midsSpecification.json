@@ -3,8 +3,8 @@
         "physicalSpecimenId": {
             "displayName": "Physical Specimen ID"
         },
-        "organization": {
-            "displayName": "Organization"
+        "organisation": {
+            "displayName": "Organisation"
         }
     },
     "1": {

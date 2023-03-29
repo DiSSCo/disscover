@@ -1,0 +1,16 @@
+{
+    "id": "20.5000.1025/DW0-BNT-FM0",
+    "midsLevel": 1,
+    "version": 4,
+    "created": "2022-11-01T16:14:05.781569Z",
+    "type": "PalaeontologySpecimen",
+    "physicalSpecimenId": "DSS00453X0001194:05natt857",
+    "physicalSpecimenIdType": "combined",
+    "specimenName": "Iguanodon sp.",
+    "organisationId": "https://ror.org/05natt857",
+    "physicalSpecimenCollection": "MnhnL-Palaeo-Inter",
+    "sourceSystemId": "sourceSystemId",
+    "data": {},
+    "originalData": {},
+    "dwcaId": "dwcaId"
+}

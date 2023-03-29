@@ -26,6 +26,7 @@
     "i18next": "^22.4.10",
     "keycloak-js": "^18.0.0",
     "moment": "^2.29.4",
+    "msw": "^1.1.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-countup": "^6.3.2",

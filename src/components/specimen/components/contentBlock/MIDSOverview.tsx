@@ -22,7 +22,6 @@ import MIDSProperty from './MIDSProperty';
 const MIDSOverview = () => {
     const midsSpecification1: Dict = MidsSpecification[1];
     const midsSpecification2: Dict = MidsSpecification[2];
-    const midsSpecification3: Dict = MidsSpecification[3];
 
     return (
         <Row className="h-100">

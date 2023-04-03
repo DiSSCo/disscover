@@ -13,18 +13,20 @@ const GetDigitalMedia = async (handle: string) => {
 
     const endPoint = `digitalmedia/${handle}`;
 
-    await axios({
-        method: "get",
-        url: endPoint,
-        responseType: 'json'
-    }).then((result) => {
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            responseType: 'json'
+        });
+
         /* Set Digital Media with Model */
-        const data = result.data;
+        const data: JSONResult = result.data;
 
         digitalMedia = DigitalMediaModel(data.data);
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return digitalMedia;
 }

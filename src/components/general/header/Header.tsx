@@ -1,5 +1,6 @@
 /* Import Dependencies */
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import KeycloakService from 'keycloak/Keycloak';
 import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 
@@ -8,8 +9,9 @@ import "./header.scss";
 import styles from './header.module.scss';
 
 /* Import Components */
-import Login from './components/Login';
-import Profile from './components/Profile';
+import Languages from "./components/Languages";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
 
 /* Import Webroot */
 import DisscoLogo from 'webroot/img/dissco-logo-web.svg';
@@ -17,8 +19,11 @@ import DisscoLogoWhite from 'webroot/img/dissco-logo-web-white.svg';
 
 
 const Header = () => {
+    /* Hooks */
+    const { t } = useTranslation();
     const location = useLocation();
 
+    /* Base variables */
     const loggedIn = KeycloakService.IsLoggedIn();
 
     /* Determine header lay-out based on location */
@@ -28,7 +33,6 @@ const Header = () => {
             <Container fluid className={`${styles.header} z-1`}>
                 <Row className="h-100">
                     <Col md={{ span: 10, offset: 1 }} className="p-0 h-100 d-flex align-items-center">
-
                         <Navbar expand="lg" className="p-0 w-100">
                             <Navbar.Brand>
                                 <Row>
@@ -97,7 +101,7 @@ const Header = () => {
                                     <Col className="col-md-auto">
                                         <h1 className="header_title c-primary-dark fw-bold">
                                             UCAS
-                                            <span className="header_proofOfConcept fst-italic"> (Proof of concept) </span>
+                                            <span className="header_proofOfConcept fst-italic"> ({t('proof of concept')}) </span>
                                         </h1>
                                     </Col>
                                 </Row>
@@ -120,6 +124,9 @@ const Header = () => {
                                             </Nav.Link>
 
                                         </Nav>
+                                    </Col>
+                                    <Col className="col-md-auto d-flex align-items-center">
+                                        <Languages />
                                     </Col>
                                     <Col className="col-md-auto">
                                         {loggedIn ?

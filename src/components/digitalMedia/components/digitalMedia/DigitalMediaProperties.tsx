@@ -38,16 +38,6 @@ const DigitalMediaProperties = (props: Props) => {
                         </Row>
                     );
                 })}
-
-                <> </>
-
-                {/* <Row>
-                    <Col>
-                        <button onClick={() => props.ToggleMediaModal()} >
-                            Annotate
-                        </button>
-                    </Col>
-                </Row> */}
             </Col>
         </Row>
     );

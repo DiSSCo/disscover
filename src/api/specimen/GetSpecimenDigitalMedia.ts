@@ -14,11 +14,13 @@ const GetSpecimenDigitalMedia = async (handle: string) => {
 
         const endPoint = `specimens/${handle}/digitalmedia`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json'
+            });
+
             /* Set Specimen Digital Media with Model */
             const data: JSONResultArray = result.data;
 
@@ -27,9 +29,9 @@ const GetSpecimenDigitalMedia = async (handle: string) => {
 
                 specimenDigitalMedia.push(digitalMedia);
             });
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimenDigitalMedia;
     }

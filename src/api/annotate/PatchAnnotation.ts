@@ -14,23 +14,25 @@ const PatchAnnotation = async (annotationRecord: AnnotationTemplate, annotationI
 
         const endPoint = `/annotations/${annotationId}`;
 
-        await axios({
-            method: "patch",
-            url: endPoint,
-            data: annotationRecord,
-            responseType: 'json',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "patch",
+                url: endPoint,
+                data: annotationRecord,
+                responseType: 'json',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
             /* Set Annotation with Model */
             const data: JSONResult = result.data;
 
             annotation = AnnotationModel(data.data);
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return annotation;
     }

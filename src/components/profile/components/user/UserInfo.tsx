@@ -24,12 +24,12 @@ interface Props {
 const UserInfo = (props: Props) => {
     const { userProfile, SetUserProfile } = props;
 
-    /* OnLoad: Get organisations for options list */
-    const [organisations, setorganisations] = useState<Organisation[]>([]);
+    /* OnLoad: Get Organisations for options list */
+    const [organisations, setOrganisations] = useState<Organisation[]>([]);
 
     useEffect(() => {
         GetOrganisations().then((organisations) => {
-            setorganisations(organisations);
+            setOrganisations(organisations);
         });
     }, [])
 
@@ -83,7 +83,7 @@ const UserInfo = (props: Props) => {
                                     </Row>
                                     <Row className="mt-3">
                                         <Col>
-                                            organisation:
+                                            Organisation:
                                         </Col>
                                     </Row>
                                     <Row className="mt-3">

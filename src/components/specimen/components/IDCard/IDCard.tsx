@@ -29,7 +29,7 @@ const IDCard = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
-    /* Check for organisation logo */
+    /* Check for Organisation logo */
     const logo = (ror: string) => {
         try {
             return require(`../../../../webroot/img/organisationLogo/${ror}.png`);
@@ -149,23 +149,19 @@ const IDCard = (props: Props) => {
                                                             onClick={() => ToggleModal('ods:organisationId')}
                                                         >
                                                             <span className={`${styles.IDCardProperty} text-primary m-0`}> Organisation: </span>
-                                                            <br /> <span className={`${styles.IDCardValue} m-0`}> {specimen?.organisationId} </span>
+                                                            <br /> <span className={`${styles.IDCardValue} m-0`}> {specimen.organisationId} </span>
                                                         </Col>
                                                     </Row>
 
-                                                    {specimen.organisationId &&
-                                                        <>
-                                                            {logo(specimen.organisationId.replace('https://ror.org/', '')) &&
-                                                                <Row className="mt-1">
-                                                                    <Col md={{ span: 5, offset: 7 }}>
-                                                                        <img alt="organisation logo"
-                                                                            src={logo(specimen.organisationId.replace('https://ror.org/', ''))}
-                                                                            className={`${styles.IDCardLogo} w-100 h-100`}
-                                                                        />
-                                                                    </Col>
-                                                                </Row>
-                                                            }
-                                                        </>
+                                                    {logo(specimen.organisationId.replace('https://ror.org/', '')) &&
+                                                        <Row className="mt-1">
+                                                            <Col md={{ span: 5, offset: 7 }}>
+                                                                <img alt="Organisation logo"
+                                                                    src={logo(specimen.organisationId.replace('https://ror.org/', ''))}
+                                                                    className={`${styles.IDCardLogo} w-100 h-100`}
+                                                                />
+                                                            </Col>
+                                                        </Row>
                                                     }
                                                 </Col>
                                             </Row>

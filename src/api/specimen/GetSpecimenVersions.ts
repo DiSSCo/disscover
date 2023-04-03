@@ -8,18 +8,20 @@ const GetSpecimenVersions = async (handle: string) => {
 
         const endPoint: string = `specimens/${handle}/versions`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json'
+            });
+
             /* Set Specimen Versions */
             const data = result.data;
 
             specimenVersions = data.data.attributes.versions;
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimenVersions;
     }

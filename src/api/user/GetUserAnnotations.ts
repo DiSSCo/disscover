@@ -14,14 +14,16 @@ const GetUserAnnotations = async (token?: string) => {
 
         const endPoint = 'annotations/creator';
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
             userAnnotations = result.data;
 
             /* Temporary solution to include Specimen data */
@@ -32,9 +34,9 @@ const GetUserAnnotations = async (token?: string) => {
                     userAnnotations[index].specimen = specimen;
                 });
             }
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return userAnnotations;
     }

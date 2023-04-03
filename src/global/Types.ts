@@ -175,3 +175,16 @@ export interface Organisation {
     name: string,
     ror: string
 }
+
+
+/* Source System Types */
+
+export interface SourceSystem {
+    id: string,
+    created: Date,
+    type: string,
+    name: string,
+    endpoint: string,
+    description: string,
+    mappingId: string
+}

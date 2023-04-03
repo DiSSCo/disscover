@@ -8,17 +8,19 @@ const DeleteAnnotation = async (handle?: string, token?: string) => {
 
         const endPoint = `annotations/${handle}`;
 
-        await axios({
-            method: "delete",
-            url: endPoint,
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-        }).then(() => {
-            response = true;
-        }).catch((error) => {
+        try {
+            const result = await axios({
+                method: "delete",
+                url: endPoint,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            response = result.data;
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return response;
     }

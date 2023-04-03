@@ -13,12 +13,13 @@ const GetOrganisations = async () => {
 
     const endPoint = "/organisation/tuples"
 
-    await axios({
-        method: "get",
-        url: endPoint,
-        responseType: 'json'
-    }).then((result) => {
-        /* Set Organisations with Model */
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            responseType: 'json'
+        });
+
         const data: JSONResultArray = result.data;
 
         data.data.forEach((dataRow) => {
@@ -26,9 +27,9 @@ const GetOrganisations = async () => {
 
             organisations.push(organisation);
         })
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return organisations;
 }

@@ -14,22 +14,24 @@ const GetUser = async (userId?: string, token?: string) => {
 
         const endPoint = `users/${userId}`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
             /* Set User with Model */
             const data: JSONResult = result.data;
 
             user = UserModel(data.data);
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return user;
     }

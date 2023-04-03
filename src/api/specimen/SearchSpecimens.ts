@@ -33,12 +33,14 @@ const SearchSpecimens = async (searchFilters: SearchFilter[]) => {
             pageSize: 25
         };
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            params: params,
-            responseType: 'json'
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                params: params,
+                responseType: 'json'
+            });
+
             /* Set Specimens with Model */
             const data: JSONResultArray = result.data;
 
@@ -47,9 +49,9 @@ const SearchSpecimens = async (searchFilters: SearchFilter[]) => {
 
                 searchResults.push(specimen);
             });
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
     }
 
     return searchResults;

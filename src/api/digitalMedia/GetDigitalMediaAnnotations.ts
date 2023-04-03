@@ -14,11 +14,13 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
 
         const endPoint = `specimens/${handle}/annotations`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json',
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json',
+            });
+
             /* Set Digital Media Annotations with Model */
             const data: JSONResultArray = result.data;
             const annotations: Annotation[] = [];
@@ -44,9 +46,9 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
                     });
                 }
             });
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return digitalMediaAnnotations;
     }

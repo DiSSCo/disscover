@@ -55,7 +55,7 @@ const ResultsTable = () => {
         selector: row => row.specimen_type,
         sortable: true
     }, {
-        name: 'organisation',
+        name: 'Organisation',
         selector: row => row.organisation,
         sortable: true
     }];

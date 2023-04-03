@@ -14,23 +14,25 @@ const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: st
 
         const endPoint = '/annotations';
 
-        await axios({
-            method: "post",
-            url: endPoint,
-            data: annotationRecord,
-            responseType: 'json',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "post",
+                url: endPoint,
+                data: annotationRecord,
+                responseType: 'json',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
             /* Set Annotation with Model */
             const data: JSONResult = result.data;
 
             annotation = AnnotationModel(data.data);
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return annotation;
     }

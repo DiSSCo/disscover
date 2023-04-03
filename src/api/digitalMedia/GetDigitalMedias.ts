@@ -13,14 +13,16 @@ const GetDigitalMedias = async () => {
 
     const endPoint = `digitalmedia`;
 
-    await axios({
-        method: "get",
-        url: endPoint,
-        params: {
-            pageSize: 17
-        },
-        responseType: 'json'
-    }).then((result) => {
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            params: {
+                pageSize: 17
+            },
+            responseType: 'json'
+        });
+
         /* Set Digital Medias with Model */
         const data: JSONResultArray = result.data;
 
@@ -29,9 +31,9 @@ const GetDigitalMedias = async () => {
 
             digitalMedias.push(digitalMedia);
         });
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return digitalMedias;
 }

@@ -14,11 +14,13 @@ const GetSpecimenAnnotations = async (handle: string) => {
 
         const endPoint = `specimens/${handle}/annotations`;
 
-        await axios({
-            method: "get",
-            url: endPoint,
-            responseType: 'json',
-        }).then((result) => {
+        try {
+            const result = await axios({
+                method: "get",
+                url: endPoint,
+                responseType: 'json',
+            });
+
             /* Set Specimen Annotations with Model */
             const data: JSONResultArray = result.data;
             const annotations = <Annotation[]>[];
@@ -37,9 +39,9 @@ const GetSpecimenAnnotations = async (handle: string) => {
                     specimenAnnotations[annotation.target.indvProp] = [annotation];
                 }
             });
-        }).catch((error) => {
+        } catch (error) {
             console.warn(error);
-        });
+        }
 
         return specimenAnnotations;
     }

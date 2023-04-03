@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { Row, Col, Card } from 'react-bootstrap';
 
@@ -6,19 +7,35 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getSpecimen } from "redux/specimen/SpecimenSlice";
 
+/* Import Types */
+import { SourceSystem } from 'global/Types';
+
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
+
+/* Import API */
+import GetSourceSystem from 'api/sourceSystem/GetSourceSystem';
 
 
 const OriginalData = () => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
+    const [sourceSystem, setSourceSystem] = useState<SourceSystem>();
 
     interface DataRow {
         index: number,
         property_name: string,
         property_value: string,
     };
+
+    /* OnLoad: Fetch Source System */
+    useEffect(() => {
+        GetSourceSystem(specimen.sourceSystemId).then((sourceSystem) => {
+            if (sourceSystem) {
+                setSourceSystem(sourceSystem);
+            }
+        });
+    }, []);
 
     /* Set Datatable columns */
     const tableColumns: TableColumn<DataRow>[] = [{
@@ -72,27 +89,38 @@ const OriginalData = () => {
                                     />
                                 </Card>
                             </Col>
-                            <Col md={{ span: 3 }}>
-                                <Row>
-                                    <Col>
-                                        <Row>
-                                            <Col>
-                                                Harvested from:
-                                                {specimen.sourceSystemId}
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                                <Row className="mt-3">
-                                    <Col>
-                                        <Row>
-                                            <Col>
-                                                Data standard: Coming Soon
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            </Col>
+                            {sourceSystem &&
+                                <Col md={{ span: 3 }}>
+                                    <Row>
+                                        <Col>
+                                            <Row>
+                                                <Col className="fw-bold">
+                                                    Harvested from:
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    {sourceSystem.name}
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                    <Row className="mt-3">
+                                        <Col>
+                                            <Row>
+                                                <Col className="fw-bold">
+                                                    Source URL:
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    {sourceSystem.endpoint}
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            }
                         </Row>
                     </Card.Body>
                 </Card>

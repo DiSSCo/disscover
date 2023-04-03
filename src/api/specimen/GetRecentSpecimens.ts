@@ -13,11 +13,13 @@ const GetRecentSpecimens = async () => {
 
     const endPoint = "/specimens"
 
-    axios({
-        method: "get",
-        url: endPoint,
-        responseType: 'json'
-    }).then((result) => {
+    try {
+        const result = await axios({
+            method: "get",
+            url: endPoint,
+            responseType: 'json'
+        });
+
         /* Set Recent Specimens with Model */
         const data: JSONResultArray = result.data;
 
@@ -26,9 +28,9 @@ const GetRecentSpecimens = async () => {
 
             recentSpecimens.push(specimen);
         });
-    }).catch((error) => {
+    } catch (error) {
         console.warn(error);
-    });
+    }
 
     return recentSpecimens;
 }

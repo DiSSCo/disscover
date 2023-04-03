@@ -40,7 +40,7 @@ const PatchUser = async (userId: string, attributes: Dict, token?: string) => {
             /* Set User */
             const data: JSONResult = result.data;
 
-            user = UserModel(data);
+            user = UserModel(data.data);
         } catch (error) {
             console.warn(error);
         }

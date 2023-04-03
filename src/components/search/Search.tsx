@@ -6,8 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSearchQuery, setSearchQuery, setSpecimenSearchResults,
-    getSearchFilters, setSearchFilters, getSpecimenSearchResults,
+    setSpecimenSearchResults, setSearchFilters, getSpecimenSearchResults
 } from "redux/search/SearchSlice";
 
 /* Import Types */

@@ -23,7 +23,7 @@ const VersionSelect = () => {
     useEffect(() => {
         GetSpecimenVersions(specimen.id).then((versions) => {
             if (versions) {
-                versions.sort();
+                versions.sort((a, b) => (a - b));
 
                 setVersions(versions);
             }

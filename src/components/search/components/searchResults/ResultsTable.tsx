@@ -27,7 +27,7 @@ const ResultsTable = () => {
         specimen_name: string,
         country: string,
         specimen_type: string,
-        organization: string
+        organisation: string
     };
 
     /* Function for when clicked on a table row, continue to specimen page */
@@ -55,8 +55,8 @@ const ResultsTable = () => {
         selector: row => row.specimen_type,
         sortable: true
     }, {
-        name: 'Organization',
-        selector: row => row.organization,
+        name: 'organisation',
+        selector: row => row.organisation,
         sortable: true
     }];
 
@@ -70,7 +70,7 @@ const ResultsTable = () => {
             specimen_name: specimen.specimenName,
             country: 'Country',
             specimen_type: specimen.type,
-            organization: specimen.organizationId
+            organisation: specimen.organisationId
         });
     });
 

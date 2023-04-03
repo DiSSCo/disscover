@@ -24,7 +24,7 @@
     "formik": "^2.2.9",
     "html-react-parser": "^3.0.4",
     "keycloak-js": "^18.0.0",
-    "keycloak-mock": "^1.0.10",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "msw": "^1.1.0",
     "react": "^18.2.0",
@@ -37,6 +37,8 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.7.2",
+    "react-tabs": "^6.0.0",
     "recharts": "^2.2.0",
     "sass": "^1.55.0",
     "styled-components": "^5.3.6",
@@ -71,6 +73,8 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.192",
     "@types/react-datepicker": "^4.8.0"
-  }
+  },
+  "proxy": "https://sandbox.dissco.tech"
 }

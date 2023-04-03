@@ -35,10 +35,10 @@ const PatchUser = async (userId: string, attributes: Dict, token?: string) => {
                 'Authorization': `Bearer ${token}`
             }
         }).then((result) => {
-            /* Set User */
+            /* Set User with Model */
             const data: JSONResult = result.data;
 
-            user = UserModel(data);
+            user = UserModel(data.data);
         }).catch((error) => {
             console.warn(error);
         });

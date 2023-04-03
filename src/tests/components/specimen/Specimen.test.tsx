@@ -6,7 +6,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import { Routes, Route } from 'react-router-dom';
 import KeycloakService from "keycloak/Keycloak";
-import MockKeycloakService from "tests/MockKeycloak";
 
 /* Import Store */
 import { renderWithProviders } from 'tests/AppRender';
@@ -69,8 +68,6 @@ it('fetches specimen data', async () => {
 it('toggles annotate modal', async () => {
     const user = userEvent.setup();
 
-    const token = await MockKeycloakService();
-
     const Continue = async () => {
         await act(() =>
             renderWithProviders('/ds/20.5000.1025/DW0-BNT-FM0',
@@ -90,6 +87,4 @@ it('toggles annotate modal', async () => {
 
         expect(screen.getByRole('annotateModalCurrentValue')).toBeInTheDocument();
     }
-
-    KeycloakService.InitKeyCloak(Continue, token);
 });

@@ -13,10 +13,10 @@ const SpecimenOverview = () => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
 
-    /* Check for Organization logo */
+    /* Check for organisation logo */
     const logo = (ror: string) => {
         try {
-            return require(`../../../../webroot/img/organizationLogo/${ror}.png`);
+            return require(`../../../../webroot/img/organisationLogo/${ror}.png`);
         } catch (err) {
             return null;
         }
@@ -61,7 +61,7 @@ const SpecimenOverview = () => {
                         <Card className="position-relative h-100">
                             <Card.Body>
                                 <Card.Title>
-                                    Organization
+                                    organisation
                                 </Card.Title>
 
                                 <Row className="mt-3">
@@ -81,14 +81,17 @@ const SpecimenOverview = () => {
                                 </Row>
                             </Card.Body>
 
-
-                            {logo(specimen.organizationId.replace('https://ror.org/', '')) &&
-                                <div className="position-absolute w-100 h-100 end-0 text-center d-flex justify-content-end">
-                                    <img alt="Organization logo"
-                                        src={logo(specimen.organizationId.replace('https://ror.org/', ''))}
-                                        className={`${styles.organizationLogo} h-100`}
-                                    />
-                                </div>
+                            {specimen.organisationId &&
+                                <>
+                                    {logo(specimen.organisationId.replace('https://ror.org/', '')) &&
+                                        <div className="position-absolute w-100 h-100 end-0 text-center d-flex justify-content-end">
+                                            <img alt="organisation logo"
+                                                src={logo(specimen.organisationId.replace('https://ror.org/', ''))}
+                                                className={`${styles.organisationLogo} h-100`}
+                                            />
+                                        </div>
+                                    }
+                                </>
                             }
                         </Card>
                     </Col>

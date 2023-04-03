@@ -1,0 +1,78 @@
+/* Custom styling for Home page */
+
+/* First main section of Home Page, relative to height of screen */
+.mainBackground {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.mainDiv {
+    height: 100vh;
+}
+
+
+/* Tabs */
+.tabsList {
+    padding: 0;
+}
+
+.tab {
+    background-color: var(--greyLight);
+    border-radius: 999px;
+    font-size: 15px;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-right: 1%;
+    margin-top: 1%;
+}
+
+.tab.active {
+    background-color: var(--greyDark);
+    color: white;
+    font-weight: bold;
+}
+
+
+/* Search */
+
+.searchBlock {
+    margin-top: 12.5%;
+}
+
+.searchTitle {
+    font-size: 20px;
+}
+
+.searchBar {
+    height: 40px;
+    border-color: var(--greyDark);
+    border-radius: 15px;
+    padding: 0px 2% 0px 2%;
+}
+
+.searchBar::placeholder {
+    font-style: italic;
+}
+
+.notFound {
+    color: var(--denied);
+}
+
+.searchButton {
+    background-color: var(--greyDark);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 999px;
+    transition: 0.4s;
+}
+
+.searchButton:hover {
+    background-color: var(--main-color);
+}

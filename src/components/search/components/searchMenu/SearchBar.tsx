@@ -1,10 +1,7 @@
 /* Import Dependencies */
+import { useSearchParams } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
-
-/* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchQuery, setSearchQuery } from "redux/search/SearchSlice";
 
 /* Fontawesome icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,11 +9,21 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
 const SearchBar = () => {
-    /* Configure Store */
-    const dispatch = useAppDispatch();
+    /* Hooks */
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    /* Base search variable */
-    const searchQuery = useAppSelector(getSearchQuery);
+    /* Function to regulate Search Query filter */
+    const FilterBySearchQuery = (searchQuery: string) => {
+        if (searchQuery) {
+            /* Append or update 'q' search param */
+            searchParams.set('q', searchQuery);
+        } else {
+            /* Remove 'q' search param */
+            searchParams.delete('q');
+        }
+
+        setSearchParams(searchParams);
+    }
 
     return (
         <Row>
@@ -29,13 +36,13 @@ const SearchBar = () => {
 
                         <Formik
                             initialValues={{
-                                searchQuery: searchQuery
+                                searchQuery: searchParams.get('q') ? searchParams.get('q') : ''
                             }}
                             enableReinitialize
                             onSubmit={async (form) => {
                                 await new Promise((resolve) => setTimeout(resolve, 100));
 
-                                dispatch(setSearchQuery(form.searchQuery));
+                                FilterBySearchQuery(form.searchQuery as string);
                             }}
                         >
                             <Form>

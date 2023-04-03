@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import DigitalMediaModel from 'api/model/DigitalMediaModel';
+
 /* Import Types */
-import { DigitalMedia } from 'global/Types';
+import { DigitalMedia, JSONResultArray } from 'global/Types';
 
 
 const GetDigitalMedias = async () => {
@@ -18,7 +21,14 @@ const GetDigitalMedias = async () => {
         },
         responseType: 'json'
     }).then((result) => {
-        digitalMedias = result.data;
+        /* Set Digital Medias with Model */
+        const data: JSONResultArray = result.data;
+
+        data.data.forEach((dataRow) => {
+            const digitalMedia = DigitalMediaModel(dataRow);
+
+            digitalMedias.push(digitalMedia);
+        });
     }).catch((error) => {
         console.warn(error);
     });

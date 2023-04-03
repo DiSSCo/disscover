@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from "axios";
 
+/* Import Model */
+import AnnotationModel from "api/model/AnnotationModel";
+
 /* Import Types */
-import { Annotation } from "global/Types";
+import { Annotation, JSONResultArray } from "global/Types";
 
 
 const GetRecentAnnotations = async () => {
@@ -15,7 +18,14 @@ const GetRecentAnnotations = async () => {
         url: endPoint,
         responseType: 'json'
     }).then((result) => {
-        annotations = result.data;
+        /* Set Recent Annotations with model */
+        const data: JSONResultArray = result.data;
+
+        data.data.forEach((dataRow) => {
+            const annotation = AnnotationModel(dataRow);
+
+            annotations.push(annotation);
+        });
     }).catch((error) => {
         console.warn(error);
     });

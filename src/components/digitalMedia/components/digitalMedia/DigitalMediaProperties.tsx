@@ -21,8 +21,8 @@ const DigitalMediaProperties = (props: Props) => {
     return (
         <Row className="overflow-scroll">
             <Col className="px-4 py-2 mt-2">
-                {Object.keys(digitalMedia.filtered.MediaMeta).map((property) => {
-                    const propertyData = digitalMedia.filtered.MediaMeta[property];
+                {Object.keys(digitalMedia.filtered?.MediaMeta).map((property) => {
+                    const propertyData = digitalMedia.filtered?.MediaMeta[property];
 
                     return (
                         <Row key={property}>

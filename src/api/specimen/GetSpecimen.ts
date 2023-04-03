@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import SpecimenModel from 'api/model/SpecimenModel';
+
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { Specimen, JSONResult } from 'global/Types';
 
 
 const GetSpecimen = async (handle: string, version?: number) => {
@@ -22,7 +25,10 @@ const GetSpecimen = async (handle: string, version?: number) => {
             url: endPoint,
             responseType: 'json'
         }).then((result) => {
-            specimen = result.data;
+            /* Set Specimen with Model */
+            const data: JSONResult = result.data;
+
+            specimen = SpecimenModel(data.data);
         }).catch((error) => {
             console.warn(error);
         });

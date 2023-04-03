@@ -3,19 +3,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { Specimen, DigitalMedia, SpecimenAnnotations } from 'global/Types';
+import { Specimen, SpecimenDigitalMedia, SpecimenAnnotations } from 'global/Types';
 
 
 export interface SpecimenState {
     specimen: Specimen;
-    specimenDigitalMedia: DigitalMedia[];
+    specimenVersion: number;
+    specimenDigitalMedia: SpecimenDigitalMedia[];
     specimenAnnotations: SpecimenAnnotations;
     specimenMidsProperty: string;
 }
 
 const initialState: SpecimenState = {
     specimen: <Specimen>{},
-    specimenDigitalMedia: <DigitalMedia[]>[],
+    specimenVersion: <number>0,
+    specimenDigitalMedia: <SpecimenDigitalMedia[]>[],
     specimenAnnotations: <SpecimenAnnotations>{},
     specimenMidsProperty: <string>''
 };
@@ -27,7 +29,10 @@ export const SpecimenSlice = createSlice({
         setSpecimen: (state, action: PayloadAction<Specimen>) => {
             state.specimen = action.payload;
         },
-        setSpecimenDigitalMedia: (state, action: PayloadAction<DigitalMedia[]>) => {
+        setSpecimenVersion: (state, action: PayloadAction<number>) => {
+            state.specimenVersion = action.payload;
+        },
+        setSpecimenDigitalMedia: (state, action: PayloadAction<SpecimenDigitalMedia[]>) => {
             state.specimenDigitalMedia = action.payload;
         },
         setSpecimenAnnotations: (state, action: PayloadAction<SpecimenAnnotations>) => {
@@ -40,10 +45,17 @@ export const SpecimenSlice = createSlice({
 })
 
 /* Action Creators */
-export const { setSpecimen, setSpecimenDigitalMedia, setSpecimenAnnotations, setSpecimenMidsProperty } = SpecimenSlice.actions;
+export const { 
+    setSpecimen, 
+    setSpecimenVersion, 
+    setSpecimenDigitalMedia, 
+    setSpecimenAnnotations, 
+    setSpecimenMidsProperty
+} = SpecimenSlice.actions;
 
 /* Connect with Root State */
 export const getSpecimen = (state: RootState) => state.specimen.specimen;
+export const getSpecimenVersion = (state: RootState) => state.specimen.specimenVersion;
 export const getSpecimenDigitalMedia = (state: RootState) => state.specimen.specimenDigitalMedia;
 export const getSpecimenAnnotations = (state: RootState) => state.specimen.specimenAnnotations;
 export const getSpecimenMidsProperty = (state: RootState) => state.specimen.specimenMidsProperty;

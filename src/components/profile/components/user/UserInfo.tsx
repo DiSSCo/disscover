@@ -4,14 +4,14 @@ import { Row, Col } from 'react-bootstrap';
 import KeycloakService from 'keycloak/Keycloak';
 
 /* Import Types */
-import { User, Organization } from 'global/Types';
+import { User, Organisation } from 'global/Types';
 
 /* Import Components */
 import CustomEditIcon from 'components/general/icons/CustomEditIcon';
 import UserInfoForm from './UserInfoForm';
 
 /* Import API */
-import GetOrganizations from 'api/organization/GetOrganizations';
+import GetOrganisations from 'api/organisation/GetOrganisations';
 
 
 /* Props Typing */
@@ -24,12 +24,12 @@ interface Props {
 const UserInfo = (props: Props) => {
     const { userProfile, SetUserProfile } = props;
 
-    /* OnLoad: Get Organizations for options list */
-    const [organizations, setOrganizations] = useState<Organization[]>([]);
+    /* OnLoad: Get organisations for options list */
+    const [organisations, setorganisations] = useState<Organisation[]>([]);
 
     useEffect(() => {
-        GetOrganizations().then((organizations) => {
-            setOrganizations(organizations);
+        GetOrganisations().then((organisations) => {
+            setorganisations(organisations);
         });
     }, [])
 
@@ -83,7 +83,7 @@ const UserInfo = (props: Props) => {
                                     </Row>
                                     <Row className="mt-3">
                                         <Col>
-                                            Organization:
+                                            organisation:
                                         </Col>
                                     </Row>
                                     <Row className="mt-3">
@@ -95,12 +95,12 @@ const UserInfo = (props: Props) => {
                                 {!editMode ?
                                     <Col>
                                         {Object.entries(userProfile).map((attribute, index) => {
-                                            if (attribute[0] === 'organization') {
+                                            if (attribute[0] === 'organisation') {
                                                 return (
                                                     <Row key={attribute[0]} className="mt-3">
                                                         <Col>
                                                             {attribute[1] ?
-                                                                <> {organizations.find(organization => organization.ror === attribute[1])?.name} </>
+                                                                <> {organisations.find(organisation => organisation.ror === attribute[1])?.name} </>
                                                                 : <> Unknown </>
                                                             }
                                                         </Col>
@@ -129,7 +129,7 @@ const UserInfo = (props: Props) => {
                                         })}
                                     </Col>
                                     : <UserInfoForm userProfile={userProfile}
-                                        organizations={organizations}
+                                        organisations={organisations}
 
                                         SetUserProfile={(userProfile: User) => SetUserProfile(userProfile)}
                                         DisableEditMode={() => setEditMode(false)}

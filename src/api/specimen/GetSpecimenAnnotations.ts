@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import AnnotationModel from 'api/model/AnnotationModel';
+
 /* Import Types */
-import { SpecimenAnnotations, Annotation } from 'global/Types';
+import { SpecimenAnnotations, Annotation, JSONResultArray } from 'global/Types';
 
 
 const GetSpecimenAnnotations = async (handle: string) => {
@@ -16,7 +19,15 @@ const GetSpecimenAnnotations = async (handle: string) => {
             url: endPoint,
             responseType: 'json',
         }).then((result) => {
-            const annotations: Annotation[] = result.data;
+            /* Set Specimen Annotations with Model */
+            const data: JSONResultArray = result.data;
+            const annotations = <Annotation[]>[];
+
+            data.data.forEach((dataRow) => {
+                const annotation = AnnotationModel(dataRow);
+
+                annotations.push(annotation);
+            });
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {

@@ -7,8 +7,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSpecimen, setSpecimen, setSpecimenDigitalMedia,
-    getSpecimenAnnotations, setSpecimenAnnotations
+    getSpecimen, setSpecimen, getSpecimenVersion, setSpecimenVersion,
+    setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 
@@ -26,10 +26,8 @@ import AnnotateModal from 'components/annotate/modal/AnnotateModal';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
-import GetSpecimen from 'api/specimen/GetSpecimen';
-import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
+import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
-import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
 
 
 const Specimen = () => {
@@ -41,28 +39,34 @@ const Specimen = () => {
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
+    const version = useAppSelector(getSpecimenVersion);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const annotateTarget = useAppSelector(getAnnotateTarget);
-    const [version, setVersion] = useState<number>();
-    const [versions, setVersions] = useState<number[]>([]);
 
-    /* Onload / Specimen or Version change: Check for Specimen, otherwise grab (specific version) from database */
+    /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
     useEffect(() => {
         const specimenId = `${params.prefix}/${params.suffix}`;
-
+        
         /* Fetch Specimen if not present, not equal to params ID or version has changed */
         if (Object.keys(specimen).length === 0 || specimen.id !== specimenId || (version && specimen.version !== version)) {
-            /* Get Specimen */
-            GetSpecimen(`${params['prefix']}/${params['suffix']}`, version).then((specimen) => {
-                if (specimen) {
-                    dispatch(setSpecimen(specimen));
+            /* Get full Specimen */
+            GetSpecimenFull(`${params['prefix']}/${params['suffix']}`).then((fullSpecimen) => {
+                if (fullSpecimen) {
+                    /* Set Specimen */
+                    dispatch(setSpecimen(fullSpecimen.specimen));
+
+                    /* Set Specimen Version */
+                    dispatch(setSpecimenVersion(fullSpecimen.specimen.version));
+
+                    /* Set Specimen Digital Media */
+                    dispatch(setSpecimenDigitalMedia(fullSpecimen.digitalMedia));
+
+                    /* Set Specimen Annotations */
+                    dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
                 }
             });
-        } else if (Object.keys(specimen).length > 0 && (specimen.version !== version)) {
-            /* Check Specimen Details */
-            CheckDetails(specimen);
         }
-    }, [specimen, version]);
+    }, [params, version]);
 
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
@@ -73,39 +77,11 @@ const Specimen = () => {
         }
     }, [annotateTarget.annotations]);
 
-    /* Function for checking Specimen Digital Media */
-    const CheckDigitalMedia = (specimen: SpecimenType) => {
-        GetSpecimenDigitalMedia(specimen.id).then((digitalMedia) => {
-            if (digitalMedia) {
-                dispatch(setSpecimenDigitalMedia(digitalMedia));
-            }
-        });
-    }
-
     /* Function for checking Specimen Annotations */
     const CheckAnnotations = (specimen: SpecimenType) => {
         GetSpecimenAnnotations(specimen.id).then((annotations) => {
             if (annotations) {
                 dispatch(setSpecimenAnnotations(annotations));
-            }
-        });
-    }
-
-    /* Function for a combined check on Specimen Digital Media, Annotations and Versions */
-    const CheckDetails = (specimen: SpecimenType) => {
-        /* Check for Digital Media */
-        CheckDigitalMedia(specimen);
-
-        /* Check for Annotations */
-        CheckAnnotations(specimen);
-
-        /* Set current Specimen version */
-        setVersion(specimen.version);
-
-        /* Check for other versions */
-        GetSpecimenVersions(specimen.id).then((versions) => {
-            if (versions) {
-                setVersions(versions);
             }
         });
     }
@@ -133,7 +109,7 @@ const Specimen = () => {
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Header />
 
-            {Object.keys(specimen).length > 0 &&
+            {(specimen.id === `${params['prefix']}/${params['suffix']}`) &&
                 <Container fluid className={`${styles.specimenContent} mt-5`}>
                     <Row className="h-100">
                         <Col md={{ span: 10, offset: 1 }} className="h-100">
@@ -142,9 +118,7 @@ const Specimen = () => {
                                     <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
                                 <Col md={{ span: 9 }} className="ps-5 h-100">
-                                    <ContentBlock versions={versions}
-                                        LoadSpecimenVersion={(version: number) => setVersion(version)}
-                                    />
+                                    <ContentBlock />
                                 </Col>
 
                                 {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&

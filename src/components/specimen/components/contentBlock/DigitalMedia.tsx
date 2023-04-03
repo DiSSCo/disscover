@@ -25,7 +25,9 @@ const DigitalMedia = () => {
                         <Row className="mt-2">
                             {(specimenDigitalMedia.length > 0) &&
                                 <>
-                                    {specimenDigitalMedia.map((digitalMedia) => {
+                                    {specimenDigitalMedia.map((specimenDigitalMediaItem) => {
+                                        const digitalMedia = specimenDigitalMediaItem.digitalMediaObject;
+
                                         return (
                                             <Col key={digitalMedia.id} md={{span: 3}}>
                                                 <img src={digitalMedia.mediaUrl} alt={digitalMedia.mediaUrl}

@@ -13,7 +13,10 @@ const GetSpecimenVersions = async (handle: string) => {
             url: endPoint,
             responseType: 'json'
         }).then((result) => {
-            specimenVersions = result.data;
+            /* Set Specimen Versions */
+            const data = result.data;
+
+            specimenVersions = data.data.attributes.versions;
         }).catch((error) => {
             console.warn(error);
         });

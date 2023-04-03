@@ -4,7 +4,7 @@ import KeycloakService from "keycloak/Keycloak";
 import { Row, Col } from 'react-bootstrap'
 
 /* Import Types */
-import { User, Organization } from "global/Types";
+import { User, Organisation } from "global/Types";
 
 /* Import API */
 import PatchUser from 'api/user/PatchUser';
@@ -13,14 +13,14 @@ import PatchUser from 'api/user/PatchUser';
 /* Props Typing */
 interface Props {
     userProfile: User,
-    organizations: Organization[],
+    organisations: Organisation[],
     SetUserProfile: Function,
     DisableEditMode: Function
 };
 
 
 const UserInfoForm = (props: Props) => {
-    const { userProfile, organizations, SetUserProfile, DisableEditMode } = props;
+    const { userProfile, organisations, SetUserProfile, DisableEditMode } = props;
 
     return (
         <Col>
@@ -29,7 +29,7 @@ const UserInfoForm = (props: Props) => {
                     firstName: userProfile.firstName? userProfile.firstName : '', 
                     lastName: userProfile.lastName? userProfile.lastName : '', 
                     email: userProfile.email ? userProfile.email : '', 
-                    organization: userProfile.organization ? userProfile.organization : '', 
+                    organisation: userProfile.organisation ? userProfile.organisation : '', 
                     orcid: userProfile.orcid ? userProfile.orcid : ''
                 }}
                 onSubmit={async (values) => {
@@ -66,19 +66,19 @@ const UserInfoForm = (props: Props) => {
                     </Row>
                     <Row className="mt-2 pb-1">
                         <Col className="profile_input">
-                            <Field name="organization" as="select"
+                            <Field name="organisation" as="select"
                                 className="profile_userInfoInput rounded-c w-75 px-2"
                             >
                                 <option value="">
-                                    Select an organization
+                                    Select an organisation
                                 </option>
 
-                                {organizations.map((organization) => {
+                                {organisations.map((organisation) => {
                                     return (
-                                        <option key={organization.ror}
-                                            value={organization.ror}
+                                        <option key={organisation.ror}
+                                            value={organisation.ror}
                                         >
-                                            {organization.name}
+                                            {organisation.name}
                                         </option>
                                     );
                                 })}

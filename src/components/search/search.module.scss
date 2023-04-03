@@ -1,0 +1,25 @@
+/* Custom styling for the Search Page */
+
+.content {
+    height: Calc(100vh - 200px);
+}
+
+/* Filter Menu */
+.filterMenu {
+    height: calc(100vh - 220px);
+    overflow: scroll;
+    -webkit-box-shadow: 10px 10px 29px -13px rgba(51, 51, 51, 0.83);
+    box-shadow: 10px 10px 29px -13px rgba(51, 51, 51, 0.83);
+}
+
+.filterBlock {
+    border: 1px solid #333333;
+}
+
+.filterSelectedList {
+    background-color: var(--main-color);
+}
+
+.filterListItem {
+    font-size: 13px;
+}

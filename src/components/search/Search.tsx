@@ -74,7 +74,7 @@ const Search = () => {
                             <Col md="2" className={`${styles.filterMenu} border-2-primary-dark h-100`}>
                                 <SearchBar />
 
-                                <SearchFilters />                  
+                                <SearchFilters />
                             </Col>
 
                             {/* Search Results */}

@@ -9,7 +9,7 @@ import OrganisationFilter from './filters/OrganisationFilter';
 
 const SearchFilters = () => {
     /* Hooks */
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     return (
         <Row>
@@ -27,10 +27,10 @@ const SearchFilters = () => {
                         },
                         organisationSearch: ''
                     }}
-                    onSubmit={async (values) => {
+                    onSubmit={async () => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
 
-                        console.log(values);
+                        setSearchParams(searchParams);
                     }}
                 >
                     {({ values }) => (

@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { Field, FieldArray } from 'formik';
-import { Capitalize } from 'global/Utilities';
 import KeycloakService from 'keycloak/Keycloak';
+import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -78,7 +78,7 @@ const FormTemplate = (props: Props) => {
                         <p className="annotate_annotationTypeFieldTitle"> Value: </p>
 
                         <FieldArray name="value">
-                            {({ remove, push }) => (
+                            {({ push, remove }) => (
                                 <>
                                     {formValues.value.map((value: string | Date, index: number) => {
                                         const key = `value${index}`;

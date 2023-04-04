@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from "axios";
 
+/* Import Model */
+import OrganisationModel from "api/model/OrganisationModel";
+
 /* Import Types */
-import { Organisation } from "global/Types";
+import { Organisation, JSONResultArray } from "global/Types";
 
 
 const GetOrganisations = async () => {
@@ -17,7 +20,13 @@ const GetOrganisations = async () => {
             responseType: 'json'
         });
 
-        organisations = result.data;
+        const data: JSONResultArray = result.data;
+
+        data.data.forEach((dataRow) => {
+            const organisation = OrganisationModel(dataRow);
+
+            organisations.push(organisation);
+        })
     } catch (error) {
         console.warn(error);
     }

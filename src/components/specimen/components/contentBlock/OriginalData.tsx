@@ -53,13 +53,15 @@ const OriginalData = () => {
     const tableData: DataRow[] = [];
 
     Object.keys(specimen.originalData).forEach((property, i) => {
-        const propertyValue = specimen.originalData[property];
+        if (property !== 'extensions') {
+            const propertyValue = specimen.originalData[property];
 
-        tableData.push({
-            index: i,
-            property_name: property,
-            property_value: propertyValue,
-        });
+            tableData.push({
+                index: i,
+                property_name: property,
+                property_value: propertyValue,
+            });
+        }
     });
 
     return (
@@ -87,7 +89,6 @@ const OriginalData = () => {
                                     />
                                 </Card>
                             </Col>
-
                             {sourceSystem &&
                                 <Col md={{ span: 3 }}>
                                     <Row>

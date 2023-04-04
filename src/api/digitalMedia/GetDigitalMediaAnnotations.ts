@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import AnnotationModel from 'api/model/AnnotationModel';
+
 /* Import Types */
-import { DigitalMediaAnnotations, Annotation } from 'global/Types';
+import { DigitalMediaAnnotations, Annotation, JSONResultArray } from 'global/Types';
 
 
 const GetDigitalMediaAnnotations = async (handle: string) => {
@@ -18,7 +21,15 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
                 responseType: 'json',
             });
 
-            const annotations: Annotation[] = result.data;
+            /* Set Digital Media Annotations with Model */
+            const data: JSONResultArray = result.data;
+            const annotations: Annotation[] = [];
+
+            data.data.forEach((dataRow) => {
+                const annotation = AnnotationModel(dataRow);
+
+                annotations.push(annotation);
+            });
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {

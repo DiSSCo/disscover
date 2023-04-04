@@ -81,7 +81,7 @@ const IDCard = (props: Props) => {
                                 <Col className="position-relative">
                                     {(specimenDigitalMedia.length > 0) ?
                                         <div className="w-100 h-100 position-relative">
-                                            <img src={specimenDigitalMedia[0].mediaUrl} alt="specimen preview image"
+                                            <img src={specimenDigitalMedia[0].digitalMediaObject.mediaUrl} alt="specimen preview image"
                                                 className="w-100 position-relative rounded-c"
                                             />
 

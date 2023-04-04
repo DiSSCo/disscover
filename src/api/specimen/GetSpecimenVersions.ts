@@ -15,7 +15,10 @@ const GetSpecimenVersions = async (handle: string) => {
                 responseType: 'json'
             });
 
-            specimenVersions = result.data;
+            /* Set Specimen Versions */
+            const data = result.data;
+
+            specimenVersions = data.data.attributes.versions;
         } catch (error) {
             console.warn(error);
         }

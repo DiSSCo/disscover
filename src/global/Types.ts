@@ -24,6 +24,17 @@ export type JSONResult = {
     }
 };
 
+export type JSONResultArray = {
+    data: {
+        id: string,
+        type: string,
+        attributes: Dict
+    }[],
+    links: {
+        self: string
+    }
+}
+
 /* User Type */
 export type User = {
     id: string,
@@ -38,43 +49,52 @@ export type UserAnnotations = {
     [property: string]: Annotation[]
 };
 
+/* Search Types */
+export interface SearchFilter {
+    [filter: string]: string | []
+}
+
 /* Specimen Types */
 export interface Specimen {
     id: string,
-    midsLevel: number,
-    version: number,
     created: Date,
-    type: string,
+    data: Dict,
+    dwcaId: string,
+    midsLevel: number,
+    organisationId: string,
+    originalData: Dict,
+    physicalSpecimenCollection: string,
     physicalSpecimenId: string,
     physicalSpecimenIdType: string,
-    specimenName: string,
-    organisationId: string,
-    datasetId: string,
-    physicalSpecimenCollection: string,
     sourceSystemId: string,
-    data: Dict,
-    originalData: Dict,
-    dwcaId: string,
-    filtered: Dict
+    specimenName: string,
+    version: number,
+    type: string
 };
 
-export type SpecimenAnnotations = {
+export interface SpecimenDigitalMedia  {
+    annotations: Annotation[],
+    digitalMediaObject: DigitalMedia,
+    created: Date
+};
+
+export interface SpecimenAnnotations {
     [specimenProperty: string]: Annotation[]
 };
 
 /* Digital Media Type */
 export interface DigitalMedia {
     id: string,
-    version: number,
     created: Date,
-    type: string,
-    digitalSpecimenId: string,
-    mediaUrl: string,
-    format: string,
-    sourceSystemId: string,
     data: Dict,
-    originalData: Dict,
-    filtered: Dict
+    digitalSpecimenId: string,
+    format: string,
+    mediaUrl: string,
+    originalData: Dict
+    sourceSystemId: string,
+    type: string,
+    version: number,
+    filtered?: Dict
 };
 
 export type DigitalMediaAnnotations = {
@@ -151,6 +171,7 @@ export interface AnnotationMotivation {
 /* Organisation Types */
 
 export interface Organisation {
+    id: string,
     name: string,
     ror: string
 }

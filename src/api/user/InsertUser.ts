@@ -39,10 +39,10 @@ const InsertUser = async (userId?: string, token?: string, keycloakParsed?: Dict
                 }
             });
 
-            /* Set User */
+            /* Set User with Model */
             const data: JSONResult = result.data;
 
-            user = UserModel(data);
+            user = UserModel(data.data);
         } catch (error) {
             console.warn(error);
         }

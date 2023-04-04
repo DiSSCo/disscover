@@ -61,7 +61,7 @@ const MidsMeter = () => {
                 </Row>
                 <Row>
                     <MidsDetails active={midsDetails}
-                        specimen={specimen.filtered}
+                        specimen={specimen}
                     />
                 </Row>
             </Col>

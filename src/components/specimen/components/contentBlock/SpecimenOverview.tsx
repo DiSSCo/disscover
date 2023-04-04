@@ -81,14 +81,17 @@ const SpecimenOverview = () => {
                                 </Row>
                             </Card.Body>
 
-
-                            {logo(specimen.organisationId.replace('https://ror.org/', '')) &&
-                                <div className="position-absolute w-100 h-100 end-0 text-center d-flex justify-content-end">
-                                    <img alt="Organisation logo"
-                                        src={logo(specimen.organisationId.replace('https://ror.org/', ''))}
-                                        className={`${styles.organisationLogo} h-100`}
-                                    />
-                                </div>
+                            {specimen.organisationId &&
+                                <>
+                                    {logo(specimen.organisationId.replace('https://ror.org/', '')) &&
+                                        <div className="position-absolute w-100 h-100 end-0 text-center d-flex justify-content-end">
+                                            <img alt="organisation logo"
+                                                src={logo(specimen.organisationId.replace('https://ror.org/', ''))}
+                                                className={`${styles.organisationLogo} h-100`}
+                                            />
+                                        </div>
+                                    }
+                                </>
                             }
                         </Card>
                     </Col>

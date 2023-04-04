@@ -25,10 +25,10 @@ const GetUser = async (userId?: string, token?: string) => {
                 }
             });
 
-            /* Set User */
+            /* Set User with Model */
             const data: JSONResult = result.data;
 
-            user = UserModel(data);
+            user = UserModel(data.data);
         } catch (error) {
             console.warn(error);
         }

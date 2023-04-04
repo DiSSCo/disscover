@@ -66,11 +66,12 @@
 
 .versionBlock {
     height: 40px;
+    position: absolute;
+    z-index: 1;
 }
 
 .versionBlock.active {
     height: auto;
-    position: absolute;
     right: 0;
     border: 1px solid var(--main-color-dark);
 }

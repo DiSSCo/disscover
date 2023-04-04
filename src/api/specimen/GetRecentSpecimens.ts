@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import axios from "axios";
 
+/* Import Model */
+import SpecimenModel from "api/model/SpecimenModel";
+
 /* Import Types */
-import { Specimen } from "global/Types";
+import { Specimen, JSONResultArray } from "global/Types";
 
 
 const GetRecentSpecimens = async () => {
@@ -17,7 +20,14 @@ const GetRecentSpecimens = async () => {
             responseType: 'json'
         });
 
-        recentSpecimens = result.data;
+        /* Set Recent Specimens with Model */
+        const data: JSONResultArray = result.data;
+
+        data.data.forEach((dataRow) => {
+            const specimen = SpecimenModel(dataRow);
+
+            recentSpecimens.push(specimen);
+        });
     } catch (error) {
         console.warn(error);
     }

@@ -51,6 +51,10 @@ a {
   text-decoration: none !important;
 }
 
+p {
+  margin: 0;
+}
+
 .textOverflow {
   overflow: hidden;
   white-space: nowrap;
@@ -101,6 +105,10 @@ a {
 }
 
 /* Border */
+
+.border-b {
+  border: 1px solid #333333;
+}
 
 .border-1-primary {
   border: 1px solid var(--main-color);
@@ -207,6 +215,23 @@ a {
 .shadow-c {
   -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
   box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
+}
+
+
+/* Custom Component Styling */
+
+.primaryButton {
+  background-color: var(--greyDark);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  transition: 0.4s;
+  padding: 0px 10px 0px 10px;
+}
+
+.primaryButton:hover {
+  background-color: var(--main-color);
 }
 
 

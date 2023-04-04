@@ -5,10 +5,16 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchQuery, setSearchQuery, setSpecimenSearchResults, getSpecimenSearchResults } from "redux/search/SearchSlice";
+import {
+    setSpecimenSearchResults, setSearchFilters, getSpecimenSearchResults
+} from "redux/search/SearchSlice";
+
+/* Import Types */
+import { SearchFilter } from 'global/Types';
 
 /* Import Styles */
 import './search.scss';
+import styles from './search.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
@@ -23,31 +29,32 @@ import SearchSpecimens from "api/specimen/SearchSpecimens";
 
 
 const Search = () => {
-    /* Configure Store */
+    /* Hooks */
     const dispatch = useAppDispatch();
+    const [searchParams] = useSearchParams();
 
-    /* Base search variables */
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const searchQuery = useAppSelector(getSearchQuery);
+    /* Base variables */
     const specimenSearchResults = useAppSelector(getSpecimenSearchResults);
 
-    /* On change of search query, check for searchresults */
+    /* OnLoad/OnChange of search params : check filters, then action a search */
     useEffect(() => {
-        if (!searchQuery && searchParams.get('searchQuery')) {
-            /* Store search query */
-            dispatch(setSearchQuery(searchParams.get('searchQuery') as string));
-        } else {
-            /* Search */
-            SearchSpecimens(searchQuery).then((searchResults) => {
-                /* Store search results */
-                dispatch(setSpecimenSearchResults(searchResults));
+        const searchFilters: SearchFilter[] = [];
 
-                /* Update params */
-                setSearchParams({searchQuery: searchQuery});
+        for (const searchParam of searchParams.entries()) {
+            /* Push to Search Filters state */
+            searchFilters.push({
+                [searchParam[0]]: searchParam[1]
             });
         }
-    }, [searchQuery]);
+
+        /* Action Search */
+        SearchSpecimens(searchFilters).then((specimens) => {
+            dispatch(setSpecimenSearchResults(specimens));
+        });
+
+        /* Set Search Filters state */
+        dispatch(setSearchFilters(searchFilters));
+    }, [searchParams]);
 
     /* Pagination */
     const [paginationRange, setPaginationRange] = useState<number[]>();
@@ -59,12 +66,12 @@ const Search = () => {
         <div className="d-flex flex-column min-vh-100">
             <Header />
 
-            <Container fluid className="mt-4">
-                <Row>
-                    <Col md={{ span: 10, offset: 1 }}>
-                        <Row>
+            <Container fluid className={`${styles.content} mt-5`}>
+                <Row className="h-100">
+                    <Col md={{ span: 10, offset: 1 }} className="h-100">
+                        <Row className="h-100">
                             {/* Search Menu */}
-                            <Col md="2" className="search_filterMenu border-2-primary-dark">
+                            <Col md="2" className={`${styles.filterMenu} border-2-primary-dark h-100`}>
                                 <SearchBar />
 
                                 <SearchFilters />

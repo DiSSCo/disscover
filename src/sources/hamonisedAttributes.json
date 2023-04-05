@@ -15,6 +15,9 @@
             "options": []
         }
     },
+    "ods:organisationName": {
+        "displayName": "Organisation Name"
+    },
     "ods:sourceSystemId": {
         "displayName": "Source System"
     },

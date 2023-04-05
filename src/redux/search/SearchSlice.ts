@@ -14,11 +14,6 @@ export interface SearchState {
         idValue: string,
         organisationId?: string
     };
-    searchFacility: {
-        idType: string,
-        organisationId: string
-    };
-    searchFilters: SearchFilter[];
     specimenSearchResults: Specimen[];
 }
 
@@ -29,11 +24,6 @@ const initialState: SearchState = {
         idType: 'gui',
         idValue: ''
     },
-    searchFacility: {
-        idType: 'local',
-        organisationId: ''
-    },
-    searchFilters: <[]>[],
     specimenSearchResults: <Specimen[]>[]
 };
 
@@ -50,12 +40,6 @@ export const SearchSlice = createSlice({
         setSearchPhysicalId: (state, action: PayloadAction<SearchState['searchPhysicalId']>) => {
             state.searchPhysicalId = action.payload;
         },
-        setSearchFacility: (state, action: PayloadAction<SearchState['searchFacility']>) => {
-            state.searchFacility = action.payload;
-        },
-        setSearchFilters: (state, action: PayloadAction<SearchFilter[]>) => {
-            state.searchFilters = action.payload;
-        },
         setSpecimenSearchResults: (state, action: PayloadAction<Specimen[]>) => {
             state.specimenSearchResults = action.payload;
         }
@@ -67,8 +51,6 @@ export const {
     setSearchQuery,
     setSearchPIDQuery,
     setSearchPhysicalId,
-    setSearchFacility,
-    setSearchFilters,
     setSpecimenSearchResults
 } = SearchSlice.actions;
 
@@ -76,8 +58,6 @@ export const {
 export const getSearchQuery = (state: RootState) => state.search.searchQuery;
 export const getSearchPIDQuery = (state: RootState) => state.search.searchPIDQuery;
 export const getSearchPhysicalId = (state: RootState) => state.search.searchPhysicalId;
-export const getSearchFacilityId = (state: RootState) => state.search.searchFacility;
-export const getSearchFilters = (state: RootState) => state.search.searchFilters;
 export const getSpecimenSearchResults = (state: RootState) => state.search.specimenSearchResults;
 
 export default SearchSlice.reducer;

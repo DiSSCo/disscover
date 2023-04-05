@@ -4,6 +4,12 @@
     height: Calc(100vh - 200px);
 }
 
+/* Search Menu */
+.searchMenu {
+    left: 0;
+    background-color: var(--main-color-light);
+}
+
 /* Filter Menu */
 .filterMenu {
     height: calc(100vh - 220px);
@@ -12,14 +18,27 @@
     box-shadow: 10px 10px 29px -13px rgba(51, 51, 51, 0.83);
 }
 
-.filterBlock {
-    border: 1px solid #333333;
+.filterTitle {
+    font-size: 14px;
 }
 
 .filterSelectedList {
     background-color: var(--main-color);
 }
 
+.filterSelectOption {
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.filterSelectOption:hover {
+    background-color: var(--greyDark);
+}
+
 .filterListItem {
+    font-size: 13px;
+}
+
+.filterAggregation {
     font-size: 13px;
 }

@@ -9,12 +9,13 @@ const GetSourceSystem = async (handle: string) => {
     if (handle) {
         let sourceSystem = <SourceSystem>{};
 
-        let endPoint: string = `source-systems/${handle}`;
+        let endPoint: string = `source-system/${handle}`;
 
         try {
             const result = await axios({
                 method: "get",
                 url: endPoint,
+                baseURL: 'https://sandbox.dissco.tech/orchestrator',
                 responseType: 'json'
             });
 

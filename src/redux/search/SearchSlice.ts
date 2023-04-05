@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { SearchFilter, Specimen } from 'global/Types';
+import { Specimen } from 'global/Types';
 
 
 export interface SearchState {

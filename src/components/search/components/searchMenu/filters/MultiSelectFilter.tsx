@@ -1,12 +1,15 @@
 /* Import Dependencies */
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'react-router-dom';
-import { FieldArray, Field } from "formik";
+import { FieldArray } from "formik";
 import { Capitalize } from "global/Utilities";
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
+
+/* Import Components */
+import SelectOption from "./SelectOption";
 
 
 /* Props Typing */
@@ -67,32 +70,6 @@ const MultiSelectFilter = (props: Props) => {
         setSearchParams(searchParams);
     }, [selectedItems]);
 
-    /* Select Item Template */
-    const SelectItem = (item: [string, number], method: Function, selected?: boolean) => {
-        return (
-            <Row key={item[0]} className={`${selected ? styles.filterSelectedList : ''} 
-                ${styles.filterSelectOption} d-flex justify-content-center align-items-center`}
-                onClick={() => method()}
-            >
-                <Col className="col-md-auto pe-0">
-                    <Field name={`filters.${searchFilter}.${item[0]}`}
-                        type="checkbox"
-                        checked={selected}
-                        onChange={() => {
-                            method();
-                        }}
-                    />
-                </Col>
-                <Col>
-                    <p className={`${styles.filterListItem} py-1`}> {item[0]} </p>
-                </Col>
-                <Col md={{ span: 3 }}>
-                    <p className={styles.filterAggregation}> {item[1]} </p>
-                </Col>
-            </Row>
-        );
-    }
-
     return (
         <Row className="mt-2">
             <Col>
@@ -107,7 +84,12 @@ const MultiSelectFilter = (props: Props) => {
                         <>
                             {/* Selected Items */}
                             {filteredItems.selected.map((item, index) => {
-                                return SelectItem(item, () => remove(index), true);
+                                return <SelectOption key={item[0]}
+                                    searchFilter={searchFilter}
+                                    item={item}
+                                    method={() => remove(index)}
+                                    selected={true}
+                                />
                             })}
 
                             {/* Search bar for searching in optional Items */}
@@ -117,7 +99,11 @@ const MultiSelectFilter = (props: Props) => {
 
                             {/* Optional Items to select */}
                             {filteredItems.selectable.map((item) => {
-                                return SelectItem(item, () => push(item[0]));
+                                return <SelectOption key={item[0]}
+                                    searchFilter={searchFilter}
+                                    item={item}
+                                    method={() => push(item[0])}
+                                />
                             })}
                         </>
                     )}

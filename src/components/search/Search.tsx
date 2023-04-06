@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    setSpecimenSearchResults, setSearchFilters, getSpecimenSearchResults
+    setSpecimenSearchResults, getSpecimenSearchResults
 } from "redux/search/SearchSlice";
 
 /* Import Types */
@@ -18,8 +18,7 @@ import styles from './search.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
-import SearchBar from './components/searchMenu/SearchBar';
-import SearchFilters from './components/searchMenu/SearchFilters';
+import SearchMenu from './components/searchMenu/SearchMenu';
 import ResultsTable from './components/searchResults/ResultsTable';
 import Paginator from 'components/general/paginator/Paginator';
 import Footer from 'components/general/footer/Footer';
@@ -36,7 +35,7 @@ const Search = () => {
     /* Base variables */
     const specimenSearchResults = useAppSelector(getSpecimenSearchResults);
 
-    /* OnLoad/OnChange of search params : check filters, then action a search */
+    /* OnLoad/OnChange of search params: check filters, then action a search */
     useEffect(() => {
         const searchFilters: SearchFilter[] = [];
 
@@ -51,9 +50,6 @@ const Search = () => {
         SearchSpecimens(searchFilters).then((specimens) => {
             dispatch(setSpecimenSearchResults(specimens));
         });
-
-        /* Set Search Filters state */
-        dispatch(setSearchFilters(searchFilters));
     }, [searchParams]);
 
     /* Pagination */
@@ -68,17 +64,14 @@ const Search = () => {
 
             <Container fluid className={`${styles.content} mt-5`}>
                 <Row className="h-100">
-                    <Col md={{ span: 10, offset: 1 }} className="h-100">
+                    <Col md={{ span: 2 }} className="h-100">
+                        {/* Search Menu */}
+                        <SearchMenu />
+                    </Col>
+                    <Col md={{ span: 10 }} className="h-100">
                         <Row className="h-100">
-                            {/* Search Menu */}
-                            <Col md="2" className={`${styles.filterMenu} border-2-primary-dark h-100`}>
-                                <SearchBar />
-
-                                <SearchFilters />
-                            </Col>
-
                             {/* Search Results */}
-                            <Col md="10">
+                            <Col md={{ span: 12 }}>
                                 <Row>
                                     <Col md={{ span: 12 }} className="search_resultsSection">
                                         <ResultsTable />

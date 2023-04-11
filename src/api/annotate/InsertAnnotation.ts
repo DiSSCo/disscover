@@ -12,13 +12,20 @@ const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: st
     if (annotationRecord && token) {
         let annotation = <Annotation>{};
 
+        const postAnnotation = {
+            data: {
+                type: 'annotation',
+                attributes: annotationRecord
+            }
+        };
+
         const endPoint = '/annotations';
 
         try {
             const result = await axios({
                 method: "post",
                 url: endPoint,
-                data: annotationRecord,
+                data: postAnnotation,
                 responseType: 'json',
                 headers: {
                     'Content-type': 'application/json',

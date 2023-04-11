@@ -17,7 +17,15 @@ import DigitalMedia from './DigitalMedia';
 import MIDSOverview from './MIDSOverview';
 
 
-const ContentBlock = () => {
+/* Props Typing */
+interface Props {
+    ToggleModal: Function
+};
+
+
+const ContentBlock = (props: Props) => {
+    const { ToggleModal } = props;
+
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
 
@@ -42,7 +50,7 @@ const ContentBlock = () => {
                     <Col className="h-100">
                         <Tabs defaultActiveKey="digitalSpecimen" className={`${styles.tabs}`}>
                             <Tab eventKey="digitalSpecimen" title="Digital Specimen" className="h-100 pt-4">
-                                <SpecimenOverview />
+                                <SpecimenOverview ToggleModal={(property: string) => ToggleModal(property)} />
                             </Tab>
                             <Tab eventKey="originalData" title="Original Data">
                                 <OriginalData />

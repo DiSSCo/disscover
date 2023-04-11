@@ -43,8 +43,10 @@ const VersionSelect = () => {
     return (
         <Row>
             <Col>
-                <Select defaultValue={{ value: specimen.version, label: `Version ${specimen.version}` }}
+                <Select 
+                    defaultValue={{ value: specimen.version, label: `Version ${specimen.version}` }}
                     options={selectOptions}
+                    styles={{ menu: provided => ({ ...provided, zIndex: 100000 }) }}
                     onChange={(option) => { option?.value && dispatch(setSpecimenVersion(option.value)) }}
                 />
             </Col>

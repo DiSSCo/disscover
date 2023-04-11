@@ -118,7 +118,7 @@ const Specimen = () => {
                                     <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
                                 <Col md={{ span: 9 }} className="ps-5 h-100">
-                                    <ContentBlock />
+                                    <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
 
                                 {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&

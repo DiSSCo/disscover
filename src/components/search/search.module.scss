@@ -1,13 +1,28 @@
 /* Custom styling for the Search Page */
 
-.content {
-    height: Calc(100vh - 200px);
+.searchContent {
+    height: calc(100vh - 208px)
+}
+
+.searchPageBlock {
+    transition: 0.4s;
 }
 
 /* Search Menu */
 .searchMenu {
-    left: 0;
-    background-color: var(--main-color-light);
+    border: 1px solid var(--grey);
+}
+
+.searchBlock {
+    background-color: var((--primary));
+}
+
+.searchBar {
+    border-radius: 8px;
+}
+
+.searchBar::placeholder {
+    font-style: italic;
 }
 
 /* Filter Menu */
@@ -41,4 +56,109 @@
 
 .filterAggregation {
     font-size: 13px;
+}
+
+/* Search Results */
+.searchResults {
+    height: Calc(100% - 40px);
+}
+
+.table {
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+}
+
+.paginator {
+    height: 40px;
+}
+
+.returnButton {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 30px;
+    margin-top: -25px;
+}
+
+/* ID Card */
+.IDCard {
+    height: Calc(100% - 40px);
+}
+
+.IDCardTop {
+    height: 60%;
+}
+
+.IDCardBottom {
+    height: 40%;
+}
+
+.IDCardIcon {
+    font-size: 25px;
+    color: var(--primary);
+}
+
+.IDCardTitle {
+    font-size: 22px;
+}
+
+.IDCardId {
+    font-size: 14px;
+    color: var(--greyDark);
+}
+
+.midsBar {
+    background-color: #d4f3f7;
+    height: 15px;
+    border-radius: 999px;
+}
+
+.midsProgressionLevel {
+    background-color: var(--accent);
+    width: 15%;
+    transition: 1s;
+    border-radius: 999px;
+}
+
+.midsTitle {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.IDCardProperty {
+    font-size: 15px;
+}
+
+.digitalMediaBlock {
+    height: Calc(100% - 70px);
+}
+
+.digitalMediaSlider {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.digitalMediaItem {
+    border-radius: 8px;
+}
+
+.buttonBlock {
+    height: 60px;
+}
+
+.specimenButton {
+    height: 35px;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    font-size: 14px;
+    border-radius: 999px;
+    transition: 0.4s;
+}
+
+.specimenButton:hover {
+    background-color: var(--accent);
 }

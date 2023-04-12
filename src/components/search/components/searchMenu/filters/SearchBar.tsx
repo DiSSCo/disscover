@@ -13,7 +13,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 const SearchBar = () => {
     return (
         <Row className={`${styles.filterBlock} h-100`}>
-            <Col md={{ span: 12 }} className="bg-primary pt-3 pb-4 px-4">
+            <Col md={{ span: 12 }} className={`${styles.searchBlock} pt-3 pb-4 px-4`}>
                 <Row>
                     <Col md={{ span: 12 }} className="text-white position-relative">
                         <h6>
@@ -21,7 +21,7 @@ const SearchBar = () => {
                         </h6>
 
                         <Field type="text" name="filters.q"
-                            className="search_searchBar w-100"
+                            className={`${styles.searchBar} w-100`}
                             placeholder="Iguanodon"
                         />
 

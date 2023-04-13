@@ -5,7 +5,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimenSearchResults, getSearchSpecimen, setSearchSpecimen } from "redux/search/SearchSlice";
+import { getSearchResults, getSearchSpecimen, setSearchSpecimen } from "redux/search/SearchSlice";
 
 /* Import Types */
 import { Specimen } from 'global/Types';
@@ -23,7 +23,7 @@ const ResultsTable = () => {
     const dispatch = useAppDispatch();
 
     /* Base variables */
-    const specimenSearchResults = useAppSelector(getSpecimenSearchResults);
+    const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
     const [tableData, setTableData] = useState<DataRow[]>([]);
 
@@ -40,7 +40,7 @@ const ResultsTable = () => {
     /* Function for when clicked on a table row, continue to specimen page */
     const OnSpecimenSelect = (row: DataRow) => {
         /* Set specimen */
-        const specimen: Specimen = specimenSearchResults[row.index];
+        const specimen: Specimen = searchResults[row.index];
 
         dispatch(setSearchSpecimen(specimen));
 
@@ -136,7 +136,7 @@ const ResultsTable = () => {
     useEffect(() => {
         const tableData: DataRow[] = [];
 
-        specimenSearchResults.forEach((specimen, i) => {
+        searchResults.forEach((specimen, i) => {
             tableData.push({
                 index: i,
                 id: specimen.id,
@@ -149,7 +149,7 @@ const ResultsTable = () => {
         });
 
         setTableData(tableData);
-    }, [specimenSearchResults]);
+    }, [searchResults]);
 
     return (
         <>

@@ -2,7 +2,11 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Formik, Form } from 'formik';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+
+/* Import Store */
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getSearchAggregations, setSearchAggregations} from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Dict } from 'global/Types';
@@ -20,10 +24,11 @@ import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 
 const SearchMenu = () => {
     /* Hooks */
+    const dispatch = useAppDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
-    const [aggregations, setAggregations] = useState<Dict>({});
+    const aggregations = useAppSelector(getSearchAggregations);
     const initialValues: Dict = {
         filters: {
             q: searchParams.get('q') ? searchParams.get('q') : ''
@@ -33,15 +38,6 @@ const SearchMenu = () => {
         'midsLevel', 'license', 'country', 'organisationName',
         'sourceSystemId', 'typeStatus', 'hasMedia'
     ];
-
-    /* OnLoad: Fetch Aggregations to construct filters */
-    useEffect(() => {
-        GetSpecimenAggregations().then((aggregations) => {
-            if (aggregations) {
-                setAggregations(aggregations);
-            }
-        });
-    }, []);
 
     /* For each aggregation, set initial value for form */
     Object.keys(aggregations).forEach((aggregationKey) => {

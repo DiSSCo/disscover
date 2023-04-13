@@ -7,7 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimenSearchResults, setSpecimenSearchResults, getSearchSpecimen } from "redux/search/SearchSlice";
+import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { SearchFilter } from 'global/Types';
@@ -27,6 +27,7 @@ import Footer from 'components/general/footer/Footer';
 /* Import API */
 import SearchSpecimens from "api/specimen/SearchSpecimens";
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
+import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 
 
 const Search = () => {
@@ -35,15 +36,15 @@ const Search = () => {
     const [searchParams] = useSearchParams();
 
     /* Base variables */
-    const specimenSearchResults = useAppSelector(getSpecimenSearchResults);
+    const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
 
     /* OnLoad/OnChange of search params: check filters, then action a search */
     useEffect(() => {
         const searchFilters: SearchFilter[] = [];
 
+        /* ForEach filter, push to Search Filters state */
         for (const searchParam of searchParams.entries()) {
-            /* Push to Search Filters state */
             searchFilters.push({
                 [searchParam[0]]: searchParam[1]
             });
@@ -53,14 +54,21 @@ const Search = () => {
         if (!isEmpty(searchFilters)) {
             /* Action Search */
             SearchSpecimens(searchFilters).then((specimens) => {
-                dispatch(setSpecimenSearchResults(specimens));
+                dispatch(setSearchResults(specimens));
             });
         } else {
             /* Grab Recent Specimens */
             GetRecentSpecimens().then((recentSpecimens) => {
-                dispatch(setSpecimenSearchResults(recentSpecimens));
+                dispatch(setSearchResults(recentSpecimens));
             });
         }
+
+        /* Refresh Aggregations */
+        GetSpecimenAggregations(searchFilters).then((aggregations) => {
+            if (aggregations) {
+                dispatch(setSearchAggregations(aggregations));
+            }
+        });
     }, [searchParams]);
 
     /* Pagination */
@@ -112,15 +120,15 @@ const Search = () => {
 
                                 <Row className={`${styles.paginator} justify-content-center position-relative`}>
                                     <Col className="search_resultCount col-md-auto py-2 position-absolute start-0 ps-4">
-                                        {(specimenSearchResults.length === 1) ?
+                                        {(searchResults.length === 1) ?
                                             <p className="fst-italic"> 1 specimen found </p>
-                                            : <p className="fst-italic"> {specimenSearchResults.length} specimens found </p>
+                                            : <p className="fst-italic"> {searchResults.length} specimens found </p>
                                         }
                                     </Col>
 
-                                    {(specimenSearchResults.length > 0) &&
+                                    {(searchResults.length > 0) &&
                                         <Col className="col-md-auto">
-                                            <Paginator items={specimenSearchResults}
+                                            <Paginator items={searchResults}
                                                 pageSize={25}
 
                                                 SetPaginationRange={(range: number[]) => setPaginationRange(range)}

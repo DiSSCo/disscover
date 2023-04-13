@@ -56,7 +56,7 @@ const Home = () => {
                                         <Tab className={classTab} selectedClassName={styles.active}> Digital Specimen ID  </Tab>
                                         <Tab className={classTab} selectedClassName={styles.active}> Physical Specimen ID </Tab>
                                         <Tab className={classTab} selectedClassName={styles.active}> Collection facility </Tab>
-                                        <Tab className={classTab} selectedClassName={styles.active}> Virtual colletion </Tab>
+                                        <Tab className={classTab} selectedClassName={styles.active}> Virtual collection </Tab>
                                     </TabList>
 
                                     {/* Search by Digital Specimen */}

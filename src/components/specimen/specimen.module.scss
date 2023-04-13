@@ -67,7 +67,6 @@
 .versionBlock {
     height: 40px;
     position: absolute;
-    z-index: 1;
 }
 
 .versionBlock.active {
@@ -122,9 +121,39 @@
 
 /* Digital Specimen Block */
 
+.propertyTable {
+    border-collapse: separate;
+    border-spacing: 0px 4px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.propertyTableRow {
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.propertyTableRow:hover {
+    background-color: var(--main-color-light);
+}
+
+.propertyTitle {
+    color: var(--main-color);
+    font-weight: bold;
+    text-align: start;
+}
+
+.mapPlaceholder {
+    background-color: var(--main-color-light);
+}
+
 .organisationLogo {
     filter: grayscale(100%);
     opacity: 0.4;
+    width: 50%;
+    margin: 0px 10px 10px 0px;
 }
 
 /* Original Data Block */

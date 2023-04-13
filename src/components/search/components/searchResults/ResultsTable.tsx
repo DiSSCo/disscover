@@ -58,7 +58,9 @@ const ResultsTable = () => {
             selectedRow.toggleSelected = true;
         }
 
-        setTableData(tableData);
+        const copyTableData = [...tableData];
+
+        setTableData(copyTableData);
     }
 
     /* Function to reset chosen Table Row on close */
@@ -71,7 +73,9 @@ const ResultsTable = () => {
                 unselectedRow.toggleSelected = false;
             }
 
-            setTableData(tableData);
+            const copyTableData = [...tableData];
+
+            setTableData(copyTableData);
         }
     }, [searchSpecimen]);
 

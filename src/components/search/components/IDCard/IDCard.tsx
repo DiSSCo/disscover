@@ -40,6 +40,17 @@ const IDCard = () => {
         });
     }, [specimen]);
 
+    /* Function for displaying the Organisation of a Specimen */
+    const OrganisationProperty = () => {
+        if (specimen.data['ods:organisationName']) {
+            return specimen.data['ods:organisationName'];
+        } else if (specimen.organisationId) {
+            return specimen.organisationId;
+        } else {
+            return '';
+        }
+    }
+
     return (
         <Card className={`${styles.IDCard} px-4 py-3`}>
             <Row className={styles.IDCardTop}>
@@ -95,11 +106,7 @@ const IDCard = () => {
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Organisation: </span>
-                                {specimen.data['ods:organisationName'] ?
-                                    specimen.data['ods:organisationName']
-                                    : specimen.organisationId ?
-                                        specimen.organisationId : '-'
-                                }
+                                {OrganisationProperty()}
                             </p>
                         </Col>
                     </Row>
@@ -113,7 +120,7 @@ const IDCard = () => {
                             <div className={`${styles.digitalMediaSlider} h-100 w-auto`}>
                                 {digitalMedia.map((mediaItem) => {
                                     return (
-                                        <img src={mediaItem.mediaUrl} className={`${styles.digitalMediaItem} h-100 me-3`} />
+                                        <img key={mediaItem.id} src={mediaItem.mediaUrl} className={`${styles.digitalMediaItem} h-100 me-3`} />
                                     );
                                 })}
                             </div>

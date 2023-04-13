@@ -1,12 +1,11 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchAggregations, setSearchAggregations} from 'redux/search/SearchSlice';
+import { useAppSelector } from 'app/hooks';
+import { getSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Dict } from 'global/Types';
@@ -18,13 +17,9 @@ import styles from 'components/search/search.module.scss';
 import SearchBar from './filters/SearchBar';
 import MultiSelectFilter from './filters/MultiSelectFilter';
 
-/* Import API */
-import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
-
 
 const SearchMenu = () => {
     /* Hooks */
-    const dispatch = useAppDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */

@@ -21,6 +21,7 @@ import Specimen from "components/specimen/Specimen";
 import DigitalMedia from "components/digitalMedia/DigitalMedia";
 import Annotate from "components/annotate/Annotate";
 import Profile from "components/profile/Profile";
+import ErrorMessage from "components/general/errorMessage/ErrorMessage";
 
 /* Import API */
 import GetUser from "api/user/GetUser";
@@ -77,6 +78,8 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:userId" element={<Profile />} />
       </Routes>
+
+      <ErrorMessage />
     </Router>
   );
 }

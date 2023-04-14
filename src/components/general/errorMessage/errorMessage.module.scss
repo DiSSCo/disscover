@@ -1,0 +1,20 @@
+.errorMessage {
+    opacity: 0;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(231, 76, 60, 0.8);
+    transition: 0.4s;
+}
+
+.errorMessage.active {
+    opacity: 1;
+}
+
+.errorMessageTitle {
+    font-size: 16px;
+}
+
+.errorMessageContent {
+    font-size: 15px;
+}

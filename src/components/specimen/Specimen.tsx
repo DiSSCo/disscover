@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import KeycloakService from 'keycloak/Keycloak';
+import { isEmpty } from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -11,6 +12,7 @@ import {
     setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
+import { setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { Specimen as SpecimenType } from 'global/Types';
@@ -26,6 +28,7 @@ import AnnotateModal from 'components/annotate/modal/AnnotateModal';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
+import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 
@@ -46,9 +49,9 @@ const Specimen = () => {
     /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
     useEffect(() => {
         const specimenId = `${params.prefix}/${params.suffix}`;
-        
-        /* Fetch Specimen if not present, not equal to params ID or version has changed */
-        if (Object.keys(specimen).length === 0 || specimen.id !== specimenId || (version && specimen.version !== version)) {
+
+        /* Fetch Full Specimen if not present or not equal to params ID; if version has changed, refetch Specimen with version */
+        if (isEmpty(specimen) || specimen.id !== specimenId) {
             /* Get full Specimen */
             GetSpecimenFull(`${params['prefix']}/${params['suffix']}`).then((fullSpecimen) => {
                 if (fullSpecimen) {
@@ -63,6 +66,22 @@ const Specimen = () => {
 
                     /* Set Specimen Annotations */
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
+                }
+            });
+        } else if (version && specimen.version !== version) {
+            /* Get Specimen with version */
+            const originalVersion = specimen.version;
+
+            GetSpecimen(`${params['prefix']}/${params['suffix']}`, version).then((specimen) => {
+                if (!isEmpty(specimen)) {
+                    /* Set Specimen */
+                    dispatch(setSpecimen(specimen));
+                } else {
+                    /* If version fetch failed, reset to original version */
+                    dispatch(setSpecimenVersion(originalVersion));
+
+                    /* Show Error Message */
+                    dispatch(setErrorMessage(`The selected version: ${version}, of Specimen could not be retrieved.`));
                 }
             });
         }
@@ -118,7 +137,7 @@ const Specimen = () => {
                                     <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
                                 <Col md={{ span: 9 }} className="ps-5 h-100">
-                                    <ContentBlock ToggleModal={(property: string) => ToggleModal(property)}/>
+                                    <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
 
                                 {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&

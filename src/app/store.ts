@@ -3,6 +3,7 @@ import { combineReducers, configureStore, ThunkAction, Action } from '@reduxjs/t
 import type { PreloadedState } from '@reduxjs/toolkit';
 
 /* Import Redux Slices */
+import GeneralReducer from 'redux/general/GeneralSlice';
 import SearchReducer from 'redux/search/SearchSlice';
 import SpecimenReducer from 'redux/specimen/SpecimenSlice';
 import DigitalMediaReducer from 'redux/digitalMedia/DigitalMediaSlice';
@@ -11,6 +12,7 @@ import UserReducer from 'redux/user/UserSlice';
 
 
 const rootReducer = combineReducers({
+  general: GeneralReducer,
   search: SearchReducer,
   specimen: SpecimenReducer,
   digitalMedia: DigitalMediaReducer,

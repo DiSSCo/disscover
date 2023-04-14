@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimen, setSpecimenVersion } from 'redux/specimen/SpecimenSlice';
+import { getSpecimen, getSpecimenVersion, setSpecimenVersion } from 'redux/specimen/SpecimenSlice';
 
 /* Import API */
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
@@ -16,7 +16,8 @@ const VersionSelect = () => {
     const dispatch = useAppDispatch();
 
     /* Base variables */
-    const specimen = useAppSelector(getSpecimen);
+    const specimen = useAppSelector(getSpecimen)
+    const version = useAppSelector(getSpecimenVersion);
     const [versions, setVersions] = useState<number[]>([]);
 
     /* OnLoad: Fetch Specimen versions */
@@ -44,7 +45,7 @@ const VersionSelect = () => {
         <Row>
             <Col>
                 <Select 
-                    defaultValue={{ value: specimen.version, label: `Version ${specimen.version}` }}
+                    value={{ value: version, label: `Version ${version}` }}
                     options={selectOptions}
                     styles={{ menu: provided => ({ ...provided, zIndex: 100000 }) }}
                     onChange={(option) => { option?.value && dispatch(setSpecimenVersion(option.value)) }}

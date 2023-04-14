@@ -1,8 +1,11 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { Row, Col } from 'react-bootstrap';
+
+/* Import Store */
+import { useAppSelector } from 'app/hooks';
+import { getSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Dict } from 'global/Types';
@@ -14,16 +17,13 @@ import styles from 'components/search/search.module.scss';
 import SearchBar from './filters/SearchBar';
 import MultiSelectFilter from './filters/MultiSelectFilter';
 
-/* Import API */
-import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
-
 
 const SearchMenu = () => {
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
-    const [aggregations, setAggregations] = useState<Dict>({});
+    const aggregations = useAppSelector(getSearchAggregations);
     const initialValues: Dict = {
         filters: {
             q: searchParams.get('q') ? searchParams.get('q') : ''
@@ -33,15 +33,6 @@ const SearchMenu = () => {
         'midsLevel', 'license', 'country', 'organisationName',
         'sourceSystemId', 'typeStatus', 'hasMedia'
     ];
-
-    /* OnLoad: Fetch Aggregations to construct filters */
-    useEffect(() => {
-        GetSpecimenAggregations().then((aggregations) => {
-            if (aggregations) {
-                setAggregations(aggregations);
-            }
-        });
-    }, []);
 
     /* For each aggregation, set initial value for form */
     Object.keys(aggregations).forEach((aggregationKey) => {

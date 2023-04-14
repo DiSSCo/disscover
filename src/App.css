@@ -1,5 +1,8 @@
 /* Declaring global variables */
 :root {
+  --primary: #4d59a2;
+  --secondary: #51a993;
+  --accent: #28bacb;
   --main-color: #0C86C6;
   --main-color-light: #d6e0f5;
   --main-color-dark: #1c497d;
@@ -63,6 +66,11 @@ p {
 
 
 /* Custom additional styling */
+
+/* Width */
+.w-0 {
+  width: 0px;
+}
 
 /* Color */
 
@@ -217,6 +225,11 @@ p {
   box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
 }
 
+/* Transition */
+.transition {
+  transition: 0.4s;
+}
+
 
 /* Custom Component Styling */
 
@@ -284,6 +297,11 @@ p {
 .tab-pane {
   height: 100%;
   padding-top: 2%;
+}
+
+li.page-item.active .page-link {
+  background-color: var(--secondary);
+  border: none;
 }
 
 

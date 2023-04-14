@@ -59,8 +59,8 @@ const SpecimenOverview = (props: Props) => {
                                                 <Row>
                                                     <Col>
                                                         <table className={styles.propertyTable}>
-                                                            <tr>
-                                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                                            <tbody>
+                                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                                     onClick={() => ToggleModal('dwc:continent')}
                                                                 >
                                                                     <td className={`${styles.propertyTitle} pe-2`}> Continent: </td>
@@ -70,10 +70,8 @@ const SpecimenOverview = (props: Props) => {
                                                                             : 'Not provided'
                                                                         }
                                                                     </td>
-                                                                </div>
-                                                            </tr>
-                                                            <tr onClick={() => ToggleModal('dwc:country')}>
-                                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                                                </tr>
+                                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                                     onClick={() => ToggleModal('dwc:country')}
                                                                 >
                                                                     <td className={`${styles.propertyTitle} pe-2`}> Country: </td>
@@ -83,10 +81,8 @@ const SpecimenOverview = (props: Props) => {
                                                                             : 'Not provided'
                                                                         }
                                                                     </td>
-                                                                </div>
-                                                            </tr>
-                                                            <tr onClick={() => ToggleModal('dwc:locality')}>
-                                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                                                </tr>
+                                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                                     onClick={() => ToggleModal('dwc:locality')}
                                                                 >
                                                                     <td className={`${styles.propertyTitle} pe-2`}> Locality: </td>
@@ -96,8 +92,8 @@ const SpecimenOverview = (props: Props) => {
                                                                             : 'Not provided'
                                                                         }
                                                                     </td>
-                                                                </div>
-                                                            </tr>
+                                                                </tr>
+                                                            </tbody>
                                                         </table>
                                                     </Col>
                                                 </Row>
@@ -149,28 +145,28 @@ const SpecimenOverview = (props: Props) => {
                                 <Row className="mt-3">
                                     <Col>
                                         <table className={styles.propertyTable}>
-                                            <tr>
-                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                            <tbody>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:organisationId')}
                                                 >
                                                     <td className={`${styles.propertyTitle} pe-2`}> ROR: </td>
                                                     <td> {specimen.organisationId} </td>
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:organisationName')}
                                                 >
                                                     <td className={`${styles.propertyTitle} pe-2`}> Name: </td>
                                                     <td> {specimen.data['ods:organisationName']} </td>
-                                                </div>
-                                            </tr>
+                                                </tr>
+                                            </tbody>
                                         </table>
 
                                         <div className="position-absolute d-flex justify-content-end bottom-0 z-0">
-                                            <img src={logo(specimen.data['ods:organisationId'].replace('https://ror.org/', ''))}
-                                                className={styles.organisationLogo}
-                                            />
+                                            {specimen.data['ods:organisationId'] &&
+                                                <img src={logo(specimen.data['ods:organisationId'].replace('https://ror.org/', ''))}
+                                                    className={styles.organisationLogo}
+                                                />
+                                            }
                                         </div>
                                     </Col>
                                 </Row>
@@ -189,8 +185,8 @@ const SpecimenOverview = (props: Props) => {
                                 <Row className="mt-3">
                                     <Col>
                                         <table className={styles.propertyTable}>
-                                            <tr>
-                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                            <tbody>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:collectingNumber')}
                                                 >
                                                     <td className={`${styles.propertyTitle} pe-2`}> Collecting Number: </td>
@@ -200,12 +196,11 @@ const SpecimenOverview = (props: Props) => {
                                                             : 'Not provided'
                                                         }
                                                     </td>
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:collector')}
                                                 >
+
                                                     <td className={`${styles.propertyTitle} pe-2`}> Collector: </td>
                                                     <td>
                                                         {specimen.data['ods:collector'] ?
@@ -213,10 +208,9 @@ const SpecimenOverview = (props: Props) => {
                                                             : 'Not provided'
                                                         }
                                                     </td>
-                                                </div>
-                                            </tr>
-                                            <tr>
-                                                <div className={`${styles.propertyTableRow} w-100 px-2`}
+
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:dateCollected')}
                                                 >
                                                     <td className={`${styles.propertyTitle} pe-2`}> Date Collected: </td>
@@ -226,8 +220,8 @@ const SpecimenOverview = (props: Props) => {
                                                             : 'Not provided'
                                                         }
                                                     </td>
-                                                </div>
-                                            </tr>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </Col>
                                 </Row>
@@ -235,8 +229,8 @@ const SpecimenOverview = (props: Props) => {
                         </Card>
                     </Col>
                 </Row>
-            </Col>
-        </Row>
+            </Col >
+        </Row >
     );
 }
 

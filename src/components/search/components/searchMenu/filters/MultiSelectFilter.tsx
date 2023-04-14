@@ -71,7 +71,7 @@ const MultiSelectFilter = (props: Props) => {
     }, [selectedItems]);
 
     return (
-        <Row className="mt-2">
+        <Row className="mt-2 px-2">
             <Col>
                 <Row>
                     <Col>

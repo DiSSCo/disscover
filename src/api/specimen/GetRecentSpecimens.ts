@@ -17,6 +17,9 @@ const GetRecentSpecimens = async () => {
         const result = await axios({
             method: "get",
             url: endPoint,
+            params: {
+                pageSize: 25
+            },
             responseType: 'json'
         });
 

@@ -53,11 +53,11 @@ const AnnotationsOverview = (props: Props) => {
                         {(userProfileAnnotations.length > 0) ?
                             <Row>
                                 <Col>
-                                    <Paginator items={userProfileAnnotations}
+                                    {/* <Paginator items={userProfileAnnotations}
                                         pageSize={8}
 
                                         SetPaginationRange={(range: number[]) => setPaginationRange(range)}
-                                    />
+                                    /> */}
                                 </Col>
                             </Row>
                             : <Row>

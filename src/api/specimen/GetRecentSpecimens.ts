@@ -8,7 +8,7 @@ import SpecimenModel from "api/model/SpecimenModel";
 import { Specimen, JSONResultArray } from "global/Types";
 
 
-const GetRecentSpecimens = async () => {
+const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
     let recentSpecimens = <Specimen[]>[];
 
     const endPoint = "/specimens"
@@ -18,7 +18,8 @@ const GetRecentSpecimens = async () => {
             method: "get",
             url: endPoint,
             params: {
-                pageSize: 25
+                pageSize: pageSize,
+                pageNumber: pageNumber ? pageNumber : 1
             },
             responseType: 'json'
         });

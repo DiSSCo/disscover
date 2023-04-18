@@ -61,7 +61,7 @@ const Search = () => {
             });
         } else {
             /* Grab Recent Specimens */
-            GetRecentSpecimens().then((recentSpecimens) => {
+            GetRecentSpecimens(pageSize, pageNumber).then((recentSpecimens) => {
                 dispatch(setSearchResults(recentSpecimens));
             });
         }

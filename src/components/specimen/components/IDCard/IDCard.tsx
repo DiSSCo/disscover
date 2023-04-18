@@ -38,6 +38,8 @@ const IDCard = (props: Props) => {
         }
     };
 
+    console.log(specimen);
+
     return (
         <Row className="h-100">
             <Col className="h-100">
@@ -152,17 +154,14 @@ const IDCard = (props: Props) => {
                                                             <br /> <span className={`${styles.IDCardValue} m-0`}> {specimen.organisationId} </span>
                                                         </Col>
                                                     </Row>
-
-                                                    {logo(specimen.organisationId.replace('https://ror.org/', '')) &&
-                                                        <Row className="mt-1">
-                                                            <Col md={{ span: 5, offset: 7 }}>
-                                                                <img alt="Organisation logo"
-                                                                    src={logo(specimen.organisationId.replace('https://ror.org/', ''))}
-                                                                    className={`${styles.IDCardLogo} w-100 h-100`}
-                                                                />
-                                                            </Col>
-                                                        </Row>
-                                                    }
+                                                    <Row className="mt-1">
+                                                        <Col className={`${styles.IDCardPropertyBlock} rounded-c`}
+                                                            onClick={() => ToggleModal('dcterms:license')}
+                                                        >
+                                                            <span className={`${styles.IDCardProperty} text-primary m-0`}> License: </span>
+                                                            <br /> <span className={`${styles.IDCardValue} m-0`}> {specimen.data['dcterms:license']} </span>
+                                                        </Col>
+                                                    </Row>
                                                 </Col>
                                             </Row>
                                         </Card.Body>

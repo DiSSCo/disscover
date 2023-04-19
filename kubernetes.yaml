@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ucas
+  name: disscover
   labels:
-    app: ucas
+    app: disscover
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ucas
+      app: disscover
   template:
     metadata:
       labels:
-        app: ucas
+        app: disscover
     spec:
       containers:
-        - name: ucas
+        - name: disscover
           image: public.ecr.aws/dissco/unified-curation-and-annotation-service:latest
           ports:
             - containerPort: 3000

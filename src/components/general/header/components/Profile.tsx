@@ -1,42 +1,41 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col, Dropdown } from 'react-bootstrap';
 
-/* Import Types */
-import { User } from 'global/Types';
+/* Import Store */
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getUser, setUser } from 'redux/general/GeneralSlice';
+
+/* Import Styles */
+import styles from 'components/general/header/header.module.scss';
 
 /* Import API */
 import GetUser from 'api/user/GetUser';
 
 
 const Profile = () => {
-    const [user, setUser] = useState<User>();
+    /* Hooks */
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-    const token = KeycloakService.GetToken();
-    const subject = KeycloakService.GetSubject();
+    /* Base variables */
+    const user = useAppSelector(getUser);
 
     /* User initialization */
     useEffect(() => {
-        if (token && subject) {
-            GetUser(subject, token).then((user) => {
+        if (KeycloakService.GetSubject() && KeycloakService.GetToken()) {
+            GetUser(KeycloakService.GetSubject(), KeycloakService.GetToken()).then((user) => {
                 if (user) {
-                    let copyUser = { ...user };
-
-                    if (!user.firstName) {
-                        copyUser.firstName = 'User';
-                    }
-
-                    setUser(copyUser);
+                    dispatch(setUser(user));
                 }
             });
         }
     }, []);
 
-    /* Handling Dropdown */
-    const navigate = useNavigate();
-
+    /* Function for handling Profile Dropdown */
     const OnSelect = (eventKey: string | null) => {
         switch (eventKey) {
             case '1':
@@ -50,11 +49,11 @@ const Profile = () => {
         }
     };
 
-    if (user) {
-        return (
-            <Row>
-                <Col md={{ span: 12 }} className="mt-1">
-                    <Row className="justify-content-end">
+    return (
+        <Row>
+            <Col md={{ span: 12 }} className="mt-1">
+                {!isEmpty(user) &&
+                    <Row className="pe-0">
                         <Dropdown onSelect={(eventKey: string | null, _e: React.SyntheticEvent<unknown>) =>
                             OnSelect(eventKey)
                         }>
@@ -73,14 +72,10 @@ const Profile = () => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </Row>
-                </Col>
-            </Row>
-        );
-    } else {
-        return (
-            <> </>
-        );
-    }
+                }
+            </Col>
+        </Row>
+    );
 }
 
 export default Profile;

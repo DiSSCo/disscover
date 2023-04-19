@@ -9,9 +9,6 @@ import { Row, Col, Dropdown } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getUser, setUser } from 'redux/general/GeneralSlice';
 
-/* Import Styles */
-import styles from 'components/general/header/header.module.scss';
-
 /* Import API */
 import GetUser from 'api/user/GetUser';
 

@@ -29,17 +29,6 @@ const IDCard = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
-    /* Check for Organisation logo */
-    const logo = (ror: string) => {
-        try {
-            return require(`../../../../webroot/img/organisationLogo/${ror}.png`);
-        } catch (err) {
-            return null;
-        }
-    };
-
-    console.log(specimen);
-
     return (
         <Row className="h-100">
             <Col className="h-100">

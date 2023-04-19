@@ -20,11 +20,6 @@ const DigitalMedia = () => {
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
     const [imageHover, setImageHover] = useState<string>('');
 
-    /* ClassName for Image hover */
-    const classImageHover = classNames({
-        [`${styles.digitalMediaImageHover}`]: true
-    });
-
     return (
         <Row className="h-100">
             <Col className="h-100">

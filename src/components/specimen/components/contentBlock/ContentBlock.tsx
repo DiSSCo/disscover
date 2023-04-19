@@ -15,7 +15,6 @@ import SpecimenOverview from './SpecimenOverview';
 import OriginalData from './OriginalData';
 import AnnotationsOverview from './AnnotationsOverview';
 import DigitalMedia from './DigitalMedia';
-import MIDSOverview from './MIDSOverview';
 
 
 /* Props Typing */

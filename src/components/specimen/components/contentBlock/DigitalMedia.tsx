@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import classNames from 'classnames';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */

@@ -7,7 +7,7 @@ import { Row, Col, Dropdown } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getUser, setUser } from 'redux/general/GeneralSlice';
+import { getUser, setUser } from 'redux/user/UserSlice';
 
 /* Import API */
 import GetUser from 'api/user/GetUser';

@@ -7,29 +7,25 @@ import { Pagination } from "react-bootstrap";
 interface Props {
     pageSize: number,
     pageNumber: number,
+    paginationRange: number[],
     SetPaginationRange: Function
 };
 
 
 const Paginator = (props: Props) => {
-    const { pageSize, pageNumber, SetPaginationRange } = props;
+    const { pageSize, pageNumber, paginationRange, SetPaginationRange } = props;
 
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [paginationRange, setPaginationRange] = useState<number[]>([0, (pageSize - 1)]);
-
-    useEffect(() => {
-        SetPaginationRange(paginationRange);
-    }, [paginationRange, SetPaginationRange]);
-
+    /* Base variables */
     let pages: JSX.Element[] = [];
 
+    /* Generate Paginator Pages */
     for (let i = 0; i < pageNumber; i++) {
         const page = i + 1;
 
         const PushToPages = (page: number) => {
             pages.push(
                 <Pagination.Item key={i}
-                    active={page === currentPage}
+                    active={page === pageNumber}
                     onClick={() => SwitchPage(page)}
                 >
                     {page}
@@ -46,22 +42,23 @@ const Paginator = (props: Props) => {
         }
     }
 
+    /* Function for switching a Paginator Page */
     const SwitchPage = (input: string | number = 1) => {
         if (String(input) === 'up') {
             const newRange: number[] = [(paginationRange[0] + pageSize), (paginationRange[1] + pageSize)];
 
-            setCurrentPage(currentPage + 1)
-            setPaginationRange(newRange);
-        } else if (String(input) === 'down' && currentPage > 1) {
+            // setCurrentPage(pageNumber + 1)
+            SetPaginationRange(newRange);
+        } else if (String(input) === 'down' && pageNumber > 1) {
             const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
 
-            setCurrentPage(currentPage - 1);
-            setPaginationRange(newRange);
+            // setCurrentPage(pageNumber - 1);
+            SetPaginationRange(newRange);
         } else if (typeof (input) === 'number') {
             const newRange: number[] = [((pageSize * input) - pageSize), ((pageSize * input) - 1)];
 
-            setCurrentPage(input);
-            setPaginationRange(newRange);
+            // setCurrentPage(input);
+            SetPaginationRange(newRange);
         }
     }
 

@@ -40,7 +40,7 @@ const Search = () => {
     const searchSpecimen = useAppSelector(getSearchSpecimen);
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [paginationRange, setPaginationRange] = useState<number[]>();
+    const [paginationRange, setPaginationRange] = useState<number[]>([0, pageSize - 1]);
 
     /* OnLoad/OnChange of search params: check filters, then action a search */
     useEffect(() => {
@@ -53,39 +53,47 @@ const Search = () => {
             });
         }
 
-        /* If any filter is selected */
-        if (!isEmpty(searchFilters)) {
-            /* Action Search */
-            SearchSpecimens(searchFilters, pageSize, pageNumber).then((specimens) => {
-                dispatch(setSearchResults(specimens));
-            });
-        } else {
-            /* Grab Recent Specimens */
-            GetRecentSpecimens(pageSize, pageNumber).then((recentSpecimens) => {
-                dispatch(setSearchResults(recentSpecimens));
+        /* Test if paginationRange is subject to current page or not */
+        const page = (paginationRange[1] + 1) / pageSize;
+
+        if (page !== pageNumber || page === 1) {
+            /* If any filter is selected */
+            if (!isEmpty(searchFilters)) {
+                /* Action Search */
+                SearchSpecimens(searchFilters, pageSize, page).then((specimens) => {
+                    if (!isEmpty(specimens)) {
+                        dispatch(setSearchResults(specimens));
+
+                        setPageNumber(page);
+                    } else {
+                        const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
+
+                        setPaginationRange(newRange);
+                    }
+                });
+            } else {
+                /* Grab Recent Specimens */
+                GetRecentSpecimens(pageSize, page).then((recentSpecimens) => {
+                    if (!isEmpty(recentSpecimens)) {
+                        dispatch(setSearchResults(recentSpecimens));
+
+                        setPageNumber(page);
+                    } else {
+                        const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
+
+                        setPaginationRange(newRange);
+                    }
+                });
+            }
+
+            /* Refresh Aggregations */
+            GetSpecimenAggregations(searchFilters).then((aggregations) => {
+                if (aggregations) {
+                    dispatch(setSearchAggregations(aggregations));
+                }
             });
         }
-
-        /* Refresh Aggregations */
-        GetSpecimenAggregations(searchFilters).then((aggregations) => {
-            if (aggregations) {
-                dispatch(setSearchAggregations(aggregations));
-            }
-        });
-    }, [searchParams, pageNumber]);
-
-    /* OnChange of Pagination Range: try to Search Specimens by new range */
-    useEffect(() => {
-        if (paginationRange) {
-            /* Test if paginationRange is subject to current page or not */
-            const page = (paginationRange[1] + 1) / pageSize;
-
-            if (page !== pageNumber) {
-                /* If not, search specimens from given page */
-                setPageNumber(page);
-            }
-        }
-    }, [paginationRange]);
+    }, [searchParams, paginationRange]);
 
     /* ClassName for Search Menu Block */
     const classSearchMenu = classNames({
@@ -140,6 +148,7 @@ const Search = () => {
                                         <Col className="col-md-auto">
                                             <Paginator pageSize={pageSize}
                                                 pageNumber={pageNumber}
+                                                paginationRange={paginationRange}
 
                                                 SetPaginationRange={(range: number[]) => setPaginationRange(range)}
                                             />

@@ -7,9 +7,6 @@ import AnnotationModel from "api/model/AnnotationModel";
 /* Import Types */
 import { Annotation, JSONResultArray } from 'global/Types';
 
-/* Import API */
-/* import GetSpecimen from 'api/specimen/GetSpecimen'; */
-
 
 const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
     if (token) {
@@ -39,15 +36,6 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
 
                 userAnnotations.push(annotation);
             });
-
-            /* Temporary solution to include Specimen data */
-            /* for (const index in userAnnotations) {
-                const annotation = userAnnotations[index];
-
-                GetSpecimen(annotation.target.id.replace("https://hdl.handle.net/", "")).then((specimen) => {
-                    userAnnotations[index].specimen = specimen;
-                });
-            } */
         } catch (error) {
             console.warn(error);
         }

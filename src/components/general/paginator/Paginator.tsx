@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 
 
@@ -47,17 +46,14 @@ const Paginator = (props: Props) => {
         if (String(input) === 'up') {
             const newRange: number[] = [(paginationRange[0] + pageSize), (paginationRange[1] + pageSize)];
 
-            // setCurrentPage(pageNumber + 1)
             SetPaginationRange(newRange);
         } else if (String(input) === 'down' && pageNumber > 1) {
             const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
 
-            // setCurrentPage(pageNumber - 1);
             SetPaginationRange(newRange);
         } else if (typeof (input) === 'number') {
             const newRange: number[] = [((pageSize * input) - pageSize), ((pageSize * input) - 1)];
 
-            // setCurrentPage(input);
             SetPaginationRange(newRange);
         }
     }

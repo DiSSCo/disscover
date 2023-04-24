@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { SearchFilter } from 'global/Types';
+import { Specimen, SearchFilter } from 'global/Types';
 
 /* Import Styles */
 import './search.scss';
@@ -61,36 +61,31 @@ const Search = () => {
             if (!isEmpty(searchFilters)) {
                 /* Action Search */
                 SearchSpecimens(searchFilters, pageSize, page).then((specimens) => {
-                    if (!isEmpty(specimens)) {
-                        dispatch(setSearchResults(specimens));
-
-                        setPageNumber(page);
-                    } else {
-                        const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
-
-                        setPaginationRange(newRange);
-                    }
+                    HandleSearch(specimens, page);
                 });
             } else {
                 /* Grab Recent Specimens */
                 GetRecentSpecimens(pageSize, page).then((recentSpecimens) => {
-                    if (!isEmpty(recentSpecimens)) {
-                        dispatch(setSearchResults(recentSpecimens));
-
-                        setPageNumber(page);
-                    } else {
-                        const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
-
-                        setPaginationRange(newRange);
-                    }
+                    HandleSearch(recentSpecimens, page);
                 });
+            }
+
+            /* Function for handling Search results, page number and filters after new call */
+            const HandleSearch = (specimens: Specimen[], page: number) => {
+                if (!isEmpty(specimens)) {
+                    dispatch(setSearchResults(specimens));
+
+                    setPageNumber(page);
+                } else {
+                    const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
+
+                    setPaginationRange(newRange);
+                }
             }
 
             /* Refresh Aggregations */
             GetSpecimenAggregations(searchFilters).then((aggregations) => {
-                if (aggregations) {
-                    dispatch(setSearchAggregations(aggregations));
-                }
+                dispatch(setSearchAggregations(aggregations));
             });
         }
     }, [searchParams, paginationRange]);

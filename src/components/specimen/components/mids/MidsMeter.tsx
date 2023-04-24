@@ -5,11 +5,11 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen, getSpecimenMidsProperty } from "redux/specimen/SpecimenSlice";
+import { getSpecimen, getSpecimenMidsProperty } from 'redux/specimen/SpecimenSlice';
 
 /* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import MidsDetails from './MidsDetails';

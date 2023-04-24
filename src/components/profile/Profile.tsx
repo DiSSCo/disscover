@@ -6,7 +6,7 @@ import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getUser } from "redux/user/UserSlice";
+import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { User, Annotation } from 'global/Types';

@@ -1,7 +1,7 @@
 /* Import Dependencies */
-import { useLocation } from "react-router-dom";
-import classNames from "classnames";
-import { Container, Row, Col } from "react-bootstrap";
+import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
 import styles from './footer.module.scss';

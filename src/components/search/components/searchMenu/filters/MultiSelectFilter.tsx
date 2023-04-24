@@ -1,15 +1,15 @@
 /* Import Dependencies */
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FieldArray } from "formik";
-import { Capitalize } from "global/Utilities";
+import { FieldArray } from 'formik';
+import { Capitalize } 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
 /* Import Components */
-import SelectOption from "./SelectOption";
+import SelectOption from './SelectOption';
 
 
 /* Props Typing */

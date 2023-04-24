@@ -16,7 +16,7 @@ import { DigitalMedia } from 'global/Types';
 import styles from 'components/search/search.module.scss';
 
 /* Import Sources */
-import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

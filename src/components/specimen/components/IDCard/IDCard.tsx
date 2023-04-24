@@ -3,14 +3,14 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen, getSpecimenDigitalMedia } from "redux/specimen/SpecimenSlice";
+import { getSpecimen, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFrog } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFrog } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import MidsBar from './MidsBar';

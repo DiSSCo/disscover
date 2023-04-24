@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import KeycloakService from 'keycloak/Keycloak';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,9 +8,9 @@ import { Container, Row, Col } from 'react-bootstrap';
 import styles from './header.module.scss';
 
 /* Import Components */
-import Languages from "./components/Languages";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
+import Languages from './components/Languages';
+import Login from './components/Login';
+import Profile from './components/Profile';
 
 
 const Header = () => {

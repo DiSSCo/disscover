@@ -1,12 +1,12 @@
 /* Import Dependencies */
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict } from "global/Types";
+import { Dict } from 'global/Types';
 
 /* Import API */
-import GetDigitalMedias from "api/digitalMedia/GetDigitalMedias";
+import GetDigitalMedias from 'api/digitalMedia/GetDigitalMedias';
 
 
 function SampleSpecimen() {

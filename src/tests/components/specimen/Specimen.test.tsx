@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { act } from "react-dom/test-utils";
+import { act } from 'react-dom/test-utils';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { screen, waitFor } from '@testing-library/react';

@@ -1,6 +1,6 @@
 /* Import Dependencies */
-import { useEffect, useState } from "react";
-import { Pagination } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { Pagination } from 'react-bootstrap';
 
 
 /* Props Typing */

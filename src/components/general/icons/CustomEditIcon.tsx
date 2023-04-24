@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import './icons.css';
 
 /* Import Icons */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil, faX } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Props Typing */

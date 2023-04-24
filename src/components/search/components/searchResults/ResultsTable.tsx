@@ -5,7 +5,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchResults, getSearchSpecimen, setSearchSpecimen } from "redux/search/SearchSlice";
+import { getSearchResults, getSearchSpecimen, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Specimen } from 'global/Types';

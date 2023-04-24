@@ -7,8 +7,8 @@ import './icons.css';
 import styles from './icons.module.scss';
 
 /* Import Icons */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil, faX } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Props Typing */

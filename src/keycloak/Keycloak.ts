@@ -1,8 +1,8 @@
 /* Import Dependencies */
-import Keycloak from "keycloak-js";
+import Keycloak from 'keycloak-js';
 
 /* Import Types */
-import { EmptyCallback } from "global/Types";
+import { EmptyCallback } from 'global/Types';
 
 
 const keycloak = new Keycloak({

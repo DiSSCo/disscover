@@ -7,7 +7,7 @@ import { Row, Col, Modal } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getAnnotateTarget, setAnnotateTarget } from "redux/annotate/AnnotateSlice";
+import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Annotation, AnnotationTemplate, Dict } from 'global/Types';

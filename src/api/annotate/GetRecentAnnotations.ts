@@ -1,11 +1,11 @@
 /* Import Dependencies */
-import axios from "axios";
+import axios from 'axios';
 
 /* Import Model */
-import AnnotationModel from "api/model/AnnotationModel";
+import AnnotationModel from 'api/model/AnnotationModel';
 
 /* Import Types */
-import { Annotation, JSONResultArray } from "global/Types";
+import { Annotation, JSONResultArray } from 'global/Types';
 
 
 const GetRecentAnnotations = async () => {

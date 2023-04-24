@@ -6,7 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getAnnotateTarget } from "redux/annotate/AnnotateSlice";
+import { getAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { AnnotationMotivation, Dict } from 'global/Types';

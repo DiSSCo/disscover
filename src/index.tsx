@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { setupStore } from './app/store';
-import axios from "axios";
+import axios from 'axios';
 import KeycloakService from 'keycloak/Keycloak';
 import './i18n';
 

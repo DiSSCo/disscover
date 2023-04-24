@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FieldArray } from 'formik';
-import { Capitalize } 'global/Utilities';
+import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Styles */

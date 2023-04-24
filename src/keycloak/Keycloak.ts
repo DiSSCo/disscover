@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import Keycloak 'keycloak-js';
+import Keycloak from 'keycloak-js';
 
 /* Import Types */
 import { EmptyCallback } from 'global/Types';

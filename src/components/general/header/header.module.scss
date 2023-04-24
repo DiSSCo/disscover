@@ -2,6 +2,53 @@
 
 .header {
     height: 80px;
-    background-color: rgb(12, 134, 198, 0.75);
-    position: fixed;
+    background-color: white;
+}
+
+.title {
+    color: var(--primary)
+}
+
+/* Navigation */
+.navItem {
+    font-size: 17px;
+    border-bottom: 2px solid white;
+    cursor: pointer;
+}
+
+.navItemActive {
+    font-size: 17px;
+    border-bottom: 2px solid var(--secondary);
+}
+
+.navItem:after {
+    display: block;
+    content: '';
+    border-bottom: 2px solid var(--secondary);
+    transform: scaleX(0);
+    transition: transform 200ms ease-in-out;
+}
+
+.navItem:hover:after {
+    transform: scaleX(1);
+}
+
+/* Login */
+.loginButton {
+    font-size: 17px;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.loginButton:hover {
+    cursor: pointer;
+    border: 1px solid var(--secondary);
+}
+
+/* Languages */
+.languagesSelect {
+    border: none;
+    background-color: white;
 }

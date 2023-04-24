@@ -1,11 +1,11 @@
 /* Import Dependencies */
-import { useNavigate, createSearchParams } from "react-router-dom";
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppDispatch } from 'app/hooks';
-import { setSearchQuery } from "redux/search/SearchSlice";
+import { setSearchQuery } from 'redux/search/SearchSlice';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';

@@ -7,7 +7,6 @@ import { Annotation } from 'global/Types';
 
 /* Import Components */
 import UserProfileAnnotation from './UserProfileAnnotation';
-import Paginator from 'components/general/paginator/Paginator';
 
 
 /* Props Typing */
@@ -20,7 +19,7 @@ const AnnotationsOverview = (props: Props) => {
     const { userProfileAnnotations } = props;
 
     /* Pagination */
-    const [paginationRange, setPaginationRange] = useState<number[]>([]);
+    const [paginationRange] = useState<number[]>([]);
 
     /* Function for rendering the individual Annotation Components */
     const RenderCreatorAnnotations = () => {
@@ -47,23 +46,6 @@ const AnnotationsOverview = (props: Props) => {
                         {paginationRange &&
                             <Row>
                                 {RenderCreatorAnnotations()}
-                            </Row>
-                        }
-
-                        {(userProfileAnnotations.length > 0) ?
-                            <Row>
-                                <Col>
-                                    <Paginator items={userProfileAnnotations}
-                                        pageSize={8}
-
-                                        SetPaginationRange={(range: number[]) => setPaginationRange(range)}
-                                    />
-                                </Col>
-                            </Row>
-                            : <Row>
-                                <Col>
-                                    No annotations have been made yet
-                                </Col>
                             </Row>
                         }
                     </Col>

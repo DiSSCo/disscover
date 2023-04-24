@@ -25,7 +25,7 @@ import IDCard from './components/IDCard/IDCard';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
-import SearchSpecimens from "api/specimen/SearchSpecimens";
+import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 
@@ -38,6 +38,9 @@ const Search = () => {
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
+    const pageSize = 25;
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [paginationRange, setPaginationRange] = useState<number[]>();
 
     /* OnLoad/OnChange of search params: check filters, then action a search */
     useEffect(() => {
@@ -53,12 +56,12 @@ const Search = () => {
         /* If any filter is selected */
         if (!isEmpty(searchFilters)) {
             /* Action Search */
-            SearchSpecimens(searchFilters).then((specimens) => {
+            SearchSpecimens(searchFilters, pageSize, pageNumber).then((specimens) => {
                 dispatch(setSearchResults(specimens));
             });
         } else {
             /* Grab Recent Specimens */
-            GetRecentSpecimens().then((recentSpecimens) => {
+            GetRecentSpecimens(pageSize, pageNumber).then((recentSpecimens) => {
                 dispatch(setSearchResults(recentSpecimens));
             });
         }
@@ -69,13 +72,20 @@ const Search = () => {
                 dispatch(setSearchAggregations(aggregations));
             }
         });
-    }, [searchParams]);
+    }, [searchParams, pageNumber]);
 
-    /* Pagination */
-    const [paginationRange, setPaginationRange] = useState<number[]>();
+    /* OnChange of Pagination Range: try to Search Specimens by new range */
+    useEffect(() => {
+        if (paginationRange) {
+            /* Test if paginationRange is subject to current page or not */
+            const page = (paginationRange[1] + 1) / pageSize;
 
-    /* TEMPORARY CONSOLE LOG FOR SONAR, needs to be updated when API is updated */
-    console.log(paginationRange);
+            if (page !== pageNumber) {
+                /* If not, search specimens from given page */
+                setPageNumber(page);
+            }
+        }
+    }, [paginationRange]);
 
     /* ClassName for Search Menu Block */
     const classSearchMenu = classNames({
@@ -114,7 +124,7 @@ const Search = () => {
                                     {/* Search Results */}
 
                                     <Col md={{ span: 12 }} className="h-100 pb-2">
-                                        <ResultsTable />
+                                        <ResultsTable pageNumber={pageNumber} />
                                     </Col>
                                 </Row>
 
@@ -128,8 +138,8 @@ const Search = () => {
 
                                     {(searchResults.length > 0) &&
                                         <Col className="col-md-auto">
-                                            <Paginator items={searchResults}
-                                                pageSize={25}
+                                            <Paginator pageSize={pageSize}
+                                                pageNumber={pageNumber}
 
                                                 SetPaginationRange={(range: number[]) => setPaginationRange(range)}
                                             />

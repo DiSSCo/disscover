@@ -1,9 +1,10 @@
 /* Import Dependencies */
+import { isEmpty } from 'lodash';
 import { Row, Col, Tabs, Tab } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen } from 'redux/specimen/SpecimenSlice';
+import { getSpecimen, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -14,7 +15,6 @@ import SpecimenOverview from './SpecimenOverview';
 import OriginalData from './OriginalData';
 import AnnotationsOverview from './AnnotationsOverview';
 import DigitalMedia from './DigitalMedia';
-import MIDSOverview from './MIDSOverview';
 
 
 /* Props Typing */
@@ -28,6 +28,7 @@ const ContentBlock = (props: Props) => {
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
+    const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
     return (
         <Row className="h-100">
@@ -58,12 +59,11 @@ const ContentBlock = (props: Props) => {
                             <Tab eventKey="annotations" title="Annotations">
                                 <AnnotationsOverview />
                             </Tab>
-                            <Tab eventKey="digitalMedia" title="Digital Media">
-                                <DigitalMedia />
-                            </Tab>
-                            <Tab eventKey="mids" title="MIDS Terms">
-                                <MIDSOverview />
-                            </Tab>
+                            {!isEmpty(digitalMedia) &&
+                                <Tab eventKey="digitalMedia" title="Digital Media">
+                                    <DigitalMedia />
+                                </Tab>
+                            }
                         </Tabs>
                     </Col>
                 </Row>

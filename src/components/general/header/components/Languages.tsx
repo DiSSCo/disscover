@@ -1,7 +1,10 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
+
+/* Import Styles */
+import styles from 'components/general/header/header.module.scss';
 
 
 const Languages = () => {
@@ -28,7 +31,7 @@ const Languages = () => {
                         <Form>
                             <Field name="language" as="select"
                                 onChange={(event: React.FormEvent<HTMLSelectElement>) => {handleChange(event); submitForm();}}
-                                className="header_languagesSelect py-1"
+                                className={styles.languagesSelect}
                             >
                                 {languages.map((language) => {
                                     return (

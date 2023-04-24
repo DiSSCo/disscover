@@ -1,0 +1,26 @@
+.footer {
+    z-index: 2;
+    position: fixed;
+    height: 60px;
+    bottom: 0;
+}
+
+.footer.home {
+    background-color: white;
+}
+
+.footerCol {
+    border-top: 1px solid var(--grey);
+}
+
+.footerText {
+    font-size: 13px;
+}
+
+.footerLink {
+    color: var(--accent) !important;
+}
+
+.footerLink:hover {
+    text-decoration: underline !important;
+}

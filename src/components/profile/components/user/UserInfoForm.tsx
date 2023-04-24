@@ -1,10 +1,10 @@
 /* Import Dependencies */
-import { Formik, Field, Form } from "formik";
-import KeycloakService from "keycloak/Keycloak";
+import { Formik, Field, Form } from 'formik';
+import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap'
 
 /* Import Types */
-import { User, Organisation } from "global/Types";
+import { User, Organisation } from 'global/Types';
 
 /* Import API */
 import PatchUser from 'api/user/PatchUser';

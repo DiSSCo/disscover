@@ -2,7 +2,7 @@
 FROM node:18.7.0-alpine3.16 as build
 
 # Set working directory
-WORKDIR /ucas
+WORKDIR /disscover
 
 # Install dependencies
 COPY package.json ./
@@ -20,7 +20,7 @@ RUN npm run build
 # Setting up NGINX
 FROM nginx:stable-alpine
 
-COPY --from=build /ucas/build /usr/share/nginx/html
+COPY --from=build /disscover/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port

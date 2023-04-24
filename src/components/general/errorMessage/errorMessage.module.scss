@@ -1,4 +1,5 @@
 .errorMessage {
+    display: none;
     opacity: 0;
     width: 600px;
     margin-left: auto;
@@ -8,6 +9,7 @@
 }
 
 .errorMessage.active {
+    display: block;
     opacity: 1;
 }
 

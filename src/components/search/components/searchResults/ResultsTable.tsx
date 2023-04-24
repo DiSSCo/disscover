@@ -5,7 +5,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchResults, getSearchSpecimen, setSearchSpecimen } from "redux/search/SearchSlice";
+import { getSearchResults, getSearchSpecimen, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Specimen } from 'global/Types';
@@ -18,7 +18,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 
-const ResultsTable = () => {
+/* Props Styling */
+interface Props {
+    pageNumber: number
+};
+
+
+const ResultsTable = (props: Props) => {
+    const { pageNumber } = props;
+
     /* Hooks */
     const dispatch = useAppDispatch();
 
@@ -67,17 +75,34 @@ const ResultsTable = () => {
     useEffect(() => {
         if (isEmpty(searchSpecimen)) {
             /* Unselect current Row */
-            const unselectedRow = tableData.find((tableRow) => tableRow.toggleSelected);
+            const currentRow = tableData.find((tableRow) => tableRow.toggleSelected);
 
-            if (unselectedRow) {
-                unselectedRow.toggleSelected = false;
+            if (currentRow) {
+                currentRow.toggleSelected = false;
             }
-
-            const copyTableData = [...tableData];
-
-            setTableData(copyTableData);
         }
-    }, [searchSpecimen]);
+
+        const copyTableData = [...tableData];
+
+        setTableData(copyTableData);
+    }, [searchSpecimen, pageNumber]);
+
+    /* Function to check if selected Specimen is still selected after page change */
+    useEffect(() => {
+        if (!isEmpty(searchSpecimen)) {
+            if (!tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.id === searchSpecimen.id))) {
+                const currentRow = tableData.find((tableRow) => tableRow.id === searchSpecimen.id);
+
+                if (currentRow) {
+                    currentRow.toggleSelected = true;
+
+                    const copyTableData = [...tableData];
+
+                    setTableData(copyTableData);
+                }
+            }
+        }
+    }, [tableData]);
 
     /* Set Datatable columns */
     const tableColumns: TableColumn<DataRow>[] = [{

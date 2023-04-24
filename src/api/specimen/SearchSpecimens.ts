@@ -8,7 +8,7 @@ import SpecimenModel from 'api/model/SpecimenModel';
 import { Specimen, SearchFilter, JSONResultArray } from 'global/Types';
 
 
-const SearchSpecimens = async (searchFilters: SearchFilter[]) => {
+const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, pageNumber?: number) => {
     /* Destructure Search Filters into string */
     let filters: string = '';
 
@@ -30,7 +30,8 @@ const SearchSpecimens = async (searchFilters: SearchFilter[]) => {
         const endPoint = `specimens/search?${filters}`;
 
         const params = {
-            pageSize: 25
+            pageSize: pageSize,
+            pageNumber: pageNumber ? pageNumber : 1
         };
 
         try {

@@ -179,258 +179,48 @@
     font-weight: bold;
 }
 
+/* Digital Media Block */
+.digitalMediaImagesBlock {
+    height: 35%;
+}
+
+.digitalMediaTitle {
+    font-size: 15px;
+}
+
+.digitalMediaImagesSlider {
+    height: 90%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border: 1px solid var(--secondary);
+    background-color: #ddeeea;
+    border-radius: 8px;
+}
+
+.digitalMediaImageDiv {
+    width: min-content;
+}
+
+.digitalMediaImage {
+    border-radius: 8px;
+    transition: 0.4s;
+}
+
+.digitalMediaImageHover {
+    opacity: 0;
+    font-size: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: 0.4s;
+}
+
+.digitalMediaImageHover.active {
+    opacity: 1;
+}
+
 /* MIDS Block */
 
 .midsProperty {
     border: 1px solid var(--main-color);
-}
-
-
-/* Specimen Information Block */
-
-.specimen_fixedTitleBlock {
-    left: 0;
-}
-
-.specimen_fixedTitleBlockMargin {
-    margin-left: 0.9% !important;
-}
-
-.specimen_titleBlock {
-    height: 40px;
-}
-
-.specimen_basisOfRecordSymbolBlock {
-    font-size: 24px;
-}
-
-.specimen_titleBlockSub {
-    height: 40px;
-}
-
-.specimen_title {
-    font-size: 24px;
-    line-height: 35px;
-}
-
-.specimen_detailSpecimen {
-    background-color: var(--greyXLight);
-    font-size: 14px;
-}
-
-.specimen_detailSpecimenBackdrop {
-    position: absolute;
-    color: var(--greyDark);
-    opacity: 20%;
-    bottom: 0;
-    right: 0;
-    font-size: 220px;
-    transform: scaleX(-1);
-}
-
-.specimen_detailTitle {
-    font-size: 15px;
-    margin: 0px 0px 2% 0px;
-}
-
-.specimen_detailOrganisation {
-    font-size: 14px;
-}
-
-.specimen_detailLinksBlock {
-    height: 30%;
-}
-
-.specimen_detailLinks {
-    border-top: 1px solid var(--grey);   
-    font-size: 14px;
-}
-
-
-/* Specimen Properties */
-
-.annotate_annotateSection {
-    border-left: 1px solid var(--main-color);
-}
-
-.annotate_annotateSectionTitle {
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.specimen_toggleChevron {
-    transition: 0.4s;
-}
-
-.specimen_toggleChevron.active {
-    transform: rotate(180deg);
-}
-
-.specimen_propertyGroup {
-    height: 0;
-}
-
-.specimen_propertyGroup.active {
-    height: auto;
-}
-
-.specimen_propertyBlock {
-    transition: 0.4s;
-    cursor: default;
-}
-
-.specimen_propertyBlock:hover {
-    background-color: #e6e6e6;
-}
-
-.specimen_property {
-    font-size: 14px;
-}
-
-.specimen_midsIndication {
-    font-size: 13px;
-    height: fit-content;
-}
-
-
-/* Media Block */
-
-.specimen_mediaGalleryTitleBlock {
-    height: 30px;
-    line-height: 30px;
-}
-
-.specimen_mediaGalleryContent {
-    background-color: var(--greyXLight);
-}
-
-.specimen_mediaSlider {
-    width: max-content;
-    height: 200px;
-}
-
-.specimen_media {
-    height: 200px;
-}
-
-.specimen_mediaCover {
-    background-color: rgb(46, 92, 184, 0.60);
-    top: 0;
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.specimen_mediaCover:hover {
-    opacity: 100;
-}
-
-
-/* MIDS Block */
-
-.specimen_midsMeterChevronDown {
-    transition: 0.4s;
-    cursor: pointer;
-}
-
-.specimen_midsMeterChevronDown.active {
-    transform: rotate(180deg);
-}
-
-.specimen_midsMeterTitle {
-    font-size: 16px;
-}
-
-.specimen_midsMeterBar {
-    border: 1px solid var(--greyLight);
-}
-
-
-/* MIDS Details */
-
-.specimen_midsDetailsBlock {
-    background-color: var(--greyXLight);
-    height: 0px;
-    left: 0;
-    transition: 0.4s;
-    border-left: 1px solid #333333;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-}
-
-.specimen_midsDetailsBlock.active {
-    height: 350px;
-}
-
-.specimen_midsDetailsBlockTitle {
-    font-size: 16px;
-}
-
-.specimen_midsDetailsSections {
-    height: 90%;
-    scroll-behavior: smooth;
-}
-
-.specimen_midsDetailsSection {
-    border-left: 1px solid var(--main-color);
-}
-
-.specimen_midsDetailsSectionTitle {
-    font-size: 15px;
-    font-style: italic;
-    border-bottom: 1px solid;
-}
-
-
-/* MIDS Details Section */
-
-.specimen_midsDetailsSectionContent {
-    font-size: 14px;
-}
-
-.specimen_midsDetailsIndication {
-    font-size: 13px;
-}
-
-
-/* Annotations overview */
-
-.specimen_annotationsOverview {
-    height: 40%;
-}
-
-.specimen_annotationsOverviewTab { 
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.specimen_annotationsOverviewTab.active {
-    background-color: var(--main-color-dark);
-    color: white;
-    cursor: default;
-}
-
-.specimen_annotationsOverviewRow {
-    height: Calc(100% - 30px);
-}
-
-.specimen_annotationsOverviewSectionProps {
-    font-size: 14px;
-}
-
-.specimen_annotationsOverviewSectionRows {
-    height: Calc(100% - 30px);
-}
-
-.specimen_annotationsOverviewSectionRow {
-    font-size: 14px;
-    border-bottom: 1px solid var(--greyXLight);
-    cursor: pointer;
-}
-
-.specimen_annotationsOverviewSectionRow.even {
-    background-color: var(--main-color-light);
-}
-
-.specimen_annotationsOverviewSectionRow:hover {
-    background-color: var(--greyLight);
 }

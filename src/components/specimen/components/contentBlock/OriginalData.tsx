@@ -5,7 +5,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen } from "redux/specimen/SpecimenSlice";
+import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 /* Import Types */
 import { SourceSystem } from 'global/Types';

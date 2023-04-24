@@ -25,7 +25,7 @@ import IDCard from './components/IDCard/IDCard';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
-import SearchSpecimens from "api/specimen/SearchSpecimens";
+import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 

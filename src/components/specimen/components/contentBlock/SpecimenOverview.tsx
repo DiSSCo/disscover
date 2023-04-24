@@ -5,7 +5,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen } from "redux/specimen/SpecimenSlice";
+import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import { faLandmark, faLocationDot, faBoxArchive } from '@fortawesome/free-solid
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Sources */
-import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 
 
 /* Props Typing */

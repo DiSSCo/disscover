@@ -1,5 +1,5 @@
 /* Import Types */
-import { User as UserType, JSONResult } from "global/Types"
+import { User as UserType, JSONResult } from 'global/Types';
 
 
 /* User Model for API calls */

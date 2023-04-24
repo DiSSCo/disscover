@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames';
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
 import 'react-tabs/style/react-tabs.css';
@@ -12,8 +12,8 @@ import Trilobite from 'webroot/img/trilobite.png';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
-import PIDSearch from "./components/search/PIDSearch";
-import PhysicalIDSearch from "./components/search/PhysicalIDSearch";
+import PIDSearch from './components/search/PIDSearch';
+import PhysicalIDSearch from './components/search/PhysicalIDSearch';
 import CollectionFacilitySearch from './components/search/CollectionFacilitySearch';
 import VirtualCollectionSearch from './components/search/VirtualCollectionSearch';
 import Footer from 'components/general/footer/Footer';

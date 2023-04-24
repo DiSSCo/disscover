@@ -1,5 +1,5 @@
 /* Import Types */
-import { Annotation as AnnotationType, JSONResult } from "global/Types"
+import { Annotation as AnnotationType, JSONResult } from 'global/Types';
 
 
 /* User Model for API calls */

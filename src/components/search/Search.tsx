@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { SearchFilter } from 'global/Types';
+import { Specimen, SearchFilter, Dict } from 'global/Types';
 
 /* Import Styles */
 import './search.scss';
@@ -40,7 +40,7 @@ const Search = () => {
     const searchSpecimen = useAppSelector(getSearchSpecimen);
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [paginationRange, setPaginationRange] = useState<number[]>();
+    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
 
     /* OnLoad/OnChange of search params: check filters, then action a search */
     useEffect(() => {
@@ -56,36 +56,30 @@ const Search = () => {
         /* If any filter is selected */
         if (!isEmpty(searchFilters)) {
             /* Action Search */
-            SearchSpecimens(searchFilters, pageSize, pageNumber).then((specimens) => {
-                dispatch(setSearchResults(specimens));
+            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links }) => {
+                HandleSearch(specimens, links);
             });
         } else {
             /* Grab Recent Specimens */
-            GetRecentSpecimens(pageSize, pageNumber).then((recentSpecimens) => {
-                dispatch(setSearchResults(recentSpecimens));
+            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links }) => {
+                HandleSearch(specimens, links);
             });
+        }
+
+        /* Function for handling Search results, page number and filters after new call */
+        const HandleSearch = (specimens: Specimen[], links: Dict) => {
+            /* Set Search Results / Specimens */
+            dispatch(setSearchResults(specimens));
+
+            /* Set Paginator links */
+            setPaginatorLinks(links);
         }
 
         /* Refresh Aggregations */
         GetSpecimenAggregations(searchFilters).then((aggregations) => {
-            if (aggregations) {
-                dispatch(setSearchAggregations(aggregations));
-            }
+            dispatch(setSearchAggregations(aggregations));
         });
     }, [searchParams, pageNumber]);
-
-    /* OnChange of Pagination Range: try to Search Specimens by new range */
-    useEffect(() => {
-        if (paginationRange) {
-            /* Test if paginationRange is subject to current page or not */
-            const page = (paginationRange[1] + 1) / pageSize;
-
-            if (page !== pageNumber) {
-                /* If not, search specimens from given page */
-                setPageNumber(page);
-            }
-        }
-    }, [paginationRange]);
 
     /* ClassName for Search Menu Block */
     const classSearchMenu = classNames({
@@ -138,10 +132,10 @@ const Search = () => {
 
                                     {(searchResults.length > 0) &&
                                         <Col className="col-md-auto">
-                                            <Paginator pageSize={pageSize}
-                                                pageNumber={pageNumber}
+                                            <Paginator pageNumber={pageNumber}
+                                                links={paginatorLinks}
 
-                                                SetPaginationRange={(range: number[]) => setPaginationRange(range)}
+                                                SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
                                             />
                                         </Col>
                                     }

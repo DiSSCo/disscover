@@ -1,47 +1,41 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { isEmpty } from 'lodash';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import classNames from 'classnames';
 import KeycloakService from 'keycloak/Keycloak';
-import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getUser } from 'redux/user/UserSlice';
-
-/* Import Types */
-import { User, Annotation } from 'global/Types';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getUser, getUserProfile, setUserProfile } from "redux/user/UserSlice";
 
 /* Import Styles */
-import './profile.scss';
+import styles from './profile.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
 import UserInfo from './components/user/UserInfo';
-import UserStatistics from './components/user/UserStatistics';
 import AnnotationsOverview from './components/annotate/AnnotationsOverview';
 import Footer from 'components/general/footer/Footer';
-
-/* Import API */
-import GetUserAnnotations from 'api/user/GetUserAnnotations';
 
 
 const Profile = () => {
     /* Hooks */
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const params = useParams();
 
     /* Base Variables */
     const user = useAppSelector(getUser);
-    const [userProfile, setUserProfile] = useState<User>({} as User);
-    const [userProfileAnnotations, setUserProfileAnnotations] = useState<Annotation[]>([]);
+    const userProfile = useAppSelector(getUserProfile);
 
     /* OnLoad: Check if user id is given as a parameter, else check if logged in, else redirect to home */
     useEffect(() => {
         if (KeycloakService.IsLoggedIn()) {
-            if (Object.keys(user).length > 0) {
-                setUserProfile(user);
-
-                CheckAnnotations(user);
+            if (!isEmpty(user)) {
+                dispatch(setUserProfile(user));
             }
         } else {
             if (params['userId']) {
@@ -52,49 +46,69 @@ const Profile = () => {
         }
     }, [user]);
 
-    /* Function for checking Annotations of given User */
-    const CheckAnnotations = (user: User) => {
-        /* Future Development: replace with general function for getting user annotations */
+    /* Class Name for Tabs */
+    const classTabsList = classNames({
+        [`${styles.tabsList}`]: true
+    });
 
-        /* TEMPORARY CONSOLE LOG FOR SONAR */
-        console.log(user);
+    const classTab = classNames({
+        'react-tabs__tab': true,
+        [`${styles.tab}`]: true
+    });
 
-        GetUserAnnotations(KeycloakService.GetToken()).then((annotations) => {
-            if (annotations) {
-                setUserProfileAnnotations(annotations);
-            }
-        });
-    }
+    const classSelectedTab = classNames({
+        [`${styles.tabSelected}`]: true
+    });
 
     return (
         <div className="d-flex flex-column min-vh-100">
             <Header />
 
-            <Container fluid className="h-100">
-                <Row className="mt-5">
-                    <Col md={{ span: 5, offset: 1 }}>
-                        <Row>
-                            <Col md={{ span: 9 }}>
-                                <UserInfo userProfile={userProfile}
-                                    SetUserProfile={(userProfile: User) => setUserProfile(userProfile)}
-                                />
-                            </Col>
-                        </Row>
+            <Container fluid className={`${styles.profileContent} mt-5`}>
+                {!isEmpty(userProfile) &&
+                    <Row className="h-100 justify-content-center">
+                        <Col md={{ span: 5 }} className="pb-1 border-1-primary-light rounded h-100">
+                            <Row>
+                                <Col className={`${styles.profileTop} position-relative d-flex justify-content-center`}>
+                                    <div className={`${styles.profilePicture} rounded-circle text-white position-absolute 
+                                    d-flex align-items-center justify-content-center`}
+                                    >
+                                        {userProfile.firstName ? userProfile.firstName[0].toUpperCase() : 'U'}
+                                    </div>
+                                </Col>
+                            </Row>
 
-                        <Row className="mt-5">
-                            <Col md={{ span: 12 }}>
-                                <UserStatistics />
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col md={{ span: 5 }}>
-                        <Tabs defaultActiveKey="annotations">
-                            <Tab eventKey="annotations" title="Annotations">
-                                <AnnotationsOverview userProfileAnnotations={userProfileAnnotations} />
-                            </Tab>
-                        </Tabs>
-                    </Col>
-                </Row>
+                            <Row className="mt-5">
+                                <Col className="profile_userInfoTitle py-1 fw-bold">
+                                    <p className={`${styles.profileTitle} text-center`}>
+                                        {(userProfile.firstName && userProfile.lastName) ?
+                                            <> {`${userProfile.firstName} ${userProfile.lastName}`} </>
+                                            : <> User Profile </>
+                                        }
+                                    </p>
+                                    <p className={`${styles.profileSubTitle} text-center`}> {userProfile['id']} </p>
+                                </Col>
+                            </Row>
+
+                            <Tabs className={styles.tabs} selectedTabClassName={classSelectedTab}>
+                                <TabList className={`${classTabsList} d-flex justify-content-center p-0`}>
+                                    <Tab className={classTab} selectedClassName={styles.active}> User information  </Tab>
+                                    <Tab className={classTab} selectedClassName={styles.active}> Annotations </Tab>
+                                </TabList>
+
+                                {/* Search by Digital Specimen */}
+                                <TabPanel className="pt-2">
+                                    <UserInfo />
+                                </TabPanel>
+
+                                {/* Search by Physical Specimen */}
+                                <TabPanel className={styles.profileAnnotationsBlock}>
+                                    <AnnotationsOverview />
+                                </TabPanel>
+                            </Tabs>
+                        </Col>
+                    </Row>
+                }
             </Container>
 
             <Footer />

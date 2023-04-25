@@ -1,17 +1,18 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Model */
+import AnnotationModel from "api/model/AnnotationModel";
+
 /* Import Types */
-import { Annotation } from 'global/Types';
-
-/* Import API */
-import GetSpecimen from 'api/specimen/GetSpecimen';
+import { Annotation, JSONResultArray, Dict } from 'global/Types';
 
 
-const GetUserAnnotations = async (token?: string) => {
+const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
+    let userAnnotations = <Annotation[]>[];
+    let links: Dict = {};
+
     if (token) {
-        let userAnnotations = <Annotation[]>[];
-
         const endPoint = 'annotations/creator';
 
         try {
@@ -19,27 +20,33 @@ const GetUserAnnotations = async (token?: string) => {
                 method: "get",
                 url: endPoint,
                 responseType: 'json',
+                params: {
+                    pageSize: pageSize,
+                    pageNumber: pageNumber ? pageNumber : 1
+                },
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
 
-            userAnnotations = result.data;
+            /* Set User Annotations with model */
+            const data: JSONResultArray = result.data;
+            links = data.links;
 
-            /* Temporary solution to include Specimen data */
-            for (const index in userAnnotations) {
-                const annotation = userAnnotations[index];
+            data.data.forEach((dataRow) => {
+                const annotation = AnnotationModel(dataRow);
 
-                GetSpecimen(annotation.target.id.replace("https://hdl.handle.net/", "")).then((specimen) => {
-                    userAnnotations[index].specimen = specimen;
-                });
-            }
+                userAnnotations.push(annotation);
+            });
         } catch (error) {
             console.warn(error);
         }
-
-        return userAnnotations;
     }
+
+    return {
+        userAnnotations: userAnnotations,
+        links: links
+    };
 }
 
 export default GetUserAnnotations;

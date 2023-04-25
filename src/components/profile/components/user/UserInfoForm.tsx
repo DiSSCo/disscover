@@ -6,6 +6,9 @@ import { Row, Col } from 'react-bootstrap'
 /* Import Types */
 import { User, Organisation } from 'global/Types';
 
+/* Import Styles */
+import styles from 'components/profile/profile.module.scss';
+
 /* Import API */
 import PatchUser from 'api/user/PatchUser';
 
@@ -23,7 +26,7 @@ const UserInfoForm = (props: Props) => {
     const { userProfile, organisations, SetUserProfile, DisableEditMode } = props;
 
     return (
-        <Col>
+        <Col className={`${styles.profileText} px-4`}>
             <Formik
                 initialValues={{ 
                     firstName: userProfile.firstName? userProfile.firstName : '', 
@@ -46,28 +49,28 @@ const UserInfoForm = (props: Props) => {
                     <Row className="pb-1">
                         <Col className="profile_input">
                             <Field name="firstName" type="text"
-                                className="profile_userInfoInput rounded-c w-75 px-2"
+                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
                     <Row className="mt-2 pb-1">
                         <Col className="profile_input">
                             <Field name="lastName" type="text"
-                                className="profile_userInfoInput rounded-c w-75 px-2"
+                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
                     <Row className="mt-2 pb-1">
                         <Col className="profile_input">
                             <Field name="email" type="email"
-                                className="profile_userInfoInput rounded-c w-75 px-2"
+                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
                     <Row className="mt-2 pb-1">
                         <Col className="profile_input">
                             <Field name="organisation" as="select"
-                                className="profile_userInfoInput rounded-c w-75 px-2"
+                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             >
                                 <option value="">
                                     Select an organisation
@@ -88,13 +91,13 @@ const UserInfoForm = (props: Props) => {
                     <Row className="mt-2">
                         <Col className="profile_input">
                             <Field name="orcid" type="text"
-                                className="profile_userInfoInput rounded-c w-75 px-2"
+                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
                     <Row className="mt-3">
                         <Col md={{ span: 3 }}>
-                            <button className="bg-primary-blue border-0 rounded-c w-100 text-white"
+                            <button className={`${styles.userInfoSubmit} border-0 rounded-c text-white px-3`}
                                 type="submit"
                             >
                                 Save

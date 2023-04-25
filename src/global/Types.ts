@@ -45,10 +45,6 @@ export type User = {
     orcid?: string,
 };
 
-export type UserAnnotations = {
-    [property: string]: Annotation[]
-};
-
 /* Search Types */
 export interface SearchFilter {
     [filter: string]: string | []

@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen, SearchFilter } from 'global/Types';
+import { Specimen, SearchFilter, Dict } from 'global/Types';
 
 /* Import Styles */
 import './search.scss';
@@ -40,7 +40,7 @@ const Search = () => {
     const searchSpecimen = useAppSelector(getSearchSpecimen);
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [paginationRange, setPaginationRange] = useState<number[]>([0, pageSize - 1]);
+    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
 
     /* OnLoad/OnChange of search params: check filters, then action a search */
     useEffect(() => {
@@ -53,42 +53,33 @@ const Search = () => {
             });
         }
 
-        /* Test if paginationRange is subject to current page or not */
-        const page = (paginationRange[1] + 1) / pageSize;
-
-        if (page !== pageNumber || page === 1) {
-            /* If any filter is selected */
-            if (!isEmpty(searchFilters)) {
-                /* Action Search */
-                SearchSpecimens(searchFilters, pageSize, page).then((specimens) => {
-                    HandleSearch(specimens, page);
-                });
-            } else {
-                /* Grab Recent Specimens */
-                GetRecentSpecimens(pageSize, page).then((recentSpecimens) => {
-                    HandleSearch(recentSpecimens, page);
-                });
-            }
-
-            /* Function for handling Search results, page number and filters after new call */
-            const HandleSearch = (specimens: Specimen[], page: number) => {
-                if (!isEmpty(specimens)) {
-                    dispatch(setSearchResults(specimens));
-
-                    setPageNumber(page);
-                } else {
-                    const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
-
-                    setPaginationRange(newRange);
-                }
-            }
-
-            /* Refresh Aggregations */
-            GetSpecimenAggregations(searchFilters).then((aggregations) => {
-                dispatch(setSearchAggregations(aggregations));
+        /* If any filter is selected */
+        if (!isEmpty(searchFilters)) {
+            /* Action Search */
+            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links }) => {
+                HandleSearch(specimens, links);
+            });
+        } else {
+            /* Grab Recent Specimens */
+            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links }) => {
+                HandleSearch(specimens, links);
             });
         }
-    }, [searchParams, paginationRange]);
+
+        /* Function for handling Search results, page number and filters after new call */
+        const HandleSearch = (specimens: Specimen[], links: Dict) => {
+            /* Set Search Results / Specimens */
+            dispatch(setSearchResults(specimens));
+
+            /* Set Paginator links */
+            setPaginatorLinks(links);
+        }
+
+        /* Refresh Aggregations */
+        GetSpecimenAggregations(searchFilters).then((aggregations) => {
+            dispatch(setSearchAggregations(aggregations));
+        });
+    }, [searchParams, pageNumber]);
 
     /* ClassName for Search Menu Block */
     const classSearchMenu = classNames({
@@ -141,11 +132,10 @@ const Search = () => {
 
                                     {(searchResults.length > 0) &&
                                         <Col className="col-md-auto">
-                                            <Paginator pageSize={pageSize}
-                                                pageNumber={pageNumber}
-                                                paginationRange={paginationRange}
+                                            <Paginator pageNumber={pageNumber}
+                                                links={paginatorLinks}
 
-                                                SetPaginationRange={(range: number[]) => setPaginationRange(range)}
+                                                SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
                                             />
                                         </Col>
                                     }

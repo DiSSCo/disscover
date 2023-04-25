@@ -5,13 +5,14 @@ import axios from 'axios';
 import AnnotationModel from "api/model/AnnotationModel";
 
 /* Import Types */
-import { Annotation, JSONResultArray } from 'global/Types';
+import { Annotation, JSONResultArray, Dict } from 'global/Types';
 
 
 const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
-    if (token) {
-        let userAnnotations = <Annotation[]>[];
+    let userAnnotations = <Annotation[]>[];
+    let links: Dict = {};
 
+    if (token) {
         const endPoint = 'annotations/creator';
 
         try {
@@ -30,6 +31,7 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
 
             /* Set User Annotations with model */
             const data: JSONResultArray = result.data;
+            links = data.links;
 
             data.data.forEach((dataRow) => {
                 const annotation = AnnotationModel(dataRow);
@@ -39,9 +41,12 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
         } catch (error) {
             console.warn(error);
         }
-
-        return userAnnotations;
     }
+
+    return {
+        userAnnotations: userAnnotations,
+        links: links
+    };
 }
 
 export default GetUserAnnotations;

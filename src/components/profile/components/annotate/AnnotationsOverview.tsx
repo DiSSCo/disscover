@@ -9,6 +9,9 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getUserProfileAnnotations, setUserProfileAnnotations } from 'redux/user/UserSlice';
 
+/* Import Types */
+import { Dict } from 'global/Types';
+
 /* Import Styles */
 import styles from 'components/profile/profile.module.scss';
 
@@ -28,7 +31,7 @@ const AnnotationsOverview = () => {
     const [tableData, setTableData] = useState<DataRow[]>([]);
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [paginationRange, setPaginationRange] = useState<number[]>([0, pageSize - 1]);
+    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
 
     interface DataRow {
         index: number,
@@ -40,26 +43,16 @@ const AnnotationsOverview = () => {
 
     /* OnChange of Pagination Range: try to fetch User Annotations by new range */
     useEffect(() => {
-        if (paginationRange) {
-            /* Test if paginationRange is subject to current page or not */
-            const page = (paginationRange[1] + 1) / pageSize;
+        GetUserAnnotations(KeycloakService.GetToken(), pageSize, pageNumber).then(({ userAnnotations, links }) => {
+            if (!isEmpty(userAnnotations) && userAnnotations) {
+                /* Set User Annotations */
+                dispatch(setUserProfileAnnotations(userAnnotations));
 
-            if (page !== pageNumber || page === 1) {
-                /* If not, search Specimens from given page */
-                GetUserAnnotations(KeycloakService.GetToken(), pageSize, page).then((annotations) => {
-                    if (!isEmpty(annotations) && annotations) {
-                        dispatch(setUserProfileAnnotations(annotations));
-
-                        setPageNumber(page);
-                    } else {
-                        const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
-
-                        setPaginationRange(newRange);
-                    }
-                });
+                /* Set Paginator links */
+                setPaginatorLinks(links);
             }
-        }
-    }, [paginationRange]);
+        });
+    }, [pageNumber]);
 
     /* Set Datatable columns */
     const tableColumns: TableColumn<DataRow>[] = [{
@@ -122,11 +115,10 @@ const AnnotationsOverview = () => {
                 </Row>
                 <Row className={`${styles.annotationsTablePaginator} justify-content-center`}>
                     <Col className="col-md-auto">
-                        <Paginator pageSize={pageSize}
-                            pageNumber={pageNumber}
-                            paginationRange={paginationRange}
+                        <Paginator pageNumber={pageNumber}
+                            links={paginatorLinks}
 
-                            SetPaginationRange={(range: number[]) => setPaginationRange(range)}
+                            SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
                         />
                     </Col>
                 </Row>

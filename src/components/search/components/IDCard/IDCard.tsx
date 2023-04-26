@@ -56,7 +56,8 @@ const IDCard = () => {
         }
     }
 
-    const ChangeView = ({ center, zoom }: {center: LatLngExpression, zoom: number}) => {
+    /* Function for changing the zoom level of the Leaflet Map */
+    const ChangeView = ({ center, zoom }: { center: LatLngExpression, zoom: number }) => {
         const map = useMap();
         map.setView(center, zoom);
         return null;
@@ -86,17 +87,24 @@ const IDCard = () => {
                     </Row>
 
                     {/* MIDS Bar */}
-                    <Row className="mt-2 align-items-center">
-                        <Col className="h-100">
-                            <div className={styles.midsBar}>
-                                <div className={`${styles.midsProgressionLevel} h-100`} />
+                    <Row className="mt-2">
+                        <Col className="col-md-auto pe-2">
+                            <div className={`${styles.midsBlock} ${specimen.midsLevel >= 1 && styles.active} px-3 py-1 mt-2 fw-lightBold`}>
+                                MIDS 1
                             </div>
                         </Col>
-                        <Col className="col-md-auto ps-1">
-                            <p className={`${styles.midsTitle} fw-bold`}>
-                                <span className="pe-2"> Level {specimen.midsLevel} </span>
-                                <FontAwesomeIcon icon={faCircleInfo} />
-                            </p>
+                        <Col className="col-md-auto px-2">
+                            <div className={`${styles.midsBlock} ${specimen.midsLevel >= 2 && styles.active} px-3 py-1 mt-2 fw-lightBold`}>
+                                MIDS 2
+                            </div>
+                        </Col>
+                        <Col className="col-md-auto ps-2">
+                            <div className={`${styles.midsBlock} ${specimen.midsLevel >= 3 && styles.active} px-3 py-1 mt-2 fw-lightBold`}>
+                                MIDS 3
+                            </div>
+                        </Col>
+                        <Col className="d-flex align-items-center">
+                            <FontAwesomeIcon icon={faCircleInfo} className={`${styles.midsInfoIcon} mt-2`} />
                         </Col>
                     </Row>
 

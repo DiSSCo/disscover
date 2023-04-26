@@ -109,6 +109,28 @@
     color: var(--greyDark);
 }
 
+.midsTitle {
+    font-size: 14px;
+    color: var(--accent);
+}
+
+.midsBlock {
+    color: #333333;
+    border: 1px solid var(--primary);
+    width: fit-content;
+    transition: 0.3s;
+}
+
+.midsBlock.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.midsInfoIcon {
+    font-size: 20px;
+    color: var(--accent);
+}
+
 .midsBar {
     background-color: #d4f3f7;
     height: 15px;
@@ -120,11 +142,6 @@
     width: 15%;
     transition: 1s;
     border-radius: 999px;
-}
-
-.midsTitle {
-    font-size: 18px;
-    color: var(--accent);
 }
 
 .IDCardProperty {

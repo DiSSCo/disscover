@@ -1,5 +1,5 @@
 /* Import Types */
-import { DigitalMedia as DigitalMediaType, JSONResult } from "global/Types"
+import { DigitalMedia as DigitalMediaType, JSONResult } from 'global/Types';
 
 
 /* User Model for API calls */

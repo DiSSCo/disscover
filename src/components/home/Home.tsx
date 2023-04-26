@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import classNames from 'classnames';
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
 import styles from './home.module.scss';

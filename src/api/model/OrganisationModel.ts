@@ -1,5 +1,5 @@
 /* Import Types */
-import { Organisation as OrganisationType, JSONResult } from "global/Types"
+import { Organisation as OrganisationType, JSONResult } from 'global/Types';
 
 
 /* User Model for API calls */

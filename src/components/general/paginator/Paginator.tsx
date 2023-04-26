@@ -1,40 +1,43 @@
 /* Import Dependencies */
-import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
+
+/* Import Types */
+import { Dict } from 'global/Types';
 
 
 /* Props Typing */
 interface Props {
-    pageSize: number,
     pageNumber: number,
-    paginationRange: number[],
-    SetPaginationRange: Function
+    links: Dict,
+    SetPageNumber: Function
 };
 
 
 const Paginator = (props: Props) => {
-    const { pageSize, pageNumber, paginationRange, SetPaginationRange } = props;
+    const { pageNumber, links, SetPageNumber } = props;
 
     /* Base variables */
     let pages: JSX.Element[] = [];
+
+    /* Function for pushing pages to the Paginator */
+    const PushToPages = (page: number) => {
+        pages.push(
+            <Pagination.Item key={page}
+                active={page === pageNumber}
+                onClick={() => SwitchPage(page)}
+            >
+                {page}
+            </Pagination.Item>
+        );
+    }
 
     /* Generate Paginator Pages */
     for (let i = 0; i < pageNumber; i++) {
         const page = i + 1;
 
-        const PushToPages = (page: number) => {
-            pages.push(
-                <Pagination.Item key={i}
-                    active={page === pageNumber}
-                    onClick={() => SwitchPage(page)}
-                >
-                    {page}
-                </Pagination.Item>
-            );
-        }
-
+        /* Add current and previous (3) page numbers */
         if (pageNumber > 4) {
-            if ((page >= (pageNumber - 3) && page <= pageNumber) || (page <= (pageNumber + 3)) && page >= pageNumber) {
+            if ((page >= (pageNumber - 3) && page <= pageNumber)) {
                 PushToPages(page);
             }
         } else {
@@ -42,32 +45,34 @@ const Paginator = (props: Props) => {
         }
     }
 
+    /* Add next page number if present */
+    if ('next' in links) {
+        PushToPages(pageNumber + 1);
+    }
+
     /* Function for switching a Paginator Page */
     const SwitchPage = (input: string | number = 1) => {
         if (String(input) === 'up') {
-            const newRange: number[] = [(paginationRange[0] + pageSize), (paginationRange[1] + pageSize)];
-
-            // setCurrentPage(pageNumber + 1)
-            SetPaginationRange(newRange);
+            SetPageNumber(pageNumber + 1);
         } else if (String(input) === 'down' && pageNumber > 1) {
-            const newRange: number[] = [(paginationRange[0] - pageSize), (paginationRange[1] - pageSize)];
-
-            // setCurrentPage(pageNumber - 1);
-            SetPaginationRange(newRange);
+            SetPageNumber(pageNumber - 1);
         } else if (typeof (input) === 'number') {
-            const newRange: number[] = [((pageSize * input) - pageSize), ((pageSize * input) - 1)];
-
-            // setCurrentPage(input);
-            SetPaginationRange(newRange);
+            SetPageNumber(input);
         }
     }
 
     return (
         <div>
             <Pagination>
-                <Pagination.Prev onClick={() => SwitchPage('down')} />
+                {'prev' in links &&
+                    <Pagination.Prev onClick={() => SwitchPage('down')} />
+                }
+
                 {pages}
-                <Pagination.Next onClick={() => SwitchPage('up')} />
+
+                {'next' in links &&
+                    <Pagination.Next onClick={() => SwitchPage('up')} />
+                }
             </Pagination>
         </div>
     );

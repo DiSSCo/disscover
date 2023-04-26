@@ -47,9 +47,9 @@ const AnnotationsTable = (props: Props) => {
                 setDisplayAnnotations(annotations);
             });
         } else if (filter === 'creatorAnnotations') {
-            GetUserAnnotations(KeycloakService.GetToken(), 10).then((annotations) => {
-                if (annotations) {
-                    setDisplayAnnotations(annotations);
+            GetUserAnnotations(KeycloakService.GetToken(), 10).then(({userAnnotations}) => {
+                if (userAnnotations) {
+                    setDisplayAnnotations(userAnnotations);
                 }
             });
         }

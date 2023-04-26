@@ -5,16 +5,14 @@ import axios from 'axios';
 import AnnotationModel from "api/model/AnnotationModel";
 
 /* Import Types */
-import { Annotation, JSONResultArray } from 'global/Types';
-
-/* Import API */
-/* import GetSpecimen from 'api/specimen/GetSpecimen'; */
+import { Annotation, JSONResultArray, Dict } from 'global/Types';
 
 
 const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
-    if (token) {
-        let userAnnotations = <Annotation[]>[];
+    let userAnnotations = <Annotation[]>[];
+    let links: Dict = {};
 
+    if (token) {
         const endPoint = 'annotations/creator';
 
         try {
@@ -33,27 +31,22 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
 
             /* Set User Annotations with model */
             const data: JSONResultArray = result.data;
+            links = data.links;
 
             data.data.forEach((dataRow) => {
                 const annotation = AnnotationModel(dataRow);
 
                 userAnnotations.push(annotation);
             });
-
-            /* Temporary solution to include Specimen data */
-            /* for (const index in userAnnotations) {
-                const annotation = userAnnotations[index];
-
-                GetSpecimen(annotation.target.id.replace("https://hdl.handle.net/", "")).then((specimen) => {
-                    userAnnotations[index].specimen = specimen;
-                });
-            } */
         } catch (error) {
             console.warn(error);
         }
-
-        return userAnnotations;
     }
+
+    return {
+        userAnnotations: userAnnotations,
+        links: links
+    };
 }
 
 export default GetUserAnnotations;

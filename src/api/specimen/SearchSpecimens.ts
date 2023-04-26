@@ -5,7 +5,7 @@ import axios from 'axios';
 import SpecimenModel from 'api/model/SpecimenModel';
 
 /* Import Types */
-import { Specimen, SearchFilter, JSONResultArray } from 'global/Types';
+import { Specimen, SearchFilter, JSONResultArray, Dict } from 'global/Types';
 
 
 const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, pageNumber?: number) => {
@@ -25,6 +25,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
 
     /* Execute call */
     let searchResults = [] as Specimen[];
+    let links: Dict = {};
 
     if (filters) {
         const endPoint = `specimens/search?${filters}`;
@@ -44,6 +45,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
 
             /* Set Specimens with Model */
             const data: JSONResultArray = result.data;
+            links = data.links;
 
             data.data.forEach((dataRow) => {
                 const specimen = SpecimenModel(dataRow);
@@ -55,7 +57,10 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
         }
     }
 
-    return searchResults;
+    return {
+        specimens: searchResults,
+        links: links
+    }
 }
 
 export default SearchSpecimens;

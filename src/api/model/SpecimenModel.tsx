@@ -1,5 +1,5 @@
 /* Import Types */
-import { Specimen as SpecimenType, JSONResult } from "global/Types"
+import { Specimen as SpecimenType, JSONResult } from 'global/Types';
 
 
 /* User Model for API calls */

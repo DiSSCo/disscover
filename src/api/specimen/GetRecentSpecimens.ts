@@ -1,15 +1,16 @@
 /* Import Dependencies */
-import axios from "axios";
+import axios from 'axios';
 
 /* Import Model */
-import SpecimenModel from "api/model/SpecimenModel";
+import SpecimenModel from 'api/model/SpecimenModel';
 
 /* Import Types */
-import { Specimen, JSONResultArray } from "global/Types";
+import { Specimen, JSONResultArray, Dict } from 'global/Types';
 
 
 const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
     let recentSpecimens = <Specimen[]>[];
+    let links: Dict = {};
 
     const endPoint = "/specimens"
 
@@ -26,6 +27,7 @@ const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
 
         /* Set Recent Specimens with Model */
         const data: JSONResultArray = result.data;
+        links = data.links;
 
         data.data.forEach((dataRow) => {
             const specimen = SpecimenModel(dataRow);
@@ -36,7 +38,10 @@ const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
         console.warn(error);
     }
 
-    return recentSpecimens;
+    return {
+        specimens: recentSpecimens,
+        links: links
+    };
 }
 
 export default GetRecentSpecimens;

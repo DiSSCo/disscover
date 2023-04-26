@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimenMidsProperty } from "redux/specimen/SpecimenSlice";
+import { getSpecimenMidsProperty } from 'redux/specimen/SpecimenSlice';
 
 /* Import Types */
 import { Dict } from 'global/Types';

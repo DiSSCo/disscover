@@ -1,11 +1,11 @@
 /* Import Dependencies */
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route
-} from "react-router-dom";
-import KeycloakService from "keycloak/Keycloak";
+} from 'react-router-dom';
+import KeycloakService from 'keycloak/Keycloak';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
@@ -15,17 +15,17 @@ import { getUser, setUser } from 'redux/user/UserSlice';
 import './App.css';
 
 /* Import Components */
-import Home from "components/home/Home";
-import Search from "components/search/Search";
-import Specimen from "components/specimen/Specimen";
-import DigitalMedia from "components/digitalMedia/DigitalMedia";
-import Annotate from "components/annotate/Annotate";
-import Profile from "components/profile/Profile";
-import ErrorMessage from "components/general/errorMessage/ErrorMessage";
+import Home from 'components/home/Home';
+import Search from 'components/search/Search';
+import Specimen from 'components/specimen/Specimen';
+import DigitalMedia from 'components/digitalMedia/DigitalMedia';
+import Annotate from 'components/annotate/Annotate';
+import Profile from 'components/profile/Profile';
+import ErrorMessage from 'components/general/errorMessage/ErrorMessage';
 
 /* Import API */
-import GetUser from "api/user/GetUser";
-import InsertUser from "api/user/InsertUser";
+import GetUser from 'api/user/GetUser';
+import InsertUser from 'api/user/InsertUser';
 
 
 const App = () => {

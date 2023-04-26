@@ -4,7 +4,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimenDigitalMedia } from "redux/specimen/SpecimenSlice";
+import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';

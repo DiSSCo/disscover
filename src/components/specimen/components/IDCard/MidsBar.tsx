@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen } from "redux/specimen/SpecimenSlice";
+import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 
 const MidsBar = () => {

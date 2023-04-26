@@ -5,6 +5,11 @@
     background-color: white;
 }
 
+.header.home {
+    position: fixed;
+    top: 0;
+}
+
 .title {
     color: var(--primary)
 }

@@ -8,8 +8,8 @@ WORKDIR /disscover
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN npm install npm@9.1.2 --legacy-peer-deps
-RUN npm install react-scripts@5.0.1 --legacy-peer-deps
+RUN npm install npm@9.1.2
+RUN npm install react-scripts@5.0.1
 
 # Copy application
 COPY . ./

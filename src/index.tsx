@@ -10,6 +10,7 @@ import './i18n';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'leaflet/dist/leaflet.css'
+import 'react-tabs/style/react-tabs.css';
 
 /* Import Components */
 import App from './App';

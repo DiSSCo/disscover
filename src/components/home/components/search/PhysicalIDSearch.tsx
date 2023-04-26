@@ -101,12 +101,12 @@ const PhysicalIDSearch = () => {
 
     /* Class Name for Not Found Message */
     const classNotFound = classNames({
-        'd-none': !errorActive,
-        [`${styles.notFound}`]: errorActive
+        [`${styles.notFound}`]: true,
+        [`${styles.active}`]: errorActive
     });
 
     return (
-        <Row>
+        <Row className="mt-2">
             <Col>
                 <Formik
                     initialValues={{
@@ -127,10 +127,10 @@ const PhysicalIDSearch = () => {
                                 <Col>
                                     <Row>
                                         <Col>
-                                            <p className="fw-bold mb-1"> Search by </p>
+                                            <p className="fw-lightBold mb-1"> Search by </p>
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mt-1">
                                         <Col>
                                             <Field name="idType" as="select"
                                                 className={`${styles.searchBar} w-100`}
@@ -148,10 +148,10 @@ const PhysicalIDSearch = () => {
                                     <Col>
                                         <Row>
                                             <Col>
-                                                <p className="fw-bold mb-1"> Organisation hosting the specimen </p>
+                                                <p className="fw-lightBold mb-1"> Organisation hosting the specimen </p>
                                             </Col>
                                         </Row>
-                                        <Row>
+                                        <Row className="mt-1">
                                             <Col>
                                                 <Field name="organisationId" as="select"
                                                     className={`${styles.searchBar} w-100`}
@@ -175,7 +175,7 @@ const PhysicalIDSearch = () => {
                                 <Col>
                                     <Row>
                                         <Col>
-                                            <p className="fw-bold mb-1">
+                                            <p className="fw-lightBold mb-1">
                                                 {(values.idType === 'gui') ?
                                                     <> Global Unique Identifier </>
                                                     : <> Local Identifier </>
@@ -183,7 +183,7 @@ const PhysicalIDSearch = () => {
                                             </p>
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="mt-1">
                                         <Col>
                                             <Field name="idValue"
                                                 className={`${styles.searchBar} w-100`}
@@ -193,14 +193,14 @@ const PhysicalIDSearch = () => {
                                 </Col>
                             </Row>
 
-                            <Row className="pt-3">
+                            <Row className="mt-4">
                                 <Col>
                                     <p className={`${classNotFound} m-0`}>
-                                        {`No Digital Specimen found with Physical ID: ${idValue} within ${organisationId}`}
+                                        {`No Digital Specimen found with Physical ID: ${idValue}`}
                                     </p>
                                 </Col>
                                 <Col className="col-md-auto">
-                                    <button type="submit" className={`${styles.searchButton} px-3 py-1`}>
+                                    <button type="submit" className="primaryButton px-3 py-1">
                                         Search
                                     </button>
                                 </Col>

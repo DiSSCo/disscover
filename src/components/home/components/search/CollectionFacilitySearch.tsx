@@ -43,7 +43,7 @@ const CollectionFacilitySearch = () => {
     }
 
     return (
-        <Row>
+        <Row className="mt-2">
             <Col>
                 <Formik
                     initialValues={{
@@ -62,10 +62,10 @@ const CollectionFacilitySearch = () => {
                             <Col>
                                 <Row>
                                     <Col>
-                                        <p className="fw-bold mb-1"> Search by </p>
+                                        <p className="fw-lightBold mb-1"> Search by </p>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mt-1">
                                     <Col>
                                         <Field name="idType" as="select"
                                             className={`${styles.searchBar} w-100`}
@@ -81,10 +81,10 @@ const CollectionFacilitySearch = () => {
                             <Col>
                                 <Row>
                                     <Col>
-                                        <p className="fw-bold mb-1"> Organisation hosting the collection facility </p>
+                                        <p className="fw-lightBold mb-1"> Organisation hosting the collection facility </p>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mt-1">
                                     <Col>
                                         <Field name="organisationId" as="select"
                                             className={`${styles.searchBar} w-100`}
@@ -105,9 +105,9 @@ const CollectionFacilitySearch = () => {
                             </Col>
                         </Row>
 
-                        <Row className="pt-3">
+                        <Row className="mt-4">
                             <Col className="d-flex justify-content-end">
-                                <button type="submit" className={`${styles.searchButton} px-3 py-1`}>
+                                <button type="submit" className="primaryButton px-3 py-1">
                                     Search
                                 </button>
                             </Col>

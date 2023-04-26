@@ -62,12 +62,12 @@ const PIDSearch = () => {
 
     /* Class Name for Not Found Message */
     const classNotFound = classNames({
-        'd-none': !errorActive,
-        [`${styles.notFound}`]: errorActive
+        [`${styles.notFound}`]: true,
+        [`${styles.active}`]: errorActive
     });
 
     return (
-        <Row>
+        <Row className="mt-2">
             <Col>
                 <Formik
                     initialValues={{
@@ -82,10 +82,10 @@ const PIDSearch = () => {
                     <Form>
                         <Row>
                             <Col>
-                                <p className="fw-bold mb-1"> DOI </p>
+                                <p className="mb-1 fw-lightBold"> DOI </p>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className="mt-1">
                             <Col>
                                 <Field name="PIDQuery"
                                     className={`${styles.searchBar} w-100`}
@@ -93,12 +93,12 @@ const PIDSearch = () => {
                                 />
                             </Col>
                         </Row>
-                        <Row className="pt-3">
+                        <Row className="mt-4">
                             <Col>
                                 <p className={`${classNotFound} m-0`}> {`No Digital Specimen found for ID: ${PIDQuery}`} </p>
                             </Col>
                             <Col className="col-md-auto d-flex justify-content-end">
-                                <button type="submit" className={`${styles.searchButton} px-3 py-1`}>
+                                <button type="submit" className="primaryButton px-3 py-1">
                                     Search
                                 </button>
                             </Col>

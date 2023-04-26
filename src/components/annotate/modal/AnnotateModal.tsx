@@ -264,6 +264,12 @@ const AnnotateModal = (props: Props) => {
                                     </Row>
 
                                     <Row className="mt-4">
+                                        <Col className="annotate_licenseText">
+                                            <p> All annotations are publicly available and subject to the CC-0 license </p>
+                                        </Col>
+                                    </Row>
+
+                                    <Row className="mt-2">
                                         <Col className="col-md-auto">
                                             <button type="submit"
                                                 className="annotate_annotationTypeSubmit border-2-primary-dark"

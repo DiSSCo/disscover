@@ -119,6 +119,7 @@
     border: 1px solid var(--primary);
     width: fit-content;
     transition: 0.3s;
+    border-radius: 4px;
 }
 
 .midsBlock.active {
@@ -129,19 +130,6 @@
 .midsInfoIcon {
     font-size: 20px;
     color: var(--accent);
-}
-
-.midsBar {
-    background-color: #d4f3f7;
-    height: 15px;
-    border-radius: 999px;
-}
-
-.midsProgressionLevel {
-    background-color: var(--accent);
-    width: 15%;
-    transition: 1s;
-    border-radius: 999px;
 }
 
 .IDCardProperty {

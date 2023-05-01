@@ -23,6 +23,9 @@ import Annotate from 'components/annotate/Annotate';
 import Profile from 'components/profile/Profile';
 import ErrorMessage from 'components/general/errorMessage/ErrorMessage';
 
+/* Import Routes */
+import DocumentRoutes from 'components/documents/Routes';
+
 /* Import API */
 import GetUser from 'api/user/GetUser';
 import InsertUser from 'api/user/InsertUser';
@@ -77,6 +80,9 @@ const App = () => {
         {/* Profile Page */}
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:userId" element={<Profile />} />
+
+        {/* Document Routes */}
+        {DocumentRoutes}
       </Routes>
 
       <ErrorMessage />

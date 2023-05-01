@@ -25,7 +25,7 @@ const SearchBar = () => {
                             placeholder="Iguanodon"
                         />
 
-                        <button type="submit" className="search_searchBarSubmit position-absolute bg-white border-0">
+                        <button type="submit" className={`${styles.searchBarIcon} position-absolute bg-white border-0`}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </Col>

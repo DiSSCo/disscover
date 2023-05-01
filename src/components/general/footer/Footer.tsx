@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -37,7 +37,9 @@ const Footer = () => {
                         </Col>
                         <Col className="col-md-auto">
                             <p className={styles.footerText}>
-                                Privacy Policy
+                                <Link to="/privacy-policy">
+                                    Privacy Policy
+                                </Link>
                             </p>
                         </Col>
                         <Col className="d-flex justify-content-end">

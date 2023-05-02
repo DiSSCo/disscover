@@ -20,7 +20,7 @@ const RecentAnnotations = () => {
     const [recentAnnotations, setRecentAnnotations] = useState<Annotation[]>([]);
 
     useEffect(() => {
-        GetRecentAnnotations().then((annotations) => {
+        GetRecentAnnotations(10).then((annotations) => {
             let counter = 0;
 
             const CheckCounter = () => {

@@ -6,7 +6,7 @@ import { JSONResult, SearchFilter, Dict } from 'global/Types';
 
 
 const GetSpecimenAggregations = async (searchFilters?: SearchFilter[]) => {
-    let aggregations = <Dict>{};
+    let aggregations = {} as Dict;
     let endPoint: string = '/specimens/aggregation';
 
     /* If present, destructure Search Filters into string */

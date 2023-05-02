@@ -35,7 +35,7 @@ const OriginalData = () => {
                 setSourceSystem(sourceSystem);
             }
         });
-    }, []);
+    }, [specimen]);
 
     /* Set Datatable columns */
     const tableColumns: TableColumn<DataRow>[] = [{

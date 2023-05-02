@@ -10,17 +10,17 @@ import { JSONResult, User, Dict } from 'global/Types';
 
 const InsertUser = async (userId?: string, token?: string, keycloakParsed?: Dict) => {
     if (userId && token) {
-        let user = <User>{};
+        let user = {} as User;
 
         const userRecord: JSONResult = {
             data: {
                 id: userId,
                 type: "users",
-                attributes: <User>{
+                attributes: {
                     firstName: keycloakParsed?.given_name,
                     lastName: keycloakParsed?.family_name,
                     email: keycloakParsed?.email
-                }
+                } as User
             },
             links: {
                 self: `https://sandbox.dissco.tech/api/v1/users/${userId}`

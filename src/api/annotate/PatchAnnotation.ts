@@ -10,7 +10,7 @@ import { Annotation, AnnotationTemplate, JSONResult } from 'global/Types';
 
 const PatchAnnotation = async (annotationRecord: AnnotationTemplate, annotationId: string, token?: string) => {
     if (annotationRecord && token) {
-        let annotation = <Annotation>{};
+        let annotation = {} as Annotation;
 
         const endPoint = `/annotations/${annotationId}`;
 

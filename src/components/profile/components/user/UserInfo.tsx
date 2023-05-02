@@ -115,14 +115,14 @@ const UserInfo = () => {
                 </Row>
                 <Row className="px-3">
                     <Col md={{ span: 3 }}>
-                        <a href={`https://orcid.org/${userProfile.orcid}`} target="_blank">
+                        <a href={`https://orcid.org/${userProfile.orcid}`} target="_blank" rel="noreferrer">
                             <button type="button" className={`${styles.profileExternalButton} w-100`}>
                                 ORCID
                             </button>
                         </a>
                     </Col>
                     <Col md={{ span: 3 }}>
-                        <a href={`https://bionomia.net/${userProfile.orcid}`} target="_blank">
+                        <a href={`https://bionomia.net/${userProfile.orcid}`} target="_blank" rel="noreferrer">
                             <button type="button" className={`${styles.profileExternalButton} w-100`}>
                                 Bionomia
                             </button>

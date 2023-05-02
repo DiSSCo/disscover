@@ -15,11 +15,11 @@ export interface SpecimenState {
 }
 
 const initialState: SpecimenState = {
-    specimen: <Specimen>{},
-    specimenVersion: <number>0,
-    specimenDigitalMedia: <SpecimenDigitalMedia[]>[],
-    specimenAnnotations: <SpecimenAnnotations>{},
-    specimenMidsProperty: <string>''
+    specimen: {} as Specimen,
+    specimenVersion: 0,
+    specimenDigitalMedia: [] as SpecimenDigitalMedia[],
+    specimenAnnotations: {} as SpecimenAnnotations,
+    specimenMidsProperty: ''
 };
 
 export const SpecimenSlice = createSlice({

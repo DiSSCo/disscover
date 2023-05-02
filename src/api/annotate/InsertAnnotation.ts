@@ -10,7 +10,7 @@ import { Annotation, AnnotationTemplate, JSONResult } from 'global/Types';
 
 const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: string) => {
     if (annotationRecord && token) {
-        let annotation = <Annotation>{};
+        let annotation = {} as Annotation;
 
         const postAnnotation = {
             data: {

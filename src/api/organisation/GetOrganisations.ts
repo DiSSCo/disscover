@@ -9,7 +9,7 @@ import { Organisation, JSONResultArray } from 'global/Types';
 
 
 const GetOrganisations = async () => {
-    let organisations = <Organisation[]>[];
+    let organisations = [] as Organisation[];
 
     const endPoint = "/organisation/tuples"
 

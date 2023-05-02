@@ -34,6 +34,7 @@ const SpecimenOverview = (props: Props) => {
 
     /* Check if reference to Organisation logo is present in Source File */
     let organisationLogoUrl: string = '';
+    let organisationLogoAlt: string = 'Organisation Logo';
 
     if (specimen.organisationId) {
         if (specimen.organisationId.replace('https://ror.org/', '') in organisationLogos) {
@@ -44,6 +45,8 @@ const SpecimenOverview = (props: Props) => {
             } else {
                 organisationLogoUrl = logo;
             }
+
+            organisationLogoAlt = organisationLogos[specimen.organisationId.replace('https://ror.org/', '')].name;
         }
     }
 
@@ -173,6 +176,7 @@ const SpecimenOverview = (props: Props) => {
                                             {organisationLogoUrl &&
                                                 <img src={organisationLogoUrl}
                                                     className={styles.organisationLogo}
+                                                    alt={organisationLogoAlt}
                                                 />
                                             }
                                         </div>

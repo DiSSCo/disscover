@@ -27,7 +27,7 @@ const Footer = () => {
                     <Row className="h-100 align-items-center">
                         <Col className="col-md-auto pt-0">
                             <p className={`${styles.footerText}`}>
-                                <a href="https://dissco.eu" className={styles.footerLink} target="_blank">
+                                <a href="https://dissco.eu" className={styles.footerLink} target="_blank" rel="noreferrer">
                                     Distributed System of Scientific Collections
                                 </a>
                             </p>
@@ -43,7 +43,7 @@ const Footer = () => {
                             </p>
                         </Col>
                         <Col className="d-flex justify-content-end">
-                            <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues" target="_blank">
+                            <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues" target="_blank" rel="noreferrer">
                                 <p className={`${styles.footerText} ${styles.footerLink}`}> Send us Feedback on GitHub </p>
                             </a>
                         </Col>

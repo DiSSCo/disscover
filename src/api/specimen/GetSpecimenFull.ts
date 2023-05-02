@@ -7,9 +7,9 @@ import { Specimen, SpecimenDigitalMedia, Annotation, SpecimenAnnotations, JSONRe
 
 const GetSpecimenFull = async (handle: string) => {
     if (handle) {
-        let specimen = <Specimen>{};
-        let specimenDigitalMedia = <SpecimenDigitalMedia[]>[];
-        let specimenAnnotations = <SpecimenAnnotations>{};
+        let specimen = {} as Specimen;
+        let specimenDigitalMedia = [] as SpecimenDigitalMedia[];
+        let specimenAnnotations = {} as SpecimenAnnotations;
 
         let endPoint = `specimens/${handle}/full`;
 

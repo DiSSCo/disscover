@@ -168,7 +168,10 @@ const IDCard = () => {
                             <div className={`${styles.digitalMediaSlider} h-100 w-auto`}>
                                 {digitalMedia.map((mediaItem) => {
                                     return (
-                                        <img key={mediaItem.id} src={mediaItem.mediaUrl} className={`${styles.digitalMediaItem} h-100 me-3`} />
+                                        <img key={mediaItem.id} src={mediaItem.mediaUrl}
+                                            className={`${styles.digitalMediaItem} h-100 me-3`}
+                                            alt={mediaItem.mediaUrl}
+                                        />
                                     );
                                 })}
                             </div>

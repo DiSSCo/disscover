@@ -10,7 +10,7 @@ import { JSONResult, User } from 'global/Types';
 
 const GetUser = async (userId?: string, token?: string) => {
     if (userId && token) {
-        let user = <User>{};
+        let user = {} as User;
 
         const endPoint = `users/${userId}`;
 

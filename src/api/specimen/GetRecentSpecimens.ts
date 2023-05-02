@@ -9,7 +9,7 @@ import { Specimen, JSONResultArray, Dict } from 'global/Types';
 
 
 const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
-    let recentSpecimens = <Specimen[]>[];
+    let recentSpecimens = [] as Specimen[];
     let links: Dict = {};
 
     const endPoint = "/specimens"

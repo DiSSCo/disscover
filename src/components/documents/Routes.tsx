@@ -6,6 +6,8 @@ import PrivacyPolicy from "./PrivacyPolicy";
 
 
 /* Routes for Document pages */
-export default [
+const routes = [
     <Route key="privacy-policy" path="/privacy-policy" element={<PrivacyPolicy />} />
 ];
+
+export default routes;

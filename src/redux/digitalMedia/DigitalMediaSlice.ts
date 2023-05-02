@@ -12,8 +12,8 @@ export interface DigitalMediaState {
 }
 
 const initialState: DigitalMediaState = {
-    digitalMedia: <DigitalMedia>{},
-    digitalMediaAnnotations: <DigitalMediaAnnotations>{}
+    digitalMedia: {} as DigitalMedia,
+    digitalMediaAnnotations: {} as DigitalMediaAnnotations
 };
 
 export const DigitalMediaSlice = createSlice({

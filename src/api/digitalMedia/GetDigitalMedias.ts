@@ -9,7 +9,7 @@ import { DigitalMedia, JSONResultArray } from 'global/Types';
 
 
 const GetDigitalMedias = async () => {
-    let digitalMedias = <DigitalMedia[]>[];
+    let digitalMedias = [] as DigitalMedia[];
 
     const endPoint = `digitalmedia`;
 

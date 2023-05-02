@@ -46,6 +46,15 @@ const DigitalMedia = () => {
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
     const annotateTarget = useAppSelector(getAnnotateTarget);
 
+    /* Function for checking Digital Media Annotations */
+    const CheckAnnotations = (digitalMedia: DigitalMediaType) => {
+        GetDigitalMediaAnnotations(digitalMedia.id).then((annotations) => {
+            if (annotations) {
+                dispatch(setDigitalMediaAnnotations(annotations));
+            }
+        });
+    }
+
     /* OnLoad: Check for Digital Media, otherwise grab from database */
     useEffect(() => {
         const digitalMediaId = `${params.prefix}/${params.suffix}`;
@@ -72,15 +81,6 @@ const DigitalMedia = () => {
             CheckAnnotations(digitalMedia);
         }
     }, [annotateTarget.annotations]);
-
-    /* Function for checking Digital Media Annotations */
-    const CheckAnnotations = (digitalMedia: DigitalMediaType) => {
-        GetDigitalMediaAnnotations(digitalMedia.id).then((annotations) => {
-            if (annotations) {
-                dispatch(setDigitalMediaAnnotations(annotations));
-            }
-        });
-    }
 
     /* Function for toggling the Annotate Modal */
     const [modalToggle, setModalToggle] = useState(false);

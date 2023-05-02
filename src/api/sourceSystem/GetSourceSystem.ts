@@ -7,7 +7,7 @@ import { SourceSystem } from 'global/Types';
 
 const GetSourceSystem = async (handle: string) => {
     if (handle) {
-        let sourceSystem = <SourceSystem>{};
+        let sourceSystem = {} as SourceSystem;
 
         let endPoint: string = `source-system/${handle}`;
 

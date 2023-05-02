@@ -14,9 +14,6 @@ import {
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
 
-/* Import Types */
-import { Specimen as SpecimenType } from 'global/Types';
-
 /* Import Styles */
 import styles from './specimen.module.scss';
 
@@ -85,25 +82,21 @@ const Specimen = () => {
                 }
             });
         }
-    }, [params, version]);
+    }, [specimen, params, version, dispatch]);
 
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
         /* Check if the specimen annotations differ from the target annotations */
-        if (Array.isArray(annotateTarget.annotations) &&
-            JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
-            CheckAnnotations(specimen);
-        }
-    }, [annotateTarget.annotations]);
-
-    /* Function for checking Specimen Annotations */
-    const CheckAnnotations = (specimen: SpecimenType) => {
-        GetSpecimenAnnotations(specimen.id).then((annotations) => {
-            if (annotations) {
-                dispatch(setSpecimenAnnotations(annotations));
-            }
-        });
-    }
+        // if (Array.isArray(annotateTarget.annotations) &&
+        //     JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
+            /* Fetch Specimen Annotations */
+            GetSpecimenAnnotations(specimen.id).then((annotations) => {
+                if (annotations) {
+                    dispatch(setSpecimenAnnotations(annotations));
+                }
+            });
+        // }
+    }, [specimen, annotateTarget, dispatch]);
 
     /* Function for toggling the Annotate Modal */
     const [modalToggle, setModalToggle] = useState(false);

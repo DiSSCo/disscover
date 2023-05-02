@@ -1,0 +1,15 @@
+/* Custom Styling for Annotate page */
+
+.annotateContent {
+    height: Calc(100vh - 140px) !important;
+}
+
+.title {
+    font-size: 24px;
+}
+
+/* Overview Annotations Table */
+.table {
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+}

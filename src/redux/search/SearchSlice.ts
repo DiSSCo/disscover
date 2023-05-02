@@ -26,7 +26,7 @@ const initialState: SearchState = {
         idType: 'gui',
         idValue: ''
     },
-    searchResults: <Specimen[]>[],
+    searchResults: [] as Specimen[],
     searchAggregations: {} as Dict,
     searchSpecimen: {} as Specimen
 };

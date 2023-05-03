@@ -23,6 +23,7 @@ const GetSpecimenAnnotations = async (handle: string) => {
 
             /* Set Specimen Annotations with Model */
             const data: JSONResultArray = result.data;
+
             const annotations = <Annotation[]>[];
 
             data.data.forEach((dataRow) => {

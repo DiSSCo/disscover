@@ -11,6 +11,16 @@ import 'i18n';
 import { setupStore } from 'app/store';
 import type { AppStore, RootState } from 'app/store';
 
+/* Import Server API */
+import Server from './mock/APIMock';
+
+
+/* Mock API Server */
+beforeAll(() => Server.listen());
+
+afterEach(() => Server.resetHandlers());
+
+afterAll(() => Server.close());
 
 /* Mock Keycloak Service */
 jest.mock('keycloak/Keycloak.ts', () => {

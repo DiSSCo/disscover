@@ -19,6 +19,7 @@ import styles from './specimen.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
+import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
 import ContentBlock from './components/contentBlock/ContentBlock';
 import AnnotateModal from 'components/annotate/modal/AnnotateModal';
@@ -89,12 +90,12 @@ const Specimen = () => {
         /* Check if the specimen annotations differ from the target annotations */
         // if (Array.isArray(annotateTarget.annotations) &&
         //     JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
-            /* Fetch Specimen Annotations */
-            GetSpecimenAnnotations(specimen.id).then((annotations) => {
-                if (annotations) {
-                    dispatch(setSpecimenAnnotations(annotations));
-                }
-            });
+        /* Fetch Specimen Annotations */
+        GetSpecimenAnnotations(specimen.id).then((annotations) => {
+            if (annotations) {
+                dispatch(setSpecimenAnnotations(annotations));
+            }
+        });
         // }
     }, [specimen, annotateTarget, dispatch]);
 
@@ -122,25 +123,30 @@ const Specimen = () => {
             <Header />
 
             {(specimen.id === `${params['prefix']}/${params['suffix']}`) &&
-                <Container fluid className={`${styles.specimenContent} mt-5`}>
+                <Container fluid className={`${styles.content} pt-5`}>
                     <Row className="h-100">
                         <Col md={{ span: 10, offset: 1 }} className="h-100">
-                            <Row className="h-100">
+                            <Row className={styles.titleBar}>
+                                <Col>
+                                    <TitleBar />
+                                </Col>
+                            </Row>
+                            <Row className={`${styles.specimenContent} py-4`}>
                                 <Col md={{ span: 3 }} className="h-100">
                                     <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
-                                <Col md={{ span: 9 }} className="ps-5 h-100">
+                                <Col md={{ span: 9 }} className="ps-4 h-100">
                                     <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
-
-                                {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
-                                    <AnnotateModal modalToggle={modalToggle}
-                                        ToggleModal={() => ToggleModal()}
-                                    />
-                                }
                             </Row>
                         </Col>
                     </Row>
+
+                    {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
+                        <AnnotateModal modalToggle={modalToggle}
+                            ToggleModal={() => ToggleModal()}
+                        />
+                    }
                 </Container>
             }
 

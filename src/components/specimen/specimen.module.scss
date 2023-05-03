@@ -1,31 +1,58 @@
 /* Custom CSS for Specimen Page */
 
+.content {
+    height: calc(100vh - 140px)
+}
 
+/* Title Bar */
+.titleBar {
+    height: 12%;
+}
+
+.title {
+    font-size: 28px;
+}
+
+.titleBarIcon {
+    font-size: 30px;
+    color: var(--primary);
+}
+
+.midsBlock {
+    color: #333333;
+    border: 1px solid var(--primary);
+    width: fit-content;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.midsBlock.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Specimen Content */
 .specimenContent {
-    height: calc(100vh - 208px)
+    height: 88%;
 }
 
 
 /* ID Card */
-
 .IDCardHead {
     height: 150px;
 }
 
-.IDCardBlock {
-    height: Calc(100% - 150px);
-}
-
 .IDCardBanner {
-    height: 15%;
+    height: 25%;
 }
 
-.IDCardBannerCover {
-    background-color: #333333;
-    opacity: 0.2;
+.IDCardBannerBackground {
+    background-color: var(--greyLight);
+    border-radius: 8px;
 }
 
 .IDCard {
+    height: 75%;
     border-top-left-radius: 35px;
     border-bottom-right-radius: 35px;
 }
@@ -37,17 +64,30 @@
     border-bottom-right-radius: 0.375rem;
 }
 
+.IDCardTitle {
+    color: var(--secondary);
+}
+
+.IDCardIdentifier {
+    height: 6%;
+}
+
+.IDCardProperties {
+    height: 94%;
+}
+
 .IDCardPropertyBlock {
+    font-size: 14px;
+    height: Calc(100% / 8);
+}
+
+.IDCardPropertyBlockHover {
     transition: 0.4s;
 }
 
-.IDCardPropertyBlock:hover {
+.IDCardPropertyBlockHover:hover {
     background-color: var(--main-color-light);
     cursor: pointer;
-}
-
-.IDCardProperty {
-    font-size: 13px;
 }
 
 .IDCardValue {
@@ -115,8 +155,33 @@
 
 /* Content Blocks */
 
-.contentBlock {
-    height: Calc(100% - 40px);
+.tabsList {
+    padding: 0;
+}
+
+.tab {
+    background-color: #E6E2F1;
+    border-radius: 999px;
+    font-size: 15px;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-right: 1%;
+}
+
+.tab.active {
+    background-color: var(--primary);
+    color: white;
+    font-weight: bold;
+}
+
+.tabPanel {
+    height: Calc(100% - 51px);
+}
+
+.jsonButton {
+    padding: 6px 2% 6px 2%;
+    font-size: 15px;
+    float: right;
 }
 
 /* Digital Specimen Block */

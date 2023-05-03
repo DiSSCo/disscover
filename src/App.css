@@ -244,7 +244,6 @@ p {
   border: none;
   border-radius: 999px;
   transition: 0.4s;
-  padding: 2% 7% 2% 7%;
   font-weight: 500;
 }
 
@@ -274,40 +273,6 @@ p {
 
 
 /* Bootstrap class overwrite */
-
-.tab-content {
-  height: Calc(100% - 41px);
-  border-top: 1px solid #d9d9d9;
-}
-
-.nav-tabs .nav-item.show, .nav-tabs .nav-link.active {
-  color: white;
-  background-color: var(--main-color-dark);
-  border-color: none;
-}
-
-.nav-link {
-  color: #333333;
-  font-size: 14px;
-}
-
-.nav-tabs {
-  border-bottom: none;
-}
-
-.nav-tabs .nav-link:hover{
-  color: gray
-}
-
-.tab-pane {
-  height: 100%;
-  padding-top: 2%;
-}
-
-li.page-item.active .page-link {
-  background-color: var(--secondary);
-  border: none;
-}
 
 .dropdown {
   padding-right: 0;

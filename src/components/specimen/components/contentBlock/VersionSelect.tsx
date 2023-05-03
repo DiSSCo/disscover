@@ -47,7 +47,10 @@ const VersionSelect = () => {
                 <Select 
                     value={{ value: version, label: `Version ${version}` }}
                     options={selectOptions}
-                    styles={{ menu: provided => ({ ...provided, zIndex: 100000 }) }}
+                    styles={{ control: provided => ({ ...provided, backgroundColor: '#A1D8CA', border: 'none', borderRadius: '999px', fontWeight: '500'}),
+                        menu: provided => ({ ...provided, zIndex: 100000 }),
+                        dropdownIndicator: provided => ({ ...provided, color: '#333333'})
+                    }}
                     onChange={(option) => { option?.value && dispatch(setSpecimenVersion(option.value)) }}
                 />
             </Col>

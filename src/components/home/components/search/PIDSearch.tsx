@@ -11,6 +11,9 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchPIDQuery, setSearchPIDQuery } from 'redux/search/SearchSlice';
 import { setSpecimen } from 'redux/specimen/SpecimenSlice';
 
+/* Import Types */
+import { Specimen } from 'global/Types';
+
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
 
@@ -36,7 +39,7 @@ const PIDSearch = () => {
             /* Try to fetch Specimen using PID */
             GetSpecimen(PIDQuery).then((specimen) => {
                 /* Check if an exact Specimen was found */
-                if (!isEmpty(specimen)) {
+                if (specimen && !isEmpty(specimen)) {
                     /* Set Specimen and navigate to Specimen page */
                     dispatch(setSpecimen(specimen));
 
@@ -44,10 +47,9 @@ const PIDSearch = () => {
                         pathname: `/ds/${specimen.id}`,
                     });
                 } else {
-                    /* Display not found message */
                     setErrorActive(true);
                 }
-            }).catch();
+            });
         }
     }
 

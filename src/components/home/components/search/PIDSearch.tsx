@@ -11,9 +11,6 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchPIDQuery, setSearchPIDQuery } from 'redux/search/SearchSlice';
 import { setSpecimen } from 'redux/specimen/SpecimenSlice';
 
-/* Import Types */
-import { Specimen } from 'global/Types';
-
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
 
@@ -49,6 +46,8 @@ const PIDSearch = () => {
                 } else {
                     setErrorActive(true);
                 }
+            }).catch((error) => {
+                console.warn(error);
             });
         }
     }

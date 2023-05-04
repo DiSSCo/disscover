@@ -36,7 +36,7 @@ const PIDSearch = () => {
             /* Try to fetch Specimen using PID */
             GetSpecimen(PIDQuery).then((specimen) => {
                 /* Check if an exact Specimen was found */
-                if (specimen && !isEmpty(specimen)) {
+                if (!isEmpty(specimen)) {
                     /* Set Specimen and navigate to Specimen page */
                     dispatch(setSpecimen(specimen));
 

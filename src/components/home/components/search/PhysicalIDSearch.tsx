@@ -37,7 +37,9 @@ const PhysicalIDSearch = () => {
             if (!isEmpty(organisations)) {
                 setOrganisations(organisations);
             }
-        }).catch();
+        }).catch((error) => {
+            console.warn(error);
+        });
     }, []);
 
     /* Function for handling Physical ID search */
@@ -59,7 +61,9 @@ const PhysicalIDSearch = () => {
                     /* Display not found message */
                     setErrorActive(true);
                 }
-            }).catch();
+            }).catch((error) => {
+                console.warn(error);
+            });
         } else if (formData.idType === 'local') {
             /* Set search state */
             dispatch(setSearchPhysicalId({
@@ -79,7 +83,9 @@ const PhysicalIDSearch = () => {
                         /* Display not found message */
                         setErrorActive(true);
                     }
-                }).catch();
+                }).catch((error) => {
+                    console.warn(error);
+                });
             } else {
                 /* If no local id is given, navigate to Search page with chosen Organisation as filter */
                 navigate({

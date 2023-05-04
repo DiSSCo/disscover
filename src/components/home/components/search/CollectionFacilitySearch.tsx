@@ -25,7 +25,9 @@ const CollectionFacilitySearch = () => {
     useEffect(() => {
         GetOrganisations().then((organisations) => {
             setOrganisations(organisations);
-        }).catch();
+        }).catch((error) => {
+            console.warn(error);
+        });
     }, []);
 
     /* Function for handling Collection Facility search */

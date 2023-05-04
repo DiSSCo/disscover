@@ -33,11 +33,11 @@ const PhysicalIDSearch = () => {
 
     /* Fetch Organisations */
     useEffect(() => {
-        GetOrganisations().catch().then((organisations) => {
+        GetOrganisations().then((organisations) => {
             if (!isEmpty(organisations)) {
                 setOrganisations(organisations);
             }
-        });
+        }).catch();
     }, []);
 
     /* Function for handling Physical ID search */
@@ -50,7 +50,7 @@ const PhysicalIDSearch = () => {
             }));
 
             /* Search for Specimen by Global Unique Identifier */
-            SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).catch().then(({specimens}) => {
+            SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).then(({specimens}) => {
                 if (!isEmpty(specimens)) {
                     navigate({
                         pathname: `/ds/${specimens[0].id}`,
@@ -59,7 +59,7 @@ const PhysicalIDSearch = () => {
                     /* Display not found message */
                     setErrorActive(true);
                 }
-            });
+            }).catch();
         } else if (formData.idType === 'local') {
             /* Set search state */
             dispatch(setSearchPhysicalId({
@@ -70,7 +70,7 @@ const PhysicalIDSearch = () => {
 
             /* Search for Specimen by Local Identifier */
             if (formData.idValue) {
-                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).catch().then(({specimens}) => {
+                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({specimens}) => {
                     if (!isEmpty(specimens)) {
                         navigate({
                             pathname: `/ds/${specimens[0].id}`,
@@ -79,7 +79,7 @@ const PhysicalIDSearch = () => {
                         /* Display not found message */
                         setErrorActive(true);
                     }
-                });
+                }).catch();
             } else {
                 /* If no local id is given, navigate to Search page with chosen Organisation as filter */
                 navigate({

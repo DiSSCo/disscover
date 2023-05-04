@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
@@ -24,9 +23,9 @@ const CollectionFacilitySearch = () => {
 
     /* Fetch Organisations */
     useEffect(() => {
-        GetOrganisations().catch().then((organisations) => {
-            setOrganisations(organisations as Organisation[]);
-        });
+        GetOrganisations().then((organisations) => {
+            setOrganisations(organisations);
+        }).catch();
     }, []);
 
     /* Function for handling Collection Facility search */

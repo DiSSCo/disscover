@@ -34,7 +34,7 @@ const PIDSearch = () => {
             dispatch(setSearchPIDQuery(PIDQuery));
 
             /* Try to fetch Specimen using PID */
-            GetSpecimen(PIDQuery).catch().then((specimen) => {
+            GetSpecimen(PIDQuery).then((specimen) => {
                 /* Check if an exact Specimen was found */
                 if (!isEmpty(specimen)) {
                     /* Set Specimen and navigate to Specimen page */
@@ -47,7 +47,7 @@ const PIDSearch = () => {
                     /* Display not found message */
                     setErrorActive(true);
                 }
-            });
+            }).catch();
         }
     }
 

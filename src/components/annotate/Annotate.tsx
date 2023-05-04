@@ -10,6 +10,7 @@ import { setOverviewAnnotations } from 'redux/annotate/AnnotateSlice';
 import { Dict } from 'global/Types';
 
 /* Import Styles */
+import './annotate.scss';
 import styles from './annotate.module.scss';
 
 /* Import Components */

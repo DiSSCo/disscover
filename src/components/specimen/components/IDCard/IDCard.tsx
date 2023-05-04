@@ -85,10 +85,10 @@ const IDCard = (props: Props) => {
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}
                                                 onClick={() => ToggleModal('ods:physicalSpecimenId')}
                                             >
-                                                <p className="fw-lightBold m-0 h-50">
+                                                <span className="fw-lightBold m-0 h-50">
                                                     Physical specimen ID ({specimen.physicalSpecimenIdType}):
-                                                </p>
-                                                <p className={`${styles.IDCardValue} m-0 h-50`}> {specimen.physicalSpecimenId} </p>
+                                                </span>
+                                                <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.physicalSpecimenId} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>

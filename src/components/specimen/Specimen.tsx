@@ -88,16 +88,17 @@ const Specimen = () => {
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
         /* Check if the specimen annotations differ from the target annotations */
-        // if (Array.isArray(annotateTarget.annotations) &&
-        //     JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
-        /* Fetch Specimen Annotations */
-        GetSpecimenAnnotations(specimen.id).then((annotations) => {
-            if (annotations) {
-                dispatch(setSpecimenAnnotations(annotations));
+        if (Array.isArray(annotateTarget.annotations)) {
+            if (JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
+                /* Fetch Specimen Annotations */
+                GetSpecimenAnnotations(specimen.id).then((annotations) => {
+                    if (annotations) {
+                        dispatch(setSpecimenAnnotations(annotations));
+                    }
+                });
             }
-        });
-        // }
-    }, [specimen, annotateTarget, dispatch]);
+        }
+    }, [annotateTarget]);
 
     /* Function for toggling the Annotate Modal */
     const [modalToggle, setModalToggle] = useState(false);
@@ -138,15 +139,15 @@ const Specimen = () => {
                                 <Col md={{ span: 9 }} className="ps-4 h-100">
                                     <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
                                 </Col>
+
+                                {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
+                                    <AnnotateModal modalToggle={modalToggle}
+                                        ToggleModal={() => ToggleModal()}
+                                    />
+                                }
                             </Row>
                         </Col>
                     </Row>
-
-                    {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
-                        <AnnotateModal modalToggle={modalToggle}
-                            ToggleModal={() => ToggleModal()}
-                        />
-                    }
                 </Container>
             }
 

@@ -66,7 +66,7 @@ it('fetches specimen data', async () => {
         )
     );
 
-    expect(screen.getByRole('heading', { name: SpecimenMock.specimenName })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Iguanodon' })).toBeInTheDocument();
 });
 
 /* Test if Annotate Modal is toggled when clicked on Specimen property */

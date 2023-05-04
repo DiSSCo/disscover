@@ -24,10 +24,8 @@ const CollectionFacilitySearch = () => {
 
     /* Fetch Organisations */
     useEffect(() => {
-        GetOrganisations().then((organisations) => {
-            if (!isEmpty(organisations)) {
-                setOrganisations(organisations);
-            }
+        GetOrganisations().catch().then((organisations) => {
+            setOrganisations(organisations as Organisation[]);
         });
     }, []);
 

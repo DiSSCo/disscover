@@ -25,6 +25,9 @@ const Server = setupServer(
     rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/annotations', (_req, res, ctx) => {
         return res(ctx.json(SpecimenAnnotationsMock));
     }),
+    rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/digitalmedia', (_req, res, ctx) => {
+        return res(ctx.json(SpecimenDigitalMediaMock));
+    }),
     /* Get Specimen's verions by id */
     rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/versions', (_req, res, ctx) => {
         return res(ctx.json(SpecimenVersionsMock));

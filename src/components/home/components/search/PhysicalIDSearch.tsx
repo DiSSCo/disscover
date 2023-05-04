@@ -33,7 +33,7 @@ const PhysicalIDSearch = () => {
 
     /* Fetch Organisations */
     useEffect(() => {
-        GetOrganisations().then((organisations) => {
+        GetOrganisations().catch().then((organisations) => {
             if (!isEmpty(organisations)) {
                 setOrganisations(organisations);
             }
@@ -50,7 +50,7 @@ const PhysicalIDSearch = () => {
             }));
 
             /* Search for Specimen by Global Unique Identifier */
-            SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).then(({specimens}) => {
+            SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).catch().then(({specimens}) => {
                 if (!isEmpty(specimens)) {
                     navigate({
                         pathname: `/ds/${specimens[0].id}`,
@@ -70,7 +70,7 @@ const PhysicalIDSearch = () => {
 
             /* Search for Specimen by Local Identifier */
             if (formData.idValue) {
-                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({specimens}) => {
+                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).catch().then(({specimens}) => {
                     if (!isEmpty(specimens)) {
                         navigate({
                             pathname: `/ds/${specimens[0].id}`,

@@ -81,21 +81,22 @@
 }
 
 .specimenTypeSpecialCheckbox {
-    -ms-transform: scale(1.5);
+    -ms-transform: scale(1.3);
     /* IE */
-    -moz-transform: scale(1.5);
+    -moz-transform: scale(1.3);
     /* FF */
-    -webkit-transform: scale(1.5);
+    -webkit-transform: scale(1.3);
     /* Safari and Chrome */
-    -o-transform: scale(1.5);
+    -o-transform: scale(1.3);
     /* Opera */
-    transform: scale(1.5);
+    transform: scale(1.3);
     padding: 10px;
 }
 
 .specimenTypeSelectAllText {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
+    color: var(--secondary);
 }
 
 /* Intro Text */

@@ -18,17 +18,34 @@
     color: var(--primary);
 }
 
+.midsIcon {
+    color: var(--accent);
+}
+
 .midsBlock {
-    color: #333333;
-    border: 1px solid var(--primary);
-    width: fit-content;
+    color: #B9E8EE;
     transition: 0.3s;
-    border-radius: 4px;
+    font-size: 16px;
 }
 
 .midsBlock.active {
-    background-color: var(--primary);
+    color: var(--accent);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.annotationTriggerButton {
+    background-color: var(--accent);
     color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 999px;
+}
+
+.annotationTriggerIcon {
+    font-size: 15px;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 /* Specimen Content */
@@ -65,6 +82,7 @@
 }
 
 .IDCardTitle {
+    font-size: 15px;
     color: var(--secondary);
 }
 
@@ -205,8 +223,7 @@
 }
 
 .propertyTitle {
-    color: var(--main-color);
-    font-weight: bold;
+    font-weight: 500;
     text-align: start;
 }
 
@@ -214,10 +231,11 @@
     background-color: var(--main-color-light);
 }
 
-.organisationLogo {
+.organisationLogo {    
     filter: grayscale(100%);
+    width: 40%;
     opacity: 0.5;
-    margin: 0px 10px 10px 0px;
+    float: right;
 }
 
 /* Original Data Block */

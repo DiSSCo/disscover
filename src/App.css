@@ -26,6 +26,7 @@
 
 html {
   font-size: 16px;
+  background-color: #F9FAFC;
 }
 
 body {
@@ -75,15 +76,15 @@ p {
 /* Color */
 
 .c-primary {
-  color: var(--main-color);
+  color: var(--primary) !important;
 }
 
-.c-primary-light {
-  color: #d6e0f5;
+.c-secondary {
+  color: var(--secondary) !important;
 }
 
-.c-primary-dark {
-  color: #1c497d;
+.c-accent {
+  color: var(--accent) !important;
 }
 
 .c-backdrop {
@@ -228,6 +229,11 @@ p {
 .shadow-c {
   -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
   box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
+}
+
+/* Hover underline */
+.h-underline:hover {
+  text-decoration: underline !important;
 }
 
 /* Transition */

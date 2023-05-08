@@ -12,11 +12,10 @@ import { getSpecimen, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSli
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Components */
-import VersionSelect from './VersionSelect';
 import SpecimenOverview from './SpecimenOverview';
 import OriginalData from './OriginalData';
-import AnnotationsOverview from './AnnotationsOverview';
 import DigitalMedia from './DigitalMedia';
+import Provenance from './Provenance';
 
 
 /* Props Typing */
@@ -61,10 +60,10 @@ const ContentBlock = (props: Props) => {
                             <TabList className={classTabsList}>
                                 <Tab className={classTab} selectedClassName={styles.active}>Digital Specimen</Tab>
                                 <Tab className={classTab} selectedClassName={styles.active}>Original Data</Tab>
-                                <Tab className={classTab} selectedClassName={styles.active}>Annotations</Tab>
                                 {!isEmpty(digitalMedia) &&
                                     <Tab className={classTab} selectedClassName={styles.active}>Digital Media</Tab>
                                 }
+                                <Tab className={classTab} selectedClassName={styles.active}>Provenance</Tab>
 
                                 <a href={`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id}`} target="_blank" rel="noreferrer" className="w-100">
                                     <button type="button"
@@ -85,17 +84,16 @@ const ContentBlock = (props: Props) => {
                                 <OriginalData />
                             </TabPanel>
 
-                            {/* Annotations Overview */}
-                            <TabPanel className={classTabPanel}>
-                                <AnnotationsOverview />
-                            </TabPanel>
-
                             {/* Digital Media Overview, if present */}
                             {!isEmpty(digitalMedia) &&
                                 <TabPanel className={classTabPanel}>
                                     <DigitalMedia />
                                 </TabPanel>
                             }
+
+                            <TabPanel className={classTabPanel}>
+                                <Provenance />
+                            </TabPanel>
                         </Tabs>
                     </Col>
                 </Row>

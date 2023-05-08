@@ -58,11 +58,11 @@ const GlobalSearchBar = (props: Props) => {
                                 <p className={styles.advancedSearchToggle}
                                     onClick={() => ToggleAdvancedFilter()}
                                 >
-                                    Advanced Search
+                                    Search by ID or collection
                                 </p>
                             </Col>
                             <Col md={{ span: 5 }} className="d-flex justify-content-end">
-                                <button type="submit" className="primaryButton">
+                                <button type="submit" className="primaryButton px-3 py-1">
                                     Search
                                 </button>
                             </Col>

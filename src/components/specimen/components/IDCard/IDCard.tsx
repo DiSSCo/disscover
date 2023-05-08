@@ -51,8 +51,11 @@ const IDCard = (props: Props) => {
                             <Card.Body className="h-100">
                                 <Card.Subtitle className={`${styles.IDCardIdentifier} mb-2 text-muted`}>
                                     <Row>
+                                        <Col className={`${styles.IDCardTitle} fw-lightBold`}>
+                                            <p> ID Card </p>
+                                        </Col>
                                         <Col className={`${styles.IDCardTitle} col-md-auto fw-lightBold`}>
-                                            {specimen.id}
+                                            <p> {specimen.id} </p>
                                         </Col>
                                     </Row>
                                 </Card.Subtitle>
@@ -72,7 +75,17 @@ const IDCard = (props: Props) => {
                                                 onClick={() => ToggleModal('ods:organisationId')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">Specimen provider</span>
-                                                <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.organisationId} </span>
+                                                <br /> <span className={`${styles.IDCardValue} m-0 h-50`}>
+                                                    {specimen.data['ods:organisationName'] ?
+                                                        <a href={specimen.organisationId}
+                                                            target="_blank" rel="noreferrer"
+                                                            className="c-accent h-underline"
+                                                        >
+                                                            {specimen.data['ods:organisationName']}
+                                                        </a>
+                                                        : specimen.organisationId
+                                                    }
+                                                </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>

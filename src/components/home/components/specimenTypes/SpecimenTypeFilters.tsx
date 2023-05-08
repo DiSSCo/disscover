@@ -30,10 +30,10 @@ const SpecimenTypeFilters = () => {
             other: false,
             environment: false,
             earthSystem: false,
-            extraterrestrial: false,
-            humanMade: false,
-            unclassified: false
-        }
+            extraterrestrial: false
+        },
+        humanMade: false,
+        unclassified: false
     });
 
     /* Function for selecting or deselecting all filters */
@@ -65,11 +65,9 @@ const SpecimenTypeFilters = () => {
                     <Form>
                         {/* Title */}
                         <Row>
-                            <Col className="d-flex align-items-end">
-                                <p className={styles.specimenTypeSubHead}>Natural origin</p>
-                            </Col>
-                            <Col className="text-end">
+                            <Col>
                                 <p className={`${styles.specimenTypeHead} fw-bold`}>Total specimens: 0</p>
+                                <p className={`${styles.specimenTypeSubHead} mt-2`}>Natural origin</p>
                             </Col>
                         </Row>
                         {/* Specimen Type Blocks */}
@@ -139,6 +137,20 @@ const SpecimenTypeFilters = () => {
                                 </Row>
                             </Col>
                         </Row>
+
+                        {/* Select all checkbox */}
+                        <Row>
+                            <Col className="col-md-auto pe-1 d-flex align-items-center">
+                                <Field name="all" type="checkbox"
+                                    className={styles.specimenTypeSpecialCheckbox}
+                                    onClick={(checkbox: any) => SelectAll(checkbox.target.checked)}
+                                />
+                            </Col>
+                            <Col className="d-flex align-items-center">
+                                <p className={styles.specimenTypeSelectAllText}> Select all </p>
+                            </Col>
+                        </Row>
+
                         {/* Human Made and Unclassified */}
                         <Row className="mt-4">
                             <Col md={{ span: 6 }} className="pe-2">
@@ -149,7 +161,7 @@ const SpecimenTypeFilters = () => {
                                             <p className={styles.specimenTypeSpecialSubTitle}> (Archive material) </p>
                                         </Col>
                                         <Col className="col-md-auto">
-                                            <Field name={`specimenTypes.humanMade`}
+                                            <Field name={`humanMade`}
                                                 type="checkbox"
                                                 className={styles.specimenTypeSpecialCheckbox}
                                             />
@@ -169,7 +181,7 @@ const SpecimenTypeFilters = () => {
                                             <p className={styles.specimenTypeSpecialTitle}> Unclassified </p>
                                         </Col>
                                         <Col className="col-md-auto">
-                                            <Field name={`specimenTypes.unclassified`}
+                                            <Field name={`unclassified`}
                                                 type="checkbox"
                                                 className={styles.specimenTypeSpecialCheckbox}
                                             />
@@ -185,17 +197,8 @@ const SpecimenTypeFilters = () => {
                         </Row>
                         {/* Select all and Submit */}
                         <Row className="mt-4">
-                            <Col className="col-md-auto pe-1 d-flex align-items-center">
-                                <Field name="all" type="checkbox"
-                                    className={styles.specimenTypeSpecialCheckbox}
-                                    onClick={(checkbox: any) => SelectAll(checkbox.target.checked)}
-                                />
-                            </Col>
-                            <Col className="d-flex align-items-center">
-                                <p className={styles.specimenTypeSelectAllText}> Select all </p>
-                            </Col>
                             <Col className="d-flex justify-content-end">
-                                <button className="primaryButton" type="submit">
+                                <button className="primaryButton px-3 py-1" type="submit">
                                     View
                                 </button>
                             </Col>

@@ -6,21 +6,21 @@ import { Icon, LatLngExpression } from 'leaflet';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getSearchSpecimen } from 'redux/search/SearchSlice';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getSearchSpecimen, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { DigitalMedia } from 'global/Types';
+import { Specimen, DigitalMedia } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
-/* Import Sources */
-import markerIconPng from 'leaflet/dist/images/marker-icon.png';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog, faCircleInfo, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faFrog, faCircleInfo, faChevronRight, faX } from '@fortawesome/free-solid-svg-icons';
+
+/* Import Sources */
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 
 /* Import API */
 import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
@@ -28,6 +28,7 @@ import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 
 const IDCard = () => {
     /* Hooks */
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     /* Base variables */
@@ -77,6 +78,12 @@ const IDCard = () => {
                         <Col>
                             <h2 className={styles.IDCardTitle}> {specimen.specimenName} </h2>
                         </Col>
+                        <Col className="col-md-auto">
+                            <FontAwesomeIcon icon={faX}
+                                className={`${styles.IDCardCloseIcon} c-primary`}
+                                onClick={() => dispatch(setSearchSpecimen({} as Specimen))}
+                            />
+                        </Col>
                     </Row>
 
                     {/* Specimen Identifier */}
@@ -88,23 +95,32 @@ const IDCard = () => {
 
                     {/* MIDS Bar */}
                     <Row className="mt-2">
-                        <Col className="col-md-auto pe-2">
-                            <div className={`${styles.midsBlock} ${specimen.midsLevel >= 1 && styles.active} px-3 py-1 mt-2 fw-lightBold`}>
-                                MIDS 1
-                            </div>
-                        </Col>
-                        <Col className="col-md-auto px-2">
-                            <div className={`${styles.midsBlock} ${specimen.midsLevel >= 2 && styles.active} px-3 py-1 mt-2 fw-lightBold`}>
-                                MIDS 2
-                            </div>
-                        </Col>
-                        <Col className="col-md-auto ps-2">
-                            <div className={`${styles.midsBlock} ${specimen.midsLevel >= 3 && styles.active} px-3 py-1 mt-2 fw-lightBold`}>
-                                MIDS 3
-                            </div>
-                        </Col>
-                        <Col className="d-flex align-items-center">
+                        <Col className="col-md-auto pe-0">
                             <FontAwesomeIcon icon={faCircleInfo} className={`${styles.midsInfoIcon} mt-2`} />
+                        </Col>
+                        <Col className="d-flex align-items-center mt-1">
+                            <Row>
+                                <Col className="col-md-auto">
+                                    <div className={`${styles.midsBlock} ${specimen.midsLevel === 0 && styles.active} fw-lightBold`}>
+                                        MIDS 0
+                                    </div>
+                                </Col>
+                                <Col className="col-md-auto">
+                                    <div className={`${styles.midsBlock} ${specimen.midsLevel >= 1 && styles.active} fw-lightBold`}>
+                                        MIDS 1
+                                    </div>
+                                </Col>
+                                <Col className="col-md-auto">
+                                    <div className={`${styles.midsBlock} ${specimen.midsLevel >= 2 && styles.active} fw-lightBold`}>
+                                        MIDS 2
+                                    </div>
+                                </Col>
+                                <Col className="col-md-auto">
+                                    <div className={`${styles.midsBlock} ${specimen.midsLevel >= 3 && styles.active} fw-lightBold`}>
+                                        MIDS 3
+                                    </div>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
 

@@ -1,7 +1,22 @@
 /* Custom styling for the Search Page */
 
+.content {
+    height: calc(100vh - 140px)
+}
+
+.filtersTopBar {
+    height: 50px;
+}
+
+.compareButton {
+    font-size: 15px;
+    background-color: #A1D8CA;
+    border: none;
+    border-radius: 999px;
+}
+
 .searchContent {
-    height: calc(100vh - 208px)
+    height: Calc(100% - 50px);
 }
 
 .searchPageBlock {
@@ -11,6 +26,7 @@
 /* Search Menu */
 .searchMenu {
     border: 1px solid var(--grey);
+    border-radius: 8px;
 }
 
 .searchBlock {
@@ -30,28 +46,46 @@
 }
 
 /* Filter Menu */
-.filterMenu {
-    height: calc(100vh - 220px);
-    overflow: scroll;
-    -webkit-box-shadow: 10px 10px 29px -13px rgba(51, 51, 51, 0.83);
-    box-shadow: 10px 10px 29px -13px rgba(51, 51, 51, 0.83);
+.filtersCloseIcon {
+    cursor: pointer;
+}
+
+.filterBlock {
+    border: 1px solid var(--primary);
+    border-radius: 8px;
 }
 
 .filterTitle {
     font-size: 14px;
 }
 
-.filterSelectedList {
-    background-color: var(--main-color);
+.filterSearchBlock {
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+}
+
+.filterSearch {
+    font-size: 14px;
+    border-radius: 999px;
+    border: none;
 }
 
 .filterSelectOption {
+    border-radius: 8px;
     transition: 0.2s;
     cursor: pointer;
 }
 
 .filterSelectOption:hover {
-    background-color: var(--greyDark);
+    background-color: var(--grey);
+}
+
+.filterSelectOption.active:hover {
+    background-color: #c7c7d1;
+}
+
+.filterSelectOption.active {
+    background-color: var(--grey);
 }
 
 .filterListItem {
@@ -60,6 +94,37 @@
 
 .filterAggregation {
     font-size: 13px;
+}
+
+.filterMidsOption {
+    transition: 0.3s;
+    cursor: pointer;
+    font-size: 14px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+}
+
+.filterMidsOption:hover {
+    color: white;
+    background-color: var(--primary);
+}
+
+.filterMidsOption.active {
+    color: white;
+    background-color: var(--primary);
+}
+
+/* Active Filters */
+.activeFilter {
+    font-size: 13px;
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: 999px;
+}
+
+.activeFilterIcon {
+    font-size: 12px;
+    cursor: pointer;
 }
 
 /* Search Results */
@@ -94,7 +159,7 @@
 
 /* ID Card */
 .IDCard {
-    height: Calc(100% - 40px);
+    height: Calc(100% - 90px);
 }
 
 .IDCardTop {
@@ -114,6 +179,10 @@
     font-size: 22px;
 }
 
+.IDCardCloseIcon {
+    cursor: pointer;
+}
+
 .IDCardId {
     font-size: 14px;
     color: var(--greyDark);
@@ -125,16 +194,13 @@
 }
 
 .midsBlock {
-    color: #333333;
-    border: 1px solid var(--primary);
-    width: fit-content;
+    color: #BDEBF0;
     transition: 0.3s;
-    border-radius: 4px;
 }
 
 .midsBlock.active {
-    background-color: var(--primary);
-    color: white;
+    color: var(--accent);
+    text-decoration: underline;
 }
 
 .midsInfoIcon {

@@ -20,12 +20,13 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Styling */
 interface Props {
-    pageNumber: number
+    pageNumber: number,
+    HideFilters: Function
 };
 
 
 const ResultsTable = (props: Props) => {
-    const { pageNumber } = props;
+    const { pageNumber, HideFilters } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -69,6 +70,9 @@ const ResultsTable = (props: Props) => {
         const copyTableData = [...tableData];
 
         setTableData(copyTableData);
+
+        /* Hide Filters */
+        HideFilters();
     }
 
     /* Function to reset chosen Table Row on close */
@@ -181,29 +185,19 @@ const ResultsTable = (props: Props) => {
     }, [searchResults]);
 
     return (
-        <>
-            {!isEmpty(searchSpecimen) &&
-                <button type="button" className={`${styles.returnButton} position-absolute px-3 pt-0`}
-                    onClick={() => dispatch(setSearchSpecimen({} as Specimen))}
-                >
-                    <FontAwesomeIcon icon={faChevronLeft} /> Return
-                </button>
-            }
+        <div className={`${styles.table} h-100 overflow-auto position-relative`}>
+            <DataTable
+                columns={tableColumns}
+                data={tableData}
+                customStyles={customStyles}
+                onRowClicked={(row) => OnSpecimenSelect(row)}
+                conditionalRowStyles={conditionalRowStyles}
 
-            <div className={`${styles.table} h-100 overflow-auto position-relative`}>
-                <DataTable
-                    columns={tableColumns}
-                    data={tableData}
-                    customStyles={customStyles}
-                    onRowClicked={(row) => OnSpecimenSelect(row)}
-                    conditionalRowStyles={conditionalRowStyles}
-
-                    striped
-                    highlightOnHover
-                    pointerOnHover
-                />
-            </div>
-        </>
+                striped
+                highlightOnHover
+                pointerOnHover
+            />
+        </div>
     );
 }
 

@@ -4,9 +4,9 @@ import { Row, Col } from 'react-bootstrap';
 
 const VirtualCollectionSearch = () => {
     return (
-        <Row>
+        <Row className="mt-2">
             <Col>
-                Coming Soon
+                <p className="fw-lightBold"> Feature coming soon! </p>
             </Col>
         </Row>
     );

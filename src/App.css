@@ -90,6 +90,11 @@ p {
   color: #404040;
 }
 
+/* Font Weight */
+.fw-lightBold {
+  font-weight: 500;
+}
+
 /* Background */ 
 
 .bg-primary-blue {
@@ -234,17 +239,17 @@ p {
 /* Custom Component Styling */
 
 .primaryButton {
-  background-color: var(--greyDark);
+  background-color: var(--primary);
   color: white;
-  font-weight: bold;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   transition: 0.4s;
-  padding: 0px 10px 0px 10px;
+  padding: 2% 7% 2% 7%;
+  font-weight: 500;
 }
 
 .primaryButton:hover {
-  background-color: var(--main-color);
+  background-color: var(--accent);
 }
 
 

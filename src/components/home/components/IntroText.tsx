@@ -1,28 +1,35 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Styles */
+import styles from 'components/home/home.module.scss';
+
 
 const IntroText = () => {
     return (
-        <Row className="mt-3">
-            <Col md={{ span: 5 }}>
+        <Row>
+            <Col>
+                {/* Intro Text Title */}
                 <Row>
-                    <Col className="home_mainTitle">
-                        <h2 className="fw-normal">
-                            <span className="fw-bold"> U</span>nified we
-                            <span className="fw-bold"> C</span>urate and
-                            <span className="fw-bold"> A</span>nnotate <br />
-                            specimens in this <span className="fw-bold"> S</span>ystem
-                        </h2>
+                    <Col>
+                        <h1 className={`${styles.introTitle} fw-bold`}>
+                            Annotate specimens <br />
+                            and contribute to science
+                        </h1>
                     </Col>
                 </Row>
-                <Row className="mt-3">
-                    <Col className="home_introText">
-                        UCAS is a FAIR annotation and curation platform.
-                        Human experts and machines can add annotations on Digital Specimens.
-                        The annotations are stored as FAIR Digital Objects (with a persistent identifier).
-                        UCAS also keeps track of the transactions on the data as provenance information related
-                        to the curation or annotation events.
+                {/* Intro Text */}
+                <Row className="mt-4">
+                    <Col>
+                        <p className={styles.introText}>
+                            Help us with improving the completeness and quality of information about specimens.
+                            We aim to provide all information known about specimens held in Europe to science and to
+                            make that information available as early and fast as possible.
+                        </p>
+                        <p className={`${styles.introText} mt-3`}>
+                            For this we need your help to correct errors, add or link new information and improve
+                            the quality of our data.
+                        </p>
                     </Col>
                 </Row>
             </Col>

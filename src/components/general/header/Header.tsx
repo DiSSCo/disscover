@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import classNames from "classnames";
 import KeycloakService from 'keycloak/Keycloak';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -21,14 +22,20 @@ const Header = () => {
     /* Base variables */
     const loggedIn = KeycloakService.IsLoggedIn();
 
+    /* ClassName for Header */
+    const classHeader = classNames({
+        [`${styles.header}`]: true,
+        [`${styles.home}`]: location.pathname === '/'
+    });
+
     return (
-        <Container fluid className={`${styles.header} z-1`}>
+        <Container fluid className={`${classHeader} z-1`}>
             <Row className="h-100">
                 <Col md={{ span: 10, offset: 1 }} className="pe-0 h-100">
                     {/* Title */}
                     <Row className="h-100 w-100 align-items-end">
                         <Col className="col-md-auto p-0 d-flex align-items-center">
-                            <h1 className={`${styles.title} fw-bold`}> DiSSCoVer </h1>
+                            <h1 className={`${styles.title} fw-bold`}>DiSSCover</h1>
                         </Col>
                         {/* Navigation */}
                         <Col className="pb-3 d-flex justify-content-center">

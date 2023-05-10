@@ -87,15 +87,15 @@ const Specimen = () => {
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
         /* Check if the specimen annotations differ from the target annotations */
-        // if (Array.isArray(annotateTarget.annotations) &&
-        //     JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
+        if (Array.isArray(annotateTarget.annotations) &&
+            JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
             /* Fetch Specimen Annotations */
             GetSpecimenAnnotations(specimen.id).then((annotations) => {
                 if (annotations) {
                     dispatch(setSpecimenAnnotations(annotations));
                 }
             });
-        // }
+        }
     }, [specimen, annotateTarget, dispatch]);
 
     /* Function for toggling the Annotate Modal */

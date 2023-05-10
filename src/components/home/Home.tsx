@@ -56,7 +56,7 @@ const Home = () => {
                                     </Col>
                                 </Row>
 
-                                <div className={`${classAdvancedSearch} position-absolute w-100 pe-5`}>
+                                <div className={`${classAdvancedSearch} position-absolute w-100 pe-5`} role="advancedSearch">
                                     {/* Advanced Search */}
                                     <AdvancedSearch HideAdvancedSearch={() => setAdvancedSearch(false)} />
                                 </div>

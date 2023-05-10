@@ -109,7 +109,10 @@ const IDCard = (props: Props) => {
                                                         <Col className={`${styles.IDCardPropertyBlock} rounded-c`}
                                                             onClick={() => ToggleModal('ods:physicalSpecimenId')}
                                                         >
-                                                            <p className={`${styles.IDCardProperty} text-primary m-0`}> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </p>
+                                                            {/* Test reference role */}
+                                                            <p className={`${styles.IDCardProperty} text-primary m-0`} role="modalTrigger">
+                                                                Physical Specimen ID ({specimen.physicalSpecimenIdType}):
+                                                            </p>
                                                             <p className={`${styles.IDCardValue} m-0`}> {specimen.physicalSpecimenId} </p>
                                                         </Col>
                                                     </Row>

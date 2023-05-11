@@ -79,7 +79,7 @@ const ActiveFilters = () => {
     /* ClassName for Active Filters */
     const classActiveFilters = classNames({
         [`${styles.activeFilters}`]: true,
-        [`${styles.active}`]: activeFiltersDropdownToggle
+        [`${styles.active} ps-2`]: activeFiltersDropdownToggle
     });
 
     return (

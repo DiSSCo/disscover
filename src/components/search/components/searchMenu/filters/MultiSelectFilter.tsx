@@ -166,11 +166,11 @@ const MultiSelectFilter = (props: Props) => {
                                     {({ push, remove }) => (
                                         <div className={`${classFilterBlock} mt-2 px-2 py-1`}>
                                             {/* Selected Items */}
-                                            {filteredItems.selected.map((item, index) => {
+                                            {filteredItems.selected.map((item) => {
                                                 return <SelectOption key={item[0]}
                                                     searchFilter={searchFilter}
                                                     item={item}
-                                                    method={() => remove(index)}
+                                                    method={() => remove(selectedItems.findIndex(selectedItem => selectedItem === item[0]))}
                                                     selected={true}
                                                 />
                                             })}

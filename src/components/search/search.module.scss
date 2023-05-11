@@ -115,6 +115,25 @@
 }
 
 /* Active Filters */
+.activeFilters {
+    height: 32px;
+    overflow: hidden;
+    z-index: 2;
+    background-color: #F9FAFC;
+}
+
+.activeFilters.active {
+    height: max-content;
+    overflow: visible;
+    border-bottom: 1px solid var(--primary);
+    border-right: 1px solid var(--primary);
+}
+
+.activeFiltersDropdownButton {
+    background-color: var(--primary) !important;
+    color: white;
+}
+
 .activeFilter {
     font-size: 13px;
     background-color: white;

@@ -31,7 +31,7 @@ const SelectOption = (props: Props) => {
                             <Field name={`filters.${searchFilter}.${item[0]}`}
                                 type="checkbox"
                                 checked={selected}
-                                onChange={() => {
+                                onClick={() => {
                                     method();
                                 }}
                             />

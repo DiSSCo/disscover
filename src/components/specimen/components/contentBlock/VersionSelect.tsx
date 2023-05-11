@@ -29,7 +29,7 @@ const VersionSelect = () => {
                 setVersions(versions);
             }
         });
-    }, []);
+    }, [specimen]);
 
     /* Construct Select options */
     const selectOptions: { value: number, label: string }[] = [];

@@ -25,6 +25,10 @@
     font-style: italic;
 }
 
+.searchBarIcon {
+    margin: 2px 0px 0px -28px;
+}
+
 /* Filter Menu */
 .filterMenu {
     height: calc(100vh - 220px);
@@ -72,6 +76,12 @@
     height: 40px;
 }
 
+.resultCount {
+    border: 1px solid var(--main-color-darker);
+    height: fit-content;
+    font-size: 15px;
+}
+
 .returnButton {
     background-color: var(--primary);
     color: white;
@@ -109,21 +119,26 @@
     color: var(--greyDark);
 }
 
-.midsBar {
-    background-color: #d4f3f7;
-    height: 15px;
-    border-radius: 999px;
-}
-
-.midsProgressionLevel {
-    background-color: var(--accent);
-    width: 15%;
-    transition: 1s;
-    border-radius: 999px;
-}
-
 .midsTitle {
-    font-size: 18px;
+    font-size: 14px;
+    color: var(--accent);
+}
+
+.midsBlock {
+    color: #333333;
+    border: 1px solid var(--primary);
+    width: fit-content;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.midsBlock.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.midsInfoIcon {
+    font-size: 20px;
     color: var(--accent);
 }
 

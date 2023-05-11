@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -27,7 +27,7 @@ const Footer = () => {
                     <Row className="h-100 align-items-center">
                         <Col className="col-md-auto pt-0">
                             <p className={`${styles.footerText}`}>
-                                <a href="https://dissco.eu" className={styles.footerLink} target="_blank">
+                                <a href="https://dissco.eu" className={styles.footerLink} target="_blank" rel="noreferrer">
                                     Distributed System of Scientific Collections
                                 </a>
                             </p>
@@ -37,11 +37,13 @@ const Footer = () => {
                         </Col>
                         <Col className="col-md-auto">
                             <p className={styles.footerText}>
-                                Privacy Policy
+                                <Link to="/privacy-policy">
+                                    Privacy Policy
+                                </Link>
                             </p>
                         </Col>
                         <Col className="d-flex justify-content-end">
-                            <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues" target="_blank">
+                            <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues" target="_blank" rel="noreferrer">
                                 <p className={`${styles.footerText} ${styles.footerLink}`}> Send us Feedback on GitHub </p>
                             </a>
                         </Col>

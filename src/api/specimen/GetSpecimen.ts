@@ -10,7 +10,7 @@ import { Specimen, JSONResult } from 'global/Types';
 
 const GetSpecimen = async (handle: string, version?: number) => {
     if (handle) {
-        let specimen = <Specimen>{};
+        let specimen = {} as Specimen;
 
         let endPoint: string;
 

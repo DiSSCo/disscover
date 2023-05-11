@@ -9,7 +9,7 @@ import { DigitalMedia, JSONResult } from 'global/Types';
 
 
 const GetDigitalMedia = async (handle: string) => {
-    let digitalMedia = <DigitalMedia>{};
+    let digitalMedia = {} as DigitalMedia;
 
     const endPoint = `digitalmedia/${handle}`;
 

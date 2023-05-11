@@ -1,47 +1,69 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
+/* Import Store */
+import { useAppDispatch } from 'app/hooks';
+import { setOverviewAnnotations } from 'redux/annotate/AnnotateSlice';
+
+/* Import Types */
+import { Dict } from 'global/Types';
+
 /* Import Styles */
-import './annotate.scss';
+import styles from './annotate.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
-import AnnotationsFilters from './components/AnnotationFilters';
 import AnnotationsTable from './components/AnnotationsTable';
-import AnnotationStatistics from './components/AnnotationStatistics';
+import Paginator from 'components/general/paginator/Paginator';
 import Footer from 'components/general/footer/Footer';
+
+/* Import API */
+import GetRecentAnnotations from 'api/annotate/GetRecentAnnotations';
 
 
 const Annotate = () => {
-    /* Function for filtering on Annotations */
-    const [filter, setFilter] = useState<string>('globalAnnotations');
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
+    /* Base variables */
+    const pageSize = 25;
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [paginatorLinks] = useState<Dict>({});
+
+    /* Get Recent Annotations */
+    useEffect(() => {
+        GetRecentAnnotations(pageSize, pageNumber).then((annotations) => {
+            dispatch(setOverviewAnnotations(annotations));
+        }).catch((error) => {
+            console.warn(error);
+        });
+    }, [pageNumber]);
 
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <div className="min-vh-100">
             <Header />
 
-            <Container fluid className="mt-4">
+            <Container fluid className={`${styles.annotateContent} mt-5`}>
                 <Row>
                     <Col md={{ span: 10, offset: 1 }}>
                         <Row>
-                            <Col md={{ span: 2 }}>
-                                <AnnotationsFilters
-                                    SetFilter={(filter: string) => setFilter(filter)}
-                                />
-                            </Col>
-                            <Col md={{ span: 10 }}>
-                                <Row>
-                                    <Col md={{ span: 12 }} className="annotate_resultsSection">
-                                        <AnnotationsTable filter={filter} />
-                                    </Col>
-                                </Row>
+                            <Col>
+                                <h2 className={`${styles.title}`}> Annotations </h2>
                             </Col>
                         </Row>
+                        <Row>
+                            <Col>
+                                <AnnotationsTable />
+                            </Col>
+                        </Row>
+                        <Row className="mt-2">
+                            <Col className="d-flex justify-content-center">
+                                <Paginator pageNumber={pageNumber}
+                                    links={paginatorLinks}
 
-                        <Row className="mt-4">
-                            <Col md={{ span: 6 }}>
-                                <AnnotationStatistics />
+                                    SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                                />
                             </Col>
                         </Row>
                     </Col>

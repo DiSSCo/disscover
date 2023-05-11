@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useSearchParams } from 'react-router-dom';
 import { Formik, Form } from 'formik';
+import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -60,7 +61,7 @@ const SearchMenu = () => {
     return (
         <Row className={`${styles.searchMenu} h-100 pb-2`}>
             <Col className="h-100 overflow-scroll">
-                {(aggregations && Object.keys(initialValues.filters).length > 1) &&
+                {(!isEmpty(aggregations)) &&
                     <Formik
                         initialValues={{
                             ...initialValues
@@ -94,14 +95,14 @@ const SearchMenu = () => {
                                             if (filtersList.includes(aggregationKey)) {
                                                 const aggregation = aggregations[aggregationKey];
 
-                                                return (
-                                                    <MultiSelectFilter key={aggregationKey}
+                                                return <MultiSelectFilter key={aggregationKey}
                                                         searchFilter={aggregationKey}
                                                         items={aggregation}
                                                         selectedItems={values.filters[aggregationKey as keyof typeof values.filters]}
                                                         searchQuery={values.organisationName}
-                                                    />
-                                                );
+                                                />
+                                            } else {
+                                                return <div key={aggregationKey} />;
                                             }
                                         })}
                                     </Col>

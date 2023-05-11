@@ -8,8 +8,8 @@ import AnnotationModel from 'api/model/AnnotationModel';
 import { Annotation, JSONResultArray } from 'global/Types';
 
 
-const GetRecentAnnotations = async () => {
-    let annotations = <Annotation[]>[];
+const GetRecentAnnotations = async (pageSize: number, pageNumber?: number) => {
+    let annotations = [] as Annotation[];
 
     const endPoint = "/annotations/latest"
 

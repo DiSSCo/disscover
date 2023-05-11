@@ -13,7 +13,6 @@ import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchAggrega
 import { Specimen, SearchFilter, Dict } from 'global/Types';
 
 /* Import Styles */
-import './search.scss';
 import styles from './search.module.scss';
 
 /* Import Components */
@@ -123,7 +122,7 @@ const Search = () => {
                                 </Row>
 
                                 <Row className={`${styles.paginator} justify-content-center position-relative`}>
-                                    <Col className="search_resultCount col-md-auto py-2 position-absolute start-0 ps-4">
+                                    <Col className={`${styles.resultCount} col-md-auto py-2 position-absolute start-0 ps-4`}>
                                         {(searchResults.length === 1) ?
                                             <p className="fst-italic"> 1 specimen found </p>
                                             : <p className="fst-italic"> {searchResults.length} specimens found </p>

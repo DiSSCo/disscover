@@ -10,7 +10,7 @@ import { User, Dict, JSONResult } from 'global/Types';
 
 const PatchUser = async (userId: string, attributes: Dict, token?: string) => {
     if (userId && token) {
-        let user = <User>{};
+        let user = {} as User;
 
         const userRecord: JSONResult = {
             data: {

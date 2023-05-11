@@ -10,7 +10,7 @@ import { DigitalMedia, JSONResultArray } from 'global/Types';
 
 const GetSpecimenDigitalMedia = async (handle: string) => {
     if (handle) {
-        let specimenDigitalMedia = <DigitalMedia[]>[];
+        let specimenDigitalMedia = [] as DigitalMedia[];
 
         const endPoint = `specimens/${handle}/digitalmedia`;
 

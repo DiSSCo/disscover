@@ -24,7 +24,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
     });
 
     /* Execute call */
-    let searchResults = [] as Specimen[];
+    let searchResults: Specimen[] = [];
     let links: Dict = {};
 
     if (filters) {

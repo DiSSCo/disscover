@@ -9,7 +9,7 @@ import { Annotation, JSONResultArray, Dict } from 'global/Types';
 
 
 const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
-    let userAnnotations = <Annotation[]>[];
+    let userAnnotations = [] as Annotation[];
     let links: Dict = {};
 
     if (token) {

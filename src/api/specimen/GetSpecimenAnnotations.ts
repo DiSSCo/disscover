@@ -10,7 +10,7 @@ import { SpecimenAnnotations, Annotation, JSONResultArray } from 'global/Types';
 
 const GetSpecimenAnnotations = async (handle: string) => {
     if (handle) {
-        let specimenAnnotations = <SpecimenAnnotations>{};
+        let specimenAnnotations = {} as SpecimenAnnotations;
 
         const endPoint = `specimens/${handle}/annotations`;
 
@@ -23,8 +23,7 @@ const GetSpecimenAnnotations = async (handle: string) => {
 
             /* Set Specimen Annotations with Model */
             const data: JSONResultArray = result.data;
-
-            const annotations = <Annotation[]>[];
+            const annotations: Annotation[] = [];
 
             data.data.forEach((dataRow) => {
                 const annotation = AnnotationModel(dataRow);

@@ -131,9 +131,9 @@ const AnnotateModal = (props: Props) => {
                         <Row className="px-2">
                             <Col md={{ span: 12 }} className="annotate_modalCurrentValue border-b-2-primary-dark">
                                 <>
-                                    <span className="fw-bold"> Current value: </span>
+                                    <span className="fw-bold" role="annotateModalCurrentValue"> Current value: </span>
 
-                                    <span role="annotateModalCurrentValue"> {`${target[property as keyof typeof target]}`} </span>
+                                    <span> {`${target[property as keyof typeof target]}`} </span>
                                 </>
                             </Col>
                         </Row>
@@ -264,6 +264,12 @@ const AnnotateModal = (props: Props) => {
                                     </Row>
 
                                     <Row className="mt-4">
+                                        <Col className="annotate_licenseText">
+                                            <p> All annotations are publicly available and subject to the CC-0 license </p>
+                                        </Col>
+                                    </Row>
+
+                                    <Row className="mt-2">
                                         <Col className="col-md-auto">
                                             <button type="submit"
                                                 className="annotate_annotationTypeSubmit border-2-primary-dark"

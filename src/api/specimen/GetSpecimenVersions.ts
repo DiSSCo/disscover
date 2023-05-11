@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const GetSpecimenVersions = async (handle: string) => {
     if (handle) {
-        let specimenVersions = <number[]>[];
+        let specimenVersions = [] as number[];
 
         const endPoint: string = `specimens/${handle}/versions`;
 

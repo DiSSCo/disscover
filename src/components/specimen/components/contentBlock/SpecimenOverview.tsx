@@ -16,6 +16,7 @@ import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Sources */
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import organisationLogosSource from 'sources/organisationLogos.json';
 
 
 /* Props Typing */
@@ -29,15 +30,25 @@ const SpecimenOverview = (props: Props) => {
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
+    const organisationLogos: { [ror: string]: { name: string, logo: string | string[] } } = { ...organisationLogosSource };
 
-    /* Check for Organisation logo */
-    const logo = (ror: string) => {
-        try {
-            return require(`../../../../webroot/img/organisationLogo/${ror}.png`);
-        } catch (err) {
-            return null;
+    /* Check if reference to Organisation logo is present in Source File */
+    let organisationLogoUrl: string = '';
+    let organisationLogoAlt: string = 'Organisation Logo';
+
+    if (specimen.organisationId) {
+        if (specimen.organisationId.replace('https://ror.org/', '') in organisationLogos) {
+            const logo = organisationLogos[specimen.organisationId.replace('https://ror.org/', '')].logo;
+
+            if (Array.isArray(logo)) {
+                organisationLogoUrl = logo[0];
+            } else {
+                organisationLogoUrl = logo;
+            }
+
+            organisationLogoAlt = organisationLogos[specimen.organisationId.replace('https://ror.org/', '')].name;
         }
-    };
+    }
 
     return (
         <Row className="h-100 overflow-scroll">
@@ -162,9 +173,10 @@ const SpecimenOverview = (props: Props) => {
                                         </table>
 
                                         <div className="position-absolute d-flex justify-content-end bottom-0 z-0">
-                                            {specimen.data['ods:organisationId'] &&
-                                                <img src={logo(specimen.data['ods:organisationId'].replace('https://ror.org/', ''))}
+                                            {organisationLogoUrl &&
+                                                <img src={organisationLogoUrl}
                                                     className={styles.organisationLogo}
+                                                    alt={organisationLogoAlt}
                                                 />
                                             }
                                         </div>

@@ -35,7 +35,7 @@ const ContentBlock = (props: Props) => {
             <Col className="h-100">
                 <Row className="d-flex justify-content-end">
                     <Col className="col-md-auto">
-                        <a href={`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id}`} target="_blank">
+                        <a href={`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id}`} target="_blank" rel="noreferrer">
                             <button type="button"
                                 className="primaryButton h-100"
                             >

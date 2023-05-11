@@ -10,7 +10,7 @@ import { DigitalMediaAnnotations, Annotation, JSONResultArray } from 'global/Typ
 
 const GetDigitalMediaAnnotations = async (handle: string) => {
     if (handle) {
-        let digitalMediaAnnotations = <DigitalMediaAnnotations>{ observation: [] };
+        let digitalMediaAnnotations = { observation: [] } as DigitalMediaAnnotations;
 
         const endPoint = `specimens/${handle}/annotations`;
 

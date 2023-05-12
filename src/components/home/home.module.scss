@@ -32,6 +32,12 @@
     background-color: #bfedf2;
     border-radius: 12px;
     height: 110px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.specimenTypeBlock:hover {
+    background-color: #95e1e9;
 }
 
 .specimenTypeTitle {
@@ -67,8 +73,16 @@
     background-color: #AED0E3;
 }
 
+.specimenTypeHumanMade:hover {
+    background-color: #8dbcd8;
+}
+
 .specimenTypeUnclassified {
     background-color: #A1D8CA;
+}
+
+.specimenTypeUnclassified:hover {
+    background-color: #81cab8;
 }
 
 .specimenTypeSpecialTitle {

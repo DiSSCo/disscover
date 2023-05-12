@@ -127,25 +127,27 @@ const Specimen = () => {
                 <Container fluid className={`${styles.content} pt-5`}>
                     <Row className="h-100">
                         <Col md={{ span: 10, offset: 1 }} className="h-100">
-                            <Row className={styles.titleBar}>
-                                <Col>
-                                    <TitleBar />
-                                </Col>
-                            </Row>
-                            <Row className={`${styles.specimenContent} py-4`}>
-                                <Col md={{ span: 3 }} className="h-100">
-                                    <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
-                                </Col>
-                                <Col md={{ span: 9 }} className="ps-4 h-100">
-                                    <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
-                                </Col>
+                            <div className="h-100 d-flex flex-column">
+                                <Row className={styles.titleBar}>
+                                    <Col>
+                                        <TitleBar />
+                                    </Col>
+                                </Row>
+                                <Row className={`${styles.specimenContent} py-4 flex-grow-1 overflow-hidden`}>
+                                    <Col md={{ span: 3 }} className="h-100">
+                                        <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
+                                    </Col>
+                                    <Col md={{ span: 9 }} className="ps-4 h-100">
+                                        <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
+                                    </Col>
 
-                                {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
-                                    <AnnotateModal modalToggle={modalToggle}
-                                        ToggleModal={() => ToggleModal()}
-                                    />
-                                }
-                            </Row>
+                                    {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
+                                        <AnnotateModal modalToggle={modalToggle}
+                                            ToggleModal={() => ToggleModal()}
+                                        />
+                                    }
+                                </Row>
+                            </div>
                         </Col>
                     </Row>
                 </Container>

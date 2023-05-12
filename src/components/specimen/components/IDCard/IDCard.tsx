@@ -48,7 +48,7 @@ const IDCard = (props: Props) => {
                             </Col>
                         </Row>
                     }
-                    <Row className={`${styles.IDCard} pt-2 flex-grow-1`}>
+                    <Row className={`${styles.IDCard} flex-grow-1`}>
                         <Col className="h-100">
                             <Card className="h-100">
                                 <Card.Body className="h-100">

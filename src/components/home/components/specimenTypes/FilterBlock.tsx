@@ -10,15 +10,18 @@ import styles from 'components/home/home.module.scss';
 interface Props {
     type: string,
     title: string,
-    subTitle?: string
+    subTitle?: string,
+    ToggleFilterType: Function
 };
 
 
 const FilterBlock = (props: Props) => {
-    const { type, title, subTitle } = props;
+    const { type, title, subTitle, ToggleFilterType } = props;
 
     return (
-        <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3`}>
+        <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3`}
+            onClick={() => ToggleFilterType()}
+        >
             <Row className="h-50">
                 <Col>
                     {subTitle &&

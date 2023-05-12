@@ -49,8 +49,8 @@ const Home = () => {
                                         <IntroText />
                                     </Col>
                                 </Row>
-                                <Row className={`${classAdvancedToggled} mt-5`}>
-                                    <Col className="mt-4">
+                                <Row className={`${classAdvancedToggled} mt-4`}>
+                                    <Col>
                                         {/* General Search Bar */}
                                         <GlobalSearchBar ToggleAdvancedFilter={() => setAdvancedSearch(true)} />
                                     </Col>

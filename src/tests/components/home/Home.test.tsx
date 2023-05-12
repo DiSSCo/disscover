@@ -30,7 +30,7 @@ describe("Home Page Tests", () => {
     it("is able to toggle the advanced search", async () => {
         const user = userEvent.setup();
 
-        const advancedSearchTrigger = screen.getByText("Advanced Search");
+        const advancedSearchTrigger = screen.getByRole("advancedSearchTrigger");
 
         if (advancedSearchTrigger) {
             await waitFor(() => user.click(advancedSearchTrigger));            

@@ -24,13 +24,6 @@ const DigitalMedia = () => {
             <Col className="h-100">
                 <Card className="h-100">
                     <Card.Body className="h-100">
-                        <Row>
-                            <Col>
-                                <Card.Title>
-                                    Digital Media Gallery
-                                </Card.Title>
-                            </Col>
-                        </Row>
                         <Row className={`${styles.digitalMediaImagesBlock} mt-2`}>
                             <Col className="h-100">
                                 <p className={`${styles.digitalMediaTitle} fw-bold`}> Images: </p>
@@ -67,7 +60,7 @@ const DigitalMedia = () => {
                     </Card.Body>
                 </Card>
             </Col>
-        </Row >
+        </Row>
     );
 }
 

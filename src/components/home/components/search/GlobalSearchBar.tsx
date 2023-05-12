@@ -57,12 +57,13 @@ const GlobalSearchBar = (props: Props) => {
                             <Col md={{ span: 7 }} className="d-flex align-items-center">
                                 <p className={styles.advancedSearchToggle}
                                     onClick={() => ToggleAdvancedFilter()}
+                                    role="advancedSearchTrigger"
                                 >
-                                    Advanced Search
+                                    Search by ID or collection
                                 </p>
                             </Col>
                             <Col md={{ span: 5 }} className="d-flex justify-content-end">
-                                <button type="submit" className="primaryButton">
+                                <button type="submit" className="primaryButton px-3 py-1">
                                     Search
                                 </button>
                             </Col>

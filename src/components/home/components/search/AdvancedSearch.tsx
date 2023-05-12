@@ -41,7 +41,7 @@ const AdvancedSearch = (props: Props) => {
             <Col>
                 <Row>
                     <Col>
-                        <h2 className={styles.advancedSearchTitle}> Advanced search </h2>
+                        <h2 className={styles.advancedSearchTitle}> Search by ID or collection </h2>
                     </Col>
                     <Col className="col-md-auto">
                         <FontAwesomeIcon icon={faX}

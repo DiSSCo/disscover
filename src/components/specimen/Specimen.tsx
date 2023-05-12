@@ -83,7 +83,7 @@ const Specimen = () => {
                 }
             });
         }
-    }, [specimen, params, version, dispatch]);
+    }, [specimen, params, version]);
 
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {

@@ -94,7 +94,7 @@ const CollectionFacilitySearch = () => {
                                             {organisations.map((organisation) => {
                                                 return (
                                                     <option key={organisation.ror}
-                                                        value={organisation.ror}
+                                                        value={`https://ror.org/${organisation.ror}`}
                                                         label={organisation.name}
                                                     />
                                                 );

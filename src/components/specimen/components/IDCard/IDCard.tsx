@@ -66,7 +66,7 @@ const IDCard = (props: Props) => {
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}
                                                 onClick={() => ToggleModal('ods:specimenName')}
                                             >
-                                                <span className="fw-lightBold m-0 h-50">Name in collection</span>
+                                                <span className="fw-lightBold m-0 h-50" role="modalTrigger">Name in collection</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.specimenName} </span>
                                             </Col>
                                         </Row>

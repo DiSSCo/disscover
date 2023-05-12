@@ -13,10 +13,6 @@ import { Specimen } from 'global/Types';
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-
 
 /* Props Styling */
 interface Props {

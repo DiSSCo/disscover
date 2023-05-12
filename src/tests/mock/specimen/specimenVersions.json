@@ -1,6 +1,10 @@
 {
-    "versions": [
-        1,
-        2
-    ]
+    "data": {
+        "attributes": {
+            "versions": [
+                1,
+                2
+            ]
+        }
+    }
 }

@@ -131,7 +131,7 @@ const AnnotateModal = (props: Props) => {
                         <Row className="px-2">
                             <Col md={{ span: 12 }} className="annotate_modalCurrentValue border-b-2-primary-dark">
                                 <>
-                                    <span className="fw-bold"> Current value: </span>
+                                    <span className="fw-bold" role="annotateModalCurrentValue"> Current value: </span>
 
                                     <span> {`${target[property as keyof typeof target]}`} </span>
                                 </>

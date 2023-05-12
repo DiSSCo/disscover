@@ -30,12 +30,14 @@ const Annotate = () => {
     /* Base variables */
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
+    const [paginatorLinks] = useState<Dict>({});
 
     /* Get Recent Annotations */
     useEffect(() => {
         GetRecentAnnotations(pageSize, pageNumber).then((annotations) => {
             dispatch(setOverviewAnnotations(annotations));
+        }).catch((error) => {
+            console.warn(error);
         });
     }, [pageNumber]);
 

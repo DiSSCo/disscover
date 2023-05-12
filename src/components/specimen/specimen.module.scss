@@ -69,7 +69,6 @@
 }
 
 .IDCard {
-    height: 75%;
     border-top-left-radius: 35px;
     border-bottom-right-radius: 35px;
 }
@@ -96,7 +95,7 @@
 
 .IDCardPropertyBlock {
     font-size: 14px;
-    height: Calc(100% / 8);
+    max-height: Calc(100% / 8);
 }
 
 .IDCardPropertyBlockHover {
@@ -240,8 +239,8 @@
 
 /* Original Data Block */
 
-.originalDataTable {
-    height: 95%;
+.originalData {
+    height: 90%;
 }
 
 /* Annotations Block */

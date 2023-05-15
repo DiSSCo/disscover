@@ -57,6 +57,7 @@ const GlobalSearchBar = (props: Props) => {
                             <Col md={{ span: 7 }} className="d-flex align-items-center">
                                 <p className={styles.advancedSearchToggle}
                                     onClick={() => ToggleAdvancedFilter()}
+                                    role="advancedSearchTrigger"
                                 >
                                     Search by ID or collection
                                 </p>

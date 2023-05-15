@@ -54,11 +54,11 @@ const Specimen = () => {
             let version: string = '';
 
             if (params.version) {
-                version = `${params.version}`;
+                version = `/${params.version}`;
             }
 
             /* Get full Specimen */
-            GetSpecimenFull(`${params.prefix}/${params.suffix}/${version}`).then((fullSpecimen) => {
+            GetSpecimenFull(`${params.prefix}/${params.suffix}${version}`).then((fullSpecimen) => {
                 if (fullSpecimen) {
                     /* Set Specimen */
                     dispatch(setSpecimen(fullSpecimen.specimen));

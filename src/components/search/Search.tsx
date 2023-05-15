@@ -21,6 +21,7 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
+import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 import SearchFilters from './components/searchMenu/SearchFilters';
 import ActiveFilters from './components/searchMenu/ActiveFilters';
 import ResultsTable from './components/searchResults/ResultsTable';
@@ -45,7 +46,7 @@ const Search = () => {
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
-    const [filterToggle, setFilterToggle] = useState(true);
+    const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
 
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
@@ -130,79 +131,87 @@ const Search = () => {
             <Container fluid className={`${styles.content} pt-5 pb-4`}>
                 <Row className="h-100">
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
-                        <Row className="h-100 position-relative">
-                            <Col md={{ span: 3 }} className={`${classSearchMenu} h-100`}>
-                                {/* Search Menu */}
-                                <SearchFilters HideFilters={() => setFilterToggle(false)} />
-                            </Col>
+                        <div className="h-100 d-flex flex-column">
+                            <Row>
+                                <Col>
+                                    <BreadCrumbs />
+                                </Col>
+                            </Row>
 
-                            <Col className={`${classSearchResults} h-100`}>
-                                <Row className={styles.filtersTopBar}>
-                                    {!filterToggle &&
-                                        <Col className="h-100 col-md-auto">
+                            <Row className="flex-grow-1 position-relative overflow-hidden mt-3">
+                                <Col md={{ span: 3 }} className={`${classSearchMenu} h-100`}>
+                                    {/* Search Menu */}
+                                    <SearchFilters HideFilters={() => setFilterToggle(false)} />
+                                </Col>
 
-                                            <button type="button"
-                                                className="primaryButton px-3 py-1"
-                                                onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
-                                            >
-                                                <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
-                                            </button>
+                                <Col className={`${classSearchResults} h-100`}>
+                                    <Row className={styles.filtersTopBar}>
+                                        {!filterToggle &&
+                                            <Col className="h-100 col-md-auto">
 
+                                                <button type="button"
+                                                    className="primaryButton px-3 py-1"
+                                                    onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
+                                                >
+                                                    <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
+                                                </button>
+
+                                            </Col>
+                                        }
+                                        <Col>
+                                            {/* Show current active filters */}
+                                            <ActiveFilters />
                                         </Col>
-                                    }
-                                    <Col>
-                                        {/* Show current active filters */}
-                                        <ActiveFilters />
-                                    </Col>
-                                    <Col className="col-md-auto">
-                                        <button type="button" className={`${styles.compareButton} px-3 py-1`}>
-                                            Compare
-                                        </button>
-                                    </Col>
-                                </Row>
-                                <Row className={styles.searchContent}>
-                                    <Col className={`${classSearchResultsTable} h-100`}>
-                                        <Row className="h-100">
-                                            <Col className="h-100">
-                                                <Row className={`${styles.searchResults} `}>
-                                                    {/* Search Results */}
-                                                    <Col md={{ span: 12 }} className="h-100 pb-2">
-                                                        <ResultsTable pageNumber={pageNumber}
-                                                            HideFilters={() => setFilterToggle(false)}
-                                                        />
-                                                    </Col>
-                                                </Row>
-
-                                                <Row className={`${styles.paginator} justify-content-center position-relative`}>
-                                                    <Col className={`${styles.resultCount} col-md-auto py-2 position-absolute start-0 ps-4`}>
-                                                        {(searchResults.length === 1) ?
-                                                            <p className="fst-italic"> 1 specimen found </p>
-                                                            : <p className="fst-italic"> {searchResults.length} specimens found </p>
-                                                        }
-                                                    </Col>
-
-                                                    {(searchResults.length > 0) &&
-                                                        <Col className="col-md-auto">
-                                                            <Paginator pageNumber={pageNumber}
-                                                                links={paginatorLinks}
-
-                                                                SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                                        <Col className="col-md-auto">
+                                            <button type="button" className={`${styles.compareButton} px-3 py-1`}>
+                                                Compare
+                                            </button>
+                                        </Col>
+                                    </Row>
+                                    <Row className={styles.searchContent}>
+                                        <Col className={`${classSearchResultsTable} h-100`}>
+                                            <Row className="h-100">
+                                                <Col className="h-100">
+                                                    <Row className={`${styles.searchResults} `}>
+                                                        {/* Search Results */}
+                                                        <Col md={{ span: 12 }} className="h-100 pb-2">
+                                                            <ResultsTable pageNumber={pageNumber}
+                                                                HideFilters={() => setFilterToggle(false)}
                                                             />
                                                         </Col>
-                                                    }
-                                                </Row>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} h-100 pb-2`}>
-                                        {/* ID Card */}
-                                        {!isEmpty(searchSpecimen) &&
-                                            <IDCard />
-                                        }
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
+                                                    </Row>
+
+                                                    <Row className={`${styles.paginator} justify-content-center position-relative`}>
+                                                        <Col className={`${styles.resultCount} col-md-auto py-2 position-absolute start-0 ps-4`}>
+                                                            {(searchResults.length === 1) ?
+                                                                <p className="fst-italic"> 1 specimen found </p>
+                                                                : <p className="fst-italic"> {searchResults.length} specimens found </p>
+                                                            }
+                                                        </Col>
+
+                                                        {(searchResults.length > 0) &&
+                                                            <Col className="col-md-auto">
+                                                                <Paginator pageNumber={pageNumber}
+                                                                    links={paginatorLinks}
+
+                                                                    SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                                                                />
+                                                            </Col>
+                                                        }
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} h-100 pb-2`}>
+                                            {/* ID Card */}
+                                            {!isEmpty(searchSpecimen) &&
+                                                <IDCard />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </div>
                     </Col>
                 </Row>
             </Container>

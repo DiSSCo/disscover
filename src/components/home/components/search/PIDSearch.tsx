@@ -44,9 +44,10 @@ const PIDSearch = () => {
                         pathname: `/ds/${specimen.id}`,
                     });
                 } else {
-                    /* Display not found message */
                     setErrorActive(true);
                 }
+            }).catch((error) => {
+                console.warn(error);
             });
         }
     }

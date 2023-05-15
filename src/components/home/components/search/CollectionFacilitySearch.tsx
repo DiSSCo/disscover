@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
@@ -25,9 +24,9 @@ const CollectionFacilitySearch = () => {
     /* Fetch Organisations */
     useEffect(() => {
         GetOrganisations().then((organisations) => {
-            if (!isEmpty(organisations)) {
-                setOrganisations(organisations);
-            }
+            setOrganisations(organisations);
+        }).catch((error) => {
+            console.warn(error);
         });
     }, []);
 

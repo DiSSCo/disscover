@@ -8,7 +8,6 @@ import { Specimen, SpecimenDigitalMedia, SpecimenAnnotations } from 'global/Type
 
 export interface SpecimenState {
     specimen: Specimen;
-    specimenVersion: number;
     specimenDigitalMedia: SpecimenDigitalMedia[];
     specimenAnnotations: SpecimenAnnotations;
     specimenMidsProperty: string;
@@ -16,7 +15,6 @@ export interface SpecimenState {
 
 const initialState: SpecimenState = {
     specimen: {} as Specimen,
-    specimenVersion: 0,
     specimenDigitalMedia: [] as SpecimenDigitalMedia[],
     specimenAnnotations: {} as SpecimenAnnotations,
     specimenMidsProperty: ''
@@ -28,9 +26,6 @@ export const SpecimenSlice = createSlice({
     reducers: {
         setSpecimen: (state, action: PayloadAction<Specimen>) => {
             state.specimen = action.payload;
-        },
-        setSpecimenVersion: (state, action: PayloadAction<number>) => {
-            state.specimenVersion = action.payload;
         },
         setSpecimenDigitalMedia: (state, action: PayloadAction<SpecimenDigitalMedia[]>) => {
             state.specimenDigitalMedia = action.payload;
@@ -47,7 +42,6 @@ export const SpecimenSlice = createSlice({
 /* Action Creators */
 export const { 
     setSpecimen, 
-    setSpecimenVersion, 
     setSpecimenDigitalMedia, 
     setSpecimenAnnotations, 
     setSpecimenMidsProperty
@@ -55,7 +49,6 @@ export const {
 
 /* Connect with Root State */
 export const getSpecimen = (state: RootState) => state.specimen.specimen;
-export const getSpecimenVersion = (state: RootState) => state.specimen.specimenVersion;
 export const getSpecimenDigitalMedia = (state: RootState) => state.specimen.specimenDigitalMedia;
 export const getSpecimenAnnotations = (state: RootState) => state.specimen.specimenAnnotations;
 export const getSpecimenMidsProperty = (state: RootState) => state.specimen.specimenMidsProperty;

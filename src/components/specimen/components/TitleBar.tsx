@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFrog, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
+import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 import VersionSelect from './contentBlock/VersionSelect';
 
 
@@ -20,10 +21,16 @@ const TitleBar = () => {
     const specimen = useAppSelector(getSpecimen);
 
     return (
-        <Row className={`${styles.IDCardHead}`}>
+        <Row>
             <Col>
-                {/* Title and Icon */}
+                {/* Bread Crumbs */}
                 <Row>
+                    <Col>
+                        <BreadCrumbs />
+                    </Col>
+                </Row>
+                {/* Title and Icon */}
+                <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
                         <FontAwesomeIcon icon={faFrog} className={styles.titleBarIcon} />
                     </Col>

@@ -5,10 +5,6 @@
 }
 
 /* Title Bar */
-.titleBar {
-    height: 12%;
-}
-
 .title {
     font-size: 28px;
 }
@@ -48,17 +44,7 @@
     transform: scaleX(-1);
 }
 
-/* Specimen Content */
-.specimenContent {
-    height: 88%;
-}
-
-
 /* ID Card */
-.IDCardHead {
-    height: 150px;
-}
-
 .IDCardBanner {
     height: 25%;
 }
@@ -69,7 +55,6 @@
 }
 
 .IDCard {
-    height: 75%;
     border-top-left-radius: 35px;
     border-bottom-right-radius: 35px;
 }
@@ -96,7 +81,7 @@
 
 .IDCardPropertyBlock {
     font-size: 14px;
-    height: Calc(100% / 8);
+    max-height: Calc(100% / 8);
 }
 
 .IDCardPropertyBlockHover {
@@ -240,8 +225,8 @@
 
 /* Original Data Block */
 
-.originalDataTable {
-    height: 95%;
+.originalData {
+    height: 90%;
 }
 
 /* Annotations Block */

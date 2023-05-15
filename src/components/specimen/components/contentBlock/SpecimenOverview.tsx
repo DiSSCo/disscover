@@ -140,13 +140,13 @@ const SpecimenOverview = (props: Props) => {
                     </Col>
                 </Row>
                 <Row className="h-50">
-                    {/* Details */}
+                    {/* Taxanomy */}
                     <Col md={{ span: 4 }} className="pt-2">
                         <Card className="h-100">
                             <Card.Body>
                                 <Card.Title className="c-accent">
                                     <FontAwesomeIcon icon={faFrog} />
-                                    <span className="ms-1"> Details </span>
+                                    <span className="ms-1"> Taxonomy </span>
                                 </Card.Title>
 
                                 <Row className="mt-2">
@@ -154,10 +154,34 @@ const SpecimenOverview = (props: Props) => {
                                         <table className={styles.propertyTable}>
                                             <tbody>
                                                 <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
-                                                    onClick={() => ToggleModal('ods:organisationId')}
+                                                    onClick={() => ToggleModal('dwc:kingdom')}
                                                 >
-                                                    <td className={`${styles.propertyTitle} pe-2`}> Taxa: </td>
-                                                    <td> Coming Soon! </td>
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Kingdom: </td>
+                                                    <td> {specimen.data['dwc:kingdom']} </td>
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
+                                                    onClick={() => ToggleModal('dwc:phylum')}
+                                                >
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Phylum: </td>
+                                                    <td> {specimen.data['dwc:phylum']} </td>
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
+                                                    onClick={() => ToggleModal('dwc:order')}
+                                                >
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Order: </td>
+                                                    <td> {specimen.data['dwc:order']} </td>
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
+                                                    onClick={() => ToggleModal('dwc:family')}
+                                                >
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Family: </td>
+                                                    <td> {specimen.data['dwc:family']} </td>
+                                                </tr>
+                                                <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
+                                                    onClick={() => ToggleModal('dwc:genus')}
+                                                >
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Genus: </td>
+                                                    <td> {specimen.data['dwc:genus']} </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -196,7 +220,7 @@ const SpecimenOverview = (props: Props) => {
                                     </Col>
                                 </Row>
 
-                                <div className="position-absolute w-100 h-100 top-0 start-0 z-0">
+                                <div className="position-absolute w-100 h-50 bottom-0 start-0 z-0">
                                     {organisationLogoUrl &&
                                         <img src={organisationLogoUrl}
                                             className={styles.organisationLogo}

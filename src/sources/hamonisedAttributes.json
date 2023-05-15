@@ -48,6 +48,9 @@
     "ods:collector": {
         "displayName": "Collector"
     },
+    "dwc:individualCount": {
+        "displayName": "Individual Count"
+    },
     "dwc:typeStatus": {
         "displayName": "Type Status"
     },
@@ -62,6 +65,9 @@
     },
     "dwc:countryCode": {
         "displayName": "Country Code"
+    },
+    "dwc:disposition": {
+        "displayName": "Disposition"
     },
     "dwc:decimalLatitude": {
         "displayName": "Decimal Latitude"
@@ -137,5 +143,47 @@
     },
     "dcterms:license": {
         "displayName": "License"
+    },
+    "dwc:basisOfRecord": {
+        "displayName": "Basis of Record"
+    },
+    "dwc:class": {
+        "displayName": "Class"
+    },
+    "dwc:family": {
+        "displayName": "Family"
+    },
+    "dwc:genus": {
+        "displayName": "Genus"
+    },
+    "dwc:infraspecificEpithet": {
+        "displayName": "Infraspecific Epithet"
+    },
+    "dwc:kingdom": {
+        "displayName": "Kingdom"
+    },
+    "dwc:order": {
+        "displayName": "Order"
+    },
+    "dwc:phylum": {
+        "displayName": "Phylum"
+    },
+    "dwc:scientificNameAuthorship": {
+        "displayName": "Scientific Name Authorship"
+    },
+    "dwc:specificEpithet": {
+        "displayName": "Specific Epithet"
+    },
+    "dwc:taxonRank": {
+        "displayName": "Taxon Rank"
+    },
+    "dwc:municipality": {
+        "displayName": "Municipality"
+    },
+    "ods:livingOrPreserved": {
+        "displayName": "Living or Preserved"
+    },
+    "ods:topicDiscipline": {
+        "displayName": "Topic Discipline"
     }
 }

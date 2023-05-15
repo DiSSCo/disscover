@@ -22,6 +22,10 @@ import { faFrog, faCircleInfo, faChevronRight, faX } from '@fortawesome/free-sol
 /* Import Sources */
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 
+/* Import Components */
+import OrganisationProperty from 'components/specimen/components/IDCard/OrganisationProperty';
+import PhysicalSpecimenIdProperty from 'components/specimen/components/IDCard/PhysicalSpecimenIdProperty';
+
 /* Import API */
 import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 
@@ -45,17 +49,6 @@ const IDCard = () => {
             }
         });
     }, [specimen]);
-
-    /* Function for displaying the Organisation of a Specimen */
-    const OrganisationProperty = () => {
-        if (specimen.data['ods:organisationName']) {
-            return specimen.data['ods:organisationName'];
-        } else if (specimen.organisationId) {
-            return specimen.organisationId;
-        } else {
-            return '';
-        }
-    }
 
     /* Function for changing the zoom level of the Leaflet Map */
     const ChangeView = ({ center, zoom }: { center: LatLngExpression, zoom: number }) => {
@@ -89,7 +82,7 @@ const IDCard = () => {
                     {/* Specimen Identifier */}
                     <Row>
                         <Col>
-                            <p className={styles.IDCardId}> {specimen.id} </p>
+                            <p className={styles.IDCardId}> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
                         </Col>
                     </Row>
 
@@ -134,14 +127,15 @@ const IDCard = () => {
                                 <span className="fw-bold"> Specimen Type: </span> {specimen.type}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
-                                <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span> {specimen.physicalSpecimenId}
+                                <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span>
+                                {<PhysicalSpecimenIdProperty specimen={specimen} />}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Physical Specimen Collection: </span> {specimen.physicalSpecimenCollection}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Organisation: </span>
-                                {OrganisationProperty()}
+                                <span className="c-accent"> {<OrganisationProperty specimen={specimen} />} </span>
                             </p>
                         </Col>
                     </Row>
@@ -198,7 +192,7 @@ const IDCard = () => {
                     <Row className={styles.buttonBlock}>
                         <Col className="h-100 d-flex justify-content-end align-items-end">
                             <button type="button" className={`${styles.specimenButton} fw-bold px-3`}
-                                onClick={() => navigate(`/ds/${specimen.id}`)}
+                                onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`)}
                             >
                                 See full details <FontAwesomeIcon icon={faChevronRight} />
                             </button>

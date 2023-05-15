@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import { isEmpty } from 'lodash';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -77,50 +78,31 @@ const OriginalData = () => {
                             </Col>
                         </Row>
 
-                        <Row className={`${styles.originalDataTable}`}>
-                            <Col md={{ span: 9 }} className="h-100">
-                                <Card className="h-100 overflow-scroll">
-                                    <DataTable
-                                        columns={tableColumns}
-                                        data={tableData}
+                        <Row className={`${styles.originalData}`}>
+                            <Col className="h-100">
+                                <div className="h-100 d-flex flex-column">
+                                    {!isEmpty(sourceSystem) &&
+                                        <Row className="pb-3">
+                                            <Col>
+                                                <p>Source URL: {sourceSystem.endpoint}</p>
+                                            </Col>
+                                        </Row>
+                                    }
+                                    <Row className="flex-grow-1 overflow-scroll">
+                                        <Col className="h-100">
+                                            <Card className="h-100">
+                                                <DataTable
+                                                    columns={tableColumns}
+                                                    data={tableData}
 
-                                        striped
-                                        highlightOnHover
-                                    />
-                                </Card>
+                                                    striped
+                                                    highlightOnHover
+                                                />
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </div>
                             </Col>
-                            {sourceSystem &&
-                                <Col md={{ span: 3 }}>
-                                    <Row>
-                                        <Col>
-                                            <Row>
-                                                <Col className="fw-bold">
-                                                    Harvested from:
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    {sourceSystem.name}
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                    <Row className="mt-3">
-                                        <Col>
-                                            <Row>
-                                                <Col className="fw-bold">
-                                                    Source URL:
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    {sourceSystem.endpoint}
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            }
                         </Row>
                     </Card.Body>
                 </Card>

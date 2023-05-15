@@ -69,7 +69,7 @@ const App = () => {
         <Route path="/search" element={<Search />} />
 
         {/* Specimen Page */}
-        <Route path="/ds/:prefix/:suffix" element={<Specimen />} />
+        <Route path="/ds/:prefix/:suffix/:version?" element={<Specimen />} />
 
         {/* Digital Media Page */}
         <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />

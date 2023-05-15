@@ -18,7 +18,7 @@ describe("Specimen Page Tests", () => {
     beforeAll(() => {
         renderWithProviders('/ds/20.5000.1025/DW0-BNT-FM0',
             <Routes>
-                <Route path="/ds/:prefix/:suffix"
+                <Route path="/ds/:prefix/:suffix/:version?"
                     element={<Specimen />}
                 />
             </Routes>

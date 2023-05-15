@@ -53,14 +53,7 @@ const Header = () => {
                                             <p className={`${location.pathname === '/search' || location.pathname.includes('/ds') ?
                                                 styles.navItemActive : styles.navItem}`
                                             }>
-                                                Specimens
-                                            </p>
-                                        </Link>
-                                    </Col>
-                                    <Col className="col-md-auto d-flex justify-content-center px-5">
-                                        <Link to="/annotate">
-                                            <p className={`${location.pathname === '/annotate' ? styles.navItemActive : styles.navItem}`}>
-                                                {t('annotations')}
+                                                {t('specimens')}
                                             </p>
                                         </Link>
                                     </Col>

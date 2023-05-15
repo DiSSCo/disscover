@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,8 +8,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSpecimen, setSpecimen, getSpecimenVersion, setSpecimenVersion,
-    setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
+    getSpecimen, setSpecimen, setSpecimenDigitalMedia,
+    getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
@@ -37,10 +37,10 @@ const Specimen = () => {
 
     /* Hooks */
     const params = useParams();
+    const navigate = useNavigate();
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
-    const version = useAppSelector(getSpecimenVersion);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const annotateTarget = useAppSelector(getAnnotateTarget);
 
@@ -49,15 +49,19 @@ const Specimen = () => {
         const specimenId = `${params.prefix}/${params.suffix}`;
 
         /* Fetch Full Specimen if not present or not equal to params ID; if version has changed, refetch Specimen with version */
-        if (isEmpty(specimen) || specimen.id !== specimenId) {
+        if (isEmpty(specimen) || specimen.id.replace('https://hdl.handle.net/', '') !== specimenId) {
+            /* Check for version in url */
+            let version: string = '';
+
+            if (params.version) {
+                version = `/${params.version}`;
+            }
+
             /* Get full Specimen */
-            GetSpecimenFull(`${params['prefix']}/${params['suffix']}`).then((fullSpecimen) => {
+            GetSpecimenFull(`${params.prefix}/${params.suffix}${version}`).then((fullSpecimen) => {
                 if (fullSpecimen) {
                     /* Set Specimen */
                     dispatch(setSpecimen(fullSpecimen.specimen));
-
-                    /* Set Specimen Version */
-                    dispatch(setSpecimenVersion(fullSpecimen.specimen.version));
 
                     /* Set Specimen Digital Media */
                     dispatch(setSpecimenDigitalMedia(fullSpecimen.digitalMedia));
@@ -65,36 +69,42 @@ const Specimen = () => {
                     /* Set Specimen Annotations */
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
                 }
+            }).catch(error => {
+                console.warn(error);
             });
-        } else if (version && specimen.version !== version) {
+        } else if (params.version && specimen.version.toString() !== params.version) {
             /* Get Specimen with version */
             const originalVersion = specimen.version;
 
-            GetSpecimen(`${params['prefix']}/${params['suffix']}`, version).then((specimen) => {
+            GetSpecimen(`${params['prefix']}/${params['suffix']}`, params.version).then((specimen) => {
                 if (!isEmpty(specimen)) {
                     /* Set Specimen */
                     dispatch(setSpecimen(specimen));
                 } else {
                     /* If version fetch failed, reset to original version */
-                    dispatch(setSpecimenVersion(originalVersion));
+                    navigate(`/ds/${params.prefix}/${params.suffix}/${originalVersion}`)
 
                     /* Show Error Message */
-                    dispatch(setErrorMessage(`The selected version: ${version}, of Specimen could not be retrieved.`));
+                    dispatch(setErrorMessage(`The selected version: ${params.version}, of Specimen could not be retrieved.`));
                 }
+            }).catch(error => {
+                console.warn(error);
             });
         }
-    }, [specimen, params, version, dispatch]);
+    }, [specimen, params]);
 
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
         /* Check if the specimen annotations differ from the target annotations */
-        if (Array.isArray(annotateTarget.annotations)) {
+        if (specimen.id && Array.isArray(annotateTarget.annotations)) {
             if (JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
                 /* Fetch Specimen Annotations */
-                GetSpecimenAnnotations(specimen.id).then((annotations) => {
+                GetSpecimenAnnotations(specimen.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
                     if (annotations) {
                         dispatch(setSpecimenAnnotations(annotations));
                     }
+                }).catch(error => {
+                    console.warn(error);
                 });
             }
         }
@@ -123,29 +133,31 @@ const Specimen = () => {
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Header />
 
-            {(specimen.id === `${params['prefix']}/${params['suffix']}`) &&
+            {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
                 <Container fluid className={`${styles.content} pt-5`}>
                     <Row className="h-100">
                         <Col md={{ span: 10, offset: 1 }} className="h-100">
-                            <Row className={styles.titleBar}>
-                                <Col>
-                                    <TitleBar />
-                                </Col>
-                            </Row>
-                            <Row className={`${styles.specimenContent} py-4`}>
-                                <Col md={{ span: 3 }} className="h-100">
-                                    <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
-                                </Col>
-                                <Col md={{ span: 9 }} className="ps-4 h-100">
-                                    <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
-                                </Col>
+                            <div className="h-100 d-flex flex-column">
+                                <Row className={styles.titleBar}>
+                                    <Col>
+                                        <TitleBar />
+                                    </Col>
+                                </Row>
+                                <Row className={`${styles.specimenContent} py-4 flex-grow-1 overflow-hidden`}>
+                                    <Col md={{ span: 3 }} className="h-100">
+                                        <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
+                                    </Col>
+                                    <Col md={{ span: 9 }} className="ps-4 h-100">
+                                        <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
+                                    </Col>
 
-                                {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
-                                    <AnnotateModal modalToggle={modalToggle}
-                                        ToggleModal={() => ToggleModal()}
-                                    />
-                                }
-                            </Row>
+                                    {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
+                                        <AnnotateModal modalToggle={modalToggle}
+                                            ToggleModal={() => ToggleModal()}
+                                        />
+                                    }
+                                </Row>
+                            </div>
                         </Col>
                     </Row>
                 </Container>

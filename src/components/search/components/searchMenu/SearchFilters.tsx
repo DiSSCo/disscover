@@ -67,17 +67,14 @@ const SearchFilters = (props: Props) => {
         },
         collectionDate: {
             displayName: 'Collection date',
-            static: true,
             filterType: 'date'
         },
         fossilPeriod: {
             displayName: 'Fossil period',
-            static: true,
             filterType: 'text'
         },
         livingPreserved: {
             displayName: 'Living or preserved',
-            static: true,
             filterType: 'text'
         },
         license: {
@@ -85,7 +82,6 @@ const SearchFilters = (props: Props) => {
         },
         hasMedia: {
             displayName: 'Has Media',
-            static: true,
             filterType: 'checkbox'
         }
     };

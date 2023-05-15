@@ -13,10 +13,6 @@ import { Specimen } from 'global/Types';
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-
 
 /* Props Styling */
 interface Props {
@@ -43,6 +39,7 @@ const ResultsTable = (props: Props) => {
         country: string,
         specimen_type: string,
         organisation: string,
+        organisationId: string,
         toggleSelected: boolean
     };
 
@@ -128,6 +125,11 @@ const ResultsTable = (props: Props) => {
         name: 'Organisation',
         selector: row => row.organisation,
         id: 'search_organisation',
+        cell:(row) => <a href={row.organisationId} target="_blank" rel="noreferrer"> {row.organisation} </a>,
+        ignoreRowClick: true,
+        style: {
+            color: "#28bacb"
+        },
         sortable: true
     }];
 
@@ -160,8 +162,8 @@ const ResultsTable = (props: Props) => {
     const conditionalRowStyles = [{
         when: (row: any) => row.toggleSelected,
         style: {
-            backgroundColor: "#98cdbf",
-            userSelect: "none"
+            backgroundColor: '#98cdbf',
+            userSelect: 'none'
         }
     }];
 
@@ -176,7 +178,8 @@ const ResultsTable = (props: Props) => {
                 specimen_name: specimen.specimenName,
                 country: specimen.data['dwc:country'] ? specimen.data['dwc:country'] : '-',
                 specimen_type: specimen.type,
-                organisation: specimen.organisationId,
+                organisation: specimen.data['ods:organisationName'] ? specimen.data['ods:organisationName'] : specimen.organisationId,
+                organisationId: specimen.organisationId,
                 toggleSelected: false
             });
         });

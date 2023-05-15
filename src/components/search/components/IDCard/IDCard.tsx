@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon, LatLngExpression } from 'leaflet';
+import { ValidateURL } from 'global/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -46,14 +47,30 @@ const IDCard = () => {
         });
     }, [specimen]);
 
-    /* Function for displaying the Organisation of a Specimen */
+    /* Functions for displaying certain Specimen properties with effects */
     const OrganisationProperty = () => {
+        let organisationText: string;
+
         if (specimen.data['ods:organisationName']) {
-            return specimen.data['ods:organisationName'];
-        } else if (specimen.organisationId) {
-            return specimen.organisationId;
+            organisationText = specimen.data['ods:organisationName'];
         } else {
-            return '';
+            organisationText = specimen.organisationId;
+        }
+
+        return <a href={specimen.organisationId} target="_blank" rel="noreferrer"> {organisationText} </a>;
+    }
+
+    const PhysicalSpecimenIdProperty = () => {
+        if (ValidateURL(specimen.physicalSpecimenId)) {
+            return (
+                <a href={specimen.physicalSpecimenId} target="_blank" rel="noreferrer"
+                    className="c-accent"
+                >
+                    {specimen.physicalSpecimenId}
+                </a>
+            );
+        } else {
+            return specimen.physicalSpecimenId;
         }
     }
 
@@ -89,7 +106,7 @@ const IDCard = () => {
                     {/* Specimen Identifier */}
                     <Row>
                         <Col>
-                            <p className={styles.IDCardId}> {specimen.id} </p>
+                            <p className={styles.IDCardId}> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
                         </Col>
                     </Row>
 
@@ -134,14 +151,15 @@ const IDCard = () => {
                                 <span className="fw-bold"> Specimen Type: </span> {specimen.type}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
-                                <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span> {specimen.physicalSpecimenId}
+                                <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span>
+                                {PhysicalSpecimenIdProperty()}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Physical Specimen Collection: </span> {specimen.physicalSpecimenCollection}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Organisation: </span>
-                                {OrganisationProperty()}
+                                <span className="c-accent"> {OrganisationProperty()} </span>
                             </p>
                         </Col>
                     </Row>
@@ -198,7 +216,7 @@ const IDCard = () => {
                     <Row className={styles.buttonBlock}>
                         <Col className="h-100 d-flex justify-content-end align-items-end">
                             <button type="button" className={`${styles.specimenButton} fw-bold px-3`}
-                                onClick={() => navigate(`/ds/${specimen.id}`)}
+                                onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`)}
                             >
                                 See full details <FontAwesomeIcon icon={faChevronRight} />
                             </button>

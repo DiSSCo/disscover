@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import classNames from 'classnames';
 import KeycloakService from 'keycloak/Keycloak';
+import { ValidateURL } from 'global/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -29,6 +30,33 @@ const IDCard = (props: Props) => {
         [`${styles.IDCardPropertyBlockHover}`]: KeycloakService.IsLoggedIn()
     });
 
+    /* Functions for displaying certain Specimen properties with effects */
+    const OrganisationProperty = () => {
+        let organisationText: string;
+
+        if (specimen.data['ods:organisationName']) {
+            organisationText = specimen.data['ods:organisationName'];
+        } else {
+            organisationText = specimen.organisationId;
+        }
+
+        return <a href={specimen.organisationId} target="_blank" rel="noreferrer"> {organisationText} </a>;
+    }
+
+    const PhysicalSpecimenIdProperty = () => {
+        if (ValidateURL(specimen.physicalSpecimenId)) {
+            return (
+                <a href={specimen.physicalSpecimenId} target="_blank" rel="noreferrer"
+                    className="c-accent"
+                >
+                    {specimen.physicalSpecimenId}
+                </a>
+            );
+        } else {
+            return specimen.physicalSpecimenId;
+        }
+    }
+
     return (
         <Row className="h-100">
             {/* ID Card Content */}
@@ -37,14 +65,11 @@ const IDCard = (props: Props) => {
                     {specimenDigitalMedia.length > 0 &&
                         <Row className={styles.IDCardBanner}>
                             <Col className="h-100">
-                                {(specimenDigitalMedia.length > 0) ?
-                                    <div className={`${styles.IDCardBannerBackground} h-100 d-flex justify-content-center`}>
-                                        <img src={specimenDigitalMedia[0].digitalMediaObject.mediaUrl} alt="banner"
-                                            className="h-100 position-relative rounded-c"
-                                        />
-                                    </div>
-                                    : <h4 className="text-white py-5 text-center">Placeholder image</h4>
-                                }
+                                <div className={`${styles.IDCardBannerBackground} h-100 d-flex justify-content-center`}>
+                                    <img src={specimenDigitalMedia[0].digitalMediaObject.mediaUrl} alt="banner"
+                                        className="h-100 position-relative rounded-c"
+                                    />
+                                </div>
                             </Col>
                         </Row>
                     }
@@ -58,7 +83,7 @@ const IDCard = (props: Props) => {
                                                 <p> ID Card </p>
                                             </Col>
                                             <Col className={`${styles.IDCardTitle} col-md-auto fw-lightBold`}>
-                                                <p> {specimen.id} </p>
+                                                <p> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
                                             </Col>
                                         </Row>
                                     </Card.Subtitle>
@@ -78,16 +103,8 @@ const IDCard = (props: Props) => {
                                                     onClick={() => ToggleModal('ods:organisationId')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">Specimen provider</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}>
-                                                        {specimen.data['ods:organisationName'] ?
-                                                            <a href={specimen.organisationId}
-                                                                target="_blank" rel="noreferrer"
-                                                                className="c-accent h-underline"
-                                                            >
-                                                                {specimen.data['ods:organisationName']}
-                                                            </a>
-                                                            : specimen.organisationId
-                                                        }
+                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50 c-accent`}>
+                                                        {OrganisationProperty()}
                                                     </span>
                                                 </Col>
                                             </Row>
@@ -104,7 +121,7 @@ const IDCard = (props: Props) => {
                                                     <span className="fw-lightBold m-0 h-50">
                                                         Physical specimen ID ({specimen.physicalSpecimenIdType}):
                                                     </span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.physicalSpecimenId} </span>
+                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {PhysicalSpecimenIdProperty()} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>

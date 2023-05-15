@@ -49,7 +49,7 @@ const Specimen = () => {
         const specimenId = `${params.prefix}/${params.suffix}`;
 
         /* Fetch Full Specimen if not present or not equal to params ID; if version has changed, refetch Specimen with version */
-        if (isEmpty(specimen) || specimen.id !== specimenId) {
+        if (isEmpty(specimen) || specimen.id.replace('https://hdl.handle.net/', '') !== specimenId) {
             /* Get full Specimen */
             GetSpecimenFull(`${params['prefix']}/${params['suffix']}`).then((fullSpecimen) => {
                 if (fullSpecimen) {
@@ -88,10 +88,10 @@ const Specimen = () => {
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {
         /* Check if the specimen annotations differ from the target annotations */
-        if (Array.isArray(annotateTarget.annotations)) {
+        if (specimen.id && Array.isArray(annotateTarget.annotations)) {
             if (JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
                 /* Fetch Specimen Annotations */
-                GetSpecimenAnnotations(specimen.id).then((annotations) => {
+                GetSpecimenAnnotations(specimen.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
                     if (annotations) {
                         dispatch(setSpecimenAnnotations(annotations));
                     }
@@ -123,7 +123,7 @@ const Specimen = () => {
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Header />
 
-            {(specimen.id === `${params['prefix']}/${params['suffix']}`) &&
+            {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
                 <Container fluid className={`${styles.content} pt-5`}>
                     <Row className="h-100">
                         <Col md={{ span: 10, offset: 1 }} className="h-100">

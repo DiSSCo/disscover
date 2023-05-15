@@ -22,7 +22,7 @@ const VersionSelect = () => {
 
     /* OnLoad: Fetch Specimen versions */
     useEffect(() => {
-        GetSpecimenVersions(specimen.id).then((versions) => {
+        GetSpecimenVersions(specimen.id.replace('https://hdl.handle.net/', '')).then((versions) => {
             if (versions) {
                 versions.sort((a, b) => (a - b));
 

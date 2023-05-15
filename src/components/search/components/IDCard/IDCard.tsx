@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon, LatLngExpression } from 'leaflet';
-import { ValidateURL } from 'global/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -22,6 +21,10 @@ import { faFrog, faCircleInfo, faChevronRight, faX } from '@fortawesome/free-sol
 
 /* Import Sources */
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+
+/* Import Components */
+import OrganisationProperty from 'components/specimen/components/IDCard/OrganisationProperty';
+import PhysicalSpecimenIdProperty from 'components/specimen/components/IDCard/PhysicalSpecimenIdProperty';
 
 /* Import API */
 import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
@@ -46,33 +49,6 @@ const IDCard = () => {
             }
         });
     }, [specimen]);
-
-    /* Functions for displaying certain Specimen properties with effects */
-    const OrganisationProperty = () => {
-        let organisationText: string;
-
-        if (specimen.data['ods:organisationName']) {
-            organisationText = specimen.data['ods:organisationName'];
-        } else {
-            organisationText = specimen.organisationId;
-        }
-
-        return <a href={specimen.organisationId} target="_blank" rel="noreferrer"> {organisationText} </a>;
-    }
-
-    const PhysicalSpecimenIdProperty = () => {
-        if (ValidateURL(specimen.physicalSpecimenId)) {
-            return (
-                <a href={specimen.physicalSpecimenId} target="_blank" rel="noreferrer"
-                    className="c-accent"
-                >
-                    {specimen.physicalSpecimenId}
-                </a>
-            );
-        } else {
-            return specimen.physicalSpecimenId;
-        }
-    }
 
     /* Function for changing the zoom level of the Leaflet Map */
     const ChangeView = ({ center, zoom }: { center: LatLngExpression, zoom: number }) => {
@@ -152,14 +128,14 @@ const IDCard = () => {
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span>
-                                {PhysicalSpecimenIdProperty()}
+                                {<PhysicalSpecimenIdProperty specimen={specimen} />}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Physical Specimen Collection: </span> {specimen.physicalSpecimenCollection}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Organisation: </span>
-                                <span className="c-accent"> {OrganisationProperty()} </span>
+                                <span className="c-accent"> {<OrganisationProperty specimen={specimen} />} </span>
                             </p>
                         </Col>
                     </Row>

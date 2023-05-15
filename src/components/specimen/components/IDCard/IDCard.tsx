@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import classNames from 'classnames';
 import KeycloakService from 'keycloak/Keycloak';
-import { ValidateURL } from 'global/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -10,6 +9,10 @@ import { getSpecimen, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSli
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
+
+/* Import Components */
+import OrganisationProperty from './OrganisationProperty';
+import PhysicalSpecimenIdProperty from './PhysicalSpecimenIdProperty';
 
 
 /* Props Typing */
@@ -29,33 +32,6 @@ const IDCard = (props: Props) => {
     const classPropertyBlockHover = classNames({
         [`${styles.IDCardPropertyBlockHover}`]: KeycloakService.IsLoggedIn()
     });
-
-    /* Functions for displaying certain Specimen properties with effects */
-    const OrganisationProperty = () => {
-        let organisationText: string;
-
-        if (specimen.data['ods:organisationName']) {
-            organisationText = specimen.data['ods:organisationName'];
-        } else {
-            organisationText = specimen.organisationId;
-        }
-
-        return <a href={specimen.organisationId} target="_blank" rel="noreferrer"> {organisationText} </a>;
-    }
-
-    const PhysicalSpecimenIdProperty = () => {
-        if (ValidateURL(specimen.physicalSpecimenId)) {
-            return (
-                <a href={specimen.physicalSpecimenId} target="_blank" rel="noreferrer"
-                    className="c-accent"
-                >
-                    {specimen.physicalSpecimenId}
-                </a>
-            );
-        } else {
-            return specimen.physicalSpecimenId;
-        }
-    }
 
     return (
         <Row className="h-100">
@@ -104,7 +80,7 @@ const IDCard = (props: Props) => {
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">Specimen provider</span>
                                                     <br /> <span className={`${styles.IDCardValue} m-0 h-50 c-accent`}>
-                                                        {OrganisationProperty()}
+                                                        {<OrganisationProperty specimen={specimen} />}
                                                     </span>
                                                 </Col>
                                             </Row>
@@ -121,7 +97,7 @@ const IDCard = (props: Props) => {
                                                     <span className="fw-lightBold m-0 h-50">
                                                         Physical specimen ID ({specimen.physicalSpecimenIdType}):
                                                     </span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {PhysicalSpecimenIdProperty()} </span>
+                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>

@@ -13,6 +13,9 @@ import { Specimen } from 'global/Types';
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
+/* Import Components */
+import ColumnLink from './ColumnLink';
+
 
 /* Props Styling */
 interface Props {
@@ -125,7 +128,7 @@ const ResultsTable = (props: Props) => {
         name: 'Organisation',
         selector: row => row.organisation,
         id: 'search_organisation',
-        cell:(row) => <a href={row.organisationId} target="_blank" rel="noreferrer"> {row.organisation} </a>,
+        cell:(row) => <ColumnLink link={row.organisationId} text={row.organisation} />,
         ignoreRowClick: true,
         style: {
             color: "#28bacb"

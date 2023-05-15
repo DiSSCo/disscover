@@ -69,6 +69,8 @@ const Specimen = () => {
                     /* Set Specimen Annotations */
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
                 }
+            }).catch(error => {
+                console.warn(error);
             });
         } else if (params.version && specimen.version.toString() !== params.version) {
             /* Get Specimen with version */
@@ -85,6 +87,8 @@ const Specimen = () => {
                     /* Show Error Message */
                     dispatch(setErrorMessage(`The selected version: ${params.version}, of Specimen could not be retrieved.`));
                 }
+            }).catch(error => {
+                console.warn(error);
             });
         }
     }, [specimen, params]);
@@ -99,6 +103,8 @@ const Specimen = () => {
                     if (annotations) {
                         dispatch(setSpecimenAnnotations(annotations));
                     }
+                }).catch(error => {
+                    console.warn(error);
                 });
             }
         }

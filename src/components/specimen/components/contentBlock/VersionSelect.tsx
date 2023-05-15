@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { useAppSelector } from 'app/hooks';
 import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 /* Import API */

@@ -8,10 +8,10 @@ import SpecimenModel from 'api/model/SpecimenModel';
 import { Specimen, JSONResult } from 'global/Types';
 
 
-const GetSpecimen = async (handle: string, version?: number) => {
-    if (handle) {
-        let specimen = {} as Specimen;
+const GetSpecimen = async (handle: string, version?: string) => {
+    let specimen = {} as Specimen;
 
+    if (handle) {
         let endPoint: string;
 
         if (version) {
@@ -34,9 +34,9 @@ const GetSpecimen = async (handle: string, version?: number) => {
         } catch (error) {
             console.warn(error);
         }
-
-        return specimen;
     }
+
+    return specimen;
 }
 
 export default GetSpecimen;

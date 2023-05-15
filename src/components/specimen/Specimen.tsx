@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,8 +8,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSpecimen, setSpecimen, getSpecimenVersion, setSpecimenVersion,
-    setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
+    getSpecimen, setSpecimen, setSpecimenDigitalMedia,
+    getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
@@ -37,10 +37,10 @@ const Specimen = () => {
 
     /* Hooks */
     const params = useParams();
+    const navigate = useNavigate();
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
-    const version = useAppSelector(getSpecimenVersion);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const annotateTarget = useAppSelector(getAnnotateTarget);
 
@@ -50,14 +50,18 @@ const Specimen = () => {
 
         /* Fetch Full Specimen if not present or not equal to params ID; if version has changed, refetch Specimen with version */
         if (isEmpty(specimen) || specimen.id.replace('https://hdl.handle.net/', '') !== specimenId) {
+            /* Check for version in url */
+            let version: string = '';
+
+            if (params.version) {
+                version = `${params.version}`;
+            }
+
             /* Get full Specimen */
-            GetSpecimenFull(`${params['prefix']}/${params['suffix']}`).then((fullSpecimen) => {
+            GetSpecimenFull(`${params.prefix}/${params.suffix}/${version}`).then((fullSpecimen) => {
                 if (fullSpecimen) {
                     /* Set Specimen */
                     dispatch(setSpecimen(fullSpecimen.specimen));
-
-                    /* Set Specimen Version */
-                    dispatch(setSpecimenVersion(fullSpecimen.specimen.version));
 
                     /* Set Specimen Digital Media */
                     dispatch(setSpecimenDigitalMedia(fullSpecimen.digitalMedia));
@@ -66,24 +70,24 @@ const Specimen = () => {
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
                 }
             });
-        } else if (version && specimen.version !== version) {
+        } else if (params.version && specimen.version.toString() !== params.version) {
             /* Get Specimen with version */
             const originalVersion = specimen.version;
 
-            GetSpecimen(`${params['prefix']}/${params['suffix']}`, version).then((specimen) => {
+            GetSpecimen(`${params['prefix']}/${params['suffix']}`, params.version).then((specimen) => {
                 if (!isEmpty(specimen)) {
                     /* Set Specimen */
                     dispatch(setSpecimen(specimen));
                 } else {
                     /* If version fetch failed, reset to original version */
-                    dispatch(setSpecimenVersion(originalVersion));
+                    navigate(`/ds/${params.prefix}/${params.suffix}/${originalVersion}`)
 
                     /* Show Error Message */
-                    dispatch(setErrorMessage(`The selected version: ${version}, of Specimen could not be retrieved.`));
+                    dispatch(setErrorMessage(`The selected version: ${params.version}, of Specimen could not be retrieved.`));
                 }
             });
         }
-    }, [specimen, params, version]);
+    }, [specimen, params]);
 
     /* Onchange of the Annotation Target's annotations: Check if changes occured */
     useEffect(() => {

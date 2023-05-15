@@ -1,11 +1,12 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimen, getSpecimenVersion, setSpecimenVersion } from 'redux/specimen/SpecimenSlice';
+import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 /* Import API */
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
@@ -13,18 +14,17 @@ import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
 
 const VersionSelect = () => {
     /* Hooks */
-    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     /* Base variables */
-    const specimen = useAppSelector(getSpecimen)
-    const version = useAppSelector(getSpecimenVersion);
+    const specimen = useAppSelector(getSpecimen);
     const [versions, setVersions] = useState<number[]>([]);
 
     /* OnLoad: Fetch Specimen versions */
     useEffect(() => {
         GetSpecimenVersions(specimen.id.replace('https://hdl.handle.net/', '')).then((versions) => {
             if (versions) {
-                versions.sort((a, b) => (a - b));
+                versions.sort((a, b) => (a - b));  
 
                 setVersions(versions);
             }
@@ -45,7 +45,7 @@ const VersionSelect = () => {
         <Row>
             <Col>
                 <Select
-                    value={{ value: version, label: `Version ${version}` }}
+                    value={{ value: specimen.version, label: `Version ${specimen.version}` }}
                     options={selectOptions}
                     styles={{
                         control: provided => ({
@@ -55,7 +55,7 @@ const VersionSelect = () => {
                         menu: provided => ({ ...provided, zIndex: 100000, fontSize: '15px' }),
                         dropdownIndicator: provided => ({ ...provided, color: '#333333', fontSize: '15px' })
                     }}
-                    onChange={(option) => { option?.value && dispatch(setSpecimenVersion(option.value)) }}
+                    onChange={(option) => { option?.value && navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}/${option.value}`)}}
                 />
             </Col>
         </Row>

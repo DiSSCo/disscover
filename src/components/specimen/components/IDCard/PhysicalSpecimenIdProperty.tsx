@@ -3,7 +3,6 @@ import { ValidateURL } from 'global/Utilities';
 
 /* Import Types */
 import { Specimen } from 'global/Types';
-import { ReactElement } from 'react';
 
 
 /* Props Typing */

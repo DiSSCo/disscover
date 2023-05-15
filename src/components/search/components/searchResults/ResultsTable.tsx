@@ -108,6 +108,10 @@ const ResultsTable = (props: Props) => {
         }
     }, [tableData]);
 
+    const Test = (link: string, text: string) => {
+        return <ColumnLink link={link} text={text} />
+    }
+
     /* Set Datatable columns */
     const tableColumns: TableColumn<DataRow>[] = [{
         name: 'Specimen name',
@@ -128,7 +132,7 @@ const ResultsTable = (props: Props) => {
         name: 'Organisation',
         selector: row => row.organisation,
         id: 'search_organisation',
-        cell:(row) => <ColumnLink link={row.organisationId} text={row.organisation} />,
+        cell:(row) => Test(row.organisationId, row.organisation),
         ignoreRowClick: true,
         style: {
             color: "#28bacb"

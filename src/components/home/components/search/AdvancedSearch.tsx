@@ -37,7 +37,7 @@ const AdvancedSearch = (props: Props) => {
     });
 
     return (
-        <Row className="bg-white pe-3">
+        <Row className="pe-3">
             <Col>
                 <Row>
                     <Col>

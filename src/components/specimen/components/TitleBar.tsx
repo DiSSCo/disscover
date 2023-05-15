@@ -22,18 +22,17 @@ const TitleBar = () => {
     return (
         <Row className={`${styles.IDCardHead}`}>
             <Col>
+                {/* Title and Icon */}
+                <Row>
+                    <Col className="col-md-auto pe-1 d-flex align-items-center">
+                        <FontAwesomeIcon icon={faFrog} className={styles.titleBarIcon} />
+                    </Col>
+                    <Col>
+                        <h2 className={styles.title}> {specimen.specimenName} </h2>
+                    </Col>
+                </Row>
                 <Row>
                     <Col md={{ span: 3 }}>
-                        {/* Title and Icon */}
-                        <Row>
-                            <Col className="col-md-auto pe-1 d-flex align-items-center">
-                                <FontAwesomeIcon icon={faFrog} className={styles.titleBarIcon} />
-                            </Col>
-                            <Col>
-                                <h2 className={styles.title}> {specimen.specimenName} </h2>
-                            </Col>
-                        </Row>
-
                         {/* MIDS Blocks */}
                         <Row className="mt-2">
                             <Col className="col-md-auto d-flex align-items-center">

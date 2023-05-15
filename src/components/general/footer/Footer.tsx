@@ -23,26 +23,28 @@ const Footer = () => {
     return (
         <Container fluid className={classFooter}>
             <Row className="h-100">
-                <Col md={{ span: 10, offset: 1 }} className={`${styles.footerCol} h-100`}>
+                <Col md={{span: 10, offset: 1 }} className="h-100 px-0">
                     <Row className="h-100 align-items-center">
-                        <Col className="col-md-auto pt-0">
+                        <Col className="col-md-auto pt-0 pe-0">
                             <p className={`${styles.footerText}`}>
                                 <a href="https://dissco.eu" className={styles.footerLink} target="_blank" rel="noreferrer">
                                     Distributed System of Scientific Collections
                                 </a>
                             </p>
+                        </Col>
+                        <Col>
                             <p className={styles.footerText}>
                                 © DiSSCo {currentYear}
                             </p>
                         </Col>
-                        <Col className="col-md-auto">
+                        <Col className="d-flex justify-content-end">
                             <p className={styles.footerText}>
                                 <Link to="/privacy-policy">
                                     Privacy Policy
                                 </Link>
                             </p>
                         </Col>
-                        <Col className="d-flex justify-content-end">
+                        <Col className="col-md-auto">
                             <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues" target="_blank" rel="noreferrer">
                                 <p className={`${styles.footerText} ${styles.footerLink}`}> Send us Feedback on GitHub </p>
                             </a>

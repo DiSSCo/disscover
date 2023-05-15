@@ -96,7 +96,11 @@ p {
   font-weight: 500;
 }
 
-/* Background */ 
+/* Background */
+
+.bg-main {
+  background-color: #F9FAFC;
+}
 
 .bg-primary-blue {
   background-color: var(--main-color);
@@ -125,7 +129,7 @@ p {
 }
 
 .border-1-primary {
-  border: 1px solid var(--main-color);
+  border: 1px solid var(--primary);
 }
 
 .border-1-primary-light {
@@ -241,6 +245,11 @@ p {
   transition: 0.4s;
 }
 
+/* Cursor */
+.c-pointer {
+  cursor: pointer;
+}
+
 
 /* Custom Component Styling */
 
@@ -280,14 +289,19 @@ p {
 
 /* Bootstrap class overwrite */
 
+li.page-item.active .page-link {
+  background-color: var(--secondary);
+  border: none;
+}
+
 .dropdown {
   padding-right: 0;
 }
 
 .dropdown-toggle {
-  background-color: white !important;
+  background-color: #F9FAFC !important;
   color: #333333 !important;
-  border: 1px solid white !important;
+  border: 1px solid #F9FAFC !important;
 }
 
 .dropdown-toggle:hover {

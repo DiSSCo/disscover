@@ -81,6 +81,5 @@
     "@types/lodash": "^4.14.192",
     "@types/react-datepicker": "^4.8.0",
     "@types/validator": "^13.7.17"
-  },
-  "proxy": "https://sandbox.dissco.tech"
+  }
 }

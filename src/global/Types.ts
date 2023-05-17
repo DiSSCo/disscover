@@ -21,6 +21,9 @@ export type JSONResult = {
     },
     links: {
         self: string
+    },
+    meta?: {
+        totalRecords: number
     }
 };
 
@@ -32,6 +35,9 @@ export type JSONResultArray = {
     }[],
     links: {
         self: string
+    },
+    meta?: {
+        totalRecords: number
     }
 }
 

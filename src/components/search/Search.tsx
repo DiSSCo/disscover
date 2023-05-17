@@ -77,11 +77,15 @@ const Search = () => {
             /* Action Search */
             SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
                 HandleSearch(specimens, links, totalRecords);
+            }).catch(error => {
+                console.warn(error);
             });
         } else {
             /* Grab Recent Specimens */
             GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
                 HandleSearch(specimens, links, totalRecords);
+            }).catch(error => {
+                console.warn(error);
             });
         }
 
@@ -100,6 +104,8 @@ const Search = () => {
         /* Refresh Aggregations */
         GetSpecimenAggregations(searchFilters).then((aggregations) => {
             dispatch(setSearchAggregations(aggregations));
+        }).catch(error => {
+            console.warn(error);
         });
     };
 

@@ -53,6 +53,9 @@ const SearchFilters = (props: Props) => {
             displayName: 'MIDS Level',
             filterType: 'mids'
         },
+        topicDiscipline: {
+            displayName: "Topic Discipline"
+        },
         country: {
             displayName: 'Country'
         },

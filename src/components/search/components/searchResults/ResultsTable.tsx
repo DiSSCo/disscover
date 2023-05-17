@@ -132,7 +132,7 @@ const ResultsTable = (props: Props) => {
         name: 'Organisation',
         selector: row => row.organisation,
         id: 'search_organisation',
-        cell:(row) => Test(row.organisationId, row.organisation),
+        cell:(row) => <ColumnLink link={row.organisationId} text={row.organisation} />,
         ignoreRowClick: true,
         style: {
             color: "#28bacb"

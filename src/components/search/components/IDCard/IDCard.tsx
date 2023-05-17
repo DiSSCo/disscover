@@ -43,7 +43,7 @@ const IDCard = () => {
     useEffect(() => {
         setDigitalMedia([]);
 
-        GetSpecimenDigitalMedia(specimen.id).then((digitalMedia) => {
+        GetSpecimenDigitalMedia(specimen.id.replace('https://hdl.handle.net/', '')).then((digitalMedia) => {
             if (digitalMedia) {
                 setDigitalMedia(digitalMedia);
             }

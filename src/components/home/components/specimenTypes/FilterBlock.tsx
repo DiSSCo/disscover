@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { Field } from 'formik';
+import CountUp from 'react-countup';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
@@ -11,12 +12,13 @@ interface Props {
     type: string,
     title: string,
     subTitle?: string,
+    discipline: number,
     ToggleFilterType: Function
 };
 
 
 const FilterBlock = (props: Props) => {
-    const { type, title, subTitle, ToggleFilterType } = props;
+    const { type, title, subTitle, discipline, ToggleFilterType } = props;
 
     return (
         <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3`}
@@ -31,7 +33,7 @@ const FilterBlock = (props: Props) => {
                     <p className={styles.specimenTypeTitle}> {title} </p>
                 </Col>
                 <Col className="col-md-auto">
-                    <Field name={`specimenTypes.${type}`}
+                    <Field name={`disciplines.${type}`}
                         type="checkbox"
                         className={styles.specimenTypeCheckbox}
                     />
@@ -39,7 +41,7 @@ const FilterBlock = (props: Props) => {
             </Row>
             <Row className="h-50">
                 <Col className="d-flex justify-content-end align-items-end">
-                    <p className={styles.specimenTypeAmount}> 0 </p>
+                    <p className={styles.specimenTypeAmount}> <CountUp end={discipline} /> </p>
                 </Col>
             </Row>
         </div>

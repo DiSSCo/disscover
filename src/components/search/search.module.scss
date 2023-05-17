@@ -27,6 +27,8 @@
 .searchMenu {
     border: 1px solid var(--grey);
     border-radius: 8px;
+    scrollbar-gutter: stable both-edges;
+    overflow-y: scroll;
 }
 
 .searchBlock {
@@ -240,7 +242,7 @@
 }
 
 .digitalMediaSlider {
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
 }

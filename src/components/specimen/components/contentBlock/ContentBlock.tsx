@@ -65,7 +65,9 @@ const ContentBlock = (props: Props) => {
                                 }
                                 <Tab className={classTab} selectedClassName={styles.active}>Provenance</Tab>
 
-                                <a href={`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id}`} target="_blank" rel="noreferrer" className="w-100">
+                                <a href={`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`}
+                                    target="_blank" rel="noreferrer" className="w-100"
+                                >
                                     <button type="button"
                                         className={`${styles.jsonButton} primaryButton`}
                                     >

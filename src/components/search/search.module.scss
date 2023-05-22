@@ -27,6 +27,8 @@
 .searchMenu {
     border: 1px solid var(--grey);
     border-radius: 8px;
+    scrollbar-gutter: stable both-edges;
+    overflow-y: scroll;
 }
 
 .searchBlock {
@@ -181,14 +183,6 @@
     height: Calc(100% - 90px);
 }
 
-.IDCardTop {
-    height: 45%;
-}
-
-.IDCardBottom {
-    height: 55%;
-}
-
 .IDCardIcon {
     font-size: 25px;
     color: var(--primary);
@@ -231,16 +225,12 @@
     font-size: 15px;
 }
 
-.geoLocationBlock {
-    height: Calc(100% - 60%);
-}
-
 .digitalMediaBlock {
-    height: Calc(100% - 40% - 70px);
+    height: 40%;
 }
 
 .digitalMediaSlider {
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
 }

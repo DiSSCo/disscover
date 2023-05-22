@@ -46,6 +46,7 @@ const Search = () => {
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
+    const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
 
     /* OnChange of search params: reset page number, then search specimens */
@@ -74,28 +75,37 @@ const Search = () => {
         /* If any filter is selected */
         if (!isEmpty(searchFilters)) {
             /* Action Search */
-            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links }) => {
-                HandleSearch(specimens, links);
+            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
+                HandleSearch(specimens, links, totalRecords);
+            }).catch(error => {
+                console.warn(error);
             });
         } else {
             /* Grab Recent Specimens */
-            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links }) => {
-                HandleSearch(specimens, links);
+            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
+                HandleSearch(specimens, links, totalRecords);
+            }).catch(error => {
+                console.warn(error);
             });
         }
 
         /* Function for handling Search results, page number and filters after new call */
-        const HandleSearch = (specimens: Specimen[], links: Dict) => {
+        const HandleSearch = (specimens: Specimen[], links: Dict, totalRecords: number) => {
             /* Set Search Results / Specimens */
             dispatch(setSearchResults(specimens));
 
             /* Set Paginator links */
             setPaginatorLinks(links);
+
+            /* Set Total Records found */
+            setTotalRecords(totalRecords);
         }
 
         /* Refresh Aggregations */
         GetSpecimenAggregations(searchFilters).then((aggregations) => {
             dispatch(setSearchAggregations(aggregations));
+        }).catch(error => {
+            console.warn(error);
         });
     };
 
@@ -183,9 +193,9 @@ const Search = () => {
 
                                                     <Row className={`${styles.paginator} justify-content-center position-relative`}>
                                                         <Col className={`${styles.resultCount} col-md-auto py-2 position-absolute start-0 ps-4`}>
-                                                            {(searchResults.length === 1) ?
+                                                            {(totalRecords === 1) ?
                                                                 <p className="fst-italic"> 1 specimen found </p>
-                                                                : <p className="fst-italic"> {searchResults.length} specimens found </p>
+                                                                : <p className="fst-italic"> {`${totalRecords} specimens found`} </p>
                                                             }
                                                         </Col>
 
@@ -193,6 +203,7 @@ const Search = () => {
                                                             <Col className="col-md-auto">
                                                                 <Paginator pageNumber={pageNumber}
                                                                     links={paginatorLinks}
+                                                                    totalRecords={totalRecords}
 
                                                                     SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
                                                                 />

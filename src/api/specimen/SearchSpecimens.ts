@@ -26,6 +26,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
     /* Execute call */
     let searchResults: Specimen[] = [];
     let links: Dict = {};
+    let totalRecords: number = 0;
 
     if (filters) {
         const endPoint = `specimens/search?${filters}`;
@@ -52,6 +53,11 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
 
                 searchResults.push(specimen);
             });
+            
+            /* Set total records if present */
+            if (data.meta) {
+                totalRecords = data.meta.totalRecords;
+            }
         } catch (error) {
             console.warn(error);
         }
@@ -59,7 +65,8 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
 
     return {
         specimens: searchResults,
-        links: links
+        links: links,
+        totalRecords: totalRecords
     }
 }
 

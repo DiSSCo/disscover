@@ -1,7 +1,8 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import CountUp from 'react-countup';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
@@ -13,6 +14,9 @@ import styles from 'components/home/home.module.scss';
 /* Import Components */
 import FilterBlock from './FilterBlock';
 
+/* Import API */
+import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
+
 
 const SpecimenTypeFilters = () => {
     /* Hooks */
@@ -21,30 +25,40 @@ const SpecimenTypeFilters = () => {
     /* Base variables */
     const [initialValues, setInitalValues] = useState<Dict>({
         all: false,
-        specimenTypes: {
-            microbiology: false,
-            anthropology: false,
-            botany: false,
-            zoology: false,
-            palaeontology: false,
-            other: false,
-            environment: false,
-            earthSystem: false,
-            astrology: false
+        disciplines: {
+            Microbiology: false,
+            Anthropology: false,
+            Botany: false,
+            Zoology: false,
+            Palaeontology: false,
+            Other: false,
+            Environment: false,
+            EarthSystem: false,
+            Astrogeology: false
         },
-        humanMade: false,
-        unclassified: false
+        HumanMade: false,
+        Unclassified: false
     });
+    const [disciplines, setDisciplines] = useState<Dict>({});
+
+    /* OnLoad: fetch Disciplines */
+    useEffect(() => {
+        GetSpecimenDisciplines().then((disciplines) => {
+            setDisciplines(disciplines.topicDiscipline);
+        }).catch(error => {
+            console.warn(error);
+        });
+    }, []);
 
     /* Function for selecting or deselecting all filters */
     const SelectAll = (selected: boolean) => {
         const copyInitalValues = {
             all: selected,
-            specimenTypes: {}
+            disciplines: {}
         } as Dict;
 
-        Object.keys(initialValues.specimenTypes).forEach((specimenType) => {
-            copyInitalValues.specimenTypes[specimenType] = selected;
+        Object.keys(initialValues.disciplines).forEach((discipline) => {
+            copyInitalValues.disciplines[discipline] = selected;
         });
 
         setInitalValues(copyInitalValues);
@@ -59,7 +73,26 @@ const SpecimenTypeFilters = () => {
                     onSubmit={async (values) => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
 
-                        navigate('/search');
+                        /* Construct Search URL based on disciplines */
+                        let searchLink: string = '/search';
+                        
+                        Object.keys(values.disciplines).forEach((discipline: string) => {
+                            if (values.disciplines[discipline]) {
+                                /* Check for Disciplines with spaces */
+                                if (discipline === 'EarthSystem') {
+                                    discipline = 'Earth+System';
+                                }
+
+                                /* Append variable sign if neccesary */
+                                if (searchLink === '/search') {
+                                    searchLink = searchLink.concat(`?topicDiscipline=${discipline}`);
+                                } else {
+                                   searchLink = searchLink.concat(`&&topicDiscipline=${discipline}`);
+                                }
+                            }
+                        });
+
+                        navigate(searchLink);
                     }}
                 >
                     {({ values, setFieldValue }) => (
@@ -77,71 +110,80 @@ const SpecimenTypeFilters = () => {
                                     {/* Microbiology, Anthropology and Botany */}
                                     <Row>
                                         <Col md={{ span: 4 }} className="pe-2">
-                                            <FilterBlock type="microbiology"
+                                            <FilterBlock type="Microbiology"
                                                 title="Microbiology"
                                                 subTitle="Biology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.microbiology', !values.specimenTypes.microbiology)}
+                                                discipline={disciplines['Micro Biology']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Microbiology', !values.disciplines.Microbiology)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="px-2">
-                                            <FilterBlock type="anthropology"
+                                            <FilterBlock type="Anthropology"
                                                 title="Anthropology"
                                                 subTitle="Biology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.anthropology', !values.specimenTypes.anthropology)}
+                                                discipline={disciplines['Anthropology']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Anthropology', !values.disciplines.Anthropology)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="ps-2">
-                                            <FilterBlock type="botany"
+                                            <FilterBlock type="Botany"
                                                 title="Botany"
                                                 subTitle="Biology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.botany', !values.specimenTypes.botany)}
+                                                discipline={disciplines['Botany']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Botany', !values.disciplines.Botany)}
                                             />
                                         </Col>
                                     </Row>
                                     {/* Zoology, Palaeontology and Other Geo/Biodiversity */}
                                     <Row>
                                         <Col md={{ span: 4 }} className="pe-2">
-                                            <FilterBlock type="zoology"
+                                            <FilterBlock type="Zoology"
                                                 title="Zoology"
                                                 subTitle="Biology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.zoology', !values.specimenTypes.zoology)}
+                                                discipline={disciplines['Zoology']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Zoology', !values.disciplines.Zoology)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="px-2">
-                                            <FilterBlock type="palaeontology"
+                                            <FilterBlock type="Palaeontology"
                                                 title="Palaeontology"
                                                 subTitle="Biology/Geology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.palaeontology', !values.specimenTypes.palaeontology)}
+                                                discipline={disciplines['Palaeontology']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Palaeontology', !values.disciplines.Palaeontology)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="ps-2">
-                                            <FilterBlock type="other"
+                                            <FilterBlock type="Other"
                                                 title={`Other Bio / Geodiversity`}
                                                 subTitle="Biology/Geology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.other', !values.specimenTypes.other)}
+                                                discipline={disciplines['Other']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Other', !values.disciplines.Other)}
                                             />
                                         </Col>
                                     </Row>
-                                    {/* Environment, Earth System and Extraterres */}
+                                    {/* Environment, Earth System and Astrogeology */}
                                     <Row>
                                         <Col md={{ span: 4 }} className="pe-2">
-                                            <FilterBlock type="environment"
+                                            <FilterBlock type="Environment"
                                                 title="Environment"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.environment', !values.specimenTypes.environment)}
+                                                discipline={disciplines['Environment']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Environment', !values.disciplines.Environment)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="px-2">
-                                            <FilterBlock type="earthSystem"
+                                            <FilterBlock type="EarthSystem"
                                                 title="Earth System"
                                                 subTitle="Geology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.earthSystem', !values.specimenTypes.earthSystem)}
+                                                discipline={disciplines['Earth System']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.EarthSystem', !values.disciplines.EarthSystem)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="ps-2">
-                                            <FilterBlock type="astrology"
-                                                title={`Astrology`}
+                                            <FilterBlock type="Astrogeology"
+                                                title={`Astrogeology`}
                                                 subTitle="Geology"
-                                                ToggleFilterType={() => setFieldValue('specimenTypes.astrology', !values.specimenTypes.astrology)}
+                                                discipline={disciplines['Astrogeology']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Astrogeology', !values.disciplines.Astrogeology)}
                                             />
                                         </Col>
                                     </Row>
@@ -165,7 +207,7 @@ const SpecimenTypeFilters = () => {
                             <Row className="mt-4">
                                 <Col md={{ span: 6 }} className="pe-2">
                                     <div className={`${styles.specimenTypeHumanMade} ${styles.specimenTypeBlock} py-3 px-4`}
-                                        onClick={() => setFieldValue('humanMade', !values.humanMade)}
+                                        onClick={() => setFieldValue('HumanMade', !values.HumanMade)}
                                     >
                                         <Row className="h-50">
                                             <Col>
@@ -173,7 +215,7 @@ const SpecimenTypeFilters = () => {
                                                 <p className={styles.specimenTypeSpecialSubTitle}> (Archive material) </p>
                                             </Col>
                                             <Col className="col-md-auto">
-                                                <Field name={`humanMade`}
+                                                <Field name={`HumanMade`}
                                                     type="checkbox"
                                                     className={styles.specimenTypeSpecialCheckbox}
                                                 />
@@ -181,21 +223,23 @@ const SpecimenTypeFilters = () => {
                                         </Row>
                                         <Row className="h-50">
                                             <Col className="d-flex justify-content-end align-items-end">
-                                                <p className={styles.specimenTypeAmount}> 0 </p>
+                                                <p className={styles.specimenTypeAmount}>
+                                                    <CountUp end={disciplines['Human Made']} />
+                                                </p>
                                             </Col>
                                         </Row>
                                     </div>
                                 </Col>
                                 <Col md={{ span: 6 }} className="ps-2">
                                     <div className={`${styles.specimenTypeUnclassified} ${styles.specimenTypeBlock} py-3 px-4`}
-                                        onClick={() => setFieldValue('unclassified', !values.unclassified)}
+                                        onClick={() => setFieldValue('Unclassified', !values.Unclassified)}
                                     >
                                         <Row className="h-50">
                                             <Col>
                                                 <p className={styles.specimenTypeSpecialTitle}> Unclassified </p>
                                             </Col>
                                             <Col className="col-md-auto">
-                                                <Field name={`unclassified`}
+                                                <Field name={`Unclassified`}
                                                     type="checkbox"
                                                     className={styles.specimenTypeSpecialCheckbox}
                                                 />
@@ -203,7 +247,9 @@ const SpecimenTypeFilters = () => {
                                         </Row>
                                         <Row className="h-50">
                                             <Col className="d-flex justify-content-end align-items-end">
-                                                <p className={styles.specimenTypeAmount}> 0 </p>
+                                                <p className={styles.specimenTypeAmount}>
+                                                    <CountUp end={disciplines['Unclassified']} />
+                                                </p>
                                             </Col>
                                         </Row>
                                     </div>

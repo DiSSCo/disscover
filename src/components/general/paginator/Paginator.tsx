@@ -9,15 +9,18 @@ import { Dict } from 'global/Types';
 interface Props {
     pageNumber: number,
     links: Dict,
+    totalRecords?: number,
     SetPageNumber: Function
 };
 
 
 const Paginator = (props: Props) => {
-    const { pageNumber, links, SetPageNumber } = props;
+    const { pageNumber, links, totalRecords, SetPageNumber } = props;
 
     /* Base variables */
     let pages: JSX.Element[] = [];
+    const pageNumbers: number[] = [];
+    let lastPage = totalRecords && Math.floor(totalRecords / 25);
 
     /* Function for pushing pages to the Paginator */
     const PushToPages = (page: number) => {
@@ -29,6 +32,8 @@ const Paginator = (props: Props) => {
                 {page}
             </Pagination.Item>
         );
+
+        pageNumbers.push(page);
     }
 
     /* Generate Paginator Pages */
@@ -68,7 +73,35 @@ const Paginator = (props: Props) => {
                     <Pagination.Prev onClick={() => SwitchPage('down')} />
                 }
 
+                {!pageNumbers.includes(1) &&
+                    <>
+                        <Pagination.Item key={1}
+                            onClick={() => SwitchPage(1)}
+                        >
+                            1
+                        </Pagination.Item>
+
+                        <Pagination.Item key={'dotsFirst'}>
+                            ...
+                        </Pagination.Item>
+                    </>
+                }
+
                 {pages}
+
+                {(lastPage && !pageNumbers.includes(lastPage)) &&
+                    <>
+                        <Pagination.Item key={'dotsLast'}>
+                            ...
+                        </Pagination.Item>
+
+                        <Pagination.Item key={lastPage}
+                            onClick={() => SwitchPage(lastPage)}
+                        >
+                            {lastPage}
+                        </Pagination.Item>
+                    </>
+                }
 
                 {'next' in links &&
                     <Pagination.Next onClick={() => SwitchPage('up')} />

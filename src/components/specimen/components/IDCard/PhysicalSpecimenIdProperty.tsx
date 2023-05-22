@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { ValidateURL } from 'global/Utilities';
+import validator from 'validator';
 
 /* Import Types */
 import { Specimen } from 'global/Types';
@@ -14,15 +14,15 @@ interface Props {
 const PhysicalSpecimenIdProperty = (props: Props) => {
     const { specimen } = props;
 
-    if (ValidateURL(specimen.physicalSpecimenId)) {
-        return <a href={ specimen.physicalSpecimenId } target = "_blank" rel = "noreferrer"
-            className = "c-accent"
+    if (specimen.physicalSpecimenId && validator.isURL(specimen.physicalSpecimenId)) {
+        return <a href={specimen.physicalSpecimenId} target="_blank" rel="noreferrer"
+            className="c-accent"
         >
-            { specimen.physicalSpecimenId }
+            {specimen.physicalSpecimenId}
         </a>
     } else {
-        return <span> specimen.physicalSpecimenId </span>;
-    }    
+        return <span> {specimen.physicalSpecimenId} </span>;
+    }
 }
 
 export default PhysicalSpecimenIdProperty;

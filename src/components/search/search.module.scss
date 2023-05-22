@@ -183,14 +183,6 @@
     height: Calc(100% - 90px);
 }
 
-.IDCardTop {
-    height: 45%;
-}
-
-.IDCardBottom {
-    height: 55%;
-}
-
 .IDCardIcon {
     font-size: 25px;
     color: var(--primary);
@@ -233,12 +225,8 @@
     font-size: 15px;
 }
 
-.geoLocationBlock {
-    height: Calc(100% - 60%);
-}
-
 .digitalMediaBlock {
-    height: Calc(100% - 40% - 70px);
+    height: 40%;
 }
 
 .digitalMediaSlider {

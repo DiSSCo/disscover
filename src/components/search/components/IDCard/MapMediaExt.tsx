@@ -45,7 +45,7 @@ const MapMediaExt = (props: Props) => {
             if (digitalMedia) {
                 setDigitalMedia(digitalMedia);
             }
-        }).then(error => {
+        }).catch(error => {
             console.warn(error);
         });
     }, [specimen]);

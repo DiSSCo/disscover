@@ -30,6 +30,7 @@ import ActiveFilters from './components/searchMenu/ActiveFilters';
 import ResultsTable from './components/searchResults/ResultsTable';
 import Paginator from 'components/general/paginator/Paginator';
 import IDCard from './components/IDCard/IDCard';
+import MapMediaExt from './components/IDCard/MapMediaExt';
 import CompareBox from './components/compare/CompareBox';
 import Footer from 'components/general/footer/Footer';
 
@@ -136,6 +137,7 @@ const Search = () => {
     /* ClassName for ID Card Block */
     const classIDCard = classNames({
         'transition position-absolute z-0': true,
+        [`${styles.IDCard}`]: true,
         'w-50': !isEmpty(searchSpecimen)
     });
 
@@ -186,7 +188,7 @@ const Search = () => {
                                             </button>
                                         </Col>
                                     </Row>
-                                    <Row className={styles.searchContent}>
+                                    <Row className={`${styles.searchContent} position-relative`}>
                                         <Col className={`${classSearchResultsTable} h-100`}>
                                             <Row className="h-100">
                                                 <Col className="h-100">
@@ -221,10 +223,19 @@ const Search = () => {
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} h-100 pb-2`}>
+                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} pb-2`}>
                                             {/* ID Card */}
                                             {!isEmpty(searchSpecimen) &&
-                                                <IDCard />
+                                                <IDCard specimen={searchSpecimen}
+                                                    extensions={[
+                                                        <Row key='mapMedia' className="flex-grow-1 pt-3 overflow-hidden">
+                                                            <Col className="h-100">
+                                                                <MapMediaExt specimen={searchSpecimen} />
+                                                            </Col>
+                                                        </Row>
+                                                    ]}
+                                                    OnClose={() => dispatch(setSearchSpecimen({} as Specimen))}
+                                                />
                                             }
                                         </Col>
                                     </Row>

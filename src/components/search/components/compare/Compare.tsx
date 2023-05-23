@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -16,7 +16,11 @@ import styles from 'components/search/search.module.scss';
 /* Import Components */
 import Header from 'components/general/header/Header';
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
-import CompareCard from './CompareCard';
+import IDCard from '../IDCard/IDCard';
+import LocationExt from '../IDCard/LocationExt';
+import TaxonomyExt from '../IDCard/TaxonomyExt';
+import OrganisationExt from '../IDCard/OrganisationExt';
+import CollectionExt from '../IDCard/CollectionExt';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
@@ -87,10 +91,19 @@ const Compare = () => {
                             {/* ID Cards for comparison */}
                             <Row className="flex-grow-1 overflow-scroll mt-4">
                                 {compareSpecimens.map((specimen) => {
+                                    /* Constructing ID Card Extensions */
+                                    const extensions: ReactElement[] = [
+                                        <LocationExt key='location' specimen={specimen} />,
+                                        <TaxonomyExt key='taxonomy' specimen={specimen} />,
+                                        <OrganisationExt key='organisation' specimen={specimen} />,
+                                        <CollectionExt key='collection' specimen={specimen} />
+                                    ];
+
                                     return (
                                         <Col key={specimen.id}>
-                                            <CompareCard specimen={specimen}
-                                                RemoveFromComparison={(specimenId: string) => RemoveFromComparison(specimenId)}
+                                            <IDCard specimen={specimen}
+                                                extensions={extensions}
+                                                OnClose={(specimenId: string) => RemoveFromComparison(specimenId)}
                                             />
                                         </Col>
                                     );

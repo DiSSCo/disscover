@@ -1,66 +1,37 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { Icon, LatLngExpression } from 'leaflet';
 import { Row, Col, Card } from 'react-bootstrap';
 
-/* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchSpecimen, setSearchSpecimen } from 'redux/search/SearchSlice';
-
 /* Import Types */
-import { Specimen, DigitalMedia } from 'global/Types';
+import { Specimen } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog, faCircleInfo, faChevronRight, faX } from '@fortawesome/free-solid-svg-icons';
-
-/* Import Sources */
-import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import { faFrog, faCircleInfo, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import OrganisationProperty from 'components/specimen/components/IDCard/OrganisationProperty';
 import PhysicalSpecimenIdProperty from 'components/specimen/components/IDCard/PhysicalSpecimenIdProperty';
-
-/* Import API */
-import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
+import { ReactElement } from 'react';
 
 
-const IDCard = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+/* Props Typing */
+interface Props {
+    specimen: Specimen,
+    extensions: ReactElement[],
+    OnClose: Function
+};
 
-    /* Base variables */
-    const specimen = useAppSelector(getSearchSpecimen);
-    const [digitalMedia, setDigitalMedia] = useState<DigitalMedia[]>([]);
 
-    /* OnLoad: Check if Specimen has Digital Media attached to it */
-    useEffect(() => {
-        setDigitalMedia([]);
-
-        GetSpecimenDigitalMedia(specimen.id.replace('https://hdl.handle.net/', '')).then((digitalMedia) => {
-            if (digitalMedia) {
-                setDigitalMedia(digitalMedia);
-            }
-        });
-    }, [specimen]);
-
-    /* Function for changing the zoom level of the Leaflet Map */
-    const ChangeView = ({ center, zoom }: { center: LatLngExpression, zoom: number }) => {
-        const map = useMap();
-        map.setView(center, zoom);
-        return null;
-    }
+const IDCard = (props: Props) => {
+    const { specimen, extensions, OnClose } = props;
 
     return (
-        <Card className={`${styles.IDCard} px-4 py-3`}>
+        <Card className="h-100 px-4 py-3">
             <div className="h-100 d-flex flex-column">
-                <Row className={styles.IDCardTop}>
+                <Row>
                     <Col>
                         {/* Icon and Title */}
                         <Row className="align-items-center">
@@ -75,7 +46,7 @@ const IDCard = () => {
                             <Col className="col-md-auto">
                                 <FontAwesomeIcon icon={faX}
                                     className={`${styles.IDCardCloseIcon} c-primary`}
-                                    onClick={() => dispatch(setSearchSpecimen({} as Specimen))}
+                                    onClick={() => OnClose(specimen.id)}
                                 />
                             </Col>
                         </Row>
@@ -142,67 +113,10 @@ const IDCard = () => {
                         </Row>
                     </Col>
                 </Row>
-                <Row className="flex-grow-1 pt-3 overflow-hidden">
-                    <Col className="h-100">
-                        {/*  If present, show Geological Location */}
-                        <div className="h-100 d-flex flex-column">
-                            <Row className="flex-grow-1">
-                                <Col>
-                                    {(specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude']) &&
-                                        <MapContainer center={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
-                                            zoom={13} scrollWheelZoom={false} style={{ width: "100%", height: "100%" }}
-                                        >
-                                            <ChangeView center={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
-                                                zoom={13}
-                                            />
-                                            <TileLayer
-                                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                            />
 
-                                            <Marker position={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
-                                                icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}
-                                            >
-                                                <Popup>
-                                                    <p className="fw-bold m-0"> Coordinates </p>
-                                                    <p className="mt-1 mb-0"> Latitude: {specimen.data['dwc:decimalLatitude']} </p>
-                                                    <p className="mt-1"> Longitude: {specimen.data['dwc:decimalLongitude']} </p>
-                                                </Popup>
-                                            </Marker>
-                                        </MapContainer>
-                                    }
-                                </Col>
-                            </Row>
-
-                            {/* If present, show Digital Media */}
-                            <Row className={`${styles.digitalMediaBlock} pt-2`}>
-                                <Col className="h-100">
-                                    <div className={`${styles.digitalMediaSlider} h-100 w-auto`}>
-                                        {digitalMedia.map((mediaItem) => {
-                                            return (
-                                                <img key={mediaItem.id} src={mediaItem.mediaUrl}
-                                                    className={`${styles.digitalMediaItem} h-100 me-3`}
-                                                    alt={mediaItem.mediaUrl}
-                                                />
-                                            );
-                                        })}
-                                    </div>
-                                </Col>
-                            </Row>
-
-                            {/* Specimen Page Button */}
-                            <Row className={styles.buttonBlock}>
-                                <Col className="h-100 d-flex justify-content-end align-items-end">
-                                    <button type="button" className={`${styles.specimenButton} fw-bold px-3`}
-                                        onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`)}
-                                    >
-                                        See full details <FontAwesomeIcon icon={faChevronRight} />
-                                    </button>
-                                </Col>
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
+                {extensions.map((extension) => {
+                    return extension;
+                })}
             </div>
         </Card>
     );

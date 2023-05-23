@@ -1,12 +1,14 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { compact, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchResults, getSearchSpecimen, setSearchSpecimen } from 'redux/search/SearchSlice';
-import { getCompareMode, getCompareSpecimens, setCompareSpecimens } from 'redux/search/SearchSlice';
+import {
+    getSearchResults, getSearchSpecimen, setSearchSpecimen,
+    getCompareMode, getCompareSpecimens, setCompareSpecimens
+} from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Specimen } from 'global/Types';
@@ -167,13 +169,7 @@ const ResultsTable = (props: Props) => {
         tableColumns.unshift({
             selector: row => row.id,
             id: 'search_compareCheckbox',
-            cell: row => <input type="checkbox" checked={row.compareSelected} onChange={() => {
-                if (compareMode) {
-                    SelectForComparison(row);
-                } else {
-                    OnSpecimenSelect(row);
-                }
-            }} />,
+            cell: row => <input type="checkbox" checked={row.compareSelected} onChange={() => SelectForComparison(row)} />,
             width: '40px',
             ignoreRowClick: true
         });

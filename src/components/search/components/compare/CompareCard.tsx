@@ -26,6 +26,15 @@ interface Props {
 const CompareCard = (props: Props) => {
     const { specimen, RemoveFromComparison } = props;
 
+    /* Function for displaying a properties' value, or 'not provided' */
+    const CheckProperty = (property: string | undefined) => {
+        if (property) {
+            return property;
+        } else {
+            return 'Not provided';
+        }
+    }
+
     return (
         <Card className={`px-4 py-3`}>
             {/* Specimen Information */}
@@ -120,24 +129,15 @@ const CompareCard = (props: Props) => {
 
                             <p className={styles.IDCardProperty}>
                                 <span className="fw-bold"> Continent: </span>
-                                {specimen.data['dwc:continent'] ?
-                                    specimen.data['dwc:continent']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:continent'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Country: </span>
-                                {specimen.data['dwc:country'] ?
-                                    specimen.data['dwc:country']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:country'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Locality: </span>
-                                {specimen.data['dwc:locality'] ?
-                                    specimen.data['dwc:locality']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:locality'])}
                             </p>
                         </Col>
                     </Row>
@@ -152,38 +152,23 @@ const CompareCard = (props: Props) => {
 
                             <p className={styles.IDCardProperty}>
                                 <span className="fw-bold"> Kingdom: </span>
-                                {specimen.data['dwc:kingdom'] ?
-                                    specimen.data['dwc:kingdom']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:kingdom'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Phylum: </span>
-                                {specimen.data['dwc:phylum'] ?
-                                    specimen.data['dwc:phylum']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:phylum'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Order: </span>
-                                {specimen.data['dwc:order'] ?
-                                    specimen.data['dwc:order']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:order'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Family: </span>
-                                {specimen.data['dwc:family'] ?
-                                    specimen.data['dwc:family']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:family'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Genus: </span>
-                                {specimen.data['dwc:genus'] ?
-                                    specimen.data['dwc:genus']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['dwc:genus'])}
                             </p>
                         </Col>
                     </Row>
@@ -198,10 +183,7 @@ const CompareCard = (props: Props) => {
 
                             <p className={styles.IDCardProperty}>
                                 <span className="fw-bold"> Name: </span>
-                                {specimen.data['ods:organisationName'] ?
-                                    specimen.data['ods:organisationName']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['ods:organisationName'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> ROR identifier: </span>
@@ -220,24 +202,15 @@ const CompareCard = (props: Props) => {
 
                             <p className={styles.IDCardProperty}>
                                 <span className="fw-bold"> Collecting number: </span>
-                                {specimen.data['ods:collectingNumber'] ?
-                                    specimen.data['ods:collectingNumber']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['ods:collectingNumber'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Collector: </span>
-                                {specimen.data['ods:collector'] ?
-                                    specimen.data['ods:collector']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['ods:collector'])}
                             </p>
                             <p className={`${styles.IDCardProperty} mt-2`}>
                                 <span className="fw-bold"> Date collected: </span>
-                                {specimen.data['ods:dateCollected'] ?
-                                    specimen.data['ods:dateCollected']
-                                    : 'Not provided'
-                                }
+                                {CheckProperty(specimen.data['ods:dateCollected'])}
                             </p>
                         </Col>
                     </Row>

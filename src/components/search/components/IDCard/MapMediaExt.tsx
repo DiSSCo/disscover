@@ -5,10 +5,6 @@ import { Icon, LatLngExpression } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getSearchSpecimen } from 'redux/search/SearchSlice';
-
 /* Import Types */
 import { Specimen, DigitalMedia } from 'global/Types';
 
@@ -49,6 +45,8 @@ const MapMediaExt = (props: Props) => {
             if (digitalMedia) {
                 setDigitalMedia(digitalMedia);
             }
+        }).then(error => {
+            console.warn(error);
         });
     }, [specimen]);
 

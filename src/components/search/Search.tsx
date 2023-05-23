@@ -7,7 +7,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen, setSearchAggregations } from 'redux/search/SearchSlice';
+import {
+    getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen,
+    setSearchAggregations, getCompareMode, setCompareMode
+} from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Specimen, SearchFilter, Dict } from 'global/Types';
@@ -27,6 +30,7 @@ import ActiveFilters from './components/searchMenu/ActiveFilters';
 import ResultsTable from './components/searchResults/ResultsTable';
 import Paginator from 'components/general/paginator/Paginator';
 import IDCard from './components/IDCard/IDCard';
+import CompareBox from './components/compare/CompareBox';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
@@ -43,6 +47,7 @@ const Search = () => {
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
+    const compareMode = useAppSelector(getCompareMode);
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
@@ -139,7 +144,7 @@ const Search = () => {
             <Header />
 
             <Container fluid className={`${styles.content} pt-5 pb-4`}>
-                <Row className="h-100">
+                <Row className="h-100 position-relative">
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
                         <div className="h-100 d-flex flex-column">
                             <Row>
@@ -173,7 +178,10 @@ const Search = () => {
                                             <ActiveFilters />
                                         </Col>
                                         <Col className="col-md-auto">
-                                            <button type="button" className={`${styles.compareButton} px-3 py-1`}>
+                                            <button type="button"
+                                                className={`${styles.compareButton} px-3 py-1`}
+                                                onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as Specimen)); }}
+                                            >
                                                 Compare
                                             </button>
                                         </Col>
@@ -224,6 +232,13 @@ const Search = () => {
                             </Row>
                         </div>
                     </Col>
+
+                    {/* Compare box, to compare Specimens if compare mode is true */}
+                    {compareMode &&
+                        <div className="position-absolute bottom-0 d-flex justify-content-end pe-5">
+                            <CompareBox />
+                        </div>
+                    }
                 </Row>
             </Container>
 

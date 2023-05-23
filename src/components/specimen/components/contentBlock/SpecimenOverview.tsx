@@ -247,7 +247,7 @@ const SpecimenOverview = (props: Props) => {
                                                 <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:collectingNumber')}
                                                 >
-                                                    <td className={`${styles.propertyTitle} pe-2`}> Collecting Number: </td>
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Collecting number: </td>
                                                     <td>
                                                         {specimen.data['ods:collectingNumber'] ?
                                                             specimen.data['ods:collectingNumber']
@@ -271,7 +271,7 @@ const SpecimenOverview = (props: Props) => {
                                                 <tr className={`${styles.propertyTableRow} w-100 px-2 d-block`}
                                                     onClick={() => ToggleModal('ods:dateCollected')}
                                                 >
-                                                    <td className={`${styles.propertyTitle} pe-2`}> Date Collected: </td>
+                                                    <td className={`${styles.propertyTitle} pe-2`}> Date collected: </td>
                                                     <td>
                                                         {specimen.data['ods:dateCollected'] ?
                                                             specimen.data['ods:dateCollected']

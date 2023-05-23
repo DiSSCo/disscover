@@ -204,7 +204,7 @@ const IDCard = () => {
                     </Col>
                 </Row>
             </div>
-        </Card >
+        </Card>
     );
 }
 

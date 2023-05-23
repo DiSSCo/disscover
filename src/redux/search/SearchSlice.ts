@@ -17,6 +17,8 @@ export interface SearchState {
     searchResults: Specimen[];
     searchAggregations: Dict;
     searchSpecimen: Specimen;
+    compareMode: boolean;
+    compareSpecimens: Specimen[];
 }
 
 const initialState: SearchState = {
@@ -28,7 +30,9 @@ const initialState: SearchState = {
     },
     searchResults: [] as Specimen[],
     searchAggregations: {} as Dict,
-    searchSpecimen: {} as Specimen
+    searchSpecimen: {} as Specimen,
+    compareMode: false,
+    compareSpecimens: [] as Specimen[]
 };
 
 export const SearchSlice = createSlice({
@@ -52,6 +56,12 @@ export const SearchSlice = createSlice({
         },
         setSearchSpecimen: (state, action: PayloadAction<Specimen>) => {
             state.searchSpecimen = action.payload;
+        },
+        setCompareMode: (state, action: PayloadAction<boolean>) => {
+            state.compareMode = action.payload;
+        },
+        setCompareSpecimens: (state, action: PayloadAction<Specimen[]>) => {
+            state.compareSpecimens = action.payload;
         }
     },
 })
@@ -63,7 +73,9 @@ export const {
     setSearchPhysicalId,
     setSearchResults,
     setSearchAggregations,
-    setSearchSpecimen
+    setSearchSpecimen,
+    setCompareMode,
+    setCompareSpecimens
 } = SearchSlice.actions;
 
 /* Connect with Root State */
@@ -73,5 +85,7 @@ export const getSearchPhysicalId = (state: RootState) => state.search.searchPhys
 export const getSearchResults = (state: RootState) => state.search.searchResults;
 export const getSearchAggregations = (state: RootState) => state.search.searchAggregations;
 export const getSearchSpecimen = (state: RootState) => state.search.searchSpecimen;
+export const getCompareMode = (state: RootState) => state.search.compareMode;
+export const getCompareSpecimens = (state: RootState) => state.search.compareSpecimens;
 
 export default SearchSlice.reducer;

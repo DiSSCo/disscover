@@ -13,6 +13,12 @@
     background-color: #A1D8CA;
     border: none;
     border-radius: 999px;
+    transition: 0.4s;
+}
+
+.compareButton:hover {
+    background-color: var(--secondary);
+    color: white;
 }
 
 .searchContent {
@@ -255,4 +261,20 @@
 
 .specimenButton:hover {
     background-color: var(--accent);
+}
+
+/* Compare Box */
+.compareBox {
+    z-index: 2;
+    font-size: 14px;
+    width: 20%;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 1);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 1);
+    box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 1);
+}
+
+.compareBoxSpecimenIcon {
+    font-size: 10px;
+    color: var(--secondary);
 }

@@ -88,16 +88,18 @@ const OriginalData = () => {
                                             </Col>
                                         </Row>
                                     }
-                                    <Row className="flex-grow-1 overflow-scroll">
+                                    <Row className="flex-grow-1 overflow-hidden">
                                         <Col className="h-100">
                                             <Card className="h-100">
-                                                <DataTable
-                                                    columns={tableColumns}
-                                                    data={tableData}
+                                                <div className="overflow-auto">
+                                                    <DataTable
+                                                        columns={tableColumns}
+                                                        data={tableData}
 
-                                                    striped
-                                                    highlightOnHover
-                                                />
+                                                        striped
+                                                        highlightOnHover
+                                                    />
+                                                </div>
                                             </Card>
                                         </Col>
                                     </Row>

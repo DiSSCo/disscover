@@ -31,14 +31,14 @@ const Compare = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
     const compareSpecimens = useAppSelector(getCompareSpecimens);
 
     /* OnLoad: Check if Compare Specimens are present, otherwise check params */
     useEffect(() => {
-        if (compareSpecimens.length === 0) {
+        if (compareSpecimens.length !== searchParams.getAll('ds').length && compareSpecimens.length !== 1) {
             if (searchParams.getAll('ds').length > 0) {
                 const compareSpecimens: Specimen[] = [];
 
@@ -67,11 +67,23 @@ const Compare = () => {
 
     /* Function for removing a Specimen from Comparison */
     const RemoveFromComparison = (specimenId: string) => {
+        /* Remove from Compare Specimens */
         const copyCompareSpecimens = [...compareSpecimens];
 
         copyCompareSpecimens.splice(compareSpecimens.findIndex((specimen) => specimen.id === specimenId), 1);
 
         dispatch(setCompareSpecimens(copyCompareSpecimens));
+
+        /* Remove specimen id from Search Params */
+        const newParams = searchParams.getAll('ds').filter((paramSpecimenId: string) => paramSpecimenId !== specimenId.replace('https://hdl.handle.net/', ''));
+
+        searchParams.delete('ds');
+
+        newParams.forEach((specimenId: string) => {
+            searchParams.append('ds', specimenId);
+        });
+
+        setSearchParams(searchParams);
     }
 
     return (

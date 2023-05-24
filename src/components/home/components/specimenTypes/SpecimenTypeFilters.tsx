@@ -39,7 +39,7 @@ const SpecimenTypeFilters = () => {
         HumanMade: false,
         Unclassified: false
     });
-    const [disciplines, setDisciplines] = useState<Dict>({});
+    const [disciplines, setDisciplines] = useState<Dict>({reduce: 0});
 
     /* OnLoad: fetch Disciplines */
     useEffect(() => {
@@ -49,6 +49,9 @@ const SpecimenTypeFilters = () => {
             console.warn(error);
         });
     }, []);
+
+    /* Calculate total amount of Specimens */
+    const totalSpecimenCount = (Object.values(disciplines).reduce((accumulator, currentValue) => accumulator + currentValue));
 
     /* Function for selecting or deselecting all filters */
     const SelectAll = (selected: boolean) => {
@@ -100,7 +103,7 @@ const SpecimenTypeFilters = () => {
                             {/* Title */}
                             <Row>
                                 <Col>
-                                    <p className={`${styles.specimenTypeHead} fw-bold`}>Total specimens: 0</p>
+                                    <p className={`${styles.specimenTypeHead} fw-bold`}>Total specimens: <CountUp end={totalSpecimenCount} /></p>
                                     <p className={`${styles.specimenTypeSubHead} mt-2`}>Natural origin</p>
                                 </Col>
                             </Row>

@@ -36,7 +36,7 @@ const IntroText = () => {
                 <Row className="mt-5">
                     <Col className="mt-4">
                         <p className={`${styles.introText} fw-lightBold`}>
-                            Select the categories on the right to refine your search
+                            Select the categories on the left to refine your search
                         </p>
                         <p className={`${styles.introText} fw-lightBold`}>
                             or click on view to see all the specimens in the seleceted categories.

@@ -47,37 +47,39 @@ const MultiSelectFilter = (props: Props) => {
 
     /* OnChange of Selected Items or Search Query, filter selectable Items*/
     useEffect(() => {
-        const filteredItems: { selected: [string, number][], selectable: [string, number][] } = {
+        const newFilteredItems: { selected: [string, number][], selectable: [string, number][] } = {
             selected: [],
             selectable: []
         };
 
         Object.entries(items).forEach((item: [string, number]) => {
             if (selectedItems.includes(item[0])) {
-                filteredItems.selected.push(item);
+                newFilteredItems.selected.push(item);
             } else {
-                filteredItems.selectable.push(item);
+                newFilteredItems.selectable.push(item);
             }
         });
 
-        setFitleredItems(filteredItems);
+        setFitleredItems(newFilteredItems);
     }, [items, selectedItems, searchQuery]);
 
     /* Onchange of selected Items, filter by */
     useEffect(() => {
-        /* If length of selected and search filters do not comply, empty search filters */
-        if (selectedItems.length < searchParams.getAll(searchFilter).length) {
-            searchParams.delete(searchFilter);
+        if (selectedItems.length !== searchParams.getAll(searchFilter).length) {
+            setSearchParams(searchParams => {
+                if (selectedItems.length < searchParams.getAll(searchFilter).length) {
+                    searchParams.delete(searchFilter);
+                }
+
+                selectedItems.forEach((selectedItem) => {
+                    if (!searchParams.getAll(searchFilter).includes(selectedItem)) {
+                        searchParams.append(searchFilter, selectedItem);
+                    }
+                });
+
+                return searchParams;
+            });
         }
-
-        /* Append or update search filter param foreach checked Item */
-        selectedItems.forEach((selectedItem) => {
-            if (!searchParams.getAll(searchFilter).includes(selectedItem)) {
-                searchParams.append(searchFilter, selectedItem);
-            }
-        });
-
-        setSearchParams(searchParams);
     }, [selectedItems]);
 
     /* ClassName for Filter Block */

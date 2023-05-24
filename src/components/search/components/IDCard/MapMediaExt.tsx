@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Icon, LatLngExpression } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Row, Col } from 'react-bootstrap';
@@ -33,6 +33,7 @@ const MapMediaExt = (props: Props) => {
 
     /* Hooks */
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     /* Base variables */
     const [digitalMedia, setDigitalMedia] = useState<DigitalMedia[]>([]);
@@ -109,7 +110,11 @@ const MapMediaExt = (props: Props) => {
                 <Row className={styles.buttonBlock}>
                     <Col className="h-100 d-flex justify-content-end align-items-end">
                         <button type="button" className={`${styles.specimenButton} fw-bold px-3`}
-                            onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`)}
+                            onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`, {
+                                state: {
+                                    filters: searchParams.toString()
+                                }
+                            })}
                         >
                             See full details <FontAwesomeIcon icon={faChevronRight} />
                         </button>

@@ -182,7 +182,6 @@ const SearchFilters = (props: Props) => {
                                                             searchFilter={filterKey}
                                                             items={aggregation}
                                                             selectedItems={values.filters[filterKey as keyof typeof values.filters]}
-                                                            searchQuery={values.organisationName}
                                                         />
                                                     } else {
                                                         return;

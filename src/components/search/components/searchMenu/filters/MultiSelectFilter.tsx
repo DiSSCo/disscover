@@ -3,10 +3,15 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Field, FieldArray } from 'formik';
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Store */
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getSearchAggregations, setSearchAggregations } from 'redux/search/SearchSlice';
+
 /* Import Types */
-import { Dict } from 'global/Types';
+import { SearchFilter, Dict } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
@@ -19,14 +24,17 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import SelectOption from './SelectOption';
 import MidsOption from './MidsOption';
 
+/* Import API */
+import GetSpecimenSearchTermAggregations from 'api/specimen/GetSpecimenSearchTermAggregations';
+import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
+
 
 /* Props Typing */
 interface Props {
     filter: Dict,
     searchFilter: string,
     items: [],
-    selectedItems: string[],
-    searchQuery: string
+    selectedItems: string[]
 };
 
 const MultiSelectFilter = (props: Props) => {
@@ -34,18 +42,28 @@ const MultiSelectFilter = (props: Props) => {
         filter,
         searchFilter,
         items,
-        selectedItems,
-        searchQuery
+        selectedItems
     } = props;
 
     /* Hooks */
+    const dispatch = useAppDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base Variables */
     const [filteredItems, setFitleredItems] = useState<{ selected: [string, number][], selectable: [string, number][] }>({ selected: [], selectable: [] });
     const [filterToggle, setFilterToggle] = useState(false);
+    const [searchQuery, setSearchQuery] = useState<string>();
+    const aggregatons = useAppSelector(getSearchAggregations);
+    const searchFilters: SearchFilter[] = [];
 
-    /* OnChange of Selected Items or Search Query, filter selectable Items*/
+    /* ForEach filter, push to Search Filters */
+    for (const searchParam of searchParams.entries()) {
+        searchFilters.push({
+            [searchParam[0]]: searchParam[1]
+        });
+    }
+
+    /* OnChange of Selected Items: Filter selectable Items*/
     useEffect(() => {
         const newFilteredItems: { selected: [string, number][], selectable: [string, number][] } = {
             selected: [],
@@ -61,9 +79,43 @@ const MultiSelectFilter = (props: Props) => {
         });
 
         setFitleredItems(newFilteredItems);
-    }, [items, selectedItems, searchQuery]);
+    }, [items, selectedItems]);
 
-    /* Onchange of selected Items, filter by */
+    /* OnChange of Search Query: refresh aggregations by query */
+    useEffect(() => {
+        const copyAggregations = { ...aggregatons };
+
+        /* Function to Refresh Aggregations */
+        const RefreshAggregations = () => {
+            GetSpecimenAggregations(searchFilters).then((aggregations) => {
+                dispatch(setSearchAggregations(aggregations));
+            }).catch(error => {
+                console.warn(error);
+            });
+        }
+
+        if (searchQuery) {
+            /* Search for aggregations by search query */
+            GetSpecimenSearchTermAggregations(searchFilter, searchQuery).then((filterAggregations) => {
+                if (!isEmpty(filterAggregations[searchFilter])) {
+                    /* Update aggregations of search filter */
+                    copyAggregations[searchFilter] = filterAggregations[searchFilter];
+
+                    dispatch(setSearchAggregations(copyAggregations));
+                } else {
+                    /* No hits, refert to the default, biggest aggregations */
+                    RefreshAggregations();
+                }
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else if (searchQuery === '') {
+            /* Reset to the default, biggest aggregations */
+            RefreshAggregations();
+        }
+    }, [searchQuery]);
+
+    /* OnChange of selected Items: Filter Specimens by */
     useEffect(() => {
         if (selectedItems.length !== searchParams.getAll(searchFilter).length) {
             setSearchParams(searchParams => {
@@ -145,6 +197,7 @@ const MultiSelectFilter = (props: Props) => {
                                             className={`${styles.filterSearch} w-100 px-2 py-1`}
                                             placeholder="Select or type"
                                             onFocus={() => setFilterToggle(true)}
+                                            onChange={(input: Dict) => setSearchQuery(input.target.value)}
                                         />
                                     </Col>
 

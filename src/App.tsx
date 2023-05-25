@@ -24,6 +24,7 @@ import Profile from 'components/profile/Profile';
 import ErrorMessage from 'components/general/errorMessage/ErrorMessage';
 
 /* Import Routes */
+import SearchRoutes from 'components/search/Routes';
 import DocumentRoutes from 'components/documents/Routes';
 
 /* Import API */
@@ -67,6 +68,7 @@ const App = () => {
 
         {/* Search Page */}
         <Route path="/search" element={<Search />} />
+        {SearchRoutes}
 
         {/* Specimen Page */}
         <Route path="/ds/:prefix/:suffix/:version?" element={<Specimen />} />

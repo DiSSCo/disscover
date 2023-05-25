@@ -43,7 +43,7 @@ const ActiveFilters = () => {
         /* Remove all Search Params of filter key */
         searchParams.delete(filterKey);
 
-        // /* If filter key has leftovers, reappend to Search Params */
+        /* If filter key has leftovers, reappend to Search Params */
         newActiveFilters.forEach((filter: string) => {
             searchParams.append(filterKey, filter);
         });

@@ -289,6 +289,10 @@ p {
   background-color: var(--accent);
 }
 
+.primaryButton.cancel {
+  background-color: #CBCCD4;
+}
+
 
 /* Paginator */
 
@@ -330,16 +334,4 @@ li.page-item.active .page-link {
 .dropdown-toggle:hover {
   background-color: white !important;
   border: 1px solid var(--secondary) !important;
-}
-
-
-/* React Datatable overwrite */
-
-.bWdFbf {
-  display: block !important;
-}
-
-.dlUCce {
-  overflow-y: scroll !important;
-  overflow-x: hidden !important;
 }

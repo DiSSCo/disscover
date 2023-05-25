@@ -7,7 +7,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen, setSearchAggregations } from 'redux/search/SearchSlice';
+import {
+    getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen,
+    setSearchAggregations, getCompareMode, setCompareMode
+} from 'redux/search/SearchSlice';
 
 /* Import Types */
 import { Specimen, SearchFilter, Dict } from 'global/Types';
@@ -27,6 +30,8 @@ import ActiveFilters from './components/searchMenu/ActiveFilters';
 import ResultsTable from './components/searchResults/ResultsTable';
 import Paginator from 'components/general/paginator/Paginator';
 import IDCard from './components/IDCard/IDCard';
+import MapMediaExt from './components/IDCard/MapMediaExt';
+import CompareBox from './components/compare/CompareBox';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
@@ -43,6 +48,7 @@ const Search = () => {
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
+    const compareMode = useAppSelector(getCompareMode);
     const pageSize = 25;
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
@@ -131,6 +137,7 @@ const Search = () => {
     /* ClassName for ID Card Block */
     const classIDCard = classNames({
         'transition position-absolute z-0': true,
+        [`${styles.IDCard}`]: true,
         'w-50': !isEmpty(searchSpecimen)
     });
 
@@ -139,7 +146,7 @@ const Search = () => {
             <Header />
 
             <Container fluid className={`${styles.content} pt-5 pb-4`}>
-                <Row className="h-100">
+                <Row className="h-100 position-relative">
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
                         <div className="h-100 d-flex flex-column">
                             <Row>
@@ -173,12 +180,15 @@ const Search = () => {
                                             <ActiveFilters />
                                         </Col>
                                         <Col className="col-md-auto">
-                                            <button type="button" className={`${styles.compareButton} px-3 py-1`}>
+                                            <button type="button"
+                                                className={`${styles.compareButton} px-3 py-1`}
+                                                onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as Specimen)); }}
+                                            >
                                                 Compare
                                             </button>
                                         </Col>
                                     </Row>
-                                    <Row className={styles.searchContent}>
+                                    <Row className={`${styles.searchContent} position-relative`}>
                                         <Col className={`${classSearchResultsTable} h-100`}>
                                             <Row className="h-100">
                                                 <Col className="h-100">
@@ -213,10 +223,19 @@ const Search = () => {
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} h-100 pb-2`}>
+                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} pb-2`}>
                                             {/* ID Card */}
                                             {!isEmpty(searchSpecimen) &&
-                                                <IDCard />
+                                                <IDCard specimen={searchSpecimen}
+                                                    extensions={[
+                                                        <Row key='mapMedia' className="flex-grow-1 pt-3 overflow-hidden">
+                                                            <Col className="h-100">
+                                                                <MapMediaExt specimen={searchSpecimen} />
+                                                            </Col>
+                                                        </Row>
+                                                    ]}
+                                                    OnClose={() => dispatch(setSearchSpecimen({} as Specimen))}
+                                                />
                                             }
                                         </Col>
                                     </Row>
@@ -224,6 +243,13 @@ const Search = () => {
                             </Row>
                         </div>
                     </Col>
+
+                    {/* Compare box, to compare Specimens if compare mode is true */}
+                    {compareMode &&
+                        <div className="position-absolute bottom-0 d-flex justify-content-end pe-5">
+                            <CompareBox />
+                        </div>
+                    }
                 </Row>
             </Container>
 

@@ -44,8 +44,16 @@ const BreadCrumbs = () => {
     } else if (pathList[0] === 'search') {
         /* Search Page */
         breadCrumbs.push({
-            crumb: 'Specimens'
+            crumb: 'Specimens',
+            path: '/search'
         });
+
+        /* Check for Sub Pages */
+        if (pathList[1] === 'compare') {
+            breadCrumbs.push({
+                crumb: 'Compare specimens'
+            });
+        }
     }
 
     return (

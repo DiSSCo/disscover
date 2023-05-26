@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import CountUp from 'react-countup';
@@ -39,7 +39,8 @@ const SpecimenTypeFilters = () => {
         HumanMade: false,
         Unclassified: false
     });
-    const [disciplines, setDisciplines] = useState<Dict>({reduce: 0});
+    const [disciplines, setDisciplines] = useState<Dict>({ reduce: 0 });
+    const checkAllBoxRef = useRef<HTMLInputElement>(null);
 
     /* OnLoad: fetch Disciplines */
     useEffect(() => {
@@ -78,7 +79,7 @@ const SpecimenTypeFilters = () => {
 
                         /* Construct Search URL based on disciplines */
                         let searchLink: string = '/search';
-                        
+
                         Object.keys(values.disciplines).forEach((discipline: string) => {
                             if (values.disciplines[discipline]) {
                                 /* Check for Disciplines with spaces */
@@ -90,7 +91,7 @@ const SpecimenTypeFilters = () => {
                                 if (searchLink === '/search') {
                                     searchLink = searchLink.concat(`?topicDiscipline=${discipline}`);
                                 } else {
-                                   searchLink = searchLink.concat(`&&topicDiscipline=${discipline}`);
+                                    searchLink = searchLink.concat(`&&topicDiscipline=${discipline}`);
                                 }
                             }
                         });
@@ -198,11 +199,22 @@ const SpecimenTypeFilters = () => {
                                 <Col className="col-md-auto pe-1 d-flex align-items-center">
                                     <Field name="all" type="checkbox"
                                         className={styles.specimenTypeSpecialCheckbox}
+                                        innerRef={checkAllBoxRef}
                                         onClick={(checkbox: any) => SelectAll(checkbox.target.checked)}
                                     />
                                 </Col>
                                 <Col className="d-flex align-items-center">
-                                    <p className={styles.specimenTypeSelectAllText}> Select all </p>
+                                    <p className={styles.specimenTypeSelectAllText}
+                                        onClick={() => {
+                                            if (checkAllBoxRef.current?.value === 'true') {
+                                                SelectAll(false);
+                                            } else if (checkAllBoxRef.current?.value === 'false') {
+                                                SelectAll(true);
+                                            }
+                                        }}
+                                    >
+                                        Select all
+                                    </p>
                                 </Col>
                             </Row>
 

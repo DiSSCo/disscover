@@ -9,7 +9,7 @@ import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog, faLandmark, faLocationDot, faBoxArchive } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond, faLandmark, faLocationDot, faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -145,7 +145,7 @@ const SpecimenOverview = (props: Props) => {
                         <Card className="h-100">
                             <Card.Body>
                                 <Card.Title className="c-accent">
-                                    <FontAwesomeIcon icon={faFrog} />
+                                    <FontAwesomeIcon icon={faDiamond} />
                                     <span className="ms-1"> Taxonomy </span>
                                 </Card.Title>
 

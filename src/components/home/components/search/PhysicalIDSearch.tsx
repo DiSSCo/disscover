@@ -133,8 +133,10 @@ const PhysicalIDSearch = () => {
                             <Row>
                                 <Col>
                                     <p>
-                                        Use a Physical Specimen ID to search. Provide a global unique id, or a local id
-                                        by selecting the publishing institution.
+                                        A physical specimen id is the identifier
+                                        attached to the physical object, usually as a barcode. This can be a globally unique
+                                        identifier such as a CETAF identifier, DOI or IGSN number, or a local identifier such
+                                        as a local catalog number.
                                     </p>
                                 </Col>
                             </Row>
@@ -203,8 +205,9 @@ const PhysicalIDSearch = () => {
                                         <Col>
                                             <Field name="idValue"
                                                 className={`${styles.searchBar} w-100`}
-                                                placeholder={values.idType === 'gui' &&
-                                                    'https://geocollections.info/specimen/304790'
+                                                placeholder={values.idType === 'gui' ?
+                                                    'https://geocollections.info/specimen/304790':
+                                                    ''
                                                 }
                                             />
                                         </Col>

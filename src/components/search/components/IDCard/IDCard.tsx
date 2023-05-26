@@ -9,7 +9,7 @@ import styles from 'components/search/search.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog, faCircleInfo, faX } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond, faCircleInfo, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import OrganisationProperty from 'components/specimen/components/IDCard/OrganisationProperty';
@@ -36,7 +36,7 @@ const IDCard = (props: Props) => {
                         {/* Icon and Title */}
                         <Row className="align-items-center">
                             <Col className="col-md-auto h-100 pe-1">
-                                <FontAwesomeIcon icon={faFrog}
+                                <FontAwesomeIcon icon={faDiamond}
                                     className={styles.IDCardIcon}
                                 />
                             </Col>

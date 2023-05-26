@@ -40,19 +40,22 @@ const SpecimenTypeFilters = () => {
         Unclassified: false
     });
     const [disciplines, setDisciplines] = useState<Dict>({ reduce: 0 });
+    const [totalSpecimenCount, setTotalSpecimenCount] = useState<number>(0);
     const checkAllBoxRef = useRef<HTMLInputElement>(null);
 
     /* OnLoad: fetch Disciplines */
     useEffect(() => {
-        GetSpecimenDisciplines().then((disciplines) => {
+        GetSpecimenDisciplines().then(({disciplines, metadata}) => {
             setDisciplines(disciplines.topicDiscipline);
+
+            /* Set total specimen count */
+            if (metadata.totalRecords){
+                setTotalSpecimenCount(metadata.totalRecords);
+            }
         }).catch(error => {
             console.warn(error);
         });
     }, []);
-
-    /* Calculate total amount of Specimens */
-    const totalSpecimenCount = (Object.values(disciplines).reduce((accumulator, currentValue) => accumulator + currentValue));
 
     /* Function for selecting or deselecting all filters */
     const SelectAll = (selected: boolean) => {

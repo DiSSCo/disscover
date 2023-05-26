@@ -41,7 +41,7 @@ const PIDSearch = () => {
                     dispatch(setSpecimen(specimen));
 
                     navigate({
-                        pathname: `/ds/${specimen.id}`,
+                        pathname: `/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`,
                     });
                 } else {
                     setErrorActive(true);

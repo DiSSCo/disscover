@@ -89,7 +89,7 @@ const Paginator = (props: Props) => {
 
                 {pages}
 
-                {(lastPage && !pageNumbers.includes(lastPage)) &&
+                {(lastPage && lastPage > 1 && !pageNumbers.includes(lastPage)) ?
                     <>
                         <Pagination.Item key={'dotsLast'}>
                             ...
@@ -101,6 +101,7 @@ const Paginator = (props: Props) => {
                             {lastPage}
                         </Pagination.Item>
                     </>
+                    : <> </>
                 }
 
                 {'next' in links &&

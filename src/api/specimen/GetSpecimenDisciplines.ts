@@ -7,6 +7,7 @@ import { JSONResult, Dict } from 'global/Types';
 
 const GetSpecimenDisciplines = async () => {
     let disciplines = {} as Dict;
+    let metadata = {} as Dict;
     let endPoint: string = '/specimens/discipline';
 
     try {
@@ -20,11 +21,18 @@ const GetSpecimenDisciplines = async () => {
         const data: JSONResult = result.data;
 
         disciplines = data.data.attributes;
+
+        if (data.meta) {
+            metadata = data.meta;
+        }
     } catch (error) {
         console.warn(error);
     }
 
-    return disciplines;
+    return {
+        disciplines: disciplines,
+        metadata: metadata
+    };
 }
 
 export default GetSpecimenDisciplines;

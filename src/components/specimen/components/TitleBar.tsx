@@ -10,7 +10,7 @@ import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
@@ -32,7 +32,7 @@ const TitleBar = () => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={faFrog} className={styles.titleBarIcon} />
+                        <FontAwesomeIcon icon={faDiamond} className={styles.titleBarIcon} />
                     </Col>
                     <Col>
                         <h2 className={styles.title}> {specimen.specimenName} </h2>

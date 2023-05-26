@@ -10,7 +10,7 @@ import styles from 'components/search/search.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Props Typing */
@@ -26,7 +26,7 @@ const TaxonomyExt = (props: Props) => {
         <Row className="mt-4">
             <Col>
                 <h5 className="c-accent">
-                    <FontAwesomeIcon icon={faFrog} />
+                    <FontAwesomeIcon icon={faDiamond} />
                     <span className="ms-1"> Taxonomy </span>
                 </h5>
 

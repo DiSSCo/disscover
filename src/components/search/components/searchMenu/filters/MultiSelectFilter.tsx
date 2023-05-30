@@ -178,83 +178,58 @@ const MultiSelectFilter = (props: Props) => {
                 </Col>
             </Row>
         );
-    } else if (filter.filterType === 'taxonomy') {
-        return (
-            <Row>
-                <Col>
-                    <FieldArray name={`filters.${searchFilter}`}>
-                        {({ push, remove }) => (
-                            <div className={`px-2 py-1`}>
-                                {/* Taxonomy Title */}
-                                <p className={styles.filterSubTitle}> {Capitalize(searchFilter)} </p>
-
-                                {/* Selected Items */}
-                                {filteredItems.selected.map((item) => {
-                                    return <SelectOption key={item[0]}
-                                        searchFilter={searchFilter}
-                                        item={item}
-                                        method={() => remove(selectedItems.findIndex(selectedItem => selectedItem === item[0]))}
-                                        selected={true}
-                                    />
-                                })}
-
-                                {/* Optional Items to select */}
-                                {filteredItems.selectable.map((item) => {
-                                    return <SelectOption key={item[0]}
-                                        searchFilter={searchFilter}
-                                        item={item}
-                                        method={() => push(item[0])}
-                                    />
-                                })}
-                            </div>
-                        )}
-                    </FieldArray>
-                </Col>
-            </Row>
-        );
     } else {
         return (
-            <Row className="mt-2 px-2">
+            <Row className={`${filter.filterType !== 'taxonomy' && 'mt-2'} px-2`}>
                 <Col>
-                    <Row>
-                        <Col>
-                            <p className={`${styles.filterTitle} fw-bold`}> {filter.displayName} </p>
-                        </Col>
-                    </Row>
+                    {filter.filterType !== 'taxonomy' &&
+                        <Row>
+                            <Col>
+                                <p className={`${styles.filterTitle} fw-bold`}> {filter.displayName} </p>
+                            </Col>
+                        </Row>
+                    }
 
                     <Row className="mt-1">
                         <Col>
-                            {/* Search bar for searching in optional Items */}
-                            <div className={`${styles.filterSearchBlock} pe-2`}>
-                                <Row className="align-items-center">
-                                    <Col>
-                                        <Field name={`${searchFilter}Search`}
-                                            className={`${styles.filterSearch} w-100 px-2 py-1`}
-                                            placeholder="Select or type"
-                                            onFocus={() => setFilterToggle(true)}
-                                            onChange={(input: Dict) => setSearchQuery(input.target.value)}
-                                        />
-                                    </Col>
-
-                                    <Col className="col-md-auto ps-0">
-                                        {filterToggle ?
-                                            <FontAwesomeIcon icon={faChevronUp}
-                                                className="c-primary c-pointer"
-                                                onClick={() => setFilterToggle(false)}
+                            {filter.filterType !== 'taxonomy' &&
+                                /* Search bar for searching in optional Items */
+                                <div className={`${styles.filterSearchBlock} pe-2`}>
+                                    <Row className="align-items-center">
+                                        <Col>
+                                            <Field name={`${searchFilter}Search`}
+                                                className={`${styles.filterSearch} w-100 px-2 py-1`}
+                                                placeholder="Select or type"
+                                                onFocus={() => setFilterToggle(true)}
+                                                onChange={(input: Dict) => setSearchQuery(input.target.value)}
                                             />
-                                            : <FontAwesomeIcon icon={faChevronDown}
-                                                className="c-primary c-pointer"
-                                                onClick={() => setFilterToggle(true)}
-                                            />
-                                        }
-                                    </Col>
-                                </Row>
-                            </div>
+                                        </Col>
 
-                            {filterToggle &&
+                                        <Col className="col-md-auto ps-0">
+                                            {filterToggle ?
+                                                <FontAwesomeIcon icon={faChevronUp}
+                                                    className="c-primary c-pointer"
+                                                    onClick={() => setFilterToggle(false)}
+                                                />
+                                                : <FontAwesomeIcon icon={faChevronDown}
+                                                    className="c-primary c-pointer"
+                                                    onClick={() => setFilterToggle(true)}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </div>
+                            }
+
+                            {(filterToggle || filter.filterType === 'taxonomy') &&
                                 <FieldArray name={`filters.${searchFilter}`}>
                                     {({ push, remove }) => (
-                                        <div className={`${classFilterBlock} mt-2 px-2 py-1`}>
+                                        <div className={`${filter.filterType !== 'taxonomy' && classFilterBlock + ' mt-2'} px-2 py-1`}>
+                                            {filter.filterType === 'taxonomy' &&
+                                                /* Taxonomy Title */
+                                                <p className={styles.filterSubTitle}> {Capitalize(searchFilter)} </p>
+                                            }
+
                                             {/* Selected Items */}
                                             {filteredItems.selected.map((item) => {
                                                 return <SelectOption key={item[0]}

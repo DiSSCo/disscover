@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
@@ -20,7 +20,6 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import MultiSelectFilter from './MultiSelectFilter';
-import { useEffect } from 'react';
 
 
 /* Props Typing */
@@ -38,7 +37,7 @@ const TaxonomyFilters = (props: Props) => {
 
     /* Base variables */
     const aggregations = useAppSelector(getSearchAggregations);
-    const [filterToggle, setFilterToggle] = useState<Boolean>(false);
+    const [filterToggle, setFilterToggle] = useState<boolean>(false);
 
     /* Taxonomy filters, listed by hierarchical order */
     const taxonomyFilters: Dict = {

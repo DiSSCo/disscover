@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Field, FieldArray } from 'formik';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
+import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -172,6 +173,40 @@ const MultiSelectFilter = (props: Props) => {
                                     />
                                 })}
                             </Row>
+                        )}
+                    </FieldArray>
+                </Col>
+            </Row>
+        );
+    } else if (filter.filterType === 'taxonomy') {
+        return (
+            <Row>
+                <Col>
+                    <FieldArray name={`filters.${searchFilter}`}>
+                        {({ push, remove }) => (
+                            <div className={`px-2 py-1`}>
+                                {/* Taxonomy Title */}
+                                <p className={styles.filterSubTitle}> {Capitalize(searchFilter)} </p>
+
+                                {/* Selected Items */}
+                                {filteredItems.selected.map((item) => {
+                                    return <SelectOption key={item[0]}
+                                        searchFilter={searchFilter}
+                                        item={item}
+                                        method={() => remove(selectedItems.findIndex(selectedItem => selectedItem === item[0]))}
+                                        selected={true}
+                                    />
+                                })}
+
+                                {/* Optional Items to select */}
+                                {filteredItems.selectable.map((item) => {
+                                    return <SelectOption key={item[0]}
+                                        searchFilter={searchFilter}
+                                        item={item}
+                                        method={() => push(item[0])}
+                                    />
+                                })}
+                            </div>
                         )}
                     </FieldArray>
                 </Col>

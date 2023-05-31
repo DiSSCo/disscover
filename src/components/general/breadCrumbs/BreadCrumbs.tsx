@@ -1,6 +1,6 @@
 /* Import Depndencies */
 import { Link } from 'react-router-dom';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -25,7 +25,6 @@ interface Crumb {
 const BreadCrumbs = () => {
     /* Hooks */
     const location = useLocation();
-    const navigate = useNavigate();
 
     /* Base variables */
     const breadCrumbs: Crumb[] = [];
@@ -37,7 +36,7 @@ const BreadCrumbs = () => {
         /* Specimen Page */
         let path: string = '/search';
 
-        if (location.state && location.state.filters) {
+        if (location.state?.filters) {
             path = `/search?${location.state.filters}`;
         }
 

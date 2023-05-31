@@ -30,6 +30,7 @@ const PhysicalIDSearch = () => {
     const { idType, idValue, organisationId } = useAppSelector(getSearchPhysicalId);
     const [organisations, setOrganisations] = useState<Organisation[]>([]);
     const [errorActive, setErrorActive] = useState(false);
+    let placeholder: string = '';
 
     /* Fetch Organisations */
     useEffect(() => {
@@ -52,10 +53,10 @@ const PhysicalIDSearch = () => {
             }));
 
             /* Search for Specimen by Global Unique Identifier */
-            SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).then(({specimens}) => {
+            SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).then(({ specimens }) => {
                 if (!isEmpty(specimens)) {
                     navigate({
-                        pathname: `/ds/${specimens[0].id}`,
+                        pathname: `/ds/${specimens[0].id.replace('https://hdl.handle.net/', '')}`,
                     });
                 } else {
                     /* Display not found message */
@@ -74,10 +75,10 @@ const PhysicalIDSearch = () => {
 
             /* Search for Specimen by Local Identifier */
             if (formData.idValue) {
-                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({specimens}) => {
+                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({ specimens }) => {
                     if (!isEmpty(specimens)) {
                         navigate({
-                            pathname: `/ds/${specimens[0].id}`,
+                            pathname: `/ds/${specimens[0].id.replace('https://hdl.handle.net/', '')}`,
                         });
                     } else {
                         /* Display not found message */
@@ -128,8 +129,19 @@ const PhysicalIDSearch = () => {
                 >
                     {({ values }) => (
                         <Form>
-                            {/* Search by field (idType) */}
+                            {/* Explanation */}
                             <Row>
+                                <Col>
+                                    <p>
+                                        A physical specimen id is the identifier
+                                        attached to the physical object, usually as a barcode. This can be a globally unique
+                                        identifier such as a CETAF identifier, DOI or IGSN number, or a local identifier such
+                                        as a local catalog number.
+                                    </p>
+                                </Col>
+                            </Row>
+                            {/* Search by field (idType) */}
+                            <Row className="mt-4">
                                 <Col>
                                     <Row>
                                         <Col>
@@ -193,6 +205,10 @@ const PhysicalIDSearch = () => {
                                         <Col>
                                             <Field name="idValue"
                                                 className={`${styles.searchBar} w-100`}
+                                                placeholder={values.idType === 'gui' ?
+                                                    'https://geocollections.info/specimen/304790':
+                                                    ''
+                                                }
                                             />
                                         </Col>
                                     </Row>

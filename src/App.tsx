@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,6 +23,8 @@ import Annotate from 'components/annotate/Annotate';
 import Profile from 'components/profile/Profile';
 import ErrorMessage from 'components/general/errorMessage/ErrorMessage';
 
+import Mobile from 'Mobile';
+
 /* Import Routes */
 import SearchRoutes from 'components/search/Routes';
 import DocumentRoutes from 'components/documents/Routes';
@@ -38,6 +40,25 @@ const App = () => {
 
   /* Base Variables */
   const user = useAppSelector(getUser);
+  const [mobile, setMobile] = useState<boolean>(false);
+
+  /* Function to regulate PC and Mobile views */
+  const UpdateWindowDimensions = () => {
+    if (window.innerWidth > 500) {
+      setMobile(false);
+    } else {
+      setMobile(true);
+    }
+  };
+
+  useEffect(() => {
+    /* Check new size of window */
+    UpdateWindowDimensions();
+
+    window.addEventListener("resize", UpdateWindowDimensions);
+
+    return () => window.removeEventListener("resize", UpdateWindowDimensions);
+  }, []);
 
   /* OnLoad: Check if user is present in database, otherwise add basic record */
   useEffect(() => {
@@ -61,34 +82,39 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        {/* Home Page */}
-        <Route path="/" element={<Home />} />
+    <>
+      {!mobile ?
+        <Router>
+          <Routes>
+            {/* Home Page */}
+            <Route path="/" element={<Home />} />
 
-        {/* Search Page */}
-        <Route path="/search" element={<Search />} />
-        {SearchRoutes}
+            {/* Search Page */}
+            <Route path="/search" element={<Search />} />
+            {SearchRoutes}
 
-        {/* Specimen Page */}
-        <Route path="/ds/:prefix/:suffix/:version?" element={<Specimen />} />
+            {/* Specimen Page */}
+            <Route path="/ds/:prefix/:suffix/:version?" element={<Specimen />} />
 
-        {/* Digital Media Page */}
-        <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
+            {/* Digital Media Page */}
+            <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
 
-        {/* Annotations Page */}
-        <Route path="/annotate" element={<Annotate />} />
+            {/* Annotations Page */}
+            <Route path="/annotate" element={<Annotate />} />
 
-        {/* Profile Page */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/:userId" element={<Profile />} />
+            {/* Profile Page */}
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />} />
 
-        {/* Document Routes */}
-        {DocumentRoutes}
-      </Routes>
+            {/* Document Routes */}
+            {DocumentRoutes}
+          </Routes>
 
-      <ErrorMessage />
-    </Router>
+          <ErrorMessage />
+        </Router>
+        : <Mobile />
+      }
+    </>
   );
 }
 

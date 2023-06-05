@@ -143,7 +143,7 @@ const Specimen = () => {
                                         <TitleBar />
                                     </Col>
                                 </Row>
-                                <Row className={`${styles.specimenContent} py-4 flex-grow-1 overflow-hidden`}>
+                                <Row className="py-4 flex-grow-1 overflow-hidden">
                                     <Col md={{ span: 3 }} className="h-100">
                                         <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
                                     </Col>

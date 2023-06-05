@@ -1,7 +1,5 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
@@ -9,6 +7,9 @@ import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Types */
 import { DigitalMedia } from 'global/Types';
+
+/* Import Styles */
+import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
 /* Import Components */
 import DigitalMediaListItem from './DigitalMediaListItem';
@@ -24,7 +25,7 @@ const DigitalMediaList = () => {
 
     /* Search and fetch all other Digital Media items from target specimen */
     useEffect(() => {
-        GetSpecimenDigitalMedia(digitalMedia.digitalSpecimenId).then((specimenDigitalMedia) => {
+        GetSpecimenDigitalMedia(digitalMedia.digitalSpecimenId.replace('https://hdl.handle.net/', '')).then((specimenDigitalMedia) => {
             if (specimenDigitalMedia) {
                 setSpecimenDigitalMedia(specimenDigitalMedia);
             }
@@ -36,28 +37,16 @@ const DigitalMediaList = () => {
 
     if (specimenDigitalMedia) {
         specimenDigitalMedia.forEach((specimenDigitalMedia) => {
-            /* ClassName for Digital Media List Item */
-            const classDigitalMediaListItem = classNames({
-                'border border-white': true,
-                'position-relative': (digitalMedia.id === specimenDigitalMedia.id)
-            });
-
             digitalMediaItems.push(
-                <Row key={specimenDigitalMedia.id}>
-                    <Col className={classDigitalMediaListItem}>
-                        <DigitalMediaListItem specimenDigitalMedia={specimenDigitalMedia} />
-
-                        {(digitalMedia.id === specimenDigitalMedia.id) &&
-                            <div className="position-absolute bg-dark w-100 h-100 start-0 top-0 opacity-50" />
-                        }
-                    </Col>
-                </Row>
+                <DigitalMediaListItem key={specimenDigitalMedia.id} specimenDigitalMedia={specimenDigitalMedia} />
             );
         });
     }
 
     return (
-        <> {digitalMediaItems} </>
+        <div className={`${styles.digitalMediaList} h-100`}>
+            {digitalMediaItems}
+        </div>
     );
 }
 

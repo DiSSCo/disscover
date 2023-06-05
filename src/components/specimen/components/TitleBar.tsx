@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen } from 'redux/specimen/SpecimenSlice';
+import { getSpecimen, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -14,11 +14,13 @@ import { faDiamond, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
-import VersionSelect from './contentBlock/VersionSelect';
+import VersionSelect from '../../general/versionSelect/VersionSelect';
 
 
 const TitleBar = () => {
+    /* Base variables */
     const specimen = useAppSelector(getSpecimen);
+    const specimenVersions = useAppSelector(getSpecimenVersions);
 
     return (
         <Row>
@@ -84,7 +86,9 @@ const TitleBar = () => {
                         </Row>
                         <Row className="position-absolute bottom-0">
                             <Col className="col-md-auto">
-                                <VersionSelect />
+                                <VersionSelect target={specimen}
+                                    versions={specimenVersions}
+                                />
                             </Col>
                         </Row>
                     </Col>

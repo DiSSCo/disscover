@@ -1,12 +1,16 @@
 /* Import Dependencies */
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getDigitalMedia, setDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
+import {
+    getDigitalMedia, setDigitalMedia,
+    getDigitalMediaVersions, setDigitalMediaVersions
+} from 'redux/digitalMedia/DigitalMediaSlice';
+import { setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Styles */
 import styles from './digitalMedia.module.scss';
@@ -15,34 +19,66 @@ import styles from './digitalMedia.module.scss';
 import Header from 'components/general/header/Header';
 import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
+import VersionSelect from 'components/general/versionSelect/VersionSelect';
 import DigitalMediaFrame from './components/digitalMedia/DigitalMediaFrame';
 import DigitalMediaList from './components/digitalMedia/DigitalMediaList';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
 import GetDigitalMedia from 'api/digitalMedia/GetDigitalMedia';
+import GetDigitalMediaVersions from 'api/digitalMedia/GetDigitalMediaVersions';
 
 
 const DigitalMedia = () => {
-    /* Configure Store */
-    const dispatch = useAppDispatch();
-
     /* Hooks */
+    const dispatch = useAppDispatch();
     const params = useParams();
+    const navigate = useNavigate();
 
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
+    const digitalMediaVersions = useAppSelector(getDigitalMediaVersions);
 
     /* OnLoad: Check for Digital Media, otherwise grab from database */
     useEffect(() => {
         const digitalMediaId = `${params.prefix}/${params.suffix}`;
 
-        /* Fetch Digital Media if not present */
+        /* Fetch Digital Media if not present or not equal to params ID; if version has changed, refetch Digital Media with version */
         if (isEmpty(digitalMedia) || digitalMedia.id.replace('https://hdl.handle.net/', '') !== digitalMediaId) {
-            GetDigitalMedia(`${params['prefix']}/${params['suffix']}`).then((digitalMedia) => {
-                if (digitalMedia) {
-                    dispatch(setDigitalMedia(digitalMedia));
-                }
+            /* Check for version in url */
+            let version: string = '';
+
+            if (params.version) {
+                version = `/${params.version}`;
+            }
+
+            GetDigitalMedia(`${params.prefix}/${params.suffix}${version}`).then((digitalMedia) => {
+                dispatch(setDigitalMedia(digitalMedia));
+
+                /* Get Digital Media versions */
+                GetDigitalMediaVersions(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((versions) => {
+                    dispatch(setDigitalMediaVersions(versions));
+                }).catch(error => {
+                    console.warn(error);
+                });
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else if (params.version && digitalMedia.version.toString() !== params.version) {
+            /* Get Specimen with version */
+            const originalVersion = digitalMedia.version;
+
+            GetDigitalMedia(`${params['prefix']}/${params['suffix']}`, params.version).then((digitalMedia) => {
+                /* Set Digital Media */
+                dispatch(setDigitalMedia(digitalMedia));
+            }).catch(error => {
+                console.warn(error);
+
+                /* If version fetch failed, reset to original version */
+                navigate(`/dm/${params.prefix}/${params.suffix}/${originalVersion}`)
+
+                /* Show Error Message */
+                dispatch(setErrorMessage(`The selected version: ${params.version}, of Digital Media could not be retrieved.`));
             });
         }
     }, [digitalMedia, params]);
@@ -67,7 +103,14 @@ const DigitalMedia = () => {
                                     </Col>
                                     <Col md={{ span: 9 }} className="h-100">
                                         <div className="h-100 d-flex flex-column">
-                                            <Row className="flex-grow-1 overflow-hidden">
+                                            <Row>
+                                                <Col className="col-md-auto">
+                                                    <VersionSelect target={digitalMedia}
+                                                        versions={digitalMediaVersions}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                            <Row className="flex-grow-1 overflow-hidden mt-3">
                                                 <Col className="h-100 pb-2">
                                                     <DigitalMediaFrame />
                                                 </Col>

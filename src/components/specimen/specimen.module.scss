@@ -260,13 +260,12 @@
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    border: 1px solid var(--secondary);
-    background-color: #ddeeea;
+    background-color: var(--greyXLight);
     border-radius: 8px;
 }
 
 .digitalMediaImageDiv {
-    width: min-content;
+    width: 20%;
 }
 
 .digitalMediaImage {
@@ -283,7 +282,8 @@
 }
 
 .digitalMediaImageHover.active {
-    opacity: 1;
+    opacity: 0.5;
+    cursor: pointer;
 }
 
 /* MIDS Block */

@@ -8,9 +8,12 @@ import DigitalMediaModel from 'api/model/DigitalMediaModel';
 import { DigitalMedia, JSONResult } from 'global/Types';
 
 
-const GetDigitalMedia = async (handle: string) => {
+const GetDigitalMedia = async (handle: string, version?: string) => {
     let digitalMedia = {} as DigitalMedia;
 
+    /* Can be uncommented when endpoint is added 
+    // const endPoint = `digitalmedia/${handle}${version ? `/${version}`: ''}`;
+    */
     const endPoint = `digitalmedia/${handle}`;
 
     try {

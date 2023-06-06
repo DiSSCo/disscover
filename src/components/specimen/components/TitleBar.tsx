@@ -15,6 +15,7 @@ import { faDiamond, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 import VersionSelect from '../../general/versionSelect/VersionSelect';
+import Tooltip from 'components/general/tooltip/Tooltip';
 
 
 const TitleBar = () => {
@@ -45,9 +46,13 @@ const TitleBar = () => {
                         {/* MIDS Blocks */}
                         <Row className="mt-2">
                             <Col className="col-md-auto d-flex align-items-center">
-                                <FontAwesomeIcon icon={faCircleInfo}
-                                    className={styles.midsIcon}
-                                />
+                                <Tooltip text="Minimum Information about a Digital Specimen" placement="top">
+                                    <span>
+                                        <FontAwesomeIcon icon={faCircleInfo}
+                                            className={styles.midsIcon}
+                                        />
+                                    </span>
+                                </Tooltip>
                             </Col>
                             <Col>
                                 <Row>

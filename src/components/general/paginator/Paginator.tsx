@@ -20,7 +20,7 @@ const Paginator = (props: Props) => {
     /* Base variables */
     let pages: JSX.Element[] = [];
     const pageNumbers: number[] = [];
-    let lastPage = totalRecords && Math.floor(totalRecords / 25);
+    let lastPage = totalRecords && Math.ceil(totalRecords / 25);
 
     /* Function for pushing pages to the Paginator */
     const PushToPages = (page: number) => {

@@ -20,6 +20,7 @@ import { faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import MultiSelectFilter from './filters/MultiSelectFilter';
+import TaxonomyFilters from './filters/TaxonomyFilters';
 import DateFilter from './filters/DateFilter';
 import TextFilter from './filters/TextFilter';
 
@@ -42,10 +43,10 @@ const SearchFilters = (props: Props) => {
         filters: {
             q: searchParams.get('q') ? searchParams.get('q') : '',
             collectionDate: null,
-            fossilPeriod: '',
-            livingPreserved: ''
+            fossilPeriod: ''
         },
     };
+    const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
 
     /* List of filters to be shown (in order) */
     const filtersList: Dict = {
@@ -54,7 +55,11 @@ const SearchFilters = (props: Props) => {
             filterType: 'mids'
         },
         topicDiscipline: {
-            displayName: "Topic Discipline"
+            displayName: 'Topic Discipline'
+        },
+        taxonomy: {
+            displayName: 'Taxonomy',
+            filterType: 'taxonomy'
         },
         country: {
             displayName: 'Country'
@@ -76,9 +81,8 @@ const SearchFilters = (props: Props) => {
             displayName: 'Fossil period',
             filterType: 'text'
         },
-        livingPreserved: {
-            displayName: 'Living or preserved',
-            filterType: 'text'
+        livingOrPreserved: {
+            displayName: 'Living or preserved'
         },
         license: {
             displayName: 'License'
@@ -92,7 +96,7 @@ const SearchFilters = (props: Props) => {
     /* For each aggregation, set initial value for form */
     Object.keys(aggregations).forEach((aggregationKey) => {
         /* Check if Aggregation is in filters list */
-        if (Object.keys(filtersList).includes(aggregationKey)) {
+        if (Object.keys(filtersList).concat(taxonomies).includes(aggregationKey)) {
             /* Check for Search Filters and add to initial values */
             const searchFilters = searchParams.getAll(aggregationKey);
 
@@ -171,6 +175,12 @@ const SearchFilters = (props: Props) => {
                                                     return <TextFilter key={filterKey}
                                                         filter={filter}
                                                         searchFilter={filterKey}
+                                                    />
+                                                case 'taxonomy':
+                                                    {/* Taxonomy Filters */}
+                                                    return <TaxonomyFilters key={filterKey}
+                                                        selectedItems={values.filters}
+                                                        SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
                                                     />
                                                 default:
                                                     {/* Aggregation Filters */ }

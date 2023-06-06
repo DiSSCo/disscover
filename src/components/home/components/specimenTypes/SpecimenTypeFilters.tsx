@@ -82,9 +82,9 @@ const SpecimenTypeFilters = () => {
 
                         /* Construct Search URL based on disciplines */
                         let searchLink: string = '/search';
-
-                        Object.keys(values.disciplines).forEach((discipline: string) => {
-                            if (values.disciplines[discipline]) {
+   
+                        Object.keys(values.disciplines).concat(['HumanMade', 'Unclassified']).forEach((discipline: string) => {
+                            if (values.disciplines[discipline] || values[discipline]) {
                                 /* Check for Disciplines with spaces */
                                 if (discipline === 'EarthSystem') {
                                     discipline = 'Earth+System';

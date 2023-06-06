@@ -72,10 +72,20 @@
     border-radius: 999px;
 }
 
+.filterSubTitle {
+    font-size: 13px;
+    color: var(--greyDark);
+}
+
 .filterSearch {
     font-size: 14px;
     border-radius: 999px;
     border: none;
+}
+
+.filterSearch.taxonomy {
+    color: var(--greyDark);
+    cursor: pointer;
 }
 
 .filterSelectOption {

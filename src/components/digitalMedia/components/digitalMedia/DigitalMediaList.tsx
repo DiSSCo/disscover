@@ -29,6 +29,8 @@ const DigitalMediaList = () => {
             if (specimenDigitalMedia) {
                 setSpecimenDigitalMedia(specimenDigitalMedia);
             }
+        }).catch(error => {
+            console.warn(error);
         });
     }, [digitalMedia]);
 

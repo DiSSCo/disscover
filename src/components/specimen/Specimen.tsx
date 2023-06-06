@@ -8,7 +8,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSpecimen, setSpecimen, getSpecimenVersions, setSpecimenVersions,
+    getSpecimen, setSpecimen, setSpecimenVersions,
     setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';

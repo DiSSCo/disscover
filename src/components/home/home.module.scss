@@ -1,5 +1,10 @@
 /* Custom styling for Home page */
 
+.content {
+    margin-top: 80px;
+    height: Calc(100vh - 140px);
+}
+
 /* First main section of Home Page, relative to height of screen */
 .mainBackground {
     position: absolute;

@@ -97,7 +97,7 @@ const App = () => {
             <Route path="/ds/:prefix/:suffix/:version?" element={<Specimen />} />
 
             {/* Digital Media Page */}
-            <Route path="/dm/:prefix/:suffix" element={<DigitalMedia />} />
+            <Route path="/dm/:prefix/:suffix/:version?" element={<DigitalMedia />} />
 
             {/* Annotations Page */}
             <Route path="/annotate" element={<Annotate />} />

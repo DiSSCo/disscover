@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -15,6 +16,9 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 
 const DigitalMedia = () => {
+    /* Hooks */
+    const navigate = useNavigate();
+
     /* Base variables */
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
     const [imageHover, setImageHover] = useState<string>('');
@@ -45,11 +49,12 @@ const DigitalMedia = () => {
 
                                                 <div className={`${styles.digitalMediaImageHover} 
                                                     ${(digitalMedia.id === imageHover && styles.active)} 
-                                                    position-absolute bottom-0 w-100 py-1 px-2 bg-white d-flex justify-content-center align-items-center`}
+                                                    position-absolute bottom-0 w-100 h-100 py-1 px-2 bg-white d-flex justify-content-center align-items-center`}
                                                     onMouseEnter={() => setImageHover(digitalMedia.id)}
                                                     onMouseLeave={() => setImageHover('')}
+                                                    onClick={() => navigate(`/dm/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`)}
                                                 >
-                                                    Go to Image <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
+                                                    Go to Image <FontAwesomeIcon icon={faChevronRight} className="ms-1 fw-lightBold" />
                                                 </div>
                                             </div>
                                         );

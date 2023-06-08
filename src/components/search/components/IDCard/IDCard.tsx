@@ -3,6 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Types */
 import { Specimen } from 'global/Types';
+import { ReactElement } from 'react';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
@@ -14,7 +15,7 @@ import { faDiamond, faCircleInfo, faX } from '@fortawesome/free-solid-svg-icons'
 /* Import Components */
 import OrganisationProperty from 'components/specimen/components/IDCard/OrganisationProperty';
 import PhysicalSpecimenIdProperty from 'components/specimen/components/IDCard/PhysicalSpecimenIdProperty';
-import { ReactElement } from 'react';
+import Tooltip from 'components/general/tooltip/Tooltip';
 
 
 /* Props Typing */
@@ -61,7 +62,11 @@ const IDCard = (props: Props) => {
                         {/* MIDS Bar */}
                         <Row className="mt-2">
                             <Col className="col-md-auto pe-0">
-                                <FontAwesomeIcon icon={faCircleInfo} className={`${styles.midsInfoIcon} mt-2`} />
+                                <Tooltip text="Minimum Information about a Digital Specimen" placement="top">
+                                    <span>
+                                        <FontAwesomeIcon icon={faCircleInfo} className={`${styles.midsInfoIcon} mt-2`} />
+                                    </span>
+                                </Tooltip>
                             </Col>
                             <Col className="d-flex align-items-center mt-1">
                                 <Row>

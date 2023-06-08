@@ -34,7 +34,7 @@ const Home = () => {
         <div>
             <Header />
 
-            <Container fluid className="vh-100">
+            <Container fluid className={styles.content}>
                 <Row className="h-100">
                     {/* First part of Homepage, relative to screen height */}
                     <Col md={{ span: 10, offset: 1 }} className="h-100">

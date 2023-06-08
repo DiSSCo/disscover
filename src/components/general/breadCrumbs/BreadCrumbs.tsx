@@ -6,6 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
 import { getSpecimen } from 'redux/specimen/SpecimenSlice';
+import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Styles */
 import styles from './breadCrumbs.module.scss';
@@ -30,37 +31,52 @@ const BreadCrumbs = () => {
     const breadCrumbs: Crumb[] = [];
     const pathList = location.pathname.slice(1).split('/');
     const specimen = useAppSelector(getSpecimen);
+    const digitalMedia = useAppSelector(getDigitalMedia);
 
     /* Format Bread Crumbs */
-    if (pathList[0] === 'ds') {
-        /* Specimen Page */
-        let path: string = '/search';
-
-        if (location.state?.filters) {
-            path = `/search?${location.state.filters}`;
-        }
-
-        breadCrumbs.push({
-            crumb: 'Specimens',
-            path: path
-        });
-
-        breadCrumbs.push({
-            crumb: specimen.specimenName
-        });
-    } else if (pathList[0] === 'search') {
-        /* Search Page */
-        breadCrumbs.push({
-            crumb: 'Specimens',
-            path: '/search'
-        });
-
-        /* Check for Sub Pages */
-        if (pathList[1] === 'compare') {
+    switch (pathList[0]) {
+        case 'search':
+            /* Search Page */
             breadCrumbs.push({
-                crumb: 'Compare specimens'
+                crumb: 'Specimens',
+                path: '/search'
             });
-        }
+
+            /* Check for Sub Pages */
+            if (pathList[1] === 'compare') {
+                breadCrumbs.push({
+                    crumb: 'Compare specimens'
+                });
+            }
+
+            break;
+        case 'ds':
+            /* Specimen Page */
+            let path: string = '/search';
+
+            if (location.state?.filters) {
+                path = `/search?${location.state.filters}`;
+            }
+
+            breadCrumbs.push({
+                crumb: 'Specimens',
+                path: path
+            });
+
+            breadCrumbs.push({
+                crumb: specimen.specimenName
+            });
+
+            break;
+        case 'dm':
+            /* Digital Media Page */
+            breadCrumbs.push({
+                crumb: 'Digital Media'
+            });
+
+            breadCrumbs.push({
+                crumb: digitalMedia.id.replace('https://hdl.handle.net/', '')
+            });
     }
 
     return (

@@ -8,8 +8,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSpecimen, setSpecimen, setSpecimenDigitalMedia,
-    getSpecimenAnnotations, setSpecimenAnnotations
+    getSpecimen, setSpecimen, setSpecimenVersions,
+    setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
@@ -28,6 +28,7 @@ import Footer from 'components/general/footer/Footer';
 /* Import API */
 import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
+import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
 import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 
 
@@ -68,6 +69,13 @@ const Specimen = () => {
 
                     /* Set Specimen Annotations */
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
+
+                    /* Get Specimen Versions */
+                    GetSpecimenVersions(fullSpecimen.specimen.id.replace('https://hdl.handle.net/', '')).then((versions) => {
+                        dispatch(setSpecimenVersions(versions));
+                    }).catch(error => {
+                        console.warn(error);
+                    });
                 }
             }).catch(error => {
                 console.warn(error);
@@ -143,7 +151,7 @@ const Specimen = () => {
                                         <TitleBar />
                                     </Col>
                                 </Row>
-                                <Row className={`${styles.specimenContent} py-4 flex-grow-1 overflow-hidden`}>
+                                <Row className="py-4 flex-grow-1 overflow-hidden">
                                     <Col md={{ span: 3 }} className="h-100">
                                         <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
                                     </Col>

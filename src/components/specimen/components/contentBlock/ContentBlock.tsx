@@ -49,11 +49,6 @@ const ContentBlock = (props: Props) => {
     return (
         <Row className="h-100">
             <Col className="h-100">
-                {/* <Row className="justify-content-end">
-                    <Col className="col-md-auto">
-                        
-                    </Col>
-                </Row> */}
                 <Row className="h-100">
                     <Col className="h-100">
                         <Tabs className="h-100">
@@ -64,16 +59,6 @@ const ContentBlock = (props: Props) => {
                                     <Tab className={classTab} selectedClassName={styles.active}>Digital Media</Tab>
                                 }
                                 <Tab className={classTab} selectedClassName={styles.active}>Provenance</Tab>
-
-                                <a href={`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`}
-                                    target="_blank" rel="noreferrer" className="w-100"
-                                >
-                                    <button type="button"
-                                        className={`${styles.jsonButton} primaryButton`}
-                                    >
-                                        View JSON
-                                    </button>
-                                </a>
                             </TabList>
 
                             {/* Specimen Overview */}

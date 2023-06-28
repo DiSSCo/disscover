@@ -1,4 +1,6 @@
 /* Import Dependencies */
+import { useState } from 'react';
+import Select from 'react-select';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -22,6 +24,28 @@ const TitleBar = () => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
+    const [automatedAnnotationToggle, setAutomatedAnnotationToggle] = useState(false);
+
+    const specimenActions = [
+        { value: 'json', label: 'View JSON' },
+        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations' }
+    ];
+
+    /* Function for executing Specimen Actions */
+    const SpecimenAction = (action: string) => {
+        switch (action) {
+            case 'json':
+                window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
+
+                return;
+            case 'automatedAnnotation':
+                setAutomatedAnnotationToggle(true);
+
+                return;
+            default:
+                return;
+        }
+    }
 
     return (
         <Row>
@@ -83,19 +107,43 @@ const TitleBar = () => {
                     {/* Specimen Versions */}
                     <Col md={{ span: 9 }} className="position-relative ps-4">
                         <Row>
-                            <Col className="d-flex justify-content-end">
-                                <button type="button" className={`${styles.annotationTriggerButton} mt-2 px-3 py-1`}>
-                                    <FontAwesomeIcon icon={faMessage} className={`${styles.annotationTriggerIcon} me-1`} /> Annotations
-                                </button>
-                            </Col>
-                        </Row>
-                        <Row className="position-absolute bottom-0">
                             <Col className="col-md-auto">
                                 <VersionSelect target={specimen}
                                     versions={specimenVersions}
                                 />
                             </Col>
+                            <Col>
+
+                            </Col>
+                            <Col className="col-md-auto d-flex justify-content-end">
+                                <Select
+                                    value={{ value: 'Actions', label: 'Actions' }}
+                                    options={specimenActions}
+                                    className="text-white"
+                                    isSearchable={false}
+                                    styles={{
+                                        control: provided => ({
+                                            ...provided, backgroundColor: '#4d59a2', border: 'none',
+                                            borderRadius: '999px', fontWeight: '500', fontSize: '15px'
+                                        }),
+                                        menu: provided => ({
+                                            ...provided, zIndex: 100000, fontSize: '15px', width: 'max-content',
+                                            position: 'absolute', right: '0', color: '#333333'
+                                        }),
+                                        dropdownIndicator: provided => ({ ...provided, color: 'white', fontSize: '15px' }),
+                                        singleValue: provided => ({
+                                            ...provided, color: 'white'
+                                        })
+                                    }}
+                                    onChange={(option) => { option?.value && SpecimenAction(option.value) }}
+                                />
+                            </Col>
                         </Row>
+                        {/* <Row className="position-absolute bottom-0">
+                            <Col className="col-md-auto">
+
+                            </Col>
+                        </Row> */}
                     </Col>
                 </Row>
             </Col>

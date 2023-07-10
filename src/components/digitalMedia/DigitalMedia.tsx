@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
-import Select from 'react-select';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -25,6 +24,7 @@ import IDCard from './components/IDCard/IDCard';
 import VersionSelect from 'components/general/versionSelect/VersionSelect';
 import DigitalMediaFrame from './components/digitalMedia/DigitalMediaFrame';
 import DigitalMediaList from './components/digitalMedia/DigitalMediaList';
+import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
 import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
 import Footer from 'components/general/footer/Footer';
 
@@ -94,7 +94,7 @@ const DigitalMedia = () => {
     }, [digitalMedia, params]);
 
     /* Function for executing Digital Media Actions */
-    const DigitalMediaAction = (action: string) => {
+    const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
                 window.open(`https://sandbox.dissco.tech/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
@@ -141,26 +141,8 @@ const DigitalMedia = () => {
                                                 </Col>
                                                 <Col />
                                                 <Col className="col-md-auto">
-                                                    <Select
-                                                        value={{ value: 'Actions', label: 'Actions' }}
-                                                        options={digitalMediaActions}
-                                                        className="text-white"
-                                                        isSearchable={false}
-                                                        styles={{
-                                                            control: provided => ({
-                                                                ...provided, backgroundColor: '#4d59a2', border: 'none',
-                                                                borderRadius: '999px', fontWeight: '500', fontSize: '15px'
-                                                            }),
-                                                            menu: provided => ({
-                                                                ...provided, zIndex: 100000, fontSize: '15px', width: 'max-content',
-                                                                position: 'absolute', right: '0', color: '#333333'
-                                                            }),
-                                                            dropdownIndicator: provided => ({ ...provided, color: 'white', fontSize: '15px' }),
-                                                            singleValue: provided => ({
-                                                                ...provided, color: 'white'
-                                                            })
-                                                        }}
-                                                        onChange={(option) => { option?.value && DigitalMediaAction(option.value) }}
+                                                    <ActionsDropdown actions={digitalMediaActions}
+                                                        Actions={(action: string) => DigitalMediaActions(action)}
                                                     />
                                                 </Col>
                                             </Row>

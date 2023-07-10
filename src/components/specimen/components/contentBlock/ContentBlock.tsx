@@ -6,7 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
+import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -28,7 +28,6 @@ const ContentBlock = (props: Props) => {
     const { ToggleModal } = props;
 
     /* Base variables */
-    const specimen = useAppSelector(getSpecimen);
     const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
     /* Class Names for Tabs */

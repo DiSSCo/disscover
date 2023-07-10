@@ -41,7 +41,6 @@ const AutomatedAnnotationsModal = (props: Props) => {
     const location = useLocation();
 
     /* Base variables */
-    // const specimen = useAppSelector(getSpecimen);
     const target: Specimen | DigitalMedia = useAppSelector(getMASTarget);
     const [targetMAS, setTargetMAS] = useState<Dict[]>([]);
 

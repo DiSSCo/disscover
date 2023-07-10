@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import Select from 'react-select';
 import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 
@@ -18,6 +17,7 @@ import { faDiamond, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 import VersionSelect from '../../general/versionSelect/VersionSelect';
+import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
 import Tooltip from 'components/general/tooltip/Tooltip';
 
 
@@ -43,7 +43,7 @@ const TitleBar = (props: Props) => {
     ];
 
     /* Function for executing Specimen Actions */
-    const SpecimenAction = (action: string) => {
+    const SpecimenActions = (action: string) => {
         switch (action) {
             case 'json':
                 window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
@@ -127,30 +127,10 @@ const TitleBar = (props: Props) => {
                                     versions={specimenVersions}
                                 />
                             </Col>
-                            <Col>
-
-                            </Col>
+                            <Col />
                             <Col className="col-md-auto d-flex justify-content-end">
-                                <Select
-                                    value={{ value: 'Actions', label: 'Actions' }}
-                                    options={specimenActions}
-                                    className="text-white"
-                                    isSearchable={false}
-                                    styles={{
-                                        control: provided => ({
-                                            ...provided, backgroundColor: '#4d59a2', border: 'none',
-                                            borderRadius: '999px', fontWeight: '500', fontSize: '15px'
-                                        }),
-                                        menu: provided => ({
-                                            ...provided, zIndex: 100000, fontSize: '15px', width: 'max-content',
-                                            position: 'absolute', right: '0', color: '#333333'
-                                        }),
-                                        dropdownIndicator: provided => ({ ...provided, color: 'white', fontSize: '15px' }),
-                                        singleValue: provided => ({
-                                            ...provided, color: 'white'
-                                        })
-                                    }}
-                                    onChange={(option) => { option?.value && SpecimenAction(option.value) }}
+                                <ActionsDropdown actions={specimenActions}
+                                    Actions={(action: string) => SpecimenActions(action)}
                                 />
                             </Col>
                         </Row>

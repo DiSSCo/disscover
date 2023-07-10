@@ -9,6 +9,7 @@ import { Annotation, AnnotateTarget, Specimen, DigitalMedia } from 'global/Types
 export interface AnnotateState {
     annotateTarget: AnnotateTarget;
     overviewAnnotations: Annotation[];
+    MASTarget: Specimen | DigitalMedia
 }
 
 const initialState: AnnotateState = {
@@ -19,7 +20,8 @@ const initialState: AnnotateState = {
         targetType: '',
         annotations: [] as Annotation[]
     },
-    overviewAnnotations: []
+    overviewAnnotations: [],
+    MASTarget: {} as Specimen | DigitalMedia
 };
 
 export const AnnotateSlice = createSlice({
@@ -31,15 +33,19 @@ export const AnnotateSlice = createSlice({
         },
         setOverviewAnnotations: (state, action: PayloadAction<Annotation[]>) => {
             state.overviewAnnotations = action.payload;
+        },
+        setMASTarget: (state, action: PayloadAction<Specimen | DigitalMedia>) => {
+            state.MASTarget = action.payload;
         }
     },
 })
 
 /* Action Creators */
-export const { setAnnotateTarget, setOverviewAnnotations } = AnnotateSlice.actions;
+export const { setAnnotateTarget, setOverviewAnnotations, setMASTarget } = AnnotateSlice.actions;
 
 /* Connect with Root State */
 export const getAnnotateTarget = (state: RootState) => state.annotate.annotateTarget;
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
+export const getMASTarget = (state: RootState) => state.annotate.MASTarget;
 
 export default AnnotateSlice.reducer;

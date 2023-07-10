@@ -17,6 +17,7 @@ import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 
 
 const TitleBar = () => {
+    /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
 
     return (

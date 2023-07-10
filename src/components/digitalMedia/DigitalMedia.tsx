@@ -1,7 +1,8 @@
 /* Import Dependencies */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
+import KeycloakService from 'keycloak/Keycloak';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -10,6 +11,7 @@ import {
     getDigitalMedia, setDigitalMedia,
     getDigitalMediaVersions, setDigitalMediaVersions
 } from 'redux/digitalMedia/DigitalMediaSlice';
+import { setMASTarget } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Styles */
@@ -22,6 +24,8 @@ import IDCard from './components/IDCard/IDCard';
 import VersionSelect from 'components/general/versionSelect/VersionSelect';
 import DigitalMediaFrame from './components/digitalMedia/DigitalMediaFrame';
 import DigitalMediaList from './components/digitalMedia/DigitalMediaList';
+import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
+import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
@@ -38,6 +42,12 @@ const DigitalMedia = () => {
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaVersions = useAppSelector(getDigitalMediaVersions);
+    const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
+
+    const digitalMediaActions = [
+        { value: 'json', label: 'View JSON' },
+        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() }
+    ];
 
     /* OnLoad: Check for Digital Media, otherwise grab from database */
     useEffect(() => {
@@ -83,6 +93,26 @@ const DigitalMedia = () => {
         }
     }, [digitalMedia, params]);
 
+    /* Function for executing Digital Media Actions */
+    const DigitalMediaActions = (action: string) => {
+        switch (action) {
+            case 'json':
+                window.open(`https://sandbox.dissco.tech/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
+
+                return;
+            case 'automatedAnnotations':
+                /* Set MAS Target */
+                dispatch(setMASTarget(digitalMedia));
+
+                /* Open MAS Modal */
+                setAutomatedAnnotationToggle(true);
+
+                return;
+            default:
+                return;
+        }
+    }
+
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Header />
@@ -109,6 +139,12 @@ const DigitalMedia = () => {
                                                         versions={digitalMediaVersions}
                                                     />
                                                 </Col>
+                                                <Col />
+                                                <Col className="col-md-auto">
+                                                    <ActionsDropdown actions={digitalMediaActions}
+                                                        Actions={(action: string) => DigitalMediaActions(action)}
+                                                    />
+                                                </Col>
                                             </Row>
                                             <Row className="flex-grow-1 overflow-hidden mt-3">
                                                 <Col className="h-100 pb-2">
@@ -126,6 +162,11 @@ const DigitalMedia = () => {
                             </div>
                         </Col>
                     </Row>
+
+                    {/* Automated Annotations Modal */}
+                    <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
+                        HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
+                    />
                 </Container >
             }
 

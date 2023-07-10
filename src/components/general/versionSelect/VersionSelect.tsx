@@ -36,11 +36,11 @@ const VersionSelect = (props: Props) => {
         /* Construct new url */
         let path = location.pathname;
 
-        if (Number(path.at(-1))) {
-            path = path.slice(0, -1).concat(`${version}`);
-        } else {
-            path = path.concat(`/${version}`);
+        if (Number(path.at(-1)) && path.at(-2) === '/') {
+            path = path.slice(0, -2);
         }
+
+        path = path.concat(`/${version}`);
 
         navigate(path);
     }

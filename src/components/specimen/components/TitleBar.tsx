@@ -4,15 +4,18 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimen, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
-import { setMASTarget } from 'redux/annotate/AnnotateSlice';
+import { getSpecimen, getSpecimenAnnotations, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
+import { setAnnotateTarget, getSidePanelToggle, setSidePanelToggle, setMASTarget } from 'redux/annotate/AnnotateSlice';
+
+/* Import Types */
+import { Annotation } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiamond, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
@@ -36,6 +39,27 @@ const TitleBar = (props: Props) => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
+    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
+    const sidePanelToggle = useAppSelector(getSidePanelToggle);
+
+    /* Function to open Side Panel with all Annotations of Specimen */
+    const ShowWithAllAnnotations = () => {
+        /* Add up all property annotations into one annotations array */
+        let allAnnotations: Annotation[] = [];
+
+        Object.values(specimenAnnotations).forEach((annotationsArray) => {
+            allAnnotations = allAnnotations.concat(annotationsArray);
+        });
+
+        dispatch(setAnnotateTarget({
+            property: '',
+            target: specimen,
+            targetType: 'digital_specimen',
+            annotations: allAnnotations
+        }));
+
+        dispatch(setSidePanelToggle(true));
+    }
 
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
@@ -122,6 +146,16 @@ const TitleBar = (props: Props) => {
                     {/* Specimen Versions */}
                     <Col md={{ span: 9 }} className="position-relative ps-4">
                         <Row>
+                            <Col className="d-flex justify-content-end">
+                                <button type="button" className={`${styles.annotationTriggerButton} mt-2 px-3 py-1`}
+                                    onClick={() => ShowWithAllAnnotations()}
+                                >
+                                    <FontAwesomeIcon icon={faMessage} className={`${styles.annotationTriggerIcon} me-1`} />
+                                    Annotations
+                                </button>
+                            </Col>
+                        </Row>
+                        <Row className="position-absolute bottom-0">
                             <Col className="col-md-auto">
                                 <VersionSelect target={specimen}
                                     versions={specimenVersions}

@@ -17,12 +17,12 @@ import PhysicalSpecimenIdProperty from './PhysicalSpecimenIdProperty';
 
 /* Props Typing */
 interface Props {
-    ToggleModal: Function
+    ToggleSidePanel: Function
 };
 
 
 const IDCard = (props: Props) => {
-    const { ToggleModal } = props;
+    const { ToggleSidePanel } = props;
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
@@ -68,7 +68,7 @@ const IDCard = (props: Props) => {
                                         <Col className="col-md-auto h-100">
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                    onClick={() => ToggleModal('ods:specimenName')}
+                                                    onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50" role="modalTrigger">Name in collection</span>
                                                     <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.specimenName} </span>
@@ -76,7 +76,7 @@ const IDCard = (props: Props) => {
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                    onClick={() => ToggleModal('ods:organisationId')}
+                                                    onClick={() => ToggleSidePanel('ods:organisationId')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">Specimen provider</span>
                                                     <br /> <span className={`${styles.IDCardValue} m-0 h-50 c-accent`}>
@@ -92,7 +92,7 @@ const IDCard = (props: Props) => {
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                    onClick={() => ToggleModal('ods:physicalSpecimenId')}
+                                                    onClick={() => ToggleSidePanel('ods:physicalSpecimenId')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">
                                                         Physical specimen ID ({specimen.physicalSpecimenIdType}):
@@ -108,7 +108,7 @@ const IDCard = (props: Props) => {
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                    onClick={() => ToggleModal('ods:physicalSpecimenCollection')}
+                                                    onClick={() => ToggleSidePanel('ods:physicalSpecimenCollection')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">In collection</span>
                                                     <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.physicalSpecimenCollection} </span>
@@ -116,7 +116,7 @@ const IDCard = (props: Props) => {
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}
-                                                    onClick={() => ToggleModal('dcterms:license')}
+                                                    onClick={() => ToggleSidePanel('dcterms:license')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">License</span>
                                                     <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.data['dcterms:license']} </span>

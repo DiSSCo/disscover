@@ -115,6 +115,14 @@ p {
   color: white;
 }
 
+.c-grey {
+  color: #ACAAD4;
+}
+
+.c-backdrop {
+  color: #404040;
+}
+
 /* Font Weight */
 .fw-lightBold {
   font-weight: 500;

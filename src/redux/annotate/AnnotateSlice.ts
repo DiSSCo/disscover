@@ -7,12 +7,14 @@ import { Annotation, AnnotateTarget, Specimen, DigitalMedia } from 'global/Types
 
 
 export interface AnnotateState {
+    sidePanelToggle: boolean,
     annotateTarget: AnnotateTarget;
     overviewAnnotations: Annotation[];
     MASTarget: Specimen | DigitalMedia
 }
 
 const initialState: AnnotateState = {
+    sidePanelToggle: false,
     annotateTarget: {
         property: '',
         motivation: '',
@@ -28,6 +30,9 @@ export const AnnotateSlice = createSlice({
     name: 'annotate',
     initialState,
     reducers: {
+        setSidePanelToggle: (state, action: PayloadAction<boolean>) => {
+            state.sidePanelToggle = action.payload;
+        },
         setAnnotateTarget: (state, action: PayloadAction<AnnotateTarget>) => {
             state.annotateTarget = action.payload;
         },
@@ -41,9 +46,10 @@ export const AnnotateSlice = createSlice({
 })
 
 /* Action Creators */
-export const { setAnnotateTarget, setOverviewAnnotations, setMASTarget } = AnnotateSlice.actions;
+export const { setSidePanelToggle, setAnnotateTarget, setOverviewAnnotations, setMASTarget } = AnnotateSlice.actions;
 
 /* Connect with Root State */
+export const getSidePanelToggle = (state: RootState) => state.annotate.sidePanelToggle;
 export const getAnnotateTarget = (state: RootState) => state.annotate.annotateTarget;
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
 export const getMASTarget = (state: RootState) => state.annotate.MASTarget;

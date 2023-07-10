@@ -31,7 +31,7 @@ const ContentBlock = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
-    /* Class Name for Tabs */
+    /* Class Names for Tabs */
     const classTabsList = classNames({
         [`${styles.tabsList}`]: true
     });

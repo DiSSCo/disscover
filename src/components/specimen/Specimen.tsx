@@ -22,6 +22,7 @@ import Header from 'components/general/header/Header';
 import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
 import ContentBlock from './components/contentBlock/ContentBlock';
+import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
 import AnnotateModal from 'components/annotate/modal/AnnotateModal';
 import Footer from 'components/general/footer/Footer';
 
@@ -44,6 +45,7 @@ const Specimen = () => {
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const annotateTarget = useAppSelector(getAnnotateTarget);
+    const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
     /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
     useEffect(() => {
@@ -148,7 +150,9 @@ const Specimen = () => {
                             <div className="h-100 d-flex flex-column">
                                 <Row className={styles.titleBar}>
                                     <Col>
-                                        <TitleBar />
+                                        <TitleBar
+                                            ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
+                                        />
                                     </Col>
                                 </Row>
                                 <Row className="py-4 flex-grow-1 overflow-hidden">
@@ -168,6 +172,11 @@ const Specimen = () => {
                             </div>
                         </Col>
                     </Row>
+
+                    {/* Automated Annotations Modal */}
+                    <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
+                        HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
+                    />
                 </Container>
             }
 

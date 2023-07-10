@@ -285,3 +285,31 @@
 .midsProperty {
     border: 1px solid var(--main-color);
 }
+
+/* Automated Annotations Modal */
+.automatedAnnotationsDialog {
+    height: 100%;
+}
+
+.automatedAnnotationsContent {
+    height: 60%;
+    margin-top: 20%;
+}
+
+.automatedAnnotationsBody {
+    min-height: 60%;
+}
+
+.automatedAnnotationsHeader {
+    font-size: 14px;
+    color: var(--greyDark);
+}
+
+.automatedAnnotationsDescription {
+    font-size: 14px;
+}
+
+.automatedAnnotationsSelectedBlock {
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+}

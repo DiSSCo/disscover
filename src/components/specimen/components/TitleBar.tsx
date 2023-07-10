@@ -1,18 +1,19 @@
 /* Import Dependencies */
-import { useState } from 'react';
 import Select from 'react-select';
+import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSpecimen, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
+import { setMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiamond, faCircleInfo, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
@@ -20,15 +21,25 @@ import VersionSelect from '../../general/versionSelect/VersionSelect';
 import Tooltip from 'components/general/tooltip/Tooltip';
 
 
-const TitleBar = () => {
+/* Props Typing */
+interface Props {
+    ToggleAutomatedAnnotations: Function
+};
+
+
+const TitleBar = (props: Props) => {
+    const { ToggleAutomatedAnnotations } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
-    const [automatedAnnotationToggle, setAutomatedAnnotationToggle] = useState(false);
 
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
-        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations' }
+        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() }
     ];
 
     /* Function for executing Specimen Actions */
@@ -38,8 +49,12 @@ const TitleBar = () => {
                 window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
 
                 return;
-            case 'automatedAnnotation':
-                setAutomatedAnnotationToggle(true);
+            case 'automatedAnnotations':
+                /* Set MAS Target */
+                dispatch(setMASTarget(specimen));
+
+                /* Open MAS Modal */
+                ToggleAutomatedAnnotations();
 
                 return;
             default:
@@ -139,11 +154,6 @@ const TitleBar = () => {
                                 />
                             </Col>
                         </Row>
-                        {/* <Row className="position-absolute bottom-0">
-                            <Col className="col-md-auto">
-
-                            </Col>
-                        </Row> */}
                     </Col>
                 </Row>
             </Col>

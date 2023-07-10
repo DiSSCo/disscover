@@ -1,16 +1,8 @@
-/* Declaring global variables */
+/* Root Variables */
 :root {
   --primary: #4d59a2;
   --secondary: #51a993;
   --accent: #28bacb;
-  --main-color: #0C86C6;
-  --main-color-light: #d6e0f5;
-  --main-color-dark: #1c497d;
-  --alt-color-1: #00BAAF;
-  --alt-color-2: #00BED1;
-  --alt-color-3: #0099B9;
-  --main-color-green: #009973;
-
   --greyXLight: #F4F4F1;
   --greyLight: #E9E8E3;
   --grey: #D9D9DF;
@@ -21,17 +13,32 @@
   --handled: #F7A112;
   --approved: #3DCA77;
   --denied: #E74C3C;
+  --deniedDark: #9f2214;
   --resolved: var(--greyMedium);
 }
 
+/* Global Styling */
 html {
+  height: 100vh;
   font-size: 16px;
-  background-color: #F9FAFC;
 }
 
 body {
-  overflow: hidden;
+  height: 100%;
   margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  color: #333333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  background-color: #F9FAFC;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 .root {
@@ -59,11 +66,6 @@ p {
   margin: 0;
 }
 
-.textOverflow {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 
 /* Scroll Bars */
 
@@ -89,7 +91,7 @@ p {
 }
 
 
-/* Custom additional styling */
+/* Custom classes */
 
 /* Width */
 .w-0 {
@@ -99,19 +101,19 @@ p {
 /* Color */
 
 .c-primary {
-  color: var(--primary) !important;
+  color: var(--primary);
 }
 
 .c-secondary {
-  color: var(--secondary) !important;
+  color: var(--secondary);
 }
 
 .c-accent {
-  color: var(--accent) !important;
+  color: var(--accent);
 }
 
-.c-backdrop {
-  color: #404040;
+.c-white {
+  color: white;
 }
 
 /* Font Weight */
@@ -125,24 +127,20 @@ p {
   background-color: #F9FAFC;
 }
 
-.bg-primary-blue {
-  background-color: var(--main-color);
+.bgc-primary {
+  background-color: var(--primary);
 }
 
-.bg-primary-light {
-  background-color: var(--main-color-light);
+.bgc-secondary {
+  background-color: var(--secondary);
 }
 
-.bg-primary-dark {
-  background-color: var(--main-color-dark);
+.bgc-accent {
+  background-color: var(--accent);
 }
 
-.bg-green {
-  background-color: var(--main-color-green);
-}
-
-.bg-backdrop {
-  background-color: #404040;
+.bgc-greyLight {
+  background-color: var(--greyLight);
 }
 
 /* Border */
@@ -258,6 +256,13 @@ p {
   box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
 }
 
+/* Text overflow */
+.textOverflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 /* Hover underline */
 .h-underline:hover {
   text-decoration: underline !important;
@@ -274,7 +279,7 @@ p {
 }
 
 
-/* Custom Component Styling */
+/* Global Components Styling */
 
 .primaryButton {
   background-color: var(--primary);
@@ -291,6 +296,42 @@ p {
 
 .primaryButton.cancel {
   background-color: #CBCCD4;
+}
+
+.secondaryButton {
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  transition: 0.4s;
+  font-weight: 500;
+}
+
+.secondaryButton:hover {
+  background-color: var(--accent);
+}
+
+.removeButton {
+  background-color: var(--denied);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: 0.4s;
+  font-weight: 500;
+}
+
+.removeButton:hover {
+  background-color: var(--deniedDark);
+}
+
+.formField {
+  border: 1px solid var(--grey);
+  border-radius: 8px;
+}
+
+.formFieldTitle {
+  font-size: 15px;
+  font-weight: 500;
 }
 
 

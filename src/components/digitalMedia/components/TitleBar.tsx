@@ -2,7 +2,7 @@
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Styles */
@@ -17,6 +17,7 @@ import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 
 
 const TitleBar = () => {
+    /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
 
     return (

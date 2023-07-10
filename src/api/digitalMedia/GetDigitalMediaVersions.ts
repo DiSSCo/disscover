@@ -5,7 +5,7 @@ import axios from 'axios';
 const GetDigitalMediaVersions = async (handle: string) => {
     let digitalMediaVersions = [] as number[];
 
-    const endPoint: string = `digitalMedia/${handle}/versions`;
+    const endPoint: string = `digitalmedia/${handle}/versions`;
 
     try {
         const result = await axios({

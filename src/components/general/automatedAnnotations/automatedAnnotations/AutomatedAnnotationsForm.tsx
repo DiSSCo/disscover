@@ -112,6 +112,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                             <p className="formFieldTitle"> Choose MAS to schedule </p>
                                                             <Field name="MASList" as="select"
                                                                 className="formField w-75 mt-1"
+                                                                onChange={(event: Dict) => push(event.target.value)}
                                                             >
                                                                 {availableMASList.length > 0 ?
                                                                     <>
@@ -122,11 +123,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                                         {availableMASList.map((MASOption) => {
                                                                             if (!(values.selectedMAS.includes(MASOption.id))) {
                                                                                 return (
-                                                                                    <option key={MASOption.id} value={MASOption.id}
-                                                                                        onClick={() => {
-                                                                                            push(MASOption.id);
-                                                                                        }}
-                                                                                    >
+                                                                                    <option key={MASOption.id} value={MASOption.id}>
                                                                                         {MASOption.attributes.mas.name}
                                                                                     </option>
                                                                                 );

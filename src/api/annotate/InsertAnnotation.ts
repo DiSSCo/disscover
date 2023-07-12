@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import axios from 'axios';
+import { isEmpty } from 'lodash';
 
 /* Import Model */
 import AnnotationModel from 'api/model/AnnotationModel';
@@ -9,9 +10,9 @@ import { Annotation, AnnotationTemplate, JSONResult } from 'global/Types';
 
 
 const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: string) => {
-    if (annotationRecord && token) {
-        let annotation = {} as Annotation;
+    let annotation = {} as Annotation;
 
+    if (!isEmpty(annotationRecord) && token) {
         const postAnnotation = {
             data: {
                 type: 'annotation',
@@ -40,9 +41,9 @@ const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: st
         } catch (error) {
             console.warn(error);
         }
-
-        return annotation;
     }
+
+    return annotation;
 }
 
 export default InsertAnnotation;

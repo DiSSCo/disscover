@@ -12,8 +12,7 @@ import {
     setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import {
-    getSidePanelToggle, setSidePanelToggle,
-    getAnnotateTarget, setAnnotateTarget
+    getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
 } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
 
@@ -33,7 +32,6 @@ import Footer from 'components/general/footer/Footer';
 import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
-import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 
 
 const Specimen = () => {
@@ -47,7 +45,6 @@ const Specimen = () => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
-    const annotateTarget = useAppSelector(getAnnotateTarget);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
@@ -106,23 +103,6 @@ const Specimen = () => {
             });
         }
     }, [specimen, params]);
-
-    /* Onchange of the Annotation Target's annotations: Check if changes occured */
-    useEffect(() => {
-        /* Check if the specimen annotations differ from the target annotations */
-        if (specimen.id && Array.isArray(annotateTarget.annotations)) {
-            if (JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
-                /* Fetch Specimen Annotations */
-                GetSpecimenAnnotations(specimen.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
-                    if (annotations) {
-                        dispatch(setSpecimenAnnotations(annotations));
-                    }
-                }).catch(error => {
-                    console.warn(error);
-                });
-            }
-        }
-    }, [annotateTarget]);
 
     /* Function for toggling the Annotate Modal */
     const ToggleSidePanel = (property?: string, motivation?: string) => {
@@ -195,8 +175,8 @@ const Specimen = () => {
                 <div className={`${classSidePanel} transition`}>
                     <SidePanel />
                 </div>
-            </Row >
-        </div >
+            </Row>
+        </div>
     );
 }
 

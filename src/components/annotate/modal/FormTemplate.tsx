@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
-import ValueField from './ValueField';
+import ValueField from '../sidePanel/form/ValueField';
 
 
 /* Props Typing */

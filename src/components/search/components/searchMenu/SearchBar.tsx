@@ -27,7 +27,7 @@ const SearchBar = () => {
     return (
         <Formik
             initialValues={{
-                q: searchParams.get('q')
+                q: searchParams.get('q') ? searchParams.get('q') : ''
             }}
             enableReinitialize={true}
             onSubmit={async (form) => {

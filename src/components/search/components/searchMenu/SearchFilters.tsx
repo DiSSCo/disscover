@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faChevronLeft, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
+import ActiveFiltersTag from './ActiveFiltersTag';
 import MultiSelectFilter from './filters/MultiSelectFilter';
 import TaxonomyFilters from './filters/TaxonomyFilters';
 import DateFilter from './filters/DateFilter';
@@ -149,20 +150,10 @@ const SearchFilters = (props: Props) => {
 
                                                     {Object.keys(activeFilters).map((filterKey) => {
                                                         return (
-                                                            activeFilters[filterKey].map((filter: string) => {
-                                                                return (
-                                                                    <Col key={filter} className={`col-md-auto pe-0 pb-2`}>
-                                                                        <div className={`${styles.activeFilter} fw-lightBold px-2 py-1`}>
-                                                                            <FontAwesomeIcon icon={faCircleXmark}
-                                                                                className={`${styles.activeFilterIcon} pe-1 c-primary`}
-                                                                                onClick={() => RemoveFilter(filterKey, filter)}
-                                                                            />
-
-                                                                            {`${Capitalize(filterKey)}: ${filter}`}
-                                                                        </div>
-                                                                    </Col>
-                                                                );
-                                                            })
+                                                            <ActiveFiltersTag key={filterKey} filterKey={filterKey}
+                                                                filterValues={activeFilters[filterKey]}
+                                                                RemoveFilter={(filterValue: string) => RemoveFilter(filterKey, filterValue)}
+                                                            />
                                                         );
                                                     })}
                                                 </Row>

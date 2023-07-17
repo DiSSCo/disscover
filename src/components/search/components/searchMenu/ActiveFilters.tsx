@@ -2,7 +2,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
@@ -13,7 +12,7 @@ import styles from 'components/search/search.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import ActiveFiltersTag from './ActiveFiltersTag';

@@ -2,7 +2,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { isEmpty } from 'lodash';
-import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -20,7 +19,7 @@ import styles from 'components/search/search.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faChevronLeft, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import ActiveFiltersTag from './ActiveFiltersTag';

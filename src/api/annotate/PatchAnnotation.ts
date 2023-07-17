@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import axios from 'axios';
+import { isEmpty } from 'lodash';
 
 /* Import Model */
 import AnnotationModel from 'api/model/AnnotationModel';
@@ -9,8 +10,15 @@ import { Annotation, AnnotationTemplate, JSONResult } from 'global/Types';
 
 
 const PatchAnnotation = async (annotationRecord: AnnotationTemplate, annotationId: string, token?: string) => {
-    if (annotationRecord && token) {
-        let annotation = {} as Annotation;
+    let annotation = {} as Annotation;
+
+    if (!isEmpty(annotationRecord) && token) {
+        const patchAnnotation = {
+            data: {
+                type: 'annotation',
+                attributes: annotationRecord
+            }
+        };
 
         const endPoint = `/annotations/${annotationId}`;
 
@@ -18,7 +26,7 @@ const PatchAnnotation = async (annotationRecord: AnnotationTemplate, annotationI
             const result = await axios({
                 method: "patch",
                 url: endPoint,
-                data: annotationRecord,
+                data: patchAnnotation,
                 responseType: 'json',
                 headers: {
                     'Content-type': 'application/json',
@@ -33,9 +41,9 @@ const PatchAnnotation = async (annotationRecord: AnnotationTemplate, annotationI
         } catch (error) {
             console.warn(error);
         }
-
-        return annotation;
     }
+
+    return annotation;
 }
 
 export default PatchAnnotation;

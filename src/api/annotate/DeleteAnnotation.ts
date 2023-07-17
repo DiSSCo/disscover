@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 const DeleteAnnotation = async (handle?: string, token?: string) => {
-    if (handle && token) {
-        let response;
+    let response
 
+    if (handle && token) {
         const endPoint = `annotations/${handle}`;
 
         try {
@@ -21,9 +21,9 @@ const DeleteAnnotation = async (handle?: string, token?: string) => {
         } catch (error) {
             console.warn(error);
         }
-
-        return response;
     }
+
+    return response;
 }
 
 export default DeleteAnnotation;

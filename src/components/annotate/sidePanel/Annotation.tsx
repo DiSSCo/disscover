@@ -5,8 +5,8 @@ import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getAnnotateTarget } from 'redux/annotate/AnnotateSlice';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getAnnotateTarget, setEditAnnotation } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Annotation as AnnotationType } from 'global/Types';
@@ -16,18 +16,25 @@ import styles from 'components/annotate/annotate.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareNodes, faPen, faTrashCan, faT } from '@fortawesome/free-solid-svg-icons';
+import { faShareNodes, faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown, faMessage } from '@fortawesome/free-regular-svg-icons';
+
+/* Import API */
+import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
 
 
 /* Props Typing */
 interface Props {
-    annotation: AnnotationType
+    annotation: AnnotationType,
+    UpdateAnnotationView: Function
 };
 
 
 const Annotation = (props: Props) => {
-    const { annotation } = props;
+    const { annotation, UpdateAnnotationView } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
@@ -97,11 +104,18 @@ const Annotation = (props: Props) => {
                                     <Col className="pe-0">
                                         <FontAwesomeIcon icon={faPen}
                                             className="c-pointer c-primary"
+                                            onClick={() => dispatch(setEditAnnotation(annotation))}
                                         />
                                     </Col>
                                     <Col className="pe-0">
                                         <FontAwesomeIcon icon={faTrashCan}
                                             className="c-pointer c-primary"
+                                            onClick={() => {
+                                                if (window.confirm(`Delete annotation with id: ${annotation.id}`)) {
+                                                    DeleteAnnotation(annotation.id, KeycloakService.GetToken());
+                                                    UpdateAnnotationView();
+                                                }
+                                            }}
                                         />
                                     </Col>
                                 </Row>

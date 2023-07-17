@@ -24,12 +24,13 @@ import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown'
 
 /* Props Typing */
 interface Props {
+    UpdateAnnotationView: Function,
     ToggleAnnotationForm: Function
 };
 
 
 const AnnotationsOverview = (props: Props) => {
-    const { ToggleAnnotationForm } = props;
+    const { UpdateAnnotationView, ToggleAnnotationForm } = props;
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
@@ -135,7 +136,9 @@ const AnnotationsOverview = (props: Props) => {
                                         return (
                                             <Row key={annotation.id}>
                                                 <Col>
-                                                    <Annotation annotation={annotation} />
+                                                    <Annotation annotation={annotation}
+                                                        UpdateAnnotationView={(annotation?: AnnotationType) => UpdateAnnotationView(annotation)}
+                                                    />
                                                 </Col>
                                             </Row>
                                         );

@@ -1,17 +1,18 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSidePanelToggle, setSidePanelToggle,
-    getAnnotateTarget
+    getSidePanelToggle, setSidePanelToggle, getAnnotateTarget,
+    setAnnotateTarget, getEditAnnotation, setEditAnnotation
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Annotation, Dict } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
@@ -37,8 +38,56 @@ const SidePanel = () => {
     /* Base variables */
     const toggle = useAppSelector(getSidePanelToggle);
     const annotateTarget = useAppSelector(getAnnotateTarget);
+    const editAnnotation = useAppSelector(getEditAnnotation);
     const harmonisedAttributes: Dict = harmonisedAttributesSource;
     const [annotationFormToggle, setAnnotationFormToggle] = useState(false);
+
+    /* Set Side Panel title */
+    let sidePanelTitle: string;
+
+    if (!isEmpty(editAnnotation)) {
+        sidePanelTitle = 'Edit annotation';
+    } else if (annotationFormToggle) {
+        sidePanelTitle = 'Add annotation';
+    } else if (annotateTarget.property) {
+        sidePanelTitle = 'Annotations';
+    } else {
+        sidePanelTitle = 'All annotations';
+    }
+
+    /* OnLoad: Reset edit annotation */
+    useEffect(() => {
+        dispatch(setEditAnnotation({} as Annotation));
+    }, [toggle]);
+
+    /* Function for updating the Annotation view after posting, patching or deleting */
+    const UpdateAnnotationView = (annotation?: Annotation) => {
+        /* Update Annotations array of target */
+        const copyAnnotateTarget = { ...annotateTarget };
+        const copyAnnotations = [...copyAnnotateTarget.annotations];
+        const annotationIndex = copyAnnotations.findIndex((annotation) => annotation.id === editAnnotation.id);
+
+        /* If annotation was deleted, remove from array; patched, update array instance; else push to array */
+        if (!annotation) {
+            copyAnnotations.splice(annotationIndex, 1);
+        } else if (!isEmpty(editAnnotation)) {
+            copyAnnotations[annotationIndex] = annotation;
+        } else {
+            copyAnnotations.push(annotation);
+        }
+        
+        copyAnnotateTarget.annotations = copyAnnotations;
+
+        dispatch(setAnnotateTarget(copyAnnotateTarget));
+
+        /* If enabled, disable edit annotation */
+        if (!isEmpty(editAnnotation)) {
+            dispatch(setEditAnnotation({} as Annotation));
+        }
+
+        /* Return to Annotations overview */
+        setAnnotationFormToggle(false);
+    }
 
     /* ClassName for Side Panel */
     const classSidePanel = classNames({
@@ -64,10 +113,7 @@ const SidePanel = () => {
                         </Col>
                         <Col>
                             <h4 className="mb-0">
-                                {annotateTarget.property ?
-                                    <span> Annotations </span>
-                                    : <span> All annotations </span>
-                                }
+                                {sidePanelTitle}
                             </h4>
                         </Col>
                         <Col className="col-md-auto">
@@ -101,15 +147,19 @@ const SidePanel = () => {
                 </Col>
             </Row>
             {/* Side Panel Content */}
-            {!annotationFormToggle ?
+            {!annotationFormToggle && isEmpty(editAnnotation) ?
                 <Row className="flex-grow-1 overflow-scroll">
                     <Col className="h-100">
-                        <AnnotationsOverview ToggleAnnotationForm={() => setAnnotationFormToggle(!annotationFormToggle)} />
+                        <AnnotationsOverview ToggleAnnotationForm={() => setAnnotationFormToggle(!annotationFormToggle)}
+                            UpdateAnnotationView={(annotation?: Annotation) => UpdateAnnotationView(annotation)}
+                        />
                     </Col>
                 </Row>
                 : <Row className="flex-grow-1 overflow-scroll">
                     <Col className="h-100">
-                        <AnnotationForm ToggleAnnotationForm={() => setAnnotationFormToggle(!annotationFormToggle)}/>
+                        <AnnotationForm HideAnnotationForm={() => setAnnotationFormToggle(false)}
+                            UpdateAnnotationView={(annotation?: Annotation) => UpdateAnnotationView(annotation)}
+                        />
                     </Col>
                 </Row>
             }

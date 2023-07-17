@@ -3,12 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { Annotation, AnnotateTarget, Specimen, DigitalMedia } from 'global/Types';
+import { Annotation, AnnotateTarget, Specimen, DigitalMedia, Dict } from 'global/Types';
 
 
 export interface AnnotateState {
     sidePanelToggle: boolean,
     annotateTarget: AnnotateTarget;
+    editAnnotation: Annotation;
     overviewAnnotations: Annotation[];
     MASTarget: Specimen | DigitalMedia
 }
@@ -22,6 +23,7 @@ const initialState: AnnotateState = {
         targetType: '',
         annotations: [] as Annotation[]
     },
+    editAnnotation: {} as Annotation,
     overviewAnnotations: [],
     MASTarget: {} as Specimen | DigitalMedia
 };
@@ -36,6 +38,9 @@ export const AnnotateSlice = createSlice({
         setAnnotateTarget: (state, action: PayloadAction<AnnotateTarget>) => {
             state.annotateTarget = action.payload;
         },
+        setEditAnnotation: (state, action: PayloadAction<Annotation>) => {
+            state.editAnnotation = action.payload;
+        },
         setOverviewAnnotations: (state, action: PayloadAction<Annotation[]>) => {
             state.overviewAnnotations = action.payload;
         },
@@ -46,11 +51,18 @@ export const AnnotateSlice = createSlice({
 })
 
 /* Action Creators */
-export const { setSidePanelToggle, setAnnotateTarget, setOverviewAnnotations, setMASTarget } = AnnotateSlice.actions;
+export const {
+    setSidePanelToggle,
+    setAnnotateTarget,
+    setEditAnnotation,
+    setOverviewAnnotations,
+    setMASTarget
+} = AnnotateSlice.actions;
 
 /* Connect with Root State */
 export const getSidePanelToggle = (state: RootState) => state.annotate.sidePanelToggle;
 export const getAnnotateTarget = (state: RootState) => state.annotate.annotateTarget;
+export const getEditAnnotation = (state: RootState) => state.annotate.editAnnotation;
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
 export const getMASTarget = (state: RootState) => state.annotate.MASTarget;
 

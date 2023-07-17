@@ -6,10 +6,13 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
+import {
+    getAnnotateTarget, setAnnotateTarget,
+    getEditAnnotation, setEditAnnotation
+} from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Annotation, Dict } from 'global/Types';
 
 /* Import Sources */
 import HarmonisedAttributes from 'sources/hamonisedAttributes.json';
@@ -17,6 +20,7 @@ import AnnotationMotivations from 'sources/annotationMotivations.json';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
+import PatchAnnotation from 'api/annotate/PatchAnnotation';
 
 /* Import Components */
 import FormTemplate from './form/FormTemplate';
@@ -24,18 +28,20 @@ import FormTemplate from './form/FormTemplate';
 
 /* Props Typing */
 interface Props {
-    ToggleAnnotationForm: Function
+    UpdateAnnotationView: Function,
+    HideAnnotationForm: Function
 };
 
 
 const AnnotationForm = (props: Props) => {
-    const { ToggleAnnotationForm } = props;
+    const { UpdateAnnotationView, HideAnnotationForm } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
+    const editAnnotation = useAppSelector(getEditAnnotation);
     const harmonisedAttributes = { ...HarmonisedAttributes };
     const annotationMotivations = { ...AnnotationMotivations };
     const defaultTargetProperties = [
@@ -61,31 +67,37 @@ const AnnotationForm = (props: Props) => {
             }
         };
 
-        /* Post Annotation */
-        InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
-            /* Update Annotations array of target */
-            const copyAnnotateTarget = { ...annotateTarget };
-            const copyAnnotations = [...copyAnnotateTarget.annotations];
-
-            copyAnnotations.push(annotation);
-            copyAnnotateTarget.annotations = copyAnnotations;
-
-            dispatch(setAnnotateTarget(copyAnnotateTarget));
-
-            /* Return to Annotations overview */
-            ToggleAnnotationForm();
-        }).catch(error => {
-            console.warn(error);
-        });
+        /* Check if to post or patch */
+        if (!isEmpty(editAnnotation)) {
+            /* Patch Annotation */
+            PatchAnnotation(annotation, editAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
+                UpdateAnnotationView(annotation);
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            /* Post Annotation */
+            InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
+                UpdateAnnotationView(annotation);
+            }).catch(error => {
+                console.warn(error);
+            });
+        }
     }
+
+    
 
     return (
         <Formik
             initialValues={{
-                targetProperty: annotateTarget.property,
-                motivation: '',
-                annotationValue: '',
-                additionalFields: {}
+                targetProperty: editAnnotation?.target ? editAnnotation?.target.indvProp : annotateTarget.property,
+                motivation: editAnnotation?.motivation ? editAnnotation.motivation : '',
+                annotationValue: editAnnotation?.body ? editAnnotation?.body.value : '',
+                additionalFields: {
+                    ...(editAnnotation?.body && { description: editAnnotation.motivation }),
+                    ...(editAnnotation?.body && { description: editAnnotation.motivation }),
+                    ...(editAnnotation?.body && { description: editAnnotation.motivation })
+                }
             }}
             enableReinitialize={true}
             onSubmit={async (form) => {
@@ -101,7 +113,7 @@ const AnnotationForm = (props: Props) => {
                     <Row>
                         <Col>
                             {/* If not present, Target Property */}
-                            {!annotateTarget.property &&
+                            {!annotateTarget.property && isEmpty(editAnnotation) &&
                                 <Row className="mt-5">
                                     <Col>
                                         <p className="formFieldTitle"> Target property </p>
@@ -129,7 +141,7 @@ const AnnotationForm = (props: Props) => {
                                 <Col>
                                     <p className="formFieldTitle pb-1"> Motivation type </p>
                                     <Field name="motivation" as="select"
-                                        className="formField w-100"
+                                        className="formField w-100" disabled={!isEmpty(editAnnotation)}
                                     >
                                         <option value="" disabled={true}>
                                             Select motivation
@@ -162,7 +174,10 @@ const AnnotationForm = (props: Props) => {
                         <Col>
                             <button type="button"
                                 className="primaryButton cancel px-4 py-1"
-                                onClick={() => ToggleAnnotationForm()}
+                                onClick={() => {
+                                    dispatch(setEditAnnotation({} as Annotation));
+                                    HideAnnotationForm();
+                                }}
                             >
                                 Cancel
                             </button>

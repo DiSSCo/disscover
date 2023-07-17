@@ -44,10 +44,6 @@ const AnnotationForm = (props: Props) => {
     const editAnnotation = useAppSelector(getEditAnnotation);
     const harmonisedAttributes = { ...HarmonisedAttributes };
     const annotationMotivations = { ...AnnotationMotivations };
-    const defaultTargetProperties = [
-        'ods:physicalSpecimenId', 'ods:physicalSpecimenIdType',
-        'ods:specimenName', 'ods:type', 'ods:organisationId'
-    ];
 
     /* Function for submitting a new Annotation */
     const SubmitAnnotation = (form: Dict) => {
@@ -124,7 +120,7 @@ const AnnotationForm = (props: Props) => {
                                                 Select target property
                                             </option>
 
-                                            {defaultTargetProperties.concat(Object.keys(annotateTarget.target.data)).map((property) => {
+                                            {Object.keys(annotateTarget.target.data).map((property) => {
                                                 return (
                                                     <option key={property} value={property}>
                                                         {harmonisedAttributes[property as keyof typeof harmonisedAttributes].displayName}

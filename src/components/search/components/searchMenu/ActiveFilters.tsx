@@ -28,10 +28,12 @@ const ActiveFilters = () => {
 
     /* Extract active filters from Search Params */
     for (const searchParam of searchParams.entries()) {
-        if (!activeFilters[searchParam[0]]) {
-            activeFilters[searchParam[0]] = [searchParam[1]];
-        } else {
-            activeFilters[searchParam[0]].push(searchParam[1]);
+        if (searchParam[0] !== 'q') {
+            if (!activeFilters[searchParam[0]]) {
+                activeFilters[searchParam[0]] = [searchParam[1]];
+            } else {
+                activeFilters[searchParam[0]].push(searchParam[1]);
+            }
         }
     }
 
@@ -110,7 +112,8 @@ const ActiveFilters = () => {
                                     return (
                                         <Col key={filter} className={`col-md-auto pe-0 pb-2`}>
                                             <div className={`${styles.activeFilter} fw-lightBold px-2 py-1`}>
-                                                <FontAwesomeIcon icon={faCircleXmark} className={`${styles.activeFilterIcon} pe-1 c-primary`}
+                                                <FontAwesomeIcon icon={faCircleXmark}
+                                                    className={`${styles.activeFilterIcon} pe-1 c-primary`}
                                                     onClick={() => RemoveFilter(filterKey, filter)}
                                                 />
 

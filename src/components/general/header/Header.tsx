@@ -41,14 +41,14 @@ const Header = () => {
                         <Col className="pb-3 d-flex justify-content-center">
                             <nav>
                                 <Row>
-                                    <Col className="col-md-auto d-flex justify-content-center px-5">
+                                    <Col className="col-md-auto d-flex justify-content-center px-lg-5">
                                         <Link to="/">
                                             <p className={`${location.pathname === '/' ? styles.navItemActive : styles.navItem}`}>
                                                 Home
                                             </p>
                                         </Link>
                                     </Col>
-                                    <Col className="col-md-auto d-flex justify-content-center px-5">
+                                    <Col className="col-md-auto d-flex justify-content-center px-lg-5">
                                         <Link to="/search">
                                             <p className={`${location.pathname.includes('/search') || location.pathname.includes('/ds') ?
                                                 styles.navItemActive : styles.navItem}`

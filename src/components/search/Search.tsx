@@ -25,6 +25,7 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 /* Import Components */
 import Header from 'components/general/header/Header';
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
+import SearchBar from './components/searchMenu/SearchBar';
 import SearchFilters from './components/searchMenu/SearchFilters';
 import ActiveFilters from './components/searchMenu/ActiveFilters';
 import ResultsTable from './components/searchResults/ResultsTable';
@@ -155,40 +156,52 @@ const Search = () => {
                                 </Col>
                             </Row>
 
-                            <Row className="flex-grow-1 position-relative overflow-hidden mt-3">
+                            <Row className={`${styles.filtersTopBar} mt-3`}>
+                                <Col md={{ span: 3 }}>
+                                    <SearchBar />
+                                </Col>
+
+                                {/* If filters are hidden, show toggle button and current active filters */}
+                                {!filterToggle ?
+                                    <>
+                                        <Col className="h-100 col-md-auto pe-0">
+                                            <button type="button"
+                                                className="primaryButton px-3 py-1"
+                                                onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
+                                            >
+                                                <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
+                                            </button>
+                                        </Col>
+                                        <Col>
+                                            <ActiveFilters />
+                                        </Col>
+                                    </> : <Col />
+                                }
+
+                                <Col className="col-md-auto">
+                                    <button type="button"
+                                        className={`${styles.compareButton} px-3 py-1`}
+                                        onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as Specimen)); }}
+                                    >
+                                        Compare
+                                    </button>
+                                </Col>
+                            </Row>
+
+                            <Row className="flex-grow-1 position-relative overflow-hidden">
                                 <Col md={{ span: 3 }} className={`${classSearchMenu} h-100`}>
-                                    {/* Search Menu */}
-                                    <SearchFilters HideFilters={() => setFilterToggle(false)} />
+                                    <div className="h-100 d-flex flex-column">
+                                        <Row className="flex-grow-1 overflow-scroll">
+                                            <Col>
+                                                {/* Search Menu */}
+                                                <SearchFilters HideFilters={() => setFilterToggle(false)} />
+                                            </Col>
+                                        </Row>
+                                    </div>
                                 </Col>
 
                                 <Col className={`${classSearchResults} h-100`}>
-                                    <Row className={styles.filtersTopBar}>
-                                        {!filterToggle &&
-                                            <Col className="h-100 col-md-auto">
-
-                                                <button type="button"
-                                                    className="primaryButton px-3 py-1"
-                                                    onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
-                                                >
-                                                    <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
-                                                </button>
-
-                                            </Col>
-                                        }
-                                        <Col>
-                                            {/* Show current active filters */}
-                                            <ActiveFilters />
-                                        </Col>
-                                        <Col className="col-md-auto">
-                                            <button type="button"
-                                                className={`${styles.compareButton} px-3 py-1`}
-                                                onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as Specimen)); }}
-                                            >
-                                                Compare
-                                            </button>
-                                        </Col>
-                                    </Row>
-                                    <Row className={`${styles.searchContent} position-relative`}>
+                                    <Row className="h-100 position-relative">
                                         <Col className={`${classSearchResultsTable} h-100`}>
                                             <Row className="h-100">
                                                 <Col className="h-100">

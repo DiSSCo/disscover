@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,6 +9,7 @@ import KeycloakService from 'keycloak/Keycloak';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getScreenSize, setScreenSize } from 'redux/general/GeneralSlice';
 import { getUser, setUser } from 'redux/user/UserSlice';
 
 /* Import Styles */
@@ -39,15 +40,17 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   /* Base Variables */
+  const screenSize = useAppSelector(getScreenSize);
   const user = useAppSelector(getUser);
-  const [mobile, setMobile] = useState<boolean>(false);
 
   /* Function to regulate PC and Mobile views */
   const UpdateWindowDimensions = () => {
-    if (window.innerWidth > 500) {
-      setMobile(false);
+    if (window.innerWidth <= 768) {
+      dispatch(setScreenSize('sm'));
+    } else if (window.innerWidth <= 992) {
+      dispatch(setScreenSize('md'));
     } else {
-      setMobile(true);
+      dispatch(setScreenSize('lg'));
     }
   };
 
@@ -83,7 +86,7 @@ const App = () => {
 
   return (
     <>
-      {!mobile ?
+      {(screenSize != 'sm') ?
         <Router>
           <Routes>
             {/* Home Page */}

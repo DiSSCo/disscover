@@ -11,6 +11,9 @@ import { getSearchAggregations } from 'redux/search/SearchSlice';
 /* Import Types */
 import { Dict } from 'global/Types';
 
+/* Import Sources */
+import SearchFiltersJSON from 'sources/searchFilters.json';
+
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
@@ -19,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
+import ActiveFiltersTag from './ActiveFiltersTag';
 import MultiSelectFilter from './filters/MultiSelectFilter';
 import TaxonomyFilters from './filters/TaxonomyFilters';
 import DateFilter from './filters/DateFilter';
@@ -38,6 +42,8 @@ const SearchFilters = (props: Props) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
+    const filtersList: Dict = { ...SearchFiltersJSON };
+    const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
     const aggregations = useAppSelector(getSearchAggregations);
     const initialValues: Dict = {
         filters: {
@@ -46,52 +52,18 @@ const SearchFilters = (props: Props) => {
             fossilPeriod: ''
         },
     };
-    const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
+    const activeFilters: Dict = {};
 
-    /* List of filters to be shown (in order) */
-    const filtersList: Dict = {
-        midsLevel: {
-            displayName: 'MIDS Level',
-            filterType: 'mids'
-        },
-        topicDiscipline: {
-            displayName: 'Topic Discipline'
-        },
-        taxonomy: {
-            displayName: 'Taxonomy',
-            filterType: 'taxonomy'
-        },
-        country: {
-            displayName: 'Country'
-        },
-        organisationName: {
-            displayName: 'Organisation'
-        },
-        sourceSystemId: {
-            displayName: 'Source System'
-        },
-        typeStatus: {
-            displayName: 'Type status'
-        },
-        collectionDate: {
-            displayName: 'Collection date',
-            filterType: 'date'
-        },
-        fossilPeriod: {
-            displayName: 'Fossil period',
-            filterType: 'text'
-        },
-        livingOrPreserved: {
-            displayName: 'Living or preserved'
-        },
-        license: {
-            displayName: 'License'
-        },
-        hasMedia: {
-            displayName: 'Has Media',
-            filterType: 'checkbox'
+    /* Extract active filters from Search Params */
+    for (const searchParam of searchParams.entries()) {
+        if (searchParam[0] !== 'q') {
+            if (!activeFilters[searchParam[0]]) {
+                activeFilters[searchParam[0]] = [searchParam[1]];
+            } else {
+                activeFilters[searchParam[0]].push(searchParam[1]);
+            }
         }
-    };
+    }
 
     /* For each aggregation, set initial value for form */
     Object.keys(aggregations).forEach((aggregationKey) => {
@@ -116,94 +88,127 @@ const SearchFilters = (props: Props) => {
         }
     });
 
+    /* Function for deactivating the Search Filter */
+    const RemoveFilter = (filterKey: string, filterValue: string) => {
+        /* Remove filter from active filters list */
+        const newActiveFilters = activeFilters[filterKey].filter((filter: string) => filter !== filterValue);
+
+        /* Remove all Search Params of filter key */
+        searchParams.delete(filterKey);
+
+        /* If filter key has leftovers, reappend to Search Params */
+        newActiveFilters.forEach((filter: string) => {
+            searchParams.append(filterKey, filter);
+        });
+
+        setSearchParams(searchParams);
+    }
+
     return (
         <Row className="h-100 pb-2">
-            <Col className={`${styles.searchMenu} h-100 py-3 bg-white`}>
-                {(!isEmpty(aggregations)) &&
-                    <Formik
-                        initialValues={{
-                            ...initialValues
-                        }}
-                        enableReinitialize={true}
-                        onSubmit={async (form) => {
-                            await new Promise((resolve) => setTimeout(resolve, 100));
+            <Col className="h-100">
+                <div className={`${styles.searchMenu} h-100 d-flex flex-column px-2`}>
+                    {(!isEmpty(aggregations)) &&
+                        <Formik
+                            initialValues={{
+                                ...initialValues
+                            }}
+                            enableReinitialize={true}
+                            onSubmit={async (_form) => {
+                                await new Promise((resolve) => setTimeout(resolve, 100));
 
-                            /* Check Free Text Search Query */
-                            if (form.filters.q) {
-                                searchParams.set('q', form.filters.q);
-                            } else {
-                                searchParams.delete('q');
-                            }
-
-                            setSearchParams(searchParams);
-                        }}
-                    >
-                        {({ values, setFieldValue }) => (
-                            <Form>
-                                <Row>
-                                    <Col>
-                                        <p className="c-primary">
-                                            <FontAwesomeIcon icon={faFilter}
-                                                className="px-2"
-                                            />
-                                            Filters
-                                        </p>
-                                    </Col>
-                                    <Col className="col-md-auto">
-                                        <FontAwesomeIcon icon={faChevronLeft}
-                                            className={`${styles.filtersCloseIcon} c-primary`}
-                                            onClick={() => HideFilters()}
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {Object.keys(filtersList).map((filterKey) => {
-                                            const filter = filtersList[filterKey];
-
-                                            /* Check kind of filter */
-                                            switch (filter.filterType) {
-                                                case 'date':
-                                                    {/* Date Filters */ }
-                                                    return <DateFilter key={filterKey}
-                                                        filter={filter}
-                                                        selectedValue={values.filters[filterKey]}
-                                                        SetFieldValue={(date: Date) => setFieldValue(`filters.${filterKey}`, date)}
-                                                    />
-                                                case 'text':
-                                                    {/* Text Filters */ }
-                                                    return <TextFilter key={filterKey}
-                                                        filter={filter}
-                                                        searchFilter={filterKey}
-                                                    />
-                                                case 'taxonomy':
-                                                    {/* Taxonomy Filters */}
-                                                    return <TaxonomyFilters key={filterKey}
-                                                        selectedItems={values.filters}
-                                                        SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
-                                                    />
-                                                default:
-                                                    {/* Aggregation Filters */ }
-                                                    if (Object.keys(aggregations).includes(filterKey)) {
-                                                        const aggregation = aggregations[filterKey];
-
-                                                        return <MultiSelectFilter key={filterKey}
-                                                            filter={filter}
-                                                            searchFilter={filterKey}
-                                                            items={aggregation}
-                                                            selectedItems={values.filters[filterKey as keyof typeof values.filters]}
+                                /* Set search params to initiate search */
+                                setSearchParams(searchParams);
+                            }}
+                        >
+                            {({ values, setFieldValue }) => (
+                                <Form className="h-100">
+                                    <Row className="py-3">
+                                        <Col>
+                                            {/* Filters title and toggle */}
+                                            <Row>
+                                                <Col>
+                                                    <p className="c-primary">
+                                                        <FontAwesomeIcon icon={faFilter}
+                                                            className="px-2"
                                                         />
-                                                    } else {
-                                                        return;
-                                                    }
+                                                        Filters
+                                                    </p>
+                                                </Col>
+                                                <Col className="col-md-auto">
+                                                    <FontAwesomeIcon icon={faChevronLeft}
+                                                        className={`${styles.filtersCloseIcon} c-primary`}
+                                                        onClick={() => HideFilters()}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                            {/* Active Filters */}
+                                            {!isEmpty(activeFilters) &&
+                                                <Row className="mt-3 px-2">
+                                                    <p className={`${styles.filterTitle} fw-lightBold pb-2`}> Active filters </p>
+
+                                                    {Object.keys(activeFilters).map((filterKey) => {
+                                                        return (
+                                                            <ActiveFiltersTag key={filterKey} filterKey={filterKey}
+                                                                filterValues={activeFilters[filterKey]}
+                                                                RemoveFilter={(filterValue: string) => RemoveFilter(filterKey, filterValue)}
+                                                            />
+                                                        );
+                                                    })}
+                                                </Row>
                                             }
-                                        })}
-                                    </Col>
-                                </Row>
-                            </Form>
-                        )}
-                    </Formik>
-                }
+                                            {/* Search Filters */}
+                                            <Row>
+                                                <Col>
+                                                    {Object.keys(filtersList).map((filterKey) => {
+                                                        const filter = filtersList[filterKey];
+
+                                                        /* Check kind of filter */
+                                                        switch (filter.filterType) {
+                                                            case 'date':
+                                                                {/* Date Filters */ }
+                                                                return <DateFilter key={filterKey}
+                                                                    filter={filter}
+                                                                    selectedValue={values.filters[filterKey]}
+                                                                    SetFieldValue={(date: Date) => setFieldValue(`filters.${filterKey}`, date)}
+                                                                />
+                                                            case 'text':
+                                                                {/* Text Filters */ }
+                                                                return <TextFilter key={filterKey}
+                                                                    filter={filter}
+                                                                    searchFilter={filterKey}
+                                                                />
+                                                            case 'taxonomy':
+                                                                {/* Taxonomy Filters */ }
+                                                                return <TaxonomyFilters key={filterKey}
+                                                                    selectedItems={values.filters}
+                                                                    SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
+                                                                />
+                                                            default:
+                                                                {/* Aggregation Filters */ }
+                                                                if (Object.keys(aggregations).includes(filterKey)) {
+                                                                    const aggregation = aggregations[filterKey];
+
+                                                                    return <MultiSelectFilter key={filterKey}
+                                                                        filter={filter}
+                                                                        searchFilter={filterKey}
+                                                                        items={aggregation}
+                                                                        selectedItems={values.filters[filterKey as keyof typeof values.filters]}
+                                                                    />
+                                                                } else {
+                                                                    return;
+                                                                }
+                                                        }
+                                                    })}
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            )}
+                        </Formik>
+                    }
+                </div>
             </Col>
         </Row>
     );

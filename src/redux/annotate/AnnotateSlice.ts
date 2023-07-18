@@ -10,6 +10,7 @@ export interface AnnotateState {
     sidePanelToggle: boolean,
     annotateTarget: AnnotateTarget;
     editAnnotation: Annotation;
+    highlightAnnotationId: string;
     overviewAnnotations: Annotation[];
     MASTarget: Specimen | DigitalMedia
 }
@@ -24,6 +25,7 @@ const initialState: AnnotateState = {
         annotations: [] as Annotation[]
     },
     editAnnotation: {} as Annotation,
+    highlightAnnotationId: '',
     overviewAnnotations: [],
     MASTarget: {} as Specimen | DigitalMedia
 };
@@ -41,6 +43,9 @@ export const AnnotateSlice = createSlice({
         setEditAnnotation: (state, action: PayloadAction<Annotation>) => {
             state.editAnnotation = action.payload;
         },
+        setHighlightAnnotationId: (state, action: PayloadAction<string>) => {
+            state.highlightAnnotationId = action.payload;
+        },
         setOverviewAnnotations: (state, action: PayloadAction<Annotation[]>) => {
             state.overviewAnnotations = action.payload;
         },
@@ -55,6 +60,7 @@ export const {
     setSidePanelToggle,
     setAnnotateTarget,
     setEditAnnotation,
+    setHighlightAnnotationId,
     setOverviewAnnotations,
     setMASTarget
 } = AnnotateSlice.actions;
@@ -63,6 +69,7 @@ export const {
 export const getSidePanelToggle = (state: RootState) => state.annotate.sidePanelToggle;
 export const getAnnotateTarget = (state: RootState) => state.annotate.annotateTarget;
 export const getEditAnnotation = (state: RootState) => state.annotate.editAnnotation;
+export const getHighlightAnnotationId = (state: RootState) => state.annotate.highlightAnnotationId;
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
 export const getMASTarget = (state: RootState) => state.annotate.MASTarget;
 

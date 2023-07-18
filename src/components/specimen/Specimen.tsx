@@ -127,6 +127,7 @@ const Specimen = () => {
 
     /* ClassName for Side Panel */
     const classSidePanel = classNames({
+        'p-0': true,
         'w-0': !sidePanelToggle,
         [`${styles.sidePanel}`]: sidePanelToggle
     });

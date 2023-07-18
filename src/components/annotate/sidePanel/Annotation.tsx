@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Moment from 'moment';
 import KeycloakService from 'keycloak/Keycloak';
@@ -6,10 +7,16 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getAnnotateTarget, setEditAnnotation } from 'redux/annotate/AnnotateSlice';
+import {
+    getAnnotateTarget, setEditAnnotation,
+    getHighlightAnnotationId, setHighlightAnnotationId
+} from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Annotation as AnnotationType } from 'global/Types';
+
+/* Import Sources */
+import AnnotationMotivations from 'sources/annotationMotivations.json';
 
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
@@ -35,9 +42,12 @@ const Annotation = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
+    const annotationRef = useRef<HTMLDivElement>(null);
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
+    const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
+    const annotationMotivations = { ...AnnotationMotivations };
     let annotationValue: string = '';
 
     /* Check if Annotation value is multi value */
@@ -46,6 +56,49 @@ const Annotation = (props: Props) => {
     } else {
         annotationValue = annotation.body.value;
     }
+
+    /* Function for highlighting an Annotation if created or modified */
+    const HighlightAnnotation = () => {
+        const annotationDiv: HTMLDivElement = annotationRef.current as HTMLDivElement;
+
+        /* Reset hightlight annotation id */
+        dispatch(setHighlightAnnotationId(''));
+
+        /* Highlight 1 */
+        annotationDiv.classList.add(`${styles.highlight}`);
+
+        setTimeout(() => {
+            annotationDiv.classList.remove(`${styles.highlight}`);
+
+            setTimeout(() => { Second() }, 500);
+        }, 500);
+
+        /* Highlight 2 */
+        const Second = () => {
+            annotationDiv.classList.add(`${styles.highlight}`);
+
+            setTimeout(() => {
+                annotationDiv.classList.remove(`${styles.highlight}`);
+
+                setTimeout(() => { Third() }, 500);
+            }, 500);
+        }
+
+        /* Highlight 3 */
+        const Third = () => {
+            annotationDiv.classList.add(`${styles.highlight}`);
+
+            setTimeout(() => {
+                annotationDiv.classList.remove(`${styles.highlight}`)
+            }, 500);
+        }
+    }
+
+    useEffect(() => {
+        if (highlightAnnotationId === annotation.id) {
+            HighlightAnnotation();
+        }
+    }, [highlightAnnotationId]);
 
     /* ClassName for Creator text */
     const classCreator = classNames({
@@ -56,7 +109,7 @@ const Annotation = (props: Props) => {
     return (
         <Row className="mb-3">
             <Col>
-                <div className={`${styles.sidePanelAnnotation} px-3 py-2`}>
+                <div className={`${styles.sidePanelAnnotation} px-3 py-2`} ref={annotationRef}>
                     {/* Creator and date */}
                     <Row>
                         <Col>
@@ -79,7 +132,12 @@ const Annotation = (props: Props) => {
                     }
                     <Row className="mt-1">
                         <Col>
-                            <p> {annotationValue} </p>
+                            <p>
+                                <span className="c-primary">
+                                    {`${annotationMotivations[annotation.motivation as keyof typeof annotationMotivations].displayName}: `}
+                                </span>
+                                {annotationValue}
+                            </p>
                         </Col>
                     </Row>
                     {/* Comments and actions */}
@@ -113,7 +171,7 @@ const Annotation = (props: Props) => {
                                             onClick={() => {
                                                 if (window.confirm(`Delete annotation with id: ${annotation.id}`)) {
                                                     DeleteAnnotation(annotation.id, KeycloakService.GetToken());
-                                                    UpdateAnnotationView();
+                                                    UpdateAnnotationView(annotation, true);
                                                 }
                                             }}
                                         />

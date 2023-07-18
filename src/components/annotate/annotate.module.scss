@@ -50,6 +50,11 @@
     border: 1px solid #E6E2F1;
     font-size: 14px;
     border-radius: 8px;
+    transition: 0.5s;
+}
+
+.sidePanelAnnotation.highlight {
+    background-color: #A1D8CA;
 }
 
 /* Annotation Form */

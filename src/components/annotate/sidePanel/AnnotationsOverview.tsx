@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
+import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
@@ -137,7 +138,8 @@ const AnnotationsOverview = (props: Props) => {
                                             <Row key={annotation.id}>
                                                 <Col>
                                                     <Annotation annotation={annotation}
-                                                        UpdateAnnotationView={(annotation?: AnnotationType) => UpdateAnnotationView(annotation)}
+                                                        UpdateAnnotationView={(annotation: AnnotationType, remove: boolean) =>
+                                                            UpdateAnnotationView(annotation, remove)}
                                                     />
                                                 </Col>
                                             </Row>
@@ -148,17 +150,19 @@ const AnnotationsOverview = (props: Props) => {
                             }
                         </Col>
                     </Row>
-                    {/* Form section */}
-                    <Row className={`${styles.annotationForm} pb-2 pt-3 justify-content-end`}>
-                        <Col className="col-md-auto">
-                            <button type="button"
-                                className="accentButton px-3 py-1 float-right"
-                                onClick={() => ToggleAnnotationForm()}
-                            >
-                                Add annotation
-                            </button>
-                        </Col>
-                    </Row>
+                    {/* If logged in, show add Annotation button */}
+                    {KeycloakService.IsLoggedIn() &&
+                        <Row className={`${styles.annotationForm} pb-2 pt-3 justify-content-end`}>
+                            <Col className="col-md-auto">
+                                <button type="button"
+                                    className="accentButton px-3 py-1 float-right"
+                                    onClick={() => ToggleAnnotationForm()}
+                                >
+                                    Add annotation
+                                </button>
+                            </Col>
+                        </Row>
+                    }
                 </div>
             </Col>
         </Row>

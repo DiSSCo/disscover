@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSpecimen, getSpecimenAnnotations, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget, getSidePanelToggle, setSidePanelToggle, setMASTarget } from 'redux/annotate/AnnotateSlice';
+import { setAnnotateTarget, setSidePanelToggle, setMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Annotation } from 'global/Types';
@@ -40,7 +40,6 @@ const TitleBar = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
-    const sidePanelToggle = useAppSelector(getSidePanelToggle);
 
     /* Function to open Side Panel with all Annotations of Specimen */
     const ShowWithAllAnnotations = () => {
@@ -63,6 +62,7 @@ const TitleBar = (props: Props) => {
 
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
+        { value: 'sidePanel', label: 'View all Annotations' },
         { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() }
     ];
 
@@ -71,6 +71,10 @@ const TitleBar = (props: Props) => {
         switch (action) {
             case 'json':
                 window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
+
+                return;
+            case 'sidePanel':
+                ShowWithAllAnnotations();
 
                 return;
             case 'automatedAnnotations':
@@ -144,18 +148,8 @@ const TitleBar = (props: Props) => {
                         </Row>
                     </Col>
                     {/* Specimen Versions */}
-                    <Col md={{ span: 9 }} className="position-relative ps-4">
+                    <Col md={{ span: 9 }} className="ps-4">
                         <Row>
-                            <Col className="d-flex justify-content-end">
-                                <button type="button" className={`${styles.annotationTriggerButton} mt-2 px-3 py-1`}
-                                    onClick={() => ShowWithAllAnnotations()}
-                                >
-                                    <FontAwesomeIcon icon={faMessage} className={`${styles.annotationTriggerIcon} me-1`} />
-                                    Annotations
-                                </button>
-                            </Col>
-                        </Row>
-                        <Row className="position-absolute bottom-0">
                             <Col className="col-md-auto">
                                 <VersionSelect target={specimen}
                                     versions={specimenVersions}

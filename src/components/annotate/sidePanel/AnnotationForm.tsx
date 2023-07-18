@@ -7,8 +7,8 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, setAnnotateTarget,
-    getEditAnnotation, setEditAnnotation
+    getAnnotateTarget, getEditAnnotation,
+    setEditAnnotation, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
@@ -68,6 +68,8 @@ const AnnotationForm = (props: Props) => {
             /* Patch Annotation */
             PatchAnnotation(annotation, editAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
                 UpdateAnnotationView(annotation);
+
+                dispatch(setHighlightAnnotationId(annotation.id));
             }).catch(error => {
                 console.warn(error);
             });
@@ -75,6 +77,8 @@ const AnnotationForm = (props: Props) => {
             /* Post Annotation */
             InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
                 UpdateAnnotationView(annotation);
+
+                dispatch(setHighlightAnnotationId(annotation.id));
             }).catch(error => {
                 console.warn(error);
             });

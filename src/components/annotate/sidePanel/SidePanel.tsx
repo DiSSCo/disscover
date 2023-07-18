@@ -61,16 +61,16 @@ const SidePanel = () => {
     }, [toggle]);
 
     /* Function for updating the Annotation view after posting, patching or deleting */
-    const UpdateAnnotationView = (annotation?: Annotation) => {
+    const UpdateAnnotationView = (annotation: Annotation, remove: boolean = false) => {
         /* Update Annotations array of target */
         const copyAnnotateTarget = { ...annotateTarget };
         const copyAnnotations = [...copyAnnotateTarget.annotations];
-        const annotationIndex = copyAnnotations.findIndex((annotation) => annotation.id === editAnnotation.id);
+        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord.id === annotation.id);
 
         /* If annotation was deleted, remove from array; patched, update array instance; else push to array */
-        if (!annotation) {
+        if (remove) {
             copyAnnotations.splice(annotationIndex, 1);
-        } else if (!isEmpty(editAnnotation)) {
+        } else if (annotationIndex !== -1) {
             copyAnnotations[annotationIndex] = annotation;
         } else {
             copyAnnotations.push(annotation);
@@ -96,7 +96,9 @@ const SidePanel = () => {
     });
 
     return (
-        <div className={`${classSidePanel} h-100 w-100 d-flex flex-column p-4`}>
+        <div className={`${classSidePanel} h-100 w-100 d-flex flex-column p-4`}
+            role="sidePanel"
+        >
             {/* Top section */}
             <Row className="pt-2">
                 <Col>
@@ -151,14 +153,14 @@ const SidePanel = () => {
                 <Row className="flex-grow-1 overflow-scroll">
                     <Col className="h-100">
                         <AnnotationsOverview ToggleAnnotationForm={() => setAnnotationFormToggle(!annotationFormToggle)}
-                            UpdateAnnotationView={(annotation?: Annotation) => UpdateAnnotationView(annotation)}
+                            UpdateAnnotationView={(annotation: Annotation, remove: boolean) => UpdateAnnotationView(annotation, remove)}
                         />
                     </Col>
                 </Row>
                 : <Row className="flex-grow-1 overflow-scroll">
                     <Col className="h-100">
                         <AnnotationForm HideAnnotationForm={() => setAnnotationFormToggle(false)}
-                            UpdateAnnotationView={(annotation?: Annotation) => UpdateAnnotationView(annotation)}
+                            UpdateAnnotationView={(annotation: Annotation) => UpdateAnnotationView(annotation)}
                         />
                     </Col>
                 </Row>

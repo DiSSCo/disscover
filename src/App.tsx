@@ -6,6 +6,7 @@ import {
   Route
 } from 'react-router-dom';
 import KeycloakService from 'keycloak/Keycloak';
+import { DetectMobile } from 'global/Utilities';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
@@ -45,7 +46,7 @@ const App = () => {
 
   /* Function to regulate PC and Mobile views */
   const UpdateWindowDimensions = () => {
-    if (window.innerWidth <= 768) {
+    if (DetectMobile()) {
       dispatch(setScreenSize('sm'));
     } else if (window.innerWidth <= 992) {
       dispatch(setScreenSize('md'));

@@ -1,0 +1,43 @@
+{
+    "midsLevel": {
+        "displayName": "MIDS Level",
+        "filterType": "mids"
+    },
+    "topicDiscipline": {
+        "displayName": "Topic Discipline"
+    },
+    "taxonomy": {
+        "displayName": "Taxonomy",
+        "filterType": "taxonomy"
+    },
+    "country": {
+        "displayName": "Country"
+    },
+    "organisationName": {
+        "displayName": "Organisation"
+    },
+    "ourceSystemId": {
+        "displayName": "Source System"
+    },
+    "typeStatus": {
+        "displayName": "Type status"
+    },
+    "collectionDate": {
+        "displayName": "Collection date",
+        "filterType": "date"
+    },
+    "fossilPeriod": {
+        "displayName": "Fossil period",
+        "filterType": "text"
+    },
+    "livingOrPreserved": {
+        "displayName": "Living or preserved"
+    },
+    "license": {
+        "displayName": "License"
+    },
+    "hasMedia": {
+        "displayName": "Has Media",
+        "filterType": "checkbox"
+    }
+}

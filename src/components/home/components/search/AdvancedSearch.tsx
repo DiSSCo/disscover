@@ -37,8 +37,8 @@ const AdvancedSearch = (props: Props) => {
     });
 
     return (
-        <Row className="pe-3">
-            <Col>
+        <Row className="pe-3 pb-md-5">
+            <Col className="pb-md-4">
                 <Row>
                     <Col>
                         <h2 className={styles.advancedSearchTitle}> Search by ID or collection </h2>

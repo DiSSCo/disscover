@@ -4,20 +4,19 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
 
+/* Import Components */
+import Title from './Title';
+import TopicDisciplineText from './TopicDisciplineText';
+
 
 const IntroText = () => {
     return (
         <Row>
             <Col>
                 {/* Intro Text Title */}
-                <Row>
-                    <Col>
-                        <h1 className={`${styles.introTitle} fw-bold`}>
-                            Annotate specimens <br />
-                            and contribute to science
-                        </h1>
-                    </Col>
-                </Row>
+                <span className="d-none d-lg-block">
+                    <Title />
+                </span>
                 {/* Intro Text */}
                 <Row className="mt-4">
                     <Col>
@@ -33,16 +32,9 @@ const IntroText = () => {
                     </Col>
                 </Row>
                 {/* Search Explanation */}
-                <Row className="mt-5">
-                    <Col className="mt-4">
-                        <p className={`${styles.introText} fw-lightBold`}>
-                            Select the categories on the left to refine your search
-                        </p>
-                        <p className={`${styles.introText} fw-lightBold`}>
-                            or click on view to see all the specimens in the seleceted categories.
-                        </p>
-                    </Col>
-                </Row>
+                <span className="d-none d-lg-block mt-lg-5">
+                    <TopicDisciplineText />
+                </span>
             </Col>
         </Row>
     );

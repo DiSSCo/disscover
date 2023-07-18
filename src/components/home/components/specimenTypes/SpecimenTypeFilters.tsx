@@ -13,6 +13,7 @@ import styles from 'components/home/home.module.scss';
 
 /* Import Components */
 import FilterBlock from './FilterBlock';
+import TopicDisciplineText from '../TopicDisciplineText';
 
 /* Import API */
 import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
@@ -45,11 +46,11 @@ const SpecimenTypeFilters = () => {
 
     /* OnLoad: fetch Disciplines */
     useEffect(() => {
-        GetSpecimenDisciplines().then(({disciplines, metadata}) => {
+        GetSpecimenDisciplines().then(({ disciplines, metadata }) => {
             setDisciplines(disciplines.topicDiscipline);
 
             /* Set total specimen count */
-            if (metadata.totalRecords){
+            if (metadata.totalRecords) {
                 setTotalSpecimenCount(metadata.totalRecords);
             }
         }).catch(error => {
@@ -82,7 +83,7 @@ const SpecimenTypeFilters = () => {
 
                         /* Construct Search URL based on disciplines */
                         let searchLink: string = '/search';
-   
+
                         Object.keys(values.disciplines).concat(['HumanMade', 'Unclassified']).forEach((discipline: string) => {
                             if (values.disciplines[discipline] || values[discipline]) {
                                 /* Check for Disciplines with spaces */
@@ -279,6 +280,12 @@ const SpecimenTypeFilters = () => {
                                     <button className="primaryButton px-3 py-1" type="submit">
                                         View
                                     </button>
+                                </Col>
+                            </Row>
+                            {/* On smaller screens: Intro text */}
+                            <Row className="mt-md-4 d-lg-none">
+                                <Col>
+                                    <TopicDisciplineText />
                                 </Col>
                             </Row>
                         </Form>

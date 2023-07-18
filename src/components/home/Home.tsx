@@ -8,6 +8,7 @@ import styles from './home.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
+import Title from './components/Title';
 import SpecimenTypeFilters from "./components/specimenTypes/SpecimenTypeFilters";
 import IntroText from "./components/IntroText";
 import GlobalSearchBar from "./components/search/GlobalSearchBar";
@@ -22,7 +23,8 @@ const Home = () => {
     /* ClassName for Advanced Search */
     const classAdvancedSearch = classNames({
         [`${styles.advancedSearch}`]: true,
-        [`${styles.active}`]: advancedSearch
+        'position-fixed': !advancedSearch,
+        [`${styles.active} position-absolute`]: advancedSearch
     });
 
     const classAdvancedToggled = classNames({
@@ -38,26 +40,33 @@ const Home = () => {
                 <Row className="h-100">
                     {/* First part of Homepage, relative to screen height */}
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
+                        {/* Title for tablet smaller screens */}
+                        <Row className="d-lg-none mt-md-5">
+                            <Col>
+                                <Title />
+                            </Col>
+                        </Row>
                         <Row className="h-100 align-items-center">
-                            <Col md={{ span: 6 }} className="pe-5">
+                            <Col lg={{ span: 6 }} md={{ span: 12 }} className="pe-lg-5 pt-md-4">
                                 <SpecimenTypeFilters />
                             </Col>
-                            <Col md={{ span: 6 }} className="ps-5 position-relative">
+                            <Col lg={{ span: 6 }} md={{ span: 12 }}
+                                className="ps-lg-5 mt-md-4 d-flex flex-lg-column flex-md-column-reverse position-relative"
+                            >
+                                {/* Introduction Text */}
                                 <Row className={classAdvancedToggled}>
                                     <Col>
-                                        {/* Introduction Text */}
                                         <IntroText />
                                     </Col>
                                 </Row>
+                                {/* General Search Bar */}
                                 <Row className={`${classAdvancedToggled} mt-4`}>
                                     <Col>
-                                        {/* General Search Bar */}
                                         <GlobalSearchBar ToggleAdvancedFilter={() => setAdvancedSearch(true)} />
                                     </Col>
                                 </Row>
-
-                                <div className={`${classAdvancedSearch} position-absolute w-100 pe-5`} role="advancedSearch">
-                                    {/* Advanced Search */}
+                                {/* Advanced Search */}
+                                <div className={`${classAdvancedSearch} w-100 pe-5`} role="advancedSearch">
                                     <AdvancedSearch HideAdvancedSearch={() => setAdvancedSearch(false)} />
                                 </div>
                             </Col>

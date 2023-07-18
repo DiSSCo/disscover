@@ -28,8 +28,9 @@ const Mobile = () => {
             <Row className="mt-5">
                 <Col xs={{ span: 10, offset: 1 }} className="text-center">
                     <p>
-                        Hi there, the mobile version of DiSSCover is not ready for usage.
-                        Please use the desktop version in the meantime.
+                        Thanks for your interest in DiSSCover!
+                        Unfortunately we do not yet support mobile devices, please
+                        use a desktop or laptop to access it in the meantime.
                     </p>
                 </Col>
             </Row>

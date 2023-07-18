@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { Annotation, AnnotateTarget, Specimen, DigitalMedia, Dict } from 'global/Types';
+import { Annotation, AnnotateTarget, Specimen, DigitalMedia } from 'global/Types';
 
 
 export interface AnnotateState {

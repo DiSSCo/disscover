@@ -5,8 +5,12 @@ import { Formik, Form, Field } from 'formik';
 import CountUp from 'react-countup';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Store */
+import { useAppDispatch } from 'app/hooks';
+import { setSearchSpecimen } from 'redux/search/SearchSlice';
+
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Specimen, Dict } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -21,6 +25,7 @@ import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
 
 const SpecimenTypeFilters = () => {
     /* Hooks */
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     /* Base variables */
@@ -99,6 +104,9 @@ const SpecimenTypeFilters = () => {
                                 }
                             }
                         });
+
+                        /* Reset specimen (cached chosen one) */
+                        dispatch(setSearchSpecimen({} as Specimen));
 
                         navigate(searchLink);
                     }}

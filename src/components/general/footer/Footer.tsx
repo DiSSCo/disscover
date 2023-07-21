@@ -3,6 +3,10 @@ import { useLocation, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
 
+/* Import Store */
+import { useAppSelector } from 'app/hooks';
+import { getSidePanelToggle } from 'redux/annotate/AnnotateSlice';
+
 /* Import Styles */
 import styles from './footer.module.scss';
 
@@ -11,19 +15,27 @@ const Footer = () => {
     /* Hooks */
     const location = useLocation();
 
+    /* Base variables */
+    const sidePanelToggle = useAppSelector(getSidePanelToggle);
+
     /* Get current year */
     const currentYear = new Date().getFullYear();
 
-    /* ClassName for Footer */
+    /* ClassNames for Footer */
     const classFooter = classNames({
         [`${styles.footer}`]: true,
         [`${styles.home}`]: (location.pathname === '/')
     });
 
+    const classFooterContent = classNames({
+        'col-md-10 offset-md-1': !sidePanelToggle,
+        'col-md-12 px-5': sidePanelToggle
+    });
+
     return (
         <Container fluid className={classFooter}>
             <Row className="h-100">
-                <Col md={{span: 10, offset: 1 }} className="h-100 px-0">
+                <Col className={`${classFooterContent} h-100 px-0 transition`}>
                     <Row className="h-100 align-items-center">
                         <Col className="col-md-auto pt-0 pe-0">
                             <p className={`${styles.footerText}`}>

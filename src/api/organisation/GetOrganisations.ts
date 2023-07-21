@@ -17,7 +17,10 @@ const GetOrganisations = async () => {
         const result = await axios({
             method: "get",
             url: endPoint,
-            responseType: 'json'
+            responseType: 'json',
+            params: {
+                pageSize: 200
+            }
         });
 
         const data: JSONResultArray = result.data;

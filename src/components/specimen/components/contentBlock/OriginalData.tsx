@@ -31,7 +31,7 @@ const OriginalData = () => {
 
     /* OnLoad: Fetch Source System */
     useEffect(() => {
-        GetSourceSystem(specimen.sourceSystemId).then((sourceSystem) => {
+        GetSourceSystem(specimen.sourceSystemId.replace('https://hdl.handle.net/', '')).then((sourceSystem) => {
             if (sourceSystem) {
                 setSourceSystem(sourceSystem);
             }

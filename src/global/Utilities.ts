@@ -4,7 +4,7 @@ const Capitalize = (string: string) => {
 }
 
 /* Function for displaying a properties' value, or 'not provided'; used in ID Card */
-const CheckProperty = (property: string | undefined) => {
+const CheckProperty = (property: string | undefined): string => {
     if (property) {
         return property;
     } else {
@@ -12,7 +12,33 @@ const CheckProperty = (property: string | undefined) => {
     }
 }
 
+/* Function for checking if the user is using a mobile device */
+const DetectMobile = (): boolean => {
+    let mobile: boolean = false;
+
+    /* Test Browser Agent */
+    if (/Android/i.exec(navigator.userAgent) ||
+        /webOS/i.exec(navigator.userAgent) ||
+        /iPhone/i.exec(navigator.userAgent) ||
+        /iPod/i.exec(navigator.userAgent) ||
+        /BlackBerry/i.exec(navigator.userAgent) ||
+        /Windows Phone/i.exec(navigator.userAgent) ||
+        /Opera Mini/i.exec(navigator.userAgent) ||
+        /IEMobile/i.exec(navigator.userAgent)
+    ) {
+        mobile = true;
+    }
+
+    /* Test Screen Size */
+    if (!mobile && window.innerWidth <= 768) {
+        mobile = true;
+    }
+
+    return mobile;
+}
+
 export {
     Capitalize,
-    CheckProperty
+    CheckProperty,
+    DetectMobile
 };

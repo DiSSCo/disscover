@@ -4,8 +4,11 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimen, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
-import { setMASTarget } from 'redux/annotate/AnnotateSlice';
+import { getSpecimen, getSpecimenAnnotations, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
+import { setAnnotateTarget, setSidePanelToggle, setMASTarget } from 'redux/annotate/AnnotateSlice';
+
+/* Import Types */
+import { Annotation } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -36,9 +39,30 @@ const TitleBar = (props: Props) => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
+    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
+
+    /* Function to open Side Panel with all Annotations of Specimen */
+    const ShowWithAllAnnotations = () => {
+        /* Add up all property annotations into one annotations array */
+        let allAnnotations: Annotation[] = [];
+
+        Object.values(specimenAnnotations).forEach((annotationsArray) => {
+            allAnnotations = allAnnotations.concat(annotationsArray);
+        });
+
+        dispatch(setAnnotateTarget({
+            property: '',
+            target: specimen,
+            targetType: 'digital_specimen',
+            annotations: allAnnotations
+        }));
+
+        dispatch(setSidePanelToggle(true));
+    }
 
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
+        { value: 'sidePanel', label: 'View all Annotations' },
         { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() }
     ];
 
@@ -47,6 +71,10 @@ const TitleBar = (props: Props) => {
         switch (action) {
             case 'json':
                 window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
+
+                return;
+            case 'sidePanel':
+                ShowWithAllAnnotations();
 
                 return;
             case 'automatedAnnotations':
@@ -120,7 +148,7 @@ const TitleBar = (props: Props) => {
                         </Row>
                     </Col>
                     {/* Specimen Versions */}
-                    <Col md={{ span: 9 }} className="position-relative ps-4">
+                    <Col md={{ span: 9 }} className="ps-4">
                         <Row>
                             <Col className="col-md-auto">
                                 <VersionSelect target={specimen}

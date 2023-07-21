@@ -123,7 +123,7 @@ export interface Annotation {
         value: string | [],
         values?: [],
         description?: string,
-        based_on?: string,
+        basedOn?: string,
         reference?: string
     },
     preferenceScore: number,

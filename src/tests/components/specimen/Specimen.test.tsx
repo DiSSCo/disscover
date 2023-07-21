@@ -34,16 +34,16 @@ describe("Specimen Page Tests", () => {
         expect(screen.getByRole('heading', { name: SpecimenMock.data.attributes.specimenName })).toBeInTheDocument();
     });
 
-    /* Test if Annotate Modal is toggled when clicked on Specimen property */
-    it('is able to toggle the annotate modal', async () => {
+    /* Test if Side Panel is toggled when clicked on a Specimen property */
+    it('is able to toggle the annotations side panel', async () => {
         const user = userEvent.setup();
 
-        const modalTrigger = screen.getByRole('modalTrigger').parentElement;
+        const sidePanelTrigger = screen.getByRole('sidePanelTrigger').parentElement;
 
-        if (modalTrigger) {
-            await waitFor(() => user.click(modalTrigger));
+        if (sidePanelTrigger) {
+            await waitFor(() => user.click(sidePanelTrigger));
         }
 
-        expect(screen.getByRole('annotateModalCurrentValue')).toBeInTheDocument();
+        expect(screen.getByRole('sidePanel')).toHaveClass('active');
     })
 });

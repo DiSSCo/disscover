@@ -67,7 +67,7 @@ const Profile = () => {
             <Container fluid className={`${styles.profileContent} mt-5`}>
                 {!isEmpty(userProfile) &&
                     <Row className="h-100 justify-content-center">
-                        <Col md={{ span: 5 }} className="pb-1 border-1-primary-light rounded h-100">
+                        <Col md={{ span: 5 }} className={`${styles.profileBody} pb-1 border-1-primary-light rounded h-100`}>
                             <Row>
                                 <Col className={`${styles.profileTop} position-relative d-flex justify-content-center`}>
                                     <div className={`${styles.profilePicture} rounded-circle text-white position-absolute 
@@ -79,7 +79,7 @@ const Profile = () => {
                             </Row>
 
                             <Row className="mt-5">
-                                <Col className="profile_userInfoTitle py-1 fw-bold">
+                                <Col className="py-1 fw-bold">
                                     <p className={`${styles.profileTitle} text-center`}>
                                         {(userProfile.firstName && userProfile.lastName) ?
                                             <> {`${userProfile.firstName} ${userProfile.lastName}`} </>

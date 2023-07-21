@@ -1,4 +1,11 @@
 {
+    "adding": {
+        "key": "adding",
+        "displayName": "Addition",
+        "displayNamePlural": "Additions",
+        "additionalFields": {"description": "text"},
+        "context": "This annotation type is used when adding new values to previously empty attributes."
+    },
     "commenting": {
         "key": "commenting",
         "displayName": "Commenting",
@@ -10,28 +17,21 @@
         "key": "linking",
         "displayName": "Relationship/Link",
         "displayNamePlural": "Relationships/Links",
-        "additionalFields": {"based_on": "string", "description": "textArea"},
+        "additionalFields": {"based_on": "string", "description": "text"},
         "context": "This annotation type is used when a false relationship or link is detected and needs to be replaced with a valid one."
     },
     "correcting": {
         "key": "correcting",
         "displayName": "Error correction",
         "displayNamePlural": "Error Corrections",
-        "additionalFields": {"reference": "string", "description": "textArea"},
+        "additionalFields": {"reference": "string", "description": "text"},
         "context": "This annotation type is used when correcting an existing value of an attribute that is deemed invalid."
     },
     "quality_flagging": {
         "key": "quality_flagging",
         "displayName": "Quality flag",
         "displayNamePlural": "Quality Flags",
-        "additionalFields": {"description": "textArea"},
+        "additionalFields": {"description": "text"},
         "context": "This annotation type is used when flagging a quality issue."
-    },
-    "adding": {
-        "key": "adding",
-        "displayName": "Addition",
-        "displayNamePlural": "Additions",
-        "additionalFields": {"description": "textArea"},
-        "context": "This annotation type is used when adding new values to previously empty attributes."
     }
 }

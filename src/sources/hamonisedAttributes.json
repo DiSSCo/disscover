@@ -90,6 +90,9 @@
     "dwc:stateProvince": {
         "displayName": "State Province"
     },
+    "dwc:county": {
+        "displayName": "County"
+    },
     "dwc:waterBody": {
         "displayName": "Water Body"
     },

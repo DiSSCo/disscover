@@ -8,10 +8,10 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSearchPhysicalId, setSearchPhysicalId } from 'redux/search/SearchSlice';
+import { getSearchPhysicalId, setSearchPhysicalId, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Organisation, Dict } from 'global/Types';
+import { Specimen, Organisation, Dict } from 'global/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -45,6 +45,9 @@ const PhysicalIDSearch = () => {
 
     /* Function for handling Physical ID search */
     const HandleSearch = (formData: Dict) => {
+        /* Reset Search Specimen */
+        dispatch(setSearchSpecimen({} as Specimen));
+
         if (formData.idType === 'gui') {
             /* Set search state */
             dispatch(setSearchPhysicalId({

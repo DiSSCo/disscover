@@ -1,8 +1,8 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
+import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -11,7 +11,9 @@ import {
     getSpecimen, setSpecimen, setSpecimenVersions,
     setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
-import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
+import {
+    getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
+} from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Styles */
@@ -23,14 +25,13 @@ import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
 import ContentBlock from './components/contentBlock/ContentBlock';
 import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
-import AnnotateModal from 'components/annotate/modal/AnnotateModal';
+import SidePanel from 'components/annotate/sidePanel/SidePanel';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
 import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
-import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 
 
 const Specimen = () => {
@@ -44,7 +45,7 @@ const Specimen = () => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
-    const annotateTarget = useAppSelector(getAnnotateTarget);
+    const sidePanelToggle = useAppSelector(getSidePanelToggle);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
     /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
@@ -103,27 +104,8 @@ const Specimen = () => {
         }
     }, [specimen, params]);
 
-    /* Onchange of the Annotation Target's annotations: Check if changes occured */
-    useEffect(() => {
-        /* Check if the specimen annotations differ from the target annotations */
-        if (specimen.id && Array.isArray(annotateTarget.annotations)) {
-            if (JSON.stringify(specimenAnnotations[annotateTarget.property]) !== JSON.stringify(annotateTarget.annotations)) {
-                /* Fetch Specimen Annotations */
-                GetSpecimenAnnotations(specimen.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
-                    if (annotations) {
-                        dispatch(setSpecimenAnnotations(annotations));
-                    }
-                }).catch(error => {
-                    console.warn(error);
-                });
-            }
-        }
-    }, [annotateTarget]);
-
     /* Function for toggling the Annotate Modal */
-    const [modalToggle, setModalToggle] = useState(false);
-
-    const ToggleModal = (property?: string, motivation?: string) => {
+    const ToggleSidePanel = (property?: string, motivation?: string) => {
         if (property) {
             dispatch(setAnnotateTarget({
                 property,
@@ -132,55 +114,69 @@ const Specimen = () => {
                 targetType: 'digital_specimen',
                 annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));
-
-            setModalToggle(true);
-        } else {
-            setModalToggle(false);
         }
+
+        dispatch(setSidePanelToggle(true));
     }
+
+    /* ClassName for Specimen Content */
+    const classSpecimenContent = classNames({
+        'col-md-10 offset-md-1': !sidePanelToggle,
+        'col-md-12 px-5': sidePanelToggle
+    });
+
+    /* ClassName for Side Panel */
+    const classSidePanel = classNames({
+        'p-0': true,
+        'w-0': !sidePanelToggle,
+        [`${styles.sidePanel}`]: sidePanelToggle
+    });
 
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
-            <Header />
+            <Row>
+                <Col>
+                    <Header />
 
-            {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
-                <Container fluid className={`${styles.content} pt-5`}>
-                    <Row className="h-100">
-                        <Col md={{ span: 10, offset: 1 }} className="h-100">
-                            <div className="h-100 d-flex flex-column">
-                                <Row className={styles.titleBar}>
-                                    <Col>
-                                        <TitleBar
-                                            ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row className="py-4 flex-grow-1 overflow-hidden">
-                                    <Col md={{ span: 3 }} className="h-100">
-                                        <IDCard ToggleModal={(property: string) => ToggleModal(property)} />
-                                    </Col>
-                                    <Col md={{ span: 9 }} className="ps-4 h-100">
-                                        <ContentBlock ToggleModal={(property: string) => ToggleModal(property)} />
-                                    </Col>
+                    {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
+                        <Container fluid className={`${styles.content} pt-5`}>
+                            <Row className="h-100">
+                                <Col className={`${classSpecimenContent} h-100 transition`}>
+                                    <div className="h-100 d-flex flex-column">
+                                        <Row className={styles.titleBar}>
+                                            <Col>
+                                                <TitleBar
+                                                    ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        <Row className="py-4 flex-grow-1 overflow-hidden">
+                                            <Col md={{ span: 3 }} className="h-100">
+                                                <IDCard ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                                            </Col>
+                                            <Col md={{ span: 9 }} className="ps-4 h-100">
+                                                <ContentBlock ToggleModal={(property: string) => ToggleSidePanel(property)} />
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                </Col>
+                            </Row>
 
-                                    {(Object.keys(annotateTarget.target).length > 0 && KeycloakService.IsLoggedIn()) &&
-                                        <AnnotateModal modalToggle={modalToggle}
-                                            ToggleModal={() => ToggleModal()}
-                                        />
-                                    }
-                                </Row>
-                            </div>
-                        </Col>
-                    </Row>
+                            {/* Automated Annotations Modal */}
+                            <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
+                                HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
+                            />
+                        </Container>
+                    }
 
-                    {/* Automated Annotations Modal */}
-                    <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
-                        HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
-                    />
-                </Container>
-            }
+                    <Footer />
+                </Col>
 
-            <Footer />
+                {/* Annotations Side Panel */}
+                <div className={`${classSidePanel} transition`}>
+                    <SidePanel />
+                </div>
+            </Row>
         </div>
     );
 }

@@ -85,18 +85,16 @@ const AnnotationForm = (props: Props) => {
         }
     }
 
-    console.log(editAnnotation);
-
     return (
         <Formik
             initialValues={{
-                targetProperty: editAnnotation ? editAnnotation?.target.indvProp : annotateTarget.property,
-                motivation: editAnnotation ? editAnnotation.motivation : '',
-                annotationValue: editAnnotation ? editAnnotation?.body.value : '',
+                targetProperty: !isEmpty(editAnnotation) ? editAnnotation?.target.indvProp : annotateTarget.property,
+                motivation: !isEmpty(editAnnotation) ? editAnnotation.motivation : '',
+                annotationValue: !isEmpty(editAnnotation) ? editAnnotation?.body.value : '',
                 additionalFields: {
-                    ...(editAnnotation && editAnnotation?.body && { description: editAnnotation.body.description }),
-                    ...(editAnnotation && editAnnotation?.body && { based_on: editAnnotation.body.basedOn }),
-                    ...(editAnnotation && editAnnotation?.body && { reference: editAnnotation.body.reference })
+                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { description: editAnnotation.body.description }),
+                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { based_on: editAnnotation.body.basedOn }),
+                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { reference: editAnnotation.body.reference })
                 }
             }}
             enableReinitialize={true}

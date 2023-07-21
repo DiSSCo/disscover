@@ -9,9 +9,9 @@ import { JSONResult, User } from 'global/Types';
 
 
 const GetUser = async (userId?: string, token?: string) => {
-    if (userId && token) {
-        let user = {} as User;
+    let user = {} as User;
 
+    if (userId && token) {
         const endPoint = `users/${userId}`;
 
         try {
@@ -32,9 +32,9 @@ const GetUser = async (userId?: string, token?: string) => {
         } catch (error) {
             console.warn(error);
         }
-
-        return user;
     }
+
+    return user;
 }
 
 export default GetUser;

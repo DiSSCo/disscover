@@ -1,7 +1,8 @@
 /* Import Dependencies */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Moment from 'moment';
+import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 
@@ -11,6 +12,7 @@ import {
     getAnnotateTarget, setEditAnnotation,
     getHighlightAnnotationId, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
+import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { Annotation as AnnotationType } from 'global/Types';
@@ -28,6 +30,7 @@ import { faThumbsUp, faThumbsDown, faMessage } from '@fortawesome/free-regular-s
 
 /* Import API */
 import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
+import GetUser from 'api/user/GetUser';
 
 
 /* Props Typing */
@@ -43,19 +46,40 @@ const Annotation = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const annotationRef = useRef<HTMLDivElement>(null);
+    const user = useAppSelector(getUser);
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
+    const [userTag, setUserTag] = useState<string>('');
     const annotationMotivations = { ...AnnotationMotivations };
     let annotationValue: string = '';
 
     /* Check if Annotation value is multi value */
     if (Array.isArray(annotation.body.value)) {
         annotationValue = annotation.body.value.join(', ');
-    } else {
+    } else if (annotation.body.value) {
         annotationValue = annotation.body.value;
+    } else if (annotation.body.values) {
+        annotationValue = String(annotation.body.values);
     }
+
+    /* Set User Tag */
+    useEffect(() => {
+        if (annotation.creator === KeycloakService.GetSubject()) {
+            setUserTag(`${user.firstName} ${user.lastName} (you)`);
+        } else {
+            GetUser(annotation.creator).then((user) => {
+                if (!isEmpty(user)) {
+                    setUserTag(`${user.firstName} ${user.lastName}`);
+                } else {
+                    setUserTag(annotation.creator);
+                }
+            }).catch(error => {
+                console.warn(error);
+            });
+        }
+    }, [])
 
     /* Function for highlighting an Annotation if created or modified */
     const HighlightAnnotation = () => {
@@ -95,15 +119,26 @@ const Annotation = (props: Props) => {
                     {/* Creator and date */}
                     <Row>
                         <Col>
-                            <p className={classCreator}> {annotation.creator} </p>
+                            <p className={classCreator}>
+                                {userTag}
+                            </p>
                         </Col>
                         <Col className="col-md-auto">
                             <p className="c-primary"> {Moment(annotation.created).format('MMMM DD - YYYY')} </p>
                         </Col>
                     </Row>
+                    {/* Annotation ID and version */}
+                    <Row>
+                        <Col>
+                            <p className="c-grey"> {annotation.id} </p>
+                        </Col>
+                        <Col className="col-md-auto">
+                            <p className="c-grey"> {`Version ${annotation.version}`} </p>
+                        </Col>
+                    </Row>
                     {/* Annotation content */}
                     {!annotateTarget.property &&
-                        <Row className="my-2">
+                        <Row className="mt-2">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
                             </Col>
@@ -112,11 +147,12 @@ const Annotation = (props: Props) => {
                             </Col>
                         </Row>
                     }
-                    <Row className="mt-1">
+                    <Row className="mt-3">
                         <Col>
                             <p>
                                 <span className="c-primary">
-                                    {`${annotationMotivations[annotation.motivation as keyof typeof annotationMotivations].displayName}: `}
+                                    {`${annotationMotivations[annotation.motivation.replace('https://hdl.handle.net/', '') as keyof typeof
+                                        annotationMotivations].displayName}: `}
                                 </span>
                                 {annotationValue}
                             </p>

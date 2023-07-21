@@ -31,7 +31,15 @@ import AnnotationForm from './AnnotationForm';
 import Tooltip from 'components/general/tooltip/Tooltip';
 
 
-const SidePanel = () => {
+/* Props Typing */
+interface Props {
+    UpdateAnnotationsSource?: Function
+};
+
+
+const SidePanel = (props: Props) => {
+    const { UpdateAnnotationsSource } = props;
+
     /* Hooks */
     const dispatch = useAppDispatch();
 
@@ -55,7 +63,12 @@ const SidePanel = () => {
         sidePanelTitle = 'All annotations';
     }
 
-    /* OnLoad: Reset edit annotation */
+    /* OnLoad: Make sure toggle is reset */
+    useEffect(() => {
+        dispatch(setSidePanelToggle(false));
+    }, []);
+
+    /* OnToggle of Side Panel: Reset edit annotation */
     useEffect(() => {
         dispatch(setEditAnnotation({} as Annotation));
     }, [toggle]);
@@ -79,6 +92,11 @@ const SidePanel = () => {
         copyAnnotateTarget.annotations = copyAnnotations;
 
         dispatch(setAnnotateTarget(copyAnnotateTarget));
+
+        /* If provided, update source annotations */
+        if (UpdateAnnotationsSource) {
+            UpdateAnnotationsSource(annotation, remove);
+        }
 
         /* If enabled, disable edit annotation */
         if (!isEmpty(editAnnotation)) {

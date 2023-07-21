@@ -64,34 +64,16 @@ const Annotation = (props: Props) => {
         /* Reset hightlight annotation id */
         dispatch(setHighlightAnnotationId(''));
 
-        /* Highlight 1 */
-        annotationDiv.classList.add(`${styles.highlight}`);
-
-        setTimeout(() => {
-            annotationDiv.classList.remove(`${styles.highlight}`);
-
-            setTimeout(() => { Second() }, 500);
+        /* Set interval and timeout to show highlight three times */
+        const interval = setInterval(() => {
+            if (annotationDiv.classList.contains(`${styles.highlight}`)) {
+                annotationDiv.classList.remove(`${styles.highlight}`);
+            } else {
+                annotationDiv.classList.add(`${styles.highlight}`);
+            }
         }, 500);
 
-        /* Highlight 2 */
-        const Second = () => {
-            annotationDiv.classList.add(`${styles.highlight}`);
-
-            setTimeout(() => {
-                annotationDiv.classList.remove(`${styles.highlight}`);
-
-                setTimeout(() => { Third() }, 500);
-            }, 500);
-        }
-
-        /* Highlight 3 */
-        const Third = () => {
-            annotationDiv.classList.add(`${styles.highlight}`);
-
-            setTimeout(() => {
-                annotationDiv.classList.remove(`${styles.highlight}`)
-            }, 500);
-        }
+        setTimeout(() => clearInterval(interval), 3500);
     }
 
     useEffect(() => {

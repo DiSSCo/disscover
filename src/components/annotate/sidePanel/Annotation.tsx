@@ -9,8 +9,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, setEditAnnotation,
-    getHighlightAnnotationId, setHighlightAnnotationId
+    setEditAnnotation, getHighlightAnnotationId, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 import { getUser } from 'redux/user/UserSlice';
 

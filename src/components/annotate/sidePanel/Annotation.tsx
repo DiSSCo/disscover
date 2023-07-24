@@ -137,7 +137,7 @@ const Annotation = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation content */}
-                    {!annotateTarget.property &&
+                    {annotation.target.indvProp &&
                         <Row className="mt-2">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />

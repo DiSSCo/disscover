@@ -118,8 +118,8 @@ const AnnotationForm = (props: Props) => {
                                         <Field name="targetProperty" as="select"
                                             className="formField w-100 mt-1"
                                         >
-                                            <option value="" disabled={true}>
-                                                Select target property
+                                            <option value="">
+                                                Specimen in general
                                             </option>
 
                                             {Object.keys(annotateTarget.target.data).map((property) => {

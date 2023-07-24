@@ -88,7 +88,7 @@ const SidePanel = (props: Props) => {
         } else {
             copyAnnotations.push(annotation);
         }
-        
+
         copyAnnotateTarget.annotations = copyAnnotations;
 
         dispatch(setAnnotateTarget(copyAnnotateTarget));
@@ -105,6 +105,22 @@ const SidePanel = (props: Props) => {
 
         /* Return to Annotations overview */
         setAnnotationFormToggle(false);
+    }
+
+    /* Function for when clicking on the Back Button */
+    const BackAction = () => {
+        if (annotationFormToggle || !isEmpty(editAnnotation)) {
+            setAnnotationFormToggle(false);
+            dispatch(setEditAnnotation({} as Annotation));
+        } else if (annotateTarget.property) {
+            dispatch(setAnnotateTarget({
+                ...annotateTarget,
+                property: ''
+            }));
+        } else {
+            dispatch(setSidePanelToggle(false));
+            setAnnotationFormToggle(false);
+        }
     }
 
     /* ClassName for Side Panel */
@@ -125,10 +141,7 @@ const SidePanel = (props: Props) => {
                         <Col className="col-md-auto">
                             <FontAwesomeIcon icon={faChevronLeft}
                                 className={`${styles.sidePanelTopIcon} c-pointer c-primary`}
-                                onClick={() => {
-                                    dispatch(setSidePanelToggle(false));
-                                    setAnnotationFormToggle(false);
-                                }}
+                                onClick={() => BackAction()}
                             />
                         </Col>
                         <Col>
@@ -147,7 +160,7 @@ const SidePanel = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation current value, if property is chosen */}
-                    {annotateTarget.property &&
+                    {(annotateTarget.property || (editAnnotation.target && editAnnotation.target?.indvProp)) &&
                         <Row className="mt-5">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
@@ -155,10 +168,10 @@ const SidePanel = (props: Props) => {
                             <Col>
                                 <p>
                                     <span className="fw-bold">
-                                        {`${harmonisedAttributes[annotateTarget.property].displayName}: `}
+                                        {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `}
                                     </span>
                                     <span className="fst-italic">
-                                        {`${annotateTarget.target.data[annotateTarget.property]}`}
+                                        {`${annotateTarget.target.data[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp]}`}
                                     </span>
                                 </p>
                             </Col>

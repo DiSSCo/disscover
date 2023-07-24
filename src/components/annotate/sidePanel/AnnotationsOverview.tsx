@@ -131,7 +131,7 @@ const AnnotationsOverview = (props: Props) => {
                     {/* Annotations section */}
                     <Row className="flex-grow-1 pt-4 overflow-scroll">
                         <Col>
-                            {!isEmpty(annotateTarget.annotations) ?
+                            {!isEmpty(annotateTarget.annotations) && !isEmpty(annotations) ?
                                 <>
                                     {annotations.map((annotation) => {
                                         return (
@@ -151,18 +151,19 @@ const AnnotationsOverview = (props: Props) => {
                         </Col>
                     </Row>
                     {/* If logged in, show add Annotation button */}
-                    {KeycloakService.IsLoggedIn() &&
-                        <Row className={`${styles.annotationForm} pb-2 pt-3 justify-content-end`}>
-                            <Col className="col-md-auto">
+                    <Row className={`${styles.annotationForm} pb-2 pt-3 justify-content-end`}>
+                        <Col className="col-md-auto">
+                            {KeycloakService.IsLoggedIn() ?
                                 <button type="button"
                                     className="accentButton px-3 py-1 float-right"
                                     onClick={() => ToggleAnnotationForm()}
                                 >
                                     Add annotation
                                 </button>
-                            </Col>
-                        </Row>
-                    }
+                                : <p className="fst-italic"> Login to make annotations </p>
+                            }
+                        </Col>
+                    </Row>
                 </div>
             </Col>
         </Row>

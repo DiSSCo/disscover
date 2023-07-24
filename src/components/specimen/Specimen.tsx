@@ -16,6 +16,9 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 import { setErrorMessage } from 'redux/general/GeneralSlice';
 
+/* Import Types */
+import { Annotation } from 'global/Types';
+
 /* Import Styles */
 import styles from './specimen.module.scss';
 
@@ -104,6 +107,40 @@ const Specimen = () => {
         }
     }, [specimen, params]);
 
+    /* Function for updating the Specimen Annotations source */
+    const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
+        const copySpecimenAnnotations = { ...specimenAnnotations };
+
+        /* Check if target is a property */
+        if (annotation.target.indvProp) {
+            /* Check if array for target property exists */
+            if (annotation.target.indvProp in specimenAnnotations) {
+                /* Push or patch to existing array */
+                const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation.target.indvProp]];
+                const index = copySpecimenTargetAnnotations.findIndex(
+                    (annotationRecord) => annotationRecord.id === annotation.id
+                );
+
+                if (index >= 0) {
+                    if (remove) {
+                        copySpecimenTargetAnnotations.splice(index, 1);
+                    } else {
+                        copySpecimenTargetAnnotations[index] = annotation;
+                    }
+                } else {
+                    copySpecimenTargetAnnotations.push(annotation);
+                }
+
+                copySpecimenAnnotations[annotation.target.indvProp] = copySpecimenTargetAnnotations;
+            } else {
+                /* Create into new array */
+                copySpecimenAnnotations[annotation.target.indvProp] = [annotation];
+            }
+        }
+
+        dispatch(setSpecimenAnnotations(copySpecimenAnnotations));
+    }
+
     /* Function for toggling the Annotate Modal */
     const ToggleSidePanel = (property?: string, motivation?: string) => {
         if (property) {
@@ -174,7 +211,7 @@ const Specimen = () => {
 
                 {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
-                    <SidePanel />
+                    <SidePanel UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)} />
                 </div>
             </Row>
         </div>

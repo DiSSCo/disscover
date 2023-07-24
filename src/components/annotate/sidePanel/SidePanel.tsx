@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { Function0, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */

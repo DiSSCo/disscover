@@ -4,11 +4,8 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimen, getSpecimenAnnotations, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget, setSidePanelToggle, setMASTarget } from 'redux/annotate/AnnotateSlice';
-
-/* Import Types */
-import { Annotation } from 'global/Types';
+import { getSpecimen, getSpecimenVersions } from 'redux/specimen/SpecimenSlice';
+import { setMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -40,7 +37,6 @@ const TitleBar = (props: Props) => {
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
-    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
 
     const specimenActions = [
         { value: 'json', label: 'View JSON' },

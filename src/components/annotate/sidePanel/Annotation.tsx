@@ -49,7 +49,6 @@ const Annotation = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Base variables */
-    const annotateTarget = useAppSelector(getAnnotateTarget);
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
     const [userTag, setUserTag] = useState<string>('');
     const annotationMotivations = { ...AnnotationMotivations };

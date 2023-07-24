@@ -158,7 +158,7 @@ const SidePanel = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation current value, if property is chosen */}
-                    {(annotateTarget.property || (editAnnotation.target && editAnnotation.target?.indvProp)) &&
+                    {(annotateTarget.property || (editAnnotation?.target?.indvProp)) &&
                         <Row className="mt-5">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />

@@ -153,6 +153,25 @@ const Specimen = () => {
         dispatch(setSidePanelToggle(true));
     }
 
+    /* Function to open Side Panel with all Annotations of Specimen */
+    const ShowWithAllAnnotations = () => {
+        /* Add up all property annotations into one annotations array */
+        let allAnnotations: Annotation[] = [];
+
+        Object.values(specimenAnnotations).forEach((annotationsArray) => {
+            allAnnotations = allAnnotations.concat(annotationsArray);
+        });
+
+        dispatch(setAnnotateTarget({
+            property: '',
+            target: specimen,
+            targetType: 'digital_specimen',
+            annotations: allAnnotations
+        }));
+
+        dispatch(setSidePanelToggle(true));
+    }
+
     /* ClassName for Specimen Content */
     const classSpecimenContent = classNames({
         'col-md-10 offset-md-1': !sidePanelToggle,
@@ -179,7 +198,7 @@ const Specimen = () => {
                                     <div className="h-100 d-flex flex-column">
                                         <Row className={styles.titleBar}>
                                             <Col>
-                                                <TitleBar
+                                                <TitleBar ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
                                                     ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
                                                 />
                                             </Col>
@@ -208,7 +227,9 @@ const Specimen = () => {
 
                 {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
-                    <SidePanel UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)} />
+                    <SidePanel ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
+                        UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                    />
                 </div>
             </Row>
         </div>

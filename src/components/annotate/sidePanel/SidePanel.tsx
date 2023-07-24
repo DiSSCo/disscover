@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { isEmpty } from 'lodash';
+import { Function0, isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -33,12 +33,13 @@ import Tooltip from 'components/general/tooltip/Tooltip';
 
 /* Props Typing */
 interface Props {
+    ShowWithAllAnnotations: Function,
     UpdateAnnotationsSource?: Function
 };
 
 
 const SidePanel = (props: Props) => {
-    const { UpdateAnnotationsSource } = props;
+    const { ShowWithAllAnnotations, UpdateAnnotationsSource } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -113,10 +114,7 @@ const SidePanel = (props: Props) => {
             setAnnotationFormToggle(false);
             dispatch(setEditAnnotation({} as Annotation));
         } else if (annotateTarget.property) {
-            dispatch(setAnnotateTarget({
-                ...annotateTarget,
-                property: ''
-            }));
+            ShowWithAllAnnotations();
         } else {
             dispatch(setSidePanelToggle(false));
             setAnnotationFormToggle(false);

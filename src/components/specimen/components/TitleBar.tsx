@@ -26,12 +26,13 @@ import Tooltip from 'components/general/tooltip/Tooltip';
 
 /* Props Typing */
 interface Props {
+    ShowWithAllAnnotations: Function,
     ToggleAutomatedAnnotations: Function
 };
 
 
 const TitleBar = (props: Props) => {
-    const { ToggleAutomatedAnnotations } = props;
+    const { ShowWithAllAnnotations, ToggleAutomatedAnnotations } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -40,25 +41,6 @@ const TitleBar = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     const specimenVersions = useAppSelector(getSpecimenVersions);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
-
-    /* Function to open Side Panel with all Annotations of Specimen */
-    const ShowWithAllAnnotations = () => {
-        /* Add up all property annotations into one annotations array */
-        let allAnnotations: Annotation[] = [];
-
-        Object.values(specimenAnnotations).forEach((annotationsArray) => {
-            allAnnotations = allAnnotations.concat(annotationsArray);
-        });
-
-        dispatch(setAnnotateTarget({
-            property: '',
-            target: specimen,
-            targetType: 'digital_specimen',
-            annotations: allAnnotations
-        }));
-
-        dispatch(setSidePanelToggle(true));
-    }
 
     const specimenActions = [
         { value: 'json', label: 'View JSON' },

@@ -182,11 +182,28 @@
     font-weight: bold;
 }
 
-.tabPanel {
-    height: Calc(100% - 51px);
+/* Digital Specimen Block */
+.specimenTabPanel {
+    overflow-y: scroll;
 }
 
-/* Digital Specimen Block */
+.propertyBlock {
+    max-height: 20%;
+}
+
+.propertyStripe {
+    border: 1px solid var(--accent);
+}
+
+.propertiesTab {
+    background-color: var(--grey);
+    border-radius: 999px;
+    aspect-ratio: 1 / 1;
+}
+
+.propertiesTab.active {
+    background-color: var(--primary);
+}
 
 .propertyTable {
     border-collapse: separate;
@@ -217,7 +234,6 @@
 
 .organisationLogo {    
     filter: grayscale(100%);
-    width: 40%;
     opacity: 0.5;
     float: right;
 }

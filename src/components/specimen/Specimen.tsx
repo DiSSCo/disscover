@@ -14,7 +14,7 @@ import {
 import {
     getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
 } from 'redux/annotate/AnnotateSlice';
-import { setErrorMessage } from 'redux/general/GeneralSlice';
+import { getScreenSize, setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { Annotation } from 'global/Types';
@@ -26,7 +26,7 @@ import styles from './specimen.module.scss';
 import Header from 'components/general/header/Header';
 import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
-import ContentBlock from './components/contentBlock/ContentBlock';
+import ContentBlock from './components/ContentBlock';
 import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
 import SidePanel from 'components/annotate/sidePanel/SidePanel';
 import Footer from 'components/general/footer/Footer';
@@ -46,6 +46,7 @@ const Specimen = () => {
     const navigate = useNavigate();
 
     /* Base variables */
+    const screenSize = useAppSelector(getScreenSize);
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
@@ -138,21 +139,6 @@ const Specimen = () => {
         dispatch(setSpecimenAnnotations(copySpecimenAnnotations));
     }
 
-    /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property?: string, motivation?: string) => {
-        if (property) {
-            dispatch(setAnnotateTarget({
-                property,
-                motivation: motivation ? motivation : '',
-                target: specimen,
-                targetType: 'digital_specimen',
-                annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
-            }));
-        }
-
-        dispatch(setSidePanelToggle(true));
-    }
-
     /* Function to open Side Panel with all Annotations of Specimen */
     const ShowWithAllAnnotations = () => {
         /* Add up all property annotations into one annotations array */
@@ -176,6 +162,10 @@ const Specimen = () => {
     const classSpecimenContent = classNames({
         'col-md-10 offset-md-1': !sidePanelToggle,
         'col-md-12 px-5': sidePanelToggle
+    });
+
+    const classIdCard = classNames({
+        'h-100': screenSize === 'lg'
     });
 
     /* ClassName for Side Panel */
@@ -203,12 +193,12 @@ const Specimen = () => {
                                                 />
                                             </Col>
                                         </Row>
-                                        <Row className="py-4 flex-grow-1 overflow-hidden">
-                                            <Col md={{ span: 3 }} className="h-100">
-                                                <IDCard ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                                        <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
+                                            <Col lg={{ span: 3 }} className={classIdCard}>
+                                                <IDCard />
                                             </Col>
-                                            <Col md={{ span: 9 }} className="ps-4 h-100">
-                                                <ContentBlock ToggleModal={(property: string) => ToggleSidePanel(property)} />
+                                            <Col lg={{ span: 9 }} className="ps-4 h-100 mt-4 m-lg-0">
+                                                <ContentBlock />
                                             </Col>
                                         </Row>
                                     </div>

@@ -87,7 +87,7 @@ const TitleBar = (props: Props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 3 }}>
+                    <Col>
                         {/* MIDS Blocks */}
                         <Row className="mt-2">
                             <Col className="col-md-auto d-flex align-items-center">
@@ -126,15 +126,16 @@ const TitleBar = (props: Props) => {
                         </Row>
                     </Col>
                     {/* Specimen Versions */}
-                    <Col md={{ span: 9 }} className="ps-4">
+                    <Col md={{ span: 6 }} lg={{ span: 9 }} className="ps-4">
                         <Row>
-                            <Col className="col-md-auto">
+                            <Col className="d-lg-none" />
+                            <Col className="col-auto">
                                 <VersionSelect target={specimen}
                                     versions={specimenVersions}
                                 />
                             </Col>
-                            <Col />
-                            <Col className="col-md-auto d-flex justify-content-end">
+                            <Col className="d-none d-lg-block" />
+                            <Col className="col-auto d-flex justify-content-end">
                                 <ActionsDropdown actions={specimenActions}
                                     Actions={(action: string) => SpecimenActions(action)}
                                 />

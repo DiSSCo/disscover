@@ -9,8 +9,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, setEditAnnotation,
-    getHighlightAnnotationId, setHighlightAnnotationId
+    setEditAnnotation, getHighlightAnnotationId, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 import { getUser } from 'redux/user/UserSlice';
 
@@ -49,7 +48,6 @@ const Annotation = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Base variables */
-    const annotateTarget = useAppSelector(getAnnotateTarget);
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
     const [userTag, setUserTag] = useState<string>('');
     const annotationMotivations = { ...AnnotationMotivations };
@@ -137,7 +135,7 @@ const Annotation = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation content */}
-                    {!annotateTarget.property &&
+                    {annotation.target.indvProp &&
                         <Row className="mt-2">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />

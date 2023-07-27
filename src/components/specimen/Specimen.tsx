@@ -111,31 +111,28 @@ const Specimen = () => {
     const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
         const copySpecimenAnnotations = { ...specimenAnnotations };
 
-        /* Check if target is a property */
-        if (annotation.target.indvProp) {
-            /* Check if array for target property exists */
-            if (annotation.target.indvProp in specimenAnnotations) {
-                /* Push or patch to existing array */
-                const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation.target.indvProp]];
-                const index = copySpecimenTargetAnnotations.findIndex(
-                    (annotationRecord) => annotationRecord.id === annotation.id
-                );
+        /* Check if array for target property exists */
+        if (annotation.target.indvProp in specimenAnnotations) {
+            /* Push or patch to existing array */
+            const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation.target.indvProp]];
+            const index = copySpecimenTargetAnnotations.findIndex(
+                (annotationRecord) => annotationRecord.id === annotation.id
+            );
 
-                if (index >= 0) {
-                    if (remove) {
-                        copySpecimenTargetAnnotations.splice(index, 1);
-                    } else {
-                        copySpecimenTargetAnnotations[index] = annotation;
-                    }
+            if (index >= 0) {
+                if (remove) {
+                    copySpecimenTargetAnnotations.splice(index, 1);
                 } else {
-                    copySpecimenTargetAnnotations.push(annotation);
+                    copySpecimenTargetAnnotations[index] = annotation;
                 }
-
-                copySpecimenAnnotations[annotation.target.indvProp] = copySpecimenTargetAnnotations;
             } else {
-                /* Create into new array */
-                copySpecimenAnnotations[annotation.target.indvProp] = [annotation];
+                copySpecimenTargetAnnotations.push(annotation);
             }
+
+            copySpecimenAnnotations[annotation.target.indvProp] = copySpecimenTargetAnnotations;
+        } else {
+            /* Create into new array */
+            copySpecimenAnnotations[annotation.target.indvProp] = [annotation];
         }
 
         dispatch(setSpecimenAnnotations(copySpecimenAnnotations));
@@ -152,6 +149,25 @@ const Specimen = () => {
                 annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));
         }
+
+        dispatch(setSidePanelToggle(true));
+    }
+
+    /* Function to open Side Panel with all Annotations of Specimen */
+    const ShowWithAllAnnotations = () => {
+        /* Add up all property annotations into one annotations array */
+        let allAnnotations: Annotation[] = [];
+
+        Object.values(specimenAnnotations).forEach((annotationsArray) => {
+            allAnnotations = allAnnotations.concat(annotationsArray);
+        });
+
+        dispatch(setAnnotateTarget({
+            property: '',
+            target: specimen,
+            targetType: 'digital_specimen',
+            annotations: allAnnotations
+        }));
 
         dispatch(setSidePanelToggle(true));
     }
@@ -182,7 +198,7 @@ const Specimen = () => {
                                     <div className="h-100 d-flex flex-column">
                                         <Row className={styles.titleBar}>
                                             <Col>
-                                                <TitleBar
+                                                <TitleBar ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
                                                     ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
                                                 />
                                             </Col>
@@ -211,7 +227,9 @@ const Specimen = () => {
 
                 {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
-                    <SidePanel UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)} />
+                    <SidePanel ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
+                        UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                    />
                 </div>
             </Row>
         </div>

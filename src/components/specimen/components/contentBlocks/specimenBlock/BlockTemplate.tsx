@@ -81,7 +81,7 @@ const BlockTemplate = (props: Props) => {
                                         <Col>
                                             {propertyGroups.map((propertyGroup, index) => {
                                                 return (
-                                                    <TabPanel key={`${propertyGroup[0].name}.${index}`}
+                                                    <TabPanel key={`${propertyGroup[0].name}`}
                                                         selectedClassName={"react-tabs__tab-panel--selected h-100 d-flex flex-column"}
                                                     >
                                                         {propertyGroup.map((property) => {
@@ -107,7 +107,7 @@ const BlockTemplate = (props: Props) => {
                                     <TabList className="m-0 p-0 d-flex justify-content-center">
                                         {propertyGroups.map((propertyGroup, index) => {
                                             return (
-                                                <Tab key={`${propertyGroup[0].name}.${index}`}
+                                                <Tab key={`${propertyGroup[0].name}`}
                                                     className={classTab}
                                                     selectedClassName={styles.active}
                                                 />

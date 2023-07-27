@@ -119,7 +119,7 @@ const AnnotationForm = (props: Props) => {
                                             className="formField w-100 mt-1"
                                         >
                                             <option value="">
-                                                Specimen in general
+                                                Whole specimen
                                             </option>
 
                                             {Object.keys(annotateTarget.target.data).map((property) => {

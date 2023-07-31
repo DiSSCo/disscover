@@ -259,7 +259,7 @@ const DigitalMedia = () => {
                                 </Col>
                             </Row>
 
-                            {/* Automated Annotations Modal for Digital Media */}
+                            {/* Automated Annotations Modal */}
                             <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
                                 HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
                             />
@@ -269,7 +269,7 @@ const DigitalMedia = () => {
                     <Footer />
                 </Col>
 
-                {/* Annotations Side Panel for Digital Media */}
+                {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
                     <SidePanel ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
                         UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}

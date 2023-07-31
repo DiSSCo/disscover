@@ -205,7 +205,7 @@ const Specimen = () => {
                                 </Col>
                             </Row>
 
-                            {/* Automated Annotations Modal for Specimen */}
+                            {/* Automated Annotations Modal */}
                             <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
                                 HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
                             />
@@ -215,7 +215,7 @@ const Specimen = () => {
                     <Footer />
                 </Col>
 
-                {/* Annotations Side Panel for Specimen */}
+                {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
                     <SidePanel ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
                         UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}

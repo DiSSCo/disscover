@@ -158,7 +158,7 @@ const Specimen = () => {
         dispatch(setSidePanelToggle(true));
     }
 
-    /* ClassName for Specimen Content */
+    /* Class Name for Specimen Content */
     const classSpecimenContent = classNames({
         'col-md-10 offset-md-1': !sidePanelToggle,
         'col-md-12 px-5': sidePanelToggle
@@ -168,7 +168,7 @@ const Specimen = () => {
         'h-100': screenSize === 'lg'
     });
 
-    /* ClassName for Side Panel */
+    /* Class Name for Side Panel */
     const classSidePanel = classNames({
         'p-0': true,
         'w-0': !sidePanelToggle,

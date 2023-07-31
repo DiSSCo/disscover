@@ -188,5 +188,8 @@
     },
     "ods:topicDiscipline": {
         "displayName": "Topic Discipline"
+    },
+    "mediaUrl": {
+        "displayName": "Media URL"
     }
 }

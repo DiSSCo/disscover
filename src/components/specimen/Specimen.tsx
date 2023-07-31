@@ -27,8 +27,7 @@ import Header from 'components/general/header/Header';
 import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
 import ContentBlock from './components/ContentBlock';
-import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
-import SidePanel from 'components/annotate/sidePanel/SidePanel';
+import AnnotationTools from 'components/annotate/AnnotationTools';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
@@ -186,13 +185,6 @@ const Specimen = () => {
         'h-100': screenSize === 'lg'
     });
 
-    /* Class Name for Side Panel */
-    const classSidePanel = classNames({
-        'p-0': true,
-        'w-0': !sidePanelToggle,
-        [`${styles.sidePanel}`]: sidePanelToggle
-    });
-
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
@@ -222,24 +214,20 @@ const Specimen = () => {
                                     </div>
                                 </Col>
                             </Row>
-
-                            {/* Automated Annotations Modal */}
-                            <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
-                                HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
-                            />
                         </Container>
                     }
 
                     <Footer />
                 </Col>
 
-                {/* Annotations Side Panel */}
-                <div className={`${classSidePanel} transition`}>
-                    <SidePanel ShowWithAllAnnotations={() => ShowWithAnnotations()}
-                        UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
-                        RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
-                    />
-                </div>
+                {/* Annotation Tools */}
+                <AnnotationTools sidePanelToggle={sidePanelToggle}
+                    automatedAnnotationsToggle={automatedAnnotationsToggle}
+                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                    ShowWithAnnotations={() => ShowWithAnnotations()}
+                    UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                    RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
+                />
             </Row>
         </div>
     );

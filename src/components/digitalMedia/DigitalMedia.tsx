@@ -33,8 +33,7 @@ import VersionSelect from 'components/general/versionSelect/VersionSelect';
 import DigitalMediaFrame from './components/digitalMedia/DigitalMediaFrame';
 import DigitalMediaList from './components/digitalMedia/DigitalMediaList';
 import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
-import SidePanel from 'components/annotate/sidePanel/SidePanel';
-import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
+import AnnotationTools from 'components/annotate/AnnotationTools';
 import Footer from 'components/general/footer/Footer';
 
 /* Import API */
@@ -168,13 +167,13 @@ const DigitalMedia = () => {
         dispatch(setDigitalMediaAnnotations(copyDigitalMediaAnnotations));
     }
 
-     /* Function to open Side Panel with Annotations of Digital Media, default is all Annotations */
+    /* Function to open Side Panel with Annotations of Digital Media, default is all Annotations */
     const ShowWithAnnotations = (annotations?: DigitalMediaAnnotations, targetProperty?: string) => {
         /* Add up all property annotations into one annotations array */
         let allAnnotations: Annotation[] = [];
 
         /* Append to the all annotations array, if property is the same, or all annotations are wanted */
-        Object.entries(annotations? annotations : digitalMediaAnnotations).forEach((annotationEntry) => {
+        Object.entries(annotations ? annotations : digitalMediaAnnotations).forEach((annotationEntry) => {
             if (!targetProperty || targetProperty === annotationEntry[0]) {
                 allAnnotations = allAnnotations.concat(annotationEntry[1]);
             }
@@ -190,8 +189,8 @@ const DigitalMedia = () => {
         dispatch(setSidePanelToggle(true));
     }
 
-      /* Function for refreshing Annotations */
-      const RefreshAnnotations = (targetProperty?: string) => {
+    /* Function for refreshing Annotations */
+    const RefreshAnnotations = (targetProperty?: string) => {
         /* Refetch Digital Media Annotations */
         GetDigitalMediaAnnotations(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
             /* Show with refreshed Annotations */
@@ -214,12 +213,6 @@ const DigitalMedia = () => {
         'transition h-100': true,
         'col-md-12': !sidePanelToggle,
         'col-md-8': sidePanelToggle
-    });
-
-    const classSidePanel = classNames({
-        'p-0': true,
-        'w-0': !sidePanelToggle,
-        'col-md-4': sidePanelToggle
     });
 
     return (
@@ -273,24 +266,20 @@ const DigitalMedia = () => {
                                     </div>
                                 </Col>
                             </Row>
-
-                            {/* Automated Annotations Modal */}
-                            <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
-                                HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
-                            />
                         </Container >
                     }
-
+                    
                     <Footer />
                 </Col>
 
-                {/* Annotations Side Panel */}
-                <div className={`${classSidePanel} transition`}>
-                    <SidePanel ShowWithAllAnnotations={() => ShowWithAnnotations()}
-                        UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
-                        RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
-                    />
-                </div>
+                {/* Annotation Tools */}
+                <AnnotationTools sidePanelToggle={sidePanelToggle}
+                    automatedAnnotationsToggle={automatedAnnotationsToggle}
+                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                    ShowWithAnnotations={() => ShowWithAnnotations()}
+                    UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                    RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
+                />
             </Row>
         </div>
     );

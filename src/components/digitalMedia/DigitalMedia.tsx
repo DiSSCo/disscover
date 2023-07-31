@@ -20,7 +20,7 @@ import {
 import { setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Types */
-import { Annotation } from 'global/Types';
+import { DigitalMediaAnnotations, Annotation } from 'global/Types';
 
 /* Import Styles */
 import styles from './digitalMedia.module.scss';
@@ -80,8 +80,6 @@ const DigitalMedia = () => {
 
                 /* Get Digital Media annotations */
                 GetDigitalMediaAnnotations(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
-                    console.log(annotations);
-
                     dispatch(setDigitalMediaAnnotations(annotations));
                 }).catch(error => {
                     console.warn(error);
@@ -123,7 +121,7 @@ const DigitalMedia = () => {
 
                 return;
             case 'sidePanel':
-                ShowWithAllAnnotations();
+                ShowWithAnnotations();
 
                 return;
             case 'automatedAnnotations':
@@ -170,23 +168,40 @@ const DigitalMedia = () => {
         dispatch(setDigitalMediaAnnotations(copyDigitalMediaAnnotations));
     }
 
-    /* Function to open Side Panel with all Annotations of Digital Media */
-    const ShowWithAllAnnotations = () => {
+     /* Function to open Side Panel with Annotations of Digital Media, default is all Annotations */
+    const ShowWithAnnotations = (annotations?: DigitalMediaAnnotations, targetProperty?: string) => {
         /* Add up all property annotations into one annotations array */
         let allAnnotations: Annotation[] = [];
 
-        Object.values(digitalMediaAnnotations).forEach((annotationsArray) => {
-            allAnnotations = allAnnotations.concat(annotationsArray);
+        /* Append to the all annotations array, if property is the same, or all annotations are wanted */
+        Object.entries(annotations? annotations : digitalMediaAnnotations).forEach((annotationEntry) => {
+            if (!targetProperty || targetProperty === annotationEntry[0]) {
+                allAnnotations = allAnnotations.concat(annotationEntry[1]);
+            }
         });
 
         dispatch(setAnnotateTarget({
-            property: '',
+            property: targetProperty ? targetProperty : '',
             target: digitalMedia,
             targetType: 'digital_media',
             annotations: allAnnotations
         }));
 
         dispatch(setSidePanelToggle(true));
+    }
+
+      /* Function for refreshing Annotations */
+      const RefreshAnnotations = (targetProperty?: string) => {
+        /* Refetch Digital Media Annotations */
+        GetDigitalMediaAnnotations(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
+            /* Show with refreshed Annotations */
+            ShowWithAnnotations(annotations, targetProperty);
+
+            /* Update Annotations source */
+            dispatch(setDigitalMediaAnnotations(annotations));
+        }).catch(error => {
+            console.warn(error);
+        });
     }
 
     /* Class Names */
@@ -271,8 +286,9 @@ const DigitalMedia = () => {
 
                 {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
-                    <SidePanel ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
+                    <SidePanel ShowWithAllAnnotations={() => ShowWithAnnotations()}
                         UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                        RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
                     />
                 </div>
             </Row>

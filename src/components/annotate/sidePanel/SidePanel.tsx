@@ -34,12 +34,13 @@ import Tooltip from 'components/general/tooltip/Tooltip';
 /* Props Typing */
 interface Props {
     ShowWithAllAnnotations: Function,
-    UpdateAnnotationsSource?: Function
+    UpdateAnnotationsSource?: Function,
+    RefreshAnnotations?: Function
 };
 
 
 const SidePanel = (props: Props) => {
-    const { ShowWithAllAnnotations, UpdateAnnotationsSource } = props;
+    const { ShowWithAllAnnotations, UpdateAnnotationsSource, RefreshAnnotations } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -147,6 +148,16 @@ const SidePanel = (props: Props) => {
                                 {sidePanelTitle}
                             </h4>
                         </Col>
+                        {RefreshAnnotations &&
+                            <Col className="col-md-auto">
+                                <button type="button"
+                                    className="primaryButton py-1 px-2"
+                                    onClick={() => RefreshAnnotations(annotateTarget.property)}
+                                >
+                                    Refresh
+                                </button>
+                            </Col>
+                        }
                         <Col className="col-md-auto">
                             <Tooltip text="All annotations are publicly available and subject to the CC-0 license" placement="left">
                                 <span>

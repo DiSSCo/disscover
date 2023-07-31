@@ -17,7 +17,7 @@ import {
 import { getScreenSize, setErrorMessage } from 'redux/general/GeneralSlice';
 
 /* Import Types */
-import { Annotation } from 'global/Types';
+import { Annotation, SpecimenAnnotations } from 'global/Types';
 
 /* Import Styles */
 import styles from './specimen.module.scss';
@@ -35,6 +35,7 @@ import Footer from 'components/general/footer/Footer';
 import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
+import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 
 
 const Specimen = () => {
@@ -139,23 +140,40 @@ const Specimen = () => {
         dispatch(setSpecimenAnnotations(copySpecimenAnnotations));
     }
 
-    /* Function to open Side Panel with all Annotations of Specimen */
-    const ShowWithAllAnnotations = () => {
+    /* Function to open Side Panel with Annotations of Specimen, default is all Annotations */
+    const ShowWithAnnotations = (annotations?: SpecimenAnnotations, targetProperty?: string) => {
         /* Add up all property annotations into one annotations array */
         let allAnnotations: Annotation[] = [];
 
-        Object.values(specimenAnnotations).forEach((annotationsArray) => {
-            allAnnotations = allAnnotations.concat(annotationsArray);
+        /* Append to the all annotations array, if property is the same, or all annotations are wanted */
+        Object.entries(annotations ? annotations : specimenAnnotations).forEach((annotationEntry) => {
+            if (!targetProperty || targetProperty === annotationEntry[0]) {
+                allAnnotations = allAnnotations.concat(annotationEntry[1]);
+            }
         });
 
         dispatch(setAnnotateTarget({
-            property: '',
+            property: targetProperty ? targetProperty : '',
             target: specimen,
             targetType: 'digital_specimen',
             annotations: allAnnotations
         }));
 
         dispatch(setSidePanelToggle(true));
+    }
+
+    /* Function for refreshing Annotations */
+    const RefreshAnnotations = (targetProperty?: string) => {
+        /* Refetch Specimen Annotations */
+        GetSpecimenAnnotations(specimen.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
+            /* Show with refreshed Annotations */
+            ShowWithAnnotations(annotations, targetProperty);
+
+            /* Update Annotations source */
+            dispatch(setSpecimenAnnotations(annotations));
+        }).catch(error => {
+            console.warn(error);
+        });
     }
 
     /* Class Name for Specimen Content */
@@ -188,7 +206,7 @@ const Specimen = () => {
                                     <div className="h-100 d-flex flex-column">
                                         <Row className={styles.titleBar}>
                                             <Col>
-                                                <TitleBar ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
+                                                <TitleBar ShowWithAllAnnotations={() => ShowWithAnnotations()}
                                                     ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
                                                 />
                                             </Col>
@@ -217,8 +235,9 @@ const Specimen = () => {
 
                 {/* Annotations Side Panel */}
                 <div className={`${classSidePanel} transition`}>
-                    <SidePanel ShowWithAllAnnotations={() => ShowWithAllAnnotations()}
+                    <SidePanel ShowWithAllAnnotations={() => ShowWithAnnotations()}
                         UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                        RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
                     />
                 </div>
             </Row>

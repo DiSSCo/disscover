@@ -191,11 +191,5 @@
     },
     "mediaUrl": {
         "displayName": "Media URL"
-    },
-    "ac:accessURI": {
-        "displayName": "Acces URL"
-    },
-    "dcterms:format": {
-        "displayName": "Format"
     }
 }

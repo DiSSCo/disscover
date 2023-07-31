@@ -173,14 +173,14 @@ const DigitalMedia = () => {
         let allAnnotations: Annotation[] = [];
 
         /* Append to the all annotations array, if property is the same, or all annotations are wanted */
-        Object.entries(annotations || digitalMediaAnnotations).forEach((annotationEntry) => {
+        Object.entries(annotations ?? digitalMediaAnnotations).forEach((annotationEntry) => {
             if (!targetProperty || targetProperty === annotationEntry[0]) {
                 allAnnotations = allAnnotations.concat(annotationEntry[1]);
             }
         });
 
         dispatch(setAnnotateTarget({
-            property: targetProperty || '',
+            property: targetProperty ?? '',
             target: digitalMedia,
             targetType: 'digital_media',
             annotations: allAnnotations

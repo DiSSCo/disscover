@@ -145,14 +145,14 @@ const Specimen = () => {
         let allAnnotations: Annotation[] = [];
 
         /* Append to the all annotations array, if property is the same, or all annotations are wanted */
-        Object.entries(annotations || specimenAnnotations).forEach((annotationEntry) => {
+        Object.entries(annotations ?? specimenAnnotations).forEach((annotationEntry) => {
             if (!targetProperty || targetProperty === annotationEntry[0]) {
                 allAnnotations = allAnnotations.concat(annotationEntry[1]);
             }
         });
 
         dispatch(setAnnotateTarget({
-            property: targetProperty || '',
+            property: targetProperty ?? '',
             target: specimen,
             targetType: 'digital_specimen',
             annotations: allAnnotations

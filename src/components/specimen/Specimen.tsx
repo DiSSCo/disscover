@@ -181,6 +181,12 @@ const Specimen = () => {
         'col-md-12 px-5': sidePanelToggle
     });
 
+    const classHeadCol = classNames({
+        'transition h-100': true,
+        'col-md-12': !sidePanelToggle,
+        'col-md-8': sidePanelToggle
+    });
+
     const classIdCard = classNames({
         'h-100': screenSize === 'lg'
     });
@@ -188,7 +194,7 @@ const Specimen = () => {
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
-                <Col>
+                <Col className={classHeadCol}>
                     <Header />
 
                     {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&

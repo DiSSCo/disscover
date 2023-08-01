@@ -32,8 +32,8 @@ const AudioPlayer = (props: Props) => {
     /* Function for repeating the frame animation, allowing the progress bar to progress */
     const Repeat = useCallback(() => {
         if (audioRef.current && rangeRef.current) {
-            const audioPlayer = audioRef.current as HTMLAudioElement;
-            const audioRange = rangeRef.current as HTMLInputElement;
+            const audioPlayer = audioRef.current;
+            const audioRange = rangeRef.current;
 
             audioRange.value = String(audioPlayer.currentTime);
             audioRange.style.setProperty(
@@ -48,7 +48,7 @@ const AudioPlayer = (props: Props) => {
     /* Function for playing and pausing audio */
     useEffect(() => {
         if (audioRef.current) {
-            const audioPlayer = audioRef.current as HTMLAudioElement;
+            const audioPlayer = audioRef.current;
 
             if (isPlaying) {
                 audioPlayer.play();

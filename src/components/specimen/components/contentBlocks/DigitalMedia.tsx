@@ -21,63 +21,8 @@ const DigitalMedia = () => {
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
     let sortedDigitalMedia: { [mediaType: string]: React.ReactElement[] } = {};
 
-    let created = new Date();
-
-    let test = [...specimenDigitalMedia];
-
-    test.push({
-        annotations: [],
-        created: new Date(),
-        digitalMediaObject: {
-            id: '100',
-            data: {},
-            created: new Date(),
-            digitalSpecimenId: '200',
-            format: 'video',
-            mediaUrl: '',
-            originalData: {},
-            sourceSystemId: '300',
-            type: 'video',
-            version: 2
-        }
-    });
-
-    test.push({
-        annotations: [],
-        created: new Date(),
-        digitalMediaObject: {
-            id: '100',
-            data: {},
-            created: new Date(),
-            digitalSpecimenId: '200',
-            format: 'video',
-            mediaUrl: '',
-            originalData: {},
-            sourceSystemId: '300',
-            type: 'audio',
-            version: 2
-        }
-    });
-
-    test.push({
-        annotations: [],
-        created: new Date(),
-        digitalMediaObject: {
-            id: '100',
-            data: {},
-            created: new Date(),
-            digitalSpecimenId: '200',
-            format: 'video',
-            mediaUrl: 'File.pdf',
-            originalData: {},
-            sourceSystemId: '300',
-            type: 'file',
-            version: 2
-        }
-    });
-
     /* Sort Digital Media based upon type/format */
-    test.forEach((item) => {
+    specimenDigitalMedia.forEach((item) => {
         const digitalMediaItem = item.digitalMediaObject;
 
         switch (digitalMediaItem.type) {

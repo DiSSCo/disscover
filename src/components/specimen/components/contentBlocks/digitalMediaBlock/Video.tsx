@@ -14,21 +14,18 @@ interface Props {
 const Video = (props: Props) => {
     const { digitalMedia } = props;
 
-    /* Temporary */
-    let mediaUrl = "https://www.youtube.com/embed/4PY0uilPMfk";
-
-    if (mediaUrl.includes('youtube')) {
+    if (digitalMedia.mediaUrl.includes('youtube')) {
         return (
             <div className={`${styles.videoHover} w-100 h-100 position-relative transition`}>
-                <iframe className={`w-100 h-100`} src="https://www.youtube.com/embed/4PY0uilPMfk" />
+                <iframe className={`w-100 h-100`} src={digitalMedia.mediaUrl} />
             </div>
         );
     } else {
         return (
             <div className={`${styles.videoHover} w-100 h-100 position-relative transition`}>
                 <video className="w-100 rounded">
-                    <source src={mediaUrl} type="video/mp4" />
-                    <source src={mediaUrl} type="video/ogg" />
+                    <source src={digitalMedia.mediaUrl} type="video/mp4" />
+                    <source src={digitalMedia.mediaUrl} type="video/ogg" />
                     Your browser does not support direct video
                 </video>
             </div>

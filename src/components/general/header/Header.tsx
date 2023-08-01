@@ -50,7 +50,9 @@ const Header = () => {
                     {/* Title */}
                     <Row className="h-100 w-100 align-items-end">
                         <Col className="col-md-auto p-0 d-flex align-items-center">
-                            <h1 className={`${styles.title} fw-bold`}>DiSSCover</h1>
+                            <Link to="/">
+                                <h1 className={`${styles.title} fw-bold`}>DiSSCover</h1>
+                            </Link>
                         </Col>
                         {/* Navigation */}
                         <Col className="pb-3 d-flex justify-content-center">

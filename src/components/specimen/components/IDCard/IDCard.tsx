@@ -51,7 +51,7 @@ const IDCard = () => {
             <Col className="h-100">
                 <div className="h-100 d-flex flex-column">
                     {specimenDigitalMedia.length > 0 &&
-                        <Row className={styles.IDCardBanner}>
+                        <Row className={`${styles.IDCardBanner} overflow-hidden`}>
                             <Col className="h-100">
                                 <div className={`${styles.IDCardBannerBackground} h-100 d-flex justify-content-center`}>
                                     <img src={specimenDigitalMedia[0].digitalMediaObject.mediaUrl} alt="banner"

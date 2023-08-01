@@ -262,12 +262,39 @@
 }
 
 /* Digital Media Block */
-.digitalMediaImagesBlock {
-    height: 35%;
+.digitalMediaTitle {
+    font-size: 18px;
 }
 
-.digitalMediaTitle {
-    font-size: 15px;
+.imageHover {
+    opacity: 0;
+}
+
+.imageHover:hover {
+    opacity: 1;
+    background-color: rgb(51, 51, 51, 0.25);
+}
+
+.videoHover {
+    z-index: 2;
+}
+
+.videoHover:hover {
+    width: 150% !important;
+    height: 130% !important;
+    transition-delay: 2s;
+}
+
+.fileBlock {
+    border: 1px solid var(--secondary);
+}
+
+.fileIcon {
+    font-size: 20px;
+}
+
+.fileTitle {
+    font-size: 13px;
 }
 
 .digitalMediaImagesSlider {

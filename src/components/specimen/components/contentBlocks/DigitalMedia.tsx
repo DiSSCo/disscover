@@ -1,6 +1,5 @@
 /* Import Dependencies */
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Capitalize } from 'global/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -10,60 +9,134 @@ import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+/* Components */
+import Image from './digitalMediaBlock/Image';
+import Video from './digitalMediaBlock/Video';
+import Audio from './digitalMediaBlock/Audio';
+import File from './digitalMediaBlock/File';
 
 
 const DigitalMedia = () => {
-    /* Hooks */
-    const navigate = useNavigate();
-
     /* Base variables */
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
-    const [imageHover, setImageHover] = useState<string>('');
+    let sortedDigitalMedia: { [mediaType: string]: React.ReactElement[] } = {};
+
+    let created = new Date();
+
+    let test = [...specimenDigitalMedia];
+
+    test.push({
+        annotations: [],
+        created: new Date(),
+        digitalMediaObject: {
+            id: '100',
+            data: {},
+            created: new Date(),
+            digitalSpecimenId: '200',
+            format: 'video',
+            mediaUrl: '',
+            originalData: {},
+            sourceSystemId: '300',
+            type: 'video',
+            version: 2
+        }
+    });
+
+    test.push({
+        annotations: [],
+        created: new Date(),
+        digitalMediaObject: {
+            id: '100',
+            data: {},
+            created: new Date(),
+            digitalSpecimenId: '200',
+            format: 'video',
+            mediaUrl: '',
+            originalData: {},
+            sourceSystemId: '300',
+            type: 'audio',
+            version: 2
+        }
+    });
+
+    test.push({
+        annotations: [],
+        created: new Date(),
+        digitalMediaObject: {
+            id: '100',
+            data: {},
+            created: new Date(),
+            digitalSpecimenId: '200',
+            format: 'video',
+            mediaUrl: 'File.pdf',
+            originalData: {},
+            sourceSystemId: '300',
+            type: 'file',
+            version: 2
+        }
+    });
+
+    /* Sort Digital Media based upon type/format */
+    test.forEach((item) => {
+        const digitalMediaItem = item.digitalMediaObject;
+
+        switch (digitalMediaItem.type) {
+            case '2DImageObject':
+                (sortedDigitalMedia.images || (sortedDigitalMedia.images = [])).push(
+                    <Image digitalMedia={digitalMediaItem} />
+                );
+
+                return;
+            case 'video':
+                (sortedDigitalMedia.videos || (sortedDigitalMedia.videos = [])).push(
+                    <Video digitalMedia={digitalMediaItem} />
+                );
+
+                return;
+            case 'audio':
+                (sortedDigitalMedia.audio || (sortedDigitalMedia.audio = [])).push(
+                    <Audio digitalMedia={digitalMediaItem} />
+                );
+
+                return;
+            default:
+                (sortedDigitalMedia['other Media'] || (sortedDigitalMedia['other Media'] = [])).push(
+                    <File digitalMedia={digitalMediaItem} />
+                );
+        }
+    });
 
     return (
-        <Row className="h-100">
+        <Row className="h-100 overflow-scroll">
             <Col className="h-100">
-                <Card className="h-100">
-                    <Card.Body className="h-100">
-                        <Row className={`${styles.digitalMediaImagesBlock} mt-2`}>
-                            <Col className="h-100">
-                                <p className={`${styles.digitalMediaTitle} fw-bold`}> Images: </p>
+                {Object.keys(sortedDigitalMedia).map((mediaType) => {
+                    const mediaComponents = sortedDigitalMedia[mediaType];
 
-                                <div className={`${styles.digitalMediaImagesSlider} px-3 py-2 mt-1`}>
-                                    {specimenDigitalMedia.map((specimenDigitalMediaItem) => {
-                                        const digitalMedia = specimenDigitalMediaItem.digitalMediaObject;
+                    return (
+                        <Card key={mediaType} className="px-4 py-3 mb-3">
+                            {/* Digital Media type title */}
+                            <Row>
+                                <Col>
+                                    <p className={`${styles.digitalMediaTitle} c-accent fw-lightBold`}>
+                                        {Capitalize(mediaType)}
+                                    </p>
+                                </Col>
+                            </Row>
+                            {/* Digital Media Components */}
+                            <Row className="mt-2">
+                                {mediaComponents.map((mediaComponent, index) => {
+                                    const key = `${mediaType} ${index}`;
 
-                                        return (
-                                            <div key={digitalMedia.id}
-                                                className={`${styles.digitalMediaImageDiv} h-100 me-3 d-inline-block position-relative`}
-                                            >
-                                                <img src={digitalMedia.mediaUrl}
-                                                    alt={digitalMedia.mediaUrl}
-                                                    className={`${styles.digitalMediaImage} h-100`}
-                                                    onMouseEnter={() => setImageHover(digitalMedia.id)}
-                                                    onMouseLeave={() => setImageHover('')}
-                                                />
-
-                                                <div className={`${styles.digitalMediaImageHover} 
-                                                    ${(digitalMedia.id === imageHover && styles.active)} 
-                                                    position-absolute bottom-0 w-100 h-100 py-1 px-2 bg-white d-flex justify-content-center align-items-center`}
-                                                    onMouseEnter={() => setImageHover(digitalMedia.id)}
-                                                    onMouseLeave={() => setImageHover('')}
-                                                    onClick={() => navigate(`/dm/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`)}
-                                                >
-                                                    Go to Image <FontAwesomeIcon icon={faChevronRight} className="ms-1 fw-lightBold" />
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </Col>
-                        </Row>
-                    </Card.Body>
-                </Card>
+                                    return (
+                                        <Col key={key} lg={{span: 3}}>
+                                            {mediaComponent}
+                                        </Col>
+                                    );
+                                })}
+                            </Row>
+                        </Card>
+                    );
+                })}
             </Col>
         </Row>
     );

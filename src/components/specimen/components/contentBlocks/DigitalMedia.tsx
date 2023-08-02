@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { Link } from 'react-router-dom';
 import { Capitalize } from 'global/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
@@ -10,10 +11,10 @@ import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Components */
-import Image from './digitalMediaBlock/Image';
-import Video from './digitalMediaBlock/Video';
-import Audio from './digitalMediaBlock/Audio';
-import File from './digitalMediaBlock/File';
+import Image from 'components/general/mediaTypes/Image';
+import Video from 'components/general/mediaTypes/Video';
+import Audio from 'components/general/mediaTypes/Audio';
+import File from 'components/general/mediaTypes/File';
 
 
 const DigitalMedia = () => {
@@ -28,13 +29,19 @@ const DigitalMedia = () => {
         switch (digitalMediaItem.type) {
             case '2DImageObject':
                 (sortedDigitalMedia.images || (sortedDigitalMedia.images = [])).push(
-                    <Image digitalMedia={digitalMediaItem} />
+                    <Link to={`/dm/${digitalMediaItem.id.replace('https://hdl.handle.net/', '')}`}>
+                        <Image digitalMedia={digitalMediaItem}
+                            sizeOrientation='width' hoverEffect={true}
+                        />
+                    </Link>
                 );
 
                 return;
             case 'video':
                 (sortedDigitalMedia.videos || (sortedDigitalMedia.videos = [])).push(
-                    <Video digitalMedia={digitalMediaItem} />
+                    <Video digitalMedia={digitalMediaItem}
+                        hoverEffect={true}
+                    />
                 );
 
                 return;
@@ -73,7 +80,7 @@ const DigitalMedia = () => {
                                     const key = `${mediaType} ${index}`;
 
                                     return (
-                                        <Col key={key} lg={{span: 3}}>
+                                        <Col key={key} lg={{ span: 3 }}>
                                             {mediaComponent}
                                         </Col>
                                     );

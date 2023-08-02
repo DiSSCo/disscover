@@ -6,10 +6,10 @@ import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
 /* Import Components */
-import Image from './Image';
-import Video from './Video';
-import Audio from './Audio';
-import File from './File';
+import Image from 'components/general/mediaTypes/Image';
+import Video from 'components/general/mediaTypes/Video';
+import Audio from 'components/general/mediaTypes/Audio';
+import File from 'components/general/mediaTypes/File';
 
 
 const DigitalMediaFrame = () => {
@@ -21,7 +21,7 @@ const DigitalMediaFrame = () => {
 
     switch (digitalMedia.type) {
         case '2DImageObject':
-            digitalMediaContent = <Image digitalMedia={digitalMedia} />
+            digitalMediaContent = <Image digitalMedia={digitalMedia} sizeOrientation='height' />
 
             break;
         case 'video':

@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { setStepsEnabled } from 'redux/general/GeneralSlice';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 import { getSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
@@ -15,6 +16,10 @@ import { Specimen } from 'global/Types';
 
 /* Import Styles */
 import styles from './header.module.scss';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompass } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import Languages from './components/Languages';
@@ -80,6 +85,13 @@ const Header = () => {
                                     </Col>
                                 </Row>
                             </nav>
+                        </Col>
+                        {/* Intro js */}
+                        <Col className="col-md-auto pb-3 pe-2">
+                            <FontAwesomeIcon icon={faCompass}
+                                className={`${styles.introIcon} c-pointer`}
+                                onClick={() => dispatch(setStepsEnabled(true))}
+                            />
                         </Col>
                         {/* Language Support */}
                         <Col className="col-md-auto pb-3">

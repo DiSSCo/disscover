@@ -7,7 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { setStepsEnabled } from 'redux/general/GeneralSlice';
+import { setIntroTopic } from 'redux/general/GeneralSlice';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 import { getSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
@@ -17,17 +17,22 @@ import { Specimen } from 'global/Types';
 /* Import Styles */
 import styles from './header.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
-
 /* Import Components */
+import IntroTopics from './components/IntroTopics';
 import Languages from './components/Languages';
 import Login from './components/Login';
 import Profile from './components/Profile';
 
 
-const Header = () => {
+/* Props Typing */
+interface Props {
+    introTopics?: string[]
+};
+
+
+const Header = (props: Props) => {
+    const { introTopics } = props;
+
     /* Hooks */
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
@@ -86,13 +91,12 @@ const Header = () => {
                                 </Row>
                             </nav>
                         </Col>
-                        {/* Intro js */}
-                        <Col className="col-md-auto pb-3 pe-2">
-                            <FontAwesomeIcon icon={faCompass}
-                                className={`${styles.introIcon} c-pointer`}
-                                onClick={() => dispatch(setStepsEnabled(true))}
-                            />
-                        </Col>
+                        {/* Intro js if intro topics are present */}
+                        {introTopics &&
+                            <Col className="col-md-auto pb-3 pe-2">
+                                <IntroTopics introTopics={introTopics} />
+                            </Col>
+                        }
                         {/* Language Support */}
                         <Col className="col-md-auto pb-3">
                             <Languages />

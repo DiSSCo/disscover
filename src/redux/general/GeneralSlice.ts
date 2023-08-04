@@ -7,14 +7,14 @@ export interface GeneralState {
     screenSize: string,
     errorMessage: string;
     language: string;
-    stepsEnabled: boolean;
+    introTopic: string;
 };
 
 const initialState: GeneralState = {
     screenSize: 'lg',
     errorMessage: '',
     language: 'EN',
-    stepsEnabled: false
+    introTopic: ''
 };
 
 export const GeneralSlice = createSlice({
@@ -30,8 +30,8 @@ export const GeneralSlice = createSlice({
         setLanguage: (state, action: PayloadAction<string>) => {
             state.language = action.payload;
         },
-        setStepsEnabled: (state, action: PayloadAction<boolean>) => {
-            state.stepsEnabled = action.payload;
+        setIntroTopic: (state, action: PayloadAction<string>) => {
+            state.introTopic = action.payload;
         }
     },
 })
@@ -41,13 +41,13 @@ export const {
     setScreenSize,
     setErrorMessage,
     setLanguage,
-    setStepsEnabled
+    setIntroTopic
 } = GeneralSlice.actions;
 
 /* Connect with Root State */
 export const getScreenSize = (state: RootState) => state.general.screenSize;
 export const getErrorMessage = (state: RootState) => state.general.errorMessage;
 export const getLanguage = (state: RootState) => state.general.language;
-export const getStepsEnabled = (state: RootState) => state.general.stepsEnabled;
+export const getIntroTopic = (state: RootState) => state.general.introTopic;
 
 export default GeneralSlice.reducer;

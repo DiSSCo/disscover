@@ -1,21 +1,14 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import classNames from 'classnames';
-import { Steps } from 'intro.js-react';
 import { Container, Row, Col } from 'react-bootstrap';
-
-/* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getStepsEnabled, setStepsEnabled } from 'redux/general/GeneralSlice';
 
 /* Import Styles */
 import styles from './home.module.scss';
 
-/* Import Sources */
-import HomeIntro from 'sources/introText/home.json';
-
 /* Import Components */
 import Header from 'components/general/header/Header';
+import HomeSteps from './HomeSteps';
 import Title from './components/Title';
 import SpecimenTypeFilters from "./components/specimenTypes/SpecimenTypeFilters";
 import IntroText from "./components/IntroText";
@@ -25,11 +18,7 @@ import Footer from 'components/general/footer/Footer';
 
 
 const Home = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
-
     /* Base variables */
-    const stepsEnabled = useAppSelector(getStepsEnabled);
     const [advancedSearch, setAdvancedSearch] = useState<boolean>(false);
 
     /* ClassName for Advanced Search */
@@ -44,50 +33,11 @@ const Home = () => {
         [`${styles.active}`]: !advancedSearch
     });
 
-    /* Intro Steps */
-    const steps = {
-        steps: [
-            {
-                intro: HomeIntro['step_1']
-            },
-            {
-                element: `.${styles.advancedToggled}`,
-                intro: HomeIntro['step_2']
-            },
-            {
-                element: `.specimenTypeFilters`,
-                intro: HomeIntro['step_3']
-            },
-            {
-                element: ".globalSearchBar",
-                intro: HomeIntro['step_4']
-            },
-            {
-                element: `.${styles.advancedToggled}`,
-                intro: HomeIntro['step_5']
-            }
-        ]
-    }
-
     return (
         <div>
-            <Header />
+            <Header introTopics={['home']}/>
 
-            <Steps enabled={stepsEnabled}
-                steps={steps.steps}
-                initialStep={0}
-                onBeforeChange={(nextIndex) => {
-                    if (nextIndex >= 4) {
-                        setAdvancedSearch(true);
-                    } else {
-                        setAdvancedSearch(false);
-                    }
-                }}
-                onExit={() => {
-                    dispatch(setStepsEnabled(false));
-                    setAdvancedSearch(false);
-                }}
-            />
+            <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
 
             <Container fluid className={styles.content}>
                 <Row className="h-100">

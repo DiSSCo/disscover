@@ -24,7 +24,6 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
-import SearchSteps from './SearchSteps';
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 import SearchBar from './components/searchMenu/SearchBar';
 import SearchFilters from './components/searchMenu/SearchFilters';
@@ -35,6 +34,10 @@ import IDCard from './components/IDCard/IDCard';
 import MapMediaExt from './components/IDCard/MapMediaExt';
 import CompareBox from './components/compare/CompareBox';
 import Footer from 'components/general/footer/Footer';
+
+/* Import Introduction Steps */
+import SearchSteps from './steps/SearchSteps';
+import CompareSteps from './steps/CompareSteps';
 
 /* Import API */
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
@@ -145,9 +148,10 @@ const Search = () => {
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header introTopics={['search']} />
+            <Header introTopics={['search', 'compare']} />
 
             <SearchSteps SetFilterToggle={(toggle: boolean) => setFilterToggle(toggle)} />
+            <CompareSteps />
 
             <Container fluid className={`${styles.content} pt-5 pb-4`}>
                 <Row className="h-100 position-relative">
@@ -265,11 +269,11 @@ const Search = () => {
                     </Col>
 
                     {/* Compare box, to compare Specimens if compare mode is true */}
-                    {compareMode &&
-                        <div className="position-absolute bottom-0 d-flex justify-content-end pe-5">
+                    <div className={`${styles.compareBoxBlock} position-absolute bottom-0 d-flex justify-content-end pe-5`}>
+                        {compareMode &&
                             <CompareBox />
-                        </div>
-                    }
+                        }
+                    </div>
                 </Row>
             </Container>
 

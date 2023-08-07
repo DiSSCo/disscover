@@ -7,7 +7,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { setIntroTopic } from 'redux/general/GeneralSlice';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 import { getSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 

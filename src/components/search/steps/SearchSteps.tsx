@@ -30,6 +30,7 @@ const SearchSteps = (props: Props) => {
     /* Base variables */
     const introTopic = useAppSelector(getIntroTopic);
     const searchResults = useAppSelector(getSearchResults);
+    const searchIntro = SearchIntro.search;
 
     /* Function for setting a Search Param */
     const SetSearchParam = (param: string, query?: string) => {
@@ -44,43 +45,41 @@ const SearchSteps = (props: Props) => {
         });
     }
 
-    /* Construct Intro.js steps for Homepage */
-    const steps = {
-        search: [
-            {
-                intro: SearchIntro['step_1']
-            },
-            {
-                element: ".searchBar",
-                intro: SearchIntro['step_2']
-            },
-            {
-                element: `.searchResults`,
-                intro: SearchIntro['step_3']
-            },
-            {
-                element: ".IDCard",
-                intro: SearchIntro['step_4']
-            },
-            {
-                element: ".searchMenu",
-                intro: SearchIntro['step_5']
-            },
-            {
-                element: ".searchMenu",
-                intro: SearchIntro['step_6']
-            },
-            {
-                element: ".activeFilters",
-                intro: SearchIntro['step_7']
-            }
-        ]
-    }
+    /* Construct Intro.js steps for Search page */
+    const steps = [
+        {
+            intro: searchIntro['step_1']
+        },
+        {
+            element: ".searchBar",
+            intro: searchIntro['step_2']
+        },
+        {
+            element: `.searchResults`,
+            intro: searchIntro['step_3']
+        },
+        {
+            element: ".IDCard",
+            intro: searchIntro['step_4']
+        },
+        {
+            element: ".searchMenu",
+            intro: searchIntro['step_5']
+        },
+        {
+            element: ".searchMenu",
+            intro: searchIntro['step_6']
+        },
+        {
+            element: ".activeFilters",
+            intro: searchIntro['step_7']
+        }
+    ];
 
     return (
         <>
             <Steps enabled={introTopic === 'search'}
-                steps={steps.search ?? []}
+                steps={steps ?? []}
                 initialStep={0}
                 onBeforeChange={(nextIndex) => {
                     return new Promise((resolve) => {
@@ -123,7 +122,7 @@ const SearchSteps = (props: Props) => {
                     });
                 }}
                 onExit={() => {
-                    /* Rest intro topic */
+                    /* Reset intro topic */
                     dispatch(setIntroTopic(''));
                 }}
             />

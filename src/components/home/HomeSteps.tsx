@@ -49,6 +49,11 @@ const HomeSteps = (props: Props) => {
                 element: `.${styles.advancedToggled}`,
                 intro: HomeIntro['step_5']
             }
+        ],
+        test: [
+            {
+                intro: 'test'
+            }
         ]
     }
 

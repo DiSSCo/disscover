@@ -18,7 +18,16 @@ import DigitalMedia from './contentBlocks/DigitalMedia';
 import Provenance from './contentBlocks/Provenance';
 
 
-const ContentBlock = () => {
+/* Props Typing */
+interface Props {
+    selectedTab: number,
+    SetSelectedTab: Function
+};
+
+
+const ContentBlock = (props: Props) => {
+    const { selectedTab, SetSelectedTab } = props;
+
     /* Base variables */
     const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
@@ -41,13 +50,14 @@ const ContentBlock = () => {
             <Col className="h-100">
                 <Row className="h-100">
                     <Col className="h-100">
-                        <Tabs className="h-100 d-flex flex-column">
+                        <Tabs className="h-100 d-flex flex-column"
+                            selectedIndex={selectedTab}
+                            onSelect={(tabIndex) => SetSelectedTab(tabIndex)}
+                        >
                             <TabList className={classTabsList}>
                                 <Tab className={classTab} selectedClassName={styles.active}>Digital Specimen</Tab>
                                 <Tab className={classTab} selectedClassName={styles.active}>Original Data</Tab>
-                                {!isEmpty(digitalMedia) &&
-                                    <Tab className={classTab} selectedClassName={styles.active}>Digital Media</Tab>
-                                }
+                                <Tab className={`${classTab} ${isEmpty(digitalMedia) && 'd-none'}`} selectedClassName={styles.active}>Digital Media</Tab>
                                 <Tab className={classTab} selectedClassName={styles.active}>Provenance</Tab>
                             </TabList>
 
@@ -62,11 +72,9 @@ const ContentBlock = () => {
                             </TabPanel>
 
                             {/* Digital Media Overview, if present */}
-                            {!isEmpty(digitalMedia) &&
-                                <TabPanel className={classTabPanel}>
-                                    <DigitalMedia />
-                                </TabPanel>
-                            }
+                            <TabPanel className={`${classTabPanel} ${isEmpty(digitalMedia) && 'd-none'}`}>
+                                <DigitalMedia />
+                            </TabPanel>
 
                             <TabPanel className={classTabPanel}>
                                 <Provenance />

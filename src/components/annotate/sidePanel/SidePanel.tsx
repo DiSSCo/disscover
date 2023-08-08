@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
@@ -7,8 +7,8 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getSidePanelToggle, setSidePanelToggle, getAnnotateTarget,
-    setAnnotateTarget, getEditAnnotation, setEditAnnotation
+    getSidePanelToggle, setSidePanelToggle, getAnnotationFormToggle, setAnnotationFormToggle,
+    getAnnotateTarget, setAnnotateTarget, getEditAnnotation, setEditAnnotation
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
@@ -47,10 +47,10 @@ const SidePanel = (props: Props) => {
 
     /* Base variables */
     const toggle = useAppSelector(getSidePanelToggle);
+    const annotationFormToggle = useAppSelector(getAnnotationFormToggle);
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const editAnnotation = useAppSelector(getEditAnnotation);
     const harmonisedAttributes: Dict = harmonisedAttributesSource;
-    const [annotationFormToggle, setAnnotationFormToggle] = useState(false);
 
     /* Set Side Panel title */
     let sidePanelTitle: string;
@@ -106,19 +106,19 @@ const SidePanel = (props: Props) => {
         }
 
         /* Return to Annotations overview */
-        setAnnotationFormToggle(false);
+        dispatch(setAnnotationFormToggle(false));
     }
 
     /* Function for when clicking on the Back Button */
     const BackAction = () => {
         if (annotationFormToggle || !isEmpty(editAnnotation)) {
-            setAnnotationFormToggle(false);
+            dispatch(setAnnotationFormToggle(false));
             dispatch(setEditAnnotation({} as Annotation));
         } else if (annotateTarget.property) {
             ShowWithAllAnnotations();
         } else {
             dispatch(setSidePanelToggle(false));
-            setAnnotationFormToggle(false);
+            dispatch(setAnnotationFormToggle(false));
         }
     }
 
@@ -129,15 +129,15 @@ const SidePanel = (props: Props) => {
     });
 
     return (
-        <div className={`${classSidePanel} h-100 w-100 d-flex flex-column p-4`}
+        <div className={`${classSidePanel} sidePanel h-100 w-100 d-flex flex-column p-4`}
             role="sidePanel"
         >
             {/* Top section */}
             <Row className="pt-2">
-                <Col>
+                <Col className="sidePanelTop">
                     {/* Title and license indication */}
                     <Row className="align-items-center">
-                        <Col className="col-md-auto">
+                        <Col className="sidePanelCloseIcon col-md-auto">
                             <FontAwesomeIcon icon={faChevronLeft}
                                 className={`${styles.sidePanelTopIcon} c-pointer c-primary`}
                                 onClick={() => BackAction()}
@@ -189,22 +189,15 @@ const SidePanel = (props: Props) => {
                 </Col>
             </Row>
             {/* Side Panel Content */}
-            {!annotationFormToggle && isEmpty(editAnnotation) ?
-                <Row className="flex-grow-1 overflow-scroll">
-                    <Col className="h-100">
-                        <AnnotationsOverview ToggleAnnotationForm={() => setAnnotationFormToggle(!annotationFormToggle)}
-                            UpdateAnnotationView={(annotation: Annotation, remove: boolean) => UpdateAnnotationView(annotation, remove)}
-                        />
-                    </Col>
-                </Row>
-                : <Row className="flex-grow-1 overflow-scroll">
-                    <Col className="h-100">
-                        <AnnotationForm HideAnnotationForm={() => setAnnotationFormToggle(false)}
-                            UpdateAnnotationView={(annotation: Annotation) => UpdateAnnotationView(annotation)}
-                        />
-                    </Col>
-                </Row>
-            }
+
+            <Row className="flex-grow-1 overflow-scroll">
+                <Col className="sidePanelBody h-100">
+                    {!annotationFormToggle && isEmpty(editAnnotation) ?
+                        <AnnotationsOverview UpdateAnnotationView={(annotation: Annotation, remove: boolean) => UpdateAnnotationView(annotation, remove)} />
+                        : <AnnotationForm UpdateAnnotationView={(annotation: Annotation) => UpdateAnnotationView(annotation)} />
+                    }
+                </Col>
+            </Row>
         </div >
     );
 }

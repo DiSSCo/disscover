@@ -27,9 +27,6 @@ const CompareSteps = () => {
     const compareSpecimens = useAppSelector(getCompareSpecimens);
     const compareIntro = SearchIntro.compare;
 
-    /* Fetch Compare Specimens Examples */
-
-
     /* Function for setting a Search Param */
     const SetSearchParam = (param: string, query?: string) => {
         setSearchParams(searchParams => {

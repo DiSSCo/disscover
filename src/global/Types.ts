@@ -126,12 +126,12 @@ export interface Annotation {
         basedOn?: string,
         reference?: string
     },
-    preferenceScore: number,
+    preferenceScore?: number,
     creator: string,
     created: number,
-    generator: Dict,
-    generated: Date,
-    deleted_on: Date
+    generator?: Dict,
+    generated?: Date,
+    deleted_on?: Date
     /* Temporary solution */
     specimen?: Specimen
     digitalMedia?: DigitalMedia

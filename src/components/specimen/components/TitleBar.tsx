@@ -135,7 +135,7 @@ const TitleBar = (props: Props) => {
                                 />
                             </Col>
                             <Col className="d-none d-lg-block" />
-                            <Col className="col-auto d-flex justify-content-end">
+                            <Col className="specimenActions col-auto d-flex justify-content-end">
                                 <ActionsDropdown actions={specimenActions}
                                     Actions={(action: string) => SpecimenActions(action)}
                                 />

@@ -47,7 +47,7 @@ const VersionSelect = (props: Props) => {
     }
 
     return (
-        <Row>
+        <Row className="versionSelect">
             <Col>
                 <Select
                     value={{ value: target.version, label: `Version ${target.version}` }}

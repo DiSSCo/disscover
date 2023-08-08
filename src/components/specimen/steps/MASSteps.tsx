@@ -20,7 +20,7 @@ const MASSteps = () => {
     /* Construct Intro.js steps for Specimen page */
     const steps = [
         {
-            intro: annotateIntro['step_1']
+            intro: annotateIntro[0]
         },
     ];
 

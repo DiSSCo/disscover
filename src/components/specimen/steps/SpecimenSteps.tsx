@@ -28,43 +28,43 @@ const SpecimenSteps = (props: Props) => {
     /* Construct Intro.js steps for Specimen page */
     const steps = [
         {
-            intro: specimenIntro['step_1']
+            intro: specimenIntro[1]
         },
         {
             element: ".titleBar",
-            intro: specimenIntro['step_2']
+            intro: specimenIntro[2]
         },
         {
             element: `.versionSelect`,
-            intro: specimenIntro['step_3']
+            intro: specimenIntro[3]
         },
         {
             element: ".specimenActions",
-            intro: specimenIntro['step_4']
+            intro: specimenIntro[4]
         },
         {
             element: ".IDCard",
-            intro: specimenIntro['step_5']
+            intro: specimenIntro[5]
         },
         {
             element: ".contentBlock",
-            intro: specimenIntro['step_6']
+            intro: specimenIntro[6]
         },
         {
             element: ".contentBlock",
-            intro: specimenIntro['step_7']
+            intro: specimenIntro[7]
         },
         {
             element: ".contentBlock",
-            intro: specimenIntro['step_8']
+            intro: specimenIntro[8]
         },
         {
             element: ".contentBlock",
-            intro: specimenIntro['step_9']
+            intro: specimenIntro[9]
         },
         {
             element: ".contentBlock",
-            intro: specimenIntro['step_10']
+            intro: specimenIntro[10]
         },
     ];
 

@@ -55,6 +55,26 @@ const AnnotateSteps = (props: Props) => {
         creator: KeycloakService.GetSubject() as string
     }
 
+    /* Function for property interval */
+    const PropertyInterval = () => {
+        const properties = ['ods:physicalSpecimenId', 'dcterms:license', 'ods:specimenName'];
+        let i = 0;
+
+        setTargetInterval(setInterval(() => {
+            const property = properties[i];
+
+            ShowWithAnnotations(specimenAnnotations, property);
+
+            if (i === 2) {
+                i = 0;
+
+                return;
+            }
+
+            i++
+        }, 1500));
+    }
+
     /* Function for updating the Annotation view after posting, patching or deleting */
     const UpdateAnnotationView = (annotation: Annotation, remove: boolean = false) => {
         /* Update Annotations array of target */
@@ -85,45 +105,45 @@ const AnnotateSteps = (props: Props) => {
     /* Construct Intro.js steps for Specimen page */
     const steps = [
         {
-            intro: annotateIntro['step_1']
+            intro: annotateIntro[0]
         },
         {
-            intro: annotateIntro['step_2']
+            intro: annotateIntro[1]
         },
         {
             element: ".specimenActions",
-            intro: annotateIntro['step_3']
+            intro: annotateIntro[2]
         },
         {
             element: ".sidePanel",
-            intro: annotateIntro['step_4']
+            intro: annotateIntro[3]
         },
         {
             element: ".sidePanelFilters",
-            intro: annotateIntro['step_5']
+            intro: annotateIntro[4]
         },
         {
             element: ".sidePanelCloseIcon",
-            intro: annotateIntro['step_6']
+            intro: annotateIntro[5]
         },
         {
-            intro: annotateIntro['step_7']
+            intro: annotateIntro[6]
         },
         {
             element: ".scientificName",
-            intro: annotateIntro['step_8']
+            intro: annotateIntro[7]
         },
         {
             element: ".sidePanel",
-            intro: annotateIntro['step_9']
+            intro: annotateIntro[8]
         },
         {
             element: ".sidePanelTop",
-            intro: annotateIntro['step_10']
+            intro: annotateIntro[9]
         },
         {
             element: ".sidePanelCloseIcon",
-            intro: annotateIntro['step_11']
+            intro: annotateIntro[10]
         }
     ];
 
@@ -132,31 +152,31 @@ const AnnotateSteps = (props: Props) => {
         steps.push(...[
             {
                 element: ".addAnnotationButton",
-                intro: annotateIntro['step_12']
+                intro: annotateIntro[11]
             },
             {
                 element: ".sidePanelBody",
-                intro: annotateIntro['step_13']
+                intro: annotateIntro[12]
             },
             {
                 element: ".sidePanelBody",
-                intro: annotateIntro['step_14']
+                intro: annotateIntro[13]
             },
             {
                 element: ".sidePanelBody",
-                intro: annotateIntro['step_15']
+                intro: annotateIntro[14]
             },
             {
                 element: ".sidePanelBody",
-                intro: annotateIntro['step_16']
+                intro: annotateIntro[15]
             },
             {
                 element: ".sidePanelBody",
-                intro: annotateIntro['step_17']
+                intro: annotateIntro[16]
             },
             {
                 element: ".sidePanelBody",
-                intro: annotateIntro['step_18']
+                intro: annotateIntro[17]
             }
         ]);
     } else {
@@ -171,78 +191,66 @@ const AnnotateSteps = (props: Props) => {
                 steps={steps ?? []}
                 initialStep={0}
                 onBeforeChange={(nextIndex) => {
-                    return new Promise((resolve) => {
-                        const Proceed = () => {
-                            if (nextIndex === 6) {
-                                /* On step 7: Hide the Side Panel */
-                                dispatch(setSidePanelToggle(false));
-                                dispatch(setAnnotationFormToggle(false));
+                    const Proceed = (resolve: Function) => {
+                        if (nextIndex === 6) {
+                            /* On step 7: Hide the Side Panel */
+                            dispatch(setSidePanelToggle(false));
+                            dispatch(setAnnotationFormToggle(false));
 
-                                resolve();
-                            } else if (nextIndex === 8) {
-                                /* On step 9: Set annotate target for specimen name */
-                                ShowWithAnnotations(specimenAnnotations, 'ods:specimenName');
-                                dispatch(setAnnotationFormToggle(false));
+                            resolve();
+                        } else if (nextIndex === 8) {
+                            /* On step 9: Set annotate target for specimen name */
+                            ShowWithAnnotations(specimenAnnotations, 'ods:specimenName');
+                            dispatch(setAnnotationFormToggle(false));
 
-                                resolve();
-                            } else if (nextIndex === 9) {
-                                /* On step 10: Loop over specimen name, physical id and license properties */
-                                const properties = ['ods:physicalSpecimenId', 'dcterms:license', 'ods:specimenName'];
-                                let i = 0;
+                            resolve();
+                        } else if (nextIndex === 9) {
+                            /* On step 10: Loop over specimen name, physical id and license properties */
+                            PropertyInterval();
 
-                                setTargetInterval(setInterval(() => {
-                                    const property = properties[i];
+                            dispatch(setAnnotationFormToggle(false));
 
-                                    ShowWithAnnotations(specimenAnnotations, property);
+                            resolve();
+                        } else if (nextIndex === 10) {
+                            /* On step 11: Return to Annotations overview */
+                            ShowWithAnnotations(specimenAnnotations);
+                            dispatch(setAnnotationFormToggle(false));
 
-                                    if (i === 2) {
-                                        i = 0;
-                                    } else {
-                                        i++;
-                                    }
-                                }, 1500));
-                                dispatch(setAnnotationFormToggle(false));
+                            resolve();
+                        } else if (nextIndex === 12 || nextIndex === 13) {
+                            /* On step 13: Trigger the Annotations form */
+                            dispatch(setAnnotationFormToggle(true));
 
-                                resolve();
-                            } else if (nextIndex === 10) {
-                                /* On step 11: Return to Annotations overview */
-                                ShowWithAnnotations(specimenAnnotations);
-                                dispatch(setAnnotationFormToggle(false));
-                                
-                                resolve();
-                            } else if (nextIndex === 12 || nextIndex === 13) {
-                                /* On step 13: Trigger the Annotations form */
-                                dispatch(setAnnotationFormToggle(true));
+                            resolve();
+                        } else if (nextIndex === 14) {
+                            /* On step 15: Set edit annotation with motivation type */
+                            dispatch(setEditAnnotation(dummyAnnotation));
+                            dispatch(setAnnotationFormToggle(true));
 
-                                resolve();
-                            } else if (nextIndex === 14) {
-                                /* On step 15: Set edit annotation with motivation type */
-                                dispatch(setEditAnnotation(dummyAnnotation));
-                                dispatch(setAnnotationFormToggle(true));
+                            resolve();
+                        } else if (nextIndex === 15) {
+                            /* On step 16: Update Annotations Overview wth dummy annotation */
+                            UpdateAnnotationView(dummyAnnotation);
 
-                                resolve();
-                            } else if (nextIndex === 15) {
-                                /* On step 16: Update Annotations Overview wth dummy annotation */
-                                UpdateAnnotationView(dummyAnnotation);
-
-                                resolve();
-                            } else {
-                                dispatch(setAnnotationFormToggle(false));
-                                resolve();
-                            }
-
-                            clearInterval(targetInterval);
+                            resolve();
+                        } else {
+                            dispatch(setAnnotationFormToggle(false));
+                            resolve();
                         }
 
+                        clearInterval(targetInterval);
+                    }
+
+                    return new Promise((resolve) => {
                         if ([3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].includes(nextIndex) && !sidePanelToggle) {
                             dispatch(setSidePanelToggle(true));
                             ShowWithAnnotations(specimenAnnotations);
 
                             setTimeout(() => {
-                                Proceed();
+                                Proceed(resolve);
                             }, 500);
                         } else {
-                            Proceed();
+                            Proceed(resolve);
                         }
                     });
                 }}

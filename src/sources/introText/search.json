@@ -1,18 +1,18 @@
 {
-    "search": {
-        "step_1": "This is the search page. It allows you to define a search for specimens and displays the results in a table. Using the search capabilities of this page, is a powerful method for searching specific specimens. It also acts as a landing page for when you decided to use the search functionalities of the Homepage. In that case, the results of the search from the Homepage will be shown.",
-        "step_2": "The easiest method for searching is by using the free text search. Type in any kind of search term you would like to see if any specimen record complies. For example: you can search on ‘Iguanodon’ as a species name.",
-        "step_3": "If we start the search on this query, the results will be displayed in the results table. The table can contain up to 400 pages of results and shows some minimal information about the specimen.",
-        "step_4": "When we select a row in the table, it opens up a new panel called the ID Card. This ID Card gives a much better representation of the specimen, including details about the organisation, location and digital media attached to it if present. You can easily switch between specimen ID Cards by selecting another specimen from the table.",
-        "step_5": "To refine our search even more, we can make use of the filters on the left. These filters offer more specific options to define like: taxonomy, location, organisation and the MIDS level (Minimum Information about a Digital Specimen). Having selected some filters, breaks down our search results even more in the results table.",
-        "step_6": "Activated filters will always be shown in the filters panel and can be removed upon clicking on the ‘x’ icon.",
-        "step_7": "When closed, the activated filters will be shown on top of the table. The option to remove using the ‘x’ icon remains."
-    },
-    "compare": {
-        "step_1": "The search page allows you to compare specimens with each other in order to seek out differences, or to determine which specimen to look further on. With this method you can compare up to three specimens.",
-        "step_2": "To start comparing, first click on the ‘compare’ button on the top right of the results table.",
-        "step_3": "Pressing this button will trigger ‘compare mode’. Note the checkboxes added to the table rows? You can select them to include those specific specimens in the comparison.",
-        "step_4": "Selecting the checkbox of a specimen will add it to the compare list, which can be found in the window in the right bottom corner. This also mentions how many specimens you still need or are able to select to use compare mode.",
-        "step_5": "When selecting the specimens is done, click on ‘compare’ to initiate the comparison."
-    }
+    "search": [
+        "This is the search page. It allows you to define a search for specimens and displays the results in a table. Using the search capabilities of this page, is a powerful method for searching specific specimens. It also acts as a landing page for when you decided to use the search functionalities of the Homepage. In that case, the results of the search from the Homepage will be shown.",
+        "The easiest method for searching is by using the free text search. Type in any kind of search term you would like to see if any specimen record complies. For example: you can search on ‘Iguanodon’ as a species name.",
+        "If we start the search on this query, the results will be displayed in the results table. The table can contain up to 400 pages of results and shows some minimal information about the specimen.",
+        "When we select a row in the table, it opens up a new panel called the ID Card. This ID Card gives a much better representation of the specimen, including details about the organisation, location and digital media attached to it if present. You can easily switch between specimen ID Cards by selecting another specimen from the table.",
+        "To refine our search even more, we can make use of the filters on the left. These filters offer more specific options to define like: taxonomy, location, organisation and the MIDS level (Minimum Information about a Digital Specimen). Having selected some filters, breaks down our search results even more in the results table.",
+        "Activated filters will always be shown in the filters panel and can be removed upon clicking on the ‘x’ icon.",
+        "When closed, the activated filters will be shown on top of the table. The option to remove using the ‘x’ icon remains."
+    ],
+    "compare": [
+        "The search page allows you to compare specimens with each other in order to seek out differences, or to determine which specimen to look further on. With this method you can compare up to three specimens.",
+        "To start comparing, first click on the ‘compare’ button on the top right of the results table.",
+        "Pressing this button will trigger ‘compare mode’. Note the checkboxes added to the table rows? You can select them to include those specific specimens in the comparison.",
+        "Selecting the checkbox of a specimen will add it to the compare list, which can be found in the window in the right bottom corner. This also mentions how many specimens you still need or are able to select to use compare mode.",
+        "When selecting the specimens is done, click on ‘compare’ to initiate the comparison."
+    ]
 }

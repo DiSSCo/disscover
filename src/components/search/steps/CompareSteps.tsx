@@ -40,26 +40,53 @@ const CompareSteps = () => {
         });
     }
 
+    /* Function for setting compare Specimens */
+    const SetCompareSpecimens = (resolve: Function) => {
+        if (compareSpecimens.length < 1) {
+            GetSpecimen('20.5000.1025/QZF-FFF-51T').then((specimen) => {
+                dispatch(setCompareSpecimens([specimen]));
+            }).catch(error => {
+                console.warn(error);
+            });
+        }
+
+        if (compareSpecimens.length < 2) {
+            GetSpecimen('20.5000.1025/6W8-1KK-KJY').then((specimen) => {
+                const copyCompareSpecimens = [...compareSpecimens];
+
+                copyCompareSpecimens.push(specimen);
+
+                dispatch(setCompareSpecimens(copyCompareSpecimens));
+
+                resolve();
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            resolve();
+        }
+    }
+
     /* Construct Intro.js steps for Compare functionality */
     const steps = [
         {
-            intro: compareIntro['step_1']
+            intro: compareIntro[1]
         },
         {
             element: `.${styles.compareButton}`,
-            intro: compareIntro['step_2']
+            intro: compareIntro[2]
         },
         {
             element: `.searchResults`,
-            intro: compareIntro['step_3']
+            intro: compareIntro[3]
         },
         {
             element: `.${styles.compareBoxBlock}`,
-            intro: compareIntro['step_4']
+            intro: compareIntro[4]
         },
         {
             element: `.${styles.compareBoxBlock}`,
-            intro: compareIntro['step_5']
+            intro: compareIntro[5]
         }
     ];
 
@@ -95,29 +122,7 @@ const CompareSteps = () => {
                             /* On step 5: simulate selecting of second specimen for comparison */
                             dispatch(setCompareMode(true));
 
-                            if (compareSpecimens.length < 1) {
-                                GetSpecimen('20.5000.1025/QZF-FFF-51T').then((specimen) => {
-                                    dispatch(setCompareSpecimens([specimen]));
-                                }).catch(error => {
-                                    console.warn(error);
-                                });
-                            }
-
-                            if (compareSpecimens.length < 2) {
-                                GetSpecimen('20.5000.1025/6W8-1KK-KJY').then((specimen) => {
-                                    const copyCompareSpecimens = [...compareSpecimens];
-
-                                    copyCompareSpecimens.push(specimen);
-
-                                    dispatch(setCompareSpecimens(copyCompareSpecimens));
-
-                                    resolve();
-                                }).catch(error => {
-                                    console.warn(error);
-                                });
-                            } else {
-                                resolve();
-                            }
+                            SetCompareSpecimens(resolve);
                         } else {
                             resolve();
                         }

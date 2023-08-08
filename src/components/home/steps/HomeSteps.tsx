@@ -9,7 +9,7 @@ import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
 import HomeIntro from 'sources/introText/home.json';
 
 /* Import Styles */
-import styles from './home.module.scss';
+import styles from '../home.module.scss';
 
 
 /* Props Typing */
@@ -26,33 +26,29 @@ const HomeSteps = (props: Props) => {
 
     /* Base variables */
     const introTopic = useAppSelector(getIntroTopic);
+    const homeSteps = HomeIntro.home;
 
     /* Construct Intro.js steps for Homepage */
     const steps = {
         home: [
             {
-                intro: HomeIntro['step_1']
+                intro: homeSteps[0]
             },
             {
                 element: `.${styles.advancedToggled}`,
-                intro: HomeIntro['step_2']
+                intro: homeSteps[1]
             },
             {
                 element: `.specimenTypeFilters`,
-                intro: HomeIntro['step_3']
+                intro: homeSteps[2]
             },
             {
                 element: ".globalSearchBar",
-                intro: HomeIntro['step_4']
+                intro: homeSteps[3]
             },
             {
                 element: `.${styles.advancedToggled}`,
-                intro: HomeIntro['step_5']
-            }
-        ],
-        test: [
-            {
-                intro: 'test'
+                intro: homeSteps[4]
             }
         ]
     }

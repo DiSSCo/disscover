@@ -48,31 +48,31 @@ const SearchSteps = (props: Props) => {
     /* Construct Intro.js steps for Search page */
     const steps = [
         {
-            intro: searchIntro['step_1']
+            intro: searchIntro[0]
         },
         {
             element: ".searchBar",
-            intro: searchIntro['step_2']
+            intro: searchIntro[1]
         },
         {
             element: `.searchResults`,
-            intro: searchIntro['step_3']
+            intro: searchIntro[2]
         },
         {
             element: ".IDCard",
-            intro: searchIntro['step_4']
+            intro: searchIntro[3]
         },
         {
             element: ".searchMenu",
-            intro: searchIntro['step_5']
+            intro: searchIntro[4]
         },
         {
             element: ".searchMenu",
-            intro: searchIntro['step_6']
+            intro: searchIntro[5]
         },
         {
             element: ".activeFilters",
-            intro: searchIntro['step_7']
+            intro: searchIntro[6]
         }
     ];
 

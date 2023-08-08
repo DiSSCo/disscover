@@ -8,7 +8,7 @@ import styles from './home.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
-import HomeSteps from './HomeSteps';
+import HomeSteps from './steps/HomeSteps';
 import Title from './components/Title';
 import SpecimenTypeFilters from "./components/specimenTypes/SpecimenTypeFilters";
 import IntroText from "./components/IntroText";

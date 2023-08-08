@@ -11,9 +11,6 @@ import { setMASTarget } from 'redux/annotate/AnnotateSlice';
 /* Import Sources */
 import SpecimenIntro from 'sources/introText/specimen.json';
 
-/* Import Styles */
-import styles from '../specimen.module.scss';
-
 
 /* Props Typing */
 interface Props {

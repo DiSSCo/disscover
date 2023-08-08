@@ -35,7 +35,7 @@ const Home = () => {
 
     return (
         <div>
-            <Header introTopics={['home']}/>
+            <Header introTopics={[{intro: 'home', title: 'About This Page'}]}/>
 
             <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
 

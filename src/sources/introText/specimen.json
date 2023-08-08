@@ -30,5 +30,16 @@
         "After filling in these fields with your values, save the annotation by clicking on the ‘save’ button. This will save your annotation and redirect you back to the overview, highlighting the new annotation.",
         "To edit one of your existing annotations, click on the pencil icon.",
         "To delete one of your existing annotations, click on the trash can icon."
+    ],
+    "MAS": [
+        "Annotations are the key to enriching the data within the DiSSCo digital infrastructure. Aside from human annotation, machine learning is also being used to detect certain properties of specimen data and assert those as annotations to the digital object. These machine annotations are part of the services provided by DiSSCo and its partners to reach the goal of high data quality.",
+        "As a DiSSCo user, you are able to run Machine Annotation Services over digital objects like specimens or digital media. This tutorial will show you how to schedule Machine Annotation Services for a specimen.",
+        "First, make sure you are logged into your DiSSCo account. Then select ‘trigger automated annotations’ from the actions dropdown.",
+        "This will trigger a new window called ‘Automated Annotation Services’. It provides a description and the tools to schedule services. We explicitly say ‘schedule’, since services that are fired up by users will first get into a queue system. This means the Machine Annotation Service you chose to run might not run immediately (currently we do not provide any updates on the background progress).",
+        "From the dropdown, select one of the available Machine Annotation Services. This will add it to a list below. Select as many as you want, as they will be run individually from each other. Note that not all Machine Annotation Services will show up for every specimen. That is because some have certain rulesets, like for example: the specimen must belong to the Palaeontology domain or the specimen must have 2D images attached to it. Depending on if the specimen complies to these rules, will make the options for the services pop up in the dropdown.",
+        "Finally, when you are done selecting, click on ‘schedule’ to schedule the chosen Machine Annotation Services. This also closes this window.",
+        "To see the annotations made by the Machine Annotation Service, open the annotations side panel from the actions dropdown.",
+        "Great chance the annotations do not show up yet. This is because the Machine Annotation Service is in a queue and we do not exactly know when to expect results.",
+        "To see if the Machine Annotation Service has completed running and generated annotations, click on the refresh button. This will refetch the annotations from the database. The time needed for annotations to pop up may depend on the type of Machine Annotation Service."
     ]
 }

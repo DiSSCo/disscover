@@ -20,7 +20,7 @@ import { faCompass } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    introTopics: string[]
+    introTopics: {intro: string, title: string}[]
 };
 
 
@@ -67,23 +67,23 @@ const IntroTopics = (props: Props) => {
         <div className="position-relative">
             <FontAwesomeIcon icon={faCompass}
                 className="c-pointer"
-                onClick={() => introTopics.length > 1 ? setDropdown(true) : dispatch(setIntroTopic(introTopics[0]))}
+                onClick={() => introTopics.length > 1 ? setDropdown(true) : dispatch(setIntroTopic(introTopics[0].intro))}
             />
 
             {/* Intro Topic options, if there are multiple options */}
             {introTopics.length > 1 &&
-                <div className={`${styles.introTopics} ${activeClass} position-absolute bg-white rounded`}
+                <div className={`${styles.introTopics} ${activeClass} position-absolute bg-white rounded mt-2`}
                     ref={dropdownRef}
                 >
                     {introTopics.map((introTopic) => {
                         return (
-                            <div key={introTopic} className={`${styles.introTopicItem} px-3 py-1 c-pointer`}
+                            <div key={introTopic.intro} className={`${styles.introTopicItem} px-3 py-1 c-pointer`}
                                 onClick={() => {
-                                    dispatch(setIntroTopic(introTopic));
+                                    dispatch(setIntroTopic(introTopic.intro));
                                     setDropdown(false);
                                 }}
                             >
-                                <p> {Capitalize(introTopic)} </p>
+                                <p> {Capitalize(introTopic.title)} </p>
                             </div>
                         );
                     })}

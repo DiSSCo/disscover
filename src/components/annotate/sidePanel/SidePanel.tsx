@@ -149,7 +149,7 @@ const SidePanel = (props: Props) => {
                             </h4>
                         </Col>
                         {RefreshAnnotations &&
-                            <Col className="col-md-auto">
+                            <Col className="refreshAnnotationsButton col-md-auto">
                                 <button type="button"
                                     className="primaryButton py-1 px-2"
                                     onClick={() => RefreshAnnotations(annotateTarget.property)}

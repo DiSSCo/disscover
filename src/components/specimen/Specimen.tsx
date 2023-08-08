@@ -33,6 +33,7 @@ import Footer from 'components/general/footer/Footer';
 /* Import Introduction Steps */
 import SpecimenSteps from './steps/SpecimenSteps';
 import AnnotateSteps from './steps/AnnotateSteps';
+import MASSteps from './steps/MASSteps';
 
 /* Import API */
 import GetSpecimen from 'api/specimen/GetSpecimen';
@@ -200,10 +201,18 @@ const Specimen = () => {
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
                 <Col className={classHeadCol}>
-                    <Header introTopics={['specimen', 'annotate']} />
+                    <Header introTopics={[
+                        {intro: 'specimen', title: 'About This Page'},
+                        {intro: 'annotate', title: 'Using Annotations'},
+                        {intro: 'MAS', title: 'Machine Annotation Services'}
+                    ]} />
 
                     <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
                     <AnnotateSteps ShowWithAnnotations={(annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)} />
+                    <MASSteps automatedAnnotationsToggle={automatedAnnotationsToggle}
+                        SetAutomatedAnnotationsToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                        ShowWithAnnotations={() => ShowWithAnnotations()}
+                    />
 
                     {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
                         <Container fluid className={`${styles.content} pt-5`}>

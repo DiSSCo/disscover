@@ -148,7 +148,10 @@ const Search = () => {
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header introTopics={['search', 'compare']} />
+            <Header introTopics={[
+                { intro: 'search', title: 'About This Page' },
+                { intro: 'compare', title: 'Comparing Specimens' }
+            ]} />
 
             <SearchSteps SetFilterToggle={(toggle: boolean) => setFilterToggle(toggle)} />
             <CompareSteps />

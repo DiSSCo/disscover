@@ -25,7 +25,7 @@ import Profile from './components/Profile';
 
 /* Props Typing */
 interface Props {
-    introTopics?: string[]
+    introTopics?: {intro: string, title: string}[]
 };
 
 

@@ -22,6 +22,11 @@ const Paginator = (props: Props) => {
     const pageNumbers: number[] = [];
     let lastPage = totalRecords && Math.ceil(totalRecords / 25);
 
+    /* Last page cannot be greater than 399 */
+    if (lastPage && lastPage > 399) {
+        lastPage = 399;
+    }
+
     /* Function for pushing pages to the Paginator */
     const PushToPages = (page: number) => {
         pages.push(
@@ -51,7 +56,7 @@ const Paginator = (props: Props) => {
     }
 
     /* Add next page number if present */
-    if ('next' in links) {
+    if ('next' in links && lastPage !== 399) {
         PushToPages(pageNumber + 1);
     }
 
@@ -104,7 +109,7 @@ const Paginator = (props: Props) => {
                     : <> </>
                 }
 
-                {'next' in links &&
+                {('next' in links && lastPage !== 399) &&
                     <Pagination.Next onClick={() => SwitchPage('up')} />
                 }
             </Pagination>

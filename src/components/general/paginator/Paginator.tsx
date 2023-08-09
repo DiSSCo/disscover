@@ -1,5 +1,10 @@
 /* Import Dependencies */
+import { useSearchParams, useLocation } from "react-router-dom";
 import { Pagination } from "react-bootstrap";
+
+/* Import Store */
+import { useAppDispatch } from "app/hooks";
+import { setPaginationObject } from "redux/general/GeneralSlice";
 
 /* Import Types */
 import { Dict } from 'global/Types';
@@ -17,10 +22,48 @@ interface Props {
 const Paginator = (props: Props) => {
     const { pageNumber, links, totalRecords, SetPageNumber } = props;
 
+    /* Hooks */
+    const dispatch = useAppDispatch();
+    const [searchParams] = useSearchParams();
+    const location = useLocation();
+
     /* Base variables */
-    let pages: JSX.Element[] = [];
     const pageNumbers: number[] = [];
+    let pages: JSX.Element[] = [];
     let lastPage = totalRecords && Math.ceil(totalRecords / 25);
+
+    /* Function for setting Pagination Object */
+    const SetPaginationObject = (pageNumber: number) => {
+        const page = location.pathname.split('/')[1];
+        const filters = [];
+
+        for (const filterEntry of searchParams.entries()) {
+            filters.push(filterEntry);
+        }
+
+        dispatch(setPaginationObject({
+            page,
+            pageNumber,
+            filters
+        }))
+    }
+
+    /* Function for switching a Paginator Page */
+    const SwitchPage = (input: string | number = 1) => {
+        if (String(input) === 'up') {
+            SetPageNumber(pageNumber + 1);
+
+            SetPaginationObject(pageNumber + 1);
+        } else if (String(input) === 'down' && pageNumber > 1) {
+            SetPageNumber(pageNumber - 1);
+
+            SetPaginationObject(pageNumber - 1);
+        } else if (typeof (input) === 'number') {
+            SetPageNumber(input);
+
+            SetPaginationObject(input);
+        }
+    }
 
     /* Last page cannot be greater than 399 */
     if (lastPage && lastPage > 399) {
@@ -56,19 +99,8 @@ const Paginator = (props: Props) => {
     }
 
     /* Add next page number if present */
-    if ('next' in links && lastPage !== 399) {
+    if ('next' in links && pageNumber !== 399) {
         PushToPages(pageNumber + 1);
-    }
-
-    /* Function for switching a Paginator Page */
-    const SwitchPage = (input: string | number = 1) => {
-        if (String(input) === 'up') {
-            SetPageNumber(pageNumber + 1);
-        } else if (String(input) === 'down' && pageNumber > 1) {
-            SetPageNumber(pageNumber - 1);
-        } else if (typeof (input) === 'number') {
-            SetPageNumber(input);
-        }
     }
 
     return (
@@ -109,7 +141,7 @@ const Paginator = (props: Props) => {
                     : <> </>
                 }
 
-                {('next' in links && lastPage !== 399) &&
+                {('next' in links && pageNumber !== 399) &&
                     <Pagination.Next onClick={() => SwitchPage('up')} />
                 }
             </Pagination>

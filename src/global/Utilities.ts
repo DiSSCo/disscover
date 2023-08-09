@@ -37,8 +37,20 @@ const DetectMobile = (): boolean => {
     return mobile;
 }
 
+/* Function for returning all filters from search params */
+const GetFilters = (searchParams: URLSearchParams) => {
+    const filters = [];
+
+    for (const filterEntry of searchParams.entries()) {
+        filters.push(filterEntry);
+    }
+
+    return filters;
+}
+
 export {
     Capitalize,
     CheckProperty,
-    DetectMobile
+    DetectMobile,
+    GetFilters
 };

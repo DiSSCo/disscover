@@ -7,7 +7,6 @@ import OpenSeaDragon from 'openseadragon';
 
 /* Import Types */
 import { Dict } from 'global/Types';
-import { Viewer } from 'openseadragon';
 
 
 /* Props Typing */
@@ -38,8 +37,11 @@ const IIIFView = (props: Props) => {
         GetManifest(mediaUrl);
     }, []);
 
-    const InitOpenseadragon = (infoUrl: string, width: number, height: number) => {
-        viewer && viewer.destroy();
+    const InitOpenseadragon = (infoUrl: string, context: string | string[], width: number, height: number) => {
+        if (viewer) {
+            viewer.destroy();
+        }
+
         setViewer(
             OpenSeaDragon({
                 id: "openSeaDragon",
@@ -52,7 +54,7 @@ const IIIFView = (props: Props) => {
                     "@id": infoUrl,
                     "height": height,
                     "width": width,
-                    "profile": ["http://iiif.io/api/image/2/level2.json"],
+                    "profile": ["https://iiif.io/api/image/2/level2.json"],
                     "protocol": "http://iiif.io/api/image",
                     "tiles": [{
                         "scaleFactors": [1, 2, 4, 8, 16, 32],
@@ -70,6 +72,7 @@ const IIIFView = (props: Props) => {
         if (!isEmpty(manifest)) {
             /* Try to structure the info.json file link from the first image in the manifest file */
             let infoUrl: string = '';
+            let context: string | string[] = manifest['@context'];
             let width: number = 0;
             let height: number = 0;
 
@@ -84,8 +87,8 @@ const IIIFView = (props: Props) => {
                 infoUrl = versionTwoId.replace('/info.json', '');
 
                 /* Set Canvas Width and Height */
-                width = versionTwoId = manifest.sequences[0].canvases[0].width;
-                height = versionTwoId = manifest.sequences[0].canvases[0].height;
+                width = manifest.sequences[0].canvases[0].width;
+                height = manifest.sequences[0].canvases[0].height;
             } catch {
                 /* Manifest version 3 */
                 const versionThreeId = manifest.items[0].items[0].items[0].body.id;
@@ -97,9 +100,11 @@ const IIIFView = (props: Props) => {
                 height = versionThreeId.items[0].height;
             }
 
-            InitOpenseadragon(infoUrl, width, height);
+            InitOpenseadragon(infoUrl, context, width, height);
             return () => {
-                viewer && viewer.destroy();
+                if (viewer) {
+                    viewer.destroy();
+                }
             };
         }
     }, [manifest]);

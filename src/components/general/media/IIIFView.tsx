@@ -50,7 +50,7 @@ const IIIFView = (props: Props) => {
                 defaultZoomLevel: 0,
                 sequenceMode: true,
                 tileSources: {
-                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@context": context,
                     "@id": infoUrl,
                     "height": height,
                     "width": width,

@@ -71,7 +71,7 @@ const Search = () => {
     const [temporaryTotalCount, setTemporaryTotalCount] = useState<number>(0);
 
     useEffect(() => {
-        GetSpecimenDisciplines().then(({metadata}) => {
+        GetSpecimenDisciplines().then(({ metadata }) => {
             /* Set total specimen count */
             if (metadata.totalRecords) {
                 setTemporaryTotalCount(metadata.totalRecords);
@@ -153,10 +153,8 @@ const Search = () => {
             /* TEMPORARY FIX: Set total records using the disciplines call / Set Total Records found */
             if (totalRecords) {
                 setTotalRecords(totalRecords);
-            } else {
-                if (temporaryTotalCount) {
-                    setTotalRecords(temporaryTotalCount);
-                }
+            } else if (temporaryTotalCount) {
+                setTotalRecords(temporaryTotalCount);
             }
         }
 

@@ -65,50 +65,48 @@ const Profile = () => {
             <Header />
 
             <Container fluid className={`${styles.profileContent} mt-5`}>
-                {!isEmpty(userProfile) &&
-                    <Row className="h-100 justify-content-center">
-                        <Col md={{ span: 5 }} className={`${styles.profileBody} pb-1 border-1-primary-light rounded h-100`}>
-                            <Row>
-                                <Col className={`${styles.profileTop} position-relative d-flex justify-content-center`}>
-                                    <div className={`${styles.profilePicture} rounded-circle text-white position-absolute 
+                <Row className="h-100 justify-content-center">
+                    <Col md={{ span: 5 }} className={`${styles.profileBody} pb-1 border-1-primary-light rounded h-100`}>
+                        <Row>
+                            <Col className={`${styles.profileTop} position-relative d-flex justify-content-center`}>
+                                <div className={`${styles.profilePicture} rounded-circle text-white position-absolute 
                                     d-flex align-items-center justify-content-center`}
-                                    >
-                                        {userProfile.firstName ? userProfile.firstName[0].toUpperCase() : 'U'}
-                                    </div>
-                                </Col>
-                            </Row>
+                                >
+                                    {userProfile.firstName ? userProfile.firstName[0].toUpperCase() : 'U'}
+                                </div>
+                            </Col>
+                        </Row>
 
-                            <Row className="mt-5">
-                                <Col className="py-1 fw-bold">
-                                    <p className={`${styles.profileTitle} text-center`}>
-                                        {(userProfile.firstName && userProfile.lastName) ?
-                                            <> {`${userProfile.firstName} ${userProfile.lastName}`} </>
-                                            : <> User Profile </>
-                                        }
-                                    </p>
-                                    <p className={`${styles.profileSubTitle} text-center`}> {userProfile['id']} </p>
-                                </Col>
-                            </Row>
+                        <Row className="mt-5">
+                            <Col className="py-1 fw-bold">
+                                <p className={`${styles.profileTitle} text-center`}>
+                                    {(userProfile.firstName && userProfile.lastName) ?
+                                        <> {`${userProfile.firstName} ${userProfile.lastName}`} </>
+                                        : <> User Profile </>
+                                    }
+                                </p>
+                                <p className={`${styles.profileSubTitle} text-center`}> {userProfile['id']} </p>
+                            </Col>
+                        </Row>
 
-                            <Tabs className={styles.tabs} selectedTabClassName={classSelectedTab}>
-                                <TabList className={`${classTabsList} d-flex justify-content-center p-0`}>
-                                    <Tab className={classTab} selectedClassName={styles.active}> User information  </Tab>
-                                    <Tab className={classTab} selectedClassName={styles.active}> Annotations </Tab>
-                                </TabList>
+                        <Tabs className={styles.tabs} selectedTabClassName={classSelectedTab}>
+                            <TabList className={`${classTabsList} d-flex justify-content-center p-0`}>
+                                <Tab className={classTab} selectedClassName={styles.active}> User information  </Tab>
+                                <Tab className={classTab} selectedClassName={styles.active}> Annotations </Tab>
+                            </TabList>
 
-                                {/* Search by Digital Specimen */}
-                                <TabPanel className="pt-2">
-                                    <UserInfo />
-                                </TabPanel>
+                            {/* Search by Digital Specimen */}
+                            <TabPanel className="pt-2">
+                                <UserInfo />
+                            </TabPanel>
 
-                                {/* Search by Physical Specimen */}
-                                <TabPanel className={styles.profileAnnotationsBlock}>
-                                    <AnnotationsOverview />
-                                </TabPanel>
-                            </Tabs>
-                        </Col>
-                    </Row>
-                }
+                            {/* Search by Physical Specimen */}
+                            <TabPanel className={styles.profileAnnotationsBlock}>
+                                <AnnotationsOverview />
+                            </TabPanel>
+                        </Tabs>
+                    </Col>
+                </Row>
             </Container>
 
             <Footer />

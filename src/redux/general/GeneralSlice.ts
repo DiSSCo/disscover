@@ -2,19 +2,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
+/* Import Types */
+import { PaginationObject } from 'global/Types';
+
 
 export interface GeneralState {
     screenSize: string,
     errorMessage: string;
     language: string;
     introTopic: string;
+    paginationObject: PaginationObject;
 };
 
 const initialState: GeneralState = {
     screenSize: 'lg',
     errorMessage: '',
     language: 'EN',
-    introTopic: ''
+    introTopic: '',
+    paginationObject: {} as PaginationObject
 };
 
 export const GeneralSlice = createSlice({
@@ -32,6 +37,9 @@ export const GeneralSlice = createSlice({
         },
         setIntroTopic: (state, action: PayloadAction<string>) => {
             state.introTopic = action.payload;
+        },
+        setPaginationObject: (state, action: PayloadAction<PaginationObject>) => {
+            state.paginationObject = action.payload;
         }
     },
 })
@@ -41,7 +49,8 @@ export const {
     setScreenSize,
     setErrorMessage,
     setLanguage,
-    setIntroTopic
+    setIntroTopic,
+    setPaginationObject
 } = GeneralSlice.actions;
 
 /* Connect with Root State */
@@ -49,5 +58,6 @@ export const getScreenSize = (state: RootState) => state.general.screenSize;
 export const getErrorMessage = (state: RootState) => state.general.errorMessage;
 export const getLanguage = (state: RootState) => state.general.language;
 export const getIntroTopic = (state: RootState) => state.general.introTopic;
+export const getPaginationObject = (state: RootState) => state.general.paginationObject;
 
 export default GeneralSlice.reducer;

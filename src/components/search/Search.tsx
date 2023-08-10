@@ -1,12 +1,14 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
+import { GetFilters } from 'global/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getPaginationObject, setPaginationObject } from 'redux/general/GeneralSlice';
 import {
     getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen,
     setSearchAggregations, getCompareMode, setCompareMode
@@ -43,28 +45,58 @@ import CompareSteps from './steps/CompareSteps';
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
+import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
 
 
 const Search = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const [searchParams] = useSearchParams();
+    const location = useLocation();
 
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
     const compareMode = useAppSelector(getCompareMode);
+    const paginationObject = useAppSelector(getPaginationObject);
     const pageSize = 25;
-    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [pageNumber, setPageNumber] = useState<number>(
+        (paginationObject.page === location.pathname.split('/')[1]) ? paginationObject.pageNumber : 1
+    );
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
 
+    /* TEMPORARY FIX: for showing total specimen amount */
+    const [temporaryTotalCount, setTemporaryTotalCount] = useState<number>(0);
+
+    useEffect(() => {
+        GetSpecimenDisciplines().then(({ metadata }) => {
+            /* Set total specimen count */
+            if (metadata.totalRecords) {
+                setTemporaryTotalCount(metadata.totalRecords);
+                setTotalRecords(metadata.totalRecords);
+            }
+        });
+    }, []);
+
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
-        setPageNumber(1);
+        if (!isEmpty(searchResults)) {
+            const filters = GetFilters(searchParams);
 
-        SearchWithFilters();
+            /* If filters differ from previous search, reset Pagination and Page numbers */
+            if (JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) {
+                dispatch(setPaginationObject({
+                    page: location.pathname.split('/')[1],
+                    pageNumber: 1,
+                    filters
+                }));
+                setPageNumber(1);
+            }
+
+            SearchWithFilters();
+        };
     }, [searchParams]);
 
     /* OnChange of page number: search specimens */
@@ -87,7 +119,17 @@ const Search = () => {
         if (!isEmpty(searchFilters)) {
             /* Action Search */
             SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
-                HandleSearch(specimens, links, totalRecords);
+                if (!isEmpty(specimens)) {
+                    HandleSearch(specimens, links, totalRecords);
+                } else {
+                    /* Reset Pagination and Page numbers */
+                    dispatch(setPaginationObject({
+                        page: location.pathname.split('/')[1],
+                        pageNumber: 1,
+                        filters: GetFilters(searchParams)
+                    }));
+                    setPageNumber(1);
+                }
             }).catch(error => {
                 console.warn(error);
             });
@@ -108,8 +150,12 @@ const Search = () => {
             /* Set Paginator links */
             setPaginatorLinks(links);
 
-            /* Set Total Records found */
-            setTotalRecords(totalRecords);
+            /* TEMPORARY FIX: Set total records using the disciplines call / Set Total Records found */
+            if (totalRecords) {
+                setTotalRecords(totalRecords);
+            } else if (temporaryTotalCount) {
+                setTotalRecords(temporaryTotalCount);
+            }
         }
 
         /* Refresh Aggregations */

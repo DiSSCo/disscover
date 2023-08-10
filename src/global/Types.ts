@@ -171,7 +171,6 @@ export interface AnnotationMotivation {
 
 
 /* Organisation Types */
-
 export interface Organisation {
     id: string,
     name: string,
@@ -180,7 +179,6 @@ export interface Organisation {
 
 
 /* Source System Types */
-
 export interface SourceSystem {
     id: string,
     created: Date,
@@ -189,4 +187,12 @@ export interface SourceSystem {
     endpoint: string,
     description: string,
     mappingId: string
+}
+
+
+/* General Types */
+export interface PaginationObject {
+    page: string,
+    pageNumber: number,
+    filters?: string[][]
 }

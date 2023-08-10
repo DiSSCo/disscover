@@ -70,23 +70,23 @@ const CompareSteps = () => {
     /* Construct Intro.js steps for Compare functionality */
     const steps = [
         {
-            intro: compareIntro[1]
+            intro: compareIntro[0]
         },
         {
             element: `.${styles.compareButton}`,
-            intro: compareIntro[2]
+            intro: compareIntro[1]
         },
         {
             element: `.searchResults`,
+            intro: compareIntro[2]
+        },
+        {
+            element: `.${styles.compareBoxBlock}`,
             intro: compareIntro[3]
         },
         {
             element: `.${styles.compareBoxBlock}`,
             intro: compareIntro[4]
-        },
-        {
-            element: `.${styles.compareBoxBlock}`,
-            intro: compareIntro[5]
         }
     ];
 

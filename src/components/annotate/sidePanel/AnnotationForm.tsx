@@ -115,7 +115,7 @@ const AnnotationForm = (props: Props) => {
                                     <Col>
                                         <p className="formFieldTitle"> Target property </p>
                                         <Field name="targetProperty" as="select"
-                                            className="test formField w-100 mt-1"
+                                            className="formField w-100 mt-1"
                                         >
                                             <option value="">
                                                 Whole specimen

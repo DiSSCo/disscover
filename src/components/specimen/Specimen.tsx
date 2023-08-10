@@ -14,7 +14,10 @@ import {
 import {
     getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
 } from 'redux/annotate/AnnotateSlice';
-import { setErrorMessage } from 'redux/general/GeneralSlice';
+import { getScreenSize, setErrorMessage } from 'redux/general/GeneralSlice';
+
+/* Import Types */
+import { Annotation, SpecimenAnnotations } from 'global/Types';
 
 /* Import Styles */
 import styles from './specimen.module.scss';
@@ -23,15 +26,20 @@ import styles from './specimen.module.scss';
 import Header from 'components/general/header/Header';
 import TitleBar from './components/TitleBar';
 import IDCard from './components/IDCard/IDCard';
-import ContentBlock from './components/contentBlock/ContentBlock';
-import AutomatedAnnotationsModal from '../general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal';
-import SidePanel from 'components/annotate/sidePanel/SidePanel';
+import ContentBlock from './components/ContentBlock';
+import AnnotationTools from 'components/annotate/AnnotationTools';
 import Footer from 'components/general/footer/Footer';
+
+/* Import Introduction Steps */
+import SpecimenSteps from './steps/SpecimenSteps';
+import AnnotateSteps from './steps/AnnotateSteps';
+import MASSteps from './steps/MASSteps';
 
 /* Import API */
 import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
+import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
 
 
 const Specimen = () => {
@@ -43,9 +51,11 @@ const Specimen = () => {
     const navigate = useNavigate();
 
     /* Base variables */
+    const screenSize = useAppSelector(getScreenSize);
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
+    const [selectedTab, setSelectedTab] = useState(0);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
     /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
@@ -104,78 +114,145 @@ const Specimen = () => {
         }
     }, [specimen, params]);
 
-    /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property?: string, motivation?: string) => {
-        if (property) {
-            dispatch(setAnnotateTarget({
-                property,
-                motivation: motivation ? motivation : '',
-                target: specimen,
-                targetType: 'digital_specimen',
-                annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
-            }));
+    /* Function for updating the Specimen Annotations source */
+    const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
+        const copySpecimenAnnotations = { ...specimenAnnotations };
+
+        /* Check if array for target property exists */
+        if (annotation.target.indvProp in specimenAnnotations) {
+            /* Push or patch to existing array */
+            const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation.target.indvProp]];
+            const index = copySpecimenTargetAnnotations.findIndex(
+                (annotationRecord) => annotationRecord.id === annotation.id
+            );
+
+            if (index >= 0) {
+                if (remove) {
+                    copySpecimenTargetAnnotations.splice(index, 1);
+                } else {
+                    copySpecimenTargetAnnotations[index] = annotation;
+                }
+            } else {
+                copySpecimenTargetAnnotations.push(annotation);
+            }
+
+            copySpecimenAnnotations[annotation.target.indvProp] = copySpecimenTargetAnnotations;
+        } else {
+            /* Create into new array */
+            copySpecimenAnnotations[annotation.target.indvProp] = [annotation];
         }
+
+        dispatch(setSpecimenAnnotations(copySpecimenAnnotations));
+    }
+
+    /* Function to open Side Panel with Annotations of Specimen, default is all Annotations */
+    const ShowWithAnnotations = (annotations?: SpecimenAnnotations, targetProperty?: string) => {
+        /* Add up all property annotations into one annotations array */
+        let allAnnotations: Annotation[] = [];
+
+        /* Append to the all annotations array, if property is the same, or all annotations are wanted */
+        Object.entries(annotations ?? specimenAnnotations).forEach((annotationEntry) => {
+            if (!targetProperty || targetProperty === annotationEntry[0]) {
+                allAnnotations = allAnnotations.concat(annotationEntry[1]);
+            }
+        });
+
+        dispatch(setAnnotateTarget({
+            property: targetProperty ?? '',
+            target: specimen,
+            targetType: 'digital_specimen',
+            annotations: allAnnotations
+        }));
 
         dispatch(setSidePanelToggle(true));
     }
 
-    /* ClassName for Specimen Content */
+    /* Function for refreshing Annotations */
+    const RefreshAnnotations = (targetProperty?: string) => {
+        /* Refetch Specimen Annotations */
+        GetSpecimenAnnotations(specimen.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
+            /* Show with refreshed Annotations */
+            ShowWithAnnotations(annotations, targetProperty);
+
+            /* Update Annotations source */
+            dispatch(setSpecimenAnnotations(annotations));
+        }).catch(error => {
+            console.warn(error);
+        });
+    }
+
+    /* Class Name for Specimen Content */
     const classSpecimenContent = classNames({
         'col-md-10 offset-md-1': !sidePanelToggle,
         'col-md-12 px-5': sidePanelToggle
     });
 
-    /* ClassName for Side Panel */
-    const classSidePanel = classNames({
-        'p-0': true,
-        'w-0': !sidePanelToggle,
-        [`${styles.sidePanel}`]: sidePanelToggle
+    const classHeadCol = classNames({
+        'transition h-100': true,
+        'col-md-12': !sidePanelToggle,
+        'col-md-8': sidePanelToggle
+    });
+
+    const classIdCard = classNames({
+        'h-100': screenSize === 'lg'
     });
 
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
-                <Col>
-                    <Header />
+                <Col className={classHeadCol}>
+                    <Header introTopics={[
+                        {intro: 'specimen', title: 'About This Page'},
+                        {intro: 'annotate', title: 'Using Annotations'},
+                        {intro: 'MAS', title: 'Machine Annotation Services'}
+                    ]} />
+
+                    <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
+                    <AnnotateSteps ShowWithAnnotations={(annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)} />
+                    <MASSteps automatedAnnotationsToggle={automatedAnnotationsToggle}
+                        SetAutomatedAnnotationsToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                        ShowWithAnnotations={() => ShowWithAnnotations()}
+                    />
 
                     {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
                         <Container fluid className={`${styles.content} pt-5`}>
                             <Row className="h-100">
                                 <Col className={`${classSpecimenContent} h-100 transition`}>
                                     <div className="h-100 d-flex flex-column">
-                                        <Row className={styles.titleBar}>
+                                        <Row className="titleBar">
                                             <Col>
-                                                <TitleBar
+                                                <TitleBar ShowWithAllAnnotations={() => ShowWithAnnotations()}
                                                     ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
                                                 />
                                             </Col>
                                         </Row>
-                                        <Row className="py-4 flex-grow-1 overflow-hidden">
-                                            <Col md={{ span: 3 }} className="h-100">
-                                                <IDCard ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                                        <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
+                                            <Col lg={{ span: 3 }} className={`${classIdCard} IDCard`}>
+                                                <IDCard />
                                             </Col>
-                                            <Col md={{ span: 9 }} className="ps-4 h-100">
-                                                <ContentBlock ToggleModal={(property: string) => ToggleSidePanel(property)} />
+                                            <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
+                                                <ContentBlock selectedTab={selectedTab} 
+                                                    SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
+                                                />
                                             </Col>
                                         </Row>
                                     </div>
                                 </Col>
                             </Row>
-
-                            {/* Automated Annotations Modal */}
-                            <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
-                                HideAutomatedAnnotationsModal={() => setAutomatedAnnotationToggle(false)}
-                            />
                         </Container>
                     }
 
                     <Footer />
                 </Col>
 
-                {/* Annotations Side Panel */}
-                <div className={`${classSidePanel} transition`}>
-                    <SidePanel />
-                </div>
+                {/* Annotation Tools */}
+                <AnnotationTools sidePanelToggle={sidePanelToggle}
+                    automatedAnnotationsToggle={automatedAnnotationsToggle}
+                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                    ShowWithAnnotations={() => ShowWithAnnotations()}
+                    UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                    RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
+                />
             </Row>
         </div>
     );

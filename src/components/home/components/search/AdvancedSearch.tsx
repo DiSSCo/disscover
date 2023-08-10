@@ -26,7 +26,7 @@ interface Props {
 const AdvancedSearch = (props: Props) => {
     const { HideAdvancedSearch } = props;
     
-    /* Class Name for Tabs */
+    /* Class Names for Tabs */
     const classTabsList = classNames({
         [`${styles.tabsList}`]: true
     });

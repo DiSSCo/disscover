@@ -9,9 +9,9 @@ import { DigitalMediaAnnotations, Annotation, JSONResultArray } from 'global/Typ
 
 
 const GetDigitalMediaAnnotations = async (handle: string) => {
-    if (handle) {
-        let digitalMediaAnnotations = { observation: [] } as DigitalMediaAnnotations;
+    let digitalMediaAnnotations = { observation: [] } as DigitalMediaAnnotations;
 
+    if (handle) {
         const endPoint = `specimens/${handle}/annotations`;
 
         try {
@@ -33,14 +33,13 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {
-                /* Check if property is present */
-                if (annotation.target.indvProp) {
-                    if (digitalMediaAnnotations[annotation.target.indvProp]) {
-                        digitalMediaAnnotations[annotation.target.indvProp].push(annotation);
-                    } else {
-                        digitalMediaAnnotations[annotation.target.indvProp] = [annotation];
-                    }
-                } else if (annotation.body.values) {
+                if (digitalMediaAnnotations[annotation.target.indvProp]) {
+                    digitalMediaAnnotations[annotation.target.indvProp].push(annotation);
+                } else {
+                    digitalMediaAnnotations[annotation.target.indvProp] = [annotation];
+                }
+
+                if (annotation.body.values) {
                     annotation.body.values.forEach((observationAnnotation: object) => {
                         digitalMediaAnnotations.observation.push({ ...observationAnnotation, creator: annotation.creator });
                     });
@@ -49,9 +48,9 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
         } catch (error) {
             console.warn(error);
         }
-
-        return digitalMediaAnnotations;
     }
+
+    return digitalMediaAnnotations;
 }
 
 export default GetDigitalMediaAnnotations;

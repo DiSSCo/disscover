@@ -6,6 +6,10 @@ import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
 /* Import Components */
+import Image from 'components/general/mediaTypes/Image';
+import Video from 'components/general/mediaTypes/Video';
+import Audio from 'components/general/mediaTypes/Audio';
+import File from 'components/general/mediaTypes/File';
 import IIIFView from 'components/general/media/IIIFView';
 
 
@@ -16,22 +20,29 @@ const DigitalMediaFrame = () => {
     /* Check for the type of Digital Media and set content appropiate to it */
     let digitalMediaContent;
 
-    if (digitalMedia.type === '2DImageObject') {
-        digitalMediaContent = <img src={digitalMedia.mediaUrl}
-            alt={digitalMedia.mediaUrl}
-            className="h-100 border border-white"
-        />
-    } else if (digitalMedia.format === 'application/json' || digitalMedia.format === 'application/ld+json') {
-        digitalMediaContent = <IIIFView mediaUrl={digitalMedia.mediaUrl} />
-    } else {
-        digitalMediaContent = <img src={digitalMedia.mediaUrl}
-            alt={digitalMedia.mediaUrl}
-            className="h-100 border border-white"
-        />;
+    switch (digitalMedia.type) {
+        case '2DImageObject':
+            digitalMediaContent = <Image digitalMedia={digitalMedia} sizeOrientation='height' />
+
+            break;
+        case 'video':
+            digitalMediaContent = <Video digitalMedia={digitalMedia} />
+
+            break;
+        case 'audio':
+            digitalMediaContent = <Audio digitalMedia={digitalMedia} />
+
+            break;
+        default:
+            if (digitalMedia.format === 'application/json' || digitalMedia.format === 'application/ld+json') {
+                digitalMediaContent = <IIIFView mediaUrl={digitalMedia.mediaUrl} />
+            } else {
+                digitalMediaContent = <File digitalMedia={digitalMedia} />
+            }
     }
 
     return (
-        <div className={`${styles.digitalMediaFrame} h-100 d-flex justify-content-center`}>
+        <div className={`${styles.digitalMediaFrame} h-100 d-flex justify-content-center align-items-center`}>
             {digitalMediaContent}
         </div>
     );

@@ -11,7 +11,7 @@ import { Specimen, JSONResultArray, Dict } from 'global/Types';
 const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
     let recentSpecimens = [] as Specimen[];
     let links: Dict = {};
-    let totalRecords: number = 25;
+    let totalRecords: number = 0;
 
     const endPoint = "/specimens"
 

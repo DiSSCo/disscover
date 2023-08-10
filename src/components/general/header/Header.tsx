@@ -17,12 +17,21 @@ import { Specimen } from 'global/Types';
 import styles from './header.module.scss';
 
 /* Import Components */
+import IntroTopics from './components/IntroTopics';
 import Languages from './components/Languages';
 import Login from './components/Login';
 import Profile from './components/Profile';
 
 
-const Header = () => {
+/* Props Typing */
+interface Props {
+    introTopics?: {intro: string, title: string}[]
+};
+
+
+const Header = (props: Props) => {
+    const { introTopics } = props;
+
     /* Hooks */
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
@@ -50,7 +59,9 @@ const Header = () => {
                     {/* Title */}
                     <Row className="h-100 w-100 align-items-end">
                         <Col className="col-md-auto p-0 d-flex align-items-center">
-                            <h1 className={`${styles.title} fw-bold`}>DiSSCover</h1>
+                            <Link to="/">
+                                <h1 className={`${styles.title} fw-bold`}>DiSSCover</h1>
+                            </Link>
                         </Col>
                         {/* Navigation */}
                         <Col className="pb-3 d-flex justify-content-center">
@@ -79,6 +90,12 @@ const Header = () => {
                                 </Row>
                             </nav>
                         </Col>
+                        {/* Intro js if intro topics are present */}
+                        {introTopics &&
+                            <Col className="col-md-auto pb-3 pe-2">
+                                <IntroTopics introTopics={introTopics} />
+                            </Col>
+                        }
                         {/* Language Support */}
                         <Col className="col-md-auto pb-3">
                             <Languages />

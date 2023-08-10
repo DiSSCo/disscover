@@ -35,9 +35,10 @@ const VersionSelect = (props: Props) => {
     const ChangeVersion = (version: number) => {
         /* Construct new url */
         let path = location.pathname;
+        let lastDash = path.lastIndexOf('/') + 1;
 
-        if (Number(path.at(-1)) && path.at(-2) === '/') {
-            path = path.slice(0, -2);
+        if (Number(path.at(lastDash + 1))) {
+            path = path.slice(0, lastDash - 1);
         }
 
         path = path.concat(`/${version}`);
@@ -46,7 +47,7 @@ const VersionSelect = (props: Props) => {
     }
 
     return (
-        <Row>
+        <Row className="versionSelect">
             <Col>
                 <Select
                     value={{ value: target.version, label: `Version ${target.version}` }}

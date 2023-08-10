@@ -4,24 +4,36 @@ import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getDigitalMedia, getDigitalMediaAnnotations } from 'redux/digitalMedia/DigitalMediaSlice';
+import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';;
 
 
-/* Props Typing */
-interface Props {
-    ToggleModal: Function
-};
-
-
-const IDCard = (props: Props) => {
-    const { ToggleModal } = props;
+const IDCard = () => {
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
+    const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
+
+    /* Function for toggling the Annotate Modal */
+    const ToggleSidePanel = (property: string) => {
+        if (property) {
+            dispatch(setAnnotateTarget({
+                property,
+                motivation: '',
+                target: digitalMedia,
+                targetType: 'digital_media',
+                annotations: digitalMediaAnnotations[property] ? digitalMediaAnnotations[property] : []
+            }));
+        }
+
+        dispatch(setSidePanelToggle(true));
+    }
 
     /* ClassName for Specimen Property Hover */
     const classPropertyBlockHover = classNames({
@@ -50,64 +62,52 @@ const IDCard = (props: Props) => {
                                 <Row className={styles.IDCardProperties}>
                                     <Col className="col-md-auto h-100">
                                         <Row className={styles.IDCardPropertyBlock}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleModal('digitalSpecimenID')}
-                                            >
+                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50" role="modalTrigger">Digital Specimen ID</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.digitalSpecimenId} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleModal('mediaUrl')}
+                                                onClick={() => ToggleSidePanel('mediaUrl')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">Media URL</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.mediaUrl} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
-                                            <Col className="m-0 py-1"
-                                                onClick={() => ToggleModal('dcterms:title')}
-                                            >
+                                            <Col className="m-0 py-1">
                                                 <span className="fw-lightBold m-0 h-50">Title</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.data['dcterms:title']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
-                                            <Col className="m-0 py-1"
-                                                onClick={() => ToggleModal('format')}
-                                            >
+                                            <Col className="m-0 py-1">
                                                 <span className="fw-lightBold m-0 h-50">Format</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.format} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleModal('type')}
-                                            >
+                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50">Type</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.type} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}
-                                                onClick={() => ToggleModal('dcterms:publisher')}
-                                            >
+                                            <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}>
                                                 <span className="fw-lightBold m-0 h-50">Publisher</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.data['dcterms:publisher']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleModal('dcterms:rightsHolder')}
-                                            >
+                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50">Rightsholder</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.data['rightsHolder']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={styles.IDCardPropertyBlock}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleModal('dcterms:license')}
+                                                onClick={() => ToggleSidePanel('dcterms:license')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">License</span>
                                                 <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {digitalMedia.data['dcterms:license']} </span>

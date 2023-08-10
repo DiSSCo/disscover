@@ -6,8 +6,8 @@ import { Capitalize } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getAnnotateTarget } from 'redux/annotate/AnnotateSlice';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getAnnotateTarget, setAnnotationFormToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Annotation as AnnotationType, Dict } from 'global/Types';
@@ -25,13 +25,15 @@ import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown'
 
 /* Props Typing */
 interface Props {
-    UpdateAnnotationView: Function,
-    ToggleAnnotationForm: Function
+    UpdateAnnotationView: Function
 };
 
 
 const AnnotationsOverview = (props: Props) => {
-    const { UpdateAnnotationView, ToggleAnnotationForm } = props;
+    const { UpdateAnnotationView } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
@@ -94,7 +96,7 @@ const AnnotationsOverview = (props: Props) => {
             <Col className="h-100">
                 <div className="h-100 d-flex flex-column">
                     {/* Filters and sorting */}
-                    <Row className="mt-4">
+                    <Row className="sidePanelFilters mt-4">
                         <Col>
                             <p className="fw-lightBold pb-2"> Motivation type </p>
 
@@ -131,7 +133,7 @@ const AnnotationsOverview = (props: Props) => {
                     {/* Annotations section */}
                     <Row className="flex-grow-1 pt-4 overflow-scroll">
                         <Col>
-                            {!isEmpty(annotateTarget.annotations) ?
+                            {!isEmpty(annotateTarget.annotations) && !isEmpty(annotations) ?
                                 <>
                                     {annotations.map((annotation) => {
                                         return (
@@ -151,18 +153,19 @@ const AnnotationsOverview = (props: Props) => {
                         </Col>
                     </Row>
                     {/* If logged in, show add Annotation button */}
-                    {KeycloakService.IsLoggedIn() &&
-                        <Row className={`${styles.annotationForm} pb-2 pt-3 justify-content-end`}>
-                            <Col className="col-md-auto">
+                    <Row className={`${styles.annotationForm} pb-2 pt-3 justify-content-end`}>
+                        <Col className="col-md-auto">
+                            {KeycloakService.IsLoggedIn() ?
                                 <button type="button"
-                                    className="accentButton px-3 py-1 float-right"
-                                    onClick={() => ToggleAnnotationForm()}
+                                    className="addAnnotationButton accentButton px-3 py-1 float-right"
+                                    onClick={() => dispatch(setAnnotationFormToggle(true))}
                                 >
                                     Add annotation
                                 </button>
-                            </Col>
-                        </Row>
-                    }
+                                : <p className="fst-italic"> Login to make annotations </p>
+                            }
+                        </Col>
+                    </Row>
                 </div>
             </Col>
         </Row>

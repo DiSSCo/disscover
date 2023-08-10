@@ -9,9 +9,9 @@ import { SpecimenAnnotations, Annotation, JSONResultArray } from 'global/Types';
 
 
 const GetSpecimenAnnotations = async (handle: string) => {
-    if (handle) {
-        let specimenAnnotations = {} as SpecimenAnnotations;
+    let specimenAnnotations = {} as SpecimenAnnotations;
 
+    if (handle) {
         const endPoint = `specimens/${handle}/annotations`;
 
         try {
@@ -42,9 +42,9 @@ const GetSpecimenAnnotations = async (handle: string) => {
         } catch (error) {
             console.warn(error);
         }
-
-        return specimenAnnotations;
     }
+
+    return specimenAnnotations;
 }
 
 export default GetSpecimenAnnotations;

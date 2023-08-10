@@ -7,7 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, getEditAnnotation,
+    getAnnotateTarget, getEditAnnotation, setAnnotationFormToggle,
     setEditAnnotation, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 
@@ -28,13 +28,12 @@ import FormTemplate from './form/FormTemplate';
 
 /* Props Typing */
 interface Props {
-    UpdateAnnotationView: Function,
-    HideAnnotationForm: Function
+    UpdateAnnotationView: Function
 };
 
 
 const AnnotationForm = (props: Props) => {
-    const { UpdateAnnotationView, HideAnnotationForm } = props;
+    const { UpdateAnnotationView } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -85,18 +84,16 @@ const AnnotationForm = (props: Props) => {
         }
     }
 
-    
-
     return (
         <Formik
             initialValues={{
-                targetProperty: editAnnotation?.target ? editAnnotation?.target.indvProp : annotateTarget.property,
-                motivation: editAnnotation?.motivation ? editAnnotation.motivation : '',
-                annotationValue: editAnnotation?.body ? editAnnotation?.body.value : '',
+                targetProperty: !isEmpty(editAnnotation) ? editAnnotation?.target.indvProp : annotateTarget.property,
+                motivation: !isEmpty(editAnnotation) ? editAnnotation.motivation : '',
+                annotationValue: !isEmpty(editAnnotation) ? editAnnotation?.body.value : '',
                 additionalFields: {
-                    ...(editAnnotation?.body && { description: editAnnotation.motivation }),
-                    ...(editAnnotation?.body && { description: editAnnotation.motivation }),
-                    ...(editAnnotation?.body && { description: editAnnotation.motivation })
+                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { description: editAnnotation.body.description }),
+                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { based_on: editAnnotation.body.basedOn }),
+                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { reference: editAnnotation.body.reference })
                 }
             }}
             enableReinitialize={true}
@@ -120,8 +117,8 @@ const AnnotationForm = (props: Props) => {
                                         <Field name="targetProperty" as="select"
                                             className="formField w-100 mt-1"
                                         >
-                                            <option value="" disabled={true}>
-                                                Select target property
+                                            <option value="">
+                                                Whole specimen
                                             </option>
 
                                             {Object.keys(annotateTarget.target.data).map((property) => {
@@ -176,7 +173,7 @@ const AnnotationForm = (props: Props) => {
                                 className="primaryButton cancel px-4 py-1"
                                 onClick={() => {
                                     dispatch(setEditAnnotation({} as Annotation));
-                                    HideAnnotationForm();
+                                    dispatch(setAnnotationFormToggle(false));
                                 }}
                             >
                                 Cancel

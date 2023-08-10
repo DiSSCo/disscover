@@ -1,12 +1,14 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
+import { GetFilters } from 'global/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getPaginationObject, setPaginationObject } from 'redux/general/GeneralSlice';
 import {
     getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen,
     setSearchAggregations, getCompareMode, setCompareMode
@@ -35,32 +37,66 @@ import MapMediaExt from './components/IDCard/MapMediaExt';
 import CompareBox from './components/compare/CompareBox';
 import Footer from 'components/general/footer/Footer';
 
+/* Import Introduction Steps */
+import SearchSteps from './steps/SearchSteps';
+import CompareSteps from './steps/CompareSteps';
+
 /* Import API */
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
+import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
 
 
 const Search = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const [searchParams] = useSearchParams();
+    const location = useLocation();
 
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
     const compareMode = useAppSelector(getCompareMode);
+    const paginationObject = useAppSelector(getPaginationObject);
     const pageSize = 25;
-    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [pageNumber, setPageNumber] = useState<number>(
+        (paginationObject.page === location.pathname.split('/')[1]) ? paginationObject.pageNumber : 1
+    );
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
 
+    /* TEMPORARY FIX: for showing total specimen amount */
+    const [temporaryTotalCount, setTemporaryTotalCount] = useState<number>(0);
+
+    useEffect(() => {
+        GetSpecimenDisciplines().then(({ metadata }) => {
+            /* Set total specimen count */
+            if (metadata.totalRecords) {
+                setTemporaryTotalCount(metadata.totalRecords);
+                setTotalRecords(metadata.totalRecords);
+            }
+        });
+    }, []);
+
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
-        setPageNumber(1);
+        if (!isEmpty(searchResults)) {
+            const filters = GetFilters(searchParams);
 
-        SearchWithFilters();
+            /* If filters differ from previous search, reset Pagination and Page numbers */
+            if (JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) {
+                dispatch(setPaginationObject({
+                    page: location.pathname.split('/')[1],
+                    pageNumber: 1,
+                    filters
+                }));
+                setPageNumber(1);
+            }
+
+            SearchWithFilters();
+        };
     }, [searchParams]);
 
     /* OnChange of page number: search specimens */
@@ -83,7 +119,17 @@ const Search = () => {
         if (!isEmpty(searchFilters)) {
             /* Action Search */
             SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
-                HandleSearch(specimens, links, totalRecords);
+                if (!isEmpty(specimens)) {
+                    HandleSearch(specimens, links, totalRecords);
+                } else {
+                    /* Reset Pagination and Page numbers */
+                    dispatch(setPaginationObject({
+                        page: location.pathname.split('/')[1],
+                        pageNumber: 1,
+                        filters: GetFilters(searchParams)
+                    }));
+                    setPageNumber(1);
+                }
             }).catch(error => {
                 console.warn(error);
             });
@@ -104,8 +150,12 @@ const Search = () => {
             /* Set Paginator links */
             setPaginatorLinks(links);
 
-            /* Set Total Records found */
-            setTotalRecords(totalRecords);
+            /* TEMPORARY FIX: Set total records using the disciplines call / Set Total Records found */
+            if (totalRecords) {
+                setTotalRecords(totalRecords);
+            } else if (temporaryTotalCount) {
+                setTotalRecords(temporaryTotalCount);
+            }
         }
 
         /* Refresh Aggregations */
@@ -144,7 +194,13 @@ const Search = () => {
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header />
+            <Header introTopics={[
+                { intro: 'search', title: 'About This Page' },
+                { intro: 'compare', title: 'Comparing Specimens' }
+            ]} />
+
+            <SearchSteps SetFilterToggle={(toggle: boolean) => setFilterToggle(toggle)} />
+            <CompareSteps />
 
             <Container fluid className={`${styles.content} pt-5 pb-4`}>
                 <Row className="h-100 position-relative">
@@ -157,26 +213,30 @@ const Search = () => {
                             </Row>
 
                             <Row className={`${styles.filtersTopBar} mt-3`}>
-                                <Col md={{ span: 3 }}>
+                                <Col md={{ span: 3 }} className="searchBar">
                                     <SearchBar />
                                 </Col>
 
                                 {/* If filters are hidden, show toggle button and current active filters */}
-                                {!filterToggle ?
-                                    <>
-                                        <Col className="h-100 col-md-auto pe-0">
-                                            <button type="button"
-                                                className="primaryButton px-3 py-1"
-                                                onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
-                                            >
-                                                <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
-                                            </button>
-                                        </Col>
-                                        <Col>
-                                            <ActiveFilters />
-                                        </Col>
-                                    </> : <Col />
-                                }
+                                <Col className="activeFilters">
+                                    <Row>
+                                        {!filterToggle ?
+                                            <>
+                                                <Col className="h-100 col-md-auto pe-0">
+                                                    <button type="button"
+                                                        className="primaryButton px-3 py-1"
+                                                        onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
+                                                    </button>
+                                                </Col>
+                                                <Col>
+                                                    <ActiveFilters />
+                                                </Col>
+                                            </> : <Col />
+                                        }
+                                    </Row>
+                                </Col>
 
                                 <Col className="col-md-auto">
                                     <button type="button"
@@ -189,7 +249,7 @@ const Search = () => {
                             </Row>
 
                             <Row className="flex-grow-1 position-relative overflow-hidden">
-                                <Col md={{ span: 3 }} className={`${classSearchMenu} h-100`}>
+                                <Col md={{ span: 3 }} className={`${classSearchMenu} searchMenu h-100`}>
                                     <div className="h-100 d-flex flex-column">
                                         <Row className="flex-grow-1 overflow-scroll">
                                             <Col>
@@ -200,7 +260,7 @@ const Search = () => {
                                     </div>
                                 </Col>
 
-                                <Col className={`${classSearchResults} h-100`}>
+                                <Col className={`${classSearchResults} h-100 searchResults`}>
                                     <Row className="h-100 position-relative">
                                         <Col className={`${classSearchResultsTable} h-100`}>
                                             <Row className="h-100">
@@ -236,7 +296,7 @@ const Search = () => {
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} pb-2`}>
+                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} IDCard pb-2`}>
                                             {/* ID Card */}
                                             {!isEmpty(searchSpecimen) &&
                                                 <IDCard specimen={searchSpecimen}
@@ -258,11 +318,11 @@ const Search = () => {
                     </Col>
 
                     {/* Compare box, to compare Specimens if compare mode is true */}
-                    {compareMode &&
-                        <div className="position-absolute bottom-0 d-flex justify-content-end pe-5">
+                    <div className={`${styles.compareBoxBlock} position-absolute bottom-0 d-flex justify-content-end pe-5`}>
+                        {compareMode &&
                             <CompareBox />
-                        </div>
-                    }
+                        }
+                    </div>
                 </Row>
             </Container>
 

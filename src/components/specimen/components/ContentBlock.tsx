@@ -12,27 +12,28 @@ import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Components */
-import SpecimenOverview from './SpecimenOverview';
-import OriginalData from './OriginalData';
-import DigitalMedia from './DigitalMedia';
-import Provenance from './Provenance';
+import SpecimenOverview from './contentBlocks/SpecimenOverview';
+import OriginalData from './contentBlocks/OriginalData';
+import DigitalMedia from './contentBlocks/DigitalMedia';
+import Provenance from './contentBlocks/Provenance';
 
 
 /* Props Typing */
 interface Props {
-    ToggleModal: Function
+    selectedTab: number,
+    SetSelectedTab: Function
 };
 
 
 const ContentBlock = (props: Props) => {
-    const { ToggleModal } = props;
+    const { selectedTab, SetSelectedTab } = props;
 
     /* Base variables */
     const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
     /* Class Names for Tabs */
     const classTabsList = classNames({
-        [`${styles.tabsList}`]: true
+        [`p-0`]: true
     });
 
     const classTab = classNames({
@@ -41,8 +42,7 @@ const ContentBlock = (props: Props) => {
     });
 
     const classTabPanel = classNames({
-        'react-tabs__tab-panel': true,
-        [`${styles.tabPanel}`]: true
+        'react-tabs__tab-panel flex-grow-1 overflow-hidden': true
     });
 
     return (
@@ -50,19 +50,20 @@ const ContentBlock = (props: Props) => {
             <Col className="h-100">
                 <Row className="h-100">
                     <Col className="h-100">
-                        <Tabs className="h-100">
+                        <Tabs className="h-100 d-flex flex-column"
+                            selectedIndex={selectedTab}
+                            onSelect={(tabIndex) => SetSelectedTab(tabIndex)}
+                        >
                             <TabList className={classTabsList}>
                                 <Tab className={classTab} selectedClassName={styles.active}>Digital Specimen</Tab>
                                 <Tab className={classTab} selectedClassName={styles.active}>Original Data</Tab>
-                                {!isEmpty(digitalMedia) &&
-                                    <Tab className={classTab} selectedClassName={styles.active}>Digital Media</Tab>
-                                }
+                                <Tab className={`${classTab} ${isEmpty(digitalMedia) && 'd-none'}`} selectedClassName={styles.active}>Digital Media</Tab>
                                 <Tab className={classTab} selectedClassName={styles.active}>Provenance</Tab>
                             </TabList>
 
                             {/* Specimen Overview */}
-                            <TabPanel className={classTabPanel}>
-                                <SpecimenOverview ToggleModal={(property: string) => ToggleModal(property)} />
+                            <TabPanel className={`${classTabPanel} ${styles.specimenTabPanel}`}>
+                                <SpecimenOverview />
                             </TabPanel>
 
                             {/* Original Data View */}
@@ -71,11 +72,9 @@ const ContentBlock = (props: Props) => {
                             </TabPanel>
 
                             {/* Digital Media Overview, if present */}
-                            {!isEmpty(digitalMedia) &&
-                                <TabPanel className={classTabPanel}>
-                                    <DigitalMedia />
-                                </TabPanel>
-                            }
+                            <TabPanel className={`${classTabPanel} ${isEmpty(digitalMedia) && 'd-none'}`}>
+                                <DigitalMedia />
+                            </TabPanel>
 
                             <TabPanel className={classTabPanel}>
                                 <Provenance />

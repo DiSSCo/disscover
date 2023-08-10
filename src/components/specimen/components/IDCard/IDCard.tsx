@@ -4,8 +4,9 @@ import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getSpecimen, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getSpecimen, getSpecimenAnnotations, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
+import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -15,20 +16,29 @@ import OrganisationProperty from './OrganisationProperty';
 import PhysicalSpecimenIdProperty from './PhysicalSpecimenIdProperty';
 
 
-/* Props Typing */
-interface Props {
-    ToggleSidePanel: Function
-};
-
-
-const IDCard = (props: Props) => {
-    const { ToggleSidePanel } = props;
+const IDCard = () => {
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
+    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
-    console.log(specimenDigitalMedia);
+    /* Function for toggling the Annotate Modal */
+    const ToggleSidePanel = (property: string) => {
+        if (property) {
+            dispatch(setAnnotateTarget({
+                property,
+                motivation: '',
+                target: specimen,
+                targetType: 'digital_specimen',
+                annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
+            }));
+        }
+
+        dispatch(setSidePanelToggle(true));
+    }
 
     /* ClassName for Specimen Property Hover */
     const classPropertyBlockHover = classNames({
@@ -41,7 +51,7 @@ const IDCard = (props: Props) => {
             <Col className="h-100">
                 <div className="h-100 d-flex flex-column">
                     {specimenDigitalMedia.length > 0 &&
-                        <Row className={styles.IDCardBanner}>
+                        <Row className={`${styles.IDCardBanner} overflow-hidden`}>
                             <Col className="h-100">
                                 <div className={`${styles.IDCardBannerBackground} h-100 d-flex justify-content-center`}>
                                     <img src={specimenDigitalMedia[0].digitalMediaObject.mediaUrl} alt="banner"
@@ -69,27 +79,27 @@ const IDCard = (props: Props) => {
                                     <Row className={styles.IDCardProperties}>
                                         <Col className="col-md-auto h-100">
                                             <Row className={styles.IDCardPropertyBlock}>
-                                                <Col className={`${classPropertyBlockHover} rounded-c py-1`}
+                                                <Col className={`scientificName ${classPropertyBlockHover} rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
-                                                    <span className="fw-lightBold m-0 h-50" role="sidePanelTrigger">Name in collection</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.specimenName} </span>
+                                                    <span className="fw-lightBold m-0 h-50" role="sidePanelTrigger">Name in collection:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.specimenName} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:organisationId')}
                                                 >
-                                                    <span className="fw-lightBold m-0 h-50">Specimen provider</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50 c-accent`}>
+                                                    <span className="fw-lightBold m-0 h-50">Specimen provider:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50 c-accent`}>
                                                         {<OrganisationProperty specimen={specimen} />}
                                                     </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className="m-0 py-1">
-                                                    <span className="fw-lightBold m-0 h-50">Object Type</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}>Coming Soon!</span>
+                                                    <span className="fw-lightBold m-0 h-50">Object Type:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}>Coming Soon!</span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
@@ -99,35 +109,35 @@ const IDCard = (props: Props) => {
                                                     <span className="fw-lightBold m-0 h-50">
                                                         Physical specimen ID ({specimen.physicalSpecimenIdType}):
                                                     </span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className="m-0 py-1">
-                                                    <span className="fw-lightBold m-0 h-50">Specimen Type</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.type} </span>
+                                                    <span className="fw-lightBold m-0 h-50">Specimen Type:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.type} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:physicalSpecimenCollection')}
                                                 >
-                                                    <span className="fw-lightBold m-0 h-50">In collection</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.physicalSpecimenCollection} </span>
+                                                    <span className="fw-lightBold m-0 h-50">In collection:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.physicalSpecimenCollection} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}
                                                     onClick={() => ToggleSidePanel('dcterms:license')}
                                                 >
-                                                    <span className="fw-lightBold m-0 h-50">License</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.data['dcterms:license']} </span>
+                                                    <span className="fw-lightBold m-0 h-50">License:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}> {specimen.data['dcterms:license']} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={styles.IDCardPropertyBlock}>
                                                 <Col className="m-0 py-1">
-                                                    <span className="fw-lightBold m-0 h-50">Source System</span>
-                                                    <br /> <span className={`${styles.IDCardValue} m-0 h-50`}> Coming Soon! </span>
+                                                    <span className="fw-lightBold m-0 h-50">Source System:</span>
+                                                    <br className="d-none d-lg-block" /> <span className={`${styles.IDCardValue} m-0 h-50`}> Coming Soon! </span>
                                                 </Col>
                                             </Row>
                                         </Col>

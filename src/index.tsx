@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'leaflet/dist/leaflet.css'
 import 'react-tabs/style/react-tabs.css';
+import 'intro.js/introjs.css';
 
 /* Import Components */
 import App from './App';

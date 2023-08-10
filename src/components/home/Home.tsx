@@ -8,6 +8,7 @@ import styles from './home.module.scss';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
+import HomeSteps from './steps/HomeSteps';
 import Title from './components/Title';
 import SpecimenTypeFilters from "./components/specimenTypes/SpecimenTypeFilters";
 import IntroText from "./components/IntroText";
@@ -34,7 +35,9 @@ const Home = () => {
 
     return (
         <div>
-            <Header />
+            <Header introTopics={[{intro: 'home', title: 'About This Page'}]}/>
+
+            <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
 
             <Container fluid className={styles.content}>
                 <Row className="h-100">
@@ -47,7 +50,7 @@ const Home = () => {
                             </Col>
                         </Row>
                         <Row className="h-100 align-items-center">
-                            <Col lg={{ span: 6 }} md={{ span: 12 }} className="pe-lg-5 pt-md-4">
+                            <Col lg={{ span: 6 }} md={{ span: 12 }} className="specimenTypeFilters pe-lg-5 pt-md-4">
                                 <SpecimenTypeFilters />
                             </Col>
                             <Col lg={{ span: 6 }} md={{ span: 12 }}
@@ -60,7 +63,7 @@ const Home = () => {
                                     </Col>
                                 </Row>
                                 {/* General Search Bar */}
-                                <Row className={`${classAdvancedToggled} mt-4`}>
+                                <Row className={`${classAdvancedToggled} globalSearchBar mt-4`}>
                                     <Col>
                                         <GlobalSearchBar ToggleAdvancedFilter={() => setAdvancedSearch(true)} />
                                     </Col>

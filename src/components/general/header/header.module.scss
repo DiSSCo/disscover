@@ -17,7 +17,7 @@
 /* Navigation */
 .navItem {
     font-size: 17px;
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid #F9FAFC;
     cursor: pointer;
 }
 
@@ -36,6 +36,20 @@
 
 .navItem:hover:after {
     transform: scaleX(1);
+}
+
+/* Intro.js */
+.introIcon {
+    font-size: 20px;
+}
+
+.introTopics {
+    border: 1px solid var(--primary);
+    min-width: 250px;
+}
+
+.introTopicItem:hover {
+    background-color: var(--grey);
 }
 
 /* Login */

@@ -182,11 +182,28 @@
     font-weight: bold;
 }
 
-.tabPanel {
-    height: Calc(100% - 51px);
+/* Digital Specimen Block */
+.specimenTabPanel {
+    overflow-y: scroll;
 }
 
-/* Digital Specimen Block */
+.propertyBlock {
+    max-height: 20%;
+}
+
+.propertyStripe {
+    border: 1px solid var(--accent);
+}
+
+.propertiesTab {
+    background-color: var(--grey);
+    border-radius: 999px;
+    aspect-ratio: 1 / 1;
+}
+
+.propertiesTab.active {
+    background-color: var(--primary);
+}
 
 .propertyTable {
     border-collapse: separate;
@@ -217,7 +234,6 @@
 
 .organisationLogo {    
     filter: grayscale(100%);
-    width: 40%;
     opacity: 0.5;
     float: right;
 }
@@ -246,12 +262,39 @@
 }
 
 /* Digital Media Block */
-.digitalMediaImagesBlock {
-    height: 35%;
+.digitalMediaTitle {
+    font-size: 18px;
 }
 
-.digitalMediaTitle {
-    font-size: 15px;
+.imageHover {
+    opacity: 0;
+}
+
+.imageHover:hover {
+    opacity: 1;
+    background-color: rgb(51, 51, 51, 0.25);
+}
+
+.videoHover {
+    z-index: 2;
+}
+
+.videoHover:hover {
+    width: 150% !important;
+    height: 130% !important;
+    transition-delay: 2s;
+}
+
+.fileBlock {
+    border: 1px solid var(--secondary);
+}
+
+.fileIcon {
+    font-size: 20px;
+}
+
+.fileTitle {
+    font-size: 13px;
 }
 
 .digitalMediaImagesSlider {

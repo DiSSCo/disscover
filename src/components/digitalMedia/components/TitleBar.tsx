@@ -5,12 +5,15 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
+/* Import Types */
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faVideo, faMusic, faFile } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
@@ -19,6 +22,25 @@ import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
 const TitleBar = () => {
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
+    let icon: IconDefinition;
+
+    /* Declaring icon based on Digital Media type */
+    switch (digitalMedia.type) {
+        case '2DImageObject':
+            icon = faImage;
+
+            break;
+        case 'video':
+            icon = faVideo;
+
+            break;
+        case 'audio':
+            icon = faMusic;
+
+            break;
+        default:
+            icon = faFile;
+    }
 
     return (
         <Row>
@@ -32,7 +54,7 @@ const TitleBar = () => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={faImage} className={styles.titleBarIcon} />
+                        <FontAwesomeIcon icon={icon} className={styles.titleBarIcon} />
                     </Col>
                     <Col>
                         <h2 className={styles.title}> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </h2>

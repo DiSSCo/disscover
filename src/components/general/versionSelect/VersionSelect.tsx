@@ -33,17 +33,20 @@ const VersionSelect = (props: Props) => {
 
     /* Function for changing the Version */
     const ChangeVersion = (version: number) => {
-        /* Construct new url */
-        let path = location.pathname;
-        let lastDash = path.lastIndexOf('/') + 1;
+        /* Check if version is not already selected */
+        if (version !== target.version) {
+            /* Construct new url */
+            let path = location.pathname;
+            let lastDash = path.lastIndexOf('/') + 1;
 
-        if (Number(path.at(lastDash + 1))) {
-            path = path.slice(0, lastDash - 1);
+            if (Number(path.at(lastDash))) {
+                path = path.slice(0, lastDash - 1);
+            }
+
+            path = path.concat(`/${version}`);
+
+            navigate(path);
         }
-
-        path = path.concat(`/${version}`);
-
-        navigate(path);
     }
 
     return (

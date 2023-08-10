@@ -243,7 +243,7 @@ const PrivacyPolicy = () => {
                                             Your  personal  data  will  be  protected  according  to  the
 
                                             <span className="c-accent text-decoration-underline">
-                                                <a href="http://www.geant.net/uri/dataprotection-code-of-conduct/v1">
+                                                <a href="https://www.geant.net/uri/dataprotection-code-of-conduct/v1">
                                                     {` Code  of  Conduct  for Service  Providers`}
                                                 </a>
                                             </span>

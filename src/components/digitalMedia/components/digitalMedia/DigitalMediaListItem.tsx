@@ -18,6 +18,9 @@ import styles from 'components/digitalMedia/digitalMedia.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faMusic, faFile } from '@fortawesome/free-solid-svg-icons';
 
+/* Import Webroot */
+import IIIFLogo from 'webroot/img/IIIFLogo.png';
+
 
 /* Props Typing */
 interface Props {
@@ -60,10 +63,16 @@ const DigitalMediaListItem = (props: Props) => {
 
             break;
         default:
-            digitalMediaContent = <div className="text-center">
-                <FontAwesomeIcon icon={faFile} className={`${styles.digitalMediaListItemIcon} c-secondary`} />
-                <p className="fw-lightBold">File</p>
-            </div>
+            if (specimenDigitalMedia.format === 'application/json' || specimenDigitalMedia.format === 'application/ld+json') {
+                digitalMediaContent = <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+                    <img src={IIIFLogo} alt="IIIF Logo" />
+                </div>;
+            } else {
+                digitalMediaContent = <div className="text-center">
+                    <FontAwesomeIcon icon={faFile} className={`${styles.digitalMediaListItemIcon} c-secondary`} />
+                    <p className="fw-lightBold">File</p>
+                </div>
+            }
     }
 
     /* Function for hovering over Digital Media List Items */
@@ -100,7 +109,7 @@ const DigitalMediaListItem = (props: Props) => {
                 {digitalMediaContent}
 
                 <div className={classImageTitle}>
-                    {Capitalize(specimenDigitalMedia['type'])}
+                    {specimenDigitalMedia['type'] && Capitalize(specimenDigitalMedia['type'])}
                 </div>
 
                 <div className={classBackdrop} />

@@ -7,7 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, getEditAnnotation,
+    getAnnotateTarget, getEditAnnotation, setAnnotationFormToggle,
     setEditAnnotation, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 
@@ -28,13 +28,12 @@ import FormTemplate from './form/FormTemplate';
 
 /* Props Typing */
 interface Props {
-    UpdateAnnotationView: Function,
-    HideAnnotationForm: Function
+    UpdateAnnotationView: Function
 };
 
 
 const AnnotationForm = (props: Props) => {
-    const { UpdateAnnotationView, HideAnnotationForm } = props;
+    const { UpdateAnnotationView } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -116,7 +115,7 @@ const AnnotationForm = (props: Props) => {
                                     <Col>
                                         <p className="formFieldTitle"> Target property </p>
                                         <Field name="targetProperty" as="select"
-                                            className="formField w-100 mt-1"
+                                            className="test formField w-100 mt-1"
                                         >
                                             <option value="">
                                                 Whole specimen
@@ -174,7 +173,7 @@ const AnnotationForm = (props: Props) => {
                                 className="primaryButton cancel px-4 py-1"
                                 onClick={() => {
                                     dispatch(setEditAnnotation({} as Annotation));
-                                    HideAnnotationForm();
+                                    dispatch(setAnnotationFormToggle(false));
                                 }}
                             >
                                 Cancel

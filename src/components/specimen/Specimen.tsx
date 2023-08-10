@@ -30,6 +30,11 @@ import ContentBlock from './components/ContentBlock';
 import AnnotationTools from 'components/annotate/AnnotationTools';
 import Footer from 'components/general/footer/Footer';
 
+/* Import Introduction Steps */
+import SpecimenSteps from './steps/SpecimenSteps';
+import AnnotateSteps from './steps/AnnotateSteps';
+import MASSteps from './steps/MASSteps';
+
 /* Import API */
 import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
@@ -50,6 +55,7 @@ const Specimen = () => {
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
+    const [selectedTab, setSelectedTab] = useState(0);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
     /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
@@ -195,14 +201,25 @@ const Specimen = () => {
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
                 <Col className={classHeadCol}>
-                    <Header />
+                    <Header introTopics={[
+                        {intro: 'specimen', title: 'About This Page'},
+                        {intro: 'annotate', title: 'Using Annotations'},
+                        {intro: 'MAS', title: 'Machine Annotation Services'}
+                    ]} />
+
+                    <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
+                    <AnnotateSteps ShowWithAnnotations={(annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)} />
+                    <MASSteps automatedAnnotationsToggle={automatedAnnotationsToggle}
+                        SetAutomatedAnnotationsToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                        ShowWithAnnotations={() => ShowWithAnnotations()}
+                    />
 
                     {(specimen.id && specimen.id.replace('https://hdl.handle.net/', '') === `${params['prefix']}/${params['suffix']}`) &&
                         <Container fluid className={`${styles.content} pt-5`}>
                             <Row className="h-100">
                                 <Col className={`${classSpecimenContent} h-100 transition`}>
                                     <div className="h-100 d-flex flex-column">
-                                        <Row className={styles.titleBar}>
+                                        <Row className="titleBar">
                                             <Col>
                                                 <TitleBar ShowWithAllAnnotations={() => ShowWithAnnotations()}
                                                     ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
@@ -210,11 +227,13 @@ const Specimen = () => {
                                             </Col>
                                         </Row>
                                         <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
-                                            <Col lg={{ span: 3 }} className={classIdCard}>
+                                            <Col lg={{ span: 3 }} className={`${classIdCard} IDCard`}>
                                                 <IDCard />
                                             </Col>
-                                            <Col lg={{ span: 9 }} className="ps-4 h-100 mt-4 m-lg-0">
-                                                <ContentBlock />
+                                            <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
+                                                <ContentBlock selectedTab={selectedTab} 
+                                                    SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
+                                                />
                                             </Col>
                                         </Row>
                                     </div>

@@ -79,7 +79,7 @@ const IDCard = () => {
                                     <Row className={styles.IDCardProperties}>
                                         <Col className="col-md-auto h-100">
                                             <Row className={styles.IDCardPropertyBlock}>
-                                                <Col className={`${classPropertyBlockHover} rounded-c py-1`}
+                                                <Col className={`scientificName ${classPropertyBlockHover} rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50" role="sidePanelTrigger">Name in collection:</span>

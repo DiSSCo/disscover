@@ -35,6 +35,10 @@ import MapMediaExt from './components/IDCard/MapMediaExt';
 import CompareBox from './components/compare/CompareBox';
 import Footer from 'components/general/footer/Footer';
 
+/* Import Introduction Steps */
+import SearchSteps from './steps/SearchSteps';
+import CompareSteps from './steps/CompareSteps';
+
 /* Import API */
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
@@ -144,7 +148,13 @@ const Search = () => {
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header />
+            <Header introTopics={[
+                { intro: 'search', title: 'About This Page' },
+                { intro: 'compare', title: 'Comparing Specimens' }
+            ]} />
+
+            <SearchSteps SetFilterToggle={(toggle: boolean) => setFilterToggle(toggle)} />
+            <CompareSteps />
 
             <Container fluid className={`${styles.content} pt-5 pb-4`}>
                 <Row className="h-100 position-relative">
@@ -157,26 +167,30 @@ const Search = () => {
                             </Row>
 
                             <Row className={`${styles.filtersTopBar} mt-3`}>
-                                <Col md={{ span: 3 }}>
+                                <Col md={{ span: 3 }} className="searchBar">
                                     <SearchBar />
                                 </Col>
 
                                 {/* If filters are hidden, show toggle button and current active filters */}
-                                {!filterToggle ?
-                                    <>
-                                        <Col className="h-100 col-md-auto pe-0">
-                                            <button type="button"
-                                                className="primaryButton px-3 py-1"
-                                                onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
-                                            >
-                                                <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
-                                            </button>
-                                        </Col>
-                                        <Col>
-                                            <ActiveFilters />
-                                        </Col>
-                                    </> : <Col />
-                                }
+                                <Col className="activeFilters">
+                                    <Row>
+                                        {!filterToggle ?
+                                            <>
+                                                <Col className="h-100 col-md-auto pe-0">
+                                                    <button type="button"
+                                                        className="primaryButton px-3 py-1"
+                                                        onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
+                                                    </button>
+                                                </Col>
+                                                <Col>
+                                                    <ActiveFilters />
+                                                </Col>
+                                            </> : <Col />
+                                        }
+                                    </Row>
+                                </Col>
 
                                 <Col className="col-md-auto">
                                     <button type="button"
@@ -189,7 +203,7 @@ const Search = () => {
                             </Row>
 
                             <Row className="flex-grow-1 position-relative overflow-hidden">
-                                <Col md={{ span: 3 }} className={`${classSearchMenu} h-100`}>
+                                <Col md={{ span: 3 }} className={`${classSearchMenu} searchMenu h-100`}>
                                     <div className="h-100 d-flex flex-column">
                                         <Row className="flex-grow-1 overflow-scroll">
                                             <Col>
@@ -200,7 +214,7 @@ const Search = () => {
                                     </div>
                                 </Col>
 
-                                <Col className={`${classSearchResults} h-100`}>
+                                <Col className={`${classSearchResults} h-100 searchResults`}>
                                     <Row className="h-100 position-relative">
                                         <Col className={`${classSearchResultsTable} h-100`}>
                                             <Row className="h-100">
@@ -236,7 +250,7 @@ const Search = () => {
                                                 </Col>
                                             </Row>
                                         </Col>
-                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} pb-2`}>
+                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} IDCard pb-2`}>
                                             {/* ID Card */}
                                             {!isEmpty(searchSpecimen) &&
                                                 <IDCard specimen={searchSpecimen}
@@ -258,11 +272,11 @@ const Search = () => {
                     </Col>
 
                     {/* Compare box, to compare Specimens if compare mode is true */}
-                    {compareMode &&
-                        <div className="position-absolute bottom-0 d-flex justify-content-end pe-5">
+                    <div className={`${styles.compareBoxBlock} position-absolute bottom-0 d-flex justify-content-end pe-5`}>
+                        {compareMode &&
                             <CompareBox />
-                        </div>
-                    }
+                        }
+                    </div>
                 </Row>
             </Container>
 

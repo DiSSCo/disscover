@@ -8,6 +8,7 @@ import { Annotation, AnnotateTarget, Specimen, DigitalMedia } from 'global/Types
 
 export interface AnnotateState {
     sidePanelToggle: boolean,
+    annotationFormToggle: boolean,
     annotateTarget: AnnotateTarget;
     editAnnotation: Annotation;
     highlightAnnotationId: string;
@@ -17,6 +18,7 @@ export interface AnnotateState {
 
 const initialState: AnnotateState = {
     sidePanelToggle: false,
+    annotationFormToggle: false,
     annotateTarget: {
         property: '',
         motivation: '',
@@ -36,6 +38,9 @@ export const AnnotateSlice = createSlice({
     reducers: {
         setSidePanelToggle: (state, action: PayloadAction<boolean>) => {
             state.sidePanelToggle = action.payload;
+        },
+        setAnnotationFormToggle: (state, action: PayloadAction<boolean>) => {
+            state.annotationFormToggle = action.payload;
         },
         setAnnotateTarget: (state, action: PayloadAction<AnnotateTarget>) => {
             state.annotateTarget = action.payload;
@@ -58,6 +63,7 @@ export const AnnotateSlice = createSlice({
 /* Action Creators */
 export const {
     setSidePanelToggle,
+    setAnnotationFormToggle,
     setAnnotateTarget,
     setEditAnnotation,
     setHighlightAnnotationId,
@@ -67,6 +73,7 @@ export const {
 
 /* Connect with Root State */
 export const getSidePanelToggle = (state: RootState) => state.annotate.sidePanelToggle;
+export const getAnnotationFormToggle = (state: RootState) => state.annotate.annotationFormToggle;
 export const getAnnotateTarget = (state: RootState) => state.annotate.annotateTarget;
 export const getEditAnnotation = (state: RootState) => state.annotate.editAnnotation;
 export const getHighlightAnnotationId = (state: RootState) => state.annotate.highlightAnnotationId;

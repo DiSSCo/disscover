@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getUserProfile, setUserProfile, getUserProfileAnnotations } from 'redux/user/UserSlice';
+import { getUserProfile, setUserProfile, getUserProfileAnnotations, setUserProfileAnnotations } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { User, Organisation } from 'global/Types';
@@ -19,6 +19,7 @@ import UserInfoForm from './UserInfoForm';
 
 /* Import API */
 import GetOrganisations from 'api/organisation/GetOrganisations';
+import GetUserAnnotations from 'api/user/GetUserAnnotations';
 
 
 const UserInfo = () => {
@@ -28,13 +29,18 @@ const UserInfo = () => {
     /* Base variables */
     const userProfile = useAppSelector(getUserProfile);
     const userProfileAnnotations = useAppSelector(getUserProfileAnnotations);
-
-    /* OnLoad: Get Organisations for options list */
     const [organisations, setOrganisations] = useState<Organisation[]>([]);
 
+    /* OnLoad: Get Organisations for options list and Get User Annotations */
     useEffect(() => {
         GetOrganisations().then((organisations) => {
             setOrganisations(organisations);
+        }).catch(error => {
+            console.warn(error);
+        });
+
+        GetUserAnnotations(KeycloakService.GetToken(), 25).then(({userAnnotations}) => {
+            dispatch(setUserProfileAnnotations(userAnnotations));
         });
     }, [])
 

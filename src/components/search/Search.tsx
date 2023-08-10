@@ -45,6 +45,7 @@ import CompareSteps from './steps/CompareSteps';
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
+import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
 
 
 const Search = () => {
@@ -65,6 +66,19 @@ const Search = () => {
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
+
+    /* TEMPORARY FIX: for showing total specimen amount */
+    const [temporaryTotalCount, setTemporaryTotalCount] = useState<number>(0);
+
+    useEffect(() => {
+        GetSpecimenDisciplines().then(({metadata}) => {
+            /* Set total specimen count */
+            if (metadata.totalRecords) {
+                setTemporaryTotalCount(metadata.totalRecords);
+                setTotalRecords(metadata.totalRecords);
+            }
+        });
+    }, []);
 
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
@@ -136,8 +150,14 @@ const Search = () => {
             /* Set Paginator links */
             setPaginatorLinks(links);
 
-            /* Set Total Records found */
-            setTotalRecords(totalRecords);
+            /* TEMPORARY FIX: Set total records using the disciplines call / Set Total Records found */
+            if (totalRecords) {
+                setTotalRecords(totalRecords);
+            } else {
+                if (temporaryTotalCount) {
+                    setTotalRecords(temporaryTotalCount);
+                }
+            }
         }
 
         /* Refresh Aggregations */

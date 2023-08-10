@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { Formik, Field, Form } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
+import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap'
 
 /* Import Types */
@@ -39,7 +40,9 @@ const UserInfoForm = (props: Props) => {
                     await new Promise((resolve) => setTimeout(resolve, 500));
                     
                     PatchUser(userProfile.id, values, KeycloakService.GetToken()).then((userProfile) => {
-                        SetUserProfile(userProfile);
+                        if (!isEmpty(userProfile)) {
+                            SetUserProfile(userProfile);
+                        }
 
                         DisableEditMode();
                     });

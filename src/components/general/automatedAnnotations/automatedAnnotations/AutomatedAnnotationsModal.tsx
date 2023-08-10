@@ -75,7 +75,7 @@ const AutomatedAnnotationsModal = (props: Props) => {
 
     return (
         <Modal show={automatedAnnotationsToggle} size="lg" dialogClassName={styles.automatedAnnotationsDialog}
-            contentClassName={styles.automatedAnnotationsContent} id="test"
+            contentClassName={styles.automatedAnnotationsContent}
         >
             <Modal.Header className="bgc-primary c-white fw-lightBold">
                 <Row className="w-100">

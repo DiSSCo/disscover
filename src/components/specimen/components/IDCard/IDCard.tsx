@@ -28,6 +28,8 @@ const IDCard = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
 
+    console.log(specimenDigitalMedia);
+
     /* ClassName for Specimen Property Hover */
     const classPropertyBlockHover = classNames({
         [`${styles.IDCardPropertyBlockHover}`]: KeycloakService.IsLoggedIn()

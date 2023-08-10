@@ -13,6 +13,9 @@ import { DigitalMedia } from 'global/Types';
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
+/* Import Webroot */
+import IIIFLogo from 'webroot/img/IIIFLogo.png';
+
 
 /* Props Typing */
 interface Props {
@@ -37,6 +40,10 @@ const DigitalMediaListItem = (props: Props) => {
             alt={`Broken ${specimenDigitalMedia.format} link`}
             className={`${styles.digitalMediaListItemImage} h-100`}
         />
+    } else if (specimenDigitalMedia.format === 'application/json') {
+        digitalMediaContent = <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+            <img src={IIIFLogo} alt="IIIF Logo" />
+        </div>;
     } else {
         digitalMediaContent = <img src={specimenDigitalMedia.mediaUrl}
             alt={specimenDigitalMedia.mediaUrl}
@@ -68,9 +75,11 @@ const DigitalMediaListItem = (props: Props) => {
         <div className={`${classDigitalMediaListItem} position-relative px-1`}
             onMouseEnter={() => { if (specimenDigitalMedia.id !== digitalMedia.id) { setHover(true) } }}
             onMouseLeave={() => { if (specimenDigitalMedia.id !== digitalMedia.id) { setHover(false) } }}
-            onClick={() => { if (specimenDigitalMedia.id !== digitalMedia.id) {
-                navigate(`/dm/${specimenDigitalMedia.id.replace('https://hdl.handle.net/', '')}`)
-            } }}
+            onClick={() => {
+                if (specimenDigitalMedia.id !== digitalMedia.id) {
+                    navigate(`/dm/${specimenDigitalMedia.id.replace('https://hdl.handle.net/', '')}`)
+                }
+            }}
         >
             {digitalMediaContent}
 

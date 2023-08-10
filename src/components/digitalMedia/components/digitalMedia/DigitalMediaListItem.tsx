@@ -63,7 +63,7 @@ const DigitalMediaListItem = (props: Props) => {
 
             break;
         default:
-            if (digitalMedia.format === 'application/json' || digitalMedia.format === 'application/ld+json') {
+            if (specimenDigitalMedia.format === 'application/json' || specimenDigitalMedia.format === 'application/ld+json') {
                 digitalMediaContent = <div className="w-100 h-100 d-flex justify-content-center align-items-center">
                     <img src={IIIFLogo} alt="IIIF Logo" />
                 </div>;
@@ -109,7 +109,7 @@ const DigitalMediaListItem = (props: Props) => {
                 {digitalMediaContent}
 
                 <div className={classImageTitle}>
-                    {Capitalize(specimenDigitalMedia['type'])}
+                    {specimenDigitalMedia['type'] && Capitalize(specimenDigitalMedia['type'])}
                 </div>
 
                 <div className={classBackdrop} />

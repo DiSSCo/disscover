@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faX, faEnvelope, faInstitution } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
-import OrganisationLogoImage from 'components/general/mediaTypes/OrganisationLogoImage';
+import OrganisationLogoImage from 'components/general/mediaTypes/OrganisationLogoImage'; 
 import UserInfoForm from './UserInfoForm';
 
 /* Import API */

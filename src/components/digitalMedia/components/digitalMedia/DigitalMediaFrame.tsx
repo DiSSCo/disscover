@@ -10,7 +10,7 @@ import Image from 'components/general/mediaTypes/Image';
 import Video from 'components/general/mediaTypes/Video';
 import Audio from 'components/general/mediaTypes/Audio';
 import File from 'components/general/mediaTypes/File';
-import IIIFView from 'components/general/media/IIIFView';
+import IIIFView from 'components/general/mediaTypes/IIIFView';
 
 
 const DigitalMediaFrame = () => {

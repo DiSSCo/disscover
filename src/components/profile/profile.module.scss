@@ -58,11 +58,6 @@
     text-decoration: none !important;
 }
 
-.profileLeftBlock {
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-}
-
 .profileRightBlock {
     background-color: #aae7ee;
     border-radius: 8px;
@@ -88,7 +83,41 @@
     background-color: var(--accent);
 }
 
+/* Passport */
+.passport {
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+}
+
+.passportHead {
+    height: 75px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.passportLogo {
+    color: var(--accent);
+    font-size: 20px;
+}
+
+.passportLinkBox {
+    border: 1px solid var(--accent);
+}
+
+.passportEditIcon {
+    font-size: 20px;
+}
+
+/* Profile Content Tabs */
+.profileContentTabs {
+    padding-top: 75px;
+}
+
 /* User Form */
+.userInfoInputTitle {
+    font-size: 12px;
+}
+
 .userInfoInput {
     border: 1px solid var(--grey);
 }
@@ -109,7 +138,6 @@
 /* Annotations Table */
 .annotationsTable {
     height: 85%;
-    overflow-y: scroll;
 }
 
 .annotationsTablePaginator {

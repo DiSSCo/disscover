@@ -29,16 +29,16 @@ const UserInfoForm = (props: Props) => {
     return (
         <Col className={`${styles.profileText} px-4`}>
             <Formik
-                initialValues={{ 
-                    firstName: userProfile.firstName? userProfile.firstName : '', 
-                    lastName: userProfile.lastName? userProfile.lastName : '', 
-                    email: userProfile.email ? userProfile.email : '', 
-                    organisation: userProfile.organisation ? userProfile.organisation : '', 
+                initialValues={{
+                    firstName: userProfile.firstName ? userProfile.firstName : '',
+                    lastName: userProfile.lastName ? userProfile.lastName : '',
+                    email: userProfile.email ? userProfile.email : '',
+                    organisation: userProfile.organisation ? userProfile.organisation : '',
                     orcid: userProfile.orcid ? userProfile.orcid : ''
                 }}
                 onSubmit={async (values) => {
                     await new Promise((resolve) => setTimeout(resolve, 500));
-                    
+
                     PatchUser(userProfile.id, values, KeycloakService.GetToken()).then((userProfile) => {
                         if (!isEmpty(userProfile)) {
                             SetUserProfile(userProfile);
@@ -49,29 +49,38 @@ const UserInfoForm = (props: Props) => {
                 }}
             >
                 <Form>
-                    <Row className="pb-1">
+                    <Row>
+                        <Col>
+                            <h5> Edit profile </h5>
+                        </Col>
+                    </Row>
+                    <Row className="pb-2">
+                        <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> First name </p>
                         <Col className="profile_input">
                             <Field name="firstName" type="text"
                                 className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
-                    <Row className="mt-2 pb-1">
+                    <Row className="pb-2">
+                        <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> Last name </p>
                         <Col className="profile_input">
                             <Field name="lastName" type="text"
                                 className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
-                    <Row className="mt-2 pb-1">
+                    <Row className="pb-2">
+                        <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> Email </p>
                         <Col className="profile_input">
                             <Field name="email" type="email"
                                 className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />
                         </Col>
                     </Row>
-                    <Row className="mt-2 pb-1">
+                    <Row className="pb-2">
                         <Col className="profile_input">
+                            <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> Organisation </p>
                             <Field name="organisation" as="select"
                                 className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             >
@@ -91,8 +100,9 @@ const UserInfoForm = (props: Props) => {
                             </Field>
                         </Col>
                     </Row>
-                    <Row className="mt-2">
+                    <Row className="pb-2">
                         <Col className="profile_input">
+                            <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> ORCID </p>
                             <Field name="orcid" type="text"
                                 className={`${styles.userInfoInput} rounded-c px-2 w-100`}
                             />

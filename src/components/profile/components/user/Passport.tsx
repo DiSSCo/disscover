@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { getUser, getUserProfile, setUserProfile } from 'redux/user/UserSlice';
+import { getUserProfile, setUserProfile } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { User, Organisation } from 'global/Types';

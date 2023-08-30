@@ -5,9 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getScreenSize } from 'redux/general/GeneralSlice';
 
-/* Import Styles */
-import styles from 'components/home/home.module.scss';
-
 
 const TopicDisciplineText = () => {
     const screenSize = useAppSelector(getScreenSize);
@@ -20,10 +17,10 @@ const TopicDisciplineText = () => {
     return (
         <Row>
             <Col>
-                <p className={`${styles.introText} fw-lightBold`}>
+                <p className="fs-3 c-primary fw-lightBold">
                     {`Select the categories on the ${filtersPosition} to refine your search`}
                 </p>
-                <p className={`${styles.introText} fw-lightBold`}>
+                <p className="fs-3 c-primary fw-lightBold">
                     or click on view to see all the specimens in the seleceted categories.
                 </p>
             </Col>

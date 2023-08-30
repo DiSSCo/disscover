@@ -27,10 +27,10 @@ const FilterBlock = (props: Props) => {
             <Row className="h-50">
                 <Col>
                     {subTitle &&
-                        <p className={styles.specimenTypeSubTitle}> {subTitle} </p>
+                        <p className="fs-4 c-secondary fw-lightBold"> {subTitle} </p>
                     }
 
-                    <p className={styles.specimenTypeTitle}> {title} </p>
+                    <p className="fw-lightBold"> {title} </p>
                 </Col>
                 <Col className="col-md-auto">
                     <Field name={`disciplines.${type}`}

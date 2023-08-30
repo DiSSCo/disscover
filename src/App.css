@@ -98,6 +98,27 @@ p {
   width: 0px;
 }
 
+/* Font sizes, default is 16px */
+.fs-1 {
+  font-size: 40px !important;
+}
+
+.fs-2 {
+  font-size: 24px !important;
+}
+
+.fs-3 {
+  font-size: 18px !important;
+}
+
+.fs-4 {
+  font-size: 14px !important;
+}
+
+.fs-5 {
+  font-size: 12px !important;
+}
+
 /* Color */
 
 .c-primary {
@@ -130,7 +151,6 @@ p {
 }
 
 /* Background */
-
 .bg-main {
   background-color: #F9FAFC;
 }
@@ -152,82 +172,19 @@ p {
 }
 
 /* Border */
+.b-primary {
+  border: 1px solid var(--primary);
+}
 
 .b-secondary {
   border: 1px solid var(--secondary);
 }
 
-
-.border-b {
-  border: 1px solid #333333;
-}
-
-.border-1-primary {
-  border: 1px solid var(--primary);
-}
-
-.border-1-primary-light {
-  border: 1px solid var(--main-color-light);
-}
-
-.border-1-primary-dark {
-  border: 1px solid var(--main-color-dark);
-}
-
-.border-2-primary-dark {
-  border: 2px solid var(--main-color-dark);
-}
-
-.border-l-1-primary {
-  border-left: 1px solid var(--main-color);
-}
-
-.border-l-1-primary-dark {
-  border-left: 1px solid var(--main-color-dark);
-}
-
-.border-l-2-primary-dark {
-  border-left: 2px solid var(--main-color-dark);
-}
-
-.border-t-1-primary {
-  border-top: 1px solid var(--main-color);
-}
-
-.border-t-1-primary-dark {
-  border-top: 1px solid var(--main-color-dark);
-}
-
-.border-t-2-primary-dark {
-  border-top: 2px solid var(--main-color-dark);
-}
-
-.border-r-1-primary {
-  border-right: 1px solid var(--main-color);
-}
-
-.border-r-1-primary-dark {
-  border-right: 1px solid var(--main-color-dark);
-}
-
-.border-r-2-primary-dark {
-  border-right: 2px solid var(--main-color-dark);
-}
-
-.border-b-1-primary {
-  border-bottom: 1px solid var(--main-color);
-}
-
-.border-b-1-primary-dark {
-  border-bottom: 1px solid var(--main-color-dark);
-}
-
-.border-b-2-primary-dark {
-  border-bottom: 2px solid var(--main-color-dark);
+.b-accent {
+  border: 1px solid var(--accent);
 }
 
 /* Border radius */
-
 .br-tl {
   border-top-left-radius: 8px;
 }
@@ -248,7 +205,14 @@ p {
   border-radius: 8px;
 }
 
+.rounded-full {
+  border-radius: 999px;
+}
+
 /* Z-index */
+.z--1 {
+  z-index: -1;
+}
 
 .z-0 {
   z-index: 0;
@@ -263,7 +227,6 @@ p {
 }
 
 /* Shadow */
-
 .shadow-c {
   -webkit-box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
   box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
@@ -405,6 +368,7 @@ p {
   padding-left: 2%;
   padding-right: 2%;
   margin-right: 1%;
+  margin-top: 1%;
 }
 
 .tab.active {

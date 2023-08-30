@@ -67,19 +67,6 @@ const Search = () => {
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
 
-    /* TEMPORARY FIX: for showing total specimen amount */
-    const [temporaryTotalCount, setTemporaryTotalCount] = useState<number>(0);
-
-    useEffect(() => {
-        GetSpecimenDisciplines().then(({ metadata }) => {
-            /* Set total specimen count */
-            if (metadata.totalRecords) {
-                setTemporaryTotalCount(metadata.totalRecords);
-                setTotalRecords(metadata.totalRecords);
-            }
-        });
-    }, []);
-
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
         if (!isEmpty(searchResults)) {
@@ -135,8 +122,8 @@ const Search = () => {
             });
         } else {
             /* Grab Recent Specimens */
-            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
-                HandleSearch(specimens, links, totalRecords);
+            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, meta }) => {
+                HandleSearch(specimens, links, meta.totalRecords);
             }).catch(error => {
                 console.warn(error);
             });
@@ -150,12 +137,8 @@ const Search = () => {
             /* Set Paginator links */
             setPaginatorLinks(links);
 
-            /* TEMPORARY FIX: Set total records using the disciplines call / Set Total Records found */
-            if (totalRecords) {
-                setTotalRecords(totalRecords);
-            } else if (temporaryTotalCount) {
-                setTotalRecords(temporaryTotalCount);
-            }
+            /* Set Total Records */
+            setTotalRecords(totalRecords);
         }
 
         /* Refresh Aggregations */

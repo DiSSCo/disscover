@@ -154,7 +154,7 @@ const PhysicalIDSearch = () => {
                                     <Row className="mt-1">
                                         <Col>
                                             <Field name="idType" as="select"
-                                                className={`${styles.searchBar} w-100`}
+                                                className={`${styles.searchBar} rounded-full w-100 px-3`}
                                             >
                                                 <option value="gui" label="Global Unique Identifier" />
                                                 <option value="local" label="Local Identifier" />
@@ -175,7 +175,7 @@ const PhysicalIDSearch = () => {
                                         <Row className="mt-1">
                                             <Col>
                                                 <Field name="organisationId" as="select"
-                                                    className={`${styles.searchBar} w-100`}
+                                                    className={`${styles.searchBar} rounded-full w-100 px-3`}
                                                 >
                                                     {organisations.map((organisation) => {
                                                         return (
@@ -207,7 +207,7 @@ const PhysicalIDSearch = () => {
                                     <Row className="mt-1">
                                         <Col>
                                             <Field name="idValue"
-                                                className={`${styles.searchBar} w-100`}
+                                                className={`${styles.searchBar} rounded-full w-100 px-3`}
                                                 placeholder={values.idType === 'gui' ?
                                                     'https://geocollections.info/specimen/304790':
                                                     ''

@@ -24,17 +24,17 @@ const TextFilter = (props: Props) => {
             <Col>
                 <Row>
                     <Col>
-                        <p className={`${styles.filterTitle} fw-bold`}> {filter.displayName} </p>
+                        <p className="fs-4 fw-bold"> {filter.displayName} </p>
                     </Col>
                 </Row>
 
                 <Row className="mt-1">
                     <Col>
-                        <div className={`${styles.filterSearchBlock}`}>
+                        <div className="b-primary rounded-full">
                             <Row className="align-items-center">
                                 <Col>
                                     <Field name={`filters.${searchFilter}`}
-                                        className={`${styles.filterSearch} w-100 px-2 py-1`}
+                                        className="fs-4 rounded-full border-0 w-100 px-2 py-1"
                                         placeholder="Coming soon!"
                                     />
                                 </Col>

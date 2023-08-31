@@ -26,9 +26,9 @@ const ActiveFiltersTag = (props: Props) => {
             {filterValues.map((filter: string) => {
                 return (
                     <Col key={filter} className={`col-md-auto pe-0 pb-2`}>
-                        <div className={`${styles.activeFilter} fw-lightBold px-2 py-1`}>
+                        <div className={`${styles.activeFilter} fs-4 fw-lightBold px-2 py-1`}>
                             <FontAwesomeIcon icon={faCircleXmark}
-                                className={`${styles.activeFilterIcon} pe-1 c-primary`}
+                                className="fs-5 c-pointer pe-1 c-primary"
                                 onClick={() => RemoveFilter(filter)}
                             />
 

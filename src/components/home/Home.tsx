@@ -70,7 +70,7 @@ const Home = () => {
                                     </Col>
                                 </Row>
                                 {/* Advanced Search */}
-                                <div className={`${classAdvancedSearch} w-100 pe-5`} role="advancedSearch">
+                                <div className={`${classAdvancedSearch} advancedSearch w-100 pe-5`} role="advancedSearch">
                                     <AdvancedSearch HideAdvancedSearch={() => setAdvancedSearch(false)} />
                                 </div>
                             </Col>

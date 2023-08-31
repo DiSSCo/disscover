@@ -61,7 +61,7 @@ const MapMediaExt = (props: Props) => {
     return (
         <>
             {/*  If present, show Geological Location */}
-            < div className="h-100 d-flex flex-column" >
+            <div className="h-100 d-flex flex-column" >
                 <Row className="flex-grow-1">
                     <Col>
                         {(specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude']) &&
@@ -97,7 +97,7 @@ const MapMediaExt = (props: Props) => {
                             {digitalMedia.map((mediaItem) => {
                                 return (
                                     <img key={mediaItem.id} src={mediaItem.mediaUrl}
-                                        className={`${styles.digitalMediaItem} h-100 me-3`}
+                                        className="h-100 me-3 rounded-c"
                                         alt={mediaItem.mediaUrl}
                                     />
                                 );
@@ -109,7 +109,7 @@ const MapMediaExt = (props: Props) => {
                 {/* Specimen Page Button */}
                 <Row className={styles.buttonBlock}>
                     <Col className="h-100 d-flex justify-content-end align-items-end">
-                        <button type="button" className={`${styles.specimenButton} fw-bold px-3`}
+                        <button type="button" className={`${styles.specimenButton} border-0 bgc-primary c-white fs-4 rounded-full transition fw-bold px-3`}
                             onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`, {
                                 state: {
                                     filters: searchParams.toString()

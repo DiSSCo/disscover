@@ -30,15 +30,15 @@ const CollectionExt = (props: Props) => {
                     <span className="ms-1"> Collection </span>
                 </h5>
 
-                <p className={styles.IDCardProperty}>
+                <p className="fs-4">
                     <span className="fw-bold"> Collecting number: </span>
                     {CheckProperty(specimen.data['ods:collectingNumber'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Collector: </span>
                     {CheckProperty(specimen.data['ods:collector'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Date collected: </span>
                     {CheckProperty(specimen.data['ods:dateCollected'])}
                 </p>

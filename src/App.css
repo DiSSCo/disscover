@@ -141,6 +141,10 @@ p {
   color: #ACAAD4;
 }
 
+.c-greyDark {
+  color: var(--greyDark);
+}
+
 .c-backdrop {
   color: #404040;
 }
@@ -156,7 +160,7 @@ p {
 }
 
 .bgc-primary {
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
 }
 
 .bgc-secondary {

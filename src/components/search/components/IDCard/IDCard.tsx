@@ -38,15 +38,15 @@ const IDCard = (props: Props) => {
                         <Row className="align-items-center">
                             <Col className="col-md-auto h-100 pe-1">
                                 <FontAwesomeIcon icon={faDiamond}
-                                    className={styles.IDCardIcon}
+                                    className="c-primary fs-2"
                                 />
                             </Col>
                             <Col>
-                                <h2 className={styles.IDCardTitle}> {specimen.specimenName} </h2>
+                                <h2 className="fs-2"> {specimen.specimenName} </h2>
                             </Col>
                             <Col className="col-md-auto">
                                 <FontAwesomeIcon icon={faX}
-                                    className={`${styles.IDCardCloseIcon} c-primary`}
+                                    className="c-primary c-pointer"
                                     onClick={() => OnClose(specimen.id)}
                                 />
                             </Col>
@@ -55,7 +55,7 @@ const IDCard = (props: Props) => {
                         {/* Specimen Identifier */}
                         <Row>
                             <Col>
-                                <p className={styles.IDCardId}> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
+                                <p className="fs-4 c-greyDark"> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
                             </Col>
                         </Row>
 
@@ -64,7 +64,7 @@ const IDCard = (props: Props) => {
                             <Col className="col-md-auto pe-0">
                                 <Tooltip text="Minimum Information about a Digital Specimen" placement="top">
                                     <span>
-                                        <FontAwesomeIcon icon={faCircleInfo} className={`${styles.midsInfoIcon} mt-2`} />
+                                        <FontAwesomeIcon icon={faCircleInfo} className="fs-2 c-accent mt-2" />
                                     </span>
                                 </Tooltip>
                             </Col>
@@ -97,20 +97,20 @@ const IDCard = (props: Props) => {
                         {/* Specimen Information */}
                         <Row className="mt-4">
                             <Col>
-                                <p className={styles.IDCardProperty}>
+                                <p className="fs-4">
                                     <span className="fw-bold"> Scientific Name: </span> {specimen.specimenName}
                                 </p>
-                                <p className={`${styles.IDCardProperty} mt-2`}>
+                                <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Specimen Type: </span> {specimen.type}
                                 </p>
-                                <p className={`${styles.IDCardProperty} mt-2`}>
+                                <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span>
                                     {<PhysicalSpecimenIdProperty specimen={specimen} />}
                                 </p>
-                                <p className={`${styles.IDCardProperty} mt-2`}>
+                                <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Physical Specimen Collection: </span> {specimen.physicalSpecimenCollection}
                                 </p>
-                                <p className={`${styles.IDCardProperty} mt-2`}>
+                                <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Organisation: </span>
                                     <span className="c-accent"> {<OrganisationProperty specimen={specimen} />} </span>
                                 </p>

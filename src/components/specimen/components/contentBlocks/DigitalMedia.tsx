@@ -69,7 +69,7 @@ const DigitalMedia = () => {
                             {/* Digital Media type title */}
                             <Row>
                                 <Col>
-                                    <p className={`${styles.digitalMediaTitle} c-accent fw-lightBold`}>
+                                    <p className="fs-3 c-accent fw-lightBold">
                                         {Capitalize(mediaType)}
                                     </p>
                                 </Col>

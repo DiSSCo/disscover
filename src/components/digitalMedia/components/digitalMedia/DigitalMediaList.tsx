@@ -46,7 +46,7 @@ const DigitalMediaList = () => {
     }
 
     return (
-        <div className={`${styles.digitalMediaList} h-100`}>
+        <div className={`${styles.digitalMediaList} bgc-white rounded-c h-100`}>
             {digitalMediaItems}
         </div>
     );

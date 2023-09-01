@@ -27,7 +27,7 @@ const UserInfoForm = (props: Props) => {
     const { userProfile, organisations, SetUserProfile, DisableEditMode } = props;
 
     return (
-        <Col className={`${styles.profileText} px-4`}>
+        <Col className="fs-4 px-4">
             <Formik
                 initialValues={{
                     firstName: userProfile.firstName ? userProfile.firstName : '',
@@ -55,34 +55,34 @@ const UserInfoForm = (props: Props) => {
                         </Col>
                     </Row>
                     <Row className="pb-2">
-                        <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> First name </p>
+                        <p className="fs-5 c-primary fw-lightBold"> First name </p>
                         <Col className="profile_input">
                             <Field name="firstName" type="text"
-                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
+                                className="b-grey rounded-c px-2 w-100"
                             />
                         </Col>
                     </Row>
                     <Row className="pb-2">
-                        <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> Last name </p>
+                        <p className="fs-5 c-primary fw-lightBold"> Last name </p>
                         <Col className="profile_input">
                             <Field name="lastName" type="text"
-                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
+                                className="b-grey rounded-c px-2 w-100"
                             />
                         </Col>
                     </Row>
                     <Row className="pb-2">
-                        <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> Email </p>
+                        <p className="fs-5 c-primary fw-lightBold"> Email </p>
                         <Col className="profile_input">
                             <Field name="email" type="email"
-                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
+                                className="b-grey rounded-c px-2 w-100"
                             />
                         </Col>
                     </Row>
                     <Row className="pb-2">
                         <Col className="profile_input">
-                            <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> Organisation </p>
+                            <p className="fs-5 c-primary fw-lightBold"> Organisation </p>
                             <Field name="organisation" as="select"
-                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
+                                className="b-grey rounded-c px-2 w-100"
                             >
                                 <option value="">
                                     Select an organisation
@@ -102,15 +102,15 @@ const UserInfoForm = (props: Props) => {
                     </Row>
                     <Row className="pb-2">
                         <Col className="profile_input">
-                            <p className={`${styles.userInfoInputTitle} c-primary fw-lightBold`}> ORCID </p>
+                            <p className="fs-5 c-primary fw-lightBold"> ORCID </p>
                             <Field name="orcid" type="text"
-                                className={`${styles.userInfoInput} rounded-c px-2 w-100`}
+                                className="b-grey rounded-c px-2 w-100"
                             />
                         </Col>
                     </Row>
                     <Row className="mt-3">
                         <Col md={{ span: 3 }}>
-                            <button className={`${styles.userInfoSubmit} border-0 rounded-c text-white px-3`}
+                            <button className={`${styles.userInfoSubmit} bgc-primary transition border-0 rounded-c text-white px-3`}
                                 type="submit"
                             >
                                 Save

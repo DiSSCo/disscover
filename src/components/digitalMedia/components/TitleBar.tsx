@@ -54,10 +54,10 @@ const TitleBar = () => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={icon} className={styles.titleBarIcon} />
+                        <FontAwesomeIcon icon={icon} className={`${styles.digitalMediaTitle} c-primary`} />
                     </Col>
                     <Col>
-                        <h2 className={styles.title}> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </h2>
+                        <h2 className={styles.digitalMediaTitle}> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </h2>
                     </Col>
                 </Row>
             </Col>

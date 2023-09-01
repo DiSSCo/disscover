@@ -13,7 +13,7 @@ import AnnotationsOverview from './annotate/AnnotationsOverview';
 const ProfileContent = () => {
     /* ClassNames */
     const classTabsList = classNames({
-        [`p-0`]: true
+        'tabsList p-0': true
     });
 
     const classTab = classNames({

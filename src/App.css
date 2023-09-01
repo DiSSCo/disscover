@@ -171,6 +171,10 @@ p {
   background-color: var(--accent);
 }
 
+.bgc-white {
+  background-color: white;
+}
+
 .bgc-grey {
   background-color: var(--grey);
 }
@@ -190,6 +194,10 @@ p {
 
 .b-accent {
   border: 1px solid var(--accent);
+}
+
+.b-grey {
+  border: 1px solid var(--grey);
 }
 
 /* Border radius */
@@ -384,6 +392,14 @@ p {
   font-weight: bold;
 }
 
+/* Media Modal Classes From Image Annotation Library */
+.hAjSKD {
+  height: Calc(100% - 41px);
+}
+
+.dCXmIN {
+  height: 100%;
+}
 
 /* Bootstrap class overwrite */
 

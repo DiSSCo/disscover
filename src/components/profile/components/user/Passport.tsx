@@ -46,7 +46,7 @@ const Passport = () => {
     return (
         <div className={`${styles.passport} d-flex flex-column bg-white h-100`}>
             <div className={`${styles.passportHead} bgc-primary position-relative d-flex justify-content-center`}>
-                <div className={`${styles.profilePicture} rounded-circle text-white position-absolute 
+                <div className={`${styles.profilePicture} bgc-secondary rounded-circle text-white position-absolute 
                     d-flex align-items-center justify-content-center top-0`}
                 >
                     {userProfile.firstName ? userProfile.firstName[0].toUpperCase() : 'U'}
@@ -55,10 +55,10 @@ const Passport = () => {
                 {KeycloakService.GetSubject() === userProfile.id &&
                     <div className="position-absolute end-0 pe-4 mt-4">
                         {editMode ?
-                            <FontAwesomeIcon icon={faX} className={`${styles.passportEditIcon} c-pointer c-white`}
+                            <FontAwesomeIcon icon={faX} className="fs-3 c-pointer c-white"
                                 onClick={() => setEditMode(false)}
                             />
-                            : <FontAwesomeIcon icon={faPencil} className={`${styles.passportEditIcon} c-pointer c-white`}
+                            : <FontAwesomeIcon icon={faPencil} className="fs-3 c-pointer c-white"
                                 onClick={() => setEditMode(true)}
                             />
                         }
@@ -72,11 +72,11 @@ const Passport = () => {
                     <Row className="mt-5">
                         <Col className="text-center">
                             {userProfile.firstName || userProfile.lastName ?
-                                <p className={`${styles.profileTitle} fw-lightBold`}> {userProfile.firstName} {userProfile.lastName} </p>
+                                <p className="fs-3 fw-lightBold"> {userProfile.firstName} {userProfile.lastName} </p>
                                 : <p> User </p>
                             }
 
-                            <p className={styles.profileSubTitle}> {userProfile.id} </p>
+                            <p className="fs-4 c-greyDark"> {userProfile.id} </p>
                         </Col>
                     </Row>
 
@@ -87,7 +87,7 @@ const Passport = () => {
                             <Row>
                                 <Col className="col-md-auto pe-1">
                                     <FontAwesomeIcon icon={faEnvelope}
-                                        className={styles.passportLogo}
+                                        className="c-accent fs-3"
                                     />
                                 </Col>
                                 <Col>
@@ -102,7 +102,7 @@ const Passport = () => {
                             <Row>
                                 <Col className="col-md-auto pe-1">
                                     <FontAwesomeIcon icon={faInstitution}
-                                        className={styles.passportLogo}
+                                        className="c-accent fs-3"
                                     />
                                 </Col>
                                 <Col>
@@ -116,18 +116,18 @@ const Passport = () => {
                             {/* ORCID and Bionomia */}
                             {userProfile.orcid &&
                                 <Row className="mt-5">
-                                    <p className={`${styles.profileSubTitle} text-center mb-2`}> Links </p>
+                                    <p className="fs-4 c-greyDark text-center mb-2"> Links </p>
 
                                     <Col>
                                         <a href={`https://orcid.org/${userProfile.orcid}`} target="_blank" rel="noreferrer">
-                                            <button type="button" className={`${styles.profileExternalButton} w-100 py-2`}>
+                                            <button type="button" className={`${styles.profileExternalButton} c-white bgc-secondary border-0 rounded-c transition w-100 py-2`}>
                                                 ORCID
                                             </button>
                                         </a>
                                     </Col>
                                     <Col>
                                         <a href={`https://bionomia.net/${userProfile.orcid}`} target="_blank" rel="noreferrer">
-                                            <button type="button" className={`${styles.profileExternalButton} w-100 py-2`}>
+                                            <button type="button" className={`${styles.profileExternalButton} c-white bgc-secondary border-0 rounded-c transition w-100 py-2`}>
                                                 Bionomia
                                             </button>
                                         </a>

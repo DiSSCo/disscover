@@ -72,7 +72,7 @@ const IntroTopics = (props: Props) => {
 
             {/* Intro Topic options, if there are multiple options */}
             {introTopics.length > 1 &&
-                <div className={`${styles.introTopics} ${activeClass} position-absolute bg-white rounded mt-2`}
+                <div className={`${styles.introTopics} ${activeClass} b-primary position-absolute bg-white rounded mt-2`}
                     ref={dropdownRef}
                 >
                     {introTopics.map((introTopic) => {

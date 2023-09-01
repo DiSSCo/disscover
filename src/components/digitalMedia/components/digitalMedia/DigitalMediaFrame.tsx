@@ -42,7 +42,7 @@ const DigitalMediaFrame = () => {
     }
 
     return (
-        <div className={`${styles.digitalMediaFrame} h-100 d-flex justify-content-center align-items-center`}>
+        <div className="h-100 d-flex justify-content-center align-items-center bgc-grey rounded-c overflow-hidden">
             {digitalMediaContent}
         </div>
     );

@@ -43,7 +43,7 @@ const CustomEditIcon = (props: Props) => {
             <div className={`${classEditIconCover} rounded-circle position-absolute z-0`} />
 
             <FontAwesomeIcon icon={!editMode ? faPencil : faX}
-                className={`${styles.editIcon} z-1 position-relative`}
+                className={`${styles.editIcon} c-pointer z-1 position-relative`}
                 onMouseEnter={() => { if (!editMode) { setHover(true) } }}
                 onMouseLeave={() => { if (!editMode) { setHover(false) } }}
             />

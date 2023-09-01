@@ -98,30 +98,61 @@ const AnnotationsOverview = () => {
         setTableData(tableData);
     }, [userAnnotations]);
 
+    /* Custom styles for Data Table */
+    const customStyles = {
+        head: {
+            style: {
+                color: 'white',
+                fontSize: '14px'
+            }
+        },
+        headRow: {
+            style: {
+                backgroundColor: '#51a993'
+            }
+        },
+        rows: {
+            style: {
+                minHeight: '40px'
+            },
+            highlightOnHoverStyle: {
+                backgroundColor: '#98cdbf',
+            },
+            stripedStyle: {
+                backgroundColor: '#eef7f4'
+            }
+        }
+    };
+
     return (
         <Row className="h-100">
-            <Col className="h-100 px-4">
-                <Row className={styles.annotationsTable}>
-                    <Col>
-                        <DataTable
-                            columns={tableColumns}
-                            data={tableData}
+            <Col className="h-100">
+                <div className="h-100 d-flex flex-column">
+                    <Row className={`${styles.annotationsTable} flex-grow-1 pb-2`}>
+                        <Col className="h-100">
+                            <div className="h-100 overflow-scroll b-secondary rounded-c">
+                                <DataTable
+                                    columns={tableColumns}
+                                    data={tableData}
+                                    customStyles={customStyles}
 
-                            striped
-                            highlightOnHover
-                            pointerOnHover
-                        />
-                    </Col>
-                </Row>
-                <Row className={`${styles.annotationsTablePaginator} justify-content-center`}>
-                    <Col className="col-md-auto">
-                        <Paginator pageNumber={pageNumber}
-                            links={paginatorLinks}
+                                    striped
+                                    highlightOnHover
+                                    pointerOnHover
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className={`justify-content-center`}>
+                        <Col className="col-md-auto">
+                            <Paginator pageNumber={pageNumber}
+                                links={paginatorLinks}
 
-                            SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
-                        />
-                    </Col>
-                </Row>
+                                SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                            />
+                        </Col>
+                    </Row>
+                </div>
             </Col>
         </Row>
     );

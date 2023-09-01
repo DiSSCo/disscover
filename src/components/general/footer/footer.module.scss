@@ -5,3 +5,11 @@
 .footer.home {
     background-color: #F9FAFC;
 }
+
+.footerLink {
+    color: var(--accent) !important;
+}
+
+.footerLink:hover {
+    text-decoration: underline !important;
+}

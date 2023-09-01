@@ -58,7 +58,7 @@ const Specimen = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
-    /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
+    /* Onload or Version change: Check for Specimen, otherwise grab full (specific version) from database */
     useEffect(() => {
         const specimenId = `${params.prefix}/${params.suffix}`;
 

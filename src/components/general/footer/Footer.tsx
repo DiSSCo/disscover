@@ -39,7 +39,7 @@ const Footer = () => {
                     <Row className="h-100 align-items-center">
                         <Col className="col-md-auto pt-0 pe-0">
                             <p className="fs-5">
-                                <a href="https://dissco.eu" className={styles.footerLink} target="_blank" rel="noreferrer">
+                                <a href="https://dissco.eu" className={`${styles.footerLink}`} target="_blank" rel="noreferrer">
                                     Distributed System of Scientific Collections
                                 </a>
                             </p>

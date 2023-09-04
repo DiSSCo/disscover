@@ -41,8 +41,25 @@ const TitleBar = (props: Props) => {
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
         { value: 'sidePanel', label: 'View all Annotations' },
-        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() }
+        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() },
+        { value: 'download', label: 'Download as JSON' }
     ];
+
+    /* Function for downloading a Specimen as JSON */
+    const DownloadSpecimen = () => {
+        /* Parse Specimen object to JSON */
+        const jsonSpecimen = JSON.stringify(specimen);
+
+        /* Create JSON file */
+        const jsonFile = new Blob([jsonSpecimen], { type: "text/plain" });
+
+        /* Create and click on link to download file */
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(jsonFile);
+        link.download = `${specimen.specimenName}.json`;
+
+        link.click();
+    }
 
     /* Function for executing Specimen Actions */
     const SpecimenActions = (action: string) => {
@@ -61,6 +78,11 @@ const TitleBar = (props: Props) => {
 
                 /* Open MAS Modal */
                 ToggleAutomatedAnnotations();
+
+                return;
+            case 'download':
+                /* Download Specimen as JSON */
+                DownloadSpecimen();
 
                 return;
             default:

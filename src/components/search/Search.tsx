@@ -158,8 +158,8 @@ const Search = () => {
     /* ClassName for Search Results Block */
     const classSearchResults = classNames({
         'transition bg-main position-absolute': true,
-        'offset-md-3 col-md-9': isEmpty(searchSpecimen) && filterToggle,
-        'col-md-12': !isEmpty(searchSpecimen) && !filterToggle
+        'offset-md-6 col-md-6 offset-lg-3 col-lg-9': isEmpty(searchSpecimen) && filterToggle,
+        'col-md-12 col-lg-12': !isEmpty(searchSpecimen) && !filterToggle
     });
 
     /* ClassName for Search Results Table */
@@ -196,13 +196,13 @@ const Search = () => {
                             </Row>
 
                             <Row className={`mt-3`}>
-                                <Col md={{ span: 3 }} className="searchBar">
+                                <Col lg={{ span: 3 }} className="col-md-auto searchBar">
                                     <SearchBar />
                                 </Col>
 
                                 {/* If filters are hidden, show toggle button and current active filters */}
                                 <Col className="activeFilters">
-                                    <Row>
+                                    <Row className="justify-content-end">
                                         {!filterToggle ?
                                             <>
                                                 <Col className="h-100 col-md-auto pe-0">
@@ -213,7 +213,7 @@ const Search = () => {
                                                         <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
                                                     </button>
                                                 </Col>
-                                                <Col>
+                                                <Col className="d-md-none">
                                                     <ActiveFilters />
                                                 </Col>
                                             </> : <Col />
@@ -232,7 +232,7 @@ const Search = () => {
                             </Row>
 
                             <Row className="flex-grow-1 position-relative overflow-hidden">
-                                <Col md={{ span: 3 }} className={`${classSearchMenu} searchMenu h-100`}>
+                                <Col md={{ span: 6 }} lg={{ span: 3 }} className={`${classSearchMenu} searchMenu h-100`}>
                                     <div className="h-100 d-flex flex-column">
                                         <Row className="flex-grow-1 overflow-scroll">
                                             <Col>
@@ -259,7 +259,7 @@ const Search = () => {
                                                         </Row>
 
                                                         <Row className="justify-content-center position-relative">
-                                                            <Col className="fs-4 col-md-auto py-2 position-absolute start-0 ps-4">
+                                                            <Col className="fs-4 py-2 position-absolute start-0 ps-4">
                                                                 {(totalRecords === 1) ?
                                                                     <p className="fst-italic"> 1 specimen found </p>
                                                                     : <p className="fst-italic"> {`${totalRecords} specimens found`} </p>
@@ -267,13 +267,15 @@ const Search = () => {
                                                             </Col>
 
                                                             {(searchResults.length > 0) &&
-                                                                <Col className="col-md-auto">
-                                                                    <Paginator pageNumber={pageNumber}
-                                                                        links={paginatorLinks}
-                                                                        totalRecords={totalRecords}
+                                                                <Col className="col-lg-auto">
+                                                                    <div className="d-flex justify-content-end">
+                                                                        <Paginator pageNumber={pageNumber}
+                                                                            links={paginatorLinks}
+                                                                            totalRecords={totalRecords}
 
-                                                                        SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
-                                                                    />
+                                                                            SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                                                                        />
+                                                                    </div>
                                                                 </Col>
                                                             }
                                                         </Row>

@@ -29,7 +29,7 @@ const Home = () => {
     });
 
     const classAdvancedToggled = classNames({
-        'transition': true,
+        'transition mt-2 mt-lg-0': true,
         'opacity-0': advancedSearch,
         'opacity-1': !advancedSearch
     });
@@ -40,7 +40,7 @@ const Home = () => {
 
             <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
 
-            <Container fluid className={styles.content}>
+            <Container fluid className={`${styles.content} overflow-scroll`}>
                 <Row className="h-100">
                     {/* First part of Homepage, relative to screen height */}
                     <Col md={{ span: 10, offset: 1 }} className="h-100">

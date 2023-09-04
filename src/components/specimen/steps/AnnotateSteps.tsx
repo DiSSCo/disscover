@@ -223,7 +223,7 @@ const AnnotateSteps = (props: Props) => {
 
                             resolve();
                         } else if (nextIndex === 14) {
-                            /* On step 15: Set edit annotation with motivation type */
+                            /* On step 15: Set edit annotation with annotation type */
                             dispatch(setEditAnnotation(dummyAnnotation));
                             dispatch(setAnnotationFormToggle(true));
 

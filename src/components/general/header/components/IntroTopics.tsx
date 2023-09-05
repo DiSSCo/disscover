@@ -13,19 +13,16 @@ import { Dict } from 'global/Types';
 /* Import Styles */
 import styles from '../header.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
-
 
 /* Props Typing */
 interface Props {
-    introTopics: { intro: string, title: string }[]
+    introTopics: { intro: string, title: string }[],
+    ToggleCollapseMenu?: Function
 };
 
 
 const IntroTopics = (props: Props) => {
-    const { introTopics } = props;
+    const { introTopics, ToggleCollapseMenu } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -82,6 +79,10 @@ const IntroTopics = (props: Props) => {
                                 onClick={() => {
                                     dispatch(setIntroTopic(introTopic.intro));
                                     setDropdown(false);
+
+                                    if (ToggleCollapseMenu) {
+                                        ToggleCollapseMenu();
+                                    }
                                 }}
                             >
                                 <p> {Capitalize(introTopic.title)} </p>

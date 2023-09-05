@@ -157,14 +157,14 @@ const Search = () => {
 
     /* ClassName for Search Results Block */
     const classSearchResults = classNames({
-        'transition bg-main position-absolute': true,
+        'transition bgc-main position-absolute': true,
         'offset-md-6 col-md-6 offset-lg-3 col-lg-9': isEmpty(searchSpecimen) && filterToggle,
         'col-md-12 col-lg-12': !isEmpty(searchSpecimen) && !filterToggle
     });
 
     /* ClassName for Search Results Table */
     const classSearchResultsTable = classNames({
-        'transition z-1 col-md-12': true,
+        'transition col-md-12': true,
         'w-50': !isEmpty(searchSpecimen)
     });
 

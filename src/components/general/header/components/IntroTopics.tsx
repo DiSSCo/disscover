@@ -13,10 +13,6 @@ import { Dict } from 'global/Types';
 /* Import Styles */
 import styles from '../header.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
-
 
 /* Props Typing */
 interface Props {

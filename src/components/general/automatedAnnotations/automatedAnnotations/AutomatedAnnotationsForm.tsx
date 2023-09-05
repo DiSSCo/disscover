@@ -11,9 +11,6 @@ import { getMASTarget } from 'redux/annotate/AnnotateSlice';
 /* Import Types */
 import { Dict } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/specimen/specimen.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';

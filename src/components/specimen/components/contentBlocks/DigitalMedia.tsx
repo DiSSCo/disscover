@@ -7,9 +7,6 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 
-/* Import Styles */
-import styles from 'components/specimen/specimen.module.scss';
-
 /* Components */
 import Image from 'components/general/mediaTypes/Image';
 import Video from 'components/general/mediaTypes/Video';

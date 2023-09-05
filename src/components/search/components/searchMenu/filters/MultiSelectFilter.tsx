@@ -14,9 +14,6 @@ import { getSearchAggregations, setSearchAggregations } from 'redux/search/Searc
 /* Import Types */
 import { SearchFilter, Dict } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';

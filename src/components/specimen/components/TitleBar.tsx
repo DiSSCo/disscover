@@ -51,7 +51,7 @@ const TitleBar = (props: Props) => {
         const jsonSpecimen = JSON.stringify(specimen);
 
         /* Create JSON file */
-        const jsonFile = new Blob([jsonSpecimen], { type: "text/plain" });
+        const jsonFile = new Blob([jsonSpecimen], { type: "application/json" });
 
         /* Create and click on link to download file */
         const link = document.createElement("a");

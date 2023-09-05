@@ -13,14 +13,10 @@ import { Dict } from 'global/Types';
 /* Import Styles */
 import styles from '../header.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
-
 
 /* Props Typing */
 interface Props {
-    introTopics: {intro: string, title: string}[]
+    introTopics: { intro: string, title: string }[]
 };
 
 
@@ -65,10 +61,11 @@ const IntroTopics = (props: Props) => {
 
     return (
         <div className="position-relative">
-            <FontAwesomeIcon icon={faCompass}
-                className="c-pointer"
+            <button type="button" className="primaryButton px-2 py-1"
                 onClick={() => introTopics.length > 1 ? setDropdown(true) : dispatch(setIntroTopic(introTopics[0].intro))}
-            />
+            >
+                Take a tour
+            </button>
 
             {/* Intro Topic options, if there are multiple options */}
             {introTopics.length > 1 &&

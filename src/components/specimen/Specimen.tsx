@@ -202,9 +202,9 @@ const Specimen = () => {
             <Row>
                 <Col className={classHeadCol}>
                     <Header introTopics={[
-                        {intro: 'specimen', title: 'About This Page'},
-                        {intro: 'annotate', title: 'Using Annotations'},
-                        {intro: 'MAS', title: 'Machine Annotation Services'}
+                        { intro: 'specimen', title: 'About This Page' },
+                        { intro: 'annotate', title: 'Using Annotations' },
+                        { intro: 'MAS', title: 'Machine Annotation Services' }
                     ]} />
 
                     <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
@@ -231,7 +231,7 @@ const Specimen = () => {
                                                 <IDCard />
                                             </Col>
                                             <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
-                                                <ContentBlock selectedTab={selectedTab} 
+                                                <ContentBlock selectedTab={selectedTab}
                                                     SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
                                                 />
                                             </Col>

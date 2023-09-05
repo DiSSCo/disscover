@@ -1,17 +1,8 @@
 /* Custom Styling for Annotate page */
 
+/* Generic */
 .annotateContent {
     height: Calc(100vh - 140px) !important;
-}
-
-.title {
-    font-size: 24px;
-}
-
-/* Overview Annotations Table */
-.table {
-    border: 1px solid var(--secondary);
-    border-radius: 8px;
 }
 
 /* Side Panel */
@@ -30,27 +21,12 @@
     margin-right: 0;
 }
 
-.sidePanelTopIcon {
-    font-size: 22px;
-}
-
 .sidePanelTopStripe {
     border: 2px solid var(--secondary);
 }
 
-.sidePanelMotivation {
-    font-size: 15px;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 999px;
-}
-
 .sidePanelAnnotation {
-    background-color: white;
     border: 1px solid #E6E2F1;
-    font-size: 14px;
-    border-radius: 8px;
-    transition: 0.5s;
 }
 
 .sidePanelAnnotation.highlight {
@@ -60,8 +36,4 @@
 /* Annotation Form */
 .annotationForm {
     border-top: 1px solid #E6E2F1;
-}
-
-.annotationFormTitle {
-    font-size: 18px;
 }

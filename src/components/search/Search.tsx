@@ -194,7 +194,7 @@ const Search = () => {
                                 </Col>
                             </Row>
 
-                            <Row className={`${styles.filtersTopBar} mt-3`}>
+                            <Row className={`mt-3`}>
                                 <Col md={{ span: 3 }} className="searchBar">
                                     <SearchBar />
                                 </Col>
@@ -222,7 +222,7 @@ const Search = () => {
 
                                 <Col className="col-md-auto">
                                     <button type="button"
-                                        className={`${styles.compareButton} px-3 py-1`}
+                                        className={`${styles.compareButton} rounded-full transition px-3 py-1`}
                                         onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as Specimen)); }}
                                     >
                                         Compare
@@ -247,34 +247,36 @@ const Search = () => {
                                         <Col className={`${classSearchResultsTable} h-100`}>
                                             <Row className="h-100">
                                                 <Col className="h-100">
-                                                    <Row className={`${styles.searchResults} `}>
-                                                        {/* Search Results */}
-                                                        <Col md={{ span: 12 }} className="h-100 pb-2">
-                                                            <ResultsTable pageNumber={pageNumber}
-                                                                HideFilters={() => setFilterToggle(false)}
-                                                            />
-                                                        </Col>
-                                                    </Row>
-
-                                                    <Row className={`${styles.paginator} justify-content-center position-relative`}>
-                                                        <Col className={`${styles.resultCount} col-md-auto py-2 position-absolute start-0 ps-4`}>
-                                                            {(totalRecords === 1) ?
-                                                                <p className="fst-italic"> 1 specimen found </p>
-                                                                : <p className="fst-italic"> {`${totalRecords} specimens found`} </p>
-                                                            }
-                                                        </Col>
-
-                                                        {(searchResults.length > 0) &&
-                                                            <Col className="col-md-auto">
-                                                                <Paginator pageNumber={pageNumber}
-                                                                    links={paginatorLinks}
-                                                                    totalRecords={totalRecords}
-
-                                                                    SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                                                    <div className="h-100 d-flex flex-column">
+                                                        <Row className="flex-grow-1 overflow-hidden">
+                                                            {/* Search Results */}
+                                                            <Col md={{ span: 12 }} className="h-100 pb-2">
+                                                                <ResultsTable pageNumber={pageNumber}
+                                                                    HideFilters={() => setFilterToggle(false)}
                                                                 />
                                                             </Col>
-                                                        }
-                                                    </Row>
+                                                        </Row>
+
+                                                        <Row className="justify-content-center position-relative">
+                                                            <Col className="fs-4 col-md-auto py-2 position-absolute start-0 ps-4">
+                                                                {(totalRecords === 1) ?
+                                                                    <p className="fst-italic"> 1 specimen found </p>
+                                                                    : <p className="fst-italic"> {`${totalRecords} specimens found`} </p>
+                                                                }
+                                                            </Col>
+
+                                                            {(searchResults.length > 0) &&
+                                                                <Col className="col-md-auto">
+                                                                    <Paginator pageNumber={pageNumber}
+                                                                        links={paginatorLinks}
+                                                                        totalRecords={totalRecords}
+
+                                                                        SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                                                                    />
+                                                                </Col>
+                                                            }
+                                                        </Row>
+                                                    </div>
                                                 </Col>
                                             </Row>
                                         </Col>

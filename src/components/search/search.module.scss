@@ -1,19 +1,15 @@
 /* Custom styling for the Search Page */
 
+/* Generic */
 .content {
     height: calc(100vh - 140px)
 }
 
-.filtersTopBar {
-    height: 50px;
-}
-
+/* Compare Button */
 .compareButton {
     font-size: 15px;
     background-color: #A1D8CA;
     border: none;
-    border-radius: 999px;
-    transition: 0.4s;
 }
 
 .compareButton:hover {
@@ -21,15 +17,7 @@
     color: white;
 }
 
-.searchPageBlock {
-    transition: 0.4s;
-}
-
 /* Search Bar */
-.searchBarBlock {
-    min-height: 50px;
-}
-
 .searchBar {
     border-radius: 8px;
 }
@@ -38,61 +26,17 @@
     font-style: italic;
 }
 
-.searchBarIcon {
-    margin: 2px 0px 0px -28px;
-}
-
 /* Search Menu */
 .searchMenu {
     border: 1px solid var(--grey);
-    border-radius: 8px;
     scrollbar-gutter: stable both-edges;
     overflow-y: scroll;
 }
 
-.searchBlock {
-    background-color: var((--primary));
-}
-
 /* Filter Menu */
-.filtersCloseIcon {
-    cursor: pointer;
-}
-
-.filterBlock {
-    border: 1px solid var(--primary);
-    border-radius: 8px;
-}
-
-.filterTitle {
-    font-size: 14px;
-}
-
-.filterSearchBlock {
-    border: 1px solid var(--primary);
-    border-radius: 999px;
-}
-
-.filterSubTitle {
-    font-size: 13px;
-    color: var(--greyDark);
-}
-
-.filterSearch {
-    font-size: 14px;
-    border-radius: 999px;
-    border: none;
-}
-
-.filterSearch.taxonomy {
-    color: var(--greyDark);
-    cursor: pointer;
-}
-
 .filterSelectOption {
     border-radius: 8px;
     transition: 0.2s;
-    cursor: pointer;
 }
 
 .filterSelectOption:hover {
@@ -107,19 +51,7 @@
     background-color: var(--grey);
 }
 
-.filterListItem {
-    font-size: 13px;
-}
-
-.filterAggregation {
-    font-size: 13px;
-}
-
 .filterMidsOption {
-    transition: 0.3s;
-    cursor: pointer;
-    font-size: 14px;
-    border: 1px solid var(--primary);
     border-radius: 4px;
 }
 
@@ -135,9 +67,7 @@
 
 /* Active Filters */
 .activeFilters {
-    height: 32px;
-    overflow: hidden;
-    z-index: 2;
+    height: 34px;
     background-color: #F9FAFC;
 }
 
@@ -148,80 +78,15 @@
     border-right: 1px solid var(--primary);
 }
 
-.activeFiltersDropdownButton {
-    background-color: var(--primary) !important;
-    color: white;
-}
-
 .activeFilter {
-    font-size: 13px;
     background-color: white;
     border: 2px solid var(--primary);
     border-radius: 999px;
 }
 
-.activeFilterIcon {
-    font-size: 12px;
-    cursor: pointer;
-}
-
-/* Search Results */
-.searchResults {
-    height: Calc(100% - 40px);
-    background-color: #F9FAFC;
-}
-
-.table {
-    border: 1px solid var(--secondary);
-    border-radius: 8px;
-}
-
-.paginator {
-    height: 40px;
-}
-
-.resultCount {
-    border: 1px solid var(--main-color-darker);
-    height: fit-content;
-    font-size: 15px;
-}
-
-.returnButton {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    height: 30px;
-    margin-top: -25px;
-}
-
 /* ID Card */
 .IDCard {
     height: Calc(100% - 40px);
-}
-
-.IDCardIcon {
-    font-size: 25px;
-    color: var(--primary);
-}
-
-.IDCardTitle {
-    font-size: 22px;
-}
-
-.IDCardCloseIcon {
-    cursor: pointer;
-}
-
-.IDCardId {
-    font-size: 14px;
-    color: var(--greyDark);
-}
-
-.midsTitle {
-    font-size: 14px;
-    color: var(--accent);
 }
 
 .midsBlock {
@@ -234,15 +99,6 @@
     text-decoration: underline;
 }
 
-.midsInfoIcon {
-    font-size: 20px;
-    color: var(--accent);
-}
-
-.IDCardProperty {
-    font-size: 15px;
-}
-
 .digitalMediaBlock {
     height: 40%;
 }
@@ -253,26 +109,16 @@
     white-space: nowrap;
 }
 
-.digitalMediaItem {
-    border-radius: 8px;
-}
-
 .buttonBlock {
     height: 60px;
 }
 
 .specimenButton {
     height: 35px;
-    border: none;
-    background-color: var(--primary);
-    color: white;
-    font-size: 14px;
-    border-radius: 999px;
-    transition: 0.4s;
 }
 
 .specimenButton:hover {
-    background-color: var(--accent);
+    background-color: var(--accent) !important;
 }
 
 /* Compare Box */
@@ -282,15 +128,7 @@
 }
 
 .compareBox {
-    z-index: 2;
-    font-size: 14px;
-    border-radius: 8px;
     -webkit-box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 1);
     -moz-box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 1);
     box-shadow: 0px 0px 8px 0px rgba(115, 115, 115, 1);
-}
-
-.compareBoxSpecimenIcon {
-    font-size: 10px;
-    color: var(--secondary);
 }

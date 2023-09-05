@@ -80,10 +80,10 @@ const TitleBar = (props: Props) => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={faDiamond} className={styles.titleBarIcon} />
+                        <FontAwesomeIcon icon={faDiamond} className={`${styles.specimenTitle} c-primary`} />
                     </Col>
                     <Col>
-                        <h2 className={styles.title}> {specimen.specimenName} </h2>
+                        <h2 className={styles.specimenTitle}> {specimen.specimenName} </h2>
                     </Col>
                 </Row>
                 <Row>
@@ -94,7 +94,7 @@ const TitleBar = (props: Props) => {
                                 <Tooltip text="Minimum Information about a Digital Specimen" placement="top">
                                     <span>
                                         <FontAwesomeIcon icon={faCircleInfo}
-                                            className={styles.midsIcon}
+                                            className="c-accent"
                                         />
                                     </span>
                                 </Tooltip>

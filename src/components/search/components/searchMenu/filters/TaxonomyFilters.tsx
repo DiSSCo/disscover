@@ -11,9 +11,6 @@ import { getSearchAggregations } from 'redux/search/SearchSlice';
 /* Import Types */
 import { Dict } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -98,22 +95,22 @@ const TaxonomyFilters = (props: Props) => {
                     <Col>
                         <Row>
                             <Col>
-                                <p className={`${styles.filterTitle} fw-bold`}> Taxonomy </p>
+                                <p className="fs-4 fw-bold"> Taxonomy </p>
                             </Col>
                         </Row>
 
                         <Row>
                             <Col>
-                                <div className={`${styles.filterSearchBlock} pe-2`}
+                                <div className="b-primary rounded-full"
                                     onClick={() => setFilterToggle(!filterToggle)}
                                 >
                                     <Row>
                                         <Col className="c-pointer">
-                                            <div className={`${styles.filterSearch} ${styles.taxonomy} w-100 px-2 py-1`}>
+                                            <div className="fs-4 c-greyDark rounded-full border-0 w-100 px-2 py-1">
                                                 Select
                                             </div>
                                         </Col>
-                                        <Col className="col-md-auto c-pointer">
+                                        <Col className="col-md-auto c-pointer pe-4">
                                             {filterToggle ?
                                                 <FontAwesomeIcon icon={faChevronUp}
                                                     className="c-primary c-pointer"
@@ -131,7 +128,7 @@ const TaxonomyFilters = (props: Props) => {
                         </Row>
 
                         {filterToggle &&
-                            <div className={`${styles.filterBlock} mt-2`}>
+                            <div className="b-primary rounded-c mt-2">
                                 {Object.keys(taxonomyFilters).map((taxonomy, index) => {
                                     let parentTaxonomy: string = '';
 

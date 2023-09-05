@@ -50,7 +50,7 @@ const CompareBox = () => {
     }
 
     return (
-        <Row className={`${styles.compareBox} bg-white px-2 py-3`}>
+        <Row className={`${styles.compareBox} z-2 fs-4 rounded-c bg-white px-2 py-3`}>
             <Col>
                 {/* Selected Specimens */}
                 <Row className="pb-4">
@@ -61,7 +61,7 @@ const CompareBox = () => {
                             return (
                                 <Row key={specimen.id} className="mt-3">
                                     <Col className="col-md-auto pe-0">
-                                        <FontAwesomeIcon icon={faCircle} className={styles.compareBoxSpecimenIcon} />
+                                        <FontAwesomeIcon icon={faCircle} className="c-secondary fs-5" />
                                     </Col>
                                     <Col>
                                         <p className="fw-lightBold"> {`Specimen #${index + 1}`} </p>

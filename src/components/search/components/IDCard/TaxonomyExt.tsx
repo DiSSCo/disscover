@@ -5,9 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Types */
 import { Specimen } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiamond } from '@fortawesome/free-solid-svg-icons';
@@ -30,23 +27,23 @@ const TaxonomyExt = (props: Props) => {
                     <span className="ms-1"> Taxonomy </span>
                 </h5>
 
-                <p className={styles.IDCardProperty}>
+                <p className="fs-4">
                     <span className="fw-bold"> Kingdom: </span>
                     {CheckProperty(specimen.data['dwc:kingdom'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Phylum: </span>
                     {CheckProperty(specimen.data['dwc:phylum'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Order: </span>
                     {CheckProperty(specimen.data['dwc:order'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Family: </span>
                     {CheckProperty(specimen.data['dwc:family'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Genus: </span>
                     {CheckProperty(specimen.data['dwc:genus'])}
                 </p>

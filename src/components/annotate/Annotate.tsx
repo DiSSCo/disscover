@@ -10,7 +10,6 @@ import { setOverviewAnnotations } from 'redux/annotate/AnnotateSlice';
 import { Dict } from 'global/Types';
 
 /* Import Styles */
-import './annotate.scss';
 import styles from './annotate.module.scss';
 
 /* Import Components */
@@ -50,7 +49,7 @@ const Annotate = () => {
                     <Col md={{ span: 10, offset: 1 }}>
                         <Row>
                             <Col>
-                                <h2 className={`${styles.title}`}> Annotations </h2>
+                                <h2 className="fs-2"> Annotations </h2>
                             </Col>
                         </Row>
                         <Row>

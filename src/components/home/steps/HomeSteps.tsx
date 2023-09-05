@@ -47,7 +47,7 @@ const HomeSteps = (props: Props) => {
                 intro: homeSteps[3]
             },
             {
-                element: `.${styles.advancedToggled}`,
+                element: ".advancedSearch",
                 intro: homeSteps[4]
             }
         ]
@@ -58,11 +58,19 @@ const HomeSteps = (props: Props) => {
             steps={steps.home ?? []}
             initialStep={0}
             onBeforeChange={(nextIndex) => {
-                if (nextIndex >= 4) {
-                    SetAdvancedSearch(true);
-                } else {
-                    SetAdvancedSearch(false);
-                }
+                return new Promise((resolve) => {
+                    if (nextIndex >= 4) {
+                        SetAdvancedSearch(true);
+
+                        setTimeout(() => {
+                            resolve();
+                        }, 500);
+                    } else {
+                        SetAdvancedSearch(false);
+
+                        resolve();
+                    }
+                });
             }}
             onExit={() => {
                 dispatch(setIntroTopic(''));

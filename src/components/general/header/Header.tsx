@@ -41,7 +41,7 @@ const Header = (props: Props) => {
     const loggedIn = KeycloakService.IsLoggedIn();
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
 
-    /* ClassNames for Header */
+    /* ClassNames */
     const classHeader = classNames({
         [`${styles.header}`]: true,
         [`${styles.home}`]: location.pathname === '/'
@@ -52,6 +52,18 @@ const Header = (props: Props) => {
         'col-md-12 px-5': sidePanelToggle
     });
 
+    const classNavItemHome = classNames({
+        'fs-3 c-pointer': true,
+        [`${styles.navItemActive}`]: location.pathname === '/',
+        [`${styles.navItem}`]: location.pathname !== '/',
+    });
+
+    const classNavItemSpecimens = classNames({
+        'fs-3 c-pointer': true,
+        [`${styles.navItemActive}`]: location.pathname === '/search' || location.pathname === '/ds',
+        [`${styles.navItem}`]: location.pathname !== '/',
+    });
+
     return (
         <Container fluid className={`${classHeader} z-1`}>
             <Row className="h-100">
@@ -60,7 +72,7 @@ const Header = (props: Props) => {
                     <Row className="h-100 w-100 align-items-end">
                         <Col className="col-md-auto p-0 d-flex align-items-center">
                             <Link to="/">
-                                <h1 className={`${styles.title} fw-bold`}>DiSSCover</h1>
+                                <h1 className="c-primary fw-bold">DiSSCover</h1>
                             </Link>
                         </Col>
                         {/* Navigation */}
@@ -69,7 +81,7 @@ const Header = (props: Props) => {
                                 <Row>
                                     <Col className="col-md-auto d-flex justify-content-center px-lg-5">
                                         <Link to="/">
-                                            <p className={`${location.pathname === '/' ? styles.navItemActive : styles.navItem}`}>
+                                            <p className={classNavItemHome}>
                                                 Home
                                             </p>
                                         </Link>
@@ -80,9 +92,7 @@ const Header = (props: Props) => {
                                                 dispatch(setSearchSpecimen({} as Specimen));
                                             }
                                         }}>
-                                            <p className={`${location.pathname.includes('/search') || location.pathname.includes('/ds') ?
-                                                styles.navItemActive : styles.navItem}`
-                                            }>
+                                            <p className={classNavItemSpecimens}>
                                                 {t('specimens')}
                                             </p>
                                         </Link>

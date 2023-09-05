@@ -1,5 +1,6 @@
 /* Custom CSS for Specimen Page */
 
+/* Generic */
 .content {
     height: calc(100vh - 140px)
 }
@@ -10,17 +11,8 @@
 }
 
 /* Title Bar */
-.title {
-    font-size: 28px;
-}
-
-.titleBarIcon {
+.specimenTitle {
     font-size: 30px;
-    color: var(--primary);
-}
-
-.midsIcon {
-    color: var(--accent);
 }
 
 .midsBlock {
@@ -35,151 +27,27 @@
     text-decoration: underline;
 }
 
-.annotationTriggerButton {
-    background-color: var(--accent);
-    color: white;
-    font-size: 15px;
-    border: none;
-    border-radius: 999px;
-}
-
-.annotationTriggerIcon {
-    font-size: 15px;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-}
-
 /* ID Card */
-.IDCardBanner {
-    height: 25%;
-}
-
-.IDCardBannerBackground {
-    background-color: var(--greyLight);
-    border-radius: 8px;
-}
-
 .IDCard {
     border-top-left-radius: 35px;
     border-bottom-right-radius: 35px;
-}
-
-.IDCardBackground {
-    border-top-left-radius: 0.375rem;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 0.375rem;
-}
-
-.IDCardTitle {
-    font-size: 15px;
-    color: var(--secondary);
 }
 
 .IDCardIdentifier {
     height: 6%;
 }
 
-.IDCardProperties {
-    height: 94%;
-}
-
 .IDCardPropertyBlock {
-    font-size: 14px;
     max-height: Calc(100% / 8);
 }
 
-.IDCardPropertyBlockHover {
-    transition: 0.4s;
-}
-
 .IDCardPropertyBlockHover:hover {
-    background-color: var(--main-color-light);
+    background-color: var(--greyLight);
     cursor: pointer;
-}
-
-.IDCardValue {
-    font-size: 15px;
 }
 
 .IDCardLogo {
     filter: grayscale(100%);
-}
-
-.midsBar {
-    font-size: 14px;
-}
-
-/* Version Dropdown */
-
-.versionBlock {
-    height: 40px;
-    position: absolute;
-}
-
-.versionBlock.active {
-    height: auto;
-    right: 0;
-    border: 1px solid var(--main-color-dark);
-}
-
-.versionOptions {
-    display: none;
-}
-
-.versionOptions.active {
-    display: block;
-}
-
-.versionOption {
-    height: 40px;
-    line-height: 40px;
-    border-top: 1px solid var(--greyXLight);
-    border-bottom: 1px solid var(--greyXLight);
-    cursor: pointer;
-}
-
-.versionOption:hover {
-    background-color: var(--greyLight) !important;
-}
-
-.versionOption.chosen {
-    background-color: var(--main-color-dark) !important;
-    color: white;
-    border: none;
-}
-
-.versionOptionIcon {
-    right: 0;
-    margin-top: 12px;
-    transition: 0.3s;
-    transform: rotate(0deg);
-}
-
-.versionOptionIcon.active {
-    transform: rotate(180deg);
-}
-
-
-/* Content Blocks */
-
-.tabsList {
-    padding: 0;
-}
-
-.tab {
-    background-color: #E6E2F1;
-    border-radius: 999px;
-    font-size: 15px;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-right: 1%;
-}
-
-.tab.active {
-    background-color: var(--primary);
-    color: white;
-    font-weight: bold;
 }
 
 /* Digital Specimen Block */
@@ -191,86 +59,14 @@
     max-height: 20%;
 }
 
-.propertyStripe {
-    border: 1px solid var(--accent);
-}
-
-.propertiesTab {
-    background-color: var(--grey);
-    border-radius: 999px;
-    aspect-ratio: 1 / 1;
-}
-
 .propertiesTab.active {
     background-color: var(--primary);
 }
 
-.propertyTable {
-    border-collapse: separate;
-    border-spacing: 0px 4px;
-    position: relative;
-    width: 100%;
-    z-index: 1;
-}
-
-.propertyTableRow {
-    transition: 0.3s;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.propertyTableRow:hover {
-    background-color: var(--main-color-light);
-}
-
-.propertyTitle {
-    font-weight: 500;
-    text-align: start;
-}
-
-.mapPlaceholder {
-    background-color: var(--main-color-light);
-}
-
-/* Original Data Block */
-
-.originalData {
-    height: 90%;
-}
-
-/* Annotations Block */
-
-.annotationFilter {
-    color: gray;
-    font-size: 14px;
-}
-
-.annotationFilter:hover {
-    color: var(--main-color);
-    cursor: pointer;
-}
-
-.annotationFilter.active {
-    color: var(--main-color);
-    font-weight: bold;
-}
-
 /* Digital Media Block */
-.digitalMediaTitle {
-    font-size: 18px;
-}
-
-.imageHover {
-    opacity: 0;
-}
-
 .imageHover:hover {
-    opacity: 1;
+    opacity: 1 !important;
     background-color: rgb(51, 51, 51, 0.25);
-}
-
-.videoHover {
-    z-index: 2;
 }
 
 .videoHover:hover {
@@ -279,60 +75,7 @@
     transition-delay: 2s;
 }
 
-.fileBlock {
-    border: 1px solid var(--secondary);
-}
-
-.fileIcon {
-    font-size: 20px;
-}
-
-.fileTitle {
-    font-size: 13px;
-}
-
-.digitalMediaImagesSlider {
-    height: 90%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    background-color: var(--greyXLight);
-    border-radius: 8px;
-}
-
-.digitalMediaImageDiv {
-    width: 20%;
-}
-
-.digitalMediaImage {
-    border-radius: 8px;
-    transition: 0.4s;
-}
-
-.digitalMediaImageHover {
-    opacity: 0;
-    font-size: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: 0.4s;
-}
-
-.digitalMediaImageHover.active {
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-/* MIDS Block */
-
-.midsProperty {
-    border: 1px solid var(--main-color);
-}
-
 /* Automated Annotations Modal */
-.automatedAnnotationsDialog {
-    height: 100%;
-}
-
 .automatedAnnotationsContent {
     height: 60%;
     margin-top: 20%;
@@ -340,18 +83,4 @@
 
 .automatedAnnotationsBody {
     min-height: 60%;
-}
-
-.automatedAnnotationsHeader {
-    font-size: 14px;
-    color: var(--greyDark);
-}
-
-.automatedAnnotationsDescription {
-    font-size: 14px;
-}
-
-.automatedAnnotationsSelectedBlock {
-    border: 1px solid var(--primary);
-    border-radius: 8px;
 }

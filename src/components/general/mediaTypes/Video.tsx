@@ -20,7 +20,7 @@ const Video = (props: Props) => {
 
     /* Class Names */
     const classVideoHover = classNames({
-        [`${styles.videoHover}`]: hoverEffect,
+        [`${styles.videoHover} z-2`]: hoverEffect,
         'position-relative transition': hoverEffect
     });
 

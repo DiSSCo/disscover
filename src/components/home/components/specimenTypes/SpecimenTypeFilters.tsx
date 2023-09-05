@@ -116,8 +116,8 @@ const SpecimenTypeFilters = () => {
                             {/* Title */}
                             <Row>
                                 <Col>
-                                    <p className={`${styles.specimenTypeHead} fw-bold`}>Total specimens: <CountUp end={totalSpecimenCount} /></p>
-                                    <p className={`${styles.specimenTypeSubHead} mt-2`}>Natural origin</p>
+                                    <p className="fs-2 c-primary fw-bold">Total specimens: <CountUp end={totalSpecimenCount} /></p>
+                                    <p className="fs-3 c-secondary fw-lightBold mt-2">Natural origin</p>
                                 </Col>
                             </Row>
                             {/* Specimen Type Blocks */}
@@ -216,7 +216,7 @@ const SpecimenTypeFilters = () => {
                                     />
                                 </Col>
                                 <Col className="d-flex align-items-center">
-                                    <p className={styles.specimenTypeSelectAllText}
+                                    <p className="fs-3 fw-lightBold c-secondary c-pointer"
                                         onClick={() => {
                                             if (checkAllBoxRef.current?.value === 'true') {
                                                 SelectAll(false);
@@ -238,7 +238,7 @@ const SpecimenTypeFilters = () => {
                                     >
                                         <Row className="h-50">
                                             <Col>
-                                                <p className={styles.specimenTypeSpecialTitle}> Human Made </p>
+                                                <p className="fs-2 fw-lightBold"> Human Made </p>
                                                 <p className={styles.specimenTypeSpecialSubTitle}> (Archive material) </p>
                                             </Col>
                                             <Col className="col-md-auto">
@@ -263,7 +263,7 @@ const SpecimenTypeFilters = () => {
                                     >
                                         <Row className="h-50">
                                             <Col>
-                                                <p className={styles.specimenTypeSpecialTitle}> Unclassified </p>
+                                                <p className="fs-2 fw-lightBold"> Unclassified </p>
                                             </Col>
                                             <Col className="col-md-auto">
                                                 <Field name={`Unclassified`}

@@ -2,9 +2,6 @@
 import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
-/* Import Styles */
-import styles from 'components/digitalMedia/digitalMedia.module.scss';
-
 /* Import Components */
 import Image from 'components/general/mediaTypes/Image';
 import Video from 'components/general/mediaTypes/Video';
@@ -42,7 +39,7 @@ const DigitalMediaFrame = () => {
     }
 
     return (
-        <div className={`${styles.digitalMediaFrame} h-100 d-flex justify-content-center align-items-center`}>
+        <div className="h-100 d-flex justify-content-center align-items-center bgc-grey rounded-c overflow-hidden">
             {digitalMediaContent}
         </div>
     );

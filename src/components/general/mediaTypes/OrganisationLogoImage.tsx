@@ -37,7 +37,7 @@ const OrganisationLogoImage = (props: Props) => {
 
     return (
         <img src={organisationLogoUrl}
-            className={styles.organisationLogo}
+            className={`${styles.organisationLogo} w-100`}
             alt={organisationLogoAlt}
         />
     );

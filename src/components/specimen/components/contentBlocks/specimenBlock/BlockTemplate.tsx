@@ -43,7 +43,7 @@ const BlockTemplate = (props: Props) => {
 
     /* Class Name for Tabs */
     const classTab = classNames({
-        'react-tabs__tab mx-1': true,
+        'react-tabs__tab mx-1 bgc-grey rounded-full ratio ratio-1x1': true,
         [`${styles.propertiesTab}`]: true,
         'd-none': propertyGroups.length === 1
     });
@@ -62,7 +62,7 @@ const BlockTemplate = (props: Props) => {
                         </Row>
                         <Row className="h-100">
                             <Col className="d-flex justify-content-center">
-                                <div className={`${styles.propertyStripe} h-75 w-0`} />
+                                <div className="h-75 w-0 b-accent" />
                             </Col>
                         </Row>
                     </Col>
@@ -79,7 +79,7 @@ const BlockTemplate = (props: Props) => {
                                     {/* Display all properties */}
                                     <Row className="flex-grow-1 pb-2">
                                         <Col>
-                                            {propertyGroups.map((propertyGroup, index) => {
+                                            {propertyGroups.map((propertyGroup) => {
                                                 return (
                                                     <TabPanel key={`${propertyGroup[0].name}`}
                                                         selectedClassName={"react-tabs__tab-panel--selected h-100 d-flex flex-column"}

@@ -1,9 +1,6 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Styles */
-import styles from 'components/home/home.module.scss';
-
 /* Import Components */
 import Title from './Title';
 import TopicDisciplineText from './TopicDisciplineText';
@@ -20,12 +17,12 @@ const IntroText = () => {
                 {/* Intro Text */}
                 <Row className="mt-4">
                     <Col>
-                        <p className={styles.introText}>
+                        <p className="fs-3 c-primary">
                             Help us with improving the completeness and quality of information about specimens.
                             We aim to provide all information known about specimens held in Europe to science and to
                             make that information available as early and fast as possible.
                         </p>
-                        <p className={`${styles.introText} mt-3`}>
+                        <p className="fs-3 c-primary">
                             For this we need your help to correct errors, add or link new information and improve
                             the quality of our data.
                         </p>

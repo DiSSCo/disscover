@@ -21,7 +21,7 @@ const MidsOption = (props: Props) => {
 
     /* ClassName for Mids Option */
     const classMidsOption = classNames({
-        [`${styles.filterMidsOption}`]: true,
+        [`${styles.filterMidsOption} transition fs-4 c-pointer b-primary`]: true,
         [`${styles.active}`]: selected
     });
 

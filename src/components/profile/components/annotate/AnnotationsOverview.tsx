@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
@@ -25,6 +26,7 @@ import GetUserAnnotations from 'api/user/GetUserAnnotations';
 const AnnotationsOverview = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     /* Base variables */
     const userAnnotations = useAppSelector(getUserProfileAnnotations);
@@ -36,6 +38,7 @@ const AnnotationsOverview = () => {
     interface DataRow {
         index: number,
         id: string,
+        target: Dict,
         property: string,
         motivation: string,
         annotationValue: string
@@ -89,6 +92,7 @@ const AnnotationsOverview = () => {
             tableData.push({
                 index: index,
                 id: annotation.id,
+                target: annotation.target,
                 property: annotation.target.indvProp,
                 motivation: annotation.motivation,
                 annotationValue: annotationValue
@@ -135,6 +139,13 @@ const AnnotationsOverview = () => {
                                     columns={tableColumns}
                                     data={tableData}
                                     customStyles={customStyles}
+                                    onRowClicked={(row) => {
+                                        if (row.target.type === 'digital_specimen') {
+                                            navigate(`/ds/${row.target.id.replace('https://hdl.handle.net/', '')}`);
+                                        } else if (row.target.type === 'digital_media') {
+                                            navigate(`/dm/${row.target.id.replace('https://hdl.handle.net/', '')}`);
+                                        }
+                                    }}
 
                                     striped
                                     highlightOnHover

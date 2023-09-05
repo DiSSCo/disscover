@@ -7,9 +7,6 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
 
-/* Import Styles */
-import styles from 'components/specimen/specimen.module.scss';
-
 /* Components */
 import Image from 'components/general/mediaTypes/Image';
 import Video from 'components/general/mediaTypes/Video';
@@ -69,7 +66,7 @@ const DigitalMedia = () => {
                             {/* Digital Media type title */}
                             <Row>
                                 <Col>
-                                    <p className={`${styles.digitalMediaTitle} c-accent fw-lightBold`}>
+                                    <p className="fs-3 c-accent fw-lightBold">
                                         {Capitalize(mediaType)}
                                     </p>
                                 </Col>

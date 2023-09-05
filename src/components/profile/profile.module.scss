@@ -1,86 +1,8 @@
 /* Custom styling for Profile Page */
 
+/* Generic */
 .profileContent {
     height: calc(100vh - 208px)
-}
-
-.profileTop {
-    background-color: var(--primary);
-    height: 75px;
-    border-top-left-radius: var(--bs-border-radius) !important;
-    border-top-right-radius: var(--bs-border-radius) !important;
-}
-
-.profileBody {
-    background-color: white;
-    border: 1px solid var(--grey);
-}
-
-.profilePicture {
-    width: 75px;
-    height: 75px;
-    line-height: 45px;
-    font-size: 26px;
-    border: 2px solid white;
-    margin-top: Calc(75px / 2);
-    background-color: var(--secondary);
-}
-
-.profileTitle {
-    font-size: 18px;
-}
-
-.profileSubTitle {
-    font-size: 15px;
-    color: var(--greyDark);
-}
-
-.tabs {
-    height: Calc(100% - 195px);
-}
-
-.tabsList {
-    font-size: 14px;
-}
-
-.tab {
-    border: none;
-    color: var(--greyDark);
-}
-
-.tab:hover {
-    text-decoration: underline;
-}
-
-.tabSelected {
-    color: #333333;
-    font-weight: bold;
-    text-decoration: none !important;
-}
-
-.profileRightBlock {
-    background-color: #aae7ee;
-    border-radius: 8px;
-}
-
-.profileAnnotationsBlock {
-    height: Calc(100% - 50px);
-}
-
-.profileText {
-    font-size: 15px;
-}
-
-.profileExternalButton {
-    color: white;
-    background-color: var(--secondary);
-    border: none;
-    border-radius: 8px;
-    transition: 0.4s;
-}
-
-.profileExternalButton:hover {
-    background-color: var(--accent);
 }
 
 /* Passport */
@@ -95,17 +17,17 @@
     border-top-right-radius: 8px;
 }
 
-.passportLogo {
-    color: var(--accent);
-    font-size: 20px;
+.profilePicture {
+    width: 75px;
+    height: 75px;
+    line-height: 45px;
+    font-size: 26px;
+    border: 2px solid white;
+    margin-top: Calc(75px / 2);
 }
 
-.passportLinkBox {
-    border: 1px solid var(--accent);
-}
-
-.passportEditIcon {
-    font-size: 20px;
+.profileExternalButton:hover {
+    background-color: var(--accent);
 }
 
 /* Profile Content Tabs */
@@ -114,25 +36,8 @@
 }
 
 /* User Form */
-.userInfoInputTitle {
-    font-size: 12px;
-}
-
-.userInfoInput {
-    border: 1px solid var(--grey);
-}
-
-.userInfoInput:focus {
-    border: 1px solid var(--main-color);
-}
-
-.userInfoSubmit {
-    background-color: var(--primary);
-    transition: 0.4s;
-}
-
 .userInfoSubmit:hover {
-    background-color: var(--accent);
+    background-color: var(--accent) !important;
 }
 
 /* Annotations Table */

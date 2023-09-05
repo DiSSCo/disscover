@@ -5,6 +5,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import { DetectMobile } from 'global/Utilities';
 
@@ -69,14 +70,15 @@ const App = () => {
     /* Check if user is not present in User state but is logged in */
     if (Object.keys(user).length === 0 && KeycloakService.IsLoggedIn()) {
       GetUser(KeycloakService.GetSubject(), KeycloakService.GetToken()).then((user) => {
-        if (!user) {
+        if (isEmpty(user)) {
           /* If User does not exist, add user to database */
           InsertUser(KeycloakService.GetSubject(), KeycloakService.GetToken(), KeycloakService.GetParsedToken()).then((user) => {
             if (user) {
               dispatch(setUser(user));
             }
+          }).catch(error => {
+            console.warn(error);
           });
-
         } else {
           /* Set User state */
           dispatch(setUser(user));

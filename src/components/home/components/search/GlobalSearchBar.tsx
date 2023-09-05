@@ -49,13 +49,13 @@ const GlobalSearchBar = (props: Props) => {
                             <Col>
                                 <Field name="searchQuery" type="text"
                                     placeholder="Iguanodon"
-                                    className={`${styles.searchBar} w-100`}
+                                    className={`${styles.searchBar} rounded-full w-100 px-3`}
                                 />
                             </Col>
                         </Row>
                         <Row className="mt-4">
                             <Col md={{ span: 7 }} className="d-flex align-items-center">
-                                <p className={styles.advancedSearchToggle}
+                                <p className={`${styles.advancedSearchToggle} d-inline-block c-accent fw-lightBold c-pointer m-0`}
                                     onClick={() => ToggleAdvancedFilter()}
                                     role="advancedSearchTrigger"
                                 >

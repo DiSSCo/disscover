@@ -5,9 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Types */
 import { Specimen } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLandmark } from '@fortawesome/free-solid-svg-icons';
@@ -30,11 +27,11 @@ const OrganisationExt = (props: Props) => {
                     <span className="ms-1"> Organisation </span>
                 </h5>
 
-                <p className={styles.IDCardProperty}>
+                <p className="fs-4">
                     <span className="fw-bold"> Name: </span>
                     {CheckProperty(specimen.data['ods:organisationName'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> ROR identifier: </span>
                     {specimen.organisationId.replace('https://ror.org/', '')}
                 </p>

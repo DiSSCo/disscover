@@ -35,15 +35,15 @@ const ErrorMessage = () => {
 
     /* ClassName for Error Message */
     const classErrorMessage = classNames({
-        [`${styles.errorMessage}`]: true,
+        [`${styles.errorMessage} opacity-0 d-none mx-auto transition`]: true,
         [`${styles.active}`]: active
     });
 
     return (
         <div className={`${classErrorMessage} px-3 py-2 position-absolute top-0 mt-5 start-0 end-0`}>
-            <p className={`${styles.errorMessageTitle} fw-bold`}> Something went Wrong! </p>
+            <p className="fs-3 fw-bold"> Something went Wrong! </p>
 
-            <p className={styles.errorMessageContent}> {errorMessage} </p> 
+            <p className="fs-4"> {errorMessage} </p> 
         </div>
     );
 }

@@ -65,16 +65,15 @@ const AutomatedAnnotationsModal = (props: Props) => {
 
     /* Class Name for Tabs */
     const classTabsList = classNames({
-        [`${styles.tabsList}`]: true
+        'tabsList': true
     });
 
     const classTab = classNames({
-        'react-tabs__tab': true,
-        [`${styles.tab}`]: true
+        'react-tabs__tab tab': true
     });
 
     return (
-        <Modal show={automatedAnnotationsToggle} size="lg" dialogClassName={styles.automatedAnnotationsDialog}
+        <Modal show={automatedAnnotationsToggle} size="lg" dialogClassName="h-100"
             contentClassName={styles.automatedAnnotationsContent}
         >
             <Modal.Header className="bgc-primary c-white fw-lightBold">
@@ -95,7 +94,7 @@ const AutomatedAnnotationsModal = (props: Props) => {
                     <Col>
                         <Tabs className="h-100 d-flex flex-column">
                             <TabList className={classTabsList}>
-                                <Tab className={classTab} selectedClassName={styles.active}> Schedule new Service </Tab>
+                                <Tab className={classTab} selectedClassName="active"> Schedule new Service </Tab>
                             </TabList>
 
                             {/* Run a new automated annotation service */}

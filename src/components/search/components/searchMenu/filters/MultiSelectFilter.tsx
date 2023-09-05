@@ -14,9 +14,6 @@ import { getSearchAggregations, setSearchAggregations } from 'redux/search/Searc
 /* Import Types */
 import { SearchFilter, Dict } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -137,7 +134,7 @@ const MultiSelectFilter = (props: Props) => {
 
     /* ClassName for Filter Block */
     const classFilterBlock = classNames({
-        [`${styles.filterBlock}`]: true,
+        "b-primary rounded-c": true,
         'd-none': !filterToggle,
         'd-block': filterToggle
     });
@@ -148,7 +145,7 @@ const MultiSelectFilter = (props: Props) => {
                 <Col>
                     <Row>
                         <Col>
-                            <p className={`${styles.filterTitle} fw-bold`}> {filter.displayName} </p>
+                            <p className="fs-4 fw-bold"> {filter.displayName} </p>
                         </Col>
                     </Row>
 
@@ -185,7 +182,7 @@ const MultiSelectFilter = (props: Props) => {
                     {filter.filterType !== 'taxonomy' &&
                         <Row>
                             <Col>
-                                <p className={`${styles.filterTitle} fw-bold`}> {filter.displayName} </p>
+                                <p className="fs-4 fw-bold"> {filter.displayName} </p>
                             </Col>
                         </Row>
                     }
@@ -194,18 +191,18 @@ const MultiSelectFilter = (props: Props) => {
                         <Col>
                             {filter.filterType !== 'taxonomy' &&
                                 /* Search bar for searching in optional Items */
-                                <div className={`${styles.filterSearchBlock} pe-2`}>
+                                <div className="b-primary rounded-full">
                                     <Row className="align-items-center">
                                         <Col>
                                             <Field name={`${searchFilter}Search`}
-                                                className={`${styles.filterSearch} w-100 px-2 py-1`}
+                                                className="fs-4 rounded-full border-0 w-100 px-2 py-1"
                                                 placeholder="Select or type"
                                                 onFocus={() => setFilterToggle(true)}
                                                 onChange={(input: Dict) => setSearchQuery(input.target.value)}
                                             />
                                         </Col>
 
-                                        <Col className="col-md-auto ps-0">
+                                        <Col className="col-md-auto ps-0 pe-4">
                                             {filterToggle ?
                                                 <FontAwesomeIcon icon={faChevronUp}
                                                     className="c-primary c-pointer"
@@ -227,7 +224,7 @@ const MultiSelectFilter = (props: Props) => {
                                         <div className={`${filter.filterType !== 'taxonomy' && classFilterBlock + ' mt-2'} px-2 py-1`}>
                                             {filter.filterType === 'taxonomy' &&
                                                 /* Taxonomy Title */
-                                                <p className={styles.filterSubTitle}> {Capitalize(searchFilter)} </p>
+                                                <p className="fs-5 c-greyDark"> {Capitalize(searchFilter)} </p>
                                             }
 
                                             {/* Selected Items */}

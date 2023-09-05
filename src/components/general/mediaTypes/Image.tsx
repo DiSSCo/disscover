@@ -33,7 +33,7 @@ const Image = (props: Props) => {
             />
 
             {hoverEffect &&
-                <div className={`${styles.imageHover} position-absolute transition 
+                <div className={`${styles.imageHover} opacity-0 position-absolute transition 
                         h-100 w-100 top-0 d-flex justify-content-center align-items-center c-pointer px-3`
                 }>
                     <p className="fw-bold"> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </p>

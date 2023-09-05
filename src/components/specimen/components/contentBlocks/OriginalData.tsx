@@ -11,9 +11,6 @@ import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 /* Import Types */
 import { SourceSystem } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/specimen/specimen.module.scss';
-
 /* Import API */
 import GetSourceSystem from 'api/sourceSystem/GetSourceSystem';
 
@@ -69,7 +66,7 @@ const OriginalData = () => {
         <Row className="h-100">
             <Col className="h-100">
                 <Card className="h-100">
-                    <Card.Body className="h-100">
+                    <Card.Body className="h-100 d-flex flex-column">
                         <Row className="pb-2">
                             <Col>
                                 <Card.Title>
@@ -78,7 +75,7 @@ const OriginalData = () => {
                             </Col>
                         </Row>
 
-                        <Row className={`${styles.originalData}`}>
+                        <Row className="flex-grow-1 overflow-hidden">
                             <Col className="h-100">
                                 <div className="h-100 d-flex flex-column">
                                     {!isEmpty(sourceSystem) &&

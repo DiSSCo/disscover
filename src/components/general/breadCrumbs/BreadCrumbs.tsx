@@ -8,9 +8,6 @@ import { useAppSelector } from 'app/hooks';
 import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
-/* Import Styles */
-import styles from './breadCrumbs.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -83,7 +80,7 @@ const BreadCrumbs = () => {
         <Row>
             {breadCrumbs.map((breadCrumb, index) => {
                 return (
-                    <Col key={breadCrumb.crumb} className={`${styles.breadCrumbs} col-md-auto pe-0 fw-lightBold`}>
+                    <Col key={breadCrumb.crumb} className="c-secondary col-md-auto pe-0 fw-lightBold">
                         {breadCrumb.path ?
                             <Link to={breadCrumb.path}>
                                 {breadCrumb.crumb}
@@ -96,7 +93,7 @@ const BreadCrumbs = () => {
 
                         {(index + 1) < breadCrumbs.length &&
                             <FontAwesomeIcon icon={faChevronRight}
-                                className={`${styles.breadCrumbIcon} ms-2`}
+                                className="fs-4 ms-2"
                             />
                         }
                     </Col>

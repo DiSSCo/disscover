@@ -116,7 +116,7 @@ const DigitalMedia = () => {
     const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`https://sandbox.dissco.tech/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`https://dev.dissco.tech/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
 
                 return;
             case 'sidePanel':

@@ -36,6 +36,7 @@ const IntroTopics = (props: Props) => {
         'd-none': !dropdown
     });
 
+    /* Hook for toggling the intro topic dropdown */
     const UseDropdown = () => {
         useEffect(() => {
             const dropdownElement = dropdownRef.current as HTMLDivElement;
@@ -59,11 +60,24 @@ const IntroTopics = (props: Props) => {
     if (introTopics.length > 1) {
         UseDropdown();
     }
+    
+    /* Function for when clicked on the 'take a tour' button */
+    const TakeATour = () => {
+        if (introTopics.length > 1) {
+            setDropdown(true);
+        } else {
+            dispatch(setIntroTopic(introTopics[0].intro));
+
+            if (ToggleCollapseMenu) {
+                ToggleCollapseMenu();
+            }
+        }
+    }
 
     return (
         <div className="position-relative">
             <button type="button" className="primaryButton px-2 py-1"
-                onClick={() => introTopics.length > 1 ? setDropdown(true) : dispatch(setIntroTopic(introTopics[0].intro))}
+                onClick={() => TakeATour()}
             >
                 Take a tour
             </button>

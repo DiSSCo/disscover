@@ -59,6 +59,11 @@
     max-height: 20%;
 }
 
+.propertyBlock:hover {
+    background-color: var(--greyLight);
+    cursor: pointer;
+}
+
 .propertiesTab.active {
     background-color: var(--primary);
 }

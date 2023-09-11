@@ -1,6 +1,4 @@
 /* Import Dependencies */
-import classNames from 'classnames';
-import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
@@ -10,6 +8,10 @@ import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSl
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import OrganisationProperty from './OrganisationProperty';
@@ -39,11 +41,6 @@ const IDCard = () => {
 
         dispatch(setSidePanelToggle(true));
     }
-
-    /* ClassName for Specimen Property Hover */
-    const classPropertyBlockHover = classNames({
-        [`${styles.IDCardPropertyBlockHover}`]: KeycloakService.IsLoggedIn()
-    });
 
     return (
         <Row className="h-100">
@@ -79,15 +76,20 @@ const IDCard = () => {
                                     <Row className="flex-grow-1">
                                         <Col className="col-md-auto h-100">
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                                <Col className={`scientificName ${classPropertyBlockHover} transition rounded-c py-1`}
+                                                <Col className={`scientificName ${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50" role="sidePanelTrigger">Name in collection:</span>
                                                     <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.specimenName} </span>
                                                 </Col>
+                                                {'ods:specimenName' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                                <Col className={`${classPropertyBlockHover} transition rounded-c py-1`}
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:organisationId')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">Specimen provider:</span>
@@ -95,6 +97,11 @@ const IDCard = () => {
                                                         {<OrganisationProperty specimen={specimen} />}
                                                     </span>
                                                 </Col>
+                                                {'ods:organisationId' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                                 <Col className="m-0 py-1">
@@ -103,7 +110,7 @@ const IDCard = () => {
                                                 </Col>
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                                <Col className={`${classPropertyBlockHover} transition rounded-c py-1`}
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:physicalSpecimenId')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">
@@ -111,6 +118,11 @@ const IDCard = () => {
                                                     </span>
                                                     <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
                                                 </Col>
+                                                {'ods:physicalSpecimenId' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                                 <Col className="m-0 py-1">
@@ -119,20 +131,30 @@ const IDCard = () => {
                                                 </Col>
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                                <Col className={`${classPropertyBlockHover} transition rounded-c py-1`}
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
                                                     onClick={() => ToggleSidePanel('ods:physicalSpecimenCollection')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">In collection:</span>
                                                     <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.physicalSpecimenCollection} </span>
                                                 </Col>
+                                                {'ods:physicalSpecimenCollection' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                                <Col className={`${classPropertyBlockHover} transition rounded-c py-1 text-truncate`}
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 text-truncate`}
                                                     onClick={() => ToggleSidePanel('dcterms:license')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">License:</span>
                                                     <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.data['dcterms:license']} </span>
                                                 </Col>
+                                                {'dcterms:license' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                                 <Col className="m-0 py-1">

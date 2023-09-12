@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
+import { RandomString } from 'global/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -14,7 +15,7 @@ import {
 import {
     getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
 } from 'redux/annotate/AnnotateSlice';
-import { getScreenSize, setErrorMessage } from 'redux/general/GeneralSlice';
+import { getScreenSize, pushToPromptMessages } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { Annotation, SpecimenAnnotations } from 'global/Types';
@@ -106,7 +107,11 @@ const Specimen = () => {
                     navigate(`/ds/${params.prefix}/${params.suffix}/${originalVersion}`)
 
                     /* Show Error Message */
-                    dispatch(setErrorMessage(`The selected version: ${params.version}, of Specimen could not be retrieved.`));
+                    dispatch(pushToPromptMessages({
+                        key: RandomString(),
+                        message: `The selected version: ${params.version}, of Specimen could not be retrieved.`,
+                        template: 'error'
+                    }));
                 }
             }).catch(error => {
                 console.warn(error);

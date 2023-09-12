@@ -213,7 +213,7 @@ const Search = () => {
                                                         <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
                                                     </button>
                                                 </Col>
-                                                <Col className="d-md-none">
+                                                <Col className="d-md-none d-lg-block">
                                                     <ActiveFilters />
                                                 </Col>
                                             </> : <Col />

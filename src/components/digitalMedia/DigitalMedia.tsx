@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import classNames from 'classnames';
+import { RandomString } from 'global/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -17,7 +18,7 @@ import {
     setMASTarget, setAnnotateTarget,
     getSidePanelToggle, setSidePanelToggle
 } from 'redux/annotate/AnnotateSlice';
-import { setErrorMessage } from 'redux/general/GeneralSlice';
+import { pushToPromptMessages } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { DigitalMediaAnnotations, Annotation } from 'global/Types';
@@ -107,7 +108,10 @@ const DigitalMedia = () => {
                 navigate(`/dm/${params.prefix}/${params.suffix}/${originalVersion}`)
 
                 /* Show Error Message */
-                dispatch(setErrorMessage(`The selected version: ${params.version}, of Digital Media could not be retrieved.`));
+                dispatch(pushToPromptMessages({
+                    key: RandomString(),
+                    message: `The selected version: ${params.version}, of Digital Media could not be retrieved.`,
+                    template: 'error' }));
             });
         }
     }, [digitalMedia, params]);
@@ -268,7 +272,7 @@ const DigitalMedia = () => {
                             </Row>
                         </Container >
                     }
-                    
+
                     <Footer />
                 </Col>
 

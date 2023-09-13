@@ -24,6 +24,7 @@ import Specimen from 'components/specimen/Specimen';
 import DigitalMedia from 'components/digitalMedia/DigitalMedia';
 import Annotate from 'components/annotate/Annotate';
 import Profile from 'components/profile/Profile';
+import Demo from 'components/demo/Demo';
 import ErrorMessage from 'components/general/errorMessage/ErrorMessage';
 
 import Mobile from 'Mobile';
@@ -114,6 +115,9 @@ const App = () => {
 
             {/* Document Routes */}
             {DocumentRoutes}
+
+            {/* Demo Page */}
+            <Route path="/demo" element={<Demo />} />
           </Routes>
 
           <ErrorMessage />

@@ -43,10 +43,13 @@ const DOITooltipDemo = (props: Props) => {
             const response = await fetch(`https://dev.dissco.tech/handle-manager/api/v1/pids/${doi}`);
             const record = await response.json();
 
-            setActive(true);
+            if (record.data) {
+                setActive(true);
 
-            setRecord(record);
+                setRecord(record);
+            }
         } catch (error) {
+
             console.warn(error);
         }
     }

@@ -13,9 +13,6 @@ import {
 /* Import Types */
 import { Specimen } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Components */
 import ColumnLink from './ColumnLink';
 

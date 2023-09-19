@@ -2,10 +2,6 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-/* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getPromptMessages, setPromptMessages } from 'redux/general/GeneralSlice';
-
 /* Import Styles */
 import styles from './promptMessage.module.scss';
 
@@ -46,7 +42,7 @@ const PromptMessage = (props: Props) => {
     });
 
     const classPromptTemplate = classNames({
-        [`${styles[promptMessage.template || '']}`]: promptMessage.template,
+        [`${styles[promptMessage.template ?? '']}`]: promptMessage.template,
     });
 
     const classLoadingBar = classNames({

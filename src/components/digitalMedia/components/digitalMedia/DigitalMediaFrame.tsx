@@ -2,9 +2,6 @@
 import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
-/* Import Styles */
-import styles from 'components/digitalMedia/digitalMedia.module.scss';
-
 /* Import Components */
 import Image from 'components/general/mediaTypes/Image';
 import Video from 'components/general/mediaTypes/Video';

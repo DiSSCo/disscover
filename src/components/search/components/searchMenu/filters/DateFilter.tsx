@@ -5,9 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Types */
 import { Dict } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';

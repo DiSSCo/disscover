@@ -45,7 +45,6 @@ import CompareSteps from './steps/CompareSteps';
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
-import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
 
 
 const Search = () => {

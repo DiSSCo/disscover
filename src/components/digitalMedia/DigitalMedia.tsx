@@ -18,13 +18,17 @@ import {
     setMASTarget, setAnnotateTarget,
     getSidePanelToggle, setSidePanelToggle
 } from 'redux/annotate/AnnotateSlice';
-import { pushToPromptMessages } from 'redux/general/GeneralSlice';
+import { pushToPromptMessages, getAnnotoriousToggle, setAnnotoriousToggle } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { DigitalMediaAnnotations, Annotation } from 'global/Types';
 
 /* Import Styles */
 import styles from './digitalMedia.module.scss';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVectorSquare } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
@@ -53,6 +57,7 @@ const DigitalMedia = () => {
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaVersions = useAppSelector(getDigitalMediaVersions);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
+    const annotoriousToggle = useAppSelector(getAnnotoriousToggle);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
@@ -111,7 +116,8 @@ const DigitalMedia = () => {
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
                     message: `The selected version: ${params.version}, of Digital Media could not be retrieved.`,
-                    template: 'error' }));
+                    template: 'error'
+                }));
             });
         }
     }, [digitalMedia, params]);
@@ -163,6 +169,27 @@ const DigitalMedia = () => {
             }
 
             copyDigitalMediaAnnotations[annotation.target.indvProp] = copyDigitalMediaTargetAnnotations;
+        } else if (annotation.target.selector && (annotation.target.selector.hasROI || annotation.target.selector.value)) {
+            /* Push to visual annotation array */
+            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations.visual];
+
+            const index = copyDigitalMediaTargetAnnotations.findIndex(
+                (annotationRecord) => annotationRecord.id === annotation.id
+            );
+
+            if (index >= 0) {
+                if (remove) {
+                    copyDigitalMediaTargetAnnotations.splice(index, 1);
+                } else {
+                    copyDigitalMediaTargetAnnotations[index] = annotation;
+                }
+            } else {
+                if (!remove) {
+                    copyDigitalMediaTargetAnnotations.push(annotation);
+                }
+            }
+
+            copyDigitalMediaAnnotations.visual = copyDigitalMediaTargetAnnotations;
         } else {
             /* Create into new array */
             copyDigitalMediaAnnotations[annotation.target.indvProp] = [annotation];
@@ -219,6 +246,11 @@ const DigitalMedia = () => {
         'col-md-8': sidePanelToggle
     });
 
+    const classImageAnnotateButton = classNames({
+        'primaryButton px-3 py-2 d-flex align-items-center': true,
+        'active': annotoriousToggle
+    });
+
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
@@ -248,6 +280,17 @@ const DigitalMedia = () => {
                                                             />
                                                         </Col>
                                                         <Col />
+                                                        <Col className="col-md-auto pe-0">
+                                                            <button type="button"
+                                                                className={classImageAnnotateButton}
+                                                                onClick={() => dispatch(setAnnotoriousToggle(true))}
+                                                            >
+                                                                <FontAwesomeIcon icon={faVectorSquare}
+                                                                    className="fs-3"
+                                                                />
+                                                                <span className="fs-4 ms-2"> Make annotation </span>
+                                                            </button>
+                                                        </Col>
                                                         <Col className="col-md-auto">
                                                             <ActionsDropdown actions={digitalMediaActions}
                                                                 Actions={(action: string) => DigitalMediaActions(action)}
@@ -256,7 +299,9 @@ const DigitalMedia = () => {
                                                     </Row>
                                                     <Row className="flex-grow-1 overflow-hidden mt-3">
                                                         <Col className="h-100 pb-2">
-                                                            <DigitalMediaFrame />
+                                                            <DigitalMediaFrame
+                                                                UpdateAnnotationsSource={(annotation: Annotation, remove: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                                                            />
                                                         </Col>
                                                     </Row>
                                                     <Row className={styles.digitalMediaListBlock}>

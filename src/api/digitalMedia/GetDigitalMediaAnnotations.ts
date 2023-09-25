@@ -9,10 +9,10 @@ import { DigitalMediaAnnotations, Annotation, JSONResultArray } from 'global/Typ
 
 
 const GetDigitalMediaAnnotations = async (handle: string) => {
-    let digitalMediaAnnotations = { observation: [] } as DigitalMediaAnnotations;
+    let digitalMediaAnnotations = { visual: [] } as DigitalMediaAnnotations;
 
     if (handle) {
-        const endPoint = `specimens/${handle}/annotations`;
+        const endPoint = `digitalmedia/${handle}/annotations`;
 
         try {
             const result = await axios({
@@ -33,17 +33,13 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {
-                if (digitalMediaAnnotations[annotation.target.indvProp]) {
+                if (annotation.target.selector && annotation.target.selector.hasROI) {
+                    digitalMediaAnnotations.visual.push(annotation);
+                } else if (digitalMediaAnnotations[annotation.target.indvProp]) {
                     digitalMediaAnnotations[annotation.target.indvProp].push(annotation);
                 } else {
                     digitalMediaAnnotations[annotation.target.indvProp] = [annotation];
-                }
-
-                if (annotation.body.values) {
-                    annotation.body.values.forEach((observationAnnotation: object) => {
-                        digitalMediaAnnotations.observation.push({ ...observationAnnotation, creator: annotation.creator });
-                    });
-                }
+                } 
             });
         } catch (error) {
             console.warn(error);

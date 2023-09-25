@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { PaginationObject } from 'global/Types';
+import { PaginationObject, Dict } from 'global/Types';
 
 
 export interface GeneralState {
@@ -16,6 +16,7 @@ export interface GeneralState {
     language: string;
     introTopic: string;
     paginationObject: PaginationObject;
+    annotoriousToggle: boolean;
 };
 
 const initialState: GeneralState = {
@@ -23,7 +24,8 @@ const initialState: GeneralState = {
     promptMessages: [],
     language: 'EN',
     introTopic: '',
-    paginationObject: {} as PaginationObject
+    paginationObject: {} as PaginationObject,
+    annotoriousToggle: false
 };
 
 export const GeneralSlice = createSlice({
@@ -50,6 +52,9 @@ export const GeneralSlice = createSlice({
         },
         setPaginationObject: (state, action: PayloadAction<PaginationObject>) => {
             state.paginationObject = action.payload;
+        },
+        setAnnotoriousToggle: (state, action: PayloadAction<boolean>) => {
+            state.annotoriousToggle = action.payload;
         }
     },
 })
@@ -62,7 +67,8 @@ export const {
     removeFromPromptMessages,
     setLanguage,
     setIntroTopic,
-    setPaginationObject
+    setPaginationObject,
+    setAnnotoriousToggle
 } = GeneralSlice.actions;
 
 /* Connect with Root State */
@@ -71,5 +77,6 @@ export const getPromptMessages = (state: RootState) => state.general.promptMessa
 export const getLanguage = (state: RootState) => state.general.language;
 export const getIntroTopic = (state: RootState) => state.general.introTopic;
 export const getPaginationObject = (state: RootState) => state.general.paginationObject;
+export const getAnnotoriousToggle = (state: RootState) => state.general.annotoriousToggle;
 
 export default GeneralSlice.reducer;

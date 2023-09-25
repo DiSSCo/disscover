@@ -282,6 +282,10 @@ p {
   font-weight: 500;
 }
 
+.primaryButton.active {
+  background-color: var(--accent);
+}
+
 .primaryButton:hover {
   background-color: var(--accent);
 }

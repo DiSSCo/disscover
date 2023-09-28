@@ -24,8 +24,8 @@ import Specimen from 'components/specimen/Specimen';
 import DigitalMedia from 'components/digitalMedia/DigitalMedia';
 import Annotate from 'components/annotate/Annotate';
 import Profile from 'components/profile/Profile';
+import PromptMessages from 'components/general/promptMessage/PromptMessages';
 import Demo from 'components/demo/Demo';
-import ErrorMessage from 'components/general/errorMessage/ErrorMessage';
 
 import Mobile from 'Mobile';
 
@@ -89,7 +89,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div className="h-100 w-100 position-relative">
       {(screenSize != 'sm') ?
         <Router>
           <Routes>
@@ -120,11 +120,11 @@ const App = () => {
             <Route path="/demo" element={<Demo />} />
           </Routes>
 
-          <ErrorMessage />
+          <PromptMessages />
         </Router>
         : <Mobile />
       }
-    </>
+    </div>
   );
 }
 

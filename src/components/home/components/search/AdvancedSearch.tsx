@@ -29,7 +29,7 @@ const AdvancedSearch = (props: Props) => {
     });
 
     const classTab = classNames({
-        'react-tabs__tab tab': true,
+        'react-tabs__tab tab mt-2': true,
     });
 
     return (

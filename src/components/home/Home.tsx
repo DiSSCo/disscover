@@ -29,18 +29,18 @@ const Home = () => {
     });
 
     const classAdvancedToggled = classNames({
-        'transition': true,
+        'transition mt-2 mt-lg-4': true,
         'opacity-0': advancedSearch,
         'opacity-1': !advancedSearch
     });
 
     return (
-        <div>
+        <div className="h-100 overflow-scroll d-flex flex-column">
             <Header introTopics={[{intro: 'home', title: 'About This Page'}]}/>
 
             <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
 
-            <Container fluid className={styles.content}>
+            <Container fluid className={`${styles.content} flex-grow-1`}>
                 <Row className="h-100">
                     {/* First part of Homepage, relative to screen height */}
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
@@ -64,7 +64,7 @@ const Home = () => {
                                     </Col>
                                 </Row>
                                 {/* General Search Bar */}
-                                <Row className={`${classAdvancedToggled} globalSearchBar mt-4`}>
+                                <Row className={`${classAdvancedToggled} globalSearchBar`}>
                                     <Col>
                                         <GlobalSearchBar ToggleAdvancedFilter={() => setAdvancedSearch(true)} />
                                     </Col>

@@ -61,3 +61,14 @@
 .languagesSelect {
     background-color: transparent;
 }
+
+/* Collapse Menu */
+.collapseMenu {
+    width: 60%;
+    margin-right: -65%;
+    border-bottom-left-radius: 40px;
+}
+
+.collapseMenu.active {
+    margin-right: 0;
+}

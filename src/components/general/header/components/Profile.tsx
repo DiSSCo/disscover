@@ -58,7 +58,7 @@ const Profile = () => {
                                 <span className="text-end textOverflow">
                                     {(user.firstName && user.firstName !== 'User') ?
                                         <> {`${user['firstName'][0]}. ${user['lastName']}`} </>
-                                        : <> {user['firstName']} </>
+                                        : <> User </>
                                     }
                                 </span>
                             </Dropdown.Toggle>

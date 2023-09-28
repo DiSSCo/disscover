@@ -65,7 +65,7 @@ const TitleBar = (props: Props) => {
     const SpecimenActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`https://dev.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
 
                 return;
             case 'sidePanel':

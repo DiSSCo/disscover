@@ -1,3 +1,6 @@
+/* Import Dependencies */
+import { Annotorious } from '@annotorious/react';
+
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
@@ -6,7 +9,8 @@ import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 import { Annotation } from 'global/Types';
 
 /* Import Components */
-import ImageViewer from 'components/general/mediaTypes/ImageViewer';
+// import ImageViewer from 'components/general/mediaTypes/ImageViewer';
+import ImageViewer from '../annotate/ImageViewer';
 import Video from 'components/general/mediaTypes/Video';
 import Audio from 'components/general/mediaTypes/Audio';
 import File from 'components/general/mediaTypes/File';
@@ -30,9 +34,11 @@ const DigitalMediaFrame = (props: Props) => {
 
     switch (digitalMedia.type) {
         case '2DImageObject':
-            digitalMediaContent = <ImageViewer mediaUrl={digitalMedia.mediaUrl}
-                UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
-            />
+            digitalMediaContent = <Annotorious>
+                <ImageViewer mediaUrl={digitalMedia.mediaUrl}
+                    UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                />
+            </Annotorious>
 
             break;
         case 'video':

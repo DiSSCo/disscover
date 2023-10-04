@@ -16,7 +16,7 @@ export interface GeneralState {
     language: string;
     introTopic: string;
     paginationObject: PaginationObject;
-    annotoriousToggle: boolean;
+    annotoriousMode: string;
 };
 
 const initialState: GeneralState = {
@@ -25,7 +25,7 @@ const initialState: GeneralState = {
     language: 'EN',
     introTopic: '',
     paginationObject: {} as PaginationObject,
-    annotoriousToggle: false
+    annotoriousMode: 'cursor'
 };
 
 export const GeneralSlice = createSlice({
@@ -53,8 +53,8 @@ export const GeneralSlice = createSlice({
         setPaginationObject: (state, action: PayloadAction<PaginationObject>) => {
             state.paginationObject = action.payload;
         },
-        setAnnotoriousToggle: (state, action: PayloadAction<boolean>) => {
-            state.annotoriousToggle = action.payload;
+        setAnnotoriousMode: (state, action: PayloadAction<string>) => {
+            state.annotoriousMode = action.payload;
         }
     },
 })
@@ -68,7 +68,7 @@ export const {
     setLanguage,
     setIntroTopic,
     setPaginationObject,
-    setAnnotoriousToggle
+    setAnnotoriousMode
 } = GeneralSlice.actions;
 
 /* Connect with Root State */
@@ -77,6 +77,6 @@ export const getPromptMessages = (state: RootState) => state.general.promptMessa
 export const getLanguage = (state: RootState) => state.general.language;
 export const getIntroTopic = (state: RootState) => state.general.introTopic;
 export const getPaginationObject = (state: RootState) => state.general.paginationObject;
-export const getAnnotoriousToggle = (state: RootState) => state.general.annotoriousToggle;
+export const getAnnotoriousMode = (state: RootState) => state.general.annotoriousMode;
 
 export default GeneralSlice.reducer;

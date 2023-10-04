@@ -18,7 +18,7 @@ import {
     setMASTarget, setAnnotateTarget,
     getSidePanelToggle, setSidePanelToggle
 } from 'redux/annotate/AnnotateSlice';
-import { pushToPromptMessages, getAnnotoriousToggle, setAnnotoriousToggle } from 'redux/general/GeneralSlice';
+import { pushToPromptMessages, getAnnotoriousMode, setAnnotoriousMode } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { DigitalMediaAnnotations, Annotation } from 'global/Types';
@@ -57,7 +57,7 @@ const DigitalMedia = () => {
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaVersions = useAppSelector(getDigitalMediaVersions);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
-    const annotoriousToggle = useAppSelector(getAnnotoriousToggle);
+    const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
@@ -126,7 +126,7 @@ const DigitalMedia = () => {
     const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`https://dev.dissco.tech/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
 
                 return;
             case 'sidePanel':
@@ -248,7 +248,7 @@ const DigitalMedia = () => {
 
     const classImageAnnotateButton = classNames({
         'primaryButton px-3 py-2 d-flex align-items-center': true,
-        'active': annotoriousToggle
+        'active': annotoriousMode === 'rectangle'
     });
 
     return (
@@ -280,17 +280,25 @@ const DigitalMedia = () => {
                                                             />
                                                         </Col>
                                                         <Col />
-                                                        <Col className="col-md-auto pe-0">
-                                                            <button type="button"
-                                                                className={classImageAnnotateButton}
-                                                                onClick={() => dispatch(setAnnotoriousToggle(true))}
-                                                            >
-                                                                <FontAwesomeIcon icon={faVectorSquare}
-                                                                    className="fs-3"
-                                                                />
-                                                                <span className="fs-4 ms-2"> Make annotation </span>
-                                                            </button>
-                                                        </Col>
+                                                        {(digitalMedia.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
+                                                            <Col className="col-md-auto pe-0">
+                                                                <button type="button"
+                                                                    className={classImageAnnotateButton}
+                                                                    onClick={() => {
+                                                                        if (annotoriousMode === 'cursor') {
+                                                                            dispatch(setAnnotoriousMode('rectangle'))
+                                                                        } else {
+                                                                            dispatch(setAnnotoriousMode('rectangle'))}
+                                                                        }
+                                                                    }
+                                                                >
+                                                                    <FontAwesomeIcon icon={faVectorSquare}
+                                                                        className="fs-3"
+                                                                    />
+                                                                    <span className="fs-4 ms-2"> Make annotation </span>
+                                                                </button>
+                                                            </Col>
+                                                        }
                                                         <Col className="col-md-auto">
                                                             <ActionsDropdown actions={digitalMediaActions}
                                                                 Actions={(action: string) => DigitalMediaActions(action)}

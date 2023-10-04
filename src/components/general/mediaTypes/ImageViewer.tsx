@@ -8,7 +8,7 @@ import * as Annotorious from '@recogito/annotorious-openseadragon';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from "app/hooks";
-import { getAnnotoriousToggle, setAnnotoriousToggle } from "redux/general/GeneralSlice";
+// import { getAnnotoriousToggle, setAnnotoriousToggle } from "redux/general/GeneralSlice";
 import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
 
 /* Import Types */
@@ -36,10 +36,11 @@ const ImageViewer = (props: Props) => {
     /* Base variables */
     const [annotorious, setAnnotorious] = useState<any>();
     const [renderTrigger, setRenderTrigger] = useState<boolean>(false);
-    const annotoriousToggle = useAppSelector(getAnnotoriousToggle);
+    // const annotoriousToggle = useAppSelector(getAnnotoriousToggle);
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
     const [image, setImage] = useState<HTMLImageElement>();
+    const [viewer, setViewer] = useState<any>();
     const config = {
         widgets: ['COMMENT']
     };
@@ -55,26 +56,41 @@ const ImageViewer = (props: Props) => {
         }).then((image: any) => {
             setImage(image);
         });
-    }, []);
+    }, [mediaUrl]);
 
     /* OnChange of Digital Media: Prepare OpenSeaDragon Image Viewer and initialise Annotorious */
     useEffect(() => {
         if (image) {
-            const viewer = OpenSeaDragon({
-                id: "openSeaDragon",
-                preserveViewport: true,
-                visibilityRatio: 1,
-                defaultZoomLevel: 0,
-                sequenceMode: true,
-                tileSources: {
-                    "type": 'image',
-                    "url": mediaUrl
-                },
-                showFullPageControl: false,
-                showHomeControl: false,
-                prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/"
-            });
+            if (!viewer) {
+                const viewer = OpenSeaDragon({
+                    id: "openSeaDragon",
+                    preserveViewport: true,
+                    visibilityRatio: 1,
+                    tileSources: {
+                        "type": 'image',
+                        "url": mediaUrl
+                    },
+                    defaultZoomLevel: 0,
+                    sequenceMode: true,
+                    showFullPageControl: false,
+                    showHomeControl: false,
+                    prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/"
+                });
 
+                setViewer(viewer);
+            } else {
+                viewer.addSimpleImage({
+                    url: mediaUrl
+                });
+
+                setViewer(viewer);
+            }
+        }
+    }, [image]);
+
+    /* Function for setting Annotorious */
+    useEffect(() => {
+        if (viewer) {
             const anno = Annotorious(viewer, config);
 
             /* If present, load existing annotations */
@@ -93,7 +109,7 @@ const ImageViewer = (props: Props) => {
                 anno.on('createAnnotation', (w3cAnnotation: Dict) => {
                     SubmitAnnotation(w3cAnnotation, 'insert');
 
-                    dispatch(setAnnotoriousToggle(false));
+                    // dispatch(setAnnotoriousToggle(false));
                 });
 
                 anno.on('updateAnnotation', (w3cAnnotation: Dict) => {
@@ -105,13 +121,13 @@ const ImageViewer = (props: Props) => {
                 });
 
                 anno.on('cancelSelected', () => {
-                    dispatch(setAnnotoriousToggle(false));
+                    // dispatch(setAnnotoriousToggle(false));
                 });
             } else {
                 anno.readOnly = true;
             }
         }
-    }, [image]);
+    }, [viewer]);
 
     /* Function for calculating annotation positions */
     const CalculateAnnotationPositions = () => {
@@ -253,11 +269,11 @@ const ImageViewer = (props: Props) => {
     }, [digitalMediaAnnotations, renderTrigger]);
 
     /* Function for toggling the strict annotation mode */
-    useEffect(() => {
-        if (annotoriousToggle) {
-            annotorious.setDrawingEnabled(true);
-        }
-    }, [annotoriousToggle]);
+    // useEffect(() => {
+    //     if (annotoriousToggle) {
+    //         annotorious.setDrawingEnabled(true);
+    //     }
+    // }, [annotoriousToggle]);
 
     return (
         <div id="openSeaDragon" style={{ width: '100%', height: '100%' }} />

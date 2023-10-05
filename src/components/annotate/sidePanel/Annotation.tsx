@@ -65,8 +65,8 @@ const Annotation = (props: Props) => {
     /* Set User Tag */
     useEffect(() => {
         if (annotation.creator === KeycloakService.GetSubject()) {
-            const firstName = user.firstName || user.id;
-            const lastName = user.lastName || '';
+            const firstName = user.firstName ?? user.id;
+            const lastName = user.lastName ?? '';
 
             setUserTag(`${firstName} ${lastName} (you)`);
         } else {

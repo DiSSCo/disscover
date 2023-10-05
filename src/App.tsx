@@ -25,6 +25,7 @@ import DigitalMedia from 'components/digitalMedia/DigitalMedia';
 import Annotate from 'components/annotate/Annotate';
 import Profile from 'components/profile/Profile';
 import PromptMessages from 'components/general/promptMessage/PromptMessages';
+import Demo from 'components/demo/Demo';
 
 import Mobile from 'Mobile';
 
@@ -114,6 +115,9 @@ const App = () => {
 
             {/* Document Routes */}
             {DocumentRoutes}
+
+            {/* Demo Page */}
+            <Route path="/demo" element={<Demo />} />
           </Routes>
 
           <PromptMessages />

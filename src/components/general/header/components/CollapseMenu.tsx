@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import classNames from 'classnames';
 import KeycloakService from 'keycloak/Keycloak';
-import { Row, Col, Nav } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
 import styles from '../header.module.scss';

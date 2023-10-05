@@ -116,7 +116,7 @@ const ImagePopup = (props: Props) => {
                                 <Row>
                                     <Col>
                                         <p className="fs-4">
-                                            {(selectedAnnotation && selectedAnnotation.body.length) ?
+                                            {(selectedAnnotation?.body.length) ?
                                                 selectedAnnotation.body[0].value[0] : ''
                                             }
                                         </p>

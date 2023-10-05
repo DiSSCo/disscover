@@ -281,6 +281,19 @@ const ImageViewer = (props: Props) => {
         }
     }
 
+    /* Prepare ToolTip */
+    const tooltip = <ImagePopup selectedAnnotation={selectedAnnotation}
+        editAnnotation={editAnnotation}
+        tooltipFieldRef={tooltipFieldRef}
+        anno={anno}
+
+        RefreshAnnotations={() => RefreshAnnotations()}
+        SubmitAnnotation={(values: string[], method: string) => SubmitAnnotation(values, method)}
+        SetSelectedAnnotation={(selectedAnnotation: ImageAnnotation) => setSelectedAnnotation(selectedAnnotation)}
+        SetEditAnnotation={(editAnnotation: ImageAnnotation) => setEditAnnotation(editAnnotation)}
+        RemoveAnnotation={() => RemoveAnnotation()}
+    />
+
     return (
         <div className="w-100 h-100">
             <OpenSeadragonAnnotator className="h-100"
@@ -295,17 +308,7 @@ const ImageViewer = (props: Props) => {
 
                 <OpenSeadragonPopup
                     popup={() => (
-                        <ImagePopup selectedAnnotation={selectedAnnotation}
-                            editAnnotation={editAnnotation}
-                            tooltipFieldRef={tooltipFieldRef}
-                            anno={anno}
-
-                            RefreshAnnotations={() => RefreshAnnotations()}
-                            SubmitAnnotation={(values: string[], method: string) => SubmitAnnotation(values, method)}
-                            SetSelectedAnnotation={(selectedAnnotation: ImageAnnotation) => setSelectedAnnotation(selectedAnnotation)}
-                            SetEditAnnotation={(editAnnotation: ImageAnnotation) => setEditAnnotation(editAnnotation)}
-                            RemoveAnnotation={() => RemoveAnnotation()}
-                        />
+                        tooltip
                     )}
                 />
             </OpenSeadragonAnnotator>

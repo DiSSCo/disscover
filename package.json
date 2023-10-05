@@ -14,7 +14,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.1.19",
     "@react-keycloak/web": "^3.4.0",
-    "@recogito/annotorious-openseadragon": "^2.7.12",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

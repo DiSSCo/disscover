@@ -33,7 +33,7 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {
-                if (annotation.target.selector && annotation.target.selector.hasROI) {
+                if (annotation.target.selector?.hasROI) {
                     digitalMediaAnnotations.visual.push(annotation);
                 } else if (digitalMediaAnnotations[annotation.target.indvProp]) {
                     digitalMediaAnnotations[annotation.target.indvProp].push(annotation);

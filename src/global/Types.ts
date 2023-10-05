@@ -180,10 +180,10 @@ export interface ImageAnnotationTemplate {
             type: string,
             conformsTo: string,
             hasROI: {
-                "ac:xFrac": Number, 
-                "ac:yFrac": Number,
-                "ac:widthFrac": Number,
-                "ac:heightFrac": Number
+                "ac:xFrac": number, 
+                "ac:yFrac": number,
+                "ac:widthFrac": number,
+                "ac:heightFrac": number
             },
             value?: string,
         }

@@ -59,7 +59,7 @@ const DigitalMedia = () => {
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
     const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
-    const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
+    const [automatedAnnotationsToggle, setAutomatedAnnotationsToggle] = useState<boolean>(false);
 
     const digitalMediaActions = [
         { value: 'json', label: 'View JSON' },
@@ -138,7 +138,7 @@ const DigitalMedia = () => {
                 dispatch(setMASTarget(digitalMedia));
 
                 /* Open MAS Modal */
-                setAutomatedAnnotationToggle(true);
+                setAutomatedAnnotationsToggle(true);
 
                 return;
             default:
@@ -149,11 +149,19 @@ const DigitalMedia = () => {
     /* Function for updating the Digital Media Annotations source */
     const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
         const copyDigitalMediaAnnotations = { ...digitalMediaAnnotations };
+        let indicator: string = '';
 
         /* Check if array for target property exists */
         if (annotation.target.indvProp in digitalMediaAnnotations) {
+            indicator = annotation.target.indvProp;
+        } else if (annotation.target.selector && (annotation.target.selector.hasROI || annotation.target.selector.value)) {
+            indicator = 'visual';
+        }
+
+        if (indicator in copyDigitalMediaAnnotations) {
             /* Push or patch to existing array */
-            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[annotation.target.indvProp]];
+            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[indicator]];
+
             const index = copyDigitalMediaTargetAnnotations.findIndex(
                 (annotationRecord) => annotationRecord.id === annotation.id
             );
@@ -168,31 +176,10 @@ const DigitalMedia = () => {
                 copyDigitalMediaTargetAnnotations.push(annotation);
             }
 
-            copyDigitalMediaAnnotations[annotation.target.indvProp] = copyDigitalMediaTargetAnnotations;
-        } else if (annotation.target.selector && (annotation.target.selector.hasROI || annotation.target.selector.value)) {
-            /* Push to visual annotation array */
-            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations.visual];
-
-            const index = copyDigitalMediaTargetAnnotations.findIndex(
-                (annotationRecord) => annotationRecord.id === annotation.id
-            );
-
-            if (index >= 0) {
-                if (remove) {
-                    copyDigitalMediaTargetAnnotations.splice(index, 1);
-                } else {
-                    copyDigitalMediaTargetAnnotations[index] = annotation;
-                }
-            } else {
-                if (!remove) {
-                    copyDigitalMediaTargetAnnotations.push(annotation);
-                }
-            }
-
-            copyDigitalMediaAnnotations.visual = copyDigitalMediaTargetAnnotations;
+            copyDigitalMediaAnnotations[indicator] = copyDigitalMediaTargetAnnotations;
         } else {
             /* Create into new array */
-            copyDigitalMediaAnnotations[annotation.target.indvProp] = [annotation];
+            copyDigitalMediaAnnotations[indicator] = [annotation];
         }
 
         dispatch(setDigitalMediaAnnotations(copyDigitalMediaAnnotations));
@@ -288,8 +275,9 @@ const DigitalMedia = () => {
                                                                         if (annotoriousMode === 'cursor') {
                                                                             dispatch(setAnnotoriousMode('rectangle'))
                                                                         } else {
-                                                                            dispatch(setAnnotoriousMode('cursor'))}
+                                                                            dispatch(setAnnotoriousMode('cursor'))
                                                                         }
+                                                                    }
                                                                     }
                                                                 >
                                                                     <FontAwesomeIcon icon={faVectorSquare}
@@ -332,7 +320,7 @@ const DigitalMedia = () => {
                 {/* Annotation Tools */}
                 <AnnotationTools sidePanelToggle={sidePanelToggle}
                     automatedAnnotationsToggle={automatedAnnotationsToggle}
-                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationsToggle(toggle)}
                     ShowWithAnnotations={() => ShowWithAnnotations()}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                     RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}

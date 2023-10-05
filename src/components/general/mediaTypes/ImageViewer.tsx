@@ -1,23 +1,39 @@
 /* Import Dependencies */
-import { useEffect, useState } from "react";
-import OpenSeaDragon from 'openseadragon';
-import KeycloakService from "keycloak/Keycloak";
-import { isEmpty } from "lodash";
-// @ts-expect-error
-import * as Annotorious from '@recogito/annotorious-openseadragon';
+import { useEffect, useState, useRef } from 'react';
+import KeycloakService from 'keycloak/Keycloak';
+import { Formik, Form, Field } from 'formik';
+import { isEmpty } from 'lodash';
+import {
+    AnnotoriousOpenSeadragonAnnotator,
+    ImageAnnotation,
+    OpenSeadragonAnnotator,
+    OpenSeadragonPopup,
+    OpenSeadragonViewer,
+    PointerSelectAction,
+    useAnnotator
+} from '@annotorious/react';
+import classNames from 'classnames';
+import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from "app/hooks";
-// import { getAnnotoriousToggle, setAnnotoriousToggle } from "redux/general/GeneralSlice";
+import { getAnnotoriousMode, setAnnotoriousMode } from "redux/general/GeneralSlice";
 import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
 
 /* Import Types */
-import { ImageAnnotationTemplate, Annotation, Dict } from "global/Types";
+import { Annotation, ImageAnnotationTemplate, Dict } from 'global/Types';
+
+/* Import Styles */
+import styles from 'components/general/mediaTypes/mediaTypes.module.scss';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 /* Import API */
-import InsertAnnotation from "api/annotate/InsertAnnotation";
-import PatchAnnotation from "api/annotate/PatchAnnotation";
-import DeleteAnnotation from "api/annotate/DeleteAnnotation";
+import InsertAnnotation from 'api/annotate/InsertAnnotation';
+import PatchAnnotation from 'api/annotate/PatchAnnotation';
+import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
 
 
 /* Props Typing */
@@ -32,17 +48,28 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
+    const anno = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
+    const viewerRef = useRef<OpenSeadragon.Viewer>(null);
+    const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
     /* Base variables */
-    const [annotorious, setAnnotorious] = useState<any>();
-    const [renderTrigger, setRenderTrigger] = useState<boolean>(false);
-    // const annotoriousToggle = useAppSelector(getAnnotoriousToggle);
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
+    const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const [image, setImage] = useState<HTMLImageElement>();
-    const [viewer, setViewer] = useState<any>();
-    const config = {
-        widgets: ['COMMENT']
+    const [selectedAnnotation, setSelectedAnnotation] = useState<ImageAnnotation | null>(null);
+    const [editAnnotation, setEditAnnotation] = useState<ImageAnnotation | null>(null);
+
+    const OSDOptions: OpenSeadragon.Options = {
+        prefixUrl: 'https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/',
+        tileSources: {
+            type: 'image',
+            url: mediaUrl
+        },
+        crossOriginPolicy: 'Anonymous',
+        gestureSettingsMouse: {
+            clickToZoom: false
+        }
     };
 
     /* OnLoad: fetch image details */
@@ -55,79 +82,96 @@ const ImageViewer = (props: Props) => {
             image.src = digitalMedia.mediaUrl;
         }).then((image: any) => {
             setImage(image);
+
+            if (viewerRef.current) {
+                viewerRef.current.open({
+                    type: 'image',
+                    url: mediaUrl
+                });
+            }
         });
     }, [mediaUrl]);
 
-    /* OnChange of Digital Media: Prepare OpenSeaDragon Image Viewer and initialise Annotorious */
+    /* Function for handling Annotorious */
     useEffect(() => {
-        if (image) {
-            if (!viewer) {
-                const viewer = OpenSeaDragon({
-                    id: "openSeaDragon",
-                    preserveViewport: true,
-                    visibilityRatio: 1,
-                    tileSources: {
-                        "type": 'image',
-                        "url": mediaUrl
-                    },
-                    defaultZoomLevel: 0,
-                    sequenceMode: true,
-                    showFullPageControl: false,
-                    showHomeControl: false,
-                    prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/"
-                });
+        if (anno && image) {
+            const annotoriousAnnotations = anno.getAnnotations();
 
-                setViewer(viewer);
-            } else {
-                viewer.addSimpleImage({
-                    url: mediaUrl
-                });
-
-                setViewer(viewer);
+            if (!annotoriousAnnotations.length) {
+                RefreshAnnotations();
             }
-        }
-    }, [image]);
 
-    /* Function for setting Annotorious */
+            /* Event for when selecting or deselecting an Annotation */
+            anno.on('selectionChanged', (w3cAnnotations: ImageAnnotation[]) => {
+                const selected: boolean = anno.state.selection.isSelected(w3cAnnotations[0]);
+
+                if (selected) {
+                    /* Set selected annotation */
+                    setSelectedAnnotation(w3cAnnotations[0]);
+                } else {
+                    if ((digitalMediaAnnotations.visual.length && anno.getAnnotations().length) && anno.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
+                        RefreshAnnotations();
+                    }
+
+                    /* Reset selected and edit annotation */
+                    setSelectedAnnotation(null);
+                    setEditAnnotation(null);
+                }
+            });
+
+            /* Event for when creating an Annotation */
+            anno.on('createAnnotation', (w3cAnnotation: ImageAnnotation) => {
+                /* Return to cursor tool */
+                dispatch(setAnnotoriousMode('cursor'));
+
+                /* Set selected annotation */
+                setEditAnnotation(w3cAnnotation);
+
+                /* Focus on input field */
+                setTimeout(() => {
+                    tooltipFieldRef.current?.focus();
+                }, 300);
+            });
+
+            /* Event for when an Annotatio has been edited */
+            anno.on('updateAnnotation', (W3cAnnotation: ImageAnnotation) => {
+                /* Set new edit target */
+                setEditAnnotation(W3cAnnotation);
+            });
+        }
+    }, [anno, image]);
+
+    /* Function for refreshing annotations on Annotorious layer */
+    const RefreshAnnotations = () => {
+        /* If there are visual annotations present, calculate positions and redraw */
+        if (!isEmpty(digitalMediaAnnotations.visual)) {
+            const visualImageAnnotations = CalculateAnnotationPositions();
+
+            anno.setAnnotations(visualImageAnnotations);
+        } else {
+            anno.setAnnotations([]);
+        }
+    }
+
     useEffect(() => {
-        if (viewer) {
-            const anno = Annotorious(viewer, config);
-
-            /* If present, load existing annotations */
-            if (digitalMediaAnnotations.visual.length) {
-                const visualImageAnnotations = CalculateAnnotationPositions();
-
-                /* Draw annotations on image */
-                anno.setAnnotations(visualImageAnnotations);
-            }
-
-            /* Set Annotorious actions as object to state */
-            setAnnotorious(anno);
-
-            /* Event called when creating a new annotation */
-            if (KeycloakService.IsLoggedIn()) {
-                anno.on('createAnnotation', (w3cAnnotation: Dict) => {
-                    SubmitAnnotation(w3cAnnotation, 'insert');
-
-                    // dispatch(setAnnotoriousToggle(false));
-                });
-
-                anno.on('updateAnnotation', (w3cAnnotation: Dict) => {
-                    SubmitAnnotation(w3cAnnotation, 'patch');
-                });
-
-                anno.on('deleteAnnotation', (w3cAnnotation: Dict) => {
-                    RemoveAnnotation(w3cAnnotation);
-                });
-
-                anno.on('cancelSelected', () => {
-                    // dispatch(setAnnotoriousToggle(false));
-                });
-            } else {
-                anno.readOnly = true;
-            }
+        if (anno) {
+            RefreshAnnotations();
         }
-    }, [viewer]);
+    }, [digitalMediaAnnotations]);
+
+    /* Function for depicting method when selecting an Annotation */
+    const SelectAction = (w3cAnnotation: ImageAnnotation) => {
+        let selectAction;
+
+        /* Enable Annotorious edit mode if logged in and Annotation belongs to user, otherwise highlight */
+        if (KeycloakService.IsLoggedIn() && (KeycloakService.GetSubject() === w3cAnnotation.bodies[0].creator.id)) {
+            selectAction = PointerSelectAction.EDIT;
+        } else {
+            selectAction = PointerSelectAction.HIGHLIGHT;
+        }
+
+        return selectAction;
+    }
 
     /* Function for calculating annotation positions */
     const CalculateAnnotationPositions = () => {
@@ -154,9 +198,12 @@ const ImageViewer = (props: Props) => {
                         "@context": 'http://www.w3.org/ns/anno.jsonld',
                         type: 'Annotation',
                         body: [{
-                            purpose: 'commenting',
                             type: 'TextualBody',
-                            value: imageAnnotation.body.values
+                            value: imageAnnotation.body.values,
+                            purpose: 'commenting',
+                            creator: {
+                                id: imageAnnotation.creator
+                            }
                         }],
                         target: {
                             selector: {
@@ -175,17 +222,10 @@ const ImageViewer = (props: Props) => {
     }
 
     /* Function for submitting an Annotation */
-    const SubmitAnnotation = (w3cAnnotation: Dict, method: string) => {
+    const SubmitAnnotation = (values: string[], method: string) => {
         if (image) {
-            /* Get Annotation values */
-            const bodyValues: string[] = [];
-
-            w3cAnnotation.body.forEach((bodyValue: Dict) => {
-                bodyValues.push(bodyValue.value);
-            });
-
             /* Calculate W3C pixels to TDWG AC position */
-            const coordinates = w3cAnnotation.target.selector.value.split(',');
+            const coordinates = editAnnotation.target.selector.value.split(',');
 
             const xFrac = Number(coordinates[0].replace('xywh=pixel:', '')) / image.width;
             const yFrac = Number(coordinates[1]) / image.height;
@@ -198,7 +238,7 @@ const ImageViewer = (props: Props) => {
                 motivation: 'commenting',
                 body: {
                     type: 'TextualBody',
-                    values: bodyValues
+                    values: values
                 },
                 target: {
                     id: digitalMedia.id,
@@ -221,14 +261,12 @@ const ImageViewer = (props: Props) => {
                 /* Post Annotation */
                 InsertAnnotation(imageAnnotation, KeycloakService.GetToken()).then((annotation) => {
                     UpdateAnnotationsSource(annotation, false);
-
-                    setRenderTrigger(true);
                 }).catch(error => {
                     console.warn(error);
                 });
             } else if (method === 'patch') {
                 /* Patch Annotation */
-                PatchAnnotation(imageAnnotation, w3cAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
+                PatchAnnotation(imageAnnotation, editAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
                     UpdateAnnotationsSource(annotation);
                 }).catch(error => {
                     console.warn(error);
@@ -237,46 +275,169 @@ const ImageViewer = (props: Props) => {
         }
     }
 
-    /* Function for deleting an annotation */
-    const RemoveAnnotation = (annotation: Dict) => {
-        /* First, confirm if the user wants to delete the annotation, otherwise rerender */
-        if (window.confirm(`Do you really want delete the annotation with id: ${annotation.id}`)) {
+    /* Function for validating Annotation value input */
+    const ValidateAnnotation = (values: Dict) => {
+        const errors: Dict = {};
+
+        if (!values.annotationValue) {
+            errors.annotationValue = "Empty annotations are not accepted";
+        }
+
+        return errors;
+    }
+
+    /* Function for removing an Annotation */
+    const RemoveAnnotation = () => {
+        /* Ask for user confirmation */
+        if (window.confirm(`Do you really want delete the annotation with id: ${selectedAnnotation.id}?`)) {
             /* Remove annotation */
-            DeleteAnnotation(annotation.id, KeycloakService.GetToken()).then(() => {
-                UpdateAnnotationsSource(annotation, true);
+            DeleteAnnotation(selectedAnnotation.id, KeycloakService.GetToken()).then(() => {
+                UpdateAnnotationsSource(selectedAnnotation, true);
             }).catch(error => {
                 console.warn(error);
             });
-        } else {
-            /* Redraw the annotation by triggering a rerender */
-            setRenderTrigger(true);
         }
     }
 
-    /* Function for updating annotations on Annotorious */
-    useEffect(() => {
-        /* If there are visual annotations present, calculate positions and redraw */
-        if (!isEmpty(digitalMediaAnnotations.visual) && annotorious && renderTrigger) {
-            const visualImageAnnotations = CalculateAnnotationPositions();
+    /* ClassNames */
+    const classEditBlock = classNames({
+        'd-none': !editAnnotation
+    });
 
-            annotorious.setAnnotations(visualImageAnnotations);
-
-            /* If delete trigger is active, set to false */
-            if (renderTrigger) {
-                setRenderTrigger(false);
-            }
-        }
-    }, [digitalMediaAnnotations, renderTrigger]);
-
-    /* Function for toggling the strict annotation mode */
-    // useEffect(() => {
-    //     if (annotoriousToggle) {
-    //         annotorious.setDrawingEnabled(true);
-    //     }
-    // }, [annotoriousToggle]);
+    const classInfoBlock = classNames({
+        'd-none': editAnnotation
+    });
 
     return (
-        <div id="openSeaDragon" style={{ width: '100%', height: '100%' }} />
+        <div className="w-100 h-100">
+            <OpenSeadragonAnnotator className="h-100"
+                keepEnabled={false}
+                tool={annotoriousMode}
+                pointerSelectAction={SelectAction}
+            >
+                <OpenSeadragonViewer className="openseadragon h-100"
+                    ref={viewerRef}
+                    options={OSDOptions}
+                />
+
+                <OpenSeadragonPopup
+                    popup={() => (
+                        <div className={styles.annotoriousPopUp}>
+                            <Row>
+                                <Col className="bgc-white px-3 py-2">
+                                    {/* Annotation values */}
+                                    <Row className={`${styles.annotoriousPopUpSection} pb-2`}>
+                                        <Col>
+                                            <div className={classEditBlock}>
+                                                <Formik
+                                                    initialValues={{
+                                                        annotationValue: (editAnnotation && editAnnotation.body.length) ?
+                                                            editAnnotation.body[0].value[0] : '',
+                                                    }}
+                                                    enableReinitialize={true}
+                                                    validate={ValidateAnnotation}
+                                                    onSubmit={async (form) => {
+                                                        await new Promise((resolve) => setTimeout(resolve, 500));
+
+                                                        /* Submit new Annotation */
+                                                        if (!selectedAnnotation.body.length) {
+                                                            /* Patch Annotation */
+                                                            SubmitAnnotation([form.annotationValue], 'insert');
+                                                        } else {
+                                                            /* Insert Annotation */
+                                                            SubmitAnnotation([form.annotationValue], 'patch')
+                                                        }
+                                                    }}
+                                                >
+                                                    {({ errors }) => (
+                                                        <Form>
+                                                            <Row>
+                                                                <Col>
+                                                                    <Field name="annotationValue"
+                                                                        type="text"
+                                                                        innerRef={tooltipFieldRef}
+                                                                        className="w-100 formField fs-4 py-1"
+                                                                    />
+
+                                                                    {errors.annotationValue &&
+                                                                        <p className="fs-5 c-denied mt-2">
+                                                                            {errors.annotationValue as string}
+                                                                        </p>
+                                                                    }
+                                                                </Col>
+                                                                <Col className="col-md-auto ps-0">
+                                                                    <button type="submit"
+                                                                        className="secondaryButton fs-4 px-3"
+                                                                    >
+                                                                        Save
+                                                                    </button>
+                                                                </Col>
+                                                            </Row>
+                                                        </Form>
+                                                    )}
+                                                </Formik>
+                                            </div>
+
+                                            <div className={classInfoBlock}>
+                                                <Row>
+                                                    <Col>
+                                                        <p className="fs-4">
+                                                            {(selectedAnnotation && selectedAnnotation.body.length) ?
+                                                                selectedAnnotation.body[0].value[0] : ''
+                                                            }
+                                                        </p>
+                                                    </Col>
+                                                    {(KeycloakService.IsLoggedIn() && selectedAnnotation && selectedAnnotation.body.length
+                                                        && KeycloakService.GetSubject() === selectedAnnotation.body[0].creator.id) &&
+                                                        <>
+                                                            <Col className="col-md-auto">
+                                                                <FontAwesomeIcon icon={faPencil}
+                                                                    className="c-pointer"
+                                                                    onClick={() => setEditAnnotation(selectedAnnotation)}
+                                                                />
+                                                            </Col>
+                                                            <Col className="col-md-auto ps-0">
+                                                                <FontAwesomeIcon icon={faTrashCan}
+                                                                    className="c-pointer"
+                                                                    onClick={() => RemoveAnnotation()}
+                                                                />
+                                                            </Col>
+                                                        </>
+                                                    }
+                                                </Row>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    {/* Close button */}
+                                    <Row className="mt-3">
+                                        <Col className="d-flex justify-content-end">
+                                            <button type="button"
+                                                className="primaryButton fs-4 px-3"
+                                                onClick={() => {
+                                                    if (!selectedAnnotation.body.length) {
+                                                        /* Remove when annotation was left empty */
+                                                        RefreshAnnotations();
+                                                    }
+
+                                                    setSelectedAnnotation(null);
+
+                                                    anno.state.selection.clear();
+                                                }}
+                                            >
+                                                {selectedAnnotation ?
+                                                    <span> Close </span>
+                                                    : <span> Cancel </span>
+                                                }
+                                            </button>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </div>
+                    )}
+                />
+            </OpenSeadragonAnnotator>
+        </div>
     );
 }
 

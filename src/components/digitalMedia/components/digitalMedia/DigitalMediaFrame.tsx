@@ -9,8 +9,7 @@ import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 import { Annotation } from 'global/Types';
 
 /* Import Components */
-// import ImageViewer from 'components/general/mediaTypes/ImageViewer';
-import ImageViewer from '../annotate/ImageViewer';
+import ImageViewer from 'components/general/mediaTypes/ImageViewer';
 import Video from 'components/general/mediaTypes/Video';
 import Audio from 'components/general/mediaTypes/Audio';
 import File from 'components/general/mediaTypes/File';

@@ -288,7 +288,7 @@ const DigitalMedia = () => {
                                                                         if (annotoriousMode === 'cursor') {
                                                                             dispatch(setAnnotoriousMode('rectangle'))
                                                                         } else {
-                                                                            dispatch(setAnnotoriousMode('rectangle'))}
+                                                                            dispatch(setAnnotoriousMode('cursor'))}
                                                                         }
                                                                     }
                                                                 >

@@ -21,7 +21,7 @@ interface Props {
     selectedAnnotation: ImageAnnotation,
     editAnnotation: ImageAnnotation,
     tooltipFieldRef: any,
-    anno: any,
+    annotorious: any,
 
     RefreshAnnotations: Function,
     SubmitAnnotation: Function,
@@ -32,7 +32,7 @@ interface Props {
 
 
 const ImagePopup = (props: Props) => {
-    const { selectedAnnotation, editAnnotation, tooltipFieldRef, anno,
+    const { selectedAnnotation, editAnnotation, tooltipFieldRef, annotorious,
         RefreshAnnotations, SubmitAnnotation, SetSelectedAnnotation, SetEditAnnotation, RemoveAnnotation } = props;
 
     /* Function for validating Annotation value input */
@@ -155,7 +155,7 @@ const ImagePopup = (props: Props) => {
 
                                     SetSelectedAnnotation(null);
 
-                                    anno.state.selection.clear();
+                                    annotorious.state.selection.clear();
                                 }}
                             >
                                 {selectedAnnotation ?

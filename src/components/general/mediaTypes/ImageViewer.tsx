@@ -41,7 +41,7 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const anno = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
+    const annotorious = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
     const viewerRef = useRef<OpenSeadragon.Viewer>(null);
     const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
@@ -87,22 +87,23 @@ const ImageViewer = (props: Props) => {
 
     /* Function for handling Annotorious */
     useEffect(() => {
-        if (anno && image) {
-            const annotoriousAnnotations = anno.getAnnotations();
+        if (annotorious && image) {
+            const annotoriousAnnotations = annotorious.getAnnotations();
 
             if (!annotoriousAnnotations.length) {
                 RefreshAnnotations();
             }
 
             /* Event for when selecting or deselecting an Annotation */
-            anno.on('selectionChanged', (w3cAnnotations: ImageAnnotation[]) => {
-                const selected: boolean = anno.state.selection.isSelected(w3cAnnotations[0]);
+            annotorious.on('selectionChanged', (w3cAnnotations: ImageAnnotation[]) => {
+                const selected: boolean = annotorious.state.selection.isSelected(w3cAnnotations[0]);
 
                 if (selected) {
                     /* Set selected annotation */
                     setSelectedAnnotation(w3cAnnotations[0]);
                 } else {
-                    if ((digitalMediaAnnotations.visual.length && anno.getAnnotations().length) && anno.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
+                    if ((digitalMediaAnnotations.visual.length && annotorious.getAnnotations().length)
+                        && annotorious.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
                         RefreshAnnotations();
                     }
 
@@ -113,7 +114,7 @@ const ImageViewer = (props: Props) => {
             });
 
             /* Event for when creating an Annotation */
-            anno.on('createAnnotation', (w3cAnnotation: ImageAnnotation) => {
+            annotorious.on('createAnnotation', (w3cAnnotation: ImageAnnotation) => {
                 /* Return to cursor tool */
                 dispatch(setAnnotoriousMode('cursor'));
 
@@ -127,12 +128,12 @@ const ImageViewer = (props: Props) => {
             });
 
             /* Event for when an Annotatio has been edited */
-            anno.on('updateAnnotation', (W3cAnnotation: ImageAnnotation) => {
+            annotorious.on('updateAnnotation', (W3cAnnotation: ImageAnnotation) => {
                 /* Set new edit target */
                 setEditAnnotation(W3cAnnotation);
             });
         }
-    }, [anno, image]);
+    }, [annotorious, image]);
 
     /* Function for refreshing annotations on Annotorious layer */
     const RefreshAnnotations = () => {
@@ -140,14 +141,14 @@ const ImageViewer = (props: Props) => {
         if (!isEmpty(digitalMediaAnnotations.visual)) {
             const visualImageAnnotations = CalculateAnnotationPositions();
 
-            anno.setAnnotations(visualImageAnnotations);
+            annotorious.setAnnotations(visualImageAnnotations);
         } else {
-            anno.setAnnotations([]);
+            annotorious.setAnnotations([]);
         }
     }
 
     useEffect(() => {
-        if (anno) {
+        if (annotorious) {
             RefreshAnnotations();
         }
     }, [digitalMediaAnnotations]);
@@ -285,7 +286,7 @@ const ImageViewer = (props: Props) => {
     const tooltip = <ImagePopup selectedAnnotation={selectedAnnotation}
         editAnnotation={editAnnotation}
         tooltipFieldRef={tooltipFieldRef}
-        anno={anno}
+        annotorious={annotorious}
 
         RefreshAnnotations={() => RefreshAnnotations()}
         SubmitAnnotation={(values: string[], method: string) => SubmitAnnotation(values, method)}

@@ -149,6 +149,10 @@ p {
   color: #404040;
 }
 
+.c-denied {
+  color: var(--denied);
+}
+
 /* Font Weight */
 .fw-lightBold {
   font-weight: 500;
@@ -282,6 +286,10 @@ p {
   font-weight: 500;
 }
 
+.primaryButton.active {
+  background-color: var(--accent);
+}
+
 .primaryButton:hover {
   background-color: var(--accent);
 }
@@ -402,7 +410,6 @@ p {
 }
 
 /* Bootstrap class overwrite */
-
 li.page-item.active .page-link {
   background-color: var(--secondary);
   border: none;
@@ -421,6 +428,15 @@ li.page-item.active .page-link {
 .dropdown-toggle:hover {
   background-color: white !important;
   border: 1px solid var(--secondary) !important;
+}
+
+/* Annotorious class overwrite */
+.a9s-annotationlayer {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 

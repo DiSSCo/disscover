@@ -40,7 +40,7 @@ const DOITooltipDemo = (props: Props) => {
     /* Function for fetching DOI details */
     const TriggerTooltip = async () => {
         try {
-            const response = await fetch(`https://dev.dissco.tech/handle-manager/api/v1/pids/${doi}`);
+            const response = await fetch(`https://dev.dissco.tech/handle-manager/api/v1/pids/${doi.replace('https://doi.org/', '')}`);
             const record = await response.json();
 
             if (record.data) {

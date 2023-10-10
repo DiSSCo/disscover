@@ -15,7 +15,7 @@ interface Props {
 };
 
 
-const IIIFView = (props: Props) => {
+const IIIFViewer = (props: Props) => {
     const { mediaUrl } = props;
 
     /* Base Variables */
@@ -114,4 +114,4 @@ const IIIFView = (props: Props) => {
     );
 }
 
-export default IIIFView;
+export default IIIFViewer;

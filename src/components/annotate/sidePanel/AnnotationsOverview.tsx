@@ -18,9 +18,14 @@ import annotationMotivationsSource from 'sources/annotationMotivations.json';
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
 
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+
 /* Import Components */
 import Annotation from './Annotation';
 import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
+import Tooltip from 'components/general/tooltip/Tooltip';
 
 
 /* Props Typing */
@@ -98,7 +103,13 @@ const AnnotationsOverview = (props: Props) => {
                     {/* Filters and sorting */}
                     <Row className="sidePanelFilters mt-4">
                         <Col>
-                            <p className="fw-lightBold pb-2"> Motivation type </p>
+                            <p className="fw-lightBold pb-2"> Annotation type
+                                <Tooltip text="Reason for creating an annotation" placement="top">
+                                    <span className="ms-2">
+                                        <FontAwesomeIcon icon={faInfoCircle} />
+                                    </span>
+                                </Tooltip>
+                            </p>
 
                             <ActionsDropdown value={motivationFilter}
                                 actions={motivationActions}

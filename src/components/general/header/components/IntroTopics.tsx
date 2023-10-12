@@ -13,19 +13,16 @@ import { Dict } from 'global/Types';
 /* Import Styles */
 import styles from '../header.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
-
 
 /* Props Typing */
 interface Props {
-    introTopics: {intro: string, title: string}[]
+    introTopics: { intro: string, title: string }[],
+    ToggleCollapseMenu?: Function
 };
 
 
 const IntroTopics = (props: Props) => {
-    const { introTopics } = props;
+    const { introTopics, ToggleCollapseMenu } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -39,6 +36,7 @@ const IntroTopics = (props: Props) => {
         'd-none': !dropdown
     });
 
+    /* Hook for toggling the intro topic dropdown */
     const UseDropdown = () => {
         useEffect(() => {
             const dropdownElement = dropdownRef.current as HTMLDivElement;
@@ -62,17 +60,31 @@ const IntroTopics = (props: Props) => {
     if (introTopics.length > 1) {
         UseDropdown();
     }
+    
+    /* Function for when clicked on the 'take a tour' button */
+    const TakeATour = () => {
+        if (introTopics.length > 1) {
+            setDropdown(true);
+        } else {
+            dispatch(setIntroTopic(introTopics[0].intro));
+
+            if (ToggleCollapseMenu) {
+                ToggleCollapseMenu();
+            }
+        }
+    }
 
     return (
         <div className="position-relative">
-            <FontAwesomeIcon icon={faCompass}
-                className="c-pointer"
-                onClick={() => introTopics.length > 1 ? setDropdown(true) : dispatch(setIntroTopic(introTopics[0].intro))}
-            />
+            <button type="button" className="primaryButton px-2 py-1"
+                onClick={() => TakeATour()}
+            >
+                Take a tour
+            </button>
 
             {/* Intro Topic options, if there are multiple options */}
             {introTopics.length > 1 &&
-                <div className={`${styles.introTopics} ${activeClass} position-absolute bg-white rounded mt-2`}
+                <div className={`${styles.introTopics} ${activeClass} b-primary position-absolute bg-white rounded mt-2`}
                     ref={dropdownRef}
                 >
                     {introTopics.map((introTopic) => {
@@ -81,6 +93,10 @@ const IntroTopics = (props: Props) => {
                                 onClick={() => {
                                     dispatch(setIntroTopic(introTopic.intro));
                                     setDropdown(false);
+
+                                    if (ToggleCollapseMenu) {
+                                        ToggleCollapseMenu();
+                                    }
                                 }}
                             >
                                 <p> {Capitalize(introTopic.title)} </p>

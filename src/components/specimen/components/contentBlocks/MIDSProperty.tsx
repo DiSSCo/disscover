@@ -1,9 +1,6 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Styles */
-import styles from 'components/specimen/specimen.module.scss';
-
 
 /* Props Typing */
 interface Props {
@@ -17,7 +14,7 @@ const MIDSProperty = (props: Props) => {
     return (
         <Row className="pb-3">
             <Col>
-                <div className={`${styles.midsProperty} rounded-c p-2`}>
+                <div className="b-primary rounded-c p-2">
                     {property}
                 </div>
             </Col>

@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
@@ -25,6 +26,7 @@ import GetUserAnnotations from 'api/user/GetUserAnnotations';
 const AnnotationsOverview = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     /* Base variables */
     const userAnnotations = useAppSelector(getUserProfileAnnotations);
@@ -36,6 +38,7 @@ const AnnotationsOverview = () => {
     interface DataRow {
         index: number,
         id: string,
+        target: Dict,
         property: string,
         motivation: string,
         annotationValue: string
@@ -89,6 +92,7 @@ const AnnotationsOverview = () => {
             tableData.push({
                 index: index,
                 id: annotation.id,
+                target: annotation.target,
                 property: annotation.target.indvProp,
                 motivation: annotation.motivation,
                 annotationValue: annotationValue
@@ -98,30 +102,68 @@ const AnnotationsOverview = () => {
         setTableData(tableData);
     }, [userAnnotations]);
 
+    /* Custom styles for Data Table */
+    const customStyles = {
+        head: {
+            style: {
+                color: 'white',
+                fontSize: '14px'
+            }
+        },
+        headRow: {
+            style: {
+                backgroundColor: '#51a993'
+            }
+        },
+        rows: {
+            style: {
+                minHeight: '40px'
+            },
+            highlightOnHoverStyle: {
+                backgroundColor: '#98cdbf',
+            },
+            stripedStyle: {
+                backgroundColor: '#eef7f4'
+            }
+        }
+    };
+
     return (
         <Row className="h-100">
-            <Col className="h-100 px-4">
-                <Row className={styles.annotationsTable}>
-                    <Col>
-                        <DataTable
-                            columns={tableColumns}
-                            data={tableData}
+            <Col className="h-100">
+                <div className="h-100 d-flex flex-column">
+                    <Row className={`${styles.annotationsTable} flex-grow-1 pb-2`}>
+                        <Col className="h-100">
+                            <div className="h-100 overflow-scroll b-secondary rounded-c">
+                                <DataTable
+                                    columns={tableColumns}
+                                    data={tableData}
+                                    customStyles={customStyles}
+                                    onRowClicked={(row) => {
+                                        if (row.target.type === 'digital_specimen') {
+                                            navigate(`/ds/${row.target.id.replace('https://hdl.handle.net/', '')}`);
+                                        } else if (row.target.type === 'digital_media') {
+                                            navigate(`/dm/${row.target.id.replace('https://hdl.handle.net/', '')}`);
+                                        }
+                                    }}
 
-                            striped
-                            highlightOnHover
-                            pointerOnHover
-                        />
-                    </Col>
-                </Row>
-                <Row className={`${styles.annotationsTablePaginator} justify-content-center`}>
-                    <Col className="col-md-auto">
-                        <Paginator pageNumber={pageNumber}
-                            links={paginatorLinks}
+                                    striped
+                                    highlightOnHover
+                                    pointerOnHover
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className={`justify-content-center`}>
+                        <Col className="col-md-auto">
+                            <Paginator pageNumber={pageNumber}
+                                links={paginatorLinks}
 
-                            SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
-                        />
-                    </Col>
-                </Row>
+                                SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                            />
+                        </Col>
+                    </Row>
+                </div>
             </Col>
         </Row>
     );

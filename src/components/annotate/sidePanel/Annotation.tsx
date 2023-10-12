@@ -65,7 +65,10 @@ const Annotation = (props: Props) => {
     /* Set User Tag */
     useEffect(() => {
         if (annotation.creator === KeycloakService.GetSubject()) {
-            setUserTag(`${user.firstName} ${user.lastName} (you)`);
+            const firstName = user.firstName ?? user.id;
+            const lastName = user.lastName ?? '';
+
+            setUserTag(`${firstName} ${lastName} (you)`);
         } else {
             GetUser(annotation.creator).then((user) => {
                 if (!isEmpty(user)) {
@@ -113,7 +116,7 @@ const Annotation = (props: Props) => {
     return (
         <Row className="mb-3">
             <Col>
-                <div className={`${styles.sidePanelAnnotation} px-3 py-2`} ref={annotationRef}>
+                <div className={`${styles.sidePanelAnnotation} bgc-white fs-4 rounded-c transition px-3 py-2`} ref={annotationRef}>
                     {/* Creator and date */}
                     <Row>
                         <Col>

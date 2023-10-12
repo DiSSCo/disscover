@@ -8,18 +8,24 @@ import { PaginationObject } from 'global/Types';
 
 export interface GeneralState {
     screenSize: string,
-    errorMessage: string;
+    promptMessages: {
+        key: string,
+        message: string,
+        template?: string
+    }[];
     language: string;
     introTopic: string;
     paginationObject: PaginationObject;
+    annotoriousMode: string;
 };
 
 const initialState: GeneralState = {
     screenSize: 'lg',
-    errorMessage: '',
+    promptMessages: [],
     language: 'EN',
     introTopic: '',
-    paginationObject: {} as PaginationObject
+    paginationObject: {} as PaginationObject,
+    annotoriousMode: 'cursor'
 };
 
 export const GeneralSlice = createSlice({
@@ -29,8 +35,14 @@ export const GeneralSlice = createSlice({
         setScreenSize: (state, action: PayloadAction<string>) => {
             state.screenSize = action.payload;
         },
-        setErrorMessage: (state, action: PayloadAction<string>) => {
-            state.errorMessage = action.payload;
+        setPromptMessages: (state, action: PayloadAction<{ key: string, message: string, template?: string }[]>) => {
+            state.promptMessages = action.payload;
+        },
+        pushToPromptMessages: (state, action: PayloadAction<{ key: string, message: string, template?: string }>) => {
+            state.promptMessages.push(action.payload);
+        },
+        removeFromPromptMessages: (state, action: PayloadAction<{ key: string, message: string, template?: string }>) => {
+            state.promptMessages.splice(state.promptMessages.findIndex(promptMessage => promptMessage.key === action.payload.key), 1);
         },
         setLanguage: (state, action: PayloadAction<string>) => {
             state.language = action.payload;
@@ -40,6 +52,9 @@ export const GeneralSlice = createSlice({
         },
         setPaginationObject: (state, action: PayloadAction<PaginationObject>) => {
             state.paginationObject = action.payload;
+        },
+        setAnnotoriousMode: (state, action: PayloadAction<string>) => {
+            state.annotoriousMode = action.payload;
         }
     },
 })
@@ -47,17 +62,21 @@ export const GeneralSlice = createSlice({
 /* Action Creators */
 export const {
     setScreenSize,
-    setErrorMessage,
+    setPromptMessages,
+    pushToPromptMessages,
+    removeFromPromptMessages,
     setLanguage,
     setIntroTopic,
-    setPaginationObject
+    setPaginationObject,
+    setAnnotoriousMode
 } = GeneralSlice.actions;
 
 /* Connect with Root State */
 export const getScreenSize = (state: RootState) => state.general.screenSize;
-export const getErrorMessage = (state: RootState) => state.general.errorMessage;
+export const getPromptMessages = (state: RootState) => state.general.promptMessages;
 export const getLanguage = (state: RootState) => state.general.language;
 export const getIntroTopic = (state: RootState) => state.general.introTopic;
 export const getPaginationObject = (state: RootState) => state.general.paginationObject;
+export const getAnnotoriousMode = (state: RootState) => state.general.annotoriousMode;
 
 export default GeneralSlice.reducer;

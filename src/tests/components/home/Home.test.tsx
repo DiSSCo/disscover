@@ -36,6 +36,6 @@ describe("Home Page Tests", () => {
             await waitFor(() => user.click(advancedSearchTrigger));            
         }
 
-        expect(screen.getByRole('advancedSearch')).toHaveClass('active');
+        expect(screen.getByRole('advancedSearch')).toHaveClass('position-absolute');
     });
 });

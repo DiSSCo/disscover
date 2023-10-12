@@ -3,9 +3,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames';
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Styles */
-import styles from 'components/home/home.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
@@ -28,12 +25,11 @@ const AdvancedSearch = (props: Props) => {
     
     /* Class Names for Tabs */
     const classTabsList = classNames({
-        [`${styles.tabsList}`]: true
+        "tabsList": true
     });
 
     const classTab = classNames({
-        'react-tabs__tab': true,
-        [`${styles.tab}`]: true
+        'react-tabs__tab tab mt-2': true,
     });
 
     return (
@@ -41,11 +37,11 @@ const AdvancedSearch = (props: Props) => {
             <Col className="pb-md-4">
                 <Row>
                     <Col>
-                        <h2 className={styles.advancedSearchTitle}> Search by ID or collection </h2>
+                        <h2 className="fs-3"> Search by ID or collection </h2>
                     </Col>
                     <Col className="col-md-auto">
                         <FontAwesomeIcon icon={faX}
-                            className={styles.advancedSearchCloseIcon}
+                            className="c-primary c-pointer"
                             onClick={() => HideAdvancedSearch()}
                         />
                     </Col>
@@ -54,10 +50,10 @@ const AdvancedSearch = (props: Props) => {
                 {/* Tabs with different Search options */}
                 <Tabs>
                     <TabList className={classTabsList}>
-                        <Tab className={classTab} selectedClassName={styles.active}> Digital Specimen ID  </Tab>
-                        <Tab className={classTab} selectedClassName={styles.active}> Physical Specimen ID </Tab>
-                        <Tab className={classTab} selectedClassName={styles.active}> Collection facility </Tab>
-                        <Tab className={classTab} selectedClassName={styles.active}> Virtual collection </Tab>
+                        <Tab className={classTab} selectedClassName="active"> Digital Specimen ID  </Tab>
+                        <Tab className={classTab} selectedClassName="active"> Physical Specimen ID </Tab>
+                        <Tab className={classTab} selectedClassName="active"> Collection facility </Tab>
+                        <Tab className={classTab} selectedClassName="active"> Virtual collection </Tab>
                     </TabList>
 
                     {/* Search by Digital Specimen */}

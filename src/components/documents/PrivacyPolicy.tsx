@@ -59,7 +59,7 @@ const PrivacyPolicy = () => {
                                             Darwinweg 2 <br />
                                             2333 CR Leiden <br />
                                             The Netherlands <br />
-                                            E-mail: hans.dautzenberg@naturalis.nl
+                                            E-mail: info@dissco.eu
                                         </p>
                                     </Col>
                                 </Row>

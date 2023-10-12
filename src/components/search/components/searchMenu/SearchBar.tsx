@@ -36,11 +36,11 @@ const SearchBar = () => {
                 SearchByQuery(form.q);
             }}
         >
-            <Form className={styles.searchBarBlock}>
+            <Form className="pb-3">
                 <Row>
                     <Col className="pe-2">
                         <Field type="text" name="q"
-                            className={`${styles.searchBar} w-100 px-2 py-1`}
+                            className={`${styles.searchBar} rounded-c w-100 px-2 py-1`}
                             placeholder="Iguanodon"
                         />
                     </Col>

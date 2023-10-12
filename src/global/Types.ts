@@ -74,7 +74,7 @@ export interface Specimen {
     type: string
 };
 
-export interface SpecimenDigitalMedia  {
+export interface SpecimenDigitalMedia {
     annotations: Annotation[],
     digitalMediaObject: DigitalMedia,
     created: Date
@@ -113,18 +113,30 @@ export interface Annotation {
     version: number,
     type: string,
     motivation: string,
+    body: {
+        type: string,
+        value?: string | [],
+        values?: string[],
+        description?: string,
+        basedOn?: string,
+        reference?: string,
+        purpose?: string
+    },
     target: {
         id: string,
         indvProp: string,
-        type: string
-    },
-    body: {
         type: string,
-        value: string | [],
-        values?: [],
-        description?: string,
-        basedOn?: string,
-        reference?: string
+        selector?: {
+            type: string,
+            value?: string,
+            conformsTo?: string,
+            hasROI?: {
+                "ac:xFrac": number,
+                "ac:yFrac": number,
+                "ac:widthFrac": number,
+                "ac:heightFrac": number
+            },
+        }
     },
     preferenceScore?: number,
     creator: string,
@@ -149,10 +161,34 @@ export interface AnnotationTemplate {
     },
     target: {
         id: string,
-        indvProp: string,
-        type: string
-    },
+        indvProp?: string,
+        type: string,
+    }
 };
+
+export interface ImageAnnotationTemplate {
+    type: string,
+    motivation: string,
+    body: {
+        type: string,
+        values: string[]
+    },
+    target: {
+        id: string,
+        type: string,
+        selector: {
+            type: string,
+            conformsTo: string,
+            hasROI: {
+                "ac:xFrac": number, 
+                "ac:yFrac": number,
+                "ac:widthFrac": number,
+                "ac:heightFrac": number
+            },
+            value?: string,
+        }
+    }
+}
 
 export interface AnnotateTarget {
     property: string,

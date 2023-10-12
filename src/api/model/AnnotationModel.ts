@@ -24,7 +24,21 @@ const AnnotationModel = (data: JSONResult['data']) => {
         target: {
             id: data.attributes.target.id,
             indvProp: data.attributes.target.indvProp,
-            type: data.attributes.target.type
+            type: data.attributes.target.type,
+            ...(data.attributes.target.selector && {
+                selector: {
+                    type: data.attributes.target.selector.type,
+                    ...(data.attributes.target.selector.conformsTo && {conformsTo: data.attributes.target.selector.conformsTo}),
+                    ...(data.attributes.target.selector.hasROI && {
+                        hasROI: {
+                            "ac:xFrac": data.attributes.target.selector.hasROI['ac:xFrac'],
+                            "ac:yFrac": data.attributes.target.selector.hasROI['ac:yFrac'],
+                            "ac:widthFrac": data.attributes.target.selector.hasROI['ac:widthFrac'],
+                            "ac:heightFrac": data.attributes.target.selector.hasROI['ac:heightFrac']
+                        }
+                    })
+                }
+            })
         },
         type: data.attributes.type,
         version: data.attributes.version

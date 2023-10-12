@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import classNames from 'classnames';
+import { RandomString } from 'global/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -17,13 +18,17 @@ import {
     setMASTarget, setAnnotateTarget,
     getSidePanelToggle, setSidePanelToggle
 } from 'redux/annotate/AnnotateSlice';
-import { setErrorMessage } from 'redux/general/GeneralSlice';
+import { pushToPromptMessages, getAnnotoriousMode, setAnnotoriousMode } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { DigitalMediaAnnotations, Annotation } from 'global/Types';
 
 /* Import Styles */
 import styles from './digitalMedia.module.scss';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVectorSquare } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
@@ -52,8 +57,9 @@ const DigitalMedia = () => {
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaVersions = useAppSelector(getDigitalMediaVersions);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
+    const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
-    const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
+    const [automatedAnnotationsToggle, setAutomatedAnnotationsToggle] = useState<boolean>(false);
 
     const digitalMediaActions = [
         { value: 'json', label: 'View JSON' },
@@ -107,7 +113,11 @@ const DigitalMedia = () => {
                 navigate(`/dm/${params.prefix}/${params.suffix}/${originalVersion}`)
 
                 /* Show Error Message */
-                dispatch(setErrorMessage(`The selected version: ${params.version}, of Digital Media could not be retrieved.`));
+                dispatch(pushToPromptMessages({
+                    key: RandomString(),
+                    message: `The selected version: ${params.version}, of Digital Media could not be retrieved.`,
+                    template: 'error'
+                }));
             });
         }
     }, [digitalMedia, params]);
@@ -116,7 +126,7 @@ const DigitalMedia = () => {
     const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`https://sandbox.dissco.tech/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
 
                 return;
             case 'sidePanel':
@@ -128,7 +138,7 @@ const DigitalMedia = () => {
                 dispatch(setMASTarget(digitalMedia));
 
                 /* Open MAS Modal */
-                setAutomatedAnnotationToggle(true);
+                setAutomatedAnnotationsToggle(true);
 
                 return;
             default:
@@ -139,11 +149,19 @@ const DigitalMedia = () => {
     /* Function for updating the Digital Media Annotations source */
     const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
         const copyDigitalMediaAnnotations = { ...digitalMediaAnnotations };
+        let indicator: string = '';
 
         /* Check if array for target property exists */
         if (annotation.target.indvProp in digitalMediaAnnotations) {
+            indicator = annotation.target.indvProp;
+        } else if (annotation.target.selector && (annotation.target.selector.hasROI || annotation.target.selector.value)) {
+            indicator = 'visual';
+        }
+
+        if (indicator in copyDigitalMediaAnnotations) {
             /* Push or patch to existing array */
-            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[annotation.target.indvProp]];
+            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[indicator]];
+
             const index = copyDigitalMediaTargetAnnotations.findIndex(
                 (annotationRecord) => annotationRecord.id === annotation.id
             );
@@ -158,10 +176,10 @@ const DigitalMedia = () => {
                 copyDigitalMediaTargetAnnotations.push(annotation);
             }
 
-            copyDigitalMediaAnnotations[annotation.target.indvProp] = copyDigitalMediaTargetAnnotations;
+            copyDigitalMediaAnnotations[indicator] = copyDigitalMediaTargetAnnotations;
         } else {
             /* Create into new array */
-            copyDigitalMediaAnnotations[annotation.target.indvProp] = [annotation];
+            copyDigitalMediaAnnotations[indicator] = [annotation];
         }
 
         dispatch(setDigitalMediaAnnotations(copyDigitalMediaAnnotations));
@@ -215,6 +233,11 @@ const DigitalMedia = () => {
         'col-md-8': sidePanelToggle
     });
 
+    const classImageAnnotateButton = classNames({
+        'primaryButton px-3 py-2 d-flex align-items-center': true,
+        'active': annotoriousMode === 'rectangle'
+    });
+
     return (
         <div className="d-flex flex-column min-vh-100 overflow-hidden">
             <Row>
@@ -244,6 +267,26 @@ const DigitalMedia = () => {
                                                             />
                                                         </Col>
                                                         <Col />
+                                                        {(digitalMedia.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
+                                                            <Col className="col-md-auto pe-0">
+                                                                <button type="button"
+                                                                    className={classImageAnnotateButton}
+                                                                    onClick={() => {
+                                                                        if (annotoriousMode === 'cursor') {
+                                                                            dispatch(setAnnotoriousMode('rectangle'))
+                                                                        } else {
+                                                                            dispatch(setAnnotoriousMode('cursor'))
+                                                                        }
+                                                                    }
+                                                                    }
+                                                                >
+                                                                    <FontAwesomeIcon icon={faVectorSquare}
+                                                                        className="fs-3"
+                                                                    />
+                                                                    <span className="fs-4 ms-2"> Make annotation </span>
+                                                                </button>
+                                                            </Col>
+                                                        }
                                                         <Col className="col-md-auto">
                                                             <ActionsDropdown actions={digitalMediaActions}
                                                                 Actions={(action: string) => DigitalMediaActions(action)}
@@ -252,7 +295,9 @@ const DigitalMedia = () => {
                                                     </Row>
                                                     <Row className="flex-grow-1 overflow-hidden mt-3">
                                                         <Col className="h-100 pb-2">
-                                                            <DigitalMediaFrame />
+                                                            <DigitalMediaFrame
+                                                                UpdateAnnotationsSource={(annotation: Annotation, remove: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                                                            />
                                                         </Col>
                                                     </Row>
                                                     <Row className={styles.digitalMediaListBlock}>
@@ -268,14 +313,14 @@ const DigitalMedia = () => {
                             </Row>
                         </Container >
                     }
-                    
+
                     <Footer />
                 </Col>
 
                 {/* Annotation Tools */}
                 <AnnotationTools sidePanelToggle={sidePanelToggle}
                     automatedAnnotationsToggle={automatedAnnotationsToggle}
-                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                    SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationsToggle(toggle)}
                     ShowWithAnnotations={() => ShowWithAnnotations()}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                     RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}

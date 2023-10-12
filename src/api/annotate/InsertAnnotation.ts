@@ -6,10 +6,10 @@ import { isEmpty } from 'lodash';
 import AnnotationModel from 'api/model/AnnotationModel';
 
 /* Import Types */
-import { Annotation, AnnotationTemplate, JSONResult } from 'global/Types';
+import { Annotation, AnnotationTemplate, ImageAnnotationTemplate, JSONResult } from 'global/Types';
 
 
-const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: string) => {
+const InsertAnnotation = async (annotationRecord: AnnotationTemplate | ImageAnnotationTemplate, token?: string) => {
     let annotation = {} as Annotation;
 
     if (!isEmpty(annotationRecord) && token) {
@@ -18,7 +18,7 @@ const InsertAnnotation = async (annotationRecord: AnnotationTemplate, token?: st
                 type: 'annotation',
                 attributes: annotationRecord
             }
-        };
+        }; 
 
         const endPoint = '/annotations';
 

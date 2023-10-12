@@ -2,17 +2,16 @@
 import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
+import { RandomString } from 'global/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { pushToPromptMessages } from 'redux/general/GeneralSlice';
 import { getMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Dict } from 'global/Types';
-
-/* Import Styles */
-import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,6 +33,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
     const { availableMASList, HideAutomatedAnnotationsModal } = props;
 
     /* Hooks */
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
     /* Base variables */
@@ -54,15 +54,23 @@ const AutomatedAnnotationsForm = (props: Props) => {
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
             ScheduleSpecimenMAS(target.id, MASRecord, KeycloakService.GetToken()).then((specimenMAS) => {
-                /* Do something when the machine annotation service finishes */
-                console.log(specimenMAS);
+                /* Prompt the user the Machine Annotation Service is scheduled */
+                dispatch(pushToPromptMessages({
+                    key: RandomString(),
+                    message: 'Machine Annotation Service, committed successfully!',
+                    template: 'success'
+                }))
             }).catch(error => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
             ScheduleDigitalMediaMAS(target.id, MASRecord, KeycloakService.GetToken()).then((digitalMediaMAS) => {
-                /* Do something when the machine annotation service finishes */
-                console.log(digitalMediaMAS);
+                /* Prompt the user the Machine Annotation Service is scheduled */
+                dispatch(pushToPromptMessages({
+                    key: RandomString(),
+                    message: 'Machine Annotation Service, committed successfully!',
+                    template: 'success'
+                }))
             }).catch(error => {
                 console.warn(error);
             });
@@ -94,7 +102,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                 {/* Machine Annotation Services explanation */}
                                 <Row>
                                     <Col>
-                                        <div className={`${styles.automatedAnnotationsDescription} bgc-greyLight px-3 py-2`}>
+                                        <div className="fs-4 bgc-greyLight px-3 py-2">
                                             Machine Annotation Services (MAS) are automated services that can be deployed upon different objects like
                                             specimens and images. The services have the general purpose of enriching the object data by running
                                             different algorithms or AI over the data to detect certain kind of traits. The identified traits will be treated
@@ -143,7 +151,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
                                                                 return (
                                                                     <div key={MASid}
-                                                                        className={`${styles.automatedAnnotationsSelectedBlock} px-3 py-2`}
+                                                                        className="b-primary rounded-c px-3 py-2"
                                                                     >
                                                                         <Row>
                                                                             <Col>
@@ -159,7 +167,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                                         </Row>
                                                                         <Row>
                                                                             <Col md={{ span: 8 }}>
-                                                                                <p className={styles.automatedAnnotationsDescription}>
+                                                                                <p className="fs-4">
                                                                                     {MAS.attributes.mas.serviceDescription}
                                                                                 </p>
                                                                             </Col>

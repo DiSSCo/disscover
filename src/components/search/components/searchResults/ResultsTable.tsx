@@ -13,9 +13,6 @@ import {
 /* Import Types */
 import { Specimen } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Components */
 import ColumnLink from './ColumnLink';
 import ScientificName from 'components/general/nomenclatural/ScientificName';
@@ -241,7 +238,7 @@ const ResultsTable = (props: Props) => {
     }, [searchResults, compareSpecimens]);
 
     return (
-        <div className={`${styles.table} h-100 overflow-auto position-relative`}>
+        <div className="h-100 overflow-auto position-relative b-secondary rounded-c">
             <DataTable
                 columns={tableColumns}
                 data={tableData}

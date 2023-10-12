@@ -11,6 +11,7 @@ import { Specimen, JSONResultArray, Dict } from 'global/Types';
 const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
     let recentSpecimens = [] as Specimen[];
     let links: Dict = {};
+    let meta: Dict = {};
     let totalRecords: number = 0;
 
     const endPoint = "/specimens"
@@ -30,6 +31,10 @@ const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
         const data: JSONResultArray = result.data;
         links = data.links;
 
+        if (data.meta) {
+            meta = data.meta;
+        }
+
         data.data.forEach((dataRow) => {
             const specimen = SpecimenModel(dataRow);
 
@@ -42,7 +47,7 @@ const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
     return {
         specimens: recentSpecimens,
         links: links,
-        totalRecords: totalRecords
+        meta: meta
     };
 }
 

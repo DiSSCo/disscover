@@ -75,7 +75,7 @@ const CollectionFacilitySearch = () => {
                                 <Row className="mt-1">
                                     <Col>
                                         <Field name="idType" as="select"
-                                            className={`${styles.searchBar} w-100`}
+                                            className={`${styles.searchBar} rounded-full w-100 px-3`}
                                         >
                                             <option value="local" label="Local Name" />
                                         </Field>
@@ -94,7 +94,7 @@ const CollectionFacilitySearch = () => {
                                 <Row className="mt-1">
                                     <Col>
                                         <Field name="organisationId" as="select"
-                                            className={`${styles.searchBar} w-100`}
+                                            className={`${styles.searchBar} rounded-full w-100 px-3`}
                                         >
                                             <option value="" label="Choose an Organisation" disabled />
 

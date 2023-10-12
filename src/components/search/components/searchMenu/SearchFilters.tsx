@@ -107,7 +107,7 @@ const SearchFilters = (props: Props) => {
     return (
         <Row className="h-100 pb-2">
             <Col className="h-100">
-                <div className={`${styles.searchMenu} h-100 d-flex flex-column px-2`}>
+                <div className={`${styles.searchMenu} h-100 rounded-c d-flex flex-column px-2`}>
                     {(!isEmpty(aggregations)) &&
                         <Formik
                             initialValues={{
@@ -137,7 +137,7 @@ const SearchFilters = (props: Props) => {
                                                 </Col>
                                                 <Col className="col-md-auto">
                                                     <FontAwesomeIcon icon={faChevronLeft}
-                                                        className={`${styles.filtersCloseIcon} c-primary`}
+                                                        className="c-primary c-pointer"
                                                         onClick={() => HideFilters()}
                                                     />
                                                 </Col>
@@ -145,7 +145,7 @@ const SearchFilters = (props: Props) => {
                                             {/* Active Filters */}
                                             {!isEmpty(activeFilters) &&
                                                 <Row className="mt-3 px-2">
-                                                    <p className={`${styles.filterTitle} fw-lightBold pb-2`}> Active filters </p>
+                                                    <p className="fs-4 fw-lightBold pb-2"> Active filters </p>
 
                                                     {Object.keys(activeFilters).map((filterKey) => {
                                                         return (

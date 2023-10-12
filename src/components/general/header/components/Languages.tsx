@@ -41,7 +41,7 @@ const Languages = () => {
                         <Form>
                             <Field name="language" as="select"
                                 onChange={(event: React.FormEvent<HTMLSelectElement>) => {handleChange(event); submitForm();}}
-                                className={styles.languagesSelect}
+                                className={`${styles.languagesSelect} border-0`}
                             >
                                 {languages.map((language) => {
                                     return (

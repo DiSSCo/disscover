@@ -1,38 +1,11 @@
 /* Custom styling for Home page */
 
+/* Generic */
 .content {
     margin-top: 80px;
-    height: Calc(100vh - 140px);
 }
 
-/* First main section of Home Page, relative to height of screen */
-.mainBackground {
-    position: absolute;
-    height: 100vh;
-    width: 100%;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-}
-
-.mainDiv {
-    height: 100vh;
-}
-
-/* Specimen Type Filter */
-.specimenTypeHead {
-    font-size: 22px;
-    color: var(--primary);
-}
-
-.specimenTypeSubHead {
-    font-size: 18px;
-    color: var(--secondary);
-    font-weight: 500;
-}
-
+/* Topic Discipine Filters */
 .specimenTypeBlock {
     background-color: #bfedf2;
     border-radius: 12px;
@@ -43,17 +16,6 @@
 
 .specimenTypeBlock:hover {
     background-color: #95e1e9;
-}
-
-.specimenTypeTitle {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.specimenTypeSubTitle {
-    font-size: 14px;
-    color: var(--secondary);
-    font-weight: 500;
 }
 
 .specimenTypeCheckbox {
@@ -90,11 +52,6 @@
     background-color: #81cab8;
 }
 
-.specimenTypeSpecialTitle {
-    font-size: 20px;
-    font-weight: 500;
-}
-
 .specimenTypeSpecialSubTitle {
     font-size: 14px;
 }
@@ -112,29 +69,10 @@
     padding: 10px;
 }
 
-.specimenTypeSelectAllText {
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--secondary);
-    cursor: pointer;
-}
-
-/* Intro Text */
-.introTitle {
-    color: var(--primary);
-}
-
-.introText {
-    color: var(--primary);
-    font-size: 18px;
-}
-
-/* Search Bars */
+/* Global Search Bar */
 .searchBar {
     height: 40px;
     border-color: var(--grey);
-    border-radius: 999px;
-    padding: 0px 2% 0px 2%;
 }
 
 .searchBar::placeholder {
@@ -143,79 +81,17 @@
 }
 
 /* Advanced Search */
-
-.advancedSearchToggle {
-    display: inline-block;
-    font-size: 16px;
-    color: var(--accent);
-    font-weight: 500;
-    cursor: pointer;
-    margin: 0;
-}
-
 .advancedSearchToggle:after {
     display: block;
     content: '';
     border-bottom: solid 3px var(--accent);
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
-    transform-origin:  0% 50%;
+    transform-origin: 0% 50%;
 }
 
 .advancedSearchToggle:hover:after {
     transform: scaleX(1);
-}
-
-.advancedSearch {
-    opacity: 0;
-    transition: 0.4s;
-    z-index: -1;
-    top: 100%;
-}
-
-.advancedSearch.active {
-    opacity: 1;
-    z-index: 1;
-    top: 0;
-}
-
-.advancedToggled {
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.advancedToggled.active {
-    opacity: 1
-}
-
-.advancedSearchTitle {
-    font-size: 18px;
-    font-weight: 500;
-}
-
-.advancedSearchCloseIcon {
-    color: var(--primary);
-    cursor: pointer;
-}
-
-.tabsList {
-    padding: 0;
-}
-
-.tab {
-    background-color: #E6E2F1;
-    border-radius: 999px;
-    font-size: 15px;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-right: 1%;
-    margin-top: 1%;
-}
-
-.tab.active {
-    background-color: var(--primary);
-    color: white;
-    font-weight: bold;
 }
 
 .notFound {

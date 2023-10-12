@@ -6,9 +6,6 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getScreenSize } from 'redux/general/GeneralSlice';
 
-/* Import Styles */
-import styles from 'components/home/home.module.scss';
-
 
 const Title = () => {
     /* Base variables */
@@ -16,16 +13,15 @@ const Title = () => {
 
     /* Class Name for Title */
     const classTitle = classNames({
-        [`${styles.introTitle}`]: true,
+        'fs-1 c-primary fw-bold': true,
         'h3': screenSize !== 'lg'
     });
 
     return (
         <Row>
-            <Col lg={{ span: 8 }}>
-                <h1 className={`${classTitle} fw-bold`}>
-                    Annotate specimens
-                    and contribute to science
+            <Col>
+                <h1 className={`${classTitle}`}>
+                    Annotate specimens and <br /> contribute to science
                 </h1>
             </Col>
         </Row>

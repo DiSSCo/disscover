@@ -1,5 +1,6 @@
 /* Custom styling for Header Component */
 
+/* Generic */
 .header {
     height: 80px;
 }
@@ -10,19 +11,12 @@
     top: 0;
 }
 
-.title {
-    color: var(--primary)
-}
-
 /* Navigation */
 .navItem {
-    font-size: 17px;
     border-bottom: 2px solid #F9FAFC;
-    cursor: pointer;
 }
 
 .navItemActive {
-    font-size: 17px;
     border-bottom: 2px solid var(--secondary);
 }
 
@@ -44,7 +38,6 @@
 }
 
 .introTopics {
-    border: 1px solid var(--primary);
     min-width: 250px;
 }
 
@@ -54,10 +47,8 @@
 
 /* Login */
 .loginButton {
-    font-size: 17px;
     background-color: transparent;
     border: 1px solid transparent;
-    border-radius: 8px;
     transition: 0.3s;
 }
 
@@ -68,6 +59,16 @@
 
 /* Languages */
 .languagesSelect {
-    border: none;
     background-color: transparent;
+}
+
+/* Collapse Menu */
+.collapseMenu {
+    width: 60%;
+    margin-right: -65%;
+    border-bottom-left-radius: 40px;
+}
+
+.collapseMenu.active {
+    margin-right: 0;
 }

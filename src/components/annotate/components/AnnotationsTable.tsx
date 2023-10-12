@@ -8,9 +8,6 @@ import Moment from 'moment';
 import { useAppSelector } from 'app/hooks';
 import { getOverviewAnnotations } from 'redux/annotate/AnnotateSlice';
 
-/* Import Styles */
-import styles from 'components/annotate/annotate.module.scss';
-
 
 const AnnotationsTable = () => {
     /* Hooks */
@@ -102,7 +99,7 @@ const AnnotationsTable = () => {
     };
 
     return (
-        <div className={`${styles.table} h-100 overflow-auto position-relative`}>
+        <div className="h-100 overflow-auto position-relative b-secondary rounded-c">
             <DataTable
                 columns={tableColumns}
                 data={tableData}

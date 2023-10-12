@@ -41,14 +41,31 @@ const TitleBar = (props: Props) => {
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
         { value: 'sidePanel', label: 'View all Annotations' },
-        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() }
+        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() },
+        { value: 'download', label: 'Download as JSON' }
     ];
+
+    /* Function for downloading a Specimen as JSON */
+    const DownloadSpecimen = () => {
+        /* Parse Specimen object to JSON */
+        const jsonSpecimen = JSON.stringify(specimen);
+
+        /* Create JSON file */
+        const jsonFile = new Blob([jsonSpecimen], { type: "application/json" });
+
+        /* Create and click on link to download file */
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(jsonFile);
+        link.download = `${specimen.id.replace('https://hdl.handle.net/', '')}_${specimen.version}.json`;
+
+        link.click();
+    }
 
     /* Function for executing Specimen Actions */
     const SpecimenActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`https://sandbox.dissco.tech/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
 
                 return;
             case 'sidePanel':
@@ -61,6 +78,11 @@ const TitleBar = (props: Props) => {
 
                 /* Open MAS Modal */
                 ToggleAutomatedAnnotations();
+
+                return;
+            case 'download':
+                /* Download Specimen as JSON */
+                DownloadSpecimen();
 
                 return;
             default:
@@ -80,10 +102,10 @@ const TitleBar = (props: Props) => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={faDiamond} className={styles.titleBarIcon} />
+                        <FontAwesomeIcon icon={faDiamond} className={`${styles.specimenTitle} c-primary`} />
                     </Col>
                     <Col>
-                        <h2 className={styles.title}> {specimen.specimenName} </h2>
+                        <h2 className={styles.specimenTitle}> {specimen.specimenName} </h2>
                     </Col>
                 </Row>
                 <Row>
@@ -94,7 +116,7 @@ const TitleBar = (props: Props) => {
                                 <Tooltip text="Minimum Information about a Digital Specimen" placement="top">
                                     <span>
                                         <FontAwesomeIcon icon={faCircleInfo}
-                                            className={styles.midsIcon}
+                                            className="c-accent"
                                         />
                                     </span>
                                 </Tooltip>

@@ -33,11 +33,11 @@ const ContentBlock = (props: Props) => {
 
     /* Class Names for Tabs */
     const classTabsList = classNames({
-        [`p-0`]: true
+        [`p-0 tabsList`]: true
     });
 
     const classTab = classNames({
-        'react-tabs__tab': true,
+        'react-tabs__tab tab': true,
         [`${styles.tab}`]: true
     });
 
@@ -55,10 +55,10 @@ const ContentBlock = (props: Props) => {
                             onSelect={(tabIndex) => SetSelectedTab(tabIndex)}
                         >
                             <TabList className={classTabsList}>
-                                <Tab className={classTab} selectedClassName={styles.active}>Digital Specimen</Tab>
-                                <Tab className={classTab} selectedClassName={styles.active}>Original Data</Tab>
-                                <Tab className={`${classTab} ${isEmpty(digitalMedia) && 'd-none'}`} selectedClassName={styles.active}>Digital Media</Tab>
-                                <Tab className={classTab} selectedClassName={styles.active}>Provenance</Tab>
+                                <Tab className={classTab} selectedClassName="active">Digital Specimen</Tab>
+                                <Tab className={classTab} selectedClassName="active">Original Data</Tab>
+                                <Tab className={`${classTab} ${isEmpty(digitalMedia) && 'd-none'}`} selectedClassName="active">Digital Media</Tab>
+                                <Tab className={classTab} selectedClassName="active">Provenance</Tab>
                             </TabList>
 
                             {/* Specimen Overview */}

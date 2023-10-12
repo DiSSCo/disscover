@@ -23,7 +23,7 @@ const Footer = () => {
 
     /* ClassNames for Footer */
     const classFooter = classNames({
-        [`${styles.footer}`]: true,
+        [`${styles.footer} z-2`]: true,
         [`${styles.home}`]: (location.pathname === '/')
     });
 
@@ -38,19 +38,19 @@ const Footer = () => {
                 <Col className={`${classFooterContent} h-100 px-0 transition`}>
                     <Row className="h-100 align-items-center">
                         <Col className="col-md-auto pt-0 pe-0">
-                            <p className={`${styles.footerText}`}>
-                                <a href="https://dissco.eu" className={styles.footerLink} target="_blank" rel="noreferrer">
+                            <p className="fs-5">
+                                <a href="https://dissco.eu" className={`${styles.footerLink}`} target="_blank" rel="noreferrer">
                                     Distributed System of Scientific Collections
                                 </a>
                             </p>
                         </Col>
                         <Col>
-                            <p className={styles.footerText}>
+                            <p className="fs-5">
                                 © DiSSCo {currentYear}
                             </p>
                         </Col>
                         <Col className="d-flex justify-content-end">
-                            <p className={styles.footerText}>
+                            <p className="fs-5">
                                 <Link to="/privacy-policy">
                                     Privacy Policy
                                 </Link>
@@ -58,7 +58,7 @@ const Footer = () => {
                         </Col>
                         <Col className="col-md-auto">
                             <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues" target="_blank" rel="noreferrer">
-                                <p className={`${styles.footerText} ${styles.footerLink}`}> Send us Feedback on GitHub </p>
+                                <p className="fs-5 c-accent"> Send us Feedback on GitHub </p>
                             </a>
                         </Col>
                     </Row>

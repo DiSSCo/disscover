@@ -78,7 +78,7 @@ const AudioPlayer = (props: Props) => {
     }
 
     return (
-        <div className={`${styles.audioPlayer} px-3 py-2`}>
+        <div className={`${styles.audioPlayer} rounded-full px-3 py-2`}>
             <audio src={source} ref={audioRef}
                 onLoadedMetadataCapture={() => OnLoadedMetadata()}
                 onEnded={() => { setIsPlaying(false) }}
@@ -87,7 +87,7 @@ const AudioPlayer = (props: Props) => {
             <Row className="align-items-center">
                 <Col className="col-md-auto pe-0 ">
                     <FontAwesomeIcon icon={!isPlaying ? faPlay : faPause}
-                        className={`${styles.audioPlayerIcon} c-pointer`}
+                        className="c-primary c-pointer"
                         onClick={() => setIsPlaying(!isPlaying)}
                     />
                 </Col>
@@ -98,11 +98,11 @@ const AudioPlayer = (props: Props) => {
                     />
                 </Col>
                 <Col className="col-md-auto ps-0">
-                    <span className={styles.audioPlayerTotalTime}> {duration} </span>
+                    <span className="fs-4"> {duration} </span>
                 </Col>
                 <Col className="col-md-auto ps-0">
                     <FontAwesomeIcon icon={faInfoCircle}
-                        className={styles.audioPlayerIcon}
+                        className="c-primary"
                     />
                 </Col>
             </Row>

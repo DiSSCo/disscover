@@ -3,6 +3,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames';
 import { Row, Col, Card } from 'react-bootstrap';
 
+/* Import Store */
+import { useAppSelector } from 'app/hooks';
+import { getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
+
 /* Import Types */
 import { ReactElement } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -12,13 +16,14 @@ import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Props Typing */
 interface Props {
     title: string,
     icon: IconProp,
-    properties: { name: string, value: string | number, property: string, element?: ReactElement}[],
+    properties: { name: string, value: string | number, property: string, element?: ReactElement }[],
     ToggleSidePanel: Function
 };
 
@@ -28,6 +33,7 @@ const BlockTemplate = (props: Props) => {
 
     /* Base variables */
     const propertyGroups: { name: string, value: string | number, property: string, element?: ReactElement }[][] = [];
+    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
 
     /* Split properties into groups of 5 */
     let arrayIndex = 0;
@@ -44,7 +50,7 @@ const BlockTemplate = (props: Props) => {
 
     /* Class Name for Tabs */
     const classTab = classNames({
-        'react-tabs__tab mx-1': true,
+        'react-tabs__tab mx-1 bgc-grey rounded-full ratio ratio-1x1': true,
         [`${styles.propertiesTab}`]: true,
         'd-none': propertyGroups.length === 1
     });
@@ -63,7 +69,7 @@ const BlockTemplate = (props: Props) => {
                         </Row>
                         <Row className="h-100">
                             <Col className="d-flex justify-content-center">
-                                <div className={`${styles.propertyStripe} h-75 w-0`} />
+                                <div className="h-75 w-0 b-accent" />
                             </Col>
                         </Row>
                     </Col>
@@ -87,17 +93,24 @@ const BlockTemplate = (props: Props) => {
                                                     >
                                                         {propertyGroup.map((property) => {
                                                             return (
-                                                                <div key={property.name}
-                                                                    className={`${styles.propertyBlock} flex-grow-1`}
+                                                                <Row key={property.name}
+                                                                    className={`${styles.propertyBlock} flex-grow-1 rounded-c transition`}
                                                                     onClick={() => ToggleSidePanel(property.property)}
                                                                 >
-                                                                    <p>
-                                                                        <span className="fw-lightBold"> {property.name}: </span>
-                                                                        {property.element ? property.element
-                                                                            : property.value
-                                                                        }
-                                                                    </p>
-                                                                </div>
+                                                                    <Col>
+                                                                        <p>
+                                                                            <span className="fw-lightBold"> {property.name}: </span>
+                                                                            {property.element ? property.element
+                                                                                : property.value
+                                                                            }
+                                                                        </p>
+                                                                    </Col>
+                                                                    {property.property in specimenAnnotations &&
+                                                                        <Col className="col-md-auto">
+                                                                            <FontAwesomeIcon icon={faPencil} />
+                                                                        </Col>
+                                                                    }
+                                                                </Row>
                                                             );
                                                         })}
                                                     </TabPanel>
@@ -108,23 +121,25 @@ const BlockTemplate = (props: Props) => {
 
                                     {/* If there is more than one property group, display tabs as bullets */}
                                     <TabList className="m-0 p-0 d-flex justify-content-center">
-                                        {propertyGroups.map((propertyGroup) => {
-                                            return (
-                                                <Tab key={`${propertyGroup[0].name}`}
-                                                    className={classTab}
-                                                    selectedClassName={styles.active}
-                                                />
-                                            );
-                                        })}
-                                    </TabList>
-                                </Tabs>
-                            </Col>
-                        </Row>
-                    </Col>
+                                        {
+                                            propertyGroups.map((propertyGroup) => {
+                                                return (
+                                                    <Tab key={`${propertyGroup[0].name}`}
+                                                        className={classTab}
+                                                        selectedClassName={styles.active}
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    </TabList >
+                                </Tabs >
+                            </Col >
+                        </Row >
+                    </Col >
 
-                </Row>
-            </Card.Body>
-        </Card>
+                </Row >
+            </Card.Body >
+        </Card >
     );
 }
 

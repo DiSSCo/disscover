@@ -23,23 +23,24 @@ const Home = () => {
 
     /* ClassName for Advanced Search */
     const classAdvancedSearch = classNames({
-        [`${styles.advancedSearch}`]: true,
-        'position-fixed': !advancedSearch,
-        [`${styles.active} position-absolute`]: advancedSearch
+        'opacity-0 transition z--1': true,
+        'position-fixed top-100': !advancedSearch,
+        'position-absolute opacity-100 z-1 top-0': advancedSearch
     });
 
     const classAdvancedToggled = classNames({
-        [`${styles.advancedToggled}`]: true,
-        [`${styles.active}`]: !advancedSearch
+        'transition mt-2 mt-lg-4': true,
+        'opacity-0': advancedSearch,
+        'opacity-1': !advancedSearch
     });
 
     return (
-        <div>
+        <div className="h-100 overflow-scroll d-flex flex-column">
             <Header introTopics={[{intro: 'home', title: 'About This Page'}]}/>
 
             <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
 
-            <Container fluid className={styles.content}>
+            <Container fluid className={`${styles.content} flex-grow-1`}>
                 <Row className="h-100">
                     {/* First part of Homepage, relative to screen height */}
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
@@ -63,13 +64,13 @@ const Home = () => {
                                     </Col>
                                 </Row>
                                 {/* General Search Bar */}
-                                <Row className={`${classAdvancedToggled} globalSearchBar mt-4`}>
+                                <Row className={`${classAdvancedToggled} globalSearchBar`}>
                                     <Col>
                                         <GlobalSearchBar ToggleAdvancedFilter={() => setAdvancedSearch(true)} />
                                     </Col>
                                 </Row>
                                 {/* Advanced Search */}
-                                <div className={`${classAdvancedSearch} w-100 pe-5`} role="advancedSearch">
+                                <div className={`${classAdvancedSearch} advancedSearch w-100 pe-5`} role="advancedSearch">
                                     <AdvancedSearch HideAdvancedSearch={() => setAdvancedSearch(false)} />
                                 </div>
                             </Col>

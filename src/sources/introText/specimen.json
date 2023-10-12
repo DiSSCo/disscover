@@ -16,7 +16,7 @@
         "First off, where do these annotations hide? Well they are kept in a separate side panel which is disabled on default. There are multiple ways to trigger the annotation side panel. The most generic method is to select ‘view all annotations’ from the actions dropdown.",
         "Select ‘view all annotation’ from the actions dropdown.",
         "This is the annotations side panel. As you can see, annotations might pop up already depending on whether the specimen you are looking at has annotations or not. This side panel contains all functionality related to annotations and can show up in more places than just the specimen page.",
-        "You can filter on motivation type and also order displayed annotations, for example by creation date. Motivation types describe the purpose of annotations. Current motivations include: commenting, linking, adding, correcting and quality flagging.",
+        "You can filter on annotation type and also order displayed annotations, for example by creation date. Annotation types describe the purpose of annotations. Current motivations include: commenting, linking, adding, correcting and quality flagging.",
         "To hide the side panel, click on this arrow pointing to the left at the top left corner.",
         "As mentioned, there are multiple methods for triggering the annotations side panel. Another method for triggering the side panel, for a specific property of a specimen, is by selecting that property from the view. This is a useful method for when you only want to see annotations made for that property, or if you want to create an annotation on that property.",
         "Let’s trigger the annotations side panel for the scientific name only. We can achieve this by clicking on the scientific name property in the ID card.",
@@ -26,7 +26,7 @@
         "To add new annotations, you need to be logged into your DiSSCo account. A button will appear at the bottom of the side panel saying ‘add annotation’. Click on this button to display the annotation form.",
         "Using this form, you can add annotations.",
         "First you can choose a specimen property or add an annotation on the whole specimen. The difference is that a property specific annotation will show up in the side panel when an user selects the property from the view, while annotations on the whole specimen only show up in the total overview.",
-        "Next, select one of the available motivation types. Selecting one will trigger the remaining fields of the form. These fields are directly influenced by the motivation type as not all are required with every type.",
+        "Next, select one of the available annotation types. Selecting one will trigger the remaining fields of the form. These fields are directly influenced by the annotation type as not all are required with every type.",
         "After filling in these fields with your values, save the annotation by clicking on the ‘save’ button. This will save your annotation and redirect you back to the overview, highlighting the new annotation.",
         "To edit one of your existing annotations, click on the pencil icon.",
         "To delete one of your existing annotations, click on the trash can icon."

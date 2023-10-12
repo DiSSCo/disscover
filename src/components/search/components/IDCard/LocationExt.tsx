@@ -5,9 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Types */
 import { Specimen } from 'global/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -30,15 +27,15 @@ const LocationExt = (props: Props) => {
                     <span className="ms-1"> Location </span>
                 </h5>
 
-                <p className={styles.IDCardProperty}>
+                <p className="fs-4">
                     <span className="fw-bold"> Continent: </span>
                     {CheckProperty(specimen.data['dwc:continent'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Country: </span>
                     {CheckProperty(specimen.data['dwc:country'])}
                 </p>
-                <p className={`${styles.IDCardProperty} mt-2`}>
+                <p className="fs-4 mt-2">
                     <span className="fw-bold"> Locality: </span>
                     {CheckProperty(specimen.data['dwc:locality'])}
                 </p>

@@ -82,7 +82,7 @@ const ActiveFilters = () => {
 
     /* ClassName for Active Filters */
     const classActiveFilters = classNames({
-        [`${styles.activeFilters}`]: true,
+        [`${styles.activeFilters} overflow-hidden z-2`]: true,
         [`${styles.active} ps-2`]: activeFiltersDropdownToggle
     });
 
@@ -95,7 +95,7 @@ const ActiveFilters = () => {
                         {activeFiltersDropdownActive &&
                             <Col className="col-md-auto pe-0">
                                 <button type="button"
-                                    className={`${styles.activeFilter} ${styles.activeFiltersDropdownButton} fw-lightBold px-2 py-1`}
+                                    className={`${styles.activeFilter} bgc-primary fs-4 c-white fw-lightBold px-2 py-1`}
                                     onClick={() => setActiveFiltersDropdownToggle(!activeFiltersDropdownToggle)}
                                 >
                                     Show all filters

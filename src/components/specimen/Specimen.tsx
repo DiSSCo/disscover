@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
+import { RandomString } from 'global/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -14,7 +15,7 @@ import {
 import {
     getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
 } from 'redux/annotate/AnnotateSlice';
-import { getScreenSize, setErrorMessage } from 'redux/general/GeneralSlice';
+import { getScreenSize, pushToPromptMessages } from 'redux/general/GeneralSlice';
 
 /* Import Types */
 import { Annotation, SpecimenAnnotations } from 'global/Types';
@@ -58,7 +59,7 @@ const Specimen = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
-    /* Onload / Version change: Check for Specimen, otherwise grab full (specific version) from database */
+    /* Onload or Version change: Check for Specimen, otherwise grab full (specific version) from database */
     useEffect(() => {
         const specimenId = `${params.prefix}/${params.suffix}`;
 
@@ -106,7 +107,11 @@ const Specimen = () => {
                     navigate(`/ds/${params.prefix}/${params.suffix}/${originalVersion}`)
 
                     /* Show Error Message */
-                    dispatch(setErrorMessage(`The selected version: ${params.version}, of Specimen could not be retrieved.`));
+                    dispatch(pushToPromptMessages({
+                        key: RandomString(),
+                        message: `The selected version: ${params.version}, of Specimen could not be retrieved.`,
+                        template: 'error'
+                    }));
                 }
             }).catch(error => {
                 console.warn(error);
@@ -202,9 +207,9 @@ const Specimen = () => {
             <Row>
                 <Col className={classHeadCol}>
                     <Header introTopics={[
-                        {intro: 'specimen', title: 'About This Page'},
-                        {intro: 'annotate', title: 'Using Annotations'},
-                        {intro: 'MAS', title: 'Machine Annotation Services'}
+                        { intro: 'specimen', title: 'About This Page' },
+                        { intro: 'annotate', title: 'Using Annotations' },
+                        { intro: 'MAS', title: 'Machine Annotation Services' }
                     ]} />
 
                     <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
@@ -231,7 +236,7 @@ const Specimen = () => {
                                                 <IDCard />
                                             </Col>
                                             <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
-                                                <ContentBlock selectedTab={selectedTab} 
+                                                <ContentBlock selectedTab={selectedTab}
                                                     SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
                                                 />
                                             </Col>

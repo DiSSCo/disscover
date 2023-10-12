@@ -24,7 +24,7 @@ const SelectOption = (props: Props) => {
         >
             <Col>
                 <div className={`${selected && styles.active} 
-                    ${styles.filterSelectOption} px-1 py-1`}
+                    ${styles.filterSelectOption} c-pointer px-1 py-1`}
                 >
                     <Row className="align-items-center px-1">
                         <Col className="col-md-auto pe-0">
@@ -37,10 +37,10 @@ const SelectOption = (props: Props) => {
                             />
                         </Col>
                         <Col>
-                            <p className={`${styles.filterListItem}`}> {item[0]} </p>
+                            <p className="fs-5"> {item[0]} </p>
                         </Col>
                         <Col md={{ span: 3 }} className="d-flex justify-content-end">
-                            <p className={styles.filterAggregation}> {item[1]} </p>
+                            <p className="fs-5"> {item[1]} </p>
                         </Col>
                     </Row>
                 </div>

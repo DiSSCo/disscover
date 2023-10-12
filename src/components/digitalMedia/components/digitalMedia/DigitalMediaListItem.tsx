@@ -44,7 +44,7 @@ const DigitalMediaListItem = (props: Props) => {
         case '2DImageObject':
             digitalMediaContent = <img src={specimenDigitalMedia.mediaUrl}
                 alt={`Broken ${specimenDigitalMedia.format} link`}
-                className={`${styles.digitalMediaListItemImage} h-100`}
+                className="h-100 mx-auto d-flex justify-content-around align-items-center"
             />
 
             break;
@@ -80,13 +80,13 @@ const DigitalMediaListItem = (props: Props) => {
 
     /* ClassName for a Digital Media List Item */
     const classDigitalMediaListItem = classNames({
-        [`${styles.digitalMediaListItem}`]: true,
+        [`${styles.digitalMediaListItem} h-100 d-inline-block bgc-grey overflow-hidden`]: true,
         [`${styles.hover}`]: hover && (specimenDigitalMedia.id !== digitalMedia.id)
     });
 
     /* ClassName for Dynamic Image Title */
     const classImageTitle = classNames({
-        [`${styles.digitalMediaListItemTitle} position-absolute text-center z-1 fw-bold transition opacity-0`]: true,
+        [`${styles.digitalMediaListItemTitle} start-0 top-0 end-0 bottom-0 m-auto c-white position-absolute text-center z-1 fw-bold transition opacity-0`]: true,
         'opacity-100': digitalMedia.id === specimenDigitalMedia.id || hover
     });
 

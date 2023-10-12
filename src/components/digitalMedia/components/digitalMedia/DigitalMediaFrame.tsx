@@ -1,19 +1,30 @@
+/* Import Dependencies */
+import { Annotorious } from '@annotorious/react';
+
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
-/* Import Styles */
-import styles from 'components/digitalMedia/digitalMedia.module.scss';
+/* Import Types */
+import { Annotation } from 'global/Types';
 
 /* Import Components */
-import Image from 'components/general/mediaTypes/Image';
+import ImageViewer from 'components/general/mediaTypes/ImageViewer';
 import Video from 'components/general/mediaTypes/Video';
 import Audio from 'components/general/mediaTypes/Audio';
 import File from 'components/general/mediaTypes/File';
-import IIIFView from 'components/general/media/IIIFView';
+import IIIFViewer from 'components/general/mediaTypes/IIIFViewer';
 
 
-const DigitalMediaFrame = () => {
+/* Props Typing */
+interface Props {
+    UpdateAnnotationsSource: Function
+};
+
+
+const DigitalMediaFrame = (props: Props) => {
+    const { UpdateAnnotationsSource } = props;
+
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
 
@@ -22,7 +33,11 @@ const DigitalMediaFrame = () => {
 
     switch (digitalMedia.type) {
         case '2DImageObject':
-            digitalMediaContent = <Image digitalMedia={digitalMedia} sizeOrientation='height' />
+            digitalMediaContent = <Annotorious>
+                <ImageViewer mediaUrl={digitalMedia.mediaUrl}
+                    UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                />
+            </Annotorious>
 
             break;
         case 'video':
@@ -35,14 +50,14 @@ const DigitalMediaFrame = () => {
             break;
         default:
             if (digitalMedia.format === 'application/json' || digitalMedia.format === 'application/ld+json') {
-                digitalMediaContent = <IIIFView mediaUrl={digitalMedia.mediaUrl} />
+                digitalMediaContent = <IIIFViewer mediaUrl={digitalMedia.mediaUrl} />
             } else {
                 digitalMediaContent = <File digitalMedia={digitalMedia} />
             }
     }
 
     return (
-        <div className={`${styles.digitalMediaFrame} h-100 d-flex justify-content-center align-items-center`}>
+        <div className="h-100 d-flex justify-content-center align-items-center bgc-grey rounded-c overflow-hidden">
             {digitalMediaContent}
         </div>
     );

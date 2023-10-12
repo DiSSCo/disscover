@@ -139,7 +139,7 @@ const SidePanel = (props: Props) => {
                     <Row className="align-items-center">
                         <Col className="sidePanelCloseIcon col-md-auto">
                             <FontAwesomeIcon icon={faChevronLeft}
-                                className={`${styles.sidePanelTopIcon} c-pointer c-primary`}
+                                className="fs-2 c-pointer c-primary"
                                 onClick={() => BackAction()}
                             />
                         </Col>
@@ -162,7 +162,7 @@ const SidePanel = (props: Props) => {
                             <Tooltip text="All annotations are publicly available and subject to the CC-0 license" placement="left">
                                 <span>
                                     <FontAwesomeIcon icon={faClosedCaptioning}
-                                        className={`${styles.sidePanelTopIcon} c-pointer c-accent`}
+                                        className="fs-2 c-pointer c-accent"
                                     />
                                 </span>
                             </Tooltip>

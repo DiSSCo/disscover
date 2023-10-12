@@ -136,12 +136,12 @@ const AnnotationForm = (props: Props) => {
                             {/* Motivation */}
                             <Row className="mt-3">
                                 <Col>
-                                    <p className="formFieldTitle pb-1"> Motivation type </p>
+                                    <p className="formFieldTitle pb-1"> Annotation type </p>
                                     <Field name="motivation" as="select"
                                         className="formField w-100" disabled={!isEmpty(editAnnotation)}
                                     >
                                         <option value="" disabled={true}>
-                                            Select motivation
+                                            Select annotation type
                                         </option>
 
                                         {Object.keys(annotationMotivations).map((motivation) => {

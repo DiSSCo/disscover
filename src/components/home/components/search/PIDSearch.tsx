@@ -89,7 +89,7 @@ const PIDSearch = () => {
                         <Row className="mt-1">
                             <Col>
                                 <Field name="PIDQuery"
-                                    className={`${styles.searchBar} w-100`}
+                                    className={`${styles.searchBar} rounded-full w-100 px-3`}
                                     placeholder="20.5000.1025/DW0-BNT-FM0"
                                 />
                             </Col>

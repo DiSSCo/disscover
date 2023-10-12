@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Types */
+import { ReactElement } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 /* Import Styles */
@@ -17,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
     title: string,
     icon: IconProp,
-    properties: { name: string, value: string | number, property: string }[],
+    properties: { name: string, value: string | number, property: string, element?: ReactElement}[],
     ToggleSidePanel: Function
 };
 
@@ -26,7 +27,7 @@ const BlockTemplate = (props: Props) => {
     const { title, icon, properties, ToggleSidePanel } = props;
 
     /* Base variables */
-    const propertyGroups: { name: string, value: string | number, property: string }[][] = [];
+    const propertyGroups: { name: string, value: string | number, property: string, element?: ReactElement }[][] = [];
 
     /* Split properties into groups of 5 */
     let arrayIndex = 0;
@@ -79,7 +80,7 @@ const BlockTemplate = (props: Props) => {
                                     {/* Display all properties */}
                                     <Row className="flex-grow-1 pb-2">
                                         <Col>
-                                            {propertyGroups.map((propertyGroup, index) => {
+                                            {propertyGroups.map((propertyGroup) => {
                                                 return (
                                                     <TabPanel key={`${propertyGroup[0].name}`}
                                                         selectedClassName={"react-tabs__tab-panel--selected h-100 d-flex flex-column"}
@@ -92,7 +93,9 @@ const BlockTemplate = (props: Props) => {
                                                                 >
                                                                     <p>
                                                                         <span className="fw-lightBold"> {property.name}: </span>
-                                                                        {property.value}
+                                                                        {property.element ? property.element
+                                                                            : property.value
+                                                                        }
                                                                     </p>
                                                                 </div>
                                                             );
@@ -105,7 +108,7 @@ const BlockTemplate = (props: Props) => {
 
                                     {/* If there is more than one property group, display tabs as bullets */}
                                     <TabList className="m-0 p-0 d-flex justify-content-center">
-                                        {propertyGroups.map((propertyGroup, index) => {
+                                        {propertyGroups.map((propertyGroup) => {
                                             return (
                                                 <Tab key={`${propertyGroup[0].name}`}
                                                     className={classTab}

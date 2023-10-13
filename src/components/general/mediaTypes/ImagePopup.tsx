@@ -65,7 +65,7 @@ const ImagePopup = (props: Props) => {
                             <div className={classEditBlock}>
                                 <Formik
                                     initialValues={{
-                                        annotationValue: (editAnnotation?.body.length) ?
+                                        annotationValue: editAnnotation?.body.length ?
                                             editAnnotation.body[0].value[0] : '',
                                     }}
                                     enableReinitialize={true}
@@ -116,7 +116,7 @@ const ImagePopup = (props: Props) => {
                                 <Row>
                                     <Col>
                                         <p className="fs-4">
-                                            {(selectedAnnotation?.body.length) ?
+                                            {(selectedAnnotation && selectedAnnotation.body && selectedAnnotation.body.length) ?
                                                 selectedAnnotation.body[0].value[0] : ''
                                             }
                                         </p>

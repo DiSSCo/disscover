@@ -3,13 +3,13 @@ import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import {
-    AnnotoriousOpenSeadragonAnnotator,
     ImageAnnotation,
     OpenSeadragonAnnotator,
     OpenSeadragonPopup,
     OpenSeadragonViewer,
     PointerSelectAction,
-    useAnnotator
+    useAnnotator,
+    W3CImageFormat
 } from '@annotorious/react';
 
 /* Import Store */
@@ -19,6 +19,7 @@ import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/
 
 /* Import Types */
 import { Annotation, ImageAnnotationTemplate, Dict } from 'global/Types';
+import { Annotator } from '@annotorious/react';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
@@ -41,7 +42,7 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const annotorious = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
+    const annotorious = useAnnotator<Annotator>();
     const viewerRef = useRef<OpenSeadragon.Viewer>(null);
     const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
@@ -90,6 +91,8 @@ const ImageViewer = (props: Props) => {
         if (annotorious && image) {
             const annotoriousAnnotations = annotorious.getAnnotations();
 
+            console.log(annotorious.getAnnotations());
+
             if (!annotoriousAnnotations.length) {
                 RefreshAnnotations();
             }
@@ -102,11 +105,6 @@ const ImageViewer = (props: Props) => {
                     /* Set selected annotation */
                     setSelectedAnnotation(w3cAnnotations[0]);
                 } else {
-                    if ((digitalMediaAnnotations.visual.length && annotorious.getAnnotations().length)
-                        && annotorious.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
-                        RefreshAnnotations();
-                    }
-
                     /* Reset selected and edit annotation */
                     setSelectedAnnotation(null);
                     setEditAnnotation(null);
@@ -140,6 +138,9 @@ const ImageViewer = (props: Props) => {
         /* If there are visual annotations present, calculate positions and redraw */
         if (!isEmpty(digitalMediaAnnotations.visual)) {
             const visualImageAnnotations = CalculateAnnotationPositions();
+
+            // console.log(annotorious.getAnnotations());
+            // console.log(visualImageAnnotations);
 
             annotorious.setAnnotations(visualImageAnnotations);
         } else {
@@ -298,6 +299,7 @@ const ImageViewer = (props: Props) => {
     return (
         <div className="w-100 h-100">
             <OpenSeadragonAnnotator className="h-100"
+                adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
                 keepEnabled={false}
                 tool={annotoriousMode}
                 pointerSelectAction={SelectAction}

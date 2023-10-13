@@ -15,6 +15,7 @@ import { Specimen } from 'global/Types';
 
 /* Import Components */
 import ColumnLink from './ColumnLink';
+import ScientificName from 'components/general/nomenclatural/ScientificName';
 
 
 /* Props Styling */
@@ -139,6 +140,15 @@ const ResultsTable = (props: Props) => {
         name: 'Specimen name',
         selector: row => row.specimen_name,
         id: 'search_name',
+        cell: row => <div onClick={() => {
+            if (compareMode) {
+                SelectForComparison(row);
+            } else {
+                OnSpecimenSelect(row);
+            }
+        }}>
+            <ScientificName specimen={searchResults[row.index]} />
+        </div>,
         sortable: true
     }, {
         name: 'Country',

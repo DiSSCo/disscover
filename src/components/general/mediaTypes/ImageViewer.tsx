@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import {
+    Annotator,
     ImageAnnotation,
     OpenSeadragonAnnotator,
     OpenSeadragonPopup,
@@ -19,7 +20,6 @@ import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/
 
 /* Import Types */
 import { Annotation, ImageAnnotationTemplate, Dict } from 'global/Types';
-import { Annotator } from '@annotorious/react';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';

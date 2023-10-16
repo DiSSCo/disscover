@@ -76,7 +76,7 @@ const ImageViewer = (props: Props) => {
             image.src = digitalMedia.mediaUrl;
         }).then((image: any) => {
             setImage(image);
-
+        
             if (viewerRef.current) {
                 viewerRef.current.open({
                     type: 'image',
@@ -90,8 +90,6 @@ const ImageViewer = (props: Props) => {
     useEffect(() => {
         if (annotorious && image) {
             const annotoriousAnnotations = annotorious.getAnnotations();
-
-            console.log(annotorious.getAnnotations());
 
             if (!annotoriousAnnotations.length) {
                 RefreshAnnotations();
@@ -138,9 +136,6 @@ const ImageViewer = (props: Props) => {
         /* If there are visual annotations present, calculate positions and redraw */
         if (!isEmpty(digitalMediaAnnotations.visual)) {
             const visualImageAnnotations = CalculateAnnotationPositions();
-
-            // console.log(annotorious.getAnnotations());
-            // console.log(visualImageAnnotations);
 
             annotorious.setAnnotations(visualImageAnnotations);
         } else {

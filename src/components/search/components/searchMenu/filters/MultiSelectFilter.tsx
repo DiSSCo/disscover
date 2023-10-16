@@ -86,8 +86,6 @@ const MultiSelectFilter = (props: Props) => {
         /* Function to Refresh Aggregations */
         const RefreshAggregations = () => {
             GetSpecimenAggregations(searchFilters).then((aggregations) => {
-                console.log(aggregations);
-
                 dispatch(setSearchAggregations(aggregations));
             }).catch(error => {
                 console.warn(error);
@@ -125,8 +123,6 @@ const MultiSelectFilter = (props: Props) => {
     /* OnChange of selected Items: Filter Specimens by */
     useEffect(() => {
         if (selectedItems.length !== searchParams.getAll(searchFilter).length) {
-            console.log(selectedItems);
-
             setSearchParams(searchParams => {
                 if (selectedItems.length < searchParams.getAll(searchFilter).length) {
                     searchParams.delete(searchFilter);

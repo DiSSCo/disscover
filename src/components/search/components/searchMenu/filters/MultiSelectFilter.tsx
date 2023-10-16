@@ -51,7 +51,7 @@ const MultiSelectFilter = (props: Props) => {
     const [filteredItems, setFitleredItems] = useState<{ selected: [string, number][], selectable: [string, number][] }>({ selected: [], selectable: [] });
     const [filterToggle, setFilterToggle] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>();
-    const aggregatons = useAppSelector(getSearchAggregations);
+    const aggregations = useAppSelector(getSearchAggregations);
     const searchFilters: SearchFilter[] = [];
 
     /* ForEach filter, push to Search Filters */
@@ -81,7 +81,7 @@ const MultiSelectFilter = (props: Props) => {
 
     /* OnChange of Search Query: refresh aggregations by query */
     useEffect(() => {
-        const copyAggregations = { ...aggregatons };
+        const copyAggregations = { ...aggregations };
 
         /* Function to Refresh Aggregations */
         const RefreshAggregations = () => {
@@ -98,6 +98,13 @@ const MultiSelectFilter = (props: Props) => {
                 if (!isEmpty(filterAggregations[searchFilter])) {
                     /* Update aggregations of search filter */
                     copyAggregations[searchFilter] = filterAggregations[searchFilter];
+
+                    /* If there are selected filters, make sure to include them */
+                    selectedItems.forEach((selectedItem) => {
+                        if (!copyAggregations[searchFilter][selectedItem]) {
+                            copyAggregations[searchFilter][selectedItem] = aggregations[searchFilter][selectedItem]
+                        }
+                    });
 
                     dispatch(setSearchAggregations(copyAggregations));
                 } else {

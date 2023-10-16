@@ -3,13 +3,14 @@ import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import {
-    AnnotoriousOpenSeadragonAnnotator,
+    Annotator,
     ImageAnnotation,
     OpenSeadragonAnnotator,
     OpenSeadragonPopup,
     OpenSeadragonViewer,
     PointerSelectAction,
-    useAnnotator
+    useAnnotator,
+    W3CImageFormat
 } from '@annotorious/react';
 
 /* Import Store */
@@ -41,7 +42,7 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const annotorious = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
+    const annotorious = useAnnotator<Annotator>();
     const viewerRef = useRef<OpenSeadragon.Viewer>(null);
     const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
@@ -75,7 +76,7 @@ const ImageViewer = (props: Props) => {
             image.src = digitalMedia.mediaUrl;
         }).then((image: any) => {
             setImage(image);
-
+        
             if (viewerRef.current) {
                 viewerRef.current.open({
                     type: 'image',
@@ -102,11 +103,6 @@ const ImageViewer = (props: Props) => {
                     /* Set selected annotation */
                     setSelectedAnnotation(w3cAnnotations[0]);
                 } else {
-                    if ((digitalMediaAnnotations.visual.length && annotorious.getAnnotations().length)
-                        && annotorious.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
-                        RefreshAnnotations();
-                    }
-
                     /* Reset selected and edit annotation */
                     setSelectedAnnotation(null);
                     setEditAnnotation(null);
@@ -298,6 +294,7 @@ const ImageViewer = (props: Props) => {
     return (
         <div className="w-100 h-100">
             <OpenSeadragonAnnotator className="h-100"
+                adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
                 keepEnabled={false}
                 tool={annotoriousMode}
                 pointerSelectAction={SelectAction}

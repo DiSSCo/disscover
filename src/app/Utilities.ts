@@ -1,6 +1,10 @@
 /* Function to capitalize the first character of a string */
 const Capitalize = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    if (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    } else {
+        return '';
+    }
 }
 
 /* Function for displaying a properties' value, or 'not provided'; used in ID Card */

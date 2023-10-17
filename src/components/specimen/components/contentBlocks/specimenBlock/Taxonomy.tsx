@@ -7,6 +7,8 @@ import { faDiamond } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BlockTemplate from './BlockTemplate';
+import Family from 'components/general/nomenclatural/Family';
+import Genus from 'components/general/nomenclatural/Genus';
 
 
 /* Props Typing */
@@ -26,8 +28,8 @@ const Taxonomy = (props: Props) => {
         { name: 'Kingdom', value: "" /*specimen.data['dwc:kingdom']*/, property: 'dwc:kingdom' },
         { name: 'Phylum', value: "" /*specimen.data['dwc:phylum']*/, property: 'dwc:phylum' },
         { name: 'Order', value: "" /*specimen.data['dwc:order']*/, property: 'dwc:order' },
-        { name: 'Family', value: "" /*specimen.data['dwc:family']*/, property: 'dwc:family' },
-        { name: 'Genus', value: "" /*specimen.data['dwc:genus']*/, property: 'dwc:genus' }
+        { name: 'Family', value: "" /*specimen.data['dwc:family']*/, property: 'dwc:family', element: <Family specimen={specimen} /> },
+        { name: 'Genus', value: "" /*specimen.data['dwc:genus']*/, property: 'dwc:genus', element: <Genus specimen={specimen} /> }
     ];
 
     return (

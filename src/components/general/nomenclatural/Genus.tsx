@@ -1,14 +1,14 @@
 /* Import Dependencies */
-import { Capitalize } from "global/Utilities";
+import { Capitalize } from "app/Utilities";
 
 /* Import Types */
 import { ReactElement } from "react";
-import { Specimen } from "global/Types";
+import { DigitalSpecimen } from "app/Types";
 
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -19,7 +19,7 @@ const Genus = (props: Props) => {
     let genusElement: ReactElement;
 
     /* Format Scientific Name according to Nomenclatural Rules */
-    genusElement = <span className="fst-italic"> {Capitalize(specimen.data['dwc:genus'])} </span>
+    genusElement = <span className="fst-italic"> {Capitalize(/*specimen.data['dwc:genus']*/ '')} </span>
 
     return genusElement;
 }

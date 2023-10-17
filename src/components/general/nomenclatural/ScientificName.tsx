@@ -1,11 +1,11 @@
 /* Import Types */
 import { ReactElement } from "react";
-import { Specimen } from "global/Types";
+import { DigitalSpecimen } from "app/Types";
 
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -16,7 +16,7 @@ const ScientificName = (props: Props) => {
     let scientificNameElement: ReactElement;
 
     /* Format Scientific Name according to Nomenclatural Rules */
-    scientificNameElement = <span className="fst-italic"> {specimen.specimenName} </span>
+    scientificNameElement = <span className="fst-italic"> {specimen['ods:specimenName']} </span>
 
     return scientificNameElement;
 }

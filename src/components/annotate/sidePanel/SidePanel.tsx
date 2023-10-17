@@ -12,7 +12,7 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation, Dict } from 'global/Types';
+import { Annotation, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
@@ -180,7 +180,7 @@ const SidePanel = (props: Props) => {
                                         {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `}
                                     </span>
                                     <span className="fst-italic">
-                                        {`${annotateTarget.target.data[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp]}`}
+                                        {`${annotateTarget.target[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp]}`}
                                     </span>
                                 </p>
                             </Col>

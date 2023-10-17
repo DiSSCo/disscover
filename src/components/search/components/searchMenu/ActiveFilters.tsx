@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';

@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

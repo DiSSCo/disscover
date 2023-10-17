@@ -2,7 +2,7 @@
 import classNames from "classnames";
 
 /* Import Types */
-import { DigitalMedia } from "global/Types";
+import { DigitalMedia } from "app/Types";
 
 /* Import Styling */
 import styles from 'components/specimen/specimen.module.scss';
@@ -27,8 +27,8 @@ const Image = (props: Props) => {
 
     return (
         <div className="d-flex position-relative h-100 w-100 justify-content-center">
-            <img src={digitalMedia.mediaUrl}
-                alt={digitalMedia.id}
+            <img src={digitalMedia['ac:accessUri']}
+                alt={digitalMedia['dcterms:description']}
                 className={`${classSizeOrientation} rounded`}
             />
 
@@ -36,7 +36,7 @@ const Image = (props: Props) => {
                 <div className={`${styles.imageHover} opacity-0 position-absolute transition 
                         h-100 w-100 top-0 d-flex justify-content-center align-items-center c-pointer px-3`
                 }>
-                    <p className="fw-bold"> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </p>
+                    <p className="fw-bold"> {digitalMedia['ods:id'].replace('https://doi.org/', '')} </p>
                 </div>
             }
         </div>

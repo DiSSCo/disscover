@@ -7,7 +7,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setOverviewAnnotations } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from './annotate.module.scss';

@@ -51,7 +51,7 @@ const IDCard = () => {
                         <Row className="h-25 overflow-hidden">
                             <Col className="h-100">
                                 <div className="h-100 d-flex justify-content-center bgc-greyLight rounded-c">
-                                    <img src={specimenDigitalMedia[0].digitalMediaObject.mediaUrl} alt="banner"
+                                    <img src={specimenDigitalMedia[0]['ac:accessUri']} alt="banner"
                                         className="h-100 position-relative rounded-c"
                                     />
                                 </div>
@@ -68,7 +68,7 @@ const IDCard = () => {
                                                 <p> ID Card </p>
                                             </Col>
                                             <Col className="fs-4 col-md-auto fw-lightBold">
-                                                <p> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
+                                                <p> {specimen['ods:id'].replace('https://doi.org/', '')} </p>
                                             </Col>
                                         </Row>
                                     </Card.Subtitle>
@@ -80,7 +80,7 @@ const IDCard = () => {
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50" role="sidePanelTrigger">Name in collection:</span>
-                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.specimenName} </span>
+                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen['ods:specimenName']} </span>
                                                 </Col>
                                                 {'ods:specimenName' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
@@ -114,7 +114,7 @@ const IDCard = () => {
                                                     onClick={() => ToggleSidePanel('ods:physicalSpecimenId')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">
-                                                        Physical specimen ID ({specimen.physicalSpecimenIdType}):
+                                                        Physical specimen ID ({specimen['ods:physicalSpecimenIdType']}):
                                                     </span>
                                                     <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
                                                 </Col>
@@ -127,7 +127,7 @@ const IDCard = () => {
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                                 <Col className="m-0 py-1">
                                                     <span className="fw-lightBold m-0 h-50">Specimen Type:</span>
-                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.type} </span>
+                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen['ods:type']} </span>
                                                 </Col>
                                             </Row>
                                             <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
@@ -135,7 +135,7 @@ const IDCard = () => {
                                                     onClick={() => ToggleSidePanel('ods:physicalSpecimenCollection')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">In collection:</span>
-                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.physicalSpecimenCollection} </span>
+                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen['dwc:collectionCode']} </span>
                                                 </Col>
                                                 {'ods:physicalSpecimenCollection' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
@@ -148,7 +148,7 @@ const IDCard = () => {
                                                     onClick={() => ToggleSidePanel('dcterms:license')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">License:</span>
-                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen.data['dcterms:license']} </span>
+                                                    <br className="d-none d-lg-block" /> <span className="m-0 h-50"> {specimen['dcterms:license']} </span>
                                                 </Col>
                                                 {'dcterms:license' in specimenAnnotations &&
                                                     <Col className="col-md-auto">

@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import classNames from 'classnames';
 
 /* Import Store */
@@ -9,7 +9,7 @@ import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Types */
-import { DigitalMedia } from 'global/Types';
+import { DigitalMedia } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
@@ -42,7 +42,7 @@ const DigitalMediaListItem = (props: Props) => {
 
     switch (specimenDigitalMedia.type) {
         case '2DImageObject':
-            digitalMediaContent = <img src={specimenDigitalMedia.mediaUrl}
+            digitalMediaContent = <img src={specimenDigitalMedia['ac:accessUri']}
                 alt={`Broken ${specimenDigitalMedia.format} link`}
                 className="h-100 mx-auto d-flex justify-content-around align-items-center"
             />
@@ -101,7 +101,7 @@ const DigitalMediaListItem = (props: Props) => {
             onMouseLeave={() => { if (specimenDigitalMedia.id !== digitalMedia.id) { setHover(false) } }}
             onClick={() => {
                 if (specimenDigitalMedia.id !== digitalMedia.id) {
-                    navigate(`/dm/${specimenDigitalMedia.id.replace('https://hdl.handle.net/', '')}`)
+                    navigate(`/dm/${specimenDigitalMedia['ods:id'].replace('https://doi.org/', '')}`)
                 }
             }}
         >
@@ -109,7 +109,7 @@ const DigitalMediaListItem = (props: Props) => {
                 {digitalMediaContent}
 
                 <div className={classImageTitle}>
-                    {specimenDigitalMedia['type'] && Capitalize(specimenDigitalMedia['type'])}
+                    {specimenDigitalMedia['dcterms:type'] && Capitalize(specimenDigitalMedia['dcterms:type'])}
                 </div>
 
                 <div className={classBackdrop} />

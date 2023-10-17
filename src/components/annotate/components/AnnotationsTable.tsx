@@ -34,7 +34,7 @@ const AnnotationsTable = () => {
             tableData.push({
                 index: i,
                 specimen_id: annotation.target.id,
-                specimen_name: annotation.specimen ? annotation.specimen.specimenName : annotation.target.id,
+                specimen_name: annotation.target.id,
                 property: annotation.target.indvProp,
                 motivation: annotation.motivation,
                 date: Moment(annotation.created).format('MM-DD-YYYY')
@@ -69,7 +69,7 @@ const AnnotationsTable = () => {
 
     /* Function for when clicked on a table row, redirect to Annotation on Specimen page */
     const OnAnnotationSelect = (row: DataRow) => {
-        navigate(`/ds/${row.specimen_id.replace('https://hdl.handle.net/', '')}`);
+        navigate(`/ds/${row.specimen_id.replace('https://doi.org/', '')}`);
     }
 
     /* Custom styles for Data Table */

@@ -2,14 +2,14 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResultArray, Dict } from 'global/Types';
+import { JSONResultArray, Dict } from 'app/Types';
 
 
 const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, token?: string) => {
     let digitalMediaMAS: Dict[] = [];
 
     if (handle && token) {
-        const endPoint: string = `/digitalmedia/${handle.replace('https://hdl.handle.net/', '')}/mas`;
+        const endPoint: string = `/digitalmedia/${handle.replace('https://doi.org/', '')}/mas`;
 
         try {
             const result = await axios({

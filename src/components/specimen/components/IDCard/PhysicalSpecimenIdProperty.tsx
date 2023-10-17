@@ -2,26 +2,26 @@
 import validator from 'validator';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
 const PhysicalSpecimenIdProperty = (props: Props) => {
     const { specimen } = props;
 
-    if (specimen.physicalSpecimenId && validator.isURL(specimen.physicalSpecimenId)) {
-        return <a href={specimen.physicalSpecimenId} target="_blank" rel="noreferrer"
+    if (specimen.physicalSpecimenId && validator.isURL(specimen['ods:normalisedPhysicalSpecimenId'] ?? '')) {
+        return <a href={specimen['ods:normalisedPhysicalSpecimenId']} target="_blank" rel="noreferrer"
             className="c-accent"
         >
-            {specimen.physicalSpecimenId}
+            {specimen['ods:normalisedPhysicalSpecimenId']}
         </a>
     } else {
-        return <span> {specimen.physicalSpecimenId} </span>;
+        return <span> {specimen['ods:normalisedPhysicalSpecimenId']} </span>;
     }
 }
 

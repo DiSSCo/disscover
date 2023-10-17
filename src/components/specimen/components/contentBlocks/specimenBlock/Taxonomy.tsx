@@ -23,11 +23,11 @@ const Taxonomy = (props: Props) => {
 
     /* Main properties */
     const properties = [
-        { name: 'Kingdom', value: specimen.data['dwc:kingdom'], property: 'dwc:kingdom' },
-        { name: 'Phylum', value: specimen.data['dwc:phylum'], property: 'dwc:phylum' },
-        { name: 'Order', value: specimen.data['dwc:order'], property: 'dwc:order' },
-        { name: 'Family', value: specimen.data['dwc:family'], property: 'dwc:family' },
-        { name: 'Genus', value: specimen.data['dwc:genus'], property: 'dwc:genus' }
+        { name: 'Kingdom', value: "" /*specimen.data['dwc:kingdom']*/, property: 'dwc:kingdom' },
+        { name: 'Phylum', value: "" /*specimen.data['dwc:phylum']*/, property: 'dwc:phylum' },
+        { name: 'Order', value: "" /*specimen.data['dwc:order']*/, property: 'dwc:order' },
+        { name: 'Family', value: "" /*specimen.data['dwc:family']*/, property: 'dwc:family' },
+        { name: 'Genus', value: "" /*specimen.data['dwc:genus']*/, property: 'dwc:genus' }
     ];
 
     return (

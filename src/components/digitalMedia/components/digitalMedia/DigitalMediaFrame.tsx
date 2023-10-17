@@ -6,7 +6,7 @@ import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Types */
-import { Annotation } from 'global/Types';
+import { Annotation } from 'app/Types';
 
 /* Import Components */
 import ImageViewer from 'components/general/mediaTypes/ImageViewer';
@@ -34,7 +34,7 @@ const DigitalMediaFrame = (props: Props) => {
     switch (digitalMedia.type) {
         case '2DImageObject':
             digitalMediaContent = <Annotorious>
-                <ImageViewer mediaUrl={digitalMedia.mediaUrl}
+                <ImageViewer mediaUrl={digitalMedia['ac:accessUri']}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                 />
             </Annotorious>
@@ -49,8 +49,8 @@ const DigitalMediaFrame = (props: Props) => {
 
             break;
         default:
-            if (digitalMedia.format === 'application/json' || digitalMedia.format === 'application/ld+json') {
-                digitalMediaContent = <IIIFViewer mediaUrl={digitalMedia.mediaUrl} />
+            if (digitalMedia['dcterms:format'] === 'application/json' || digitalMedia['dcterms:format'] === 'application/ld+json') {
+                digitalMediaContent = <IIIFViewer mediaUrl={digitalMedia['ac:accessUri']} />
             } else {
                 digitalMediaContent = <File digitalMedia={digitalMedia} />
             }

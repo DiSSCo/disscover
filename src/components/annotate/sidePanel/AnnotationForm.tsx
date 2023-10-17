@@ -12,7 +12,7 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation, Dict } from 'global/Types';
+import { Annotation, AnnotationTemplate, Dict } from 'app/Types';
 
 /* Import Sources */
 import HarmonisedAttributes from 'sources/hamonisedAttributes.json';
@@ -47,7 +47,7 @@ const AnnotationForm = (props: Props) => {
     /* Function for submitting a new Annotation */
     const SubmitAnnotation = (form: Dict) => {
         /* Prepare new Annotation object */
-        const annotation = {
+        const annotation: AnnotationTemplate = {
             type: 'Annotation',
             motivation: form.motivation,
             body: {
@@ -56,7 +56,7 @@ const AnnotationForm = (props: Props) => {
                 ...(!isEmpty(form.additionalFields) && { ...form.additionalFields }),
             },
             target: {
-                id: annotateTarget.target.id,
+                id: annotateTarget.target['ods:id'],
                 type: annotateTarget.targetType,
                 indvProp: form.targetProperty
             }
@@ -121,7 +121,7 @@ const AnnotationForm = (props: Props) => {
                                                 Whole specimen
                                             </option>
 
-                                            {Object.keys(annotateTarget.target.data).map((property) => {
+                                            {Object.keys(annotateTarget.target).map((property) => {
                                                 return (
                                                     <option key={property} value={property}>
                                                         {harmonisedAttributes[property as keyof typeof harmonisedAttributes].displayName}

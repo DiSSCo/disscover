@@ -9,7 +9,7 @@ import { useAppSelector } from 'app/hooks';
 import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
 /* Import Types */
-import { SourceSystem } from 'global/Types';
+import { SourceSystem } from 'app/Types';
 
 /* Import API */
 import GetSourceSystem from 'api/sourceSystem/GetSourceSystem';
@@ -28,7 +28,7 @@ const OriginalData = () => {
 
     /* OnLoad: Fetch Source System */
     useEffect(() => {
-        GetSourceSystem(specimen.sourceSystemId.replace('https://hdl.handle.net/', '')).then((sourceSystem) => {
+        GetSourceSystem(specimen['ods:sourceSystem'].replace('https://hdl.handle.net/', '')).then((sourceSystem) => {
             if (sourceSystem) {
                 setSourceSystem(sourceSystem);
             }

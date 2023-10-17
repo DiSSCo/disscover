@@ -3,21 +3,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { Specimen, SpecimenDigitalMedia, SpecimenAnnotations } from 'global/Types';
+import { DigitalSpecimen, DigitalMedia, SpecimenAnnotations } from 'app/Types';
 
 
 export interface SpecimenState {
-    specimen: Specimen;
+    specimen: DigitalSpecimen;
     specimenVersions: number[];
-    specimenDigitalMedia: SpecimenDigitalMedia[];
+    specimenDigitalMedia: DigitalMedia[];
     specimenAnnotations: SpecimenAnnotations;
     specimenMidsProperty: string;
 }
 
 const initialState: SpecimenState = {
-    specimen: {} as Specimen,
+    specimen: {} as DigitalSpecimen,
     specimenVersions: [],
-    specimenDigitalMedia: [] as SpecimenDigitalMedia[],
+    specimenDigitalMedia: [] as DigitalMedia[],
     specimenAnnotations: {} as SpecimenAnnotations,
     specimenMidsProperty: ''
 };
@@ -26,13 +26,13 @@ export const SpecimenSlice = createSlice({
     name: 'specimen',
     initialState,
     reducers: {
-        setSpecimen: (state, action: PayloadAction<Specimen>) => {
+        setSpecimen: (state, action: PayloadAction<DigitalSpecimen>) => {
             state.specimen = action.payload;
         },
         setSpecimenVersions: (state, action: PayloadAction<number[]>) => {
             state.specimenVersions = action.payload;
         },
-        setSpecimenDigitalMedia: (state, action: PayloadAction<SpecimenDigitalMedia[]>) => {
+        setSpecimenDigitalMedia: (state, action: PayloadAction<DigitalMedia[]>) => {
             state.specimenDigitalMedia = action.payload;
         },
         setSpecimenAnnotations: (state, action: PayloadAction<SpecimenAnnotations>) => {

@@ -1,9 +1,9 @@
 /* Import Dependencies */
-import { CheckProperty } from 'global/Utilities';
+import { CheckProperty } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +12,7 @@ import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -29,15 +29,18 @@ const CollectionExt = (props: Props) => {
 
                 <p className="fs-4">
                     <span className="fw-bold"> Collecting number: </span>
-                    {CheckProperty(specimen.data['ods:collectingNumber'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen['ods:collectingNumber'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Collector: </span>
-                    {CheckProperty(specimen.data['ods:collector'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen['ods:collector'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Date collected: </span>
-                    {CheckProperty(specimen.data['ods:dateCollected'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen['ods:dateCollected'])} */}
                 </p>
             </Col>
         </Row>

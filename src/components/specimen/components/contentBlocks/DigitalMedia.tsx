@@ -1,11 +1,14 @@
 /* Import Dependencies */
 import { Link } from 'react-router-dom';
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
 import { getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
+
+/* Import Types */
+import { DigitalMedia as DigitalMediaType } from 'app/Types';
 
 /* Components */
 import Image from 'components/general/mediaTypes/Image';
@@ -20,13 +23,11 @@ const DigitalMedia = () => {
     let sortedDigitalMedia: { [mediaType: string]: React.ReactElement[] } = {};
 
     /* Sort Digital Media based upon type/format */
-    specimenDigitalMedia.forEach((item) => {
-        const digitalMediaItem = item.digitalMediaObject;
-
-        switch (digitalMediaItem.type) {
+    specimenDigitalMedia.forEach((digitalMediaItem: DigitalMediaType) => {
+        switch (digitalMediaItem['ods:type']) {
             case '2DImageObject':
                 (sortedDigitalMedia.images || (sortedDigitalMedia.images = [])).push(
-                    <Link to={`/dm/${digitalMediaItem.id.replace('https://hdl.handle.net/', '')}`}>
+                    <Link to={`/dm/${digitalMediaItem['ods:id'].replace('https://doi.org/', '')}`}>
                         <Image digitalMedia={digitalMediaItem}
                             sizeOrientation='width' hoverEffect={true}
                         />

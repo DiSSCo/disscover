@@ -1,9 +1,9 @@
 /* Import Types */
-import { Annotation as AnnotationType, JSONResult } from 'global/Types';
+import { Annotation as AnnotationType, Dict } from 'app/Types';
 
 
 /* User Model for API calls */
-const AnnotationModel = (data: JSONResult['data']) => {
+const AnnotationModel = (data: Dict) => {
     const annotation: AnnotationType = {
         id: data.id,
         body: {

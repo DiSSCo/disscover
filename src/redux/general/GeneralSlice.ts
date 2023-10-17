@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { PaginationObject } from 'global/Types';
+import { PaginationObject } from 'app/Types';
 
 
 export interface GeneralState {

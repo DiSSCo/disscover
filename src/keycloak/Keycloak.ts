@@ -2,7 +2,7 @@
 import Keycloak from 'keycloak-js';
 
 /* Import Types */
-import { EmptyCallback } from 'global/Types';
+import { EmptyCallback } from 'app/Types';
 
 
 const keycloak = new Keycloak({

@@ -8,7 +8,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { setSearchSpecimen, setCompareMode, getCompareSpecimens, setCompareSpecimens } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
@@ -40,7 +40,7 @@ const Compare = () => {
     useEffect(() => {
         if (compareSpecimens.length !== searchParams.getAll('ds').length && compareSpecimens.length !== 1) {
             if (searchParams.getAll('ds').length > 0) {
-                const compareSpecimens: Specimen[] = [];
+                const compareSpecimens: DigitalSpecimen[] = [];
 
                 searchParams.getAll('ds').forEach((specimenId) => {
                     GetSpecimen(specimenId).then((specimen) => {
@@ -75,7 +75,7 @@ const Compare = () => {
         dispatch(setCompareSpecimens(copyCompareSpecimens));
 
         /* Remove specimen id from Search Params */
-        const newParams = searchParams.getAll('ds').filter((paramSpecimenId: string) => paramSpecimenId !== specimenId.replace('https://hdl.handle.net/', ''));
+        const newParams = searchParams.getAll('ds').filter((paramSpecimenId: string) => paramSpecimenId !== specimenId.replace('https://doi.org/', ''));
 
         searchParams.delete('ds');
 
@@ -112,7 +112,7 @@ const Compare = () => {
                                     ];
 
                                     return (
-                                        <Col key={specimen.id}>
+                                        <Col key={specimen['ods:id']}>
                                             <IDCard specimen={specimen}
                                                 extensions={extensions}
                                                 OnClose={(specimenId: string) => RemoveFromComparison(specimenId)}

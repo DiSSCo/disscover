@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
-import { DetectMobile } from 'global/Utilities';
+import { DetectMobile } from 'app/Utilities';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';

@@ -1,11 +1,8 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import SpecimenModel from 'api/model/SpecimenModel';
-
 /* Import Types */
-import { Specimen, SearchFilter, JSONResultArray, Dict } from 'global/Types';
+import { DigitalSpecimen, SearchFilter, JSONResultArray, Dict } from 'app/Types';
 
 
 const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, pageNumber?: number) => {
@@ -24,7 +21,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
     });
 
     /* Execute call */
-    let searchResults: Specimen[] = [];
+    let searchResults: DigitalSpecimen[] = [];
     let links: Dict = {};
     let totalRecords: number = 0;
 
@@ -49,9 +46,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
             links = data.links;
 
             data.data.forEach((dataRow) => {
-                const specimen = SpecimenModel(dataRow);
-
-                searchResults.push(specimen);
+                searchResults.push(dataRow.attributes.digitalSpecimen as DigitalSpecimen);
             });
             
             /* Set total records if present */

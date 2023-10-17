@@ -6,7 +6,7 @@ import { ImageAnnotation } from '@annotorious/react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from './mediaTypes.module.scss';

@@ -2,7 +2,7 @@
 import DigitalMediaFilterLayer from 'sources/digitalMediaFilterLayer.json';
 
 /* Import Types */
-import { DigitalMedia, Dict } from 'global/Types';
+import { DigitalMedia, Dict } from 'app/Types';
 
 
 const FilterDigitalMedia = (digitalMediaItem: DigitalMedia) => {
@@ -21,10 +21,10 @@ const FilterDigitalMedia = (digitalMediaItem: DigitalMedia) => {
 
             if (property in digitalMediaItem) {
                 propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem[property as keyof DigitalMedia], } };
-            } else if (`dwc:${property}` in digitalMediaItem['data']) {
-                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem['data'][`dwc:${property}`] } };
-            } else if (`dcterms:${property}` in digitalMediaItem['data']) {
-                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem['data'][`dcterms:${property}`] } };
+            } else if (`dwc:${property}` in digitalMediaItem) {
+                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem[`dwc:${property}`] } };
+            } else if (`dcterms:${property}` in digitalMediaItem) {
+                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem[`dcterms:${property}`] } };
             } else {
                 let defaultValue: any = "Undefined";
 

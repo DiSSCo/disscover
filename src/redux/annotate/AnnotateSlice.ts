@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { Annotation, AnnotateTarget, Specimen, DigitalMedia } from 'global/Types';
+import { Annotation, AnnotateTarget, DigitalSpecimen, DigitalMedia } from 'app/Types';
 
 
 export interface AnnotateState {
@@ -13,7 +13,7 @@ export interface AnnotateState {
     editAnnotation: Annotation;
     highlightAnnotationId: string;
     overviewAnnotations: Annotation[];
-    MASTarget: Specimen | DigitalMedia
+    MASTarget: DigitalSpecimen | DigitalMedia
 }
 
 const initialState: AnnotateState = {
@@ -22,14 +22,14 @@ const initialState: AnnotateState = {
     annotateTarget: {
         property: '',
         motivation: '',
-        target: {} as Specimen | DigitalMedia,
+        target: {} as DigitalSpecimen | DigitalMedia,
         targetType: '',
         annotations: [] as Annotation[]
     },
     editAnnotation: {} as Annotation,
     highlightAnnotationId: '',
     overviewAnnotations: [],
-    MASTarget: {} as Specimen | DigitalMedia
+    MASTarget: {} as DigitalSpecimen | DigitalMedia
 };
 
 export const AnnotateSlice = createSlice({
@@ -54,7 +54,7 @@ export const AnnotateSlice = createSlice({
         setOverviewAnnotations: (state, action: PayloadAction<Annotation[]>) => {
             state.overviewAnnotations = action.payload;
         },
-        setMASTarget: (state, action: PayloadAction<Specimen | DigitalMedia>) => {
+        setMASTarget: (state, action: PayloadAction<DigitalSpecimen | DigitalMedia>) => {
             state.MASTarget = action.payload;
         }
     },

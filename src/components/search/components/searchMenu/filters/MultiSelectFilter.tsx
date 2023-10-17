@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Field, FieldArray } from 'formik';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchAggregations, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { SearchFilter, Dict } from 'global/Types';
+import { SearchFilter, Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

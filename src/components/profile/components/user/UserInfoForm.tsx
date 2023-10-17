@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap'
 
 /* Import Types */
-import { User, Organisation } from 'global/Types';
+import { User, Organisation } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/profile/profile.module.scss';

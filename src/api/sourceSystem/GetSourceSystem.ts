@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { SourceSystem } from 'global/Types';
+import { SourceSystem } from 'app/Types';
 
 
 const GetSourceSystem = async (handle: string) => {

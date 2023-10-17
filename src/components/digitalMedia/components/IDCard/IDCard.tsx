@@ -54,7 +54,7 @@ const IDCard = () => {
                                             <p> ID Card </p>
                                         </Col>
                                         <Col className="fs-4 c-secondary col-md-auto fw-lightBold">
-                                            <p> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </p>
+                                            <p> {digitalMedia['ods:id'].replace('https://doi.org/', '')} </p>
                                         </Col>
                                     </Row>
                                 </Card.Subtitle>
@@ -64,7 +64,7 @@ const IDCard = () => {
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50" role="modalTrigger">Digital Specimen ID</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalSpecimenId} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {/* Digital Specime Id */} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
@@ -72,37 +72,37 @@ const IDCard = () => {
                                                 onClick={() => ToggleSidePanel('mediaUrl')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">Media URL</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.mediaUrl} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['ac:accessUri']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className="m-0 py-1">
                                                 <span className="fw-lightBold m-0 h-50">Title</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.data['dcterms:title']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:description']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className="m-0 py-1">
                                                 <span className="fw-lightBold m-0 h-50">Format</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.format} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:format']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50">Type</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.type} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:type']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}>
                                                 <span className="fw-lightBold m-0 h-50">Publisher</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.data['dcterms:publisher']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dwc:institutionName']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50">Rightsholder</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.data['rightsHolder']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:rightsHolder']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
@@ -110,7 +110,7 @@ const IDCard = () => {
                                                 onClick={() => ToggleSidePanel('dcterms:license')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">License</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.data['dcterms:license']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:license']} </span>
                                             </Col>
                                         </Row>
                                     </Col>

@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import KeycloakService from 'keycloak/Keycloak';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 
 /* Props Typing */

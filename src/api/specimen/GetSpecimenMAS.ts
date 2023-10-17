@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResultArray, Dict } from 'global/Types';
+import { JSONResultArray, Dict } from 'app/Types';
 
 
 const GetSpecimenMAS = async (handle: string) => {

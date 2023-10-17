@@ -2,7 +2,7 @@
 import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
-import { RandomString } from 'global/Utilities';
+import { RandomString } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -11,7 +11,7 @@ import { pushToPromptMessages } from 'redux/general/GeneralSlice';
 import { getMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +53,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target.id, MASRecord, KeycloakService.GetToken()).then((specimenMAS) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((specimenMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -64,7 +64,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target.id, MASRecord, KeycloakService.GetToken()).then((digitalMediaMAS) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((digitalMediaMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),

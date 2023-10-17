@@ -33,6 +33,7 @@
     "i18next": "^22.4.15",
     "intro.js": "^7.0.1",
     "intro.js-react": "^1.0.0",
+    "json-schema-to-typescript": "^13.1.1",
     "keycloak-js": "^18.0.1",
     "leaflet": "^1.9.3",
     "lodash": "^4.17.21",

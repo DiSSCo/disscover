@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { useEffect, useState, useRef } from 'react';
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import classNames from 'classnames';
 
 /* Import Store */
@@ -8,7 +8,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setIntroTopic } from 'redux/general/GeneralSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from '../header.module.scss';

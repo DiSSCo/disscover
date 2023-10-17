@@ -2,7 +2,7 @@
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { DigitalMedia } from 'global/Types';
+import { DigitalMedia } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,7 +27,7 @@ const File = (props: Props) => {
                     />
                 </Col>
                 <Col>
-                    <p className="fs-4"> {digitalMedia.mediaUrl} </p>
+                    <p className="fs-4"> {digitalMedia['ac:accessUri']} </p>
                 </Col>
             </Row>
         </div>

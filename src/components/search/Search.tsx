@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
-import { GetFilters } from 'global/Utilities';
+import { GetFilters } from 'app/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -15,7 +15,7 @@ import {
 } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen, SearchFilter, Dict } from 'global/Types';
+import { DigitalSpecimen, SearchFilter, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from './search.module.scss';
@@ -129,7 +129,7 @@ const Search = () => {
         }
 
         /* Function for handling Search results, page number and filters after new call */
-        const HandleSearch = (specimens: Specimen[], links: Dict, totalRecords: number) => {
+        const HandleSearch = (specimens: DigitalSpecimen[], links: Dict, totalRecords: number) => {
             /* Set Search Results / Specimens */
             dispatch(setSearchResults(specimens));
 
@@ -207,7 +207,7 @@ const Search = () => {
                                                 <Col className="h-100 col-md-auto pe-0">
                                                     <button type="button"
                                                         className="primaryButton px-3 py-1"
-                                                        onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as Specimen)) }}
+                                                        onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as DigitalSpecimen)) }}
                                                     >
                                                         <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
                                                     </button>
@@ -223,7 +223,7 @@ const Search = () => {
                                 <Col className="col-md-auto">
                                     <button type="button"
                                         className={`${styles.compareButton} rounded-full transition px-3 py-1`}
-                                        onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as Specimen)); }}
+                                        onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as DigitalSpecimen)); }}
                                     >
                                         Compare
                                     </button>
@@ -293,7 +293,7 @@ const Search = () => {
                                                             </Col>
                                                         </Row>
                                                     ]}
-                                                    OnClose={() => dispatch(setSearchSpecimen({} as Specimen))}
+                                                    OnClose={() => dispatch(setSearchSpecimen({} as DigitalSpecimen))}
                                                 />
                                             }
                                         </Col>

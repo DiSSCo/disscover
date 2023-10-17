@@ -1,3 +1,8 @@
+/* Import Types */
+import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
+import { DigitalEntity } from "./types/DigitalEntity";
+
+
 /* Generic Types */
 export type Callback = {
     (param: any): void;
@@ -17,7 +22,14 @@ export type JSONResult = {
     data: {
         id: string,
         type: string,
-        attributes: Dict
+        attributes: {
+            digitalSpecimen?: DigitalSpecimenType,
+            digitalEntity?: DigitalEntity,
+            digitalMediaObjects?: DigitalEntity[],
+            originalData?: Dict,
+            annotations?: Annotation[],
+            [property: string]: any
+        }
     },
     links: {
         self: string
@@ -31,7 +43,13 @@ export type JSONResultArray = {
     data: {
         id: string,
         type: string,
-        attributes: Dict
+        attributes: {
+            digitalSpecimen?: DigitalSpecimenType,
+            digitalEntity?: DigitalEntity,
+            digitalMediaObjects?: DigitalEntity[],
+            originalData?: Dict,
+            annotations?: Annotation[]
+        }
     }[],
     links: {
         self: string
@@ -57,47 +75,18 @@ export interface SearchFilter {
 }
 
 /* Specimen Types */
-export interface Specimen {
-    id: string,
-    created: Date,
-    data: Dict,
-    dwcaId: string,
-    midsLevel: number,
-    organisationId: string,
-    originalData: Dict,
-    physicalSpecimenCollection: string,
-    physicalSpecimenId: string,
-    physicalSpecimenIdType: string,
-    sourceSystemId: string,
-    specimenName: string,
-    version: number,
-    type: string
-};
-
-export interface SpecimenDigitalMedia {
-    annotations: Annotation[],
-    digitalMediaObject: DigitalMedia,
-    created: Date
-};
+export interface DigitalSpecimen extends DigitalSpecimenType {
+    originalData: Dict
+}
 
 export interface SpecimenAnnotations {
     [specimenProperty: string]: Annotation[]
 };
 
-/* Digital Media Type */
-export interface DigitalMedia {
-    id: string,
-    created: Date,
-    data: Dict,
-    digitalSpecimenId: string,
-    format: string,
-    mediaUrl: string,
+/* Digital Media Types */
+export interface DigitalMedia extends DigitalEntity {
     originalData: Dict
-    sourceSystemId: string,
-    type: string,
-    version: number,
-    filtered?: Dict
-};
+}
 
 export type DigitalMediaAnnotations = {
     [digitalMediaProperty: string]: Annotation[] | any
@@ -144,9 +133,6 @@ export interface Annotation {
     generator?: Dict,
     generated?: Date,
     deleted_on?: Date
-    /* Temporary solution */
-    specimen?: Specimen
-    digitalMedia?: DigitalMedia
 };
 
 export interface AnnotationTemplate {
@@ -180,7 +166,7 @@ export interface ImageAnnotationTemplate {
             type: string,
             conformsTo: string,
             hasROI: {
-                "ac:xFrac": number, 
+                "ac:xFrac": number,
                 "ac:yFrac": number,
                 "ac:widthFrac": number,
                 "ac:heightFrac": number
@@ -193,7 +179,7 @@ export interface ImageAnnotationTemplate {
 export interface AnnotateTarget {
     property: string,
     motivation?: string,
-    target: Specimen | DigitalMedia,
+    target: DigitalSpecimenType | DigitalEntity,
     targetType: string,
     annotations: Annotation[]
 };

@@ -14,7 +14,7 @@ import {
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
-import { Annotation as AnnotationType } from 'global/Types';
+import { Annotation as AnnotationType } from 'app/Types';
 
 /* Import Sources */
 import AnnotationMotivations from 'sources/annotationMotivations.json';

@@ -5,7 +5,7 @@ import axios from 'axios';
 import UserModel from 'api/model/UserModel';
 
 /* Import Types */
-import { JSONResult, User } from 'global/Types';
+import { JSONResult, User } from 'app/Types';
 
 
 const GetUser = async (userId?: string, token?: string) => {

@@ -32,7 +32,7 @@ const GeoReference = () => {
 
                 {/* Leaflet Map */}
                 <div className="flex-grow-1 d-flex justify-content-center align-items-center">
-                    {specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude'] ?
+                    {/*specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude'] ?
                         <MapContainer center={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
                             zoom={13} scrollWheelZoom={false} style={{ width: "100%", height: "100%" }}
                         >
@@ -52,7 +52,7 @@ const GeoReference = () => {
                             </Marker>
                         </MapContainer>
                         : <p className="fst-italic"> Map can not be generated due to lack of coordinates </p>
-                    }
+                    */}
                 </div>
             </Card.Body>
         </Card>

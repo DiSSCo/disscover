@@ -1,5 +1,5 @@
 /* Import Components */
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import { Col } from 'react-bootstrap';
 
 /* Import Styles */

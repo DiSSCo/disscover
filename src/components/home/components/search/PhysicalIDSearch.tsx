@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchPhysicalId, setSearchPhysicalId, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen, Organisation, Dict } from 'global/Types';
+import { DigitalSpecimen, Organisation, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -46,7 +46,7 @@ const PhysicalIDSearch = () => {
     /* Function for handling Physical ID search */
     const HandleSearch = (formData: Dict) => {
         /* Reset Search Specimen */
-        dispatch(setSearchSpecimen({} as Specimen));
+        dispatch(setSearchSpecimen({} as DigitalSpecimen));
 
         if (formData.idType === 'gui') {
             /* Set search state */
@@ -59,7 +59,7 @@ const PhysicalIDSearch = () => {
             SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).then(({ specimens }) => {
                 if (!isEmpty(specimens)) {
                     navigate({
-                        pathname: `/ds/${specimens[0].id.replace('https://hdl.handle.net/', '')}`,
+                        pathname: `/ds/${specimens[0]['ods:id'].replace('https://doi.org/', '')}`,
                     });
                 } else {
                     /* Display not found message */
@@ -81,7 +81,7 @@ const PhysicalIDSearch = () => {
                 SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({ specimens }) => {
                     if (!isEmpty(specimens)) {
                         navigate({
-                            pathname: `/ds/${specimens[0].id.replace('https://hdl.handle.net/', '')}`,
+                            pathname: `/ds/${specimens[0]['ods:id'].replace('https://doi.org/', '')}`,
                         });
                     } else {
                         /* Display not found message */

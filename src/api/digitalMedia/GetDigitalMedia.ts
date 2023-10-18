@@ -8,7 +8,11 @@ import { DigitalMedia, JSONResult } from 'app/Types';
 const GetDigitalMedia = async (handle: string, version?: string) => {
     let digitalMedia = {} as DigitalMedia;
 
-    const endPoint = `digitalmedia/${handle}${version ? `/${version}`: ''}`;
+    let endPoint = `digitalmedia/${handle}`;
+
+    if (version) {
+        endPoint = endPoint.concat(`/${version}`)
+    }
 
     try {
         const result = await axios({

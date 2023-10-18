@@ -37,7 +37,7 @@ const AnnotateSteps = (props: Props) => {
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
-    const [targetInterval, setTargetInterval] = useState<NodeJS.Timer>();
+    const [targetInterval, setTargetInterval] = useState<ReturnType<typeof setInterval>>();
     const annotateIntro = SpecimenIntro.annotate;
 
     /* Dummy Annotation for Showcase */

@@ -5,11 +5,11 @@ import { DigitalEntity } from "./types/DigitalEntity";
 
 /* Generic Types */
 export type Callback = {
-    (param: any): void;
+    (param: any): Function | void;
 };
 
 export type EmptyCallback = {
-    (): void;
+    (): Function | void;
 }
 
 export type Dict = {
@@ -89,7 +89,7 @@ export interface DigitalMedia extends DigitalEntity {
 }
 
 export type DigitalMediaAnnotations = {
-    [digitalMediaProperty: string]: Annotation[] | any
+    [digitalMediaProperty: string]: Annotation[]
 };
 
 export type DigitalMediaObservation = {

@@ -10,7 +10,7 @@ import { useAppSelector } from 'app/hooks';
 import { getMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Impor Types */
-import { Dict, Specimen, DigitalMedia } from 'global/Types';
+import { DigitalSpecimen, DigitalMedia, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -41,20 +41,20 @@ const AutomatedAnnotationsModal = (props: Props) => {
     const location = useLocation();
 
     /* Base variables */
-    const target: Specimen | DigitalMedia = useAppSelector(getMASTarget);
+    const target: DigitalSpecimen | DigitalMedia = useAppSelector(getMASTarget);
     const [targetMAS, setTargetMAS] = useState<Dict[]>([]);
 
     /* OnLoad: Fetch Specimen MAS */
     useEffect(() => {
         if (automatedAnnotationsToggle) {
             if (location.pathname.includes('ds')) {
-                GetSpecimenMAS(target.id.replace('https://hdl.handle.net/', '')).then((specimenMAS) => {
+                GetSpecimenMAS(target['ods:id'].replace('https://doi.org/', '')).then((specimenMAS) => {
                     setTargetMAS(specimenMAS);
                 }).catch(error => {
                     console.warn(error);
                 });
             } else if (location.pathname.includes('dm')) {
-                GetDigitalMediaMAS(target.id.replace('https://hdl.handle.net/', '')).then((digitalMediaMAS) => {
+                GetDigitalMediaMAS(target['ods:id'].replace('https://doi.org/', '')).then((digitalMediaMAS) => {
                     setTargetMAS(digitalMediaMAS);
                 }).catch(error => {
                     console.warn(error);

@@ -9,7 +9,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen, Organisation, Dict } from 'global/Types';
+import { DigitalSpecimen, Organisation, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -38,7 +38,7 @@ const CollectionFacilitySearch = () => {
     /* Function for handling Collection Facility search */
     const HandleSearch = (formData: Dict) => {
         /* Reset search specimen */
-        dispatch(setSearchSpecimen({} as Specimen));
+        dispatch(setSearchSpecimen({} as DigitalSpecimen));
 
         if (formData.idType === 'local') {
             /* Navigate to Search page with Organisation as filter */

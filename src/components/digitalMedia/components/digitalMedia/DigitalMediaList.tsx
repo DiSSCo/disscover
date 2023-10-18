@@ -6,7 +6,7 @@ import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Types */
-import { DigitalMedia } from 'global/Types';
+import { DigitalMedia } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
@@ -25,7 +25,7 @@ const DigitalMediaList = () => {
 
     /* Search and fetch all other Digital Media items from target specimen */
     useEffect(() => {
-        GetSpecimenDigitalMedia(digitalMedia.digitalSpecimenId.replace('https://hdl.handle.net/', '')).then((specimenDigitalMedia) => {
+        GetSpecimenDigitalMedia(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((specimenDigitalMedia) => {
             if (specimenDigitalMedia) {
                 setSpecimenDigitalMedia(specimenDigitalMedia);
             }
@@ -40,7 +40,7 @@ const DigitalMediaList = () => {
     if (specimenDigitalMedia) {
         specimenDigitalMedia.forEach((specimenDigitalMedia) => {
             digitalMediaItems.push(
-                <DigitalMediaListItem key={specimenDigitalMedia.id} specimenDigitalMedia={specimenDigitalMedia} />
+                <DigitalMediaListItem key={specimenDigitalMedia['ods:id']} specimenDigitalMedia={specimenDigitalMedia} />
             );
         });
     }

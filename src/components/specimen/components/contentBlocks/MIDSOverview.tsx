@@ -2,7 +2,7 @@
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';

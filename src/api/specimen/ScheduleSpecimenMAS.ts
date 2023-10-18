@@ -2,14 +2,14 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResultArray, Dict } from 'global/Types';
+import { JSONResultArray, Dict } from 'app/Types';
 
 
 const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, token?: string) => {
     let specimenMAS: Dict[] = [];
 
     if (handle && token) {
-        const endPoint: string = `/specimens/${handle.replace('https://hdl.handle.net/', '')}/mas`;
+        const endPoint: string = `/specimens/${handle.replace('https://doi.org/', '')}/mas`;
 
         try {
             const result = await axios({

@@ -23,14 +23,14 @@ const Location = (props: Props) => {
 
     /* Main properties */
     const properties = [
-        { name: 'Country', value: specimen.data['dwc:country'], property: 'dwc:country' },
-        { name: 'Locality', value: specimen.data['dwc:locality'], property: 'dwc:locality' },
-        { name: 'Contintent', value: specimen.data['dwc:continent'], property: 'dwc:continent' },
-        { name: 'Country Code', value: specimen.data['dwc:countryCode'], property: 'dwc:countryCode' },
-        { name: 'Island', value: specimen.data['dwc:island'], property: 'dwc:island' },
-        { name: 'Island Group', value: specimen.data['dwc:islandGroup'], property: 'dwc:islandGroup' },
-        { name: 'State Province', value: specimen.data['dwc:stateProvince'], property: 'dwc:stateProvince' },
-        { name: 'Water Body', value: specimen.data['dwc:waterBody'], property: 'dwc:waterBody' }
+        { name: 'Country', value: "" /*specimen.data['dwc:country']*/, property: 'dwc:country' },
+        { name: 'Locality', value: "" /*specimen.data['dwc:locality']*/, property: 'dwc:locality' },
+        { name: 'Contintent', value: "" /*specimen.data['dwc:continent']*/, property: 'dwc:continent' },
+        { name: 'Country Code', value: "" /*specimen.data['dwc:countryCode']*/, property: 'dwc:countryCode' },
+        { name: 'Island', value: "" /*specimen.data['dwc:island']*/, property: 'dwc:island' },
+        { name: 'Island Group', value: "" /*specimen.data['dwc:islandGroup']*/, property: 'dwc:islandGroup' },
+        { name: 'State Province', value: "" /*specimen.data['dwc:stateProvince']*/, property: 'dwc:stateProvince' },
+        { name: 'Water Body', value: "" /*specimen.data['dwc:waterBody']*/, property: 'dwc:waterBody' }
     ];
 
     return (

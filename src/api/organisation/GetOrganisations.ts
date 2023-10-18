@@ -5,7 +5,7 @@ import axios from 'axios';
 import OrganisationModel from 'api/model/OrganisationModel';
 
 /* Import Types */
-import { Organisation, JSONResultArray } from 'global/Types';
+import { Organisation, JSONResultArray } from 'app/Types';
 
 
 const GetOrganisations = async () => {

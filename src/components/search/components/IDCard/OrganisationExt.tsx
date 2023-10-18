@@ -1,9 +1,9 @@
 /* Import Dependencies */
-import { CheckProperty } from 'global/Utilities';
+import { CheckProperty } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +12,7 @@ import { faLandmark } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -29,11 +29,11 @@ const OrganisationExt = (props: Props) => {
 
                 <p className="fs-4">
                     <span className="fw-bold"> Name: </span>
-                    {CheckProperty(specimen.data['ods:organisationName'])}
+                    {CheckProperty(specimen['dwc:institutionName'])}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> ROR identifier: </span>
-                    {specimen.organisationId.replace('https://ror.org/', '')}
+                    {specimen['dwc:institutionId']?.replace('https://ror.org/', '')}
                 </p>
             </Col>
         </Row>

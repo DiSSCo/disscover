@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, Dict } from 'global/Types';
+import { JSONResult, Dict } from 'app/Types';
 
 
 const GetSpecimenDisciplines = async () => {

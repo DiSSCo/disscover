@@ -5,7 +5,7 @@ import axios from 'axios';
 import AnnotationModel from "api/model/AnnotationModel";
 
 /* Import Types */
-import { Annotation, JSONResultArray, Dict } from 'global/Types';
+import { Annotation, JSONResultArray, Dict } from 'app/Types';
 
 
 const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {

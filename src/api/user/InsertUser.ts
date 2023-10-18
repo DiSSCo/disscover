@@ -5,7 +5,7 @@ import axios from 'axios';
 import UserModel from 'api/model/UserModel';
 
 /* Import Types */
-import { User, Dict, JSONResult } from 'global/Types';
+import { User, Dict, JSONResult } from 'app/Types';
 
 
 const InsertUser = async (userId?: string, token?: string, keycloakParsed?: Dict) => {

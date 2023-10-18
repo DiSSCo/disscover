@@ -1,10 +1,10 @@
 /* Import Types */
-import { Specimen } from "global/Types";
+import { DigitalSpecimen } from "app/Types";
 
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -14,13 +14,13 @@ const OrganisationProperty = (props: Props) => {
     /* Base variables */
     let organisationText: string;
 
-    if (specimen.data['ods:organisationName']) {
-        organisationText = specimen.data['ods:organisationName'];
+    if (specimen['dwc:institutionName']) {
+        organisationText = specimen['dwc:institutionName'] ?? '';
     } else {
-        organisationText = specimen.organisationId;
+        organisationText = specimen['dwc:institutionId'] ?? '';
     }
 
-    return <a href={specimen.organisationId} target="_blank" rel="noreferrer"> {organisationText} </a>;
+    return <a href={specimen['dwc:institutionId']} target="_blank" rel="noreferrer"> {organisationText} </a>;
 
 }
 

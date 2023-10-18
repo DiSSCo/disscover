@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, SearchFilter, Dict } from 'global/Types';
+import { JSONResult, SearchFilter, Dict } from 'app/Types';
 
 
 const GetSpecimenAggregations = async (searchFilters?: SearchFilter[]) => {

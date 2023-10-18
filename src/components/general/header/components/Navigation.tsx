@@ -9,7 +9,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 
 /* Import Styles */
 import styles from '../header.module.scss';
@@ -50,7 +50,7 @@ const Navigation = () => {
                 <Col className="col-lg-auto col-md-12 px-lg-5 px-4">
                     <Link to="/search" onClick={() => {
                         if (!(location.pathname.includes('search'))) {
-                            dispatch(setSearchSpecimen({} as Specimen));
+                            dispatch(setSearchSpecimen({} as DigitalSpecimen));
                         }
                     }}>
                         <p className={classNavItemSpecimens}>

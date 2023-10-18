@@ -9,7 +9,7 @@ import { useAppSelector } from 'app/hooks';
 import { getSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

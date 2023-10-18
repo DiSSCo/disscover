@@ -19,7 +19,7 @@ import { getAnnotoriousMode, setAnnotoriousMode } from "redux/general/GeneralSli
 import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
 
 /* Import Types */
-import { Annotation, ImageAnnotationTemplate, Dict } from 'global/Types';
+import { Annotation, ImageAnnotationTemplate, Dict } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
@@ -73,7 +73,7 @@ const ImageViewer = (props: Props) => {
 
             image.onload = () => resolve(image);
             image.onerror = reject;
-            image.src = digitalMedia.mediaUrl;
+            image.src = digitalMedia['ac:accessUri'];
         }).then((image: any) => {
             setImage(image);
         
@@ -231,7 +231,7 @@ const ImageViewer = (props: Props) => {
                     values: values
                 },
                 target: {
-                    id: digitalMedia.id,
+                    id: digitalMedia['ods:id'],
                     type: 'MediaObject',
                     selector: {
                         type: 'FragmentSelector',

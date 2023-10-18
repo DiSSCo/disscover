@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getUserProfileAnnotations, setUserProfileAnnotations } from 'redux/user/UserSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/profile/profile.module.scss';
@@ -141,9 +141,9 @@ const AnnotationsOverview = () => {
                                     customStyles={customStyles}
                                     onRowClicked={(row) => {
                                         if (row.target.type === 'digital_specimen') {
-                                            navigate(`/ds/${row.target.id.replace('https://hdl.handle.net/', '')}`);
+                                            navigate(`/ds/${row.target.id.replace('https://doi.org/', '')}`);
                                         } else if (row.target.type === 'digital_media') {
-                                            navigate(`/dm/${row.target.id.replace('https://hdl.handle.net/', '')}`);
+                                            navigate(`/dm/${row.target.id.replace('https://doi.org/', '')}`);
                                         }
                                     }}
 

@@ -1,18 +1,14 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import SpecimenModel from 'api/model/SpecimenModel';
-
 /* Import Types */
-import { Specimen, JSONResultArray, Dict } from 'global/Types';
+import { DigitalSpecimen, JSONResultArray, Dict } from 'app/Types';
 
 
 const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
-    let recentSpecimens = [] as Specimen[];
+    let recentSpecimens = [] as DigitalSpecimen[];
     let links: Dict = {};
     let meta: Dict = {};
-    let totalRecords: number = 0;
 
     const endPoint = "/specimens"
 
@@ -36,9 +32,7 @@ const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
         }
 
         data.data.forEach((dataRow) => {
-            const specimen = SpecimenModel(dataRow);
-
-            recentSpecimens.push(specimen);
+            recentSpecimens.push(dataRow.attributes.digitalSpecimen as DigitalSpecimen);
         });
     } catch (error) {
         console.warn(error);

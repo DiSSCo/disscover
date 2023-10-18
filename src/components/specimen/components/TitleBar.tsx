@@ -56,7 +56,7 @@ const TitleBar = (props: Props) => {
         /* Create and click on link to download file */
         const link = document.createElement("a");
         link.href = URL.createObjectURL(jsonFile);
-        link.download = `${specimen.id.replace('https://hdl.handle.net/', '')}_${specimen.version}.json`;
+        link.download = `${specimen['ods:id'].replace('https://doi.org/', '')}_${specimen.version}.json`;
 
         link.click();
     }
@@ -65,7 +65,7 @@ const TitleBar = (props: Props) => {
     const SpecimenActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/specimens/${specimen.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/specimens/${specimen['ods:id'].replace('https://doi.org/', '')}`);
 
                 return;
             case 'sidePanel':
@@ -105,7 +105,7 @@ const TitleBar = (props: Props) => {
                         <FontAwesomeIcon icon={faDiamond} className={`${styles.specimenTitle} c-primary`} />
                     </Col>
                     <Col>
-                        <h2 className={styles.specimenTitle}> {specimen.specimenName} </h2>
+                        <h2 className={styles.specimenTitle}> {specimen['ods:specimenName']} </h2>
                     </Col>
                 </Row>
                 <Row>
@@ -124,22 +124,22 @@ const TitleBar = (props: Props) => {
                             <Col>
                                 <Row>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel === 0 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] === 0 && styles.active} fw-lightBold`}>
                                             MIDS 0
                                         </div>
                                     </Col>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel >= 1 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] >= 1 && styles.active} fw-lightBold`}>
                                             MIDS 1
                                         </div>
                                     </Col>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel >= 2 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] >= 2 && styles.active} fw-lightBold`}>
                                             MIDS 2
                                         </div>
                                     </Col>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel >= 3 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] >= 3 && styles.active} fw-lightBold`}>
                                             MIDS 3
                                         </div>
                                     </Col>

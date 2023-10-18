@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { Specimen, Dict } from 'global/Types';
+import { DigitalSpecimen, Dict } from 'app/Types';
 
 
 export interface SearchState {
@@ -14,11 +14,11 @@ export interface SearchState {
         idValue: string,
         organisationId?: string
     };
-    searchResults: Specimen[];
+    searchResults: DigitalSpecimen[];
     searchAggregations: Dict;
-    searchSpecimen: Specimen;
+    searchSpecimen: DigitalSpecimen;
     compareMode: boolean;
-    compareSpecimens: Specimen[];
+    compareSpecimens: DigitalSpecimen[];
 }
 
 const initialState: SearchState = {
@@ -28,11 +28,11 @@ const initialState: SearchState = {
         idType: 'gui',
         idValue: ''
     },
-    searchResults: [] as Specimen[],
+    searchResults: [] as DigitalSpecimen[],
     searchAggregations: {} as Dict,
-    searchSpecimen: {} as Specimen,
+    searchSpecimen: {} as DigitalSpecimen,
     compareMode: false,
-    compareSpecimens: [] as Specimen[]
+    compareSpecimens: [] as DigitalSpecimen[]
 };
 
 export const SearchSlice = createSlice({
@@ -48,19 +48,19 @@ export const SearchSlice = createSlice({
         setSearchPhysicalId: (state, action: PayloadAction<SearchState['searchPhysicalId']>) => {
             state.searchPhysicalId = action.payload;
         },
-        setSearchResults: (state, action: PayloadAction<Specimen[]>) => {
+        setSearchResults: (state, action: PayloadAction<DigitalSpecimen[]>) => {
             state.searchResults = action.payload;
         },
         setSearchAggregations: (state, action: PayloadAction<Dict>) => {
             state.searchAggregations = action.payload;
         },
-        setSearchSpecimen: (state, action: PayloadAction<Specimen>) => {
+        setSearchSpecimen: (state, action: PayloadAction<DigitalSpecimen>) => {
             state.searchSpecimen = action.payload;
         },
         setCompareMode: (state, action: PayloadAction<boolean>) => {
             state.compareMode = action.payload;
         },
-        setCompareSpecimens: (state, action: PayloadAction<Specimen[]>) => {
+        setCompareSpecimens: (state, action: PayloadAction<DigitalSpecimen[]>) => {
             state.compareSpecimens = action.payload;
         }
     },

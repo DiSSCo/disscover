@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import OpenSeaDragon from 'openseadragon';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 
 /* Props Typing */

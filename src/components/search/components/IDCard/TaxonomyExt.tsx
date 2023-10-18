@@ -1,9 +1,9 @@
 /* Import Dependencies */
-import { CheckProperty } from 'global/Utilities';
+import { CheckProperty } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +12,7 @@ import { faDiamond } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -29,23 +29,28 @@ const TaxonomyExt = (props: Props) => {
 
                 <p className="fs-4">
                     <span className="fw-bold"> Kingdom: </span>
-                    {CheckProperty(specimen.data['dwc:kingdom'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen.data['dwc:kingdom'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Phylum: </span>
-                    {CheckProperty(specimen.data['dwc:phylum'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen.data['dwc:phylum'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Order: </span>
-                    {CheckProperty(specimen.data['dwc:order'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen.data['dwc:order'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Family: </span>
-                    {CheckProperty(specimen.data['dwc:family'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen.data['dwc:family'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Genus: </span>
-                    {CheckProperty(specimen.data['dwc:genus'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen.data['dwc:genus'])} */}
                 </p>
             </Col>
         </Row>

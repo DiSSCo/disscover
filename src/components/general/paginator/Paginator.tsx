@@ -7,7 +7,7 @@ import { useAppDispatch } from "app/hooks";
 import { setPaginationObject } from "redux/general/GeneralSlice";
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 
 /* Props Typing */

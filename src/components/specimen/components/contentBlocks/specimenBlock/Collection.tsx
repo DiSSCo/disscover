@@ -19,14 +19,14 @@ const Collection = (props: Props) => {
     const { ToggleSidePanel } = props;
 
     /* Base variables */
-    const specimen = useAppSelector(getSpecimen);
+    // const specimen = useAppSelector(getSpecimen);
 
     /* Main properties */
     const properties = [
-        { name: 'Collecting Number', value: specimen.data['ods:collectingNumber'], property: 'ods:collectingNumber' },
-        { name: 'Date Collected', value: specimen.data['ods:dateCollected'], property: 'ods:dateCollected' },
-        { name: 'Collector', value: specimen.data['ods:collector'], property: 'ods:collector' },
-        { name: 'Individual Count', value: specimen.data['dwc:individualCount'], property: 'dwc:individualCount' }
+        { name: 'Collecting Number', value: "" /*specimen.data['ods:collectingNumber']*/, property: 'ods:collectingNumber' },
+        { name: 'Date Collected', value: "" /*specimen.data['ods:dateCollected']*/, property: 'ods:dateCollected' },
+        { name: 'Collector', value: "" /*specimen.data['ods:collector']*/, property: 'ods:collector' },
+        { name: 'Individual Count', value: "" /*specimen.data['dwc:individualCount']*/, property: 'dwc:individualCount' }
     ];
 
     return (

@@ -4,12 +4,12 @@ import Select from 'react-select';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen, DigitalMedia } from 'global/Types';
+import { DigitalSpecimen, DigitalMedia } from 'app/Types';
 
 
 /* Props Typing */
 interface Props {
-    target: Specimen | DigitalMedia,
+    target: DigitalSpecimen | DigitalMedia,
     versions: number[]
 };
 
@@ -63,7 +63,7 @@ const VersionSelect = (props: Props) => {
                         menu: provided => ({ ...provided, zIndex: 100000, fontSize: '15px' }),
                         dropdownIndicator: provided => ({ ...provided, color: '#333333', fontSize: '15px' })
                     }}
-                    onChange={(option) => { option?.value && ChangeVersion(option.value) }}
+                    onChange={(option) => { option?.value && ChangeVersion(option.value as number) }}
                 />
             </Col>
         </Row>

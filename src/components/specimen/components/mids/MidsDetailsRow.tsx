@@ -7,7 +7,7 @@ import { useAppSelector } from 'app/hooks';
 import { getSpecimenMidsProperty } from 'redux/specimen/SpecimenSlice';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

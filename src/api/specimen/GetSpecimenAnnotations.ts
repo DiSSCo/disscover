@@ -5,7 +5,7 @@ import axios from 'axios';
 import AnnotationModel from 'api/model/AnnotationModel';
 
 /* Import Types */
-import { SpecimenAnnotations, Annotation, JSONResultArray } from 'global/Types';
+import { SpecimenAnnotations, Annotation, JSONResultArray } from 'app/Types';
 
 
 const GetSpecimenAnnotations = async (handle: string) => {

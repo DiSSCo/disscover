@@ -39,9 +39,9 @@ const CompareBox = () => {
 
         compareSpecimens.forEach((specimen, index) => {
             if (index === 0) {
-                compareRoute = compareRoute.concat(`ds=${specimen.id.replace('https://hdl.handle.net/', '')}`);
+                compareRoute = compareRoute.concat(`ds=${specimen['ods:id'].replace('https://doi.org/', '')}`);
             } else {
-                compareRoute = compareRoute.concat(`&ds=${specimen.id.replace('https://hdl.handle.net/', '')}`);
+                compareRoute = compareRoute.concat(`&ds=${specimen['ods:id'].replace('https://doi.org/', '')}`);
             }
         });
 
@@ -59,13 +59,13 @@ const CompareBox = () => {
 
                         {compareSpecimens.map((specimen, index) => {
                             return (
-                                <Row key={specimen.id} className="mt-3">
+                                <Row key={specimen['ods:id']} className="mt-3">
                                     <Col className="col-md-auto pe-0">
                                         <FontAwesomeIcon icon={faCircle} className="c-secondary fs-5" />
                                     </Col>
                                     <Col>
                                         <p className="fw-lightBold"> {`Specimen #${index + 1}`} </p>
-                                        {specimen.specimenName}
+                                        {specimen['ods:specimenName']}
                                     </Col>
                                 </Row>
                             );

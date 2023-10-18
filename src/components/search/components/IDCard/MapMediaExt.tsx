@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen, DigitalMedia } from 'global/Types';
+import { DigitalSpecimen, DigitalMedia } from 'app/Types';
 
 /* Import Sources */
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
@@ -24,7 +24,7 @@ import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -42,7 +42,7 @@ const MapMediaExt = (props: Props) => {
     useEffect(() => {
         setDigitalMedia([]);
 
-        GetSpecimenDigitalMedia(specimen.id.replace('https://hdl.handle.net/', '')).then((digitalMedia) => {
+        GetSpecimenDigitalMedia(specimen['ods:id'].replace('https://doi.org/', '')).then((digitalMedia) => {
             if (digitalMedia) {
                 setDigitalMedia(digitalMedia);
             }
@@ -51,8 +51,8 @@ const MapMediaExt = (props: Props) => {
         });
     }, [specimen]);
 
-     /* Function for changing the zoom level of the Leaflet Map */
-     const ChangeView = ({ center, zoom }: { center: LatLngExpression, zoom: number }) => {
+    /* Function for changing the zoom level of the Leaflet Map */
+    const ChangeView = ({ center, zoom }: { center: LatLngExpression, zoom: number }) => {
         const map = useMap();
         map.setView(center, zoom);
         return null;
@@ -64,7 +64,8 @@ const MapMediaExt = (props: Props) => {
             <div className="h-100 d-flex flex-column" >
                 <Row className="flex-grow-1">
                     <Col>
-                        {(specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude']) &&
+                        {/* Needs to be checked */}
+                        {/*(specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude']) &&
                             <MapContainer center={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
                                 zoom={13} scrollWheelZoom={false} style={{ width: "100%", height: "100%" }}
                             >
@@ -86,7 +87,7 @@ const MapMediaExt = (props: Props) => {
                                     </Popup>
                                 </Marker>
                             </MapContainer>
-                        }
+    */}
                     </Col>
                 </Row>
 
@@ -96,9 +97,9 @@ const MapMediaExt = (props: Props) => {
                         <div className={`${styles.digitalMediaSlider} h-100 w-auto`}>
                             {digitalMedia.map((mediaItem) => {
                                 return (
-                                    <img key={mediaItem.id} src={mediaItem.mediaUrl}
+                                    <img key={mediaItem['ods:id']} src={mediaItem['ac:accessUri']}
                                         className="h-100 me-3 rounded-c"
-                                        alt={mediaItem.mediaUrl}
+                                        alt={mediaItem['ac:accessUri']}
                                     />
                                 );
                             })}
@@ -110,7 +111,7 @@ const MapMediaExt = (props: Props) => {
                 <Row className={styles.buttonBlock}>
                     <Col className="h-100 d-flex justify-content-end align-items-end">
                         <button type="button" className={`${styles.specimenButton} border-0 bgc-primary c-white fs-4 rounded-full transition fw-bold px-3`}
-                            onClick={() => navigate(`/ds/${specimen.id.replace('https://hdl.handle.net/', '')}`, {
+                            onClick={() => navigate(`/ds/${specimen['ods:id'].replace('https://doi.org/', '')}`, {
                                 state: {
                                     filters: searchParams.toString()
                                 }

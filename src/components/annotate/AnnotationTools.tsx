@@ -2,7 +2,7 @@
 import classNames from "classnames";
 
 /* Import Types */
-import { Annotation } from "global/Types";
+import { Annotation } from "app/Types";
 
 /* Import Components */
 import AutomatedAnnotationsModal from "components/general/automatedAnnotations/automatedAnnotations/AutomatedAnnotationsModal";

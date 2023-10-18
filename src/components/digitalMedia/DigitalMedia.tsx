@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import classNames from 'classnames';
-import { RandomString } from 'global/Utilities';
+import { RandomString } from 'app/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -21,7 +21,7 @@ import {
 import { pushToPromptMessages, getAnnotoriousMode, setAnnotoriousMode } from 'redux/general/GeneralSlice';
 
 /* Import Types */
-import { DigitalMediaAnnotations, Annotation } from 'global/Types';
+import { DigitalMediaAnnotations, Annotation } from 'app/Types';
 
 /* Import Styles */
 import styles from './digitalMedia.module.scss';
@@ -72,7 +72,7 @@ const DigitalMedia = () => {
         const digitalMediaId = `${params.prefix}/${params.suffix}`;
 
         /* Fetch Digital Media if not present or not equal to params ID; if version has changed, refetch Digital Media with version */
-        if (isEmpty(digitalMedia) || digitalMedia.id.replace('https://hdl.handle.net/', '') !== digitalMediaId) {
+        if (isEmpty(digitalMedia) || digitalMedia['ods:id'].replace('https://doi.org/', '') !== digitalMediaId) {
             /* Check for version in url */
             let version: string = '';
 
@@ -84,14 +84,14 @@ const DigitalMedia = () => {
                 dispatch(setDigitalMedia(digitalMedia));
 
                 /* Get Digital Media annotations */
-                GetDigitalMediaAnnotations(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
+                GetDigitalMediaAnnotations(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
                     dispatch(setDigitalMediaAnnotations(annotations));
                 }).catch(error => {
                     console.warn(error);
                 });
 
                 /* Get Digital Media versions */
-                GetDigitalMediaVersions(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((versions) => {
+                GetDigitalMediaVersions(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((versions) => {
                     dispatch(setDigitalMediaVersions(versions));
                 }).catch(error => {
                     console.warn(error);
@@ -99,7 +99,7 @@ const DigitalMedia = () => {
             }).catch(error => {
                 console.warn(error);
             });
-        } else if (params.version && digitalMedia.version.toString() !== params.version) {
+        } else if (params.version && digitalMedia['ods:version'].toString() !== params.version) {
             /* Get Specimen with version */
             const originalVersion = digitalMedia.version;
 
@@ -126,7 +126,7 @@ const DigitalMedia = () => {
     const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia.id.replace('https://hdl.handle.net/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia['ods:id'].replace('https://doi.org/', '')}`);
 
                 return;
             case 'sidePanel':
@@ -210,7 +210,7 @@ const DigitalMedia = () => {
     /* Function for refreshing Annotations */
     const RefreshAnnotations = (targetProperty?: string) => {
         /* Refetch Digital Media Annotations */
-        GetDigitalMediaAnnotations(digitalMedia.id.replace('https://hdl.handle.net/', '')).then((annotations) => {
+        GetDigitalMediaAnnotations(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
             /* Show with refreshed Annotations */
             ShowWithAnnotations(annotations, targetProperty);
 

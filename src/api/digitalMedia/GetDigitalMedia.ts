@@ -1,20 +1,18 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import DigitalMediaModel from 'api/model/DigitalMediaModel';
-
 /* Import Types */
-import { DigitalMedia, JSONResult } from 'global/Types';
+import { DigitalMedia, JSONResult } from 'app/Types';
 
 
 const GetDigitalMedia = async (handle: string, version?: string) => {
     let digitalMedia = {} as DigitalMedia;
 
-    /* Can be uncommented when endpoint is added 
-    // const endPoint = `digitalmedia/${handle}${version ? `/${version}`: ''}`;
-    */
-    const endPoint = `digitalmedia/${handle}`;
+    let endPoint = `digitalmedia/${handle}`;
+
+    if (version) {
+        endPoint = endPoint.concat(`/${version}`)
+    }
 
     try {
         const result = await axios({
@@ -26,7 +24,7 @@ const GetDigitalMedia = async (handle: string, version?: string) => {
         /* Set Digital Media with Model */
         const data: JSONResult = result.data;
 
-        digitalMedia = DigitalMediaModel(data.data);
+        digitalMedia = data.data.attributes as DigitalMedia;
     } catch (error) {
         console.warn(error);
     }

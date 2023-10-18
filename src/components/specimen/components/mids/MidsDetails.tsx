@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 /* Import Components */
 import MidsDetailsRow from './MidsDetailsRow';

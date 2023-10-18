@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getAnnotateTarget, setAnnotationFormToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation as AnnotationType, Dict } from 'global/Types';
+import { Annotation as AnnotationType, Dict } from 'app/Types';
 
 /* Import Sources */
 import annotationMotivationsSource from 'sources/annotationMotivations.json';

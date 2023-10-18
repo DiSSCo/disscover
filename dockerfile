@@ -14,6 +14,11 @@ RUN npm install react-scripts@5.0.1
 # Copy application
 COPY . ./
 
+# Generate Type Files
+RUN npm install typescript -g
+RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
+RUN node 'src/app/GenerateTypes.js'
+
 # Setting app to production build
 RUN npm run build
 

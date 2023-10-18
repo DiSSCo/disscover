@@ -8,7 +8,7 @@ import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
 import { getSearchResults, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 
 /* Import Sources */
 import SearchIntro from 'sources/introText/search.json';
@@ -87,7 +87,7 @@ const SearchSteps = (props: Props) => {
                             /* On step 2: Set search query to: 'Iguanodon' */
                             SetSearchParam('q', 'Iguanodon');
 
-                            dispatch(setSearchSpecimen({} as Specimen));
+                            dispatch(setSearchSpecimen({} as DigitalSpecimen));
 
                             resolve();
                         } else if (nextIndex === 3) {
@@ -99,7 +99,7 @@ const SearchSteps = (props: Props) => {
                             }, 500);
                         } else if (nextIndex === 4) {
                             /* On step 4: Remove search result and reopen filters */
-                            dispatch(setSearchSpecimen({} as Specimen));
+                            dispatch(setSearchSpecimen({} as DigitalSpecimen));
                             SetFilterToggle(true);
 
                             SetSearchParam('topicDiscipline');

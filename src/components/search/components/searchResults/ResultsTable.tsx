@@ -11,7 +11,7 @@ import {
 } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 
 /* Import Components */
 import ColumnLink from './ColumnLink';
@@ -53,7 +53,7 @@ const ResultsTable = (props: Props) => {
     /* Function for when clicked on a table row, continue to specimen page */
     const OnSpecimenSelect = (row: DataRow) => {
         /* Set specimen */
-        const specimen: Specimen = searchResults[row.index];
+        const specimen: DigitalSpecimen = searchResults[row.index];
 
         dispatch(setSearchSpecimen(specimen));
 
@@ -223,12 +223,12 @@ const ResultsTable = (props: Props) => {
         searchResults.forEach((specimen, i) => {
             tableData.push({
                 index: i,
-                id: specimen.id,
-                specimen_name: specimen.specimenName,
-                country: specimen.data['dwc:country'] ? specimen.data['dwc:country'] : '-',
-                specimen_type: specimen.type,
-                organisation: specimen.data['ods:organisationName'] ? specimen.data['ods:organisationName'] : specimen.organisationId,
-                organisationId: specimen.organisationId,
+                id: specimen['ods:id'],
+                specimen_name: specimen['ods:specimenName'] ?? '',
+                country: /*specimen.data['dwc:country'] ? specimen.data['dwc:country'] :*/ '-',
+                specimen_type: specimen['ods:type'],
+                organisation: specimen['dwc:institutionName'] ?? specimen['dwc:institutionId'] ?? '',
+                organisationId: specimen['dwc:institutionId'] ?? '',
                 toggleSelected: false,
                 compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.id === specimen.id)
             });

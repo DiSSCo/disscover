@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { isEmpty } from 'lodash';
 import { Field } from 'formik';
-import { Capitalize } from 'global/Utilities';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Sources */

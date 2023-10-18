@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import AnnotationModel from 'api/model/AnnotationModel';
 
 /* Import Types */
-import { Annotation, AnnotationTemplate, ImageAnnotationTemplate, JSONResult } from 'global/Types';
+import { Annotation, AnnotationTemplate, ImageAnnotationTemplate, JSONResult } from 'app/Types';
 
 
 const PatchAnnotation = async (annotationRecord: AnnotationTemplate | ImageAnnotationTemplate, annotationId: string, token?: string) => {

@@ -1,5 +1,5 @@
 /* Import Types */
-import { DigitalMedia } from "global/Types";
+import { DigitalMedia } from 'app/Types';
 
 /* Import Components */
 import AudioPlayer from 'components/general/audioPlayer/AudioPlayer';
@@ -15,7 +15,7 @@ const Audio = (props: Props) => {
     const { digitalMedia } = props;
 
     return (
-        <AudioPlayer source={digitalMedia.mediaUrl} />
+        <AudioPlayer source={digitalMedia['ac:accessUri']} />
     );
 }
 

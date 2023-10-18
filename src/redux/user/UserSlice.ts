@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { User, Annotation } from 'global/Types';
+import { User, Annotation } from 'app/Types';
 
 
 export interface UserState {

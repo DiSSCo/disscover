@@ -1,14 +1,14 @@
 /* Import Dependencies */
-import { Capitalize } from "global/Utilities";
+import { Capitalize } from "app/Utilities";
 
 /* Import Types */
 import { ReactElement } from "react";
-import { Specimen } from "global/Types";
+import { DigitalSpecimen } from "app/Types";
 
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -19,7 +19,7 @@ const Family = (props: Props) => {
     let familyElement: ReactElement;
 
     /* Format Scientific Name according to Nomenclatural Rules */
-    familyElement = <span> {Capitalize(specimen.data['dwc:family'])} </span>
+    familyElement = <span> {Capitalize(/*specimen['dwc:family']*/ '')} </span>
 
     return familyElement;
 }

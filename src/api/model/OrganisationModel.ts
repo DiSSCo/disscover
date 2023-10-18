@@ -1,9 +1,9 @@
 /* Import Types */
-import { Organisation as OrganisationType, JSONResult } from 'global/Types';
+import { Organisation as OrganisationType, Dict } from 'app/Types';
 
 
 /* User Model for API calls */
-const OrganisationModel = (data: JSONResult['data']) => {
+const OrganisationModel = (data: Dict) => {
     const organisation: OrganisationType = {
         id: data.id,
         ror: data.attributes.ror,

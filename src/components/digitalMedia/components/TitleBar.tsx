@@ -57,7 +57,7 @@ const TitleBar = () => {
                         <FontAwesomeIcon icon={icon} className={`${styles.digitalMediaTitle} c-primary`} />
                     </Col>
                     <Col>
-                        <h2 className={styles.digitalMediaTitle}> {digitalMedia.id.replace('https://hdl.handle.net/', '')} </h2>
+                        <h2 className={styles.digitalMediaTitle}> {digitalMedia['ods:id'].replace('https://doi.org/', '')} </h2>
                     </Col>
                 </Row>
             </Col>

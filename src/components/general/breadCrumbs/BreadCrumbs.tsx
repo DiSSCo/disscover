@@ -61,7 +61,7 @@ const BreadCrumbs = () => {
             });
 
             breadCrumbs.push({
-                crumb: specimen.specimenName
+                crumb: specimen['ods:id']
             });
 
             break;
@@ -72,7 +72,7 @@ const BreadCrumbs = () => {
             });
 
             breadCrumbs.push({
-                crumb: digitalMedia.id.replace('https://hdl.handle.net/', '')
+                crumb: digitalMedia['ods:id'].replace('https://doi.org/', '')
             });
     }
 

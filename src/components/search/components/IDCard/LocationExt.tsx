@@ -1,9 +1,9 @@
 /* Import Dependencies */
-import { CheckProperty } from 'global/Utilities';
+import { CheckProperty } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +12,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen
+    specimen: DigitalSpecimen
 };
 
 
@@ -29,15 +29,18 @@ const LocationExt = (props: Props) => {
 
                 <p className="fs-4">
                     <span className="fw-bold"> Continent: </span>
-                    {CheckProperty(specimen.data['dwc:continent'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen['dwc:continent'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Country: </span>
-                    {CheckProperty(specimen.data['dwc:country'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen['dwc:country'])} */}
                 </p>
                 <p className="fs-4 mt-2">
                     <span className="fw-bold"> Locality: </span>
-                    {CheckProperty(specimen.data['dwc:locality'])}
+                    {/* Needs to be checked */}
+                    {/* {CheckProperty(specimen['dwc:locality'])} */}
                 </p>
             </Col>
         </Row>

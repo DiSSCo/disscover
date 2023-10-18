@@ -1,15 +1,12 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import SpecimenModel from 'api/model/SpecimenModel';
-
 /* Import Types */
-import { Specimen, JSONResult } from 'global/Types';
+import { DigitalSpecimen, JSONResult } from 'app/Types';
 
 
 const GetSpecimen = async (handle: string, version?: string) => {
-    let specimen = {} as Specimen;
+    let specimen = {} as DigitalSpecimen;
 
     if (handle) {
         let endPoint: string;
@@ -27,10 +24,11 @@ const GetSpecimen = async (handle: string, version?: string) => {
                 responseType: 'json'
             });
 
-            /* Set Specimen with Model */
+            /* Get result data from JSON */
             const data: JSONResult = result.data;
 
-            specimen = SpecimenModel(data.data);
+            /* Set Digital Specimen */
+            specimen = data.data.attributes.digitalSpecimen as DigitalSpecimen;
         } catch (error) {
             console.warn(error);
         }

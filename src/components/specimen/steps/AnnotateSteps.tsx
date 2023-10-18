@@ -13,7 +13,7 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation } from 'global/Types';
+import { Annotation } from 'app/Types';
 
 /* Import Sources */
 import SpecimenIntro from 'sources/introText/specimen.json';
@@ -37,7 +37,7 @@ const AnnotateSteps = (props: Props) => {
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
-    const [targetInterval, setTargetInterval] = useState<NodeJS.Timer>();
+    const [targetInterval, setTargetInterval] = useState<ReturnType<typeof setInterval>>();
     const annotateIntro = SpecimenIntro.annotate;
 
     /* Dummy Annotation for Showcase */
@@ -46,7 +46,11 @@ const AnnotateSteps = (props: Props) => {
         version: 1,
         type: 'Annotation',
         motivation: 'commenting',
-        target: { ...specimen, indvProp: 'ods:specimenName' },
+        target: {
+            id: specimen['ods:id'],   
+            type: 'digitalSpecimen',
+            indvProp: 'ods:specimenName'
+        },
         body: {
             type: 'ods:specimenName',
             value: 'Spinosaurus Aegyptiacus'

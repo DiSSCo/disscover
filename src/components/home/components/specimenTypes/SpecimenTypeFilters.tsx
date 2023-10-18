@@ -10,7 +10,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Specimen, Dict } from 'global/Types';
+import { DigitalSpecimen, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -107,7 +107,7 @@ const SpecimenTypeFilters = () => {
                         });
 
                         /* Reset specimen (cached chosen one) */
-                        dispatch(setSearchSpecimen({} as Specimen));
+                        dispatch(setSearchSpecimen({} as DigitalSpecimen));
 
                         navigate(searchLink);
                     }}

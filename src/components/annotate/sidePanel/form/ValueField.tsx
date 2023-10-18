@@ -2,7 +2,7 @@
 import { Field } from 'formik';
 
 /* Import Types */
-import { Dict } from 'global/Types';
+import { Dict } from 'app/Types';
 
 
 /* Props Typing */

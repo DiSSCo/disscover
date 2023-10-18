@@ -5,7 +5,7 @@ import axios from 'axios';
 import AnnotationModel from 'api/model/AnnotationModel';
 
 /* Import Types */
-import { Annotation, JSONResultArray } from 'global/Types';
+import { Annotation, JSONResultArray } from 'app/Types';
 
 
 const GetRecentAnnotations = async (pageSize: number, pageNumber?: number) => {

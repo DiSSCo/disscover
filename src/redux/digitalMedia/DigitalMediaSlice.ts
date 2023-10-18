@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/store';
 
 /* Import Types */
-import { DigitalMedia, DigitalMediaAnnotations } from 'global/Types';
+import { DigitalMedia, DigitalMediaAnnotations } from 'app/Types';
 
 
 export interface DigitalMediaState {

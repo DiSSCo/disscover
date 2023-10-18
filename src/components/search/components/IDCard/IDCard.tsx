@@ -2,7 +2,7 @@
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Types */
-import { Specimen } from 'global/Types';
+import { DigitalSpecimen } from 'app/Types';
 import { ReactElement } from 'react';
 
 /* Import Styles */
@@ -20,7 +20,7 @@ import Tooltip from 'components/general/tooltip/Tooltip';
 
 /* Props Typing */
 interface Props {
-    specimen: Specimen,
+    specimen: DigitalSpecimen,
     extensions: ReactElement[],
     OnClose: Function
 };
@@ -42,7 +42,7 @@ const IDCard = (props: Props) => {
                                 />
                             </Col>
                             <Col>
-                                <h2 className="fs-2"> {specimen.specimenName} </h2>
+                                <h2 className="fs-2"> {specimen['ods:specimenName']} </h2>
                             </Col>
                             <Col className="col-md-auto">
                                 <FontAwesomeIcon icon={faX}
@@ -55,7 +55,7 @@ const IDCard = (props: Props) => {
                         {/* Specimen Identifier */}
                         <Row>
                             <Col>
-                                <p className="fs-4 c-greyDark"> {specimen.id.replace('https://hdl.handle.net/', '')} </p>
+                                <p className="fs-4 c-greyDark"> {specimen['ods:id'].replace('https://doi.org/', '')} </p>
                             </Col>
                         </Row>
 
@@ -71,22 +71,22 @@ const IDCard = (props: Props) => {
                             <Col className="d-flex align-items-center mt-1">
                                 <Row>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel === 0 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] === 0 && styles.active} fw-lightBold`}>
                                             MIDS 0
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel >= 1 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] >= 1 && styles.active} fw-lightBold`}>
                                             MIDS 1
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel >= 2 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] >= 2 && styles.active} fw-lightBold`}>
                                             MIDS 2
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.midsLevel >= 3 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen['ods:midsLevel'] >= 3 && styles.active} fw-lightBold`}>
                                             MIDS 3
                                         </div>
                                     </Col>
@@ -98,17 +98,17 @@ const IDCard = (props: Props) => {
                         <Row className="mt-4">
                             <Col>
                                 <p className="fs-4">
-                                    <span className="fw-bold"> Scientific Name: </span> {specimen.specimenName}
+                                    <span className="fw-bold"> Scientific Name: </span> {/*specimen.specimenName*/ specimen['ods:id']}
                                 </p>
                                 <p className="fs-4 mt-2">
-                                    <span className="fw-bold"> Specimen Type: </span> {specimen.type}
+                                    <span className="fw-bold"> Specimen Type: </span> {specimen['ods:type']}
                                 </p>
                                 <p className="fs-4 mt-2">
-                                    <span className="fw-bold"> Physical Specimen ID ({specimen.physicalSpecimenIdType}): </span>
+                                    <span className="fw-bold"> Physical Specimen ID ({specimen['ods:physicalSpecimenIdType']}): </span>
                                     {<PhysicalSpecimenIdProperty specimen={specimen} />}
                                 </p>
                                 <p className="fs-4 mt-2">
-                                    <span className="fw-bold"> Physical Specimen Collection: </span> {specimen.physicalSpecimenCollection}
+                                    <span className="fw-bold"> Physical Specimen Collection: </span> {/*specimen.physicalSpecimenCollection*/}
                                 </p>
                                 <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Organisation: </span>

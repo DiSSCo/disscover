@@ -20,10 +20,11 @@ const Provenance = () => {
                                 <h5 className="c-accent">Microcredits</h5>
 
                                 <p> <span className="fw-lightBold">Collector: </span>
-                                    {specimen.data['ods:collector'] ?
+                                    {/* To be checked */}
+                                    {/*specimen.data['ods:collector'] ?
                                         specimen.data['ods:collector'] :
                                         'Undefined'
-                                    }
+                                    */}
                                 </p>
                             </Col>
                         </Row>

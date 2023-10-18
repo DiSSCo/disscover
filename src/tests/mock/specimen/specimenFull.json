@@ -1,6 +1,66 @@
 {
     "data": {
+        "id": "20.5000.1025/DW0-BNT-FM0",
+        "type": "PalaeontologySpecimen",
         "attributes": {
+            "digitalSpecimen": {
+                "ods:id": "20.5000.1025/DW0-BNT-FM0",
+                "ods:version": 4,
+                "ods:created": "2022-11-01T16:14:05.781569Z",
+                "ods:type": "PalaeontologySpecimen",
+                "ods:midsLevel": 1,
+                "ods:normalisedPhysicalSpecimenId": "DSS00453X0001194:05natt857",
+                "ods:physicalSpecimenIdType": "combined",
+                "ods:topicOrigin": "Natural",
+                "ods:topicDomain": "Life",
+                "ods:topicDiscipline": "Palaeontoloogy",
+                "ods:markedAsType": true,
+                "ods:hasMedia": true,
+                "ods:specimenName": "Iguanodon sp.",
+                "ods:sourceSystem": "sourceSystemId",
+                "ods:livingOrPreserved": "preserved",
+                "ods:license": "CC0",
+                "dcterms:modified": "2022-11-01T16:14:05.781569Z",
+                "dwc:basisOfRecord": "basisOfRecord",
+                "dwc:preparations": "preparations",
+                "dwc:disposition": "disposition",
+                "dwc:institutionCode": "MNF",
+                "dwc:institutionId": "https://ror.org/015hz7p22",
+                "dwc:institutionName": "National Museum of Natural History",
+                "dwc:collectionCode": "fossils",
+                "dwc:collectionId": "fossils",
+                "dwc:ownerInstitutionId": "https://ror.org/03wkt5x30",
+                "dwc:recordedBy": "John Smith",
+                "???:recordedByAgent": {},
+                "dwc:recordedById": "orcid id",
+                "dwc:datasetName": "fossils",
+                "dcterms:accessRights": "not-for-profit use only",
+                "dcterms:rightsHolder": "National Museum of Natural History",
+                "materialEntity": [],
+                "dwc:identification": [],
+                "assertions": [],
+                "occurrences": [],
+                "entityRelationships": [],
+                "citations": [],
+                "identifiers": [],
+                "chronometricAge": []
+            },
+            "digitalMediaObjects": [
+                {
+                    "annotations": [],
+                    "digitalMediaObject": {
+                        "created": "2022-09-16T13:39:24.289Z",
+                        "data": "null",
+                        "digitalSpecimenId": "20.5000.1025/DW0-BNT-FM0",
+                        "id": "20.5000.1025/PNA-TQX-HX7",
+                        "mediaUrl": "https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG",
+                        "originalData": "null",
+                        "sourceSystemId": "20.5000.1025/GW0-TYL-EWQ",
+                        "type": "Unknown",
+                        "version": 1
+                    }
+                }
+            ],
             "annotations": [
                 {
                     "body": {
@@ -26,84 +86,8 @@
                     "type": "Annotation",
                     "version": 1
                 }
-            ],
-            "digitalMediaObjects": [
-                {
-                    "annotations": [],
-                    "digitalMediaObject": {
-                        "created": "2022-09-16T13:39:24.289Z",
-                        "data": "null",
-                        "digitalSpecimenId": "20.5000.1025/DW0-BNT-FM0",
-                        "id": "20.5000.1025/PNA-TQX-HX7",
-                        "mediaUrl": "https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG",
-                        "originalData": "null",
-                        "sourceSystemId": "20.5000.1025/GW0-TYL-EWQ",
-                        "type": "Unknown",
-                        "version": 1
-                    }
-                }
-            ],
-            "digitalSpecimen": {
-                "created": "2022-11-01T16:14:05.781569Z",
-                "data": {
-                    "dcterms:license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
-                    "dwc:decimalLatitude": "50.67",
-                    "dwc:decimalLongitude": "-1.33",
-                    "dwc:geodeticDatum": "WGS84",
-                    "dwc:locality": "Isle of Wight",
-                    "dwca:id": "DSS00453X0001194",
-                    "ods:collector": "Dominique Delsate, coll. sc. MnhnL",
-                    "ods:hasMedia": "true",
-                    "ods:organisationId": "https://ror.org/05natt857",
-                    "ods:organisationName": "Musée National d'Histoire Naturelle",
-                    "ods:physicalSpecimenCollection": "MnhnL-Palaeo-Inter",
-                    "ods:physicalSpecimenIdType": "combined",
-                    "ods:sourceSystemId": "20.5000.1025/GW0-TYL-EWQ",
-                    "ods:specimenName": "Iguanodon sp."
-                },
-                "datasetId": "null",
-                "dwcaId": "DSS00453X0001194",
-                "id": "20.5000.1025/DW0-BNT-FM0",
-                "midsLevel": 0,
-                "organisationId": "https://ror.org/05natt857",
-                "originalData": {
-                    "dcterms:license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
-                    "dcterms:rightsHolder": "National Museum of Natural History, Luxembourg",
-                    "dwc:associatedMedia": "https://archimg.mnhn.lu/Collections/Collections/QG121.JPG |  https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG",
-                    "dwc:basisOfRecord": "FossilSpecimen",
-                    "dwc:catalogNumber": "QG121",
-                    "dwc:collectionCode": "MnhnL-Palaeo-Inter",
-                    "dwc:collectionID": "https://www.gbif.org/grscicoll/collection/855f343c-93d6-4333-95c8-3bdc58d9e95c",
-                    "dwc:datasetName": "Fossiles de provenance internationale (hors Luxembourg)",
-                    "dwc:decimalLatitude": "50.67",
-                    "dwc:decimalLongitude": "-1.33",
-                    "dwc:dynamicProperties": "specimen count: 1.00 | 1x gram: 1393 | preservation preservation part: fémur de dinosaure | 1393g multiple measurements in cm, pal.: 16,4x12,8x10,9",
-                    "dwc:eventRemarks": "Unknown eventDate",
-                    "dwc:geodeticDatum": "WGS84",
-                    "dwc:georeferenceRemarks": "Site Centroid",
-                    "dwc:institutionCode": "MnhnL",
-                    "dwc:institutionID": "https://ror.org/05natt857",
-                    "dwc:locality": "Isle of Wight<GBR =county, pal.",
-                    "dwc:occurrenceID": "DSS00453X0001194",
-                    "dwc:ownerInstitutionCode": "MnhnL",
-                    "dwc:recordedBy": "Dominique Delsate, coll. sc. MnhnL",
-                    "dwc:scientificName": "Iguanodon sp.",
-                    "dwc:verbatimCoordinateSystem": "LTLN",
-                    "dwc:verbatimCoordinates": "50.67N, 1.33W",
-                    "dwc:verbatimLocality": "Ile de Wight DD",
-                    "dwca:ID": "DSS00453X0001194"
-                },
-                "physicalSpecimenCollection": "MnhnL-Palaeo-Inter",
-                "physicalSpecimenId": "DSS00453X0001194:05natt857",
-                "physicalSpecimenIdType": "combined",
-                "sourceSystemId": "sourceSystemId",
-                "specimenName": "Iguanodon sp.",
-                "type": "PalaeontologySpecimen",
-                "version": 5
-            }
-        },
-        "id": "20.5000.1025/DW0-BNT-FM0",
-        "type": "PalaeontologySpecimen"
+            ]
+        }
     },
     "links": {
         "self": "https://sandbox.dissco.tech/api/v1/specimens/20.5000.1025/DW0-BNT-FM0/full"

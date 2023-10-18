@@ -31,7 +31,7 @@ describe("Specimen Page Tests", () => {
 
     /* Test if Specimen data is fetched and rendered */
     it('fetches specimen data onload', async () => {
-        expect(screen.getByRole('heading', { name: SpecimenMock.data.attributes.specimenName })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: SpecimenMock.data.attributes.digitalSpecimen['ods:specimenName'] })).toBeInTheDocument();
     });
 
     /* Test if Side Panel is toggled when clicked on a Specimen property */

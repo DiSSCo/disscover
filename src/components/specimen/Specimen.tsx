@@ -204,51 +204,56 @@ const Specimen = () => {
     });
 
     return (
-        <div className="d-flex flex-column min-vh-100 overflow-hidden">
-            <Row>
+        <div className="h-100 overflow-hidden">
+            <Row className="h-100">
                 <Col className={classHeadCol}>
-                    <Header introTopics={[
-                        { intro: 'specimen', title: 'About This Page' },
-                        { intro: 'annotate', title: 'Using Annotations' },
-                        { intro: 'MAS', title: 'Machine Annotation Services' }
-                    ]} />
+                    <div className="h-100 d-flex flex-column">
+                        <Header introTopics={[
+                            { intro: 'specimen', title: 'About This Page' },
+                            { intro: 'annotate', title: 'Using Annotations' },
+                            { intro: 'MAS', title: 'Machine Annotation Services' }
+                        ]} />
 
-                    <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
-                    <AnnotateSteps ShowWithAnnotations={(annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)} />
-                    <MASSteps automatedAnnotationsToggle={automatedAnnotationsToggle}
-                        SetAutomatedAnnotationsToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
-                        ShowWithAnnotations={() => ShowWithAnnotations()}
-                    />
+                        <SpecimenSteps SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)} />
+                        <AnnotateSteps ShowWithAnnotations={(annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)} />
+                        <MASSteps automatedAnnotationsToggle={automatedAnnotationsToggle}
+                            SetAutomatedAnnotationsToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
+                            ShowWithAnnotations={() => ShowWithAnnotations()}
+                        />
 
-                    {(specimen.digitalSpecimen['ods:id'] && specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
-                        <Container fluid className={`${styles.content} pt-5`}>
-                            <Row className="h-100">
-                                <Col className={`${classSpecimenContent} h-100 transition`}>
-                                    <div className="h-100 d-flex flex-column">
-                                        <Row className="titleBar">
-                                            <Col>
-                                                <TitleBar ShowWithAllAnnotations={() => ShowWithAnnotations()}
-                                                    ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
-                                                />
-                                            </Col>
-                                        </Row>
-                                        <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
-                                            <Col lg={{ span: 3 }} className={`${classIdCard} IDCard`}>
-                                                <IDCard />
-                                            </Col>
-                                            <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
-                                                <ContentBlock selectedTab={selectedTab}
-                                                    SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Container>
-                    }
+                        <div className="flex-grow-1 overflow-hidden">
+                            {(specimen.digitalSpecimen['ods:id'] &&
+                                specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
+                                <Container fluid className="h-100 pt-5">
+                                    <Row className="h-100">
+                                        <Col className={`${classSpecimenContent} h-100 transition`}>
+                                            <div className="h-100 d-flex flex-column">
+                                                <Row className="titleBar">
+                                                    <Col>
+                                                        <TitleBar ShowWithAllAnnotations={() => ShowWithAnnotations()}
+                                                            ToggleAutomatedAnnotations={() => setAutomatedAnnotationToggle(!automatedAnnotationsToggle)}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                                <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
+                                                    <Col lg={{ span: 3 }} className={`${classIdCard} IDCard`}>
+                                                        <IDCard />
+                                                    </Col>
+                                                    <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
+                                                        <ContentBlock selectedTab={selectedTab}
+                                                            SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            }
+                        </div>
 
-                    <Footer />
+                        <Footer />
+                    </div>
                 </Col>
 
                 {/* Annotation Tools */}

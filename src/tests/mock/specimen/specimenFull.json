@@ -47,18 +47,17 @@
             },
             "digitalMediaObjects": [
                 {
-                    "annotations": [],
                     "digitalMediaObject": {
-                        "created": "2022-09-16T13:39:24.289Z",
-                        "data": "null",
-                        "digitalSpecimenId": "20.5000.1025/DW0-BNT-FM0",
-                        "id": "20.5000.1025/PNA-TQX-HX7",
-                        "mediaUrl": "https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG",
-                        "originalData": "null",
-                        "sourceSystemId": "20.5000.1025/GW0-TYL-EWQ",
-                        "type": "Unknown",
-                        "version": 1
-                    }
+                        "digitalEntity": {
+                            "ods:id": "20.5000.1025/PNA-TQX-HX7",
+                            "ods:version": 1,
+                            "ods:created": "2022-09-16T13:39:24.289Z",
+                            "dcterms:type": "StillImage",
+                            "ac:accessUri": "https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG"      
+                        },
+                        "originalData": {}
+                    },
+                    "annotations": {}
                 }
             ],
             "annotations": [

@@ -12,13 +12,12 @@
 
 /* Title Bar */
 .specimenTitle {
-    font-size: 30px;
+    font-size: 1.875rem;
 }
 
 .midsBlock {
     color: #B9E8EE;
     transition: 0.3s;
-    font-size: 16px;
 }
 
 .midsBlock.active {
@@ -35,10 +34,6 @@
 
 .IDCardIdentifier {
     height: 6%;
-}
-
-.IDCardPropertyBlock {
-    max-height: Calc(100% / 8);
 }
 
 .IDCardPropertyBlockHover:hover {

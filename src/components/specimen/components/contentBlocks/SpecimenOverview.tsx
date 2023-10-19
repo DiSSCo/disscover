@@ -29,7 +29,7 @@ const SpecimenOverview = () => {
             dispatch(setAnnotateTarget({
                 property,
                 motivation: '',
-                target: specimen,
+                target: specimen.digitalSpecimen,
                 targetType: 'digital_specimen',
                 annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));

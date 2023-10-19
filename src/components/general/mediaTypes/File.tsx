@@ -27,7 +27,7 @@ const File = (props: Props) => {
                     />
                 </Col>
                 <Col>
-                    <p className="fs-4"> {digitalMedia['ac:accessUri']} </p>
+                    <p className="fs-4"> {digitalMedia.digitalEntity['ac:accessUri']} </p>
                 </Col>
             </Row>
         </div>

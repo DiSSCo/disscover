@@ -14,14 +14,14 @@ interface Props {
 const PhysicalSpecimenIdProperty = (props: Props) => {
     const { specimen } = props;
 
-    if (specimen.physicalSpecimenId && validator.isURL(specimen['ods:normalisedPhysicalSpecimenId'] ?? '')) {
-        return <a href={specimen['ods:normalisedPhysicalSpecimenId']} target="_blank" rel="noreferrer"
+    if (specimen.digitalSpecimen.physicalSpecimenId && validator.isURL(specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'] ?? '')) {
+        return <a href={specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId']} target="_blank" rel="noreferrer"
             className="c-accent"
         >
-            {specimen['ods:normalisedPhysicalSpecimenId']}
+            {specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId']}
         </a>
     } else {
-        return <span> {specimen['ods:normalisedPhysicalSpecimenId']} </span>;
+        return <span> {specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId']} </span>;
     }
 }
 

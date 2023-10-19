@@ -24,10 +24,10 @@ const DigitalMedia = () => {
 
     /* Sort Digital Media based upon type/format */
     specimenDigitalMedia.forEach((digitalMediaItem: DigitalMediaType) => {
-        switch (digitalMediaItem['ods:type']) {
+        switch (digitalMediaItem.digitalEntity['ods:type']) {
             case '2DImageObject':
                 (sortedDigitalMedia.images || (sortedDigitalMedia.images = [])).push(
-                    <Link to={`/dm/${digitalMediaItem['ods:id'].replace('https://doi.org/', '')}`}>
+                    <Link to={`/dm/${digitalMediaItem.digitalEntity['ods:id'].replace('https://doi.org/', '')}`}>
                         <Image digitalMedia={digitalMediaItem}
                             sizeOrientation='width' hoverEffect={true}
                         />

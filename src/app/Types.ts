@@ -25,8 +25,11 @@ export type JSONResult = {
         attributes: {
             digitalSpecimen?: DigitalSpecimenType,
             digitalEntity?: DigitalEntity,
-            digitalMediaObjects?: DigitalEntity[],
             originalData?: Dict,
+            digitalMediaObjects?: {
+                digitalMediaObject: DigitalMedia,
+                annotations: Annotation[]
+            }[],
             annotations?: Annotation[],
             [property: string]: any
         }
@@ -46,8 +49,8 @@ export type JSONResultArray = {
         attributes: {
             digitalSpecimen?: DigitalSpecimenType,
             digitalEntity?: DigitalEntity,
-            digitalMediaObjects?: DigitalEntity[],
             originalData?: Dict,
+            digitalMediaObjects?: DigitalMedia[],
             annotations?: Annotation[]
         }
     }[],
@@ -75,7 +78,8 @@ export interface SearchFilter {
 }
 
 /* Specimen Types */
-export interface DigitalSpecimen extends DigitalSpecimenType {
+export interface DigitalSpecimen {
+    digitalSpecimen: DigitalSpecimenType,
     originalData: Dict
 }
 
@@ -84,7 +88,8 @@ export interface SpecimenAnnotations {
 };
 
 /* Digital Media Types */
-export interface DigitalMedia extends DigitalEntity {
+export interface DigitalMedia {
+    digitalEntity: DigitalEntity
     originalData: Dict
 }
 

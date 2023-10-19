@@ -4,12 +4,13 @@ import Select from 'react-select';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { DigitalSpecimen, DigitalMedia } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalEntity } from 'app/types/DigitalEntity';
 
 
 /* Props Typing */
 interface Props {
-    target: DigitalSpecimen | DigitalMedia,
+    target: DigitalSpecimen | DigitalEntity,
     versions: number[]
 };
 
@@ -53,15 +54,15 @@ const VersionSelect = (props: Props) => {
         <Row className="versionSelect">
             <Col>
                 <Select
-                    value={{ value: target.version, label: `Version ${target.version}` }}
+                    value={{ value: target.version, label: `Version ${target['ods:version'] ?? target.version}` }}
                     options={selectOptions}
                     styles={{
                         control: provided => ({
                             ...provided, backgroundColor: '#A1D8CA', border: 'none', borderRadius: '999px',
-                            fontWeight: '500', fontSize: '15px'
+                            fontWeight: '500', fontSize: '0.875rem'
                         }),
-                        menu: provided => ({ ...provided, zIndex: 100000, fontSize: '15px' }),
-                        dropdownIndicator: provided => ({ ...provided, color: '#333333', fontSize: '15px' })
+                        menu: provided => ({ ...provided, zIndex: 100000, fontSize: '0.875rem' }),
+                        dropdownIndicator: provided => ({ ...provided, color: '#333333', fontSize: '0.875rem' })
                     }}
                     onChange={(option) => { option?.value && ChangeVersion(option.value as number) }}
                 />

@@ -64,7 +64,7 @@ const Specimen = () => {
         const specimenId = `${params.prefix}/${params.suffix}`;
 
         /* Fetch Full Specimen if not present or not equal to params ID; if version has changed, refetch Specimen with version */
-        if (isEmpty(specimen) || specimen['ods:id'].replace('https://doi.org/', '') !== specimenId) {
+        if (isEmpty(specimen.digitalSpecimen) || specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') !== specimenId) {
             /* Check for version in url */
             let version: string = '';
 
@@ -79,13 +79,14 @@ const Specimen = () => {
                     dispatch(setSpecimen(fullSpecimen.specimen));
 
                     /* Set Specimen Digital Media */
+                    console.log(fullSpecimen.digitalMedia);
                     dispatch(setSpecimenDigitalMedia(fullSpecimen.digitalMedia));
 
                     /* Set Specimen Annotations */
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
 
                     /* Get Specimen Versions */
-                    GetSpecimenVersions(fullSpecimen.specimen['ods:id'].replace('https://doi.org/', '')).then((versions) => {
+                    GetSpecimenVersions(fullSpecimen.specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')).then((versions) => {
                         dispatch(setSpecimenVersions(versions));
                     }).catch(error => {
                         console.warn(error);
@@ -94,9 +95,9 @@ const Specimen = () => {
             }).catch(error => {
                 console.warn(error);
             });
-        } else if (params.version && specimen['ods:version'].toString() !== params.version) {
+        } else if (params.version && specimen.digitalSpecimen['ods:version'].toString() !== params.version) {
             /* Get Specimen with version */
-            const originalVersion = specimen.version;
+            const originalVersion = specimen.digitalSpecimen.version;
 
             GetSpecimen(`${params['prefix']}/${params['suffix']}`, params.version).then((specimen) => {
                 if (!isEmpty(specimen)) {
@@ -164,7 +165,7 @@ const Specimen = () => {
 
         dispatch(setAnnotateTarget({
             property: targetProperty ?? '',
-            target: specimen,
+            target: specimen.digitalSpecimen,
             targetType: 'digital_specimen',
             annotations: allAnnotations
         }));
@@ -175,7 +176,7 @@ const Specimen = () => {
     /* Function for refreshing Annotations */
     const RefreshAnnotations = (targetProperty?: string) => {
         /* Refetch Specimen Annotations */
-        GetSpecimenAnnotations(specimen['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
+        GetSpecimenAnnotations(specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
             /* Show with refreshed Annotations */
             ShowWithAnnotations(annotations, targetProperty);
 
@@ -219,7 +220,7 @@ const Specimen = () => {
                         ShowWithAnnotations={() => ShowWithAnnotations()}
                     />
 
-                    {(specimen['ods:id'] && specimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
+                    {(specimen.digitalSpecimen['ods:id'] && specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
                         <Container fluid className={`${styles.content} pt-5`}>
                             <Row className="h-100">
                                 <Col className={`${classSpecimenContent} h-100 transition`}>

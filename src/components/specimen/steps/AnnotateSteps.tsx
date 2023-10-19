@@ -47,7 +47,7 @@ const AnnotateSteps = (props: Props) => {
         type: 'Annotation',
         motivation: 'commenting',
         target: {
-            id: specimen['ods:id'],   
+            id: specimen.digitalSpecimen['ods:id'],   
             type: 'digitalSpecimen',
             indvProp: 'ods:specimenName'
         },

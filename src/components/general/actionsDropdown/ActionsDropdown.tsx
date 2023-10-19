@@ -24,13 +24,13 @@ const ActionsDropdown = (props: Props) => {
             styles={{
                 control: provided => ({
                     ...provided, backgroundColor: backgroundColor ?? '#4d59a2', border: '1px solid #4d59a2',
-                    borderRadius: '999px', fontWeight: '500', fontSize: '15px'
+                    borderRadius: '999px', fontWeight: '500', fontSize: '0.875rem'
                 }),
                 menu: provided => ({
-                    ...provided, zIndex: 100000, fontSize: '15px', width: 'max-content',
+                    ...provided, zIndex: 100000, fontSize: '0.875rem', width: 'max-content',
                     position: 'absolute', right: '0', color: '#333333'
                 }),
-                dropdownIndicator: provided => ({ ...provided, color: color ?? 'white', fontSize: '15px' }),
+                dropdownIndicator: provided => ({ ...provided, color: color ?? 'white', fontSize: '0.875rem' }),
                 singleValue: provided => ({
                     ...provided, color: color ?? 'white'
                 })

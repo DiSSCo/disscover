@@ -72,7 +72,7 @@ const DigitalMedia = () => {
         const digitalMediaId = `${params.prefix}/${params.suffix}`;
 
         /* Fetch Digital Media if not present or not equal to params ID; if version has changed, refetch Digital Media with version */
-        if (isEmpty(digitalMedia) || digitalMedia['ods:id'].replace('https://doi.org/', '') !== digitalMediaId) {
+        if (isEmpty(digitalMedia) || digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '') !== digitalMediaId) {
             /* Check for version in url */
             let version: string = '';
 
@@ -84,14 +84,14 @@ const DigitalMedia = () => {
                 dispatch(setDigitalMedia(digitalMedia));
 
                 /* Get Digital Media annotations */
-                GetDigitalMediaAnnotations(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
+                GetDigitalMediaAnnotations(digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
                     dispatch(setDigitalMediaAnnotations(annotations));
                 }).catch(error => {
                     console.warn(error);
                 });
 
                 /* Get Digital Media versions */
-                GetDigitalMediaVersions(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((versions) => {
+                GetDigitalMediaVersions(digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')).then((versions) => {
                     dispatch(setDigitalMediaVersions(versions));
                 }).catch(error => {
                     console.warn(error);
@@ -99,9 +99,9 @@ const DigitalMedia = () => {
             }).catch(error => {
                 console.warn(error);
             });
-        } else if (params.version && digitalMedia['ods:version'].toString() !== params.version) {
+        } else if (params.version && digitalMedia.digitalEntity['ods:version'].toString() !== params.version) {
             /* Get Specimen with version */
-            const originalVersion = digitalMedia.version;
+            const originalVersion = digitalMedia.digitalEntity.version;
 
             GetDigitalMedia(`${params['prefix']}/${params['suffix']}`, params.version).then((digitalMedia) => {
                 /* Set Digital Media */
@@ -126,7 +126,7 @@ const DigitalMedia = () => {
     const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia['ods:id'].replace('https://doi.org/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')}`);
 
                 return;
             case 'sidePanel':
@@ -135,7 +135,7 @@ const DigitalMedia = () => {
                 return;
             case 'automatedAnnotations':
                 /* Set MAS Target */
-                dispatch(setMASTarget(digitalMedia));
+                dispatch(setMASTarget(digitalMedia.digitalEntity));
 
                 /* Open MAS Modal */
                 setAutomatedAnnotationsToggle(true);
@@ -199,7 +199,7 @@ const DigitalMedia = () => {
 
         dispatch(setAnnotateTarget({
             property: targetProperty ?? '',
-            target: digitalMedia,
+            target: digitalMedia.digitalEntity,
             targetType: 'digital_media',
             annotations: allAnnotations
         }));
@@ -210,7 +210,7 @@ const DigitalMedia = () => {
     /* Function for refreshing Annotations */
     const RefreshAnnotations = (targetProperty?: string) => {
         /* Refetch Digital Media Annotations */
-        GetDigitalMediaAnnotations(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
+        GetDigitalMediaAnnotations(digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
             /* Show with refreshed Annotations */
             ShowWithAnnotations(annotations, targetProperty);
 
@@ -262,12 +262,12 @@ const DigitalMedia = () => {
                                                 <div className="h-100 d-flex flex-column">
                                                     <Row>
                                                         <Col className="col-md-auto">
-                                                            <VersionSelect target={digitalMedia}
+                                                            <VersionSelect target={digitalMedia.digitalEntity}
                                                                 versions={digitalMediaVersions}
                                                             />
                                                         </Col>
                                                         <Col />
-                                                        {(digitalMedia.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
+                                                        {(digitalMedia.digitalEntity.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
                                                             <Col className="col-md-auto pe-0">
                                                                 <button type="button"
                                                                     className={classImageAnnotateButton}

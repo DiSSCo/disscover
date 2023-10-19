@@ -2,12 +2,13 @@
 import axios from 'axios';
 
 /* Import Types */
-import { DigitalSpecimen, DigitalMedia, Annotation, SpecimenAnnotations, JSONResult } from 'app/Types';
+import { DigitalSpecimen as DigitalSpecimenObject, DigitalMedia, Annotation, SpecimenAnnotations, JSONResult } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 
 const GetSpecimenFull = async (handle: string) => {
     if (handle) {
-        let specimen = {} as DigitalSpecimen;
+        let specimen = {} as DigitalSpecimenObject;
         let specimenDigitalMedia = [] as DigitalMedia[];
         let specimenAnnotations = {} as SpecimenAnnotations;
 
@@ -22,12 +23,19 @@ const GetSpecimenFull = async (handle: string) => {
             const data: JSONResult = result.data;
 
             specimen = {
-                ...data.data.attributes.digitalSpecimen,
-                originalData: data.data.attributes.originalData
-            } as DigitalSpecimen;
+                digitalSpecimen: data.data.attributes.digitalSpecimen as DigitalSpecimen,
+                originalData: data.data.attributes.originalData ?? {}
+            }
 
             /* Set Specimen Digital Media */
-            specimenDigitalMedia = data.data.attributes.digitalMediaObjects as DigitalMedia[];
+            if (data.data.attributes.digitalMediaObjects) {
+                data.data.attributes.digitalMediaObjects.forEach((digitalMediaObject) => {
+                    specimenDigitalMedia.push({
+                        digitalEntity: digitalMediaObject.digitalMediaObject.digitalEntity,
+                        originalData: digitalMediaObject.digitalMediaObject.originalData
+                    });
+                });
+            }
 
             /* Set Specimen Annotations with Model */
             const annotations: Annotation[] = data.data.attributes.annotations as Annotation[];

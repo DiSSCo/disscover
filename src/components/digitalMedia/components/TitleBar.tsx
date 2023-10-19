@@ -25,7 +25,7 @@ const TitleBar = () => {
     let icon: IconDefinition;
 
     /* Declaring icon based on Digital Media type */
-    switch (digitalMedia.type) {
+    switch (digitalMedia.digitalEntity.type) {
         case '2DImageObject':
             icon = faImage;
 
@@ -57,7 +57,7 @@ const TitleBar = () => {
                         <FontAwesomeIcon icon={icon} className={`${styles.digitalMediaTitle} c-primary`} />
                     </Col>
                     <Col>
-                        <h2 className={styles.digitalMediaTitle}> {digitalMedia['ods:id'].replace('https://doi.org/', '')} </h2>
+                        <h2 className={styles.digitalMediaTitle}> {digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')} </h2>
                     </Col>
                 </Row>
             </Col>

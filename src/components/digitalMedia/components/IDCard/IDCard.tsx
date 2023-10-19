@@ -26,7 +26,7 @@ const IDCard = () => {
             dispatch(setAnnotateTarget({
                 property,
                 motivation: '',
-                target: digitalMedia,
+                target: digitalMedia.digitalEntity,
                 targetType: 'digital_media',
                 annotations: digitalMediaAnnotations[property] ? digitalMediaAnnotations[property] : []
             }));
@@ -54,7 +54,7 @@ const IDCard = () => {
                                             <p> ID Card </p>
                                         </Col>
                                         <Col className="fs-4 c-secondary col-md-auto fw-lightBold">
-                                            <p> {digitalMedia['ods:id'].replace('https://doi.org/', '')} </p>
+                                            <p> {digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')} </p>
                                         </Col>
                                     </Row>
                                 </Card.Subtitle>
@@ -72,37 +72,37 @@ const IDCard = () => {
                                                 onClick={() => ToggleSidePanel('mediaUrl')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">Media URL</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['ac:accessUri']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['ac:accessUri']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className="m-0 py-1">
                                                 <span className="fw-lightBold m-0 h-50">Title</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:description']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:description']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className="m-0 py-1">
                                                 <span className="fw-lightBold m-0 h-50">Format</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:format']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:format']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50">Type</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:type']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:type']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}>
                                                 <span className="fw-lightBold m-0 h-50">Publisher</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dwc:institutionName']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dwc:institutionName']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
                                                 <span className="fw-lightBold m-0 h-50">Rightsholder</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:rightsHolder']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:rightsHolder']} </span>
                                             </Col>
                                         </Row>
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
@@ -110,7 +110,7 @@ const IDCard = () => {
                                                 onClick={() => ToggleSidePanel('dcterms:license')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">License</span>
-                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia['dcterms:license']} </span>
+                                                <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:license']} </span>
                                             </Col>
                                         </Row>
                                     </Col>

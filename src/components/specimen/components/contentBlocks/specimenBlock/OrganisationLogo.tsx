@@ -16,8 +16,8 @@ const OrganisationLogo = () => {
     return (
         <Card className="h-100">
             <Card.Body className="h-100 d-flex flex-column">
-                {specimen['dwc:institutionId'] &&
-                    <OrganisationLogoImage organisationId={specimen['dwc:institutionId'].replace('https://ror.org/', '')} />
+                {specimen.digitalSpecimen['dwc:institutionId'] &&
+                    <OrganisationLogoImage organisationId={specimen.digitalSpecimen['dwc:institutionId'].replace('https://ror.org/', '')} />
                 }
             </Card.Body>
         </Card>

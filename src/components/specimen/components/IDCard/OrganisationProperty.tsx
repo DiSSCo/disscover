@@ -14,13 +14,13 @@ const OrganisationProperty = (props: Props) => {
     /* Base variables */
     let organisationText: string;
 
-    if (specimen['dwc:institutionName']) {
-        organisationText = specimen['dwc:institutionName'] ?? '';
+    if (specimen.digitalSpecimen['dwc:institutionName']) {
+        organisationText = specimen.digitalSpecimen['dwc:institutionName'] ?? '';
     } else {
-        organisationText = specimen['dwc:institutionId'] ?? '';
+        organisationText = specimen.digitalSpecimen['dwc:institutionId'] ?? '';
     }
 
-    return <a href={specimen['dwc:institutionId']} target="_blank" rel="noreferrer"> {organisationText} </a>;
+    return <a href={specimen.digitalSpecimen['dwc:institutionId']} target="_blank" rel="noreferrer"> {organisationText} </a>;
 
 }
 

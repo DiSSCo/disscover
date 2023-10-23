@@ -44,10 +44,10 @@ const Profile = () => {
     }, [user]);
 
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <div className="d-flex flex-column h-100">
             <Header />
 
-            <Container fluid className={`${styles.profileContent} mt-5`}>
+            <Container fluid className="flex-grow-1 overflow-hidden mt-5">
                 <Row className="justify-content-center h-100">
                     <Col lg={{ span: 3 }} className="position-relative h-100">
                         <Passport />

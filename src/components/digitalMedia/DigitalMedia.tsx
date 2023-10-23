@@ -239,82 +239,84 @@ const DigitalMedia = () => {
     });
 
     return (
-        <div className="d-flex flex-column min-vh-100 overflow-hidden">
-            <Row>
+        <div className="h-100 overflow-hidden">
+            <Row className="h-100">
                 <Col className={classHeadCol}>
-                    <Header />
+                    <div className="h-100 d-flex flex-column">
+                        <Header />
 
-                    {Object.keys(digitalMedia).length > 0 &&
-                        <Container fluid className={`${styles.content} pt-5`}>
-                            <Row className="h-100">
-                                <Col className={`${classDigitalMediaContent} h-100 transition`}>
-                                    <div className="h-100 d-flex flex-column">
-                                        <Row className={styles.titleBar}>
-                                            <Col>
-                                                <TitleBar />
-                                            </Col>
-                                        </Row>
-                                        <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
-                                            <Col lg={{ span: 3 }} className="h-100">
-                                                <IDCard />
-                                            </Col>
-                                            <Col lg={{ span: 9 }} className="ps-4 h-100 mt-4 m-lg-0">
-                                                <div className="h-100 d-flex flex-column">
-                                                    <Row>
-                                                        <Col className="col-md-auto">
-                                                            <VersionSelect target={digitalMedia.digitalEntity}
-                                                                versions={digitalMediaVersions}
-                                                            />
-                                                        </Col>
-                                                        <Col />
-                                                        {(digitalMedia.digitalEntity.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
-                                                            <Col className="col-md-auto pe-0">
-                                                                <button type="button"
-                                                                    className={classImageAnnotateButton}
-                                                                    onClick={() => {
-                                                                        if (annotoriousMode === 'cursor') {
-                                                                            dispatch(setAnnotoriousMode('rectangle'))
-                                                                        } else {
-                                                                            dispatch(setAnnotoriousMode('cursor'))
-                                                                        }
-                                                                    }
-                                                                    }
-                                                                >
-                                                                    <FontAwesomeIcon icon={faVectorSquare}
-                                                                        className="fs-3"
-                                                                    />
-                                                                    <span className="fs-4 ms-2"> Make annotation </span>
-                                                                </button>
+                        {Object.keys(digitalMedia).length > 0 &&
+                            <Container fluid className="flex-grow-1 overflow-hidden pt-5">
+                                <Row className="h-100">
+                                    <Col className={`${classDigitalMediaContent} h-100 transition`}>
+                                        <div className="h-100 d-flex flex-column">
+                                            <Row className={styles.titleBar}>
+                                                <Col>
+                                                    <TitleBar />
+                                                </Col>
+                                            </Row>
+                                            <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
+                                                <Col lg={{ span: 3 }} className="h-100">
+                                                    <IDCard />
+                                                </Col>
+                                                <Col lg={{ span: 9 }} className="ps-4 h-100 mt-4 m-lg-0">
+                                                    <div className="h-100 d-flex flex-column">
+                                                        <Row>
+                                                            <Col className="col-md-auto">
+                                                                <VersionSelect target={digitalMedia.digitalEntity}
+                                                                    versions={digitalMediaVersions}
+                                                                />
                                                             </Col>
-                                                        }
-                                                        <Col className="col-md-auto">
-                                                            <ActionsDropdown actions={digitalMediaActions}
-                                                                Actions={(action: string) => DigitalMediaActions(action)}
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                    <Row className="flex-grow-1 overflow-hidden mt-3">
-                                                        <Col className="h-100 pb-2">
-                                                            <DigitalMediaFrame
-                                                                UpdateAnnotationsSource={(annotation: Annotation, remove: boolean) => UpdateAnnotationsSource(annotation, remove)}
-                                                            />
-                                                        </Col>
-                                                    </Row>
-                                                    <Row className={styles.digitalMediaListBlock}>
-                                                        <Col className="h-100">
-                                                            <DigitalMediaList />
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Container >
-                    }
+                                                            <Col />
+                                                            {(digitalMedia.digitalEntity.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
+                                                                <Col className="col-md-auto pe-0">
+                                                                    <button type="button"
+                                                                        className={classImageAnnotateButton}
+                                                                        onClick={() => {
+                                                                            if (annotoriousMode === 'cursor') {
+                                                                                dispatch(setAnnotoriousMode('rectangle'))
+                                                                            } else {
+                                                                                dispatch(setAnnotoriousMode('cursor'))
+                                                                            }
+                                                                        }
+                                                                        }
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faVectorSquare}
+                                                                            className="fs-3"
+                                                                        />
+                                                                        <span className="fs-4 ms-2"> Make annotation </span>
+                                                                    </button>
+                                                                </Col>
+                                                            }
+                                                            <Col className="col-md-auto">
+                                                                <ActionsDropdown actions={digitalMediaActions}
+                                                                    Actions={(action: string) => DigitalMediaActions(action)}
+                                                                />
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="flex-grow-1 overflow-hidden mt-3">
+                                                            <Col className="h-100 pb-2">
+                                                                <DigitalMediaFrame
+                                                                    UpdateAnnotationsSource={(annotation: Annotation, remove: boolean) => UpdateAnnotationsSource(annotation, remove)}
+                                                                />
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className={styles.digitalMediaListBlock}>
+                                                            <Col className="h-100">
+                                                                <DigitalMediaList />
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Container >
+                        }
 
-                    <Footer />
+                        <Footer />
+                    </div>
                 </Col>
 
                 {/* Annotation Tools */}

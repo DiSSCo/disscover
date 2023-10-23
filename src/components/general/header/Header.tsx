@@ -44,7 +44,7 @@ const Header = (props: Props) => {
 
     /* ClassNames */
     const classHeader = classNames({
-        [`${styles.header}`]: true,
+        [`${styles.header} d-flex flex-column-reverse`]: true,
         [`${styles.home}`]: location.pathname === '/'
     });
 

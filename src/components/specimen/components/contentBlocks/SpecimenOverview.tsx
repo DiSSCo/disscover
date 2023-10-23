@@ -41,19 +41,19 @@ const SpecimenOverview = () => {
             <Col className="h-100">
                 <Row className="h-100">
                     {/* Accepted Identification */}
-                    <Col lg={{ span: 4 }} className="h-50 pt-2 mb-2">
+                    <Col lg={{ span: 4 }} className="h-50 pb-2">
                         <Identification ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
                     </Col>
-                    
+
                     {/* Location */}
                     {/* <Col lg={{ span: 4 }} className="h-50 pb-2">
                         <Location ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
                     </Col> */}
 
                     {/* Geo Reference */}
-                    {/* <Col lg={{ span: 8 }} className="h-50 pb-2">
+                    <Col lg={{ span: 8 }} className="h-50 pb-2">
                         <GeoReference />
-                    </Col> */}
+                    </Col>
 
                     {/* Organisation */}
                     {/* <Col lg={{ span: 5 }} className="h-50 pt-2">

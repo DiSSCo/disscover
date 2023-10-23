@@ -219,8 +219,7 @@ const Specimen = () => {
                         />
 
                         <div className="flex-grow-1 overflow-hidden">
-                            {(specimen.digitalSpecimen['ods:id'] &&
-                                specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
+                            {(specimen.digitalSpecimen['ods:id'] && specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
                                 <Container fluid className="h-100 pt-5">
                                     <Row className="h-100">
                                         <Col className={`${classSpecimenContent} h-100 transition`}>

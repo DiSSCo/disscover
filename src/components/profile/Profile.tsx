@@ -9,9 +9,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getUser, setUserProfile } from "redux/user/UserSlice";
 
-/* Import Styles */
-import styles from './profile.module.scss';
-
 /* Import Components */
 import Header from 'components/general/header/Header';
 import Passport from './components/user/Passport';

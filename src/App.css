@@ -284,7 +284,6 @@ p {
   border-radius: 999px;
   transition: 0.4s;
   font-weight: 500;
-  font-size: 1rem;
 }
 
 .primaryButton.active {
@@ -314,7 +313,6 @@ p {
   border-radius: 999px;
   transition: 0.4s;
   font-weight: 500;
-  font-size: 1rem;
 }
 
 .secondaryButton:hover {
@@ -328,7 +326,6 @@ p {
   border-radius: 999px;
   transition: 0.4s;
   font-weight: 500;
-  font-size: 1rem;
 }
 
 .accentButton:hover {
@@ -342,7 +339,6 @@ p {
   border-radius: 4px;
   transition: 0.4s;
   font-weight: 500;
-  font-size: 1rem;
 }
 
 .removeButton:hover {

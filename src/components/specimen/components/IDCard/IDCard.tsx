@@ -44,13 +44,13 @@ const IDCard = () => {
     }
 
     /* Check for 2D Digital Media item that fits banner */
-    specimenDigitalMedia.forEach((digitalMedia) => {
+    for (let digitalMedia of specimenDigitalMedia) {
         if (digitalMedia.digitalEntity['dcterms:type'] === 'Image' || digitalMedia.digitalEntity['dcterms:type'] === 'StillImage') {
             bannerImage = digitalMedia.digitalEntity['ac:accessUri'];
 
-            return;
+            break;
         }
-    });
+    };
 
     return (
         <Row className="h-100">

@@ -384,7 +384,7 @@ p {
   margin: 0;
 }
 
-/* Tabs */
+/* React Tabs overwrite */
 .tabsList {
   padding: 0;
 }
@@ -392,7 +392,7 @@ p {
 .tab {
   background-color: #E6E2F1;
   border-radius: 999px;
-  font-size: 15px;
+  font-size: 0.875rem;
   padding-left: 2%;
   padding-right: 2%;
   margin-right: 1%;
@@ -442,12 +442,6 @@ li.page-item.active .page-link {
   -o-user-select: none;
   user-select: none;
 }
-
-/* React Tabs overwrite */
-.tab {
-  font-size: 0.875rem;
-}
-
 
 /* Mobile classes */
 .mobileTitle {

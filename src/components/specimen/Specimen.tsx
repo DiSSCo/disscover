@@ -20,9 +20,6 @@ import { getScreenSize, pushToPromptMessages } from 'redux/general/GeneralSlice'
 /* Import Types */
 import { Annotation, SpecimenAnnotations } from 'app/Types';
 
-/* Import Styles */
-import styles from './specimen.module.scss';
-
 /* Import Components */
 import Header from 'components/general/header/Header';
 import TitleBar from './components/TitleBar';

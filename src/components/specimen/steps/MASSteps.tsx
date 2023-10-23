@@ -85,7 +85,7 @@ const MASSteps = (props: Props) => {
                         if ([3, 4, 5].includes(nextIndex)) {
                             /* On Step 4: Show Automated Annotations Modal and set MAS target */
                             SetAutomatedAnnotationsToggle(true);
-                            dispatch(setMASTarget(specimen));
+                            dispatch(setMASTarget(specimen.digitalSpecimen));
 
                             setTimeout(() => {
                                 resolve();

@@ -40,10 +40,10 @@ const DigitalMediaListItem = (props: Props) => {
     /* Check for the type of Digital Media and set content appropiate to it */
     let digitalMediaContent: React.ReactElement;
 
-    switch (specimenDigitalMedia.type) {
+    switch (specimenDigitalMedia.digitalEntity.type) {
         case '2DImageObject':
-            digitalMediaContent = <img src={specimenDigitalMedia['ac:accessUri']}
-                alt={`Broken ${specimenDigitalMedia.format} link`}
+            digitalMediaContent = <img src={specimenDigitalMedia.digitalEntity['ac:accessUri']}
+                alt={`Broken ${specimenDigitalMedia.digitalEntity.format} link`}
                 className="h-100 mx-auto d-flex justify-content-around align-items-center"
             />
 
@@ -63,7 +63,7 @@ const DigitalMediaListItem = (props: Props) => {
 
             break;
         default:
-            if (specimenDigitalMedia.format === 'application/json' || specimenDigitalMedia.format === 'application/ld+json') {
+            if (specimenDigitalMedia.digitalEntity.format === 'application/json' || specimenDigitalMedia.digitalEntity.format === 'application/ld+json') {
                 digitalMediaContent = <div className="w-100 h-100 d-flex justify-content-center align-items-center">
                     <img src={IIIFLogo} alt="IIIF Logo" />
                 </div>;
@@ -81,27 +81,27 @@ const DigitalMediaListItem = (props: Props) => {
     /* ClassName for a Digital Media List Item */
     const classDigitalMediaListItem = classNames({
         [`${styles.digitalMediaListItem} h-100 d-inline-block bgc-grey overflow-hidden`]: true,
-        [`${styles.hover}`]: hover && (specimenDigitalMedia.id !== digitalMedia.id)
+        [`${styles.hover}`]: hover && (specimenDigitalMedia.digitalEntity.id !== digitalMedia.digitalEntity.id)
     });
 
     /* ClassName for Dynamic Image Title */
     const classImageTitle = classNames({
         [`${styles.digitalMediaListItemTitle} start-0 top-0 end-0 bottom-0 m-auto c-white position-absolute text-center z-1 fw-bold transition opacity-0`]: true,
-        'opacity-100': digitalMedia.id === specimenDigitalMedia.id || hover
+        'opacity-100': digitalMedia.digitalEntity.id === specimenDigitalMedia.digitalEntity.id || hover
     });
 
     /* ClassName for Dynamic Backdrop */
     const classBackdrop = classNames({
-        'position-absolute bg-dark w-100 h-100 start-0 top-0 opacity-50 transition': digitalMedia.id === specimenDigitalMedia.id || hover
+        'position-absolute bg-dark w-100 h-100 start-0 top-0 opacity-50 transition': digitalMedia.digitalEntity.id === specimenDigitalMedia.digitalEntity.id || hover
     });
 
     return (
         <div className={`${classDigitalMediaListItem} position-relative px-1`}
-            onMouseEnter={() => { if (specimenDigitalMedia.id !== digitalMedia.id) { setHover(true) } }}
-            onMouseLeave={() => { if (specimenDigitalMedia.id !== digitalMedia.id) { setHover(false) } }}
+            onMouseEnter={() => { if (specimenDigitalMedia.digitalEntity.id !== digitalMedia.digitalEntity.id) { setHover(true) } }}
+            onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity.id !== digitalMedia.digitalEntity.id) { setHover(false) } }}
             onClick={() => {
-                if (specimenDigitalMedia.id !== digitalMedia.id) {
-                    navigate(`/dm/${specimenDigitalMedia['ods:id'].replace('https://doi.org/', '')}`)
+                if (specimenDigitalMedia.digitalEntity.id !== digitalMedia.digitalEntity.id) {
+                    navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')}`)
                 }
             }}
         >
@@ -109,7 +109,7 @@ const DigitalMediaListItem = (props: Props) => {
                 {digitalMediaContent}
 
                 <div className={classImageTitle}>
-                    {specimenDigitalMedia['dcterms:type'] && Capitalize(specimenDigitalMedia['dcterms:type'])}
+                    {specimenDigitalMedia.digitalEntity['dcterms:type'] && Capitalize(specimenDigitalMedia.digitalEntity['dcterms:type'])}
                 </div>
 
                 <div className={classBackdrop} />

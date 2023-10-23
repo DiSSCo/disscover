@@ -73,7 +73,7 @@ const ImageViewer = (props: Props) => {
 
             image.onload = () => resolve(image);
             image.onerror = reject;
-            image.src = digitalMedia['ac:accessUri'];
+            image.src = digitalMedia.digitalEntity['ac:accessUri'];
         }).then((image: any) => {
             setImage(image);
         
@@ -201,7 +201,7 @@ const ImageViewer = (props: Props) => {
                                 type: 'FragmentSelector',
                                 value: `xywh=pixel:${x},${y},${w},${h}`
                             },
-                            source: digitalMedia.mediaUrl
+                            source: digitalMedia.digitalEntity.mediaUrl
                         }
                     });
                 }
@@ -231,7 +231,7 @@ const ImageViewer = (props: Props) => {
                     values: values
                 },
                 target: {
-                    id: digitalMedia['ods:id'],
+                    id: digitalMedia.digitalEntity['ods:id'],
                     type: 'MediaObject',
                     selector: {
                         type: 'FragmentSelector',

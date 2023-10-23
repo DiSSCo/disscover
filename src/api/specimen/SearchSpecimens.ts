@@ -46,7 +46,7 @@ const SearchSpecimens = async (searchFilters: SearchFilter[], pageSize: number, 
             links = data.links;
 
             data.data.forEach((dataRow) => {
-                searchResults.push(dataRow.attributes.digitalSpecimen as DigitalSpecimen);
+                searchResults.push(dataRow.attributes as DigitalSpecimen);
             });
             
             /* Set total records if present */

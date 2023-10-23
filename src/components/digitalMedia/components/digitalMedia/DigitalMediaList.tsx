@@ -25,7 +25,7 @@ const DigitalMediaList = () => {
 
     /* Search and fetch all other Digital Media items from target specimen */
     useEffect(() => {
-        GetSpecimenDigitalMedia(digitalMedia['ods:id'].replace('https://doi.org/', '')).then((specimenDigitalMedia) => {
+        GetSpecimenDigitalMedia(digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')).then((specimenDigitalMedia) => {
             if (specimenDigitalMedia) {
                 setSpecimenDigitalMedia(specimenDigitalMedia);
             }
@@ -40,7 +40,7 @@ const DigitalMediaList = () => {
     if (specimenDigitalMedia) {
         specimenDigitalMedia.forEach((specimenDigitalMedia) => {
             digitalMediaItems.push(
-                <DigitalMediaListItem key={specimenDigitalMedia['ods:id']} specimenDigitalMedia={specimenDigitalMedia} />
+                <DigitalMediaListItem key={specimenDigitalMedia.digitalEntity['ods:id']} specimenDigitalMedia={specimenDigitalMedia} />
             );
         });
     }

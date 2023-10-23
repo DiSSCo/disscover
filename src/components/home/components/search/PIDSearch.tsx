@@ -41,7 +41,7 @@ const PIDSearch = () => {
                     dispatch(setSpecimen(specimen));
 
                     navigate({
-                        pathname: `/ds/${specimen['ods:id'].replace('https://doi.org/', '')}`,
+                        pathname: `/ds/${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`,
                     });
                 } else {
                     setErrorActive(true);

@@ -28,7 +28,7 @@ const GetSpecimen = async (handle: string, version?: string) => {
             const data: JSONResult = result.data;
 
             /* Set Digital Specimen */
-            specimen = data.data.attributes.digitalSpecimen as DigitalSpecimen;
+            specimen = data.data.attributes as DigitalSpecimen;
         } catch (error) {
             console.warn(error);
         }

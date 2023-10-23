@@ -23,8 +23,8 @@ const Organisation = (props: Props) => {
 
     /* Main properties */
     const properties = [
-        { name: 'Organisation ID', value: specimen['dwc:institutionId'] ?? '', property: 'dwc:institutionId' },
-        { name: 'Organisation Name', value: specimen['dwc:institutionName'] ?? '', property: 'dwc:institutionName' }
+        { name: 'Organisation ID', value: specimen.digitalSpecimen['dwc:institutionId'] ?? '', property: 'dwc:institutionId' },
+        { name: 'Organisation Name', value: specimen.digitalSpecimen['dwc:institutionName'] ?? '', property: 'dwc:institutionName' }
     ];
 
     return (

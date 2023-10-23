@@ -11,8 +11,8 @@ const FilterDigitalMedia = (digitalMediaItem: DigitalMedia) => {
 
     let digitalMediaItemProperties: Dict = {};
 
-    if (!digitalMediaItem.data) {
-        digitalMediaItem.data = {};
+    if (!digitalMediaItem.digitalEntity.data) {
+        digitalMediaItem.digitalEntity.data = {};
     }
 
     if (digitalMediaItem) {
@@ -22,9 +22,9 @@ const FilterDigitalMedia = (digitalMediaItem: DigitalMedia) => {
             if (property in digitalMediaItem) {
                 propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem[property as keyof DigitalMedia], } };
             } else if (`dwc:${property}` in digitalMediaItem) {
-                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem[`dwc:${property}`] } };
+                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem.digitalEntity[`dwc:${property}`] } };
             } else if (`dcterms:${property}` in digitalMediaItem) {
-                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem[`dcterms:${property}`] } };
+                propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem.digitalEntity[`dcterms:${property}`] } };
             } else {
                 let defaultValue: any = "Undefined";
 

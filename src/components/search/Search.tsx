@@ -175,7 +175,7 @@ const Search = () => {
     });
 
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <div className="d-flex flex-column h-100">
             <Header introTopics={[
                 { intro: 'search', title: 'About This Page' },
                 { intro: 'compare', title: 'Comparing Specimens' }
@@ -184,7 +184,7 @@ const Search = () => {
             <SearchSteps SetFilterToggle={(toggle: boolean) => setFilterToggle(toggle)} />
             <CompareSteps />
 
-            <Container fluid className={`${styles.content} pt-5 pb-4`}>
+            <Container fluid className="flex-grow-1 overflow-hidden pt-5 pb-4">
                 <Row className="h-100 position-relative">
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
                         <div className="h-100 d-flex flex-column">

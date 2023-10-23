@@ -37,8 +37,7 @@ const ContentBlock = (props: Props) => {
     });
 
     const classTab = classNames({
-        'react-tabs__tab tab': true,
-        [`${styles.tab}`]: true
+        'react-tabs__tab tab': true
     });
 
     const classTabPanel = classNames({

@@ -54,7 +54,7 @@ const MidsMeter = () => {
                         </Row>
                         <Row>
                             <Col md={{ span: 10, offset: 1 }} className="specimen_midsMeterBar bg-green text-center fw-bold text-white">
-                                Lv {specimen['ods:midsLevel']}.
+                                Lv {specimen.digitalSpecimen['ods:midsLevel']}.
                             </Col>
                         </Row>
                     </Col>

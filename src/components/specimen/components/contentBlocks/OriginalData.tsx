@@ -28,7 +28,7 @@ const OriginalData = () => {
 
     /* OnLoad: Fetch Source System */
     useEffect(() => {
-        GetSourceSystem(specimen['ods:sourceSystem'].replace('https://hdl.handle.net/', '')).then((sourceSystem) => {
+        GetSourceSystem(specimen.digitalSpecimen['ods:sourceSystem'].replace('https://hdl.handle.net/', '')).then((sourceSystem) => {
             if (sourceSystem) {
                 setSourceSystem(sourceSystem);
             }

@@ -15,7 +15,7 @@ const Audio = (props: Props) => {
     const { digitalMedia } = props;
 
     return (
-        <AudioPlayer source={digitalMedia['ac:accessUri']} />
+        <AudioPlayer source={digitalMedia.digitalEntity['ac:accessUri']} />
     );
 }
 

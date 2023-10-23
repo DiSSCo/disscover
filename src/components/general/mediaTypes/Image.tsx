@@ -27,8 +27,8 @@ const Image = (props: Props) => {
 
     return (
         <div className="d-flex position-relative h-100 w-100 justify-content-center">
-            <img src={digitalMedia['ac:accessUri']}
-                alt={digitalMedia['dcterms:description']}
+            <img src={digitalMedia.digitalEntity['ac:accessUri']}
+                alt={digitalMedia.digitalEntity['dcterms:description']}
                 className={`${classSizeOrientation} rounded`}
             />
 
@@ -36,7 +36,7 @@ const Image = (props: Props) => {
                 <div className={`${styles.imageHover} opacity-0 position-absolute transition 
                         h-100 w-100 top-0 d-flex justify-content-center align-items-center c-pointer px-3`
                 }>
-                    <p className="fw-bold"> {digitalMedia['ods:id'].replace('https://doi.org/', '')} </p>
+                    <p className="fw-bold"> {digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')} </p>
                 </div>
             }
         </div>

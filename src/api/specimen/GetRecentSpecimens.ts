@@ -32,7 +32,7 @@ const GetRecentSpecimens = async (pageSize: number, pageNumber?: number) => {
         }
 
         data.data.forEach((dataRow) => {
-            recentSpecimens.push(dataRow.attributes.digitalSpecimen as DigitalSpecimen);
+            recentSpecimens.push(dataRow.attributes as DigitalSpecimen);
         });
     } catch (error) {
         console.warn(error);

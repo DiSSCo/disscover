@@ -15,7 +15,10 @@ export interface SpecimenState {
 }
 
 const initialState: SpecimenState = {
-    specimen: {} as DigitalSpecimen,
+    specimen: {
+        digitalSpecimen: {},
+        originalData: {}
+    } as DigitalSpecimen,
     specimenVersions: [],
     specimenDigitalMedia: [] as DigitalMedia[],
     specimenAnnotations: {} as SpecimenAnnotations,

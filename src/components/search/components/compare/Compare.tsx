@@ -70,7 +70,7 @@ const Compare = () => {
         /* Remove from Compare Specimens */
         const copyCompareSpecimens = [...compareSpecimens];
 
-        copyCompareSpecimens.splice(compareSpecimens.findIndex((specimen) => specimen.id === specimenId), 1);
+        copyCompareSpecimens.splice(compareSpecimens.findIndex((specimen) => specimen.digitalSpecimen.id === specimenId), 1);
 
         dispatch(setCompareSpecimens(copyCompareSpecimens));
 
@@ -105,14 +105,14 @@ const Compare = () => {
                                 {compareSpecimens.map((specimen) => {
                                     /* Constructing ID Card Extensions */
                                     const extensions: ReactElement[] = [
-                                        <LocationExt key='location' specimen={specimen} />,
-                                        <TaxonomyExt key='taxonomy' specimen={specimen} />,
-                                        <OrganisationExt key='organisation' specimen={specimen} />,
-                                        <CollectionExt key='collection' specimen={specimen} />
+                                        <LocationExt key='location' specimen={specimen.digitalSpecimen} />,
+                                        <TaxonomyExt key='taxonomy' specimen={specimen.digitalSpecimen} />,
+                                        <OrganisationExt key='organisation' specimen={specimen.digitalSpecimen} />,
+                                        <CollectionExt key='collection' specimen={specimen.digitalSpecimen} />
                                     ];
 
                                     return (
-                                        <Col key={specimen['ods:id']}>
+                                        <Col key={specimen.digitalSpecimen['ods:id']}>
                                             <IDCard specimen={specimen}
                                                 extensions={extensions}
                                                 OnClose={(specimenId: string) => RemoveFromComparison(specimenId)}

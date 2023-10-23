@@ -24,18 +24,18 @@ const Video = (props: Props) => {
         'position-relative transition': hoverEffect
     });
 
-    if (digitalMedia['ac:accessUri'].includes('youtube')) {
+    if (digitalMedia.digitalEntity['ac:accessUri'].includes('youtube')) {
         return (
             <div className={`${classVideoHover} w-100 h-100`}>
-                <iframe className={`w-100 h-100`} src={digitalMedia['ac:accessUri']} />
+                <iframe className={`w-100 h-100`} src={digitalMedia.digitalEntity['ac:accessUri']} />
             </div>
         );
     } else {
         return (
             <div className={`${classVideoHover} w-100 h-100`}>
                 <video className="w-100 rounded">
-                    <source src={digitalMedia['ac:accessUri']} type="video/mp4" />
-                    <source src={digitalMedia['ac:accessUri']} type="video/ogg" />
+                    <source src={digitalMedia.digitalEntity['ac:accessUri']} type="video/mp4" />
+                    <source src={digitalMedia.digitalEntity['ac:accessUri']} type="video/ogg" />
                     Your browser does not support direct video
                 </video>
             </div>

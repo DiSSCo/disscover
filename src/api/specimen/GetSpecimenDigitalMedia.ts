@@ -22,7 +22,7 @@ const GetSpecimenDigitalMedia = async (handle: string) => {
             const data: JSONResultArray = result.data;
 
             data.data.forEach((dataRow) => {
-                specimenDigitalMedia.push(dataRow.attributes.digitalEntity as DigitalMedia);
+                specimenDigitalMedia.push(dataRow.attributes as DigitalMedia);
             });
         } catch (error) {
             console.warn(error);

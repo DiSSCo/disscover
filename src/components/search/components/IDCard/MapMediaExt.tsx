@@ -42,7 +42,7 @@ const MapMediaExt = (props: Props) => {
     useEffect(() => {
         setDigitalMedia([]);
 
-        GetSpecimenDigitalMedia(specimen['ods:id'].replace('https://doi.org/', '')).then((digitalMedia) => {
+        GetSpecimenDigitalMedia(specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')).then((digitalMedia) => {
             if (digitalMedia) {
                 setDigitalMedia(digitalMedia);
             }
@@ -97,9 +97,9 @@ const MapMediaExt = (props: Props) => {
                         <div className={`${styles.digitalMediaSlider} h-100 w-auto`}>
                             {digitalMedia.map((mediaItem) => {
                                 return (
-                                    <img key={mediaItem['ods:id']} src={mediaItem['ac:accessUri']}
+                                    <img key={mediaItem.digitalEntity['ods:id']} src={mediaItem.digitalEntity['ac:accessUri']}
                                         className="h-100 me-3 rounded-c"
-                                        alt={mediaItem['ac:accessUri']}
+                                        alt={mediaItem.digitalEntity['ac:accessUri']}
                                     />
                                 );
                             })}
@@ -111,7 +111,7 @@ const MapMediaExt = (props: Props) => {
                 <Row className={styles.buttonBlock}>
                     <Col className="h-100 d-flex justify-content-end align-items-end">
                         <button type="button" className={`${styles.specimenButton} border-0 bgc-primary c-white fs-4 rounded-full transition fw-bold px-3`}
-                            onClick={() => navigate(`/ds/${specimen['ods:id'].replace('https://doi.org/', '')}`, {
+                            onClick={() => navigate(`/ds/${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`, {
                                 state: {
                                     filters: searchParams.toString()
                                 }

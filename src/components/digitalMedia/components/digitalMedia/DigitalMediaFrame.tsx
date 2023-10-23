@@ -31,10 +31,10 @@ const DigitalMediaFrame = (props: Props) => {
     /* Check for the type of Digital Media and set content appropiate to it */
     let digitalMediaContent;
 
-    switch (digitalMedia.type) {
+    switch (digitalMedia.digitalEntity.type) {
         case '2DImageObject':
             digitalMediaContent = <Annotorious>
-                <ImageViewer mediaUrl={digitalMedia['ac:accessUri']}
+                <ImageViewer mediaUrl={digitalMedia.digitalEntity['ac:accessUri']}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                 />
             </Annotorious>
@@ -49,8 +49,8 @@ const DigitalMediaFrame = (props: Props) => {
 
             break;
         default:
-            if (digitalMedia['dcterms:format'] === 'application/json' || digitalMedia['dcterms:format'] === 'application/ld+json') {
-                digitalMediaContent = <IIIFViewer mediaUrl={digitalMedia['ac:accessUri']} />
+            if (digitalMedia.digitalEntity['dcterms:format'] === 'application/json' || digitalMedia.digitalEntity['dcterms:format'] === 'application/ld+json') {
+                digitalMediaContent = <IIIFViewer mediaUrl={digitalMedia.digitalEntity['ac:accessUri']} />
             } else {
                 digitalMediaContent = <File digitalMedia={digitalMedia} />
             }

@@ -10,7 +10,9 @@ import { useAppSelector } from 'app/hooks';
 import { getMASTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Impor Types */
-import { DigitalSpecimen, DigitalMedia, Dict } from 'app/Types';
+import { Dict } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalEntity } from 'app/types/DigitalEntity';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -41,7 +43,7 @@ const AutomatedAnnotationsModal = (props: Props) => {
     const location = useLocation();
 
     /* Base variables */
-    const target: DigitalSpecimen | DigitalMedia = useAppSelector(getMASTarget);
+    const target: DigitalSpecimen | DigitalEntity = useAppSelector(getMASTarget);
     const [targetMAS, setTargetMAS] = useState<Dict[]>([]);
 
     /* OnLoad: Fetch Specimen MAS */

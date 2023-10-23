@@ -3,7 +3,7 @@ import { CheckProperty } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -147,7 +147,7 @@ const ResultsTable = (props: Props) => {
                 OnSpecimenSelect(row);
             }
         }}>
-            <ScientificName specimen={searchResults[row.index]} />
+            <ScientificName specimenName={searchResults[row.index]['digitalSpecimen']['ods:specimenName'] ?? ''} />
         </div>,
         sortable: true
     }, {

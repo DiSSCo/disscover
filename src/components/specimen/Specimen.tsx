@@ -76,7 +76,6 @@ const Specimen = () => {
                     dispatch(setSpecimen(fullSpecimen.specimen));
 
                     /* Set Specimen Digital Media */
-                    console.log(fullSpecimen.digitalMedia);
                     dispatch(setSpecimenDigitalMedia(fullSpecimen.digitalMedia));
 
                     /* Set Specimen Annotations */

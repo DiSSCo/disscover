@@ -55,9 +55,11 @@ const ContentBlock = (props: Props) => {
                         >
                             <TabList className={classTabsList}>
                                 <Tab className={classTab} selectedClassName="active">Digital Specimen</Tab>
-                                <Tab className={classTab} selectedClassName="active">Original Data</Tab>
                                 <Tab className={`${classTab} ${isEmpty(digitalMedia) && 'd-none'}`} selectedClassName="active">Digital Media</Tab>
-                                <Tab className={classTab} selectedClassName="active">Provenance</Tab>
+                                <Tab className={classTab} selectedClassName="active">Occurrences</Tab>
+                                <Tab className={classTab} selectedClassName="active">Identifications</Tab>
+                                <Tab className={classTab} selectedClassName="active">Entity Relationships</Tab>
+                                <Tab className={classTab} selectedClassName="active">Original Data</Tab>
                             </TabList>
 
                             {/* Specimen Overview */}
@@ -65,18 +67,29 @@ const ContentBlock = (props: Props) => {
                                 <SpecimenOverview />
                             </TabPanel>
 
-                            {/* Original Data View */}
-                            <TabPanel className={classTabPanel}>
-                                <OriginalData />
-                            </TabPanel>
-
                             {/* Digital Media Overview, if present */}
                             <TabPanel className={`${classTabPanel} ${isEmpty(digitalMedia) && 'd-none'}`}>
                                 <DigitalMedia />
                             </TabPanel>
 
+                            {/* Occurrences View */}
                             <TabPanel className={classTabPanel}>
-                                <Provenance />
+
+                            </TabPanel>
+
+                            {/* Identifications View */}
+                            <TabPanel className={classTabPanel}>
+                                
+                            </TabPanel>
+
+                            {/* Entity Relationships View */}
+                            <TabPanel className={classTabPanel}>
+                                
+                            </TabPanel>
+
+                            {/* Original Data View */}
+                            <TabPanel className={classTabPanel}>
+                                <OriginalData />
                             </TabPanel>
                         </Tabs>
                     </Col>

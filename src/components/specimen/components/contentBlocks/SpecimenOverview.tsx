@@ -9,10 +9,8 @@ import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSl
 /* Import Components */
 import Location from './specimenBlock/Location';
 import GeoReference from './specimenBlock/GeoReference';
-import Taxonomy from './specimenBlock/Taxonomy';
+import Identification from './specimenBlock/Identification';
 import Organisation from './specimenBlock/Organisation';
-import OrganisationLogo from './specimenBlock/OrganisationLogo';
-import Collection from './specimenBlock/Collection';
 
 
 const SpecimenOverview = () => {
@@ -39,38 +37,28 @@ const SpecimenOverview = () => {
     }
 
     return (
-        <Row className="h-100 overflow-scroll">
+        <Row className="h-100">
             <Col className="h-100">
                 <Row className="h-100">
-                    {/* Location */}
-                    <Col lg={{ span: 4 }} className="h-50 pb-2">
-                        <Location ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                    {/* Accepted Identification */}
+                    <Col lg={{ span: 4 }} className="h-50 pt-2 mb-2">
+                        <Identification ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
                     </Col>
+                    
+                    {/* Location */}
+                    {/* <Col lg={{ span: 4 }} className="h-50 pb-2">
+                        <Location ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                    </Col> */}
 
                     {/* Geo Reference */}
-                    <Col lg={{ span: 8 }} className="h-50 pb-2">
+                    {/* <Col lg={{ span: 8 }} className="h-50 pb-2">
                         <GeoReference />
-                    </Col>
-
-                    {/* Taxonomy */}
-                    <Col lg={{ span: 4 }} className="h-50 pt-2 mb-2">
-                        <Taxonomy ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
-                    </Col>
+                    </Col> */}
 
                     {/* Organisation */}
-                    <Col lg={{ span: 5 }} className="h-50 pt-2">
+                    {/* <Col lg={{ span: 5 }} className="h-50 pt-2">
                         <Organisation ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
-                    </Col>
-
-                    {/* Organisation Logo */}
-                    <Col lg={{ span: 3 }} className="h-50 pt-2 d-none d-lg-block">
-                        <OrganisationLogo />
-                    </Col>
-
-                    {/* Collection */}
-                    <Col lg={{ span: 4 }} className="h-50 pt-2">
-                        <Collection ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
-                    </Col>
+                    </Col> */}
                 </Row>
             </Col>
         </Row >

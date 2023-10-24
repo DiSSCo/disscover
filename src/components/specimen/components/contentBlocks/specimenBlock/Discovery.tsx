@@ -29,10 +29,8 @@ const Location = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     let location: Dict = {};
 
-    console.log(specimen);
-
     /* Use first occurrence as Location reference */
-    if (specimen.digitalSpecimen.occurrences && specimen.digitalSpecimen.occurrences[0].location) {
+    if (specimen.digitalSpecimen?.occurrences?.[0].location) {
         location = specimen.digitalSpecimen.occurrences[0].location;
     }
 

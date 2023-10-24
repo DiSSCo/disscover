@@ -1,6 +1,5 @@
 /* Import Types */
 import { ReactElement } from "react";
-import { DigitalSpecimen } from "app/Types";
 
 
 /* Props Typing */

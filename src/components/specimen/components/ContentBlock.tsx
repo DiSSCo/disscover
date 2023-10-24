@@ -15,7 +15,6 @@ import styles from 'components/specimen/specimen.module.scss';
 import SpecimenOverview from './contentBlocks/SpecimenOverview';
 import OriginalData from './contentBlocks/OriginalData';
 import DigitalMedia from './contentBlocks/DigitalMedia';
-import Provenance from './contentBlocks/Provenance';
 
 
 /* Props Typing */

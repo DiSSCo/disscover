@@ -177,7 +177,8 @@ const SidePanel = (props: Props) => {
                             <Col>
                                 <p>
                                     <span className="fw-bold">
-                                        {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `}
+                                        {/* {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `} */}
+                                        {`${annotateTarget.property}: `}
                                     </span>
                                     <span className="fst-italic">
                                         {`${annotateTarget.target[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp]}`}

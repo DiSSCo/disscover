@@ -65,7 +65,9 @@ const Location = (props: Props) => {
                                 <Row>
                                     <Col>
                                         {/* Collector */}
-                                        <Row>
+                                        <Row className="c-pointer"
+                                            onClick={() => ToggleSidePanel('dwc:recordedBy')}
+                                        >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Collector:
                                             </Col>
@@ -74,7 +76,9 @@ const Location = (props: Props) => {
                                             </Col>
                                         </Row>
                                         {/* Country */}
-                                        <Row>
+                                        <Row className="c-pointer"
+                                            onClick={() => ToggleSidePanel('dwc:country')}
+                                        >
                                             <Col className="col-md-auto pe-0 fw-lightBold d-flex align-items-center">
                                                 Country:
                                             </Col>
@@ -90,7 +94,9 @@ const Location = (props: Props) => {
                                             }
                                         </Row>
                                         {/* Locality */}
-                                        <Row>
+                                        <Row className="c-pointer"
+                                            onClick={() => ToggleSidePanel('dwc:locality')}
+                                        >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Locality:
                                             </Col>
@@ -109,7 +115,9 @@ const Location = (props: Props) => {
                                             </Col>
                                         </Row>
                                         {/* Earliest Stage */}
-                                        <Row>
+                                        <Row className="c-pointer"
+                                            onClick={() => ToggleSidePanel('dwc:earliestAgeOrLowestStage')}
+                                        >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Earliest stage:
                                             </Col>
@@ -118,7 +126,9 @@ const Location = (props: Props) => {
                                             </Col>
                                         </Row>
                                         {/* Latest Stage */}
-                                        <Row>
+                                        <Row className="c-pointer"
+                                            onClick={() => ToggleSidePanel('dwc:latestAgeOrHighestStage')}
+                                        >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Latest stage:
                                             </Col>

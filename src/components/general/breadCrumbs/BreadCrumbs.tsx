@@ -61,7 +61,7 @@ const BreadCrumbs = () => {
             });
 
             breadCrumbs.push({
-                crumb: specimen.digitalSpecimen['ods:id']
+                crumb: specimen.digitalSpecimen['ods:specimenName'] ?? specimen.digitalSpecimen['ods:id']
             });
 
             break;

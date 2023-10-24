@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { Card } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import { isEmpty } from 'lodash';
 
 /* Import Store */
@@ -36,8 +36,14 @@ const GeoReference = () => {
             <Card.Body className="h-100 d-flex flex-column">
                 {/* Block icon and title */}
                 <Card.Title className="c-accent">
-                    <FontAwesomeIcon icon={faGlobe} />
-                    <span className="ms-1"> Geo Reference </span>
+                    <Row>
+                        <Col className="col-md-auto pe-0">
+                            <FontAwesomeIcon icon={faGlobe} />
+                        </Col>
+                        <Col>
+                            Geo Reference
+                        </Col>
+                    </Row>
                 </Card.Title>
 
                 {/* Leaflet Map */}

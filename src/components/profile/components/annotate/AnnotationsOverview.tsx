@@ -79,22 +79,14 @@ const AnnotationsOverview = () => {
         const tableData: DataRow[] = [];
 
         userAnnotations.forEach((annotation, index) => {
-            let annotationValue: string = '';
-
-            if (annotation.body.value) {
-                if (typeof (annotation.body.value) !== 'string') {
-                    annotationValue = annotation.body.value.join(' ');
-                } else {
-                    annotationValue = annotation.body.value;
-                }
-            }
+            const annotationValue: string = annotation['oa:body']['oa:value'].join(' ');
 
             tableData.push({
                 index: index,
-                id: annotation.id,
-                target: annotation.target,
-                property: annotation.target.indvProp,
-                motivation: annotation.motivation,
+                id: annotation['ods:id'],
+                target: annotation['oa:target'],
+                property: annotation['oa:target']['oa:selector']?.['ods:field'] as string ?? '',
+                motivation: annotation['oa:motivation'],
                 annotationValue: annotationValue
             });
         });

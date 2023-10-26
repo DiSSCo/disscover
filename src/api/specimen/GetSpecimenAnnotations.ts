@@ -1,11 +1,9 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import AnnotationModel from 'api/model/AnnotationModel';
-
 /* Import Types */
-import { SpecimenAnnotations, Annotation, JSONResultArray } from 'app/Types';
+import { SpecimenAnnotations, JSONResultArray } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 
 const GetSpecimenAnnotations = async (handle: string) => {
@@ -26,17 +24,15 @@ const GetSpecimenAnnotations = async (handle: string) => {
             const annotations: Annotation[] = [];
 
             data.data.forEach((dataRow) => {
-                const annotation = AnnotationModel(dataRow);
-
-                annotations.push(annotation);
+                annotations.push(dataRow.attributes as Annotation);
             });
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {
-                if (specimenAnnotations[annotation.target.indvProp]) {
-                    specimenAnnotations[annotation.target.indvProp].push(annotation);
+                if (specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]) {
+                    specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string].push(annotation);
                 } else {
-                    specimenAnnotations[annotation.target.indvProp] = [annotation];
+                    specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = [annotation];
                 }
             });
         } catch (error) {

@@ -12,10 +12,10 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation, AnnotationTemplate, Dict } from 'app/Types';
+import { AnnotationTemplate, Dict } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Sources */
-import HarmonisedAttributes from 'sources/hamonisedAttributes.json';
 import AnnotationMotivations from 'sources/annotationMotivations.json';
 
 /* Import API */
@@ -41,34 +41,36 @@ const AnnotationForm = (props: Props) => {
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const editAnnotation = useAppSelector(getEditAnnotation);
-    const harmonisedAttributes = { ...HarmonisedAttributes };
     const annotationMotivations = { ...AnnotationMotivations };
 
     /* Function for submitting a new Annotation */
     const SubmitAnnotation = (form: Dict) => {
         /* Prepare new Annotation object */
         const annotation: AnnotationTemplate = {
-            type: 'Annotation',
-            motivation: form.motivation,
-            body: {
-                type: form.targetProperty,
-                value: form.annotationValue,
-                ...(!isEmpty(form.additionalFields) && { ...form.additionalFields }),
+            ...(!isEmpty(editAnnotation) && { "ods:id": editAnnotation['ods:id'] }),
+            "oa:motivation": form.motivation,
+            "oa:target": {
+                "ods:id": annotateTarget.target['ods:id'],
+                "ods:type": annotateTarget.targetType,
+                "oa:selector": {
+                    "ods:type": "FieldValueSelector",
+                    "ods:field": form.targetProperty
+                }
             },
-            target: {
-                id: annotateTarget.target['ods:id'],
-                type: annotateTarget.targetType,
-                indvProp: form.targetProperty
+            "oa:body": {
+                "ods:type": form.targetProperty,
+                "oa:value": [form.annotationValue],
+                ...(!isEmpty(form.additionalFields) && { ...form.additionalFields }),
             }
         };
 
         /* Check if to post or patch */
         if (!isEmpty(editAnnotation)) {
             /* Patch Annotation */
-            PatchAnnotation(annotation, editAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
+            PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
                 UpdateAnnotationView(annotation);
 
-                dispatch(setHighlightAnnotationId(annotation.id));
+                dispatch(setHighlightAnnotationId(annotation['ods:id']));
             }).catch(error => {
                 console.warn(error);
             });
@@ -77,7 +79,7 @@ const AnnotationForm = (props: Props) => {
             InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
                 UpdateAnnotationView(annotation);
 
-                dispatch(setHighlightAnnotationId(annotation.id));
+                dispatch(setHighlightAnnotationId(annotation['ods:id']));
             }).catch(error => {
                 console.warn(error);
             });
@@ -87,13 +89,11 @@ const AnnotationForm = (props: Props) => {
     return (
         <Formik
             initialValues={{
-                targetProperty: !isEmpty(editAnnotation) ? editAnnotation?.target.indvProp : annotateTarget.property,
-                motivation: !isEmpty(editAnnotation) ? editAnnotation.motivation : '',
-                annotationValue: !isEmpty(editAnnotation) ? editAnnotation?.body.value : '',
+                targetProperty: !isEmpty(editAnnotation) ? editAnnotation['oa:target']['oa:selector']?.['ods:field'] : annotateTarget.property,
+                motivation: !isEmpty(editAnnotation) ? editAnnotation['oa:motivation'] as string : '',
+                annotationValue: !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : '',
                 additionalFields: {
-                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { description: editAnnotation.body.description }),
-                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { based_on: editAnnotation.body.basedOn }),
-                    ...(!isEmpty(editAnnotation) && editAnnotation?.body && { reference: editAnnotation.body.reference })
+                    ...(!isEmpty(editAnnotation) && editAnnotation['oa:body']['dcterms:reference'] && { reference: editAnnotation['oa:body']['dcterms:reference'] })
                 }
             }}
             enableReinitialize={true}
@@ -124,7 +124,7 @@ const AnnotationForm = (props: Props) => {
                                             {Object.keys(annotateTarget.target).map((property) => {
                                                 return (
                                                     <option key={property} value={property}>
-                                                        {harmonisedAttributes[property as keyof typeof harmonisedAttributes].displayName}
+                                                        {property}
                                                     </option>
                                                 );
                                             })}

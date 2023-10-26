@@ -21,7 +21,8 @@ import {
 import { pushToPromptMessages, getAnnotoriousMode, setAnnotoriousMode } from 'redux/general/GeneralSlice';
 
 /* Import Types */
-import { DigitalMediaAnnotations, Annotation } from 'app/Types';
+import { DigitalMediaAnnotations } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from './digitalMedia.module.scss';
@@ -152,9 +153,9 @@ const DigitalMedia = () => {
         let indicator: string = '';
 
         /* Check if array for target property exists */
-        if (annotation.target.indvProp in digitalMediaAnnotations) {
-            indicator = annotation.target.indvProp;
-        } else if (annotation.target.selector && (annotation.target.selector.hasROI || annotation.target.selector.value)) {
+        if (annotation["oa:target"]['oa:selector']?.['ods:field']) {
+            indicator = annotation["oa:target"]['oa:selector']['ods:field'] as string;
+        } else if (annotation['oa:target']['oa:selector']?.['ac:hasROI']) {
             indicator = 'visual';
         }
 
@@ -163,7 +164,7 @@ const DigitalMedia = () => {
             const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[indicator]];
 
             const index = copyDigitalMediaTargetAnnotations.findIndex(
-                (annotationRecord) => annotationRecord.id === annotation.id
+                (annotationRecord) => annotationRecord['ods:id'] === annotation['ods:id']
             );
 
             if (index >= 0) {

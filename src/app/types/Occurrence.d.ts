@@ -124,17 +124,17 @@ export interface Occurrence {
   [k: string]: unknown;
 }
 export interface Assertion {
-  assertionType: string;
-  assertionMadeDate?: string;
-  assertionEffectiveDate?: string;
-  assertionValue?: string;
-  assertionValueNumeric?: number;
-  assertionUnit?: string;
-  assertionByAgentName?: string;
-  assertionByAgentId?: string;
-  assertionProtocol?: string;
-  assertionProtocolId?: string;
-  assertionRemarks?: string;
+  "???:assertionType"?: string;
+  "???:assertionMadeDate"?: string;
+  "???:assertionEffectiveDate"?: string;
+  "???:assertionValue"?: string;
+  "???:assertionValueNumeric"?: number;
+  "???:assertionUnit"?: string;
+  "???:assertionByAgentName"?: string;
+  "???:assertionByAgentId"?: string;
+  "???:assertionProtocol"?: string;
+  "???:assertionProtocolId"?: string;
+  "???:assertionRemarks"?: string;
   [k: string]: unknown;
 }
 export interface Location {

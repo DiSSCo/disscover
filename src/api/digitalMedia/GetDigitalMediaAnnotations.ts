@@ -1,11 +1,9 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import AnnotationModel from 'api/model/AnnotationModel';
-
 /* Import Types */
-import { DigitalMediaAnnotations, Annotation, JSONResultArray } from 'app/Types';
+import { DigitalMediaAnnotations, JSONResultArray } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 
 const GetDigitalMediaAnnotations = async (handle: string) => {
@@ -26,19 +24,17 @@ const GetDigitalMediaAnnotations = async (handle: string) => {
             const annotations: Annotation[] = [];
 
             data.data.forEach((dataRow) => {
-                const annotation = AnnotationModel(dataRow);
-
-                annotations.push(annotation);
+                annotations.push(dataRow.attributes as Annotation);
             });
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {
-                if (annotation.target.selector?.hasROI) {
+                if (annotation['oa:target']['oa:selector']?.['ac:hasROI']) {
                     digitalMediaAnnotations.visual.push(annotation);
-                } else if (digitalMediaAnnotations[annotation.target.indvProp]) {
-                    digitalMediaAnnotations[annotation.target.indvProp].push(annotation);
+                } else if (digitalMediaAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]) {
+                    digitalMediaAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string].push(annotation);
                 } else {
-                    digitalMediaAnnotations[annotation.target.indvProp] = [annotation];
+                    digitalMediaAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = [annotation];
                 } 
             });
         } catch (error) {

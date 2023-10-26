@@ -22,8 +22,6 @@ const GeoReference = () => {
     const specimen = useAppSelector(getSpecimen);
     let georeference: Dict = {};
 
-    console.log(specimen.digitalSpecimen);
-
     /* Check if latitude and longitude are present */
     if (specimen.digitalSpecimen.occurrences) {
         if (specimen.digitalSpecimen.occurrences[0].location && !isEmpty(specimen.digitalSpecimen.occurrences[0].location.georeference)) {

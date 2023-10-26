@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 /* Import Types */
-import { DigitalSpecimen as DigitalSpecimenObject, DigitalMedia, Annotation, SpecimenAnnotations, JSONResult } from 'app/Types';
+import { DigitalSpecimen as DigitalSpecimenObject, DigitalMedia, SpecimenAnnotations, JSONResult } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 
@@ -43,10 +44,10 @@ const GetSpecimenFull = async (handle: string) => {
             /* Refactor Annotations for Specimen Page */
             if (annotations) {
                 annotations.forEach((annotation) => {
-                    if (specimenAnnotations[annotation.target.indvProp]) {
-                        specimenAnnotations[annotation.target.indvProp].push(annotation);
+                    if (specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]) {
+                        specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string].push(annotation);
                     } else {
-                        specimenAnnotations[annotation.target.indvProp] = [annotation];
+                        specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = [annotation];
                     }
                 });
             }

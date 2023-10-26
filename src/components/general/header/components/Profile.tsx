@@ -24,11 +24,11 @@ const Profile = () => {
     /* User initialization */
     useEffect(() => {
         if (KeycloakService.GetSubject() && KeycloakService.GetToken()) {
-            GetUser(KeycloakService.GetSubject(), KeycloakService.GetToken()).then((user) => {
-                if (user) {
-                    dispatch(setUser(user));
-                }
-            });
+            // GetUser(KeycloakService.GetSubject(), KeycloakService.GetToken()).then((user) => {
+            //     if (user) {
+            //         dispatch(setUser(user));
+            //     }
+            // });
         }
     }, []);
 

@@ -1,11 +1,9 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import AnnotationModel from "api/model/AnnotationModel";
-
 /* Import Types */
-import { Annotation, JSONResultArray, Dict } from 'app/Types';
+import { JSONResultArray, Dict } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 
 const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
@@ -34,9 +32,7 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
             links = data.links;
 
             data.data.forEach((dataRow) => {
-                const annotation = AnnotationModel(dataRow);
-
-                userAnnotations.push(annotation);
+                userAnnotations.push(dataRow.attributes as Annotation);
             });
         } catch (error) {
             console.warn(error);

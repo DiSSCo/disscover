@@ -1,11 +1,9 @@
 /* Import Dependencies */
 import axios from 'axios';
 
-/* Import Model */
-import AnnotationModel from 'api/model/AnnotationModel';
-
 /* Import Types */
-import { Annotation, JSONResultArray } from 'app/Types';
+import { JSONResultArray } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 
 const GetRecentAnnotations = async (pageSize: number, pageNumber?: number) => {
@@ -24,7 +22,7 @@ const GetRecentAnnotations = async (pageSize: number, pageNumber?: number) => {
         const data: JSONResultArray = result.data;
 
         data.data.forEach((dataRow) => {
-            const annotation = AnnotationModel(dataRow);
+            const annotation = dataRow.attributes as Annotation;
 
             annotations.push(annotation);
         });

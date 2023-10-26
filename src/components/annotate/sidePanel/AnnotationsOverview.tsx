@@ -10,7 +10,8 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getAnnotateTarget, setAnnotationFormToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation as AnnotationType, Dict } from 'app/Types';
+import { Dict } from 'app/Types';
+import { Annotation as AnnotationType } from 'app/types/Annotation';
 
 /* Import Sources */
 import annotationMotivationsSource from 'sources/annotationMotivations.json';
@@ -62,14 +63,14 @@ const AnnotationsOverview = (props: Props) => {
 
         /* Check for motivation filter */
         if (motivationFilter.value !== 'all') {
-            copyAnnotations = copyAnnotations.filter((annotation) => annotation.motivation === motivationFilter.value);
+            copyAnnotations = copyAnnotations.filter((annotation) => annotation['oa:motivation'] === motivationFilter.value);
         }
 
         /* Sort annotations */
         switch (sortValue.value) {
             case 'date - oldest':
                 copyAnnotations.sort((a, b) => {
-                    return Number(new Date(a.created)) - Number(new Date(b.created));
+                    return Number(new Date(a['dcterms:created'])) - Number(new Date(b['dcterms:created']));
                 });
 
                 break;
@@ -77,7 +78,7 @@ const AnnotationsOverview = (props: Props) => {
                 break;
             default:
                 copyAnnotations.sort((a, b) => {
-                    return Number(new Date(b.created)) - Number(new Date(a.created));
+                    return Number(new Date(b['dcterms:created'])) - Number(new Date(a['dcterms:created']));
                 });
 
                 break;
@@ -148,7 +149,7 @@ const AnnotationsOverview = (props: Props) => {
                                 <>
                                     {annotations.map((annotation) => {
                                         return (
-                                            <Row key={annotation.id}>
+                                            <Row key={annotation['ods:id']}>
                                                 <Col>
                                                     <Annotation annotation={annotation}
                                                         UpdateAnnotationView={(annotation: AnnotationType, remove: boolean) =>

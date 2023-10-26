@@ -90,6 +90,8 @@ const App = () => {
 
   return (
     <div className="h-100 w-100 position-relative">
+      <PromptMessages />
+
       {(screenSize != 'sm') ?
         <Router>
           <Routes>
@@ -119,8 +121,6 @@ const App = () => {
             {/* Demo Page */}
             <Route path="/demo" element={<Demo />} />
           </Routes>
-
-          <PromptMessages />
         </Router>
         : <Mobile />
       }

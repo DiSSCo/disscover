@@ -4,11 +4,11 @@
 }
 
 .error {
-    background-color: rgb(231, 76, 60, 0.8);
+    background-color: rgb(231, 76, 60, 0.8) !important;
 }
 
 .success {
-    background-color: rgb(40, 167, 69, 0.8);
+    background-color: rgb(40, 167, 69, 0.8) !important;
 }
 
 .promptMessage.active {
@@ -19,5 +19,15 @@
 
 .loadingBar {
     height: 4px;
-    transition: 5s linear;
+    animation: progressAnimation 6s;
+}
+
+@keyframes progressAnimation {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
 }

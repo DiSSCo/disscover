@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-bootstrap";
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from "app/hooks";
@@ -67,11 +68,11 @@ const PromptMessages = () => {
     }
 
     return (
-        <>
+        <ToastContainer position="bottom-end" className="my-4 mx-5">
             {toBeRendered.map((promptMessage) => {
                 return promptMessage;
             })}
-        </>
+        </ToastContainer>
     );
 }
 

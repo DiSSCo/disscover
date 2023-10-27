@@ -81,7 +81,7 @@ const Identifications = (props: Props) => {
                                             <div key={identificationKey} className="mt-3">
                                                 <PropertiesTable
                                                     title={identificationKey}
-                                                    properties={identification[identificationKey as keyof typeof identification] as Dict}
+                                                    properties={identification[identificationKey]}
                                                     ShowWithAnnotations={(property: string) => ShowWithAnnotations(property)}
                                                 />
                                             </div>

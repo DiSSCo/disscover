@@ -148,9 +148,8 @@ const ResultsTable = (props: Props) => {
         name: 'Specimen name',
         selector: row => row.specimen_name,
         id: 'search_name',
-        cell: row => <div tabIndex={row.index}
-            onClick={() => SelectAction(row)}
-            onKeyDown={() => {SelectAction(row)}}
+        cell: row => <div onClick={() => SelectAction(row)}
+            onKeyDown={() => SelectAction(row)}
         >
             <ScientificName specimenName={searchResults[row.index]['digitalSpecimen']['ods:specimenName'] ?? ''} />
         </div>,

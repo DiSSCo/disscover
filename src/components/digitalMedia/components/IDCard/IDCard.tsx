@@ -70,7 +70,7 @@ const IDCard = () => {
                                     <Col className="col-md-auto h-100">
                                         <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
                                             <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
-                                                <span className="fw-lightBold m-0 h-50" role="term">Digital Specimen ID</span>
+                                                <dfn className="fw-lightBold m-0 h-50">Digital Specimen ID</dfn>
                                                 <br /> <span className="fs-4 m-0 h-50"> {/* Digital Specime Id */} </span>
                                             </Col>
                                         </Row>

@@ -50,7 +50,6 @@ const Annotation = (props: Props) => {
     /* Base variables */
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
     const [userTag, setUserTag] = useState<string>('');
-    const annotationMotivations = { ...AnnotationMotivations };
 
     /* Transform array of values to single string */
     const annotationValue = annotation['oa:body']['oa:value'].join(', ');
@@ -133,7 +132,7 @@ const Annotation = (props: Props) => {
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
                             </Col>
                             <Col>
-                                <p className="fst-italic"> {annotation['oa:target']['oa:selector']['ods:field'] as string} </p>
+                                <p className="fst-italic"> {annotation['oa:target']['oa:selector']['ods:field']} </p>
                             </Col>
                         </Row>
                     }

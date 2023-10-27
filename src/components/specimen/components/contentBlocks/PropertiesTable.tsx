@@ -3,10 +3,6 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
-
 /* Import Types */
 import { Dict } from 'app/Types';
 

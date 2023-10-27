@@ -63,7 +63,7 @@ const Organisation = (props: Props) => {
                                                 Name:
                                             </Col>
                                             <Col>
-                                                <p> {specimen.digitalSpecimen['dwc:institutionName'] ?? 'Undefined'} </p>
+                                                <p> {specimen.digitalSpecimen['dwc:institutionName'] ?? ''} </p>
                                             </Col>
                                         </Row>
                                         {/*  */}
@@ -74,7 +74,7 @@ const Organisation = (props: Props) => {
                                                 Collection:
                                             </Col>
                                             <Col className="d-flex align-items-center">
-                                                <p> {specimen.digitalSpecimen['dwc:datasetName'] ?? 'Undefined'} </p>
+                                                <p> {specimen.digitalSpecimen['dwc:datasetName'] ?? ''} </p>
                                             </Col>
                                         </Row>
                                         {/* Rights Holder */}
@@ -85,7 +85,7 @@ const Organisation = (props: Props) => {
                                                 Rights holder:
                                             </Col>
                                             <Col className="textOverfloww">
-                                                {specimen.digitalSpecimen['dcterms:rightsHolder'] ?? 'Undefined'}
+                                                {specimen.digitalSpecimen['dcterms:rightsHolder'] ?? ''}
                                             </Col>
                                         </Row>
                                     </Col>

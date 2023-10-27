@@ -22,9 +22,7 @@ const GeoReference = () => {
     const specimen = useAppSelector(getSpecimen);
     let georeference: Dict = {};
 
-    console.log(specimen.digitalSpecimen);
-
-    /* Check if latitude and longitude are present */
+    /* Check if georeference is present and not empty */
     if (specimen.digitalSpecimen.occurrences) {
         if (specimen.digitalSpecimen.occurrences[0].location && !isEmpty(specimen.digitalSpecimen.occurrences[0].location.georeference)) {
             georeference = specimen.digitalSpecimen.occurrences[0].location.georeference;

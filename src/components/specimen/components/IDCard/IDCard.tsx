@@ -137,7 +137,7 @@ const IDCard = () => {
                                                 >
                                                     <span className="fw-lightBold">In collection:</span>
                                                     <br className="d-none d-lg-block" />
-                                                    <span className="m-0"> {specimen.digitalSpecimen['dwc:collectionCode'] ?? 'Undefined'} </span>
+                                                    <span className="m-0"> {specimen.digitalSpecimen['dwc:collectionCode'] ?? ''} </span>
                                                 </Col>
                                                 {'dwc:collectionCode' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
@@ -150,7 +150,7 @@ const IDCard = () => {
                                                     onClick={() => ToggleSidePanel('ods:topicDiscipline')}
                                                 >
                                                     <span className="fw-lightBold">
-                                                        Specimen Type:
+                                                        Topic Discipline:
                                                     </span>
                                                     <br className="d-none d-lg-block" />
                                                     <span> {specimen.digitalSpecimen['ods:topicDiscipline']} </span>

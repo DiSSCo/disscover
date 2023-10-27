@@ -238,6 +238,9 @@ const Specimen = () => {
                                                     <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
                                                         <ContentBlock selectedTab={selectedTab}
                                                             SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
+                                                            ShowWithAnnotations={
+                                                                (annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)
+                                                            }
                                                         />
                                                     </Col>
                                                 </Row>

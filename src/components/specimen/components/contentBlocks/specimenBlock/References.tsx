@@ -25,7 +25,7 @@ const References = () => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col className="h-100 ps-0 d-flex flex-column">
+                    <Col className="h-100 ps-0 d-flex flex-column overflow-hidden">
                         {/* Block icon and title */}
                         <Card.Title className="c-accent">
                             <span> References </span>

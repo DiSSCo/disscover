@@ -21,12 +21,13 @@ import OriginalData from './contentBlocks/OriginalData';
 /* Props Typing */
 interface Props {
     selectedTab: number,
-    SetSelectedTab: Function
+    SetSelectedTab: Function,
+    ShowWithAnnotations: Function
 };
 
 
 const ContentBlock = (props: Props) => {
-    const { selectedTab, SetSelectedTab } = props;
+    const { selectedTab, SetSelectedTab, ShowWithAnnotations } = props;
 
     /* Base variables */
     const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
@@ -74,7 +75,7 @@ const ContentBlock = (props: Props) => {
 
                             {/* Occurrences View */}
                             <TabPanel className={`${classTabPanel} ${'overflow-scroll'}`}>
-                                <Occurrences />
+                                <Occurrences ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
                             </TabPanel>
 
                             {/* Identifications View */}

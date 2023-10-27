@@ -3,19 +3,35 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Store */
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
+import { setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
+
 /* Import Types */
 import { Dict } from 'app/Types';
+
+/* Import Styles */
+import styles from 'components/specimen/specimen.module.scss';
 
 
 /* Props Typing */
 interface Props {
     title: string,
-    properties: Dict
+    properties: Dict,
+    ShowWithAnnotations: Function
 }
 
 
 const PropertiesTable = (props: Props) => {
-    const { title, properties } = props;
+    const { title, properties, ShowWithAnnotations } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
+    /* Base variables */
+    const specimen = useAppSelector(getSpecimen);
+    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
 
     /* Declare type of a table row */
     interface DataRow {
@@ -47,7 +63,7 @@ const PropertiesTable = (props: Props) => {
         },
         headRow: {
             style: {
-                backgroundColor: '#51a993'
+                backgroundColor: '#A1D8CA'
             }
         },
         rows: {
@@ -89,11 +105,12 @@ const PropertiesTable = (props: Props) => {
                 {/* Table Body */}
                 <Row className="mt-2">
                     <Col>
-                        <div className="h-100 overflow-auto position-relative b-secondary rounded-c">
+                        <div className={`${styles.propertiesTable} h-100 overflow-auto position-relative rounded-c}`}>
                             <DataTable
                                 columns={tableColumns}
                                 data={tableData}
                                 customStyles={customStyles}
+                                onRowClicked={(row) => ShowWithAnnotations(row.property)}
 
                                 striped
                                 highlightOnHover

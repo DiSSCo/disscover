@@ -14,7 +14,15 @@ import { Dict } from 'app/Types';
 import PropertiesTable from './PropertiesTable';
 
 
-const Occurrences = () => {
+/* Props Typing */
+interface Props {
+    ShowWithAnnotations: Function
+}
+
+
+const Occurrences = (props: Props) => {
+    const { ShowWithAnnotations } = props;
+
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     let occurrences: {
@@ -91,6 +99,7 @@ const Occurrences = () => {
                                                 <PropertiesTable
                                                     title={occurreneKey}
                                                     properties={occurrence[occurreneKey as keyof typeof occurrence] as Dict}
+                                                    ShowWithAnnotations={(property: string) => ShowWithAnnotations(property)}
                                                 />
                                             </div>
                                         );

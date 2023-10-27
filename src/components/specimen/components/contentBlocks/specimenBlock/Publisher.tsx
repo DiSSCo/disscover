@@ -43,7 +43,7 @@ const Organisation = (props: Props) => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col className="h-100 d-flex flex-column ps-0">
+                    <Col className="h-100 d-flex flex-column ps-0 overflow-hidden">
                         {/* Block icon and title */}
                         <Card.Title className="c-accent">
                             <span> Publisher </span>

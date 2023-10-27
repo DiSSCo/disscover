@@ -52,7 +52,7 @@ const Location = (props: Props) => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col className="h-100 ps-0 d-flex flex-column">
+                    <Col className="h-100 ps-0 d-flex flex-column overflow-hidden">
                         {/* Block icon and title */}
                         <Card.Title className="c-accent">
                             <span> Discovery </span>
@@ -71,8 +71,8 @@ const Location = (props: Props) => {
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Collector:
                                             </Col>
-                                            <Col className="textOverflow">
-                                                {specimen.digitalSpecimen['dwc:recordedBy']}
+                                            <Col>
+                                                <span className="textOverflow">{specimen.digitalSpecimen['dwc:recordedBy']}</span>
                                             </Col>
                                         </Row>
                                         {/* Country */}
@@ -83,7 +83,7 @@ const Location = (props: Props) => {
                                                 Country:
                                             </Col>
                                             <Col className="textOverflow d-flex align-items-center">
-                                                {location['dwc:country']}
+                                                <span className="textOverflow">{location['dwc:country']}</span>
                                             </Col>
                                             {location['dwc:countryCode'] &&
                                                 <Col className="col-md-auto">
@@ -97,7 +97,7 @@ const Location = (props: Props) => {
                                         <Row className="c-pointer"
                                             onClick={() => ToggleSidePanel('dwc:locality')}
                                         >
-                                            <Col className="col-md-auto pe-0 fw-lightBold">
+                                            <Col className="col-md-auto m-0 fw-lightBold">
                                                 Locality:
                                             </Col>
                                             <Col className="textOverflow">
@@ -121,8 +121,8 @@ const Location = (props: Props) => {
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Earliest stage:
                                             </Col>
-                                            <Col className="textOverflow">
-                                                {location.geologicalContext['dwc:earliestAgeOrLowestStage']}
+                                            <Col>
+                                                <span className="textOverflow">{location.geologicalContext['dwc:earliestAgeOrLowestStage']}</span>
                                             </Col>
                                         </Row>
                                         {/* Latest Stage */}
@@ -132,8 +132,8 @@ const Location = (props: Props) => {
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Latest stage:
                                             </Col>
-                                            <Col className="textOverflow">
-                                                {location.geologicalContext['dwc:latestAgeOrHighestStage']}
+                                            <Col>
+                                                <span className="textOverflow">{location.geologicalContext['dwc:latestAgeOrHighestStage']}</span>
                                             </Col>
                                         </Row>
                                     </Col>

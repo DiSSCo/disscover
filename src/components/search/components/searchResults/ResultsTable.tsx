@@ -137,17 +137,21 @@ const ResultsTable = (props: Props) => {
     }, [tableData]);
 
     /* Set Datatable columns */
+    const SelectAction = (row: DataRow) => {
+        if (compareMode) {
+            SelectForComparison(row);
+        } else {
+            OnSpecimenSelect(row);
+        }
+    }
+
     const tableColumns: TableColumn<DataRow>[] = [{
         name: 'Specimen name',
         selector: row => row.specimen_name,
         id: 'search_name',
-        cell: row => <div onClick={() => {
-            if (compareMode) {
-                SelectForComparison(row);
-            } else {
-                OnSpecimenSelect(row);
-            }
-        }}>
+        cell: row => <div onClick={() => SelectAction(row)}
+            onKeyDown={() => SelectAction(row)}
+        >
             <ScientificName specimenName={searchResults[row.index]['digitalSpecimen']['ods:specimenName'] ?? ''} />
         </div>,
         sortable: true

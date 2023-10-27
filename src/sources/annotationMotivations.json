@@ -1,6 +1,6 @@
 {
-    "oa:adding": {
-        "key": "oa:adding",
+    "ods:adding": {
+        "key": "ods:adding",
         "displayName": "Addition",
         "displayNamePlural": "Additions",
         "additionalFields": {"description": "text"},

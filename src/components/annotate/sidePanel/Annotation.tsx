@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Moment from 'moment';
-import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -15,9 +15,6 @@ import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { Annotation as AnnotationType } from 'app/types/Annotation';
-
-/* Import Sources */
-import AnnotationMotivations from 'sources/annotationMotivations.json';
 
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
@@ -50,7 +47,6 @@ const Annotation = (props: Props) => {
     /* Base variables */
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
     const [userTag, setUserTag] = useState<string>('');
-    const annotationMotivations = { ...AnnotationMotivations };
 
     /* Transform array of values to single string */
     const annotationValue = annotation['oa:body']['oa:value'].join(', ');
@@ -64,12 +60,6 @@ const Annotation = (props: Props) => {
             setUserTag(`${firstName} ${lastName} (you)`);
         } else {
             GetUser(annotation['oa:creator']['ods:id']).then((_user) => {
-                /*if (!isEmpty(user)) {
-                    setUserTag(`${user.firstName} ${user.lastName}`);
-                } else {
-                    setUserTag(annotation['oa:creator']['ods:id']);
-                }*/
-
                 setUserTag(annotation['oa:creator']['ods:id']);
             }).catch(error => {
                 console.warn(error);
@@ -139,7 +129,7 @@ const Annotation = (props: Props) => {
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
                             </Col>
                             <Col>
-                                <p className="fst-italic"> {annotation['oa:target']['oa:selector']['ods:field'] as string} </p>
+                                <p className="fst-italic"> {annotation['oa:target']['oa:selector']['ods:field']} </p>
                             </Col>
                         </Row>
                     }
@@ -147,8 +137,7 @@ const Annotation = (props: Props) => {
                         <Col>
                             <p>
                                 <span className="c-primary">
-                                    {`${annotationMotivations[annotation['oa:motivation'].replace('https://hdl.handle.net/', '') as keyof typeof
-                                        annotationMotivations].displayName}: `}
+                                    {`${Capitalize(annotation['oa:motivation'].replace('oa:', ''))}: `}
                                 </span>
                                 {annotationValue}
                             </p>

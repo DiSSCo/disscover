@@ -184,8 +184,8 @@ const ImageViewer = (props: Props) => {
                         "ac:heightFrac": number
                     };
 
-                    const x = ROI["ac:xFrac"] as number * imgWidth;
-                    const y = ROI["ac:yFrac"] as number * imgHeight;
+                    const x = ROI["ac:xFrac"] * imgWidth;
+                    const y = ROI["ac:yFrac"] * imgHeight;
                     const w = ROI["ac:widthFrac"] * imgWidth;
                     const h = ROI["ac:heightFrac"] * imgHeight;
 

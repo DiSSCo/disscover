@@ -15,7 +15,7 @@ const Class = (props: Props) => {
     let classElement: ReactElement;
 
     /* Format Class according to Nomenclatural Rules */
-    classElement = <span> {classProp ?? 'undefined'} </span>
+    classElement = <span> {classProp ?? ''} </span>
 
     return classElement;
 }

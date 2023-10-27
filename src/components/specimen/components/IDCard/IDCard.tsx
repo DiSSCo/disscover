@@ -96,7 +96,7 @@ const IDCard = () => {
                                                 <Col className={`scientificName ${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
-                                                    <span className="fw-lightBold" role="sidePanelTrigger">Name in collection:</span>
+                                                    <dfn className="fw-lightBold" role="term">Name in collection:</dfn>
                                                     <br className="d-none d-lg-block" />
                                                     <span> {specimen.digitalSpecimen['ods:specimenName']} </span>
                                                 </Col>
@@ -144,7 +144,7 @@ const IDCard = () => {
                                                 >
                                                     <span className="fw-lightBold">In collection:</span>
                                                     <br className="d-none d-lg-block" />
-                                                    <span className="m-0"> {specimen.digitalSpecimen['dwc:collectionCode'] ?? 'Undefined'} </span>
+                                                    <span className="m-0"> {specimen.digitalSpecimen['dwc:collectionCode'] ?? ''} </span>
                                                 </Col>
                                                 {'dwc:collectionCode' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
@@ -157,7 +157,7 @@ const IDCard = () => {
                                                     onClick={() => ToggleSidePanel('ods:topicDiscipline')}
                                                 >
                                                     <span className="fw-lightBold">
-                                                        Specimen Type:
+                                                        Topic Discipline:
                                                     </span>
                                                     <br className="d-none d-lg-block" />
                                                     <span> {specimen.digitalSpecimen['ods:topicDiscipline']} </span>

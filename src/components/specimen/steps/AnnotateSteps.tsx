@@ -42,7 +42,7 @@ const AnnotateSteps = (props: Props) => {
 
     /* Dummy Annotation for Showcase */
     const dummyAnnotation: Annotation = {
-        "ods:id": '20.5000.1025/dummy',
+        "ods:id": 'TEST/dummy',
         "rdf:type": "Annotation",
         "ods:version": 1,
         "oa:motivation": 'oa:commenting',

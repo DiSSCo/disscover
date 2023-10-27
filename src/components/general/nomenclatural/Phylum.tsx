@@ -15,7 +15,7 @@ const Phylum = (props: Props) => {
     let phylumElement: ReactElement;
 
     /* Format Phylum according to Nomenclatural Rules */
-    phylumElement = <span> {phylum ?? 'undefined'} </span>
+    phylumElement = <span> {phylum ?? ''} </span>
 
     return phylumElement;
 }

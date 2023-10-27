@@ -18,7 +18,7 @@ const Genus = (props: Props) => {
     let genusElement: ReactElement;
 
     /* Format Genus according to Nomenclatural Rules */
-    genusElement = <span> {genus ? <span className="fst-italic"> {Capitalize(genus)} </span> : 'undefined'} </span>
+    genusElement = <span> {genus ? <span className="fst-italic"> {Capitalize(genus)} </span> : ''} </span>
 
     return genusElement;
 }

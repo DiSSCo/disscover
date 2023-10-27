@@ -15,7 +15,7 @@ const Order = (props: Props) => {
     let orderElement: ReactElement;
 
     /* Format Order according to Nomenclatural Rules */
-    orderElement = <span> {order ?? 'undefined'} </span>
+    orderElement = <span> {order ?? ''} </span>
 
     return orderElement;
 }

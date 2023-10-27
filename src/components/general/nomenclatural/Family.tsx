@@ -18,7 +18,7 @@ const Family = (props: Props) => {
     let familyElement: ReactElement;
 
     /* Format Family according to Nomenclatural Rules */
-    familyElement = <span> {family ? Capitalize(family) : 'undefined'} </span>
+    familyElement = <span> {family ? Capitalize(family) : ''} </span>
 
     return familyElement;
 }

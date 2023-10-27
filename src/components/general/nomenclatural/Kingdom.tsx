@@ -15,7 +15,7 @@ const Kingdom = (props: Props) => {
     let kingdomElement: ReactElement;
 
     /* Format Kingdom according to Nomenclatural Rules */
-    kingdomElement = <span> {kingdom ?? 'undefined'} </span>
+    kingdomElement = <span> {kingdom ?? ''} </span>
 
     return kingdomElement;
 }

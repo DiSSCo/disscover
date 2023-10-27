@@ -38,6 +38,7 @@ const ResultsTable = (props: Props) => {
     const compareMode = useAppSelector(getCompareMode);
     const compareSpecimens = useAppSelector(getCompareSpecimens);
 
+    /* Declare type of a table row */
     interface DataRow {
         index: number,
         id: string,
@@ -58,14 +59,14 @@ const ResultsTable = (props: Props) => {
         dispatch(setSearchSpecimen(specimen));
 
         /* Unselect current Row */
-        const unselectedRow = tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.id !== specimen.digitalSpecimen.id));
+        const unselectedRow = tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.id !== specimen.digitalSpecimen['ods:id']));
 
         if (unselectedRow) {
             unselectedRow.toggleSelected = false;
         }
 
         /* Select chosen Table Row */
-        const selectedRow = tableData.find((tableRow) => tableRow.id === specimen.digitalSpecimen.id);
+        const selectedRow = tableData.find((tableRow) => tableRow.id === specimen.digitalSpecimen['ods:id']);
 
         if (selectedRow) {
             selectedRow.toggleSelected = true;
@@ -90,7 +91,7 @@ const ResultsTable = (props: Props) => {
             if (row.compareSelected === true) {
                 selectedRow.compareSelected = false;
 
-                const compareSpecimenIndex = compareSpecimens.findIndex((specimen) => specimen.digitalSpecimen.id === row.id);
+                const compareSpecimenIndex = compareSpecimens.findIndex((specimen) => specimen.digitalSpecimen['ods:id'] === row.id);
                 copyCompareSpecimens.splice(compareSpecimenIndex, 1);
             } else if (compareSpecimens.length < 3) {
                 selectedRow.compareSelected = true;
@@ -121,8 +122,8 @@ const ResultsTable = (props: Props) => {
     /* Function to check if selected Specimen is still selected after page change */
     useEffect(() => {
         if (!isEmpty(searchSpecimen)) {
-            if (!tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.id === searchSpecimen.digitalSpecimen.id))) {
-                const currentRow = tableData.find((tableRow) => tableRow.id === searchSpecimen.digitalSpecimen.id);
+            if (!tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.id === searchSpecimen.digitalSpecimen['ods:id']))) {
+                const currentRow = tableData.find((tableRow) => tableRow.id === searchSpecimen.digitalSpecimen['ods:id']);
 
                 if (currentRow) {
                     currentRow.toggleSelected = true;
@@ -226,11 +227,11 @@ const ResultsTable = (props: Props) => {
                 id: specimen.digitalSpecimen['ods:id'],
                 specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
                 country: /*specimen.data['dwc:country'] ? specimen.data['dwc:country'] :*/ '-',
-                specimen_type: specimen.digitalSpecimen['ods:type'],
+                specimen_type: specimen.digitalSpecimen['ods:topicDiscpline'] as string,
                 organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
                 organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
                 toggleSelected: false,
-                compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen.id === specimen.digitalSpecimen.id)
+                compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
             });
         });
 

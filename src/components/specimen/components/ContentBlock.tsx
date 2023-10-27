@@ -13,8 +13,9 @@ import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Components */
 import SpecimenOverview from './contentBlocks/SpecimenOverview';
-import OriginalData from './contentBlocks/OriginalData';
 import DigitalMedia from './contentBlocks/DigitalMedia';
+import Occurrences from './contentBlocks/Occurrences';
+import OriginalData from './contentBlocks/OriginalData';
 
 
 /* Props Typing */
@@ -72,8 +73,8 @@ const ContentBlock = (props: Props) => {
                             </TabPanel>
 
                             {/* Occurrences View */}
-                            <TabPanel className={classTabPanel}>
-
+                            <TabPanel className={`${classTabPanel} ${'overflow-scroll'}`}>
+                                <Occurrences />
                             </TabPanel>
 
                             {/* Identifications View */}

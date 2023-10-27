@@ -130,7 +130,7 @@ const SidePanel = (props: Props) => {
 
     return (
         <div className={`${classSidePanel} sidePanel h-100 w-100 d-flex flex-column p-4`}
-            role="sidePanel"
+            role="toolbar"
         >
             {/* Top section */}
             <Row className="pt-2">

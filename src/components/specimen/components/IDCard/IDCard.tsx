@@ -89,7 +89,7 @@ const IDCard = () => {
                                                 <Col className={`scientificName ${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
-                                                    <span className="fw-lightBold" role="sidePanelTrigger">Name in collection:</span>
+                                                    <dfn className="fw-lightBold" role="term">Name in collection:</dfn>
                                                     <br className="d-none d-lg-block" />
                                                     <span> {specimen.digitalSpecimen['ods:specimenName']} </span>
                                                 </Col>

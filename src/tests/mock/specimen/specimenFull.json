@@ -39,7 +39,25 @@
                 "materialEntity": [],
                 "dwc:identification": [],
                 "assertions": [],
-                "occurrences": [],
+                "occurrences": [
+                    {
+                        "location": {
+                            "dwc:country": "Austria",
+                            "dwc:countryCode": "AT",
+                            "dwc:locality": "Kaprun, Maiskogel",
+                            "geologicalContext": {
+                                "dwc:earliestAgeOrLowestStage": "lowest",
+                                "dwc:highestAgeOrLatestStage": "latest"
+                            },
+                            "georeference": {
+                                "dwc:decimalLatitude": "47.262301",
+                                "dwc:decimalLongitude": "12.720106",
+                                "dwc:geodeticDatum": "WGS84",
+                                "dwc:georeferenceProtocol": "East Land Board map server"
+                            }
+                        }
+                    }
+                ],
                 "entityRelationships": [],
                 "citations": [],
                 "identifiers": [],
@@ -53,7 +71,7 @@
                             "ods:version": 1,
                             "ods:created": "2022-09-16T13:39:24.289Z",
                             "dcterms:type": "StillImage",
-                            "ac:accessUri": "https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG"      
+                            "ac:accessUri": "https://archimg.mnhn.lu/Collections/Collections/QG121-1.JPG"
                         },
                         "originalData": {}
                     },

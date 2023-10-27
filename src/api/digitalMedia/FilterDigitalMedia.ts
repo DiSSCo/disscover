@@ -26,7 +26,7 @@ const FilterDigitalMedia = (digitalMediaItem: DigitalMedia) => {
             } else if (`dcterms:${property}` in digitalMediaItem) {
                 propertyInfo = { ...DigitalMediaFilterLayer[property as property], ...{ value: digitalMediaItem.digitalEntity[`dcterms:${property}`] } };
             } else {
-                let defaultValue: any = "Undefined";
+                let defaultValue: any = '';
 
                 if ('default' in DigitalMediaFilterLayer[property as property]) {
                     type d = keyof typeof DigitalMediaFilterLayer[property];

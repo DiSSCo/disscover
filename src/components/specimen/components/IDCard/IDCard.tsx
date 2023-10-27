@@ -89,11 +89,27 @@ const IDCard = () => {
                                                 <Col className={`scientificName ${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
                                                     onClick={() => ToggleSidePanel('ods:specimenName')}
                                                 >
-                                                    <span className="fw-lightBold" role="sidePanelTrigger">Name in collection:</span>
+                                                    <dfn className="fw-lightBold" role="term">Name in collection:</dfn>
                                                     <br className="d-none d-lg-block" />
                                                     <span> {specimen.digitalSpecimen['ods:specimenName']} </span>
                                                 </Col>
                                                 {'ods:specimenName' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
+                                            </Row>
+                                            <Row className="fs-4">
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                    onClick={() => ToggleSidePanel('ods:physicalSpecimenId')}
+                                                >
+                                                    <span className="fw-lightBold">
+                                                        Physical specimen ID ({specimen.digitalSpecimen['ods:physicalSpecimenIdType']}):
+                                                    </span>
+                                                    <br className="d-none d-lg-block" />
+                                                    <span> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
+                                                </Col>
+                                                {'ods:physicalSpecimenId' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
                                                         <FontAwesomeIcon icon={faPencil} className="c-primary" />
                                                     </Col>
@@ -116,44 +132,62 @@ const IDCard = () => {
                                                 }
                                             </Row>
                                             <Row className="fs-4">
-                                                <Col className="textOverflow">
-                                                    <span className="fw-lightBold">Object Type:</span>
-                                                    <br className="d-none d-lg-block" />
-                                                    <span>Coming Soon!</span>
-                                                </Col>
-                                            </Row>
-                                            <Row className="fs-4">
-                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('ods:physicalSpecimenId')}
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
+                                                    onClick={() => ToggleSidePanel('dwc:collectionCode')}
                                                 >
-                                                    <span className="fw-lightBold">
-                                                        Physical specimen ID ({specimen.digitalSpecimen['ods:physicalSpecimenIdType']}):
-                                                    </span>
+                                                    <span className="fw-lightBold">In collection:</span>
                                                     <br className="d-none d-lg-block" />
-                                                    <span> {<PhysicalSpecimenIdProperty specimen={specimen} />} </span>
+                                                    <span className="m-0"> {specimen.digitalSpecimen['dwc:collectionCode'] ?? ''} </span>
                                                 </Col>
-                                                {'ods:physicalSpecimenId' in specimenAnnotations &&
+                                                {'dwc:collectionCode' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
                                                         <FontAwesomeIcon icon={faPencil} className="c-primary" />
                                                     </Col>
                                                 }
                                             </Row>
                                             <Row className="fs-4">
-                                                <Col className="textOverflow">
-                                                    <span className="fw-lightBold">Specimen Type:</span>
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                    onClick={() => ToggleSidePanel('ods:topicDiscipline')}
+                                                >
+                                                    <span className="fw-lightBold">
+                                                        Topic Discipline:
+                                                    </span>
                                                     <br className="d-none d-lg-block" />
-                                                    <span> {specimen.digitalSpecimen['ods:type']} </span>
+                                                    <span> {specimen.digitalSpecimen['ods:topicDiscipline']} </span>
                                                 </Col>
+                                                {'ods:topicDiscipline' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                             <Row className="fs-4">
-                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
-                                                    onClick={() => ToggleSidePanel('ods:physicalSpecimenCollection')}
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                    onClick={() => ToggleSidePanel('dwc:basisOfRecord')}
                                                 >
-                                                    <span className="fw-lightBold">In collection:</span>
+                                                    <span className="fw-lightBold">
+                                                        Basis of Record:
+                                                    </span>
                                                     <br className="d-none d-lg-block" />
-                                                    <span className="m-0"> {specimen.digitalSpecimen['dwc:collectionCode']} </span>
+                                                    <span> {specimen.digitalSpecimen['dwc:basisOfRecord']} </span>
                                                 </Col>
-                                                {'ods:physicalSpecimenCollection' in specimenAnnotations &&
+                                                {'dwc:basisOfRecord' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
+                                            </Row>
+                                            <Row className="fs-4">
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                    onClick={() => ToggleSidePanel('ods:livingOrPreserved')}
+                                                >
+                                                    <span className="fw-lightBold">
+                                                        Living or Preserved:
+                                                    </span>
+                                                    <br className="d-none d-lg-block" />
+                                                    <span> {specimen.digitalSpecimen['ods:livingOrPreserved']} </span>
+                                                </Col>
+                                                {'ods:livingOrPreserved' in specimenAnnotations &&
                                                     <Col className="col-md-auto">
                                                         <FontAwesomeIcon icon={faPencil} className="c-primary" />
                                                     </Col>
@@ -174,11 +208,18 @@ const IDCard = () => {
                                                 }
                                             </Row>
                                             <Row className="fs-4">
-                                                <Col className="m-0 py-1">
+                                                <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 text-truncate`}
+                                                    onClick={() => ToggleSidePanel('ods:sourceSystem')}
+                                                >
                                                     <span className="fw-lightBold m-0 h-50">Source System:</span>
                                                     <br className="d-none d-lg-block" />
-                                                    <span className="m-0"> Coming Soon! </span>
+                                                    <span className="m-0"> {specimen.digitalSpecimen['ods:sourceSystem']} </span>
                                                 </Col>
+                                                {'ods:sourceSystem' in specimenAnnotations &&
+                                                    <Col className="col-md-auto">
+                                                        <FontAwesomeIcon icon={faPencil} className="c-primary" />
+                                                    </Col>
+                                                }
                                             </Row>
                                         </Col>
                                     </Row>

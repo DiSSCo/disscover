@@ -3,23 +3,22 @@ import { Capitalize } from "app/Utilities";
 
 /* Import Types */
 import { ReactElement } from "react";
-import { DigitalSpecimen } from "app/Types";
 
 
 /* Props Typing */
 interface Props {
-    specimen: DigitalSpecimen
+    family: string
 };
 
 
 const Family = (props: Props) => {
-    const { specimen } = props;
+    const { family } = props;
 
     /* Base variables */
     let familyElement: ReactElement;
 
-    /* Format Scientific Name according to Nomenclatural Rules */
-    familyElement = <span> {Capitalize(/*specimen['dwc:family']*/ '')} </span>
+    /* Format Family according to Nomenclatural Rules */
+    familyElement = <span> {family ? Capitalize(family) : ''} </span>
 
     return familyElement;
 }

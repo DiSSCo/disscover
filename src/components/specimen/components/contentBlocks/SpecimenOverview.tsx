@@ -7,12 +7,11 @@ import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlic
 import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Components */
-import Location from './specimenBlock/Location';
+import Discovery from './specimenBlock/Discovery';
 import GeoReference from './specimenBlock/GeoReference';
-import Taxonomy from './specimenBlock/Taxonomy';
-import Organisation from './specimenBlock/Organisation';
-import OrganisationLogo from './specimenBlock/OrganisationLogo';
-import Collection from './specimenBlock/Collection';
+import Identification from './specimenBlock/Identification';
+import Publisher from './specimenBlock/Publisher';
+import References from './specimenBlock/References';
 
 
 const SpecimenOverview = () => {
@@ -39,12 +38,12 @@ const SpecimenOverview = () => {
     }
 
     return (
-        <Row className="h-100 overflow-scroll">
+        <Row className="h-100">
             <Col className="h-100">
                 <Row className="h-100">
-                    {/* Location */}
+                    {/* Discovery */}
                     <Col lg={{ span: 4 }} className="h-50 pb-2">
-                        <Location ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                        <Discovery ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
                     </Col>
 
                     {/* Geo Reference */}
@@ -52,24 +51,19 @@ const SpecimenOverview = () => {
                         <GeoReference />
                     </Col>
 
-                    {/* Taxonomy */}
-                    <Col lg={{ span: 4 }} className="h-50 pt-2 mb-2">
-                        <Taxonomy ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
-                    </Col>
-
-                    {/* Organisation */}
-                    <Col lg={{ span: 5 }} className="h-50 pt-2">
-                        <Organisation ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
-                    </Col>
-
-                    {/* Organisation Logo */}
-                    <Col lg={{ span: 3 }} className="h-50 pt-2 d-none d-lg-block">
-                        <OrganisationLogo />
-                    </Col>
-
-                    {/* Collection */}
+                    {/* Accepted Identification */}
                     <Col lg={{ span: 4 }} className="h-50 pt-2">
-                        <Collection ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                        <Identification ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                    </Col>
+
+                    {/* Publisher */}
+                    <Col lg={{ span: 4 }} className="h-50 pt-2">
+                        <Publisher ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                    </Col>
+
+                    {/* References */}
+                    <Col lg={{span: 4}} className="h-50 pt-2">
+                        <References />
                     </Col>
                 </Row>
             </Col>

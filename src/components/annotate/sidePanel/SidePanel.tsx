@@ -130,7 +130,7 @@ const SidePanel = (props: Props) => {
 
     return (
         <div className={`${classSidePanel} sidePanel h-100 w-100 d-flex flex-column p-4`}
-            role="sidePanel"
+            role="toolbar"
         >
             {/* Top section */}
             <Row className="pt-2">
@@ -177,7 +177,8 @@ const SidePanel = (props: Props) => {
                             <Col>
                                 <p>
                                     <span className="fw-bold">
-                                        {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `}
+                                        {/* {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `} */}
+                                        {`${annotateTarget.property}: `}
                                     </span>
                                     <span className="fst-italic">
                                         {`${annotateTarget.target[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp]}`}

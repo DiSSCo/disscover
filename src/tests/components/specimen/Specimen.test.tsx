@@ -38,12 +38,12 @@ describe("Specimen Page Tests", () => {
     it('is able to toggle the annotations side panel', async () => {
         const user = userEvent.setup();
 
-        const sidePanelTrigger = screen.getByRole('sidePanelTrigger').parentElement;
+        const sidePanelTrigger = screen.getByRole('term').parentElement;
 
         if (sidePanelTrigger) {
             await waitFor(() => user.click(sidePanelTrigger));
         }
 
-        expect(screen.getByRole('sidePanel')).toHaveClass('active');
+        expect(screen.getByRole('toolbar')).toHaveClass('active');
     })
 });

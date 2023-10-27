@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Moment from 'moment';
-import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -64,12 +64,6 @@ const Annotation = (props: Props) => {
             setUserTag(`${firstName} ${lastName} (you)`);
         } else {
             GetUser(annotation['oa:creator']['ods:id']).then((_user) => {
-                /*if (!isEmpty(user)) {
-                    setUserTag(`${user.firstName} ${user.lastName}`);
-                } else {
-                    setUserTag(annotation['oa:creator']['ods:id']);
-                }*/
-
                 setUserTag(annotation['oa:creator']['ods:id']);
             }).catch(error => {
                 console.warn(error);
@@ -147,8 +141,7 @@ const Annotation = (props: Props) => {
                         <Col>
                             <p>
                                 <span className="c-primary">
-                                    {`${annotationMotivations[annotation['oa:motivation'].replace('https://hdl.handle.net/', '') as keyof typeof
-                                        annotationMotivations].displayName}: `}
+                                    {`${Capitalize(annotation['oa:motivation'].replace('oa:', ''))}: `}
                                 </span>
                                 {annotationValue}
                             </p>

@@ -90,7 +90,14 @@ MaterialEntity();
 
 /* Digital Specimen */
 const DigitalSpecimen = async () => {
-    writeFileSync('src/app/types/DigitalSpecimen.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'digital_specimen.json'), {}))
+    writeFileSync('src/app/types/DigitalSpecimen.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'digital_specimen.json'), {}));
 }
 
 DigitalSpecimen();
+
+/* Annotation */
+const Annotation = async () => {
+    writeFileSync('src/app/types/Annotation.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'annotation.json'), {}))
+}
+
+Annotation();

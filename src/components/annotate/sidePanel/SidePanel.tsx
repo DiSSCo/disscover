@@ -12,7 +12,7 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation, Dict } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
@@ -21,9 +21,6 @@ import styles from 'components/annotate/annotate.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faClosedCaptioning } from '@fortawesome/free-regular-svg-icons';
-
-/* Import Sources */
-import harmonisedAttributesSource from 'sources/hamonisedAttributes.json';
 
 /* Import Components */
 import AnnotationsOverview from './AnnotationsOverview';
@@ -50,7 +47,6 @@ const SidePanel = (props: Props) => {
     const annotationFormToggle = useAppSelector(getAnnotationFormToggle);
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const editAnnotation = useAppSelector(getEditAnnotation);
-    const harmonisedAttributes: Dict = harmonisedAttributesSource;
 
     /* Set Side Panel title */
     let sidePanelTitle: string;
@@ -80,7 +76,7 @@ const SidePanel = (props: Props) => {
         /* Update Annotations array of target */
         const copyAnnotateTarget = { ...annotateTarget };
         const copyAnnotations = [...copyAnnotateTarget.annotations];
-        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord.id === annotation.id);
+        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord.id === annotation['ods:id']);
 
         /* If annotation was deleted, remove from array; patched, update array instance; else push to array */
         if (remove) {
@@ -169,7 +165,7 @@ const SidePanel = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation current value, if property is chosen */}
-                    {(annotateTarget.property || (editAnnotation?.target?.indvProp)) &&
+                    {(annotateTarget.property || !isEmpty(editAnnotation)) &&
                         <Row className="mt-5">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
@@ -177,20 +173,28 @@ const SidePanel = (props: Props) => {
                             <Col>
                                 <p>
                                     <span className="fw-bold">
-                                        {/* {`${harmonisedAttributes[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp].displayName}: `} */}
-                                        {`${annotateTarget.property}: `}
+                                        {(!annotateTarget.property && !editAnnotation['oa:target']['oa:selector']?.['ods:field']) ?
+                                            <>
+                                                Annotation on whole Specimen
+                                            </>
+                                            : <>
+                                                {`${annotateTarget.property ? annotateTarget.property : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}: `}
+                                            </>
+                                        }
                                     </span>
-                                    <span className="fst-italic">
-                                        {`${annotateTarget.target[annotateTarget.property ? annotateTarget.property : editAnnotation.target.indvProp]}`}
-                                    </span>
+                                    {(annotateTarget.property || editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string) &&
+                                        <span className="fst-italic">
+                                            {`${annotateTarget.target[annotateTarget.property ? annotateTarget.property : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string]}`}
+                                        </span>
+                                    }
                                 </p>
                             </Col>
                         </Row>
                     }
                 </Col>
             </Row>
-            {/* Side Panel Content */}
 
+            {/* Side Panel Content */}
             <Row className="flex-grow-1 overflow-scroll">
                 <Col className="sidePanelBody h-100">
                     {!annotationFormToggle && isEmpty(editAnnotation) ?

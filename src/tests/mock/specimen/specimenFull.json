@@ -80,28 +80,35 @@
             ],
             "annotations": [
                 {
-                    "body": {
-                        "type": "geocase_id",
-                        "value": "My comment"
+                    "ods:id": "20.5000.1025/DW0-BNT-BF6",
+                    "rdf:type": "Annotation",
+                    "ods:version": 1,
+                    "oa:motivation": "oa:commenting",
+                    "oa:target": {
+                        "ods:id": "20.5000.1025/DW0-BNT-FM0",
+                        "ods:type": "digital_specimen",
+                        "oa:selector": {
+                            "ods:type": "FieldValueSelector",
+                            "ods:field": "ods:id"
+                        }
                     },
-                    "created": "2022-11-28T12:31:33.191Z",
-                    "creator": "4ff16a16-31b2-4ba0-a491-1b0b99fccae1",
-                    "generated": "2022-11-28T12:31:33.443Z",
-                    "generator": {
-                        "id": "https://hdl.handle.net/anno-process-service-pid",
-                        "name": "Annotation Procession Service",
-                        "type": "tool/Software"
+                    "oa:body": {
+                        "ods:type": "ods:id",
+                        "oa:value": ["My comment"],
+                        "ods:score": 100
                     },
-                    "id": "20.5000.1025/5XP-SKF-AMZ",
-                    "motivation": "commenting",
-                    "preferenceScore": 100,
-                    "target": {
-                        "id": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
-                        "type": "digital_specimen",
-                        "indvProp": "geocase_id"
+                    "oa:creator": {
+                        "ods:id": "0000-0000-0000",
+                        "ods:type": "ORCID",
+                        "foaf:name": "Skipper Skeeto"
                     },
-                    "type": "Annotation",
-                    "version": 1
+                    "dcterms:created": "2022-11-28T12:31:33.191Z",
+                    "as:generator": {
+                        "ods:id": "20.5000.1025/ANNOTATION-PROCESSOR",
+                        "ods:type": "tool/software",
+                        "foaf:name": "Annotation Processing Service"
+                    },
+                    "oa:generated": "2022-11-28T12:31:33.443Z"
                 }
             ]
         }

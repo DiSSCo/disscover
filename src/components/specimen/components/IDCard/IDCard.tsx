@@ -4,7 +4,10 @@ import { Row, Col, Card } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSpecimen, getSpecimenAnnotations, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
+import { setAnnotateTarget, setEditAnnotation, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
+
+/* Import Types */
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -31,6 +34,7 @@ const IDCard = () => {
     /* Function for toggling the Annotate Modal */
     const ToggleSidePanel = (property: string) => {
         if (property) {
+            /* Set the Annotate target */
             dispatch(setAnnotateTarget({
                 property,
                 motivation: '',
@@ -38,6 +42,9 @@ const IDCard = () => {
                 targetType: 'digital_specimen',
                 annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));
+
+            /* Reset Edit Annotation */
+            dispatch(setEditAnnotation({} as Annotation));
         }
 
         dispatch(setSidePanelToggle(true));

@@ -2,14 +2,12 @@
 import axios from 'axios';
 import { isEmpty } from 'lodash';
 
-/* Import Model */
-import AnnotationModel from 'api/model/AnnotationModel';
-
 /* Import Types */
-import { Annotation, AnnotationTemplate, ImageAnnotationTemplate, JSONResult } from 'app/Types';
+import { AnnotationTemplate, JSONResult } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 
-const PatchAnnotation = async (annotationRecord: AnnotationTemplate | ImageAnnotationTemplate, annotationId: string, token?: string) => {
+const PatchAnnotation = async (annotationRecord: AnnotationTemplate, annotationId: string, token?: string) => {
     let annotation = {} as Annotation;
 
     if (!isEmpty(annotationRecord) && token) {
@@ -37,7 +35,7 @@ const PatchAnnotation = async (annotationRecord: AnnotationTemplate | ImageAnnot
             /* Set Annotation with Model */
             const data: JSONResult = result.data;
 
-            annotation = AnnotationModel(data.data);
+            annotation = data.data.attributes as Annotation;
         } catch (error) {
             console.warn(error);
         }

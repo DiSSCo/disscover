@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Moment from 'moment';
-import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -14,10 +14,7 @@ import {
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
-import { Annotation as AnnotationType } from 'app/Types';
-
-/* Import Sources */
-import AnnotationMotivations from 'sources/annotationMotivations.json';
+import { Annotation as AnnotationType } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from 'components/annotate/annotate.module.scss';
@@ -50,32 +47,20 @@ const Annotation = (props: Props) => {
     /* Base variables */
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
     const [userTag, setUserTag] = useState<string>('');
-    const annotationMotivations = { ...AnnotationMotivations };
-    let annotationValue: string = '';
 
-    /* Check if Annotation value is multi value */
-    if (Array.isArray(annotation.body.value)) {
-        annotationValue = annotation.body.value.join(', ');
-    } else if (annotation.body.value) {
-        annotationValue = annotation.body.value;
-    } else if (annotation.body.values) {
-        annotationValue = String(annotation.body.values);
-    }
+    /* Transform array of values to single string */
+    const annotationValue = annotation['oa:body']['oa:value'].join(', ');
 
     /* Set User Tag */
     useEffect(() => {
-        if (annotation.creator === KeycloakService.GetSubject()) {
+        if (user.orcid && user.orcid === annotation['oa:creator']['ods:id']) {
             const firstName = user.firstName ?? user.id;
             const lastName = user.lastName ?? '';
 
             setUserTag(`${firstName} ${lastName} (you)`);
         } else {
-            GetUser(annotation.creator).then((user) => {
-                if (!isEmpty(user)) {
-                    setUserTag(`${user.firstName} ${user.lastName}`);
-                } else {
-                    setUserTag(annotation.creator);
-                }
+            GetUser(annotation['oa:creator']['ods:id']).then((_user) => {
+                setUserTag(annotation['oa:creator']['ods:id']);
             }).catch(error => {
                 console.warn(error);
             });
@@ -102,7 +87,7 @@ const Annotation = (props: Props) => {
     }
 
     useEffect(() => {
-        if (highlightAnnotationId === annotation.id) {
+        if (highlightAnnotationId === annotation['ods:id']) {
             HighlightAnnotation();
         }
     }, [highlightAnnotationId]);
@@ -110,7 +95,7 @@ const Annotation = (props: Props) => {
     /* ClassName for Creator text */
     const classCreator = classNames({
         'c-primary fw-lightBold': true,
-        'c-accent': KeycloakService.GetSubject() === annotation.creator
+        'c-accent': user.orcid === annotation['oa:creator']['ods:id']
     });
 
     return (
@@ -125,26 +110,26 @@ const Annotation = (props: Props) => {
                             </p>
                         </Col>
                         <Col className="col-md-auto">
-                            <p className="c-primary"> {Moment(annotation.created).format('MMMM DD - YYYY')} </p>
+                            <p className="c-primary"> {Moment(annotation['dcterms:created']).format('MMMM DD - YYYY')} </p>
                         </Col>
                     </Row>
                     {/* Annotation ID and version */}
                     <Row>
                         <Col>
-                            <p className="c-grey"> {annotation.id} </p>
+                            <p className="c-grey"> {annotation['ods:id']} </p>
                         </Col>
                         <Col className="col-md-auto">
-                            <p className="c-grey"> {`Version ${annotation.version}`} </p>
+                            <p className="c-grey"> {`Version ${annotation['ods:version']}`} </p>
                         </Col>
                     </Row>
                     {/* Annotation content */}
-                    {annotation.target.indvProp &&
+                    {(typeof(annotation['oa:target']['oa:selector']?.['ods:field']) === 'string' && annotation['oa:target']['oa:selector']?.['ods:field']) &&
                         <Row className="mt-2">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
                             </Col>
                             <Col>
-                                <p className="fst-italic"> {annotation.target.indvProp} </p>
+                                <p className="fst-italic"> {annotation['oa:target']['oa:selector']['ods:field']} </p>
                             </Col>
                         </Row>
                     }
@@ -152,8 +137,7 @@ const Annotation = (props: Props) => {
                         <Col>
                             <p>
                                 <span className="c-primary">
-                                    {`${annotationMotivations[annotation.motivation.replace('https://hdl.handle.net/', '') as keyof typeof
-                                        annotationMotivations].displayName}: `}
+                                    {`${Capitalize(annotation['oa:motivation'].replace('oa:', ''))}: `}
                                 </span>
                                 {annotationValue}
                             </p>
@@ -175,7 +159,7 @@ const Annotation = (props: Props) => {
                             />
                         </Col>
 
-                        {KeycloakService.GetSubject() === annotation.creator &&
+                        {user.orcid === annotation['oa:creator']['ods:id'] &&
                             <Col className="col-md-auto">
                                 <Row>
                                     <Col className="pe-0">
@@ -188,8 +172,8 @@ const Annotation = (props: Props) => {
                                         <FontAwesomeIcon icon={faTrashCan}
                                             className="c-pointer c-primary"
                                             onClick={() => {
-                                                if (window.confirm(`Delete annotation with id: ${annotation.id}`)) {
-                                                    DeleteAnnotation(annotation.id, KeycloakService.GetToken());
+                                                if (window.confirm(`Delete annotation with id: ${annotation['ods:id']}`)) {
+                                                    DeleteAnnotation(annotation['ods:id'], KeycloakService.GetToken());
                                                     UpdateAnnotationView(annotation, true);
                                                 }
                                             }}

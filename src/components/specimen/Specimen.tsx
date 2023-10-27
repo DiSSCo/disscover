@@ -18,7 +18,8 @@ import {
 import { getScreenSize, pushToPromptMessages } from 'redux/general/GeneralSlice';
 
 /* Import Types */
-import { Annotation, SpecimenAnnotations } from 'app/Types';
+import { SpecimenAnnotations } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Components */
 import Header from 'components/general/header/Header';
@@ -121,11 +122,11 @@ const Specimen = () => {
         const copySpecimenAnnotations = { ...specimenAnnotations };
 
         /* Check if array for target property exists */
-        if (annotation.target.indvProp in specimenAnnotations) {
+        if (annotation['oa:target']['oa:selector']?.['ods:field'] as string in specimenAnnotations) {
             /* Push or patch to existing array */
-            const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation.target.indvProp]];
+            const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]];
             const index = copySpecimenTargetAnnotations.findIndex(
-                (annotationRecord) => annotationRecord.id === annotation.id
+                (annotationRecord) => annotationRecord.id === annotation['ods:id']
             );
 
             if (index >= 0) {
@@ -138,10 +139,10 @@ const Specimen = () => {
                 copySpecimenTargetAnnotations.push(annotation);
             }
 
-            copySpecimenAnnotations[annotation.target.indvProp] = copySpecimenTargetAnnotations;
+            copySpecimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = copySpecimenTargetAnnotations;
         } else {
             /* Create into new array */
-            copySpecimenAnnotations[annotation.target.indvProp] = [annotation];
+            copySpecimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = [annotation];
         }
 
         dispatch(setSpecimenAnnotations(copySpecimenAnnotations));

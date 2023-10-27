@@ -6,7 +6,7 @@ import { useAppSelector } from 'app/hooks';
 import { getDigitalMedia } from 'redux/digitalMedia/DigitalMediaSlice';
 
 /* Import Types */
-import { Annotation } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Components */
 import ImageViewer from 'components/general/mediaTypes/ImageViewer';

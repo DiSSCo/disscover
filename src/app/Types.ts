@@ -1,6 +1,7 @@
 /* Import Types */
-import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
+import { Annotation } from "./types/Annotation";
 import { DigitalEntity } from "./types/DigitalEntity";
+import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
 
 
 /* Generic Types */
@@ -50,7 +51,10 @@ export type JSONResultArray = {
             digitalSpecimen?: DigitalSpecimenType,
             digitalEntity?: DigitalEntity,
             originalData?: Dict,
-            digitalMediaObjects?: DigitalMedia[],
+            digitalMediaObjects?: {
+                digitalMediaObject: DigitalMedia,
+                annotations: Annotation[]
+            }[],
             annotations?: Annotation[]
         }
     }[],
@@ -101,85 +105,31 @@ export type DigitalMediaObservation = {
     test: string
 };
 
-/* Annotation Types */
-export interface Annotation {
-    id: string,
-    version: number,
-    type: string,
-    motivation: string,
-    body: {
-        type: string,
-        value?: string | [],
-        values?: string[],
-        description?: string,
-        basedOn?: string,
-        reference?: string,
-        purpose?: string
-    },
-    target: {
-        id: string,
-        indvProp: string,
-        type: string,
-        selector?: {
-            type: string,
-            value?: string,
-            conformsTo?: string,
-            hasROI?: {
-                "ac:xFrac": number,
-                "ac:yFrac": number,
-                "ac:widthFrac": number,
-                "ac:heightFrac": number
-            },
-        }
-    },
-    preferenceScore?: number,
-    creator: string,
-    created: number,
-    generator?: Dict,
-    generated?: Date,
-    deleted_on?: Date
-};
-
 export interface AnnotationTemplate {
-    type: string,
-    motivation: string,
-    body: {
-        type: string,
-        value: string[],
-        description?: string,
-        based_on?: string,
-        reference?: string
-    },
-    target: {
-        id: string,
-        indvProp?: string,
-        type: string,
-    }
-};
-
-export interface ImageAnnotationTemplate {
-    type: string,
-    motivation: string,
-    body: {
-        type: string,
-        values: string[]
-    },
-    target: {
-        id: string,
-        type: string,
-        selector: {
-            type: string,
-            conformsTo: string,
-            hasROI: {
+    "ods:id"?: string,
+    "oa:motivation": string,
+    "oa:target": {
+        "ods:id": string,
+        "ods:type": string,
+        "oa:selector": {
+            "ods:type": string,
+            "ods:field"?: string,
+            "dcterms:conformsTo"?: string,
+            "ac:hasROI"?: {
                 "ac:xFrac": number,
                 "ac:yFrac": number,
                 "ac:widthFrac": number,
                 "ac:heightFrac": number
-            },
-            value?: string,
-        }
+            }
+        },
     }
-}
+    "oa:body": {
+        "ods:type": string,
+        "oa:value": string[],
+        "dcterms:reference"?: string,
+        "ods:score"?: 100
+    }
+};
 
 export interface AnnotateTarget {
     property: string,

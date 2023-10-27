@@ -1,13 +1,10 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
+import { Toast } from 'react-bootstrap';
 
 /* Import Styles */
 import styles from './promptMessage.module.scss';
-
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faX } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Props Typing */
@@ -21,46 +18,37 @@ const PromptMessage = (props: Props) => {
     const { promptMessage, RemovePromptMessage } = props;
 
     /* Base variables */
-    const [active, setActive] = useState(false);
-
-    /* Show Prompt Message and hide after some time */
-    useEffect(() => {
-        setActive(true);
-    }, []);
-
-    setTimeout(() => {
-        setActive(false);
-
-        /* Remove Prompt Message from array */
-        RemovePromptMessage();
-    }, 5000);
+    const [active, setActive] = useState(true);
 
     /* ClassNames */
-    const classPromptMessage = classNames({
-        [`${styles.promptMessage} opacity-0 mx-auto transition`]: true,
-        [`${styles.active}`]: active
-    });
-
     const classPromptTemplate = classNames({
         [`${styles[promptMessage.template ?? '']}`]: promptMessage.template,
     });
 
     const classLoadingBar = classNames({
-        [`${styles.loadingBar} w-0 bgc-primary rounded-full`]: true,
-        'w-100': active
+        [`${styles.loadingBar} mt-3 w-0 bgc-primary rounded-full`]: true
     });
 
     return (
-        <div className={`${classPromptMessage} px-3 py-2 position-absolute bottom-0 end-0 bgc-white me-3 mb-4 b-grey rounded-c`}>
-            <div>
-                <span className="fs-3 fw-bold"> Notification </span>
-                <span className="float-end c-greyDark"> <FontAwesomeIcon icon={faX} /> </span>
-            </div>
+        <Toast show={active}
+            delay={5000}
+            autohide={true}
+            onClose={() => {
+                setActive(false);
+                RemovePromptMessage();
+            }}
+        >
+            <Toast.Header className={`${classPromptTemplate} c-default fw-lightBold`}
+                closeButton={false}
+            >
+                <p> Notification </p>
+            </Toast.Header>
+            <Toast.Body>
+                {promptMessage.message}
 
-            <p className={`${classPromptTemplate} fs-4 mt-2 px-3 py-2 rounded-c`}> {promptMessage.message} </p>
-
-            <div className={`${classLoadingBar} mt-5`} />
-        </div>
+                <div className={classLoadingBar} />
+            </Toast.Body>
+        </Toast>
     );
 }
 

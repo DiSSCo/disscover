@@ -69,7 +69,7 @@ const App = () => {
   /* OnLoad: Check if user is present in database, otherwise add basic record */
   useEffect(() => {
     /* Check if user is not present in User state but is logged in */
-    if (Object.keys(user).length === 0 && KeycloakService.IsLoggedIn()) {
+    if (isEmpty(user) && KeycloakService.IsLoggedIn()) {
       GetUser(KeycloakService.GetSubject(), KeycloakService.GetToken()).then((user) => {
         if (isEmpty(user)) {
           /* If User does not exist, add user to database */
@@ -90,6 +90,8 @@ const App = () => {
 
   return (
     <div className="h-100 w-100 position-relative">
+      <PromptMessages />
+
       {(screenSize != 'sm') ?
         <Router>
           <Routes>
@@ -119,8 +121,6 @@ const App = () => {
             {/* Demo Page */}
             <Route path="/demo" element={<Demo />} />
           </Routes>
-
-          <PromptMessages />
         </Router>
         : <Mobile />
       }

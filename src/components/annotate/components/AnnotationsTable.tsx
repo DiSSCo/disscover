@@ -33,11 +33,11 @@ const AnnotationsTable = () => {
         annotations.forEach((annotation, i) => {
             tableData.push({
                 index: i,
-                specimen_id: annotation.target.id,
-                specimen_name: annotation.target.id,
-                property: annotation.target.indvProp,
-                motivation: annotation.motivation,
-                date: Moment(annotation.created).format('MM-DD-YYYY')
+                specimen_id: annotation['oa:target']['ods:id'],
+                specimen_name: annotation['oa:target']['ods:id'],
+                property: annotation['oa:target']['oa:selector']?.['ods:field'] as string ?? '',
+                motivation: annotation['oa:motivation'],
+                date: Moment(annotation['dcterms:created']).format('MM-DD-YYYY')
             });
         });
 

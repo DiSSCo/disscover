@@ -6,7 +6,10 @@ import { Row, Col, Card } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getDigitalMedia, getDigitalMediaAnnotations } from 'redux/digitalMedia/DigitalMediaSlice';
-import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
+import { setAnnotateTarget, setEditAnnotation, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
+
+/* Import Types */
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';;
@@ -22,6 +25,7 @@ const IDCard = () => {
 
     /* Function for toggling the Annotate Modal */
     const ToggleSidePanel = (property: string) => {
+        /* Set the Annotate target */
         if (property) {
             dispatch(setAnnotateTarget({
                 property,
@@ -31,6 +35,9 @@ const IDCard = () => {
                 annotations: digitalMediaAnnotations[property] ? digitalMediaAnnotations[property] : []
             }));
         }
+        
+        /* Reset Edit Annotation */
+        dispatch(setEditAnnotation({} as Annotation));
 
         dispatch(setSidePanelToggle(true));
     }

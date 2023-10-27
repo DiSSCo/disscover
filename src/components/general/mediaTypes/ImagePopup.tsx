@@ -66,7 +66,7 @@ const ImagePopup = (props: Props) => {
                                 <Formik
                                     initialValues={{
                                         annotationValue: editAnnotation?.body.length ?
-                                            editAnnotation.body[0].value[0] : '',
+                                            editAnnotation['oa:body']['oa:value'] : '',
                                     }}
                                     enableReinitialize={true}
                                     validate={ValidateAnnotation}

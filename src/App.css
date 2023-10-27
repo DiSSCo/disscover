@@ -120,6 +120,9 @@ p {
 }
 
 /* Color */
+.c-default {
+  color: #333333;
+}
 
 .c-primary {
   color: var(--primary);

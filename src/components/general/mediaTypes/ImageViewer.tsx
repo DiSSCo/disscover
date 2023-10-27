@@ -19,7 +19,8 @@ import { getAnnotoriousMode, setAnnotoriousMode } from "redux/general/GeneralSli
 import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
 
 /* Import Types */
-import { Annotation, ImageAnnotationTemplate, Dict } from 'app/Types';
+import { AnnotationTemplate, Dict } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
@@ -76,7 +77,7 @@ const ImageViewer = (props: Props) => {
             image.src = digitalMedia.digitalEntity['ac:accessUri'];
         }).then((image: any) => {
             setImage(image);
-        
+
             if (viewerRef.current) {
                 viewerRef.current.open({
                     type: 'image',
@@ -175,8 +176,13 @@ const ImageViewer = (props: Props) => {
             /* For each annotation, calculate the W3C pixels relative to the TDWG AC position */
             digitalMediaAnnotations.visual.forEach((imageAnnotation: Annotation) => {
                 /* Check if the annotation is a visual one */
-                if (imageAnnotation.target.selector?.hasROI) {
-                    const ROI = imageAnnotation.target.selector.hasROI;
+                if (imageAnnotation['oa:target']['oa:selector']?.['ac:hasROI']) {
+                    const ROI = imageAnnotation['oa:target']['oa:selector']['ac:hasROI'] as {
+                        "ac:xFrac": number,
+                        "ac:yFrac": number,
+                        "ac:widthFrac": number,
+                        "ac:heightFrac": number
+                    };
 
                     const x = ROI["ac:xFrac"] * imgWidth;
                     const y = ROI["ac:yFrac"] * imgHeight;
@@ -184,12 +190,12 @@ const ImageViewer = (props: Props) => {
                     const h = ROI["ac:heightFrac"] * imgHeight;
 
                     visualImageAnnotations.push({
-                        id: imageAnnotation.id,
+                        id: imageAnnotation['ods:id'],
                         "@context": 'http://www.w3.org/ns/anno.jsonld',
                         type: 'Annotation',
                         body: [{
                             type: 'TextualBody',
-                            value: imageAnnotation.body.values,
+                            value: imageAnnotation['oa:body']['oa:value'],
                             purpose: 'commenting',
                             creator: {
                                 id: imageAnnotation.creator
@@ -223,26 +229,25 @@ const ImageViewer = (props: Props) => {
             const heightFrac = Number(coordinates[3]) / image.height;
 
             /* Prepare new Annotation object */
-            const imageAnnotation: ImageAnnotationTemplate = {
-                type: 'Annotation',
-                motivation: 'commenting',
-                body: {
-                    type: 'TextualBody',
-                    values: values
-                },
-                target: {
-                    id: digitalMedia.digitalEntity['ods:id'],
-                    type: 'MediaObject',
-                    selector: {
-                        type: 'FragmentSelector',
-                        conformsTo: 'https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary',
-                        hasROI: {
+            const imageAnnotation: AnnotationTemplate = {
+                "oa:motivation": 'oa:commenting',
+                "oa:target": {
+                    "ods:id": digitalMedia.digitalEntity['ods:id'],
+                    "ods:type": 'MediaObject',
+                    "oa:selector": {
+                        "ods:type": 'FragmentSelector',
+                        "dcterms:conformsTo": 'https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary',
+                        "ac:hasROI": {
                             "ac:xFrac": xFrac,
                             "ac:yFrac": yFrac,
                             "ac:widthFrac": widthFrac,
                             "ac:heightFrac": heightFrac
                         }
                     }
+                },
+                "oa:body": {
+                    "ods:type": 'TextualBody',
+                    "oa:value": values
                 }
             };
 
@@ -256,7 +261,7 @@ const ImageViewer = (props: Props) => {
                 });
             } else if (method === 'patch') {
                 /* Patch Annotation */
-                PatchAnnotation(imageAnnotation, editAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
+                PatchAnnotation(imageAnnotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
                     UpdateAnnotationsSource(annotation);
                 }).catch(error => {
                     console.warn(error);
@@ -268,9 +273,9 @@ const ImageViewer = (props: Props) => {
     /* Function for removing an Annotation */
     const RemoveAnnotation = () => {
         /* Ask for user confirmation */
-        if (window.confirm(`Do you really want delete the annotation with id: ${selectedAnnotation.id}?`)) {
+        if (window.confirm(`Do you really want delete the annotation with id: ${selectedAnnotation['ods:id']}?`)) {
             /* Remove annotation */
-            DeleteAnnotation(selectedAnnotation.id, KeycloakService.GetToken()).then(() => {
+            DeleteAnnotation(selectedAnnotation['ods:id'], KeycloakService.GetToken()).then(() => {
                 UpdateAnnotationsSource(selectedAnnotation, true);
             }).catch(error => {
                 console.warn(error);

@@ -13,7 +13,7 @@ import {
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Annotation } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Sources */
 import SpecimenIntro from 'sources/introText/specimen.json';
@@ -42,21 +42,31 @@ const AnnotateSteps = (props: Props) => {
 
     /* Dummy Annotation for Showcase */
     const dummyAnnotation: Annotation = {
-        id: '20.5000.1025/dummy',
-        version: 1,
-        type: 'Annotation',
-        motivation: 'commenting',
-        target: {
-            id: specimen.digitalSpecimen['ods:id'],   
-            type: 'digitalSpecimen',
-            indvProp: 'ods:specimenName'
+        "ods:id": 'TEST/dummy',
+        "rdf:type": "Annotation",
+        "ods:version": 1,
+        "oa:motivation": 'oa:commenting',
+        "oa:target": {
+            "ods:id": specimen.digitalSpecimen['ods:id'],   
+            "ods:type": 'digitalSpecimen',
+            "oa:selector": {
+                "ods:type": "FieldValueSelector",
+                "ods:field": 'ods:specimenName'
+            }
         },
-        body: {
-            type: 'ods:specimenName',
-            value: 'Spinosaurus Aegyptiacus'
+        "oa:body": {
+            "ods:type": 'ods:specimenName',
+            "oa:value": ['Spinosaurus Aegyptiacus']
         },
-        created: Date.now(),
-        creator: KeycloakService.GetSubject() as string
+        "dcterms:created": String(Date.now()),
+        "oa:creator": {
+            "ods:id": KeycloakService.GetSubject() as string,
+            "ods:type": "User"
+        },
+        "as:generator": {
+            "ods:id": "annotation_service",
+            "ods:type": "Service"
+        }
     }
 
     /* Function for property interval */
@@ -84,7 +94,7 @@ const AnnotateSteps = (props: Props) => {
         /* Update Annotations array of target */
         const copyAnnotateTarget = { ...annotateTarget };
         const copyAnnotations = [...copyAnnotateTarget.annotations];
-        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord.id === annotation.id);
+        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord.id === annotation['ods:id']);
 
         /* If annotation was deleted, remove from array; patched, update array instance; else push to array */
         if (remove) {

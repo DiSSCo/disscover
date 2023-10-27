@@ -22,7 +22,7 @@ const GetUser = async (userId?: string, token?: string) => {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }
+                },
             });
 
             /* Set User with Model */

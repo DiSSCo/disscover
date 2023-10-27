@@ -6,7 +6,6 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
@@ -25,13 +24,6 @@ interface Props {
 
 const PropertiesTable = (props: Props) => {
     const { title, properties, ShowWithAnnotations } = props;
-
-    /* Hooks */
-    const dispatch = useAppDispatch();
-
-    /* Base variables */
-    const specimen = useAppSelector(getSpecimen);
-    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
 
     /* Declare type of a table row */
     interface DataRow {

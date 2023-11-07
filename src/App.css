@@ -255,6 +255,15 @@ p {
   box-shadow: 5px 2px 11px 2px rgba(0, 0, 0, 0.54);
 }
 
+/* Overflow */
+.overflow-y-sroll {
+  overflow-y: scroll !important;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
 /* Text overflow */
 .textOverflow {
   overflow: hidden;

@@ -46,6 +46,7 @@
     "react-data-table-component": "^7.5.3",
     "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
+    "react-force-graph-2d": "^1.25.2",
     "react-i18next": "^12.2.2",
     "react-leaflet": "^4.2.1",
     "react-mark-image": "^0.2.3",

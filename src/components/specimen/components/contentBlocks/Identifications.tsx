@@ -45,7 +45,7 @@ const Identifications = (props: Props) => {
             });
         }
 
-        /* Remove extensions from core occurrence object */
+        /* Remove extensions from core identification object */
         ['taxonIdentifications'].forEach((key) => delete copyIdentification[key]);
 
         identifications[index].properties = copyIdentification;
@@ -54,7 +54,7 @@ const Identifications = (props: Props) => {
     return (
         <>
             {identifications.map((identification, index) => {
-                const key = `occurrence${index}`;
+                const key = `identification${index}`;
 
                 /* ClassNames */
                 const CardClass = classNames({

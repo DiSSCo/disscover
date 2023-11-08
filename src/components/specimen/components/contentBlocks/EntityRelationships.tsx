@@ -7,11 +7,9 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useAppSelector } from 'app/hooks';
 import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 
-/* Import Types */
-import { Dict } from 'app/Types';
-
 /* Import Components */
 import PropertiesTable from './PropertiesTable';
+import ToggleButton from './entityRelationsBlock/ToggleButton';
 import RelationalGraph from 'components/general/graphs/RelationalGraph';
 
 
@@ -27,7 +25,7 @@ const EntityRelationships = (props: Props) => {
     /* Base variables */
     const [viewToggle, setViewToggle] = useState<string>('graph');
     const specimen = useAppSelector(getSpecimen);
-    const relations: {id: string, name: string}[] = [];
+    const relations: { id: string, name: string }[] = [];
 
     /* OnLoad: Prepare relational graph data */
     specimen.digitalSpecimen.entityRelationships?.forEach((entityRelationship) => {
@@ -37,27 +35,12 @@ const EntityRelationships = (props: Props) => {
         })
     });
 
-    /* Template for button to toggle graph and table lay-out */
-    const ToggleButton = () => {
-        return (
-            <button className="position-absolute end-0 accentButton px-3 py-1 z-1 m-3"
-                onClick={() => {
-                    if (viewToggle === 'graph') {
-                        setViewToggle('table');
-                    } else {
-                        setViewToggle('graph');
-                    }
-                }}
-            >
-                {(viewToggle === 'graph') ? 'Table view' : 'Graph view'}
-            </button>
-        );
-    }
-
     if (viewToggle === 'table' && specimen.digitalSpecimen.entityRelationships?.length) {
         return (
             <div className="position-relative">
-                {ToggleButton()}
+                <ToggleButton viewToggle={viewToggle}
+                    SetViewToggle={(viewToggle: string) => setViewToggle(viewToggle)}
+                />
 
                 {specimen.digitalSpecimen.entityRelationships?.map((entityRelationship, index) => {
                     const key = `entityRelationship${index}`;
@@ -97,7 +80,9 @@ const EntityRelationships = (props: Props) => {
     } else if (viewToggle === 'graph' && specimen.digitalSpecimen.entityRelationships?.length) {
         return (
             <div className="h-100 position-relative">
-                {ToggleButton()}
+                <ToggleButton viewToggle={viewToggle}
+                    SetViewToggle={(viewToggle: string) => setViewToggle(viewToggle)}
+                />
 
                 <Card className="h-100">
                     <RelationalGraph target={specimen.digitalSpecimen}

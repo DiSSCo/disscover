@@ -40,7 +40,7 @@ const EntityRelationships = (props: Props) => {
     /* Template for button to toggle graph and table lay-out */
     const ToggleButton = () => {
         return (
-            <button className="position-absolute end-0 accentButton px-3 py-1 z-1"
+            <button className="position-absolute end-0 accentButton px-3 py-1 z-1 m-3"
                 onClick={() => {
                     if (viewToggle === 'graph') {
                         setViewToggle('table');
@@ -49,7 +49,7 @@ const EntityRelationships = (props: Props) => {
                     }
                 }}
             >
-                {(viewToggle === 'graph') ? 'Table mode' : 'Graph mode'}
+                {(viewToggle === 'graph') ? 'Table view' : 'Graph view'}
             </button>
         );
     }

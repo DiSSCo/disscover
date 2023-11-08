@@ -12,6 +12,9 @@ import { Dict } from 'app/Types';
 /* Import Styles */
 import styles from './graphs.module.scss';
 
+/* Import Webroot */
+import DiSSCoLogo from 'webroot/img/dissco-logo-web.svg';
+
 
 /* Props Typing */
 interface Props {
@@ -168,13 +171,30 @@ const RelationalGraph = (props: Props) => {
 
                 {/* Details Block */}
                 <div ref={detailsBlockRef}
-                    className={`${classDetailsBlock} position-absolute bgc-white b-primary z-1 rounded-c overflow-hidden`}
+                    className={`${classDetailsBlock} position-absolute bgc-white b-primary z-1 rounded-c overflow-hidden d-flex flex-column`}
                 >
                     <Row>
                         <Col>
                             <div className="bgc-primary px-3 py-2">
                                 <p className="fs-3 textOverflow fw-lightBold c-white"> {detailsNode?.name} </p>
                             </div>
+                        </Col>
+                    </Row>
+                    <Row className="flex-grow-1">
+                        <Col>
+                            <p className="fs-4 px-3 py-2">
+                                <a href={detailsNode?.id} target="_blank">
+                                    Link to source
+                                </a>
+                            </p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <img src={DiSSCoLogo}
+                                alt="DiSSCo logo"
+                                className="mx-5 my-2"    
+                            />
                         </Col>
                     </Row>
                 </div>

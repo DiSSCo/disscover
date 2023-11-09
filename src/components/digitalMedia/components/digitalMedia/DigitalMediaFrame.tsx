@@ -31,8 +31,8 @@ const DigitalMediaFrame = (props: Props) => {
     /* Check for the type of Digital Media and set content appropiate to it */
     let digitalMediaContent;
 
-    switch (digitalMedia.digitalEntity.type) {
-        case '2DImageObject':
+    switch (digitalMedia.digitalEntity['dcterms:type']) {
+        case 'StillImage':
             digitalMediaContent = <Annotorious>
                 <ImageViewer mediaUrl={digitalMedia.digitalEntity['ac:accessUri']}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
@@ -40,11 +40,11 @@ const DigitalMediaFrame = (props: Props) => {
             </Annotorious>
 
             break;
-        case 'video':
+        case 'MovingImage':
             digitalMediaContent = <Video digitalMedia={digitalMedia} />
 
             break;
-        case 'audio':
+        case 'Sound':
             digitalMediaContent = <Audio digitalMedia={digitalMedia} />
 
             break;

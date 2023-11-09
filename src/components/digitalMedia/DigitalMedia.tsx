@@ -269,7 +269,7 @@ const DigitalMedia = () => {
                                                                 />
                                                             </Col>
                                                             <Col />
-                                                            {(digitalMedia.digitalEntity.type === '2DImageObject' && KeycloakService.IsLoggedIn()) &&
+                                                            {(digitalMedia.digitalEntity['dcterms:type'] === 'StillImage' && KeycloakService.IsLoggedIn()) &&
                                                                 <Col className="col-md-auto pe-0">
                                                                     <button type="button"
                                                                         className={classImageAnnotateButton}

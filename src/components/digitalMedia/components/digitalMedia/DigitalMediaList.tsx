@@ -22,10 +22,14 @@ const DigitalMediaList = () => {
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
     const [specimenDigitalMedia, setSpecimenDigitalMedia] = useState<DigitalMedia[]>([]);
+    let specimenId: string = '';
+
+    /* Find Digital Specimen linkage */
+    specimenId = digitalMedia.digitalEntity.entityRelationships?.find((entityRelationship) => entityRelationship.entityRelationshipType === 'hasDigitalSpecimen')?.objectEntityIri as string;
 
     /* Search and fetch all other Digital Media items from target specimen */
     useEffect(() => {
-        GetSpecimenDigitalMedia(digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')).then((specimenDigitalMedia) => {
+        GetSpecimenDigitalMedia(specimenId.replace('https://doi.org/', '')).then((specimenDigitalMedia) => {
             if (specimenDigitalMedia) {
                 setSpecimenDigitalMedia(specimenDigitalMedia);
             }

@@ -3,10 +3,18 @@ import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
 import { ImageAnnotation } from '@annotorious/react';
+import Moment from 'moment';
+import { Capitalize } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
+
+/* Import Store */
+import { useAppSelector } from 'app/hooks';
+import { getDigitalMediaAnnotations } from 'redux/digitalMedia/DigitalMediaSlice';
+import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from './mediaTypes.module.scss';
@@ -35,6 +43,11 @@ const ImagePopup = (props: Props) => {
     const { selectedAnnotation, editAnnotation, tooltipFieldRef, annotorious,
         RefreshAnnotations, SubmitAnnotation, SetSelectedAnnotation, SetEditAnnotation, RemoveAnnotation } = props;
 
+    /* Base variables */
+    const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
+    const user = useAppSelector(getUser);
+    let annotation: Annotation | undefined;
+
     /* Function for validating Annotation value input */
     const ValidateAnnotation = (values: Dict) => {
         const errors: Dict = {};
@@ -46,6 +59,11 @@ const ImagePopup = (props: Props) => {
         return errors;
     }
 
+    /* If Annotation is selected, get additional data from source */
+    if (selectedAnnotation) {
+        annotation = digitalMediaAnnotations.visual.find((digitalMediaAnnotation) => digitalMediaAnnotation['ods:id'] === selectedAnnotation.id);
+    }
+
     /* ClassNames */
     const classEditBlock = classNames({
         'd-none': !editAnnotation
@@ -54,6 +72,8 @@ const ImagePopup = (props: Props) => {
     const classInfoBlock = classNames({
         'd-none': editAnnotation
     });
+
+    console.log(annotation);
 
     return (
         <div className={styles.annotoriousPopUp}>
@@ -66,7 +86,7 @@ const ImagePopup = (props: Props) => {
                                 <Formik
                                     initialValues={{
                                         annotationValue: editAnnotation?.body.length ?
-                                            editAnnotation['oa:body']['oa:value'] : '',
+                                            editAnnotation.body[0].value[0] : '',
                                     }}
                                     enableReinitialize={true}
                                     validate={ValidateAnnotation}
@@ -112,39 +132,46 @@ const ImagePopup = (props: Props) => {
                                 </Formik>
                             </div>
 
-                            <div className={classInfoBlock}>
-                                <Row>
-                                    <Col>
-                                        <p className="fs-4">
-                                            {(selectedAnnotation?.body && selectedAnnotation.body.length) ?
-                                                selectedAnnotation.body[0].value[0] : ''
-                                            }
-                                        </p>
-                                    </Col>
-                                    {(KeycloakService.IsLoggedIn() && selectedAnnotation?.body.length
-                                        && KeycloakService.GetSubject() === selectedAnnotation.body[0].creator.id) &&
-                                        <>
-                                            <Col className="col-md-auto">
-                                                <FontAwesomeIcon icon={faPencil}
-                                                    className="c-pointer"
-                                                    onClick={() => SetEditAnnotation(selectedAnnotation)}
-                                                />
-                                            </Col>
-                                            <Col className="col-md-auto ps-0">
-                                                <FontAwesomeIcon icon={faTrashCan}
-                                                    className="c-pointer"
-                                                    onClick={() => RemoveAnnotation()}
-                                                />
-                                            </Col>
-                                        </>
-                                    }
-                                </Row>
-                            </div>
+                            {annotation &&
+                                <div className={classInfoBlock}>
+                                    {/* Creator and Actions */}
+                                    <Row>
+                                        <Col>
+                                            <p className="c-primary fw-lightBold"> {annotation['oa:creator']['foaf:name']} </p>
+                                        </Col>
+                                        <Col className="col-md-auto">
+                                            <p className="c-primary"> {Moment(annotation['dcterms:created']).format('MMMM DD - YYYY')} </p>
+                                        </Col>
+                                    </Row>
+                                    {/* ID and Version */}
+                                    <Row>
+                                        <Col>
+                                            <p className="fs-4 c-grey"> {annotation['ods:id']} </p>
+                                        </Col>
+                                        <Col className="col-md-auto">
+                                            <p className="fs-4 c-grey"> Version: {annotation['ods:version']} </p>
+                                        </Col>
+                                    </Row>
+                                    {/* Motivation and Value */}
+                                    <Row className="mt-2">
+                                        <Col className="col-md-auto pe-0">
+                                            <p className="c-primary fw-lightBold"> {Capitalize(annotation['oa:motivation'].replace('oa:', '').replace('ods:', ''))}: </p>
+                                        </Col>
+                                        <Col className="ps-1">
+                                            <p>
+                                                {(selectedAnnotation?.body && selectedAnnotation.body.length) ?
+                                                    selectedAnnotation.body[0].value[0] : ''
+                                                }
+                                            </p>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            }
                         </Col>
                     </Row>
-                    {/* Close button */}
+                    {/* Actions and Close button */}
                     <Row className="mt-3">
-                        <Col className="d-flex justify-content-end">
+                        <Col>
                             <button type="button"
                                 className="primaryButton fs-4 px-3"
                                 onClick={() => {
@@ -158,12 +185,29 @@ const ImagePopup = (props: Props) => {
                                     annotorious.state.selection.clear();
                                 }}
                             >
-                                {selectedAnnotation ?
+                                {selectedAnnotation && selectedAnnotation.body.length ?
                                     <span> Close </span>
                                     : <span> Cancel </span>
                                 }
                             </button>
                         </Col>
+                        {(KeycloakService.IsLoggedIn() && selectedAnnotation?.body.length && !editAnnotation
+                            && user.orcid && user.orcid === selectedAnnotation.body[0].creator.id) &&
+                            <>
+                                <Col className="col-md-auto">
+                                    <FontAwesomeIcon icon={faPencil}
+                                        className="c-pointer c-primary"
+                                        onClick={() => SetEditAnnotation(selectedAnnotation)}
+                                    />
+                                </Col>
+                                <Col className="col-md-auto ps-0">
+                                    <FontAwesomeIcon icon={faTrashCan}
+                                        className="c-pointer c-primary"
+                                        onClick={() => RemoveAnnotation()}
+                                    />
+                                </Col>
+                            </>
+                        }
                     </Row>
                 </Col>
             </Row>

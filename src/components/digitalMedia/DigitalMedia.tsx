@@ -155,7 +155,7 @@ const DigitalMedia = () => {
         /* Check if array for target property exists */
         if (annotation["oa:target"]['oa:selector']?.['ods:field']) {
             indicator = annotation["oa:target"]['oa:selector']['ods:field'] as string;
-        } else if (annotation['oa:target']['oa:selector']?.['ac:hasROI']) {
+        } else if (annotation['oa:target']['oa:selector']?.['ac:hasRoi']) {
             indicator = 'visual';
         }
 

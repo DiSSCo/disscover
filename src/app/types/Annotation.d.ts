@@ -27,7 +27,7 @@ export interface Annotation {
         }
       | {
           "ods:type"?: "FragmentSelector";
-          "ac:hasROI": {
+          "ac:hasRoi"?: {
             "ac:xFrac": number;
             "ac:yFrac": number;
             "ac:widthFrac": number;

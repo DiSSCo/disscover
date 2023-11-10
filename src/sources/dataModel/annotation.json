@@ -107,7 +107,7 @@
               },
               "required": [
                 "oa:type",
-                "ac:hasROI"
+                "ac:hasRoi"
               ]
             }
           ]

@@ -29,7 +29,7 @@ const DigitalMediaList = () => {
 
     /* Search and fetch all other Digital Media items from target specimen */
     useEffect(() => {
-        GetSpecimenDigitalMedia(specimenId.replace('https://doi.org/', '')).then((specimenDigitalMedia) => {
+        GetSpecimenDigitalMedia(specimenId.replace(process.env.REACT_APP_DOI_URL as string, '')).then((specimenDigitalMedia) => {
             if (specimenDigitalMedia) {
                 setSpecimenDigitalMedia(specimenDigitalMedia);
             }

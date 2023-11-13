@@ -85,7 +85,7 @@ const IDCard = () => {
                                                 <p> ID Card </p>
                                             </Col>
                                             <Col className="fs-4 col-md-auto fw-lightBold">
-                                                <p> {specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')} </p>
+                                                <p> {specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </p>
                                             </Col>
                                         </Row>
                                     </Card.Subtitle>

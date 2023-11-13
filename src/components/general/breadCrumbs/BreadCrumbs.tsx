@@ -72,7 +72,7 @@ const BreadCrumbs = () => {
             });
 
             breadCrumbs.push({
-                crumb: digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')
+                crumb: digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')
             });
     }
 

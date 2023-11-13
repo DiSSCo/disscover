@@ -56,7 +56,7 @@ const TitleBar = (props: Props) => {
         /* Create and click on link to download file */
         const link = document.createElement("a");
         link.href = URL.createObjectURL(jsonFile);
-        link.download = `${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}_${specimen.digitalSpecimen.version}.json`;
+        link.download = `${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}_${specimen.digitalSpecimen.version}.json`;
 
         link.click();
     }
@@ -65,7 +65,7 @@ const TitleBar = (props: Props) => {
     const SpecimenActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/specimens/${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`);
+                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/specimens/${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
 
                 return;
             case 'sidePanel':

@@ -9,7 +9,7 @@ const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, token?: str
     let specimenMAS: Dict[] = [];
 
     if (handle && token) {
-        const endPoint: string = `/specimens/${handle.replace('https://doi.org/', '')}/mas`;
+        const endPoint: string = `/specimens/${handle.replace(process.env.REACT_APP_DOI_URL as string, '')}/mas`;
 
         try {
             const result = await axios({

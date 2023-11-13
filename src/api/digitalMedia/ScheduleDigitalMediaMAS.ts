@@ -9,7 +9,7 @@ const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, token?:
     let digitalMediaMAS: Dict[] = [];
 
     if (handle && token) {
-        const endPoint: string = `/digitalmedia/${handle.replace('https://doi.org/', '')}/mas`;
+        const endPoint: string = `/digitalmedia/${handle.replace(process.env.REACT_APP_DOI_URL as string, '')}/mas`;
 
         try {
             const result = await axios({

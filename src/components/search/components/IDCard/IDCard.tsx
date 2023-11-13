@@ -55,7 +55,7 @@ const IDCard = (props: Props) => {
                         {/* Specimen Identifier */}
                         <Row>
                             <Col>
-                                <p className="fs-4 c-greyDark"> {specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')} </p>
+                                <p className="fs-4 c-greyDark"> {specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </p>
                             </Col>
                         </Row>
 

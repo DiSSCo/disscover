@@ -36,7 +36,7 @@ const Image = (props: Props) => {
                 <div className={`${styles.imageHover} opacity-0 position-absolute transition 
                         h-100 w-100 top-0 d-flex justify-content-center align-items-center c-pointer px-3`
                 }>
-                    <p className="fw-bold"> {digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')} </p>
+                    <p className="fw-bold"> {digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </p>
                 </div>
             }
         </div>

@@ -83,7 +83,7 @@ const ImageViewer = (props: Props) => {
             if (viewerRef.current) {
                 viewerRef.current.open({
                     type: 'image',
-                    url: 'https://images.pexels.com/photos/14078434/pexels-photo-14078434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                    url: mediaUrl
                 });
             }
         });

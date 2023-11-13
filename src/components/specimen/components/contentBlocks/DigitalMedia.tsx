@@ -27,7 +27,7 @@ const DigitalMedia = () => {
         switch (digitalMediaItem.digitalEntity['dcterms:type']) {
             case 'StillImage':
                 (sortedDigitalMedia.images || (sortedDigitalMedia.images = [])).push(
-                    <Link to={`/dm/${digitalMediaItem.digitalEntity['ods:id'].replace('https://doi.org/', '')}`}>
+                    <Link to={`/dm/${digitalMediaItem.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`}>
                         <Image digitalMedia={digitalMediaItem}
                             sizeOrientation='width' hoverEffect={true}
                         />

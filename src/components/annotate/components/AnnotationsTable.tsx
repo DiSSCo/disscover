@@ -69,7 +69,7 @@ const AnnotationsTable = () => {
 
     /* Function for when clicked on a table row, redirect to Annotation on Specimen page */
     const OnAnnotationSelect = (row: DataRow) => {
-        navigate(`/ds/${row.specimen_id.replace('https://doi.org/', '')}`);
+        navigate(`/ds/${row.specimen_id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
     }
 
     /* Custom styles for Data Table */

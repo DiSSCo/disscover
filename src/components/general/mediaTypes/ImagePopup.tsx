@@ -185,7 +185,7 @@ const ImagePopup = (props: Props) => {
                                     annotorious.state.selection.clear();
                                 }}
                             >
-                                {selectedAnnotation && selectedAnnotation.body.length ?
+                                {(selectedAnnotation && selectedAnnotation.body.length) ?
                                     <span> Close </span>
                                     : <span> Cancel </span>
                                 }

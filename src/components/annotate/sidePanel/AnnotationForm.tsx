@@ -1,7 +1,9 @@
-/* Import Components */
+/* Import Dependencies */
 import { Formik, Form, Field } from 'formik';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
+import Select from 'react-select';
+import ConstructTargetPropertiesLists from 'app/utilities/ConstructTargetPropertyLists';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -42,6 +44,7 @@ const AnnotationForm = (props: Props) => {
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const editAnnotation = useAppSelector(getEditAnnotation);
     const annotationMotivations = { ...AnnotationMotivations };
+    const targetPropertyOptions = ConstructTargetPropertiesLists();
 
     /* Function for submitting a new Annotation */
     const SubmitAnnotation = (form: Dict) => {
@@ -89,7 +92,7 @@ const AnnotationForm = (props: Props) => {
     return (
         <Formik
             initialValues={{
-                targetProperty: !isEmpty(editAnnotation) ? editAnnotation['oa:target']['oa:selector']?.['ods:field'] : annotateTarget.property,
+                targetProperty: !isEmpty(editAnnotation) ? editAnnotation['oa:target']['oa:selector']?.['ods:field'] : annotateTarget.targetProperty.name,
                 motivation: !isEmpty(editAnnotation) ? editAnnotation['oa:motivation'] as string : '',
                 annotationValue: !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : '',
                 additionalFields: {
@@ -109,8 +112,8 @@ const AnnotationForm = (props: Props) => {
                     {/* Initial form fields: target property and motivation */}
                     <Row>
                         <Col>
-                            {/* If not present, Target Property */}
-                            {!annotateTarget.property && isEmpty(editAnnotation) &&
+                            {/* If not present, choose a Target Property */}
+                            {!annotateTarget.targetProperty.name && isEmpty(editAnnotation) &&
                                 <Row className="mt-5">
                                     <Col>
                                         <p className="formFieldTitle"> Target property </p>
@@ -132,6 +135,12 @@ const AnnotationForm = (props: Props) => {
                                     </Col>
                                 </Row>
                             }
+
+                            <Row>
+                                <Col>
+                                    <Select options={targetPropertyOptions} />
+                                </Col>
+                            </Row>
 
                             {/* Motivation */}
                             <Row className="mt-3">

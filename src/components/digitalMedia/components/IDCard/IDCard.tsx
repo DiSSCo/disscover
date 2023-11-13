@@ -9,6 +9,7 @@ import { getDigitalMedia, getDigitalMediaAnnotations } from 'redux/digitalMedia/
 import { setAnnotateTarget, setEditAnnotation, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
+import { TargetProperty } from 'app/Types';
 import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
@@ -24,15 +25,30 @@ const IDCard = () => {
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
 
     /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property: string) => {
+    const ToggleSidePanel = (property: string, type: string = 'field') => {
+        /* Preprare Target Property */
+        let targetProperty: TargetProperty;
+
+        if (type === 'class') {
+            targetProperty = {
+                name: property,
+                type: 'class'
+            }
+        } else {
+            targetProperty = {
+                name: property,
+                type: 'field'
+            };
+        }
+
         /* Set the Annotate target */
-        if (property) {
+        if (targetProperty.name) {
             dispatch(setAnnotateTarget({
-                property,
+                targetProperty,
                 motivation: '',
                 target: digitalMedia.digitalEntity,
                 targetType: 'digital_media',
-                annotations: digitalMediaAnnotations[property] ? digitalMediaAnnotations[property] : []
+                annotations: digitalMediaAnnotations[targetProperty.name] ? digitalMediaAnnotations[targetProperty.name] : []
             }));
         }
         

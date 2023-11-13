@@ -199,7 +199,10 @@ const DigitalMedia = () => {
         });
 
         dispatch(setAnnotateTarget({
-            property: targetProperty ?? '',
+            targetProperty: {
+                name: targetProperty ?? '',
+                type: 'field'
+            },
             target: digitalMedia.digitalEntity,
             targetType: 'digital_media',
             annotations: allAnnotations

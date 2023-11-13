@@ -131,11 +131,16 @@ export interface AnnotationTemplate {
     }
 };
 
+export interface TargetProperty {
+    name: string,
+    type: string
+}
+
 export interface AnnotateTarget {
-    property: string,
-    motivation?: string,
     target: DigitalSpecimenType | DigitalEntity,
     targetType: string,
+    targetProperty: TargetProperty,
+    motivation?: string,
     annotations: Annotation[]
 };
 

@@ -26,7 +26,10 @@ const SpecimenOverview = () => {
     const ToggleSidePanel = (property: string) => {
         if (property) {
             dispatch(setAnnotateTarget({
-                property,
+                targetProperty: {
+                    name: property,
+                    type: 'field'
+                },
                 motivation: '',
                 target: specimen.digitalSpecimen,
                 targetType: 'digital_specimen',

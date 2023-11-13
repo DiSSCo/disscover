@@ -23,10 +23,13 @@ const initialState: AnnotateState = {
     sidePanelToggle: false,
     annotationFormToggle: false,
     annotateTarget: {
-        property: '',
-        motivation: '',
         target: {} as DigitalSpecimen | DigitalEntity,
         targetType: '',
+        targetProperty: {
+            name: '',
+            type: ''
+        },
+        motivation: '',
         annotations: [] as Annotation[]
     },
     editAnnotation: {} as Annotation,

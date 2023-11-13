@@ -55,7 +55,7 @@ const SidePanel = (props: Props) => {
         sidePanelTitle = 'Edit annotation';
     } else if (annotationFormToggle) {
         sidePanelTitle = 'Add annotation';
-    } else if (annotateTarget.property) {
+    } else if (annotateTarget.targetProperty.name) {
         sidePanelTitle = 'Annotations';
     } else {
         sidePanelTitle = 'All annotations';
@@ -110,7 +110,7 @@ const SidePanel = (props: Props) => {
         if (annotationFormToggle || !isEmpty(editAnnotation)) {
             dispatch(setAnnotationFormToggle(false));
             dispatch(setEditAnnotation({} as Annotation));
-        } else if (annotateTarget.property) {
+        } else if (annotateTarget.targetProperty.name) {
             ShowWithAllAnnotations();
         } else {
             dispatch(setSidePanelToggle(false));
@@ -148,7 +148,7 @@ const SidePanel = (props: Props) => {
                             <Col className="refreshAnnotationsButton col-md-auto">
                                 <button type="button"
                                     className="primaryButton py-1 px-2"
-                                    onClick={() => RefreshAnnotations(annotateTarget.property)}
+                                    onClick={() => RefreshAnnotations(annotateTarget.targetProperty.name)}
                                 >
                                     Refresh
                                 </button>
@@ -164,8 +164,8 @@ const SidePanel = (props: Props) => {
                             </Tooltip>
                         </Col>
                     </Row>
-                    {/* Annotation current value, if property is chosen */}
-                    {(annotateTarget.property || !isEmpty(editAnnotation)) &&
+                    {/* Annotation current value, if target property is chosen */}
+                    {(annotateTarget.targetProperty.name || !isEmpty(editAnnotation)) &&
                         <Row className="mt-5">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
@@ -173,18 +173,24 @@ const SidePanel = (props: Props) => {
                             <Col>
                                 <p>
                                     <span className="fw-bold">
-                                        {(!annotateTarget.property && !editAnnotation['oa:target']['oa:selector']?.['ods:field']) ?
+                                        {(!annotateTarget.targetProperty.name && !editAnnotation['oa:target']['oa:selector']?.['ods:field']) ?
                                             <>
                                                 Annotation on whole Specimen
                                             </>
                                             : <>
-                                                {`${annotateTarget.property ? annotateTarget.property : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}: `}
+                                                {`${annotateTarget.targetProperty.name ?
+                                                    annotateTarget.targetProperty.name
+                                                    : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}: `
+                                                }
                                             </>
                                         }
                                     </span>
-                                    {(annotateTarget.property || editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string) &&
+                                    {(annotateTarget.targetProperty.name || editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string) &&
                                         <span className="fst-italic">
-                                            {`${annotateTarget.target[annotateTarget.property ? annotateTarget.property : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string]}`}
+                                            {`${annotateTarget.target[annotateTarget.targetProperty.name ?
+                                                annotateTarget.targetProperty.name
+                                                : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string]}`
+                                            }
                                         </span>
                                     }
                                 </p>

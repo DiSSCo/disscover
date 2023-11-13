@@ -16,18 +16,18 @@ export interface Annotation {
     "ods:type": string;
     "oa:selector"?:
       | {
-          "ods:type": "FieldValueSelector";
+          "ods:type": "FieldSelector";
           "ods:field": string;
           [k: string]: unknown;
         }
       | {
-          "ods:type": "ClassValueSelector";
+          "ods:type": "ClassSelector";
           "oa:class": string;
           [k: string]: unknown;
         }
       | {
           "ods:type"?: "FragmentSelector";
-          "ac:hasRoi"?: {
+          "ac:hasRoi": {
             "ac:xFrac": number;
             "ac:yFrac": number;
             "ac:widthFrac": number;

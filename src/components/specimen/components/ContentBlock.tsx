@@ -17,6 +17,7 @@ import DigitalMedia from './contentBlocks/DigitalMedia';
 import Occurrences from './contentBlocks/Occurrences';
 import Identifications from './contentBlocks/Identifications';
 import EntityRelationships from './contentBlocks/EntityRelationships';
+import Assertions from './contentBlocks/Assertions';
 import OriginalData from './contentBlocks/OriginalData';
 
 
@@ -62,6 +63,7 @@ const ContentBlock = (props: Props) => {
                                 <Tab className={classTab} selectedClassName="active">Occurrences</Tab>
                                 <Tab className={classTab} selectedClassName="active">Identifications</Tab>
                                 <Tab className={classTab} selectedClassName="active">Entity Relationships</Tab>
+                                <Tab className={classTab} selectedClassName="active">Assertions</Tab> 
                                 <Tab className={classTab} selectedClassName="active">Original Data</Tab>
                             </TabList>
 
@@ -88,6 +90,11 @@ const ContentBlock = (props: Props) => {
                             {/* Entity Relationships View */}
                             <TabPanel className={classTabPanel}>
                                 <EntityRelationships ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
+                            </TabPanel>
+
+                            {/* Assertions View */}
+                            <TabPanel className={classTabPanel}>
+                                <Assertions ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
                             </TabPanel>
 
                             {/* Original Data View */}

@@ -24,8 +24,8 @@ const DigitalMedia = () => {
 
     /* Sort Digital Media based upon type/format */
     specimenDigitalMedia.forEach((digitalMediaItem: DigitalMediaType) => {
-        switch (digitalMediaItem.digitalEntity['ods:type']) {
-            case '2DImageObject':
+        switch (digitalMediaItem.digitalEntity['dcterms:type']) {
+            case 'StillImage':
                 (sortedDigitalMedia.images || (sortedDigitalMedia.images = [])).push(
                     <Link to={`/dm/${digitalMediaItem.digitalEntity['ods:id'].replace('https://doi.org/', '')}`}>
                         <Image digitalMedia={digitalMediaItem}
@@ -35,7 +35,7 @@ const DigitalMedia = () => {
                 );
 
                 return;
-            case 'video':
+            case 'MovingImage':
                 (sortedDigitalMedia.videos || (sortedDigitalMedia.videos = [])).push(
                     <Video digitalMedia={digitalMediaItem}
                         hoverEffect={true}
@@ -43,7 +43,7 @@ const DigitalMedia = () => {
                 );
 
                 return;
-            case 'audio':
+            case 'Sound':
                 (sortedDigitalMedia.audio || (sortedDigitalMedia.audio = [])).push(
                     <Audio digitalMedia={digitalMediaItem} />
                 );

@@ -18,7 +18,7 @@ import '@annotorious/react/annotorious-react.css';
 import App from './App';
 
 
-axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api/v1`;;
+axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api/v1`;
 
 const RenderRoot = () => {
   const root = ReactDOM.createRoot(

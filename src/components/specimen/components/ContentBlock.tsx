@@ -16,6 +16,7 @@ import SpecimenOverview from './contentBlocks/SpecimenOverview';
 import DigitalMedia from './contentBlocks/DigitalMedia';
 import Occurrences from './contentBlocks/Occurrences';
 import Identifications from './contentBlocks/Identifications';
+import EntityRelationships from './contentBlocks/EntityRelationships';
 import OriginalData from './contentBlocks/OriginalData';
 
 
@@ -43,7 +44,7 @@ const ContentBlock = (props: Props) => {
     });
 
     const classTabPanel = classNames({
-        'react-tabs__tab-panel flex-grow-1 overflow-hidden': true
+        'overflow-y-scroll overflow-x-hidden react-tabs__tab-panel flex-grow-1': true
     });
 
     return (
@@ -75,7 +76,7 @@ const ContentBlock = (props: Props) => {
                             </TabPanel>
 
                             {/* Occurrences View */}
-                            <TabPanel className={`${classTabPanel} ${'overflow-scroll'}`}>
+                            <TabPanel className={classTabPanel}>
                                 <Occurrences ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
                             </TabPanel>
 
@@ -86,7 +87,7 @@ const ContentBlock = (props: Props) => {
 
                             {/* Entity Relationships View */}
                             <TabPanel className={classTabPanel}>
-                                
+                                <EntityRelationships ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
                             </TabPanel>
 
                             {/* Original Data View */}

@@ -13,19 +13,21 @@ import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Components */
 import SpecimenOverview from './contentBlocks/SpecimenOverview';
-import OriginalData from './contentBlocks/OriginalData';
 import DigitalMedia from './contentBlocks/DigitalMedia';
+import Occurrences from './contentBlocks/Occurrences';
+import OriginalData from './contentBlocks/OriginalData';
 
 
 /* Props Typing */
 interface Props {
     selectedTab: number,
-    SetSelectedTab: Function
+    SetSelectedTab: Function,
+    ShowWithAnnotations: Function
 };
 
 
 const ContentBlock = (props: Props) => {
-    const { selectedTab, SetSelectedTab } = props;
+    const { selectedTab, SetSelectedTab, ShowWithAnnotations } = props;
 
     /* Base variables */
     const digitalMedia = useAppSelector(getSpecimenDigitalMedia);
@@ -72,8 +74,8 @@ const ContentBlock = (props: Props) => {
                             </TabPanel>
 
                             {/* Occurrences View */}
-                            <TabPanel className={classTabPanel}>
-
+                            <TabPanel className={`${classTabPanel} ${'overflow-scroll'}`}>
+                                <Occurrences ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
                             </TabPanel>
 
                             {/* Identifications View */}

@@ -6,6 +6,12 @@
     width: Calc(100% / 3);
 }
 
+.propertiesTable {
+    border-left: 1px solid var(--grey);
+    border-right: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+}
+
 /* Title Bar */
 .specimenTitle {
     font-size: 1.875rem;

@@ -54,7 +54,7 @@ const Taxonomy = (props: Props) => {
                     </Row>
                 </Card.Title>
 
-                <Row className="flex-grow-1 pt-2 px-2">
+                <Row className="flex-grow-1 pt-2 px-2 overflow-hidden">
                     <Col>
                         <TaxonomicTree taxonIdentification={taxonIdentification}
                             ToggleSidePanel={(property: string) => ToggleSidePanel(property)}

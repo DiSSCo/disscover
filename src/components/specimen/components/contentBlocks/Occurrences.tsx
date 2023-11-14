@@ -70,7 +70,7 @@ const Occurrences = (props: Props) => {
         /* Remove extensions from core occurrence object */
         ['location', 'assertions'].forEach((key) => delete copyOccurrence[key]);
 
-        occurrences[index].properties = copyOccurrence
+        occurrences[index].properties = copyOccurrence;
     });
 
     return (

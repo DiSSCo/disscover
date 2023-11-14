@@ -15,6 +15,7 @@ import styles from 'components/specimen/specimen.module.scss';
 import SpecimenOverview from './contentBlocks/SpecimenOverview';
 import DigitalMedia from './contentBlocks/DigitalMedia';
 import Occurrences from './contentBlocks/Occurrences';
+import Identifications from './contentBlocks/Identifications';
 import OriginalData from './contentBlocks/OriginalData';
 
 
@@ -80,7 +81,7 @@ const ContentBlock = (props: Props) => {
 
                             {/* Identifications View */}
                             <TabPanel className={classTabPanel}>
-                                
+                                <Identifications ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
                             </TabPanel>
 
                             {/* Entity Relationships View */}

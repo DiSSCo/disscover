@@ -15,9 +15,9 @@ import ChronometricAge from 'sources/dataModel/chronometric_age.json';
 import Location from 'sources/dataModel/location.json';
 
 
-const ConstructList = (schema: string, properties: Dict, PushToPropertiesList: Function, subSchema?: string) => {
+const ConstructList = (schema: string, properties: Dict, PushToPropertiesList: Function, PushToClassesList: Function, subSchema?: string) => {
     const propertiesList: { label: string, options: { label: string, value: string }[] } = {
-        label: subSchema ? `${schema}:${subSchema}` : schema,
+        label: subSchema ? `${schema}_${subSchema}` : schema,
         options: []
     };
 
@@ -25,12 +25,22 @@ const ConstructList = (schema: string, properties: Dict, PushToPropertiesList: F
         const propertyData = properties[property];
 
         /* If type is string/integer/boolean: treat as field, otherwise treat as class */
-        if (['string', 'integer', 'boolean'].includes(propertyData.type)) {
-            propertiesList.options.push({ label: property, value: schema ? `${schema}:${property}` : property });
+        if (['string', 'integer', 'number', 'boolean'].includes(propertyData.type)) {
+            propertiesList.options.push({ label: property, value: schema ? `${schema}_${property}` : property });
         } else {
+            /* Push Class to classes list */
+            let nestingBreak: string = '';
+
+            if (schema.split('_').length > 1) {
+                nestingBreak = schema.split('_').pop() as string;
+            }
+
+            PushToClassesList(subSchema ? `${nestingBreak && `${nestingBreak}_`}${subSchema}_${property}` : `${property}`);
+
+            /* Extract properties from schema */
             const properties = ExtractFromSchema(property);
 
-            ConstructList(subSchema ?? schema, properties, PushToPropertiesList, property);
+            ConstructList(subSchema ? `${schema}_${subSchema}` : schema, properties, PushToPropertiesList, PushToClassesList, property);
         }
     }
 
@@ -44,6 +54,9 @@ const ExtractFromSchema = (property: string) => {
         }
         case 'dwc:identification': {
             return Identification.properties;
+        }
+        case 'taxonIdentifications': {
+            return Identification.properties.taxonIdentifications.items.properties;
         }
         case 'assertions': {
             return Assertion.properties;
@@ -66,16 +79,22 @@ const ExtractFromSchema = (property: string) => {
         case 'location': {
             return Location.properties;
         }
-        default : {
+        case 'georeference': {
+            return Location.properties.georeference.properties;
+        }
+        case 'geologicalContext': {
+            return Location.properties.geologicalContext.properties;
+        }
+        default: {
             return {}
         }
     }
 }
 
-
 const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen') => {
     /* Base variables */
     const propertiesList: { label: string, options: { label: string, value: string }[] }[] = [];
+    const classesList: { label: string, value: string }[] = [];
     let baseModel: Dict;
 
     if (targetType === 'DigitalMedia') {
@@ -84,14 +103,26 @@ const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen') 
         baseModel = DigitalSpecimen;
     }
 
+    /* Function to push to the properties list */
     const PushToPropertiesList = (propertiesListItem: { label: string, options: { label: string, value: string }[] }) => {
         propertiesList.push(propertiesListItem);
     }
 
-    /* For each property/class, collect fields for annotating */
-    ConstructList(targetType, baseModel.properties, PushToPropertiesList);
+    /* Function to push to the classes list */
+    const PushToClassesList = (classItem: string) => {
+        classesList.push({
+            label: classItem,
+            value: classItem
+        });
+    }
 
-    return propertiesList;
+    /* For each property/class, collect fields for annotating */
+    ConstructList(targetType, baseModel.properties, PushToPropertiesList, PushToClassesList);
+
+    return {
+        properties: propertiesList,
+        classes: classesList
+    };
 }
 
 export default ConstructTargetPropertiesLists;

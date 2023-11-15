@@ -1,3 +1,7 @@
+/* Import Types */
+import { Dict } from "./Types";
+
+
 /* Function to capitalize the first character of a string */
 const Capitalize = (string: string) => {
     if (string) {
@@ -56,7 +60,7 @@ const GetFilters = (searchParams: URLSearchParams) => {
 const RandomString = () => {
     let result = '';
 
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
 
     for (let i = 0; i < 10; i++) {
@@ -66,10 +70,34 @@ const RandomString = () => {
     return result;
 }
 
+/* Function for returning all key value pairs from an object, including nested ones */
+const ReturnPropertiesFromNestedObject = (propertiesObject: Dict) => {
+    const propertiesArray: { key: string, value: string | number | boolean }[] = [];
+
+    const PushToPropertiesArray = (propertyPair: { key: string, value: string | number | boolean }) => {
+        propertiesArray.push(propertyPair);
+    }
+
+    const LoopOverProperties = (propertiesObject: Dict) => {
+        for (const property in propertiesObject) {
+            if (typeof propertiesObject[property] !== 'object') {
+                PushToPropertiesArray({ key: property, value: propertiesObject[property] });
+            } else {
+                LoopOverProperties(propertiesObject[property]);
+            }
+        }
+    }
+
+    LoopOverProperties(propertiesObject);
+
+    return propertiesArray;
+}
+
 export {
     Capitalize,
     CheckProperty,
     DetectMobile,
     GetFilters,
-    RandomString
+    RandomString,
+    ReturnPropertiesFromNestedObject
 };

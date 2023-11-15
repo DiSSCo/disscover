@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
@@ -9,7 +10,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, getEditAnnotation, setAnnotationFormToggle,
+    getAnnotateTarget, setAnnotateTarget, getEditAnnotation, setAnnotationFormToggle,
     setEditAnnotation, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 
@@ -26,6 +27,7 @@ import PatchAnnotation from 'api/annotate/PatchAnnotation';
 
 /* Import Components */
 import FormTemplate from './form/FormTemplate';
+import ExistingInstance from './ExistingInstance';
 
 
 /* Props Typing */
@@ -45,6 +47,92 @@ const AnnotationForm = (props: Props) => {
     const editAnnotation = useAppSelector(getEditAnnotation);
     const annotationMotivations = { ...AnnotationMotivations };
     const targetPropertyOptions = ConstructTargetPropertiesLists();
+    const [existingInstances, setExistingInstances] = useState<Dict[]>([]);
+    let targetField: string = '';
+    let targetClass: string = '';
+    let motivation: string = '';
+
+    /* Determine presence of target field or class */
+    if (!isEmpty(editAnnotation)) {
+        targetField = editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string;
+        motivation = editAnnotation['oa:motivation'] as string;
+    } else if (annotateTarget.targetProperty.type === 'field') {
+        targetField = annotateTarget.targetProperty.name;
+    } else if (annotateTarget.targetProperty.type === 'class') {
+        targetClass = annotateTarget.targetProperty.name;
+    }
+
+    /* Determine motivation */
+    if (annotateTarget.motivation) {
+        motivation = annotateTarget.motivation;
+    }
+
+    /* Function for searching in nested levels */
+    const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], PushToExistingInstances: Function) => {
+        /* Check type of level */
+        if (!(Array.isArray(level)) && nestingLevels.length) {
+            const localLevel = level as Dict;
+            const nextLevel: Dict[] = localLevel[nestingLevels[0]] as Dict[];
+            nestingLevels.shift();
+
+            SearchNestedLevels(nextLevel, nestingLevels, PushToExistingInstances);
+        } else if (Array.isArray(level) && nestingLevels.length) {
+            level.forEach((nextLevel: Dict) => {
+                SearchNestedLevels(nextLevel, nestingLevels, PushToExistingInstances);
+            });
+        } else if (Array.isArray(level)) {
+            level.forEach((instance: Dict) => {
+                PushToExistingInstances(instance as Dict);
+            });
+        } else {
+            PushToExistingInstances(level as Dict);
+        }
+    }
+
+    /* Function for checking existing instances */
+    const CheckInstances = (option: { label: string, value: string }, targetType: string = 'field') => {
+        const existingInstances: Dict[] = [];
+
+        /* Function to push to existing instances */
+        const PushToExistingInstances = (instance: Dict) => {
+            existingInstances.push(instance);
+        }
+
+        /* Determine class or field property */
+        if (targetType === 'class') {
+            let nestingLevels: string[] = [];
+
+            /* Determine property indicator, keep nesting in mind */
+            if (option.value.includes('_')) {
+                nestingLevels = option.value.split('_');
+            } else {
+                nestingLevels.push(option.value);
+            }
+
+            /* Search nested levels for all instances of class */
+            SearchNestedLevels(annotateTarget.target, nestingLevels, PushToExistingInstances);
+
+            setExistingInstances(existingInstances);
+        } else {
+
+        }
+    }
+
+    /* Function for intiating the addition of a new instance with annotation */
+    const AnnotateNewInstance = (targetPropertyType: string, targetPropertyName: string) => {
+        const copyAnnotateTarget = { ...annotateTarget };
+
+        /* Set Annotate target to chosen class or property */
+        copyAnnotateTarget.targetProperty = {
+            type: targetPropertyType,
+            name: targetPropertyName
+        }
+
+        /* Set Annotate target motivation */
+        copyAnnotateTarget.motivation = 'ods:adding';
+
+        dispatch(setAnnotateTarget(copyAnnotateTarget));
+    }
 
     /* Function for submitting a new Annotation */
     const SubmitAnnotation = (form: Dict) => {
@@ -92,8 +180,9 @@ const AnnotationForm = (props: Props) => {
     return (
         <Formik
             initialValues={{
-                targetProperty: !isEmpty(editAnnotation) ? editAnnotation['oa:target']['oa:selector']?.['ods:field'] : annotateTarget.targetProperty.name,
-                motivation: !isEmpty(editAnnotation) ? editAnnotation['oa:motivation'] as string : '',
+                targetClass: targetClass,
+                targetField: targetField,
+                motivation: motivation,
                 annotationValue: !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : '',
                 additionalFields: {
                     ...(!isEmpty(editAnnotation) && editAnnotation['oa:body']['dcterms:reference'] && { reference: editAnnotation['oa:body']['dcterms:reference'] })
@@ -107,27 +196,53 @@ const AnnotationForm = (props: Props) => {
                 SubmitAnnotation(form);
             }}
         >
-            {({ values }) => (
+            {({ values, setFieldValue }) => (
                 <Form className="h-100 d-flex flex-column">
-                    {/* Initial form fields: target property and motivation */}
+                    {/* Initial form fields: target property and, or class; and motivation */}
                     <Row>
                         <Col>
-                            {/* If not present, choose a Target Property */}
+                            {/* If not present, choose a Target Class or Property */}
                             {!annotateTarget.targetProperty.name && isEmpty(editAnnotation) &&
                                 <Row className="mt-5">
                                     <Col>
-                                        <p className="formFieldTitle"> Target property </p>
-                                        <Field name="targetProperty" as="select"
-                                            className="formField w-100 mt-1"
+                                        <p className="fs-3 formFieldTitle"> Select Class or Property </p>
+
+                                        <Select options={targetPropertyOptions.classes}
+                                            className="mt-2"
+                                            onChange={(option) => {
+                                                setFieldValue('targetClass', option?.value);
+                                                CheckInstances(option as unknown as { label: string, value: string }, 'class');
+                                            }}
+                                        />
+
+                                        <Select options={targetPropertyOptions.properties}
+                                            className="mt-2"
+                                            onChange={(option: any) => {
+                                                setFieldValue('targetField', option.value as string);
+                                                CheckInstances(option as unknown as { label: string, value: string }, 'field');
+                                            }}
+                                        />
+                                    </Col>
+                                </Row>
+                            }
+                            {/* Motivation */}
+                            {annotateTarget.targetProperty.name &&
+                                <Row className="mt-3">
+                                    <Col>
+                                        <p className="formFieldTitle pb-1"> Annotation type </p>
+                                        <Field name="motivation" as="select"
+                                            className="formField w-100" disabled={!isEmpty(editAnnotation)}
                                         >
-                                            <option value="">
-                                                Whole specimen
+                                            <option value="" disabled={true}>
+                                                Select annotation type
                                             </option>
 
-                                            {Object.keys(annotateTarget.target).map((property) => {
+                                            {Object.keys(annotationMotivations).map((motivation) => {
+                                                const motivationObject = annotationMotivations[motivation as keyof typeof annotationMotivations];
+
                                                 return (
-                                                    <option key={property} value={property}>
-                                                        {property}
+                                                    <option key={motivation} value={motivation}>
+                                                        {motivationObject.displayName}
                                                     </option>
                                                 );
                                             })}
@@ -135,46 +250,57 @@ const AnnotationForm = (props: Props) => {
                                     </Col>
                                 </Row>
                             }
-
-                            <Row>
-                                <Col>
-                                    <Select options={targetPropertyOptions} />
-                                </Col>
-                            </Row>
-
-                            {/* Motivation */}
-                            <Row className="mt-3">
-                                <Col>
-                                    <p className="formFieldTitle pb-1"> Annotation type </p>
-                                    <Field name="motivation" as="select"
-                                        className="formField w-100" disabled={!isEmpty(editAnnotation)}
-                                    >
-                                        <option value="" disabled={true}>
-                                            Select annotation type
-                                        </option>
-
-                                        {Object.keys(annotationMotivations).map((motivation) => {
-                                            const motivationObject = annotationMotivations[motivation as keyof typeof annotationMotivations];
-
-                                            return (
-                                                <option key={motivation} value={motivation}>
-                                                    {motivationObject.displayName}
-                                                </option>
-                                            );
-                                        })}
-                                    </Field>
-                                </Col>
-                            </Row>
                         </Col>
                     </Row>
                     {/* Generate Annotation form, based on chosen motivation */}
-                    <Row className="flex-grow-1 mt-3">
+                    <Row className={`${(isEmpty(existingInstances) || annotateTarget.targetProperty.name) && 'flex-grow-1'} mt-3`}>
                         <Col>
-                            {values.motivation &&
-                                <FormTemplate motivation={values.motivation} />
+                            {(values.motivation || annotateTarget.motivation) &&
+                                <FormTemplate motivation={annotateTarget.motivation ?? ''} />
                             }
                         </Col>
                     </Row>
+                    {/* Existing instances */}
+                    {(!isEmpty(existingInstances) && !annotateTarget.targetProperty.name) &&
+                        <Row>
+                            <Col>
+                                <Row>
+                                    <Col>
+                                        <p className="fs-3 fw-lightBold"> Existing instances of class </p>
+                                    </Col>
+                                </Row>
+                                <Row className="overflow-y-scroll mt-2">
+                                    <Col>
+                                        {existingInstances.map((existingInstance, index) => {
+                                            const key = `instance-${index}`;
+
+                                            return <ExistingInstance key={key}
+                                                targetPropertyName={values.targetField ? values.targetField : values.targetClass}
+                                                targetPropertyType={values.targetField ? 'field' : 'class'}
+                                                instance={existingInstance}
+                                                index={index}
+                                            />;
+                                        })}
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    }
+                    {/* Annotate new instance of class button */}
+                    {(values.targetClass && !annotateTarget.targetProperty.name) &&
+                        <Row className="flex-grow-1 py-3">
+                            <Col>
+                                <button type="button" className="secondaryButton w-100"
+                                    onClick={() => AnnotateNewInstance(
+                                        values.targetField ? 'field' : 'class',
+                                        values.targetField ? values.targetField : values.targetClass
+                                    )}
+                                >
+                                    Annotate new instance of class
+                                </button>
+                            </Col>
+                        </Row>
+                    }
                     {/* Submit Button */}
                     <Row>
                         <Col>
@@ -198,7 +324,8 @@ const AnnotationForm = (props: Props) => {
                         </Col>
                     </Row>
                 </Form>
-            )}
+            )
+            }
         </Formik >
     );
 }

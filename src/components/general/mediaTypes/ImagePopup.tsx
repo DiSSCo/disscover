@@ -73,8 +73,6 @@ const ImagePopup = (props: Props) => {
         'd-none': editAnnotation
     });
 
-    console.log(annotation);
-
     return (
         <div className={styles.annotoriousPopUp}>
             <Row>

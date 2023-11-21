@@ -15,7 +15,7 @@ import ChronometricAge from 'sources/dataModel/chronometric_age.json';
 import Location from 'sources/dataModel/location.json';
 
 
-const ConstructList = (schema: string, properties: Dict, PushToPropertiesList: Function, PushToClassesList: Function, subSchema?: string) => {
+const ConstructList = (schema: string, properties: Dict, classValue: string, PushToPropertiesList: Function, PushToClassesList: Function, subSchema?: string) => {
     const propertiesList: { label: string, options: { label: string, value: string }[] } = {
         label: subSchema ? `${schema}_${subSchema}` : schema,
         options: []
@@ -24,10 +24,20 @@ const ConstructList = (schema: string, properties: Dict, PushToPropertiesList: F
     for (const property in properties) {
         const propertyData = properties[property];
 
+        /* Variables track presence of requested class, also true when no requested class is provided */
+        let threshhold: boolean = false;
+
+        /* Check if there is a predefined class instance */
+        if (classValue && (schema.includes(classValue) || `${schema}_${subSchema}_${property}`.includes(classValue))) {
+            threshhold = true;
+        } else if (!classValue) {
+            threshhold = true;
+        }
+
         /* If type is string/integer/boolean: treat as field, otherwise treat as class */
-        if (['string', 'integer', 'number', 'boolean'].includes(propertyData.type)) {
+        if (['string', 'integer', 'number', 'boolean'].includes(propertyData.type) && threshhold) {
             propertiesList.options.push({ label: property, value: schema ? `${schema}_${property}` : property });
-        } else {
+        } else if (threshhold) {
             /* Push Class to classes list */
             let nestingBreak: string = '';
 
@@ -40,7 +50,13 @@ const ConstructList = (schema: string, properties: Dict, PushToPropertiesList: F
             /* Extract properties from schema */
             const properties = ExtractFromSchema(property);
 
-            ConstructList(subSchema ? `${schema}_${subSchema}` : schema, properties, PushToPropertiesList, PushToClassesList, property);
+            ConstructList(subSchema ? `${schema}_${subSchema}` : schema, properties, classValue, PushToPropertiesList, PushToClassesList, property);
+        } else {
+            /* Extract properties from schema */
+            const properties = ExtractFromSchema(property);
+
+            /* Continue recurstion untill right class is found */
+            ConstructList(subSchema ? `${schema}_${subSchema}` : schema, properties, classValue, PushToPropertiesList, PushToClassesList, property);
         }
     }
 
@@ -91,7 +107,7 @@ const ExtractFromSchema = (property: string) => {
     }
 }
 
-const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen') => {
+const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', classValue?: string) => {
     /* Base variables */
     const propertiesList: { label: string, options: { label: string, value: string }[] }[] = [];
     const classesList: { label: string, value: string }[] = [];
@@ -117,7 +133,7 @@ const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen') 
     }
 
     /* For each property/class, collect fields for annotating */
-    ConstructList(targetType, baseModel.properties, PushToPropertiesList, PushToClassesList);
+    ConstructList(targetType, baseModel.properties, classValue ?? '', PushToPropertiesList, PushToClassesList);
 
     return {
         properties: propertiesList,

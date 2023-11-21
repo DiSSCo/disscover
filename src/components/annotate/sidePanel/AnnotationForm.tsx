@@ -1,9 +1,9 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
-import Select from 'react-select';
+import Select, {OptionsOrGroups} from 'react-select';
 import ConstructTargetPropertiesLists from 'app/utilities/ConstructTargetPropertyLists';
 import { Row, Col } from 'react-bootstrap';
 
@@ -20,6 +20,10 @@ import { Annotation } from 'app/types/Annotation';
 
 /* Import Sources */
 import AnnotationMotivations from 'sources/annotationMotivations.json';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
@@ -46,11 +50,22 @@ const AnnotationForm = (props: Props) => {
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const editAnnotation = useAppSelector(getEditAnnotation);
     const annotationMotivations = { ...AnnotationMotivations };
-    const targetPropertyOptions = ConstructTargetPropertiesLists();
+    const [targetClassOptions, setTargetClassOptions] = useState<OptionsOrGroups<any, any>>();
+    const [targetPropertyOptions, setTargetPropertyOptions] = useState<OptionsOrGroups<any, any>>();
     const [existingInstances, setExistingInstances] = useState<Dict[]>([]);
     let targetField: string = '';
     let targetClass: string = '';
     let motivation: string = '';
+
+    /* OnLoad: Get all available classes and properties of target */
+    useEffect(() => {
+        const propertyLists = ConstructTargetPropertiesLists();
+
+        console.log(propertyLists.properties);
+
+        setTargetClassOptions(propertyLists.classes);
+        setTargetPropertyOptions(propertyLists.properties);
+    }, []);
 
     /* Determine presence of target field or class */
     if (!isEmpty(editAnnotation)) {
@@ -116,6 +131,14 @@ const AnnotationForm = (props: Props) => {
         } else {
 
         }
+    }
+
+    /* Function for refining properties based upon chosen class */
+    const RefineProperties = (classValue: string) => {
+        const propertyLists = ConstructTargetPropertiesLists(annotateTarget.targetType, classValue);
+
+        console.log(propertyLists.properties);
+        setTargetPropertyOptions(propertyLists.properties);
     }
 
     /* Function for intiating the addition of a new instance with annotation */
@@ -197,7 +220,7 @@ const AnnotationForm = (props: Props) => {
             }}
         >
             {({ values, setFieldValue }) => (
-                <Form className="h-100 d-flex flex-column">
+                <Form className="h-100 d-flex flex-column overflow-hidden">
                     {/* Initial form fields: target property and, or class; and motivation */}
                     <Row>
                         <Col>
@@ -207,15 +230,16 @@ const AnnotationForm = (props: Props) => {
                                     <Col>
                                         <p className="fs-3 formFieldTitle"> Select Class or Property </p>
 
-                                        <Select options={targetPropertyOptions.classes}
+                                        <Select options={targetClassOptions}
                                             className="mt-2"
-                                            onChange={(option) => {
+                                            onChange={(option: any) => {
                                                 setFieldValue('targetClass', option?.value);
                                                 CheckInstances(option as unknown as { label: string, value: string }, 'class');
+                                                RefineProperties(option?.value as string);
                                             }}
                                         />
 
-                                        <Select options={targetPropertyOptions.properties}
+                                        <Select options={targetPropertyOptions}
                                             className="mt-2"
                                             onChange={(option: any) => {
                                                 setFieldValue('targetField', option.value as string);
@@ -231,7 +255,7 @@ const AnnotationForm = (props: Props) => {
                                     <Col>
                                         <p className="formFieldTitle pb-1"> Annotation type </p>
                                         <Field name="motivation" as="select"
-                                            className="formField w-100" disabled={!isEmpty(editAnnotation)}
+                                            className="formField w-100" disabled={annotateTarget.motivation && values.motivation}
                                         >
                                             <option value="" disabled={true}>
                                                 Select annotation type
@@ -253,10 +277,10 @@ const AnnotationForm = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Generate Annotation form, based on chosen motivation */}
-                    <Row className={`${(isEmpty(existingInstances) || annotateTarget.targetProperty.name) && 'flex-grow-1'} mt-3`}>
+                    <Row className={`${(values.motivation || annotateTarget.motivation) && 'flex-grow-1 overflow-hidden'} mt-3`}>
                         <Col>
                             {(values.motivation || annotateTarget.motivation) &&
-                                <FormTemplate motivation={annotateTarget.motivation ?? ''} />
+                                <FormTemplate motivation={annotateTarget.motivation ? annotateTarget.motivation : values.motivation} />
                             }
                         </Col>
                     </Row>
@@ -297,12 +321,14 @@ const AnnotationForm = (props: Props) => {
                                     )}
                                 >
                                     Annotate new instance of class
+
+                                    <FontAwesomeIcon icon={faPlus} className="mx-2" />
                                 </button>
                             </Col>
                         </Row>
                     }
                     {/* Submit Button */}
-                    <Row>
+                    <Row className={`${(!values.motivation && !annotateTarget.motivation) && 'flex-grow-1 align-items-end'}`}>
                         <Col>
                             <button type="button"
                                 className="primaryButton cancel px-4 py-1"

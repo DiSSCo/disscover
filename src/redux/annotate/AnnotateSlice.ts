@@ -29,6 +29,7 @@ const initialState: AnnotateState = {
             name: '',
             type: ''
         },
+        currentValue: [],
         motivation: '',
         annotations: [] as Annotation[]
     },

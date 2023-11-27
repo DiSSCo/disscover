@@ -256,7 +256,7 @@ p {
 }
 
 /* Overflow */
-.overflow-y-sroll {
+.overflow-y-scroll {
   overflow-y: scroll !important;
 }
 
@@ -269,6 +269,11 @@ p {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+/* Text area resize none */
+.no-resize {
+  resize: none;
 }
 
 /* Hover underline */

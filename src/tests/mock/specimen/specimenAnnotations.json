@@ -9,7 +9,7 @@
                 "target": {
                     "id": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
                     "indvProp": "physicalSpecimenId",
-                    "type": "digital_specimen"
+                    "type": "DigitalSpecimen"
                 },
                 "body": {
                     "type": "physicalSpecimenId",

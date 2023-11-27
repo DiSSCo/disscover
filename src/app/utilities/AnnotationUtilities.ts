@@ -15,9 +15,13 @@ import ChronometricAge from 'sources/dataModel/chronometric_age.json';
 import Location from 'sources/dataModel/location.json';
 
 
-const ConstructList = (schema: string, properties: Dict, classValue: string, PushToPropertiesList: Function, PushToClassesList: Function, subSchema?: string) => {
+/* Recursive function for constructing a list of annotatable properties and classes */
+const ConstructList = (
+    schema: string, targetType: string, properties: Dict, classValue: string,
+    FieldAdheres: Function, PushToPropertiesList: Function, PushToClassesList: Function, subSchema?: string, fieldValue?: string
+) => {
     const propertiesList: { label: string, options: { label: string, value: string }[] } = {
-        label: subSchema ? `${schema}_${subSchema}` : schema,
+        label: subSchema ? `${schema}.${subSchema}` : schema,
         options: []
     };
 
@@ -28,7 +32,7 @@ const ConstructList = (schema: string, properties: Dict, classValue: string, Pus
         let threshhold: boolean = false;
 
         /* Check if there is a predefined class instance */
-        if (classValue && (schema.includes(classValue) || `${schema}_${subSchema}_${property}`.includes(classValue))) {
+        if (classValue && (schema.includes(classValue) || `${schema}.${subSchema}.${property}`.includes(`${targetType}.${classValue}`))) {
             threshhold = true;
         } else if (!classValue) {
             threshhold = true;
@@ -36,33 +40,43 @@ const ConstructList = (schema: string, properties: Dict, classValue: string, Pus
 
         /* If type is string/integer/boolean: treat as field, otherwise treat as class */
         if (['string', 'integer', 'number', 'boolean'].includes(propertyData.type) && threshhold) {
-            propertiesList.options.push({ label: property, value: schema ? `${schema}_${property}` : property });
+            propertiesList.options.push({ label: property, value: subSchema ? `${schema}.${subSchema}.${property}` : `${schema}.${property}` });
+
+            /* Check if current field value adheres to class value */
+            if (fieldValue && fieldValue.includes(property)) {
+                FieldAdheres();
+            }
         } else if (threshhold) {
             /* Push Class to classes list */
             let nestingBreak: string = '';
 
-            if (schema.split('_').length > 1) {
-                nestingBreak = schema.split('_').pop() as string;
+            if (schema.split('.').length > 1) {
+                nestingBreak = schema.split('.').pop() as string;
             }
 
-            PushToClassesList(subSchema ? `${nestingBreak && `${nestingBreak}_`}${subSchema}_${property}` : `${property}`);
+            PushToClassesList(subSchema ? `${nestingBreak && `${nestingBreak}.`}${subSchema}.${property}` : `${property}`);
 
             /* Extract properties from schema */
             const properties = ExtractFromSchema(property);
 
-            ConstructList(subSchema ? `${schema}_${subSchema}` : schema, properties, classValue, PushToPropertiesList, PushToClassesList, property);
+            ConstructList(subSchema ? `${schema}.${subSchema}` : schema, targetType, properties, classValue,
+                FieldAdheres, PushToPropertiesList, PushToClassesList, property, fieldValue
+            );
         } else {
             /* Extract properties from schema */
             const properties = ExtractFromSchema(property);
 
             /* Continue recurstion untill right class is found */
-            ConstructList(subSchema ? `${schema}_${subSchema}` : schema, properties, classValue, PushToPropertiesList, PushToClassesList, property);
+            ConstructList(subSchema ? `${schema}.${subSchema}` : schema, targetType, properties, classValue,
+                FieldAdheres, PushToPropertiesList, PushToClassesList, property, fieldValue
+            );
         }
     }
 
     PushToPropertiesList(propertiesList);
 }
 
+/* Function for extracting all properties from a schema, based upon the name of the schema */
 const ExtractFromSchema = (property: string) => {
     switch (property) {
         case 'materialEntity': {
@@ -107,16 +121,23 @@ const ExtractFromSchema = (property: string) => {
     }
 }
 
-const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', classValue?: string) => {
+/* Base function for constructing list of annotatable properties and classes */
+const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', classValue?: string, fieldValue?: string) => {
     /* Base variables */
     const propertiesList: { label: string, options: { label: string, value: string }[] }[] = [];
     const classesList: { label: string, value: string }[] = [];
     let baseModel: Dict;
+    let fieldAdheres: boolean = false;
 
     if (targetType === 'DigitalMedia') {
         baseModel = DigitalEntity;
     } else {
         baseModel = DigitalSpecimen;
+    }
+
+    /* Function to verify current field value still adheres to one of the chosen class values */
+    const FieldAdheres = () => {
+        fieldAdheres = true;
     }
 
     /* Function to push to the properties list */
@@ -133,12 +154,44 @@ const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', 
     }
 
     /* For each property/class, collect fields for annotating */
-    ConstructList(targetType, baseModel.properties, classValue ?? '', PushToPropertiesList, PushToClassesList);
+    ConstructList(targetType, targetType, baseModel.properties, classValue ?? '', FieldAdheres, PushToPropertiesList, PushToClassesList, undefined, fieldValue);
 
     return {
+        fieldAdheres: fieldAdheres,
         properties: propertiesList,
         classes: classesList
     };
 }
 
-export default ConstructTargetPropertiesLists;
+/* Function for searching in nested levels of a schema */
+const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targetType: string, PushToExistingInstances: Function) => {
+    /* Check type of level */
+    if (!(Array.isArray(level)) && nestingLevels.length) {
+        const localLevel = level as Dict;
+        const nextLevel: Dict[] = localLevel[nestingLevels[0]] as Dict[];
+        nestingLevels.shift();
+
+        SearchNestedLevels(nextLevel, nestingLevels, targetType, PushToExistingInstances);
+    } else if (Array.isArray(level) && nestingLevels.length) {
+        level.forEach((nextLevel: Dict) => {
+            SearchNestedLevels(nextLevel, nestingLevels, targetType, PushToExistingInstances);
+        });
+    } else if (Array.isArray(level)) {
+        level.forEach((instance: Dict) => {
+            PushToExistingInstances(instance as Dict);
+        });
+    } else if (level) {
+        /* Check target type as the distinction between class and field property */
+        if (['string', 'integer', 'number', 'boolean'].includes(typeof (level))) {
+            PushToExistingInstances(level as unknown as string | number | boolean);
+        } else if (targetType === 'class') {
+            PushToExistingInstances(level as Dict);
+        }
+    }
+}
+
+export {
+    ExtractFromSchema,
+    ConstructTargetPropertiesLists,
+    SearchNestedLevels
+};

@@ -140,6 +140,7 @@ export interface AnnotateTarget {
     target: DigitalSpecimenType | DigitalEntity,
     targetType: string,
     targetProperty: TargetProperty,
+    currentValue?: (string|number|boolean|Dict)[],
     motivation?: string,
     annotations: Annotation[]
 };

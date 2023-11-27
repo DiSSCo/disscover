@@ -32,7 +32,7 @@ const SpecimenOverview = () => {
                 },
                 motivation: '',
                 target: specimen.digitalSpecimen,
-                targetType: 'digital_specimen',
+                targetType: 'DigitalSpecimen',
                 annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));
         }

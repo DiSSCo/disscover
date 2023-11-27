@@ -204,7 +204,7 @@ const DigitalMedia = () => {
                 type: 'field'
             },
             target: digitalMedia.digitalEntity,
-            targetType: 'digital_media',
+            targetType: 'DigitalMedia',
             annotations: allAnnotations
         }));
 

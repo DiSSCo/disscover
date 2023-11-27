@@ -129,7 +129,7 @@ const SidePanel = (props: Props) => {
             role="toolbar"
         >
             {/* Top section */}
-            <Row className="pt-2">
+            <Row className="pt-2 mb-2">
                 <Col className="sidePanelTop">
                     {/* Title and license indication */}
                     <Row className="align-items-center">
@@ -170,30 +170,37 @@ const SidePanel = (props: Props) => {
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
                             </Col>
-                            <Col>
-                                <p>
-                                    <span className="fw-bold">
-                                        {(!annotateTarget.targetProperty.name && !editAnnotation['oa:target']['oa:selector']?.['ods:field']) ?
-                                            <>
-                                                Annotation on whole Specimen
-                                            </>
-                                            : <>
-                                                {`${annotateTarget.targetProperty.name ?
-                                                    annotateTarget.targetProperty.name
-                                                    : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}: `
-                                                }
-                                            </>
-                                        }
-                                    </span>
-                                    {(annotateTarget.targetProperty.name || editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string) &&
+                            <Col className="overflow-hidden">
+                                <Row>
+                                    <Col>
+                                        {annotateTarget.targetProperty.type === 'field' ? 'Instance of property' : 'Instance of class'}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <p className="fw-bold textOverflow">
+                                            {(!annotateTarget.targetProperty.name && !editAnnotation['oa:target']['oa:selector']?.['ods:field']) ?
+                                                <>
+                                                    Annotation on whole Specimen
+                                                </>
+                                                : <>
+                                                    {`${annotateTarget.targetProperty.name ?
+                                                        annotateTarget.targetProperty.name
+                                                        : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}: `
+                                                    }
+                                                </>
+                                            }
+                                        </p>
+                                    </Col>
+                                </Row>
+                                {/* {(annotateTarget.targetProperty.name || editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string) &&
                                         <span className="fst-italic">
                                             {`${annotateTarget.target[annotateTarget.targetProperty.name ?
                                                 annotateTarget.targetProperty.name
                                                 : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string]}`
                                             }
                                         </span>
-                                    }
-                                </p>
+                                    } */}
                             </Col>
                         </Row>
                     }

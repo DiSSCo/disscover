@@ -166,7 +166,7 @@ const Specimen = () => {
                 type: 'field'
             },
             target: specimen.digitalSpecimen,
-            targetType: 'digital_specimen',
+            targetType: 'DigitalSpecimen',
             annotations: allAnnotations
         }));
 

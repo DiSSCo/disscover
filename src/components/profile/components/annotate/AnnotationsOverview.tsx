@@ -132,9 +132,9 @@ const AnnotationsOverview = () => {
                                     data={tableData}
                                     customStyles={customStyles}
                                     onRowClicked={(row) => {
-                                        if (row.target.type === 'digital_specimen') {
+                                        if (row.target.type === 'DigitalSpecimen') {
                                             navigate(`/ds/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
-                                        } else if (row.target.type === 'digital_media') {
+                                        } else if (row.target.type === 'DigitalMedia') {
                                             navigate(`/dm/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
                                         }
                                     }}

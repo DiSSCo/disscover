@@ -14,7 +14,7 @@ interface Props {
 const ValueField = (_props: Props) => {
     return (
         <Field type="text" name="annotationValue"
-            className="formField w-100"
+            className="formField no-resize w-100"
             as="textarea"
         />
     );

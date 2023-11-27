@@ -47,7 +47,7 @@ const IDCard = () => {
                 targetProperty,
                 motivation: '',
                 target: digitalMedia.digitalEntity,
-                targetType: 'digital_media',
+                targetType: 'DigitalMedia',
                 annotations: digitalMediaAnnotations[targetProperty.name] ? digitalMediaAnnotations[targetProperty.name] : []
             }));
         }

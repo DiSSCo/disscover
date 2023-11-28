@@ -186,7 +186,7 @@ const SidePanel = (props: Props) => {
                                                 : <>
                                                     {`${annotateTarget.targetProperty.name ?
                                                         annotateTarget.targetProperty.name
-                                                        : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}: `
+                                                        : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}`
                                                     }
                                                 </>
                                             }

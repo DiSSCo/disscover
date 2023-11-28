@@ -23,12 +23,12 @@ const SpecimenOverview = () => {
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
 
     /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property: string) => {
+    const ToggleSidePanel = (property: string, type: string = 'field') => {
         if (property) {
             dispatch(setAnnotateTarget({
                 targetProperty: {
                     name: property,
-                    type: 'field'
+                    type: type
                 },
                 motivation: '',
                 target: specimen.digitalSpecimen,
@@ -51,7 +51,7 @@ const SpecimenOverview = () => {
 
                     {/* Geo Reference */}
                     <Col lg={{ span: 8 }} className="h-50 pb-2">
-                        <GeoReference />
+                        <GeoReference ToggleSidePanel={(property: string, type: string) => ToggleSidePanel(property, type)} />
                     </Col>
 
                     {/* Accepted Identification */}

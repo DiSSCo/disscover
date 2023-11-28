@@ -76,8 +76,8 @@ const FormTemplate = (props: Props) => {
                         </Col>
                     </Row>
 
-                    {/* If annotating a class instance, show all fields */}
-                    {classValue &&
+                    {/* If annotating a class instance and motivation is adding or editing: show all fields */}
+                    {(classValue && (motivation === 'ods:adding' || motivation === 'oa:editing')) &&
                         <Row className="flex-grow-1 overflow-hidden">
                             <Col className="h-100 py-3">
                                 <div className="b-grey h-100 overflow-y-scroll overflow-x-hidden pb-3">

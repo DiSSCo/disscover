@@ -108,9 +108,7 @@ const AnnotationForm = (props: Props) => {
             additionalFields: {
                 ...(!isEmpty(editAnnotation) && editAnnotation['oa:body']['dcterms:reference'] && { reference: editAnnotation['oa:body']['dcterms:reference'] })
             },
-            classProperties: {
-                ...(!isEmpty(classProperties) ? classProperties : { default: '' })
-            }
+            classProperties: classProperties
         });
     }, [annotateTarget]);
 
@@ -188,6 +186,18 @@ const AnnotationForm = (props: Props) => {
 
     /* Function for submitting a new Annotation */
     const SubmitAnnotation = (form: Dict) => {
+        /* Define type of target property: field or class */
+        const targetType = form.targetField ? 'FieldSelector' : 'ClassSelector';
+
+        /* Define value of body */
+        const bodyValue: (string | Dict)[] = [];
+
+        if (form.annotationValue) {
+            bodyValue.push(form.annotationValue);
+        } else {
+            bodyValue.push(form.classProperties);
+        }
+
         /* Prepare new Annotation object */
         const annotation: AnnotationTemplate = {
             ...(!isEmpty(editAnnotation) && { "ods:id": editAnnotation['ods:id'] }),
@@ -201,8 +211,8 @@ const AnnotationForm = (props: Props) => {
                 }
             },
             "oa:body": {
-                "ods:type": form.targetProperty,
-                "oa:value": [form.annotationValue],
+                "ods:type": targetType,
+                "oa:value": bodyValue,
                 ...(!isEmpty(form.additionalFields) && { ...form.additionalFields }),
             }
         };
@@ -237,8 +247,7 @@ const AnnotationForm = (props: Props) => {
                 await new Promise((resolve) => setTimeout(resolve, 500));
 
                 /* Submit new Annotation */
-                console.log(form);
-                // SubmitAnnotation(form);
+                SubmitAnnotation(form);
             }}
         >
             {({ values, setFieldValue }) => (
@@ -377,8 +386,8 @@ const AnnotationForm = (props: Props) => {
                         </Col>
                         <Col className="col-md-auto">
                             <button type="submit"
-                                className={`primaryButton ${(!values.motivation || !values.annotationValue) && 'disabled'} px-4 py-1`}
-                                disabled={(!values.motivation || (!values.annotationValue && !values.targetClass))}
+                                className={`primaryButton ${(!values.motivation || ((values.targetField && !values.annotationValue))) ? 'disabled' : ''} px-4 py-1`}
+                                disabled={!values.motivation || ((values.targetField && !values.annotationValue))}
                             >
                                 Save
                             </button>

@@ -316,7 +316,7 @@ p {
 }
 
 .primaryButton.disabled {
-  background-color: #A5ABD0;
+  background-color: #A5ABD0 !important;
 }
 
 .primaryButton.cancel {

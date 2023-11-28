@@ -47,7 +47,6 @@ const AnnotationForm = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const targetFieldRef = useRef<SelectInstance>(null);
-    const formRef = useRef<any>(null);
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
@@ -57,7 +56,7 @@ const AnnotationForm = (props: Props) => {
     const [targetPropertyOptions, setTargetPropertyOptions] = useState<OptionsOrGroups<any, any>>();
     const [existingInstances, setExistingInstances] = useState<Dict[]>([]);
     const [initialValues, setInitialValues] = useState<Dict>({});
-    const [classFormFields, setClassFormFields] = useState<JSX.Element[]>([]);
+    const [classFormFields, setClassFormFields] = useState<Dict>({});
 
     /* OnLoad or change of Annotate Target: Prepare initial form values */
     useEffect(() => {
@@ -84,10 +83,15 @@ const AnnotationForm = (props: Props) => {
         /* If annotating a class instance, grab all fields from schema */
         if (targetClass) {
             const schemaProperties = ExtractFromSchema(targetClass.split('.').pop() as string);
+            let propertyData: Dict[] | undefined = undefined;
 
-            console.log(formRef.current?.values);
+            if (!isEmpty(editAnnotation)) {
+                propertyData = editAnnotation['oa:body']['oa:value'] as Dict[];
+            } else if (!isEmpty(annotateTarget.currentValue)) {
+                propertyData = annotateTarget.currentValue as Dict[];
+            }
 
-            const classForm = AnnotationFormBuilder(schemaProperties, formRef.current?.values);
+            const classForm = AnnotationFormBuilder(schemaProperties, targetClass, propertyData);
 
             classProperties = classForm.initialValues;
 
@@ -104,7 +108,9 @@ const AnnotationForm = (props: Props) => {
             additionalFields: {
                 ...(!isEmpty(editAnnotation) && editAnnotation['oa:body']['dcterms:reference'] && { reference: editAnnotation['oa:body']['dcterms:reference'] })
             },
-            classProperties: classProperties
+            classProperties: {
+                ...(!isEmpty(classProperties) ? classProperties : { default: '' })
+            }
         });
     }, [annotateTarget]);
 
@@ -224,7 +230,7 @@ const AnnotationForm = (props: Props) => {
     }
 
     return (
-        <Formik innerRef={formRef}
+        <Formik
             initialValues={initialValues}
             enableReinitialize={true}
             onSubmit={async (form) => {

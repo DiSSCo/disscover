@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { cloneElement } from 'react';
 import { isEmpty } from 'lodash';
 import { Field } from 'formik';
 import { Capitalize } from 'app/Utilities';
@@ -13,6 +12,8 @@ import AnnotationMotivations from 'sources/annotationMotivations.json';
 
 /* Import Components */
 import ValueField from './ValueField';
+import ObjectTemplate from './ObjectTemplate';
+import ArrayTemplate from './ArrayTemplate';
 
 
 /* Props Typing */
@@ -20,7 +21,7 @@ interface Props {
     motivation: string,
     classValue: string,
     formValues: Dict,
-    classFormFields: JSX.Element[]
+    classFormFields: Dict
 };
 
 
@@ -79,13 +80,21 @@ const FormTemplate = (props: Props) => {
                     {classValue &&
                         <Row className="flex-grow-1 overflow-hidden">
                             <Col className="h-100 py-3">
-                                <div className="b-secondary h-100 overflow-y-scroll px-3 pb-3">
-                                    {classFormFields.map((formField: JSX.Element) => {
-                                        const FormField = cloneElement(formField, {
-                                            classProperties: formValues.classProperties
-                                        });
+                                <div className="b-grey h-100 overflow-y-scroll overflow-x-hidden pb-3">
+                                    {Object.keys(classFormFields).map((classKey) => {
+                                        const classData = classFormFields[classKey];
+                                        const template = (classData.template === 'object') ?
+                                            <ObjectTemplate key={classKey}
+                                                title={classData.title}
+                                                fields={classData.fields}
+                                            />
+                                            : <ArrayTemplate key={classKey}
+                                                title={classData.title}
+                                                fields={classData.fields}
+                                                classProperties={formValues.classProperties}
+                                            />;
 
-                                        return FormField;
+                                        return template;
                                     })}
                                 </div>
                             </Col>

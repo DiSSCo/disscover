@@ -18,7 +18,7 @@ const PropertyField = (props: Props) => {
                 <p> {name.split('.').pop()} </p>
 
                 <Field name={name}
-                    className="w-100"
+                    className="formField w-100"
                 />
             </Col>
         </Row>

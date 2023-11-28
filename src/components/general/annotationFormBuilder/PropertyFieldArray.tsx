@@ -10,57 +10,56 @@ import { Dict } from "app/Types";
 /* Props Typing */
 interface Props {
     name: string,
-    classProperties?: {}
+    classProperties?: {},
+    Remove?: Function
 };
 
 
 const PropertyFieldArray = (props: Props) => {
-    const { name, classProperties } = props;
+    const { name, classProperties, Remove } = props;
 
     /* Base variables */
     const properties = ExtractFromSchema(name.split('.').pop() as string);
-    const initialValues: Dict = {};
     const arrayIndexes: Dict[] = classProperties?.[name.split('.').pop() as keyof typeof classProperties] as unknown as Dict[];
 
-    /* Create initial values for value index */
-    for (const propertyName in properties) {
-        initialValues[propertyName] = '';
-    }
-
     return (
-        <FieldArray name={name}>
-            {({ push, remove }) => (
-                <div className="bgc-accent">
-                    <button type="button"
-                        onClick={() => push(initialValues)}
-                    >
-                        Add {name.split('.').pop() as string}
-                    </button>
-
-                    {arrayIndexes && arrayIndexes.map((indexValue) => {
-                        return (
-                            <>
+        <>
+            {(arrayIndexes && arrayIndexes.length) ? arrayIndexes.map((_, index) => {
+                return (
+                    <div className={`${index > 0 ? 'b-top-grey pt-2' : ''} mt-3`}>
+                        <Row>
+                            <Col>
+                                <p className="fw-lightBold"> {`${name.split('.').pop()} #${index + 1}`} </p>
+                            </Col>
+                            <Col className="col-md-auto">
+                                <p className="c-denied c-pointer"
+                                    onClick={() => Remove && Remove(index)}
+                                >
+                                    Remove this index
+                                </p>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
                                 {Object.keys(properties).map((propertyName, index) => {
-                                    const property = properties[propertyName as keyof typeof properties];
-
                                     return (
-                                        <Row>
+                                        <Row className="mt-3">
                                             <Col>
                                                 <p> {propertyName} </p>
 
                                                 <Field name={`${name}[${index}][${propertyName}]`}
-                                                    className="w-100"
+                                                    className="formField w-100"
                                                 />
                                             </Col>
                                         </Row>
                                     );
                                 })}
-                            </>
-                        );
-                    })}
-                </div>
-            )}
-        </FieldArray>
+                            </Col>
+                        </Row>
+                    </div>
+                );
+            }) : <p className="mt-3"> Press the plus icon to add a new instance of this array </p>}
+        </>
     );
 }
 

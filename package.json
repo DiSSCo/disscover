@@ -8,7 +8,7 @@
     ]
   },
   "dependencies": {
-    "@annotorious/react": "^3.0.0-pre-alpha-54",
+    "@annotorious/react": "^3.0.0-rc.1",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -89,5 +89,6 @@
     "@types/openseadragon": "^3.0.6",
     "@types/react-datepicker": "^4.8.0",
     "@types/validator": "^13.7.17"
-  }
+  },
+  "proxy": "https://dev.dissco.tech"
 }

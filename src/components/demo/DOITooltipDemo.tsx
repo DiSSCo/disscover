@@ -85,7 +85,7 @@ const DOITooltipDemo = (props: Props) => {
 
     return (
         <>
-            <span style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef} onClick={() => TriggerTooltip()}> {children} </span>
+            <span role="button" style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef} onClick={() => TriggerTooltip()}> {children} </span>
 
             <div id="disscoTooltip" className={`tooltip ${active && 'active'}`} ref={DOITooltipRef} style={offsetStyles}>
                 {record.data ?

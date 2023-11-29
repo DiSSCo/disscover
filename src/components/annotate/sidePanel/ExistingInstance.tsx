@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getAnnotateTarget, setAnnotateTarget } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
-import { Dict } from 'app/Types';
+import { Property, Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +20,7 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 interface Props {
     targetPropertyName: string,
     targetPropertyType: string,
-    instance: Dict | string | number | boolean,
+    instance: Dict | Property,
     index: number
 }
 
@@ -34,7 +34,7 @@ const ExistingInstance = (props: Props) => {
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const [collapseToggle, setCollapseToggle] = useState<boolean>(false);
-    let propertiesList: { key: string, value: string | number | boolean }[] = [];
+    let propertiesList: { key: string, value: Property }[] = [];
     let i = index + 1;
 
     /* If target is class, get all properties and levels from existing instance */
@@ -86,7 +86,7 @@ const ExistingInstance = (props: Props) => {
             {targetPropertyType === 'class' ?
                 <div className={instancePropertiesClass}>
                     {/* For each property of instance: show key and value pair */}
-                    {propertiesList.map((propertyPair: { key: string, value: string | number | boolean }) => {
+                    {propertiesList.map((propertyPair: { key: string, value: Property }) => {
                         return (
                             <Row key={propertyPair.key} className="mt-1">
                                 <Col className="col-md-auto pe-0">

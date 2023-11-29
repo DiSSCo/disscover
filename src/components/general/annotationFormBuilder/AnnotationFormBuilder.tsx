@@ -46,18 +46,52 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
 
     /* Function to push or unshift to form fields */
     const PushUnshiftToFormFields = (currentValue: any, formField: JSX.Element, level?: string) => {
-        if (currentValue) {
-            if (level) {
-                formFields[level as keyof typeof formFields].fields.unshift(formField);
-            } else {
-                formFields['main'].fields.unshift(formField);
-            }
+        if (currentValue && level) {
+            formFields[level as keyof typeof formFields].fields.unshift(formField);
+        } else if (currentValue) {
+            formFields['main'].fields.unshift(formField);
+        } else if (level) {
+            formFields[level as keyof typeof formFields].fields.push(formField);
         } else {
-            if (level) {
-                formFields[level as keyof typeof formFields].fields.push(formField);
-            } else {
-                formFields['main'].fields.push(formField);
-            }
+            formFields['main'].fields.push(formField);
+        }
+    }
+
+    /* Functions for adding field to initial values and constructing form field */
+    const FormField = (params: Dict) => {
+        const { propertyName, level, subLevel } = params;
+
+        const formField = <PropertyField key={propertyName}
+            name={'classProperties.' + (subLevel ? `${subLevel}.` : '') + (level ? `${level}.` : '') + propertyName}
+        />;
+
+        return formField;
+    }
+
+    const ConstructFormField = (params: Dict) => {
+        const { level, subLevel, propertyName } = params;
+
+        if (level && subLevel) {
+            initialValues[subLevel][level][propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
+
+            /* Construct a Property Field and add to array of form fields */
+            const formField = FormField({propertyName, level, subLevel});
+
+            PushUnshiftToFormFields(initialValues[subLevel][level][propertyName], formField, level);
+        } else if (level) {
+            initialValues[level][propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
+
+            /* Construct a Property Field and add to array of form fields */
+            const formField = FormField({propertyName, level, subLevel});
+
+            PushUnshiftToFormFields(initialValues[level][propertyName], formField, level);
+        } else {
+            initialValues[propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
+
+            /* Construct a Property Field and add to array of form fields */
+            const formField = FormField({propertyName, level, subLevel});
+
+            PushUnshiftToFormFields(initialValues[propertyName], formField);
         }
     }
 
@@ -69,38 +103,11 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
 
             /* Check type of property */
             if (property.type && ['string', 'integer', 'number', 'boolean'].includes(property.type)) {
-                /* Add to initial values */
-                if (level && subLevel) {
-                    initialValues[subLevel][level][propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
-
-                    /* Construct a Property Field and add to array of form fields */
-                    const formField = <PropertyField key={propertyName}
-                        name={'classProperties.' + `${subLevel ? `${subLevel}.` : ''}` + `${level ? `${level}.` : ''}` + propertyName}
-                    />;
-
-                    PushUnshiftToFormFields(initialValues[subLevel][level][propertyName], formField, level);
-                } else if (level) {
-                    initialValues[level][propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
-
-                    /* Construct a Property Field and add to array of form fields */
-                    const formField = <PropertyField key={propertyName}
-                        name={'classProperties.' + `${subLevel ? `${subLevel}.` : ''}` + `${level ? `${level}.` : ''}` + propertyName}
-                    />;
-
-                    PushUnshiftToFormFields(initialValues[level][propertyName], formField, level);
-                } else {
-                    initialValues[propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
-
-                    /* Construct a Property Field and add to array of form fields */
-                    const formField = <PropertyField key={propertyName}
-                        name={'classProperties.' + `${subLevel ? `${subLevel}.` : ''}` + `${level ? `${level}.` : ''}` + propertyName}
-                    />
-
-                    PushUnshiftToFormFields(initialValues[propertyName], formField);
-                }
+                /* Add to initial values and construct form field */
+                ConstructFormField({ level, subLevel, propertyName });
             } else if (property.type && property.type === 'array') {
                 /* Add to initial values */
-                initialValues[`${level ? `${level}.` : ''}${propertyName}`] = [];
+                initialValues[(level ? level : '') + propertyName] = [];
 
                 /* Construct a Property Field Array */
                 formFields[propertyName] = {
@@ -108,7 +115,7 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
                     template: 'array',
                     fields: [
                         <PropertyFieldArray key={propertyName}
-                            name={'classProperties.' + `${subLevel ? `${subLevel}.` : ''}` + `${level ? `${level}.` : ''}` + propertyName}
+                            name={'classProperties.' + (subLevel ? `${subLevel}.` : '') + (level ? `${level}.` : '') + propertyName}
                         />
                     ]
                 };
@@ -130,7 +137,7 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
                 /* Get properties from schema */
                 const properties = ExtractFromSchema(propertyName);
 
-                ConstructForm(properties, propertyName, level && level);
+                ConstructForm(properties, propertyName, level);
             }
         }
     }

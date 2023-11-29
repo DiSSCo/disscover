@@ -15,11 +15,65 @@ import ChronometricAge from 'sources/dataModel/chronometric_age.json';
 import Location from 'sources/dataModel/location.json';
 
 
+/* Function for pushing to the annotatable properties list, or recall Construct List */
+const PushToList = (params: Dict) => {
+    const { propertyData, threshhold, propertiesList, property, schema, classValue, targetType, FieldAdheres, PushToClassesList, PushToPropertiesList, subSchema, fieldValue } = params;
+
+    /* If type is string/integer/boolean: treat as field, otherwise treat as class */
+    if (['string', 'integer', 'number', 'boolean'].includes(propertyData.type) && threshhold) {
+        propertiesList.options.push({ label: property, value: subSchema ? `${schema}.${subSchema}.${property}` : `${schema}.${property}` });
+
+        /* Check if current field value adheres to class value */
+        if (fieldValue?.includes(property)) {
+            FieldAdheres();
+        }
+    } else if (threshhold) {
+        /* Push Class to classes list */
+        let nestingBreak: string = '';
+
+        if (schema.split('.').length > 1) {
+            nestingBreak = schema.split('.').pop() as string;
+        }
+
+        PushToClassesList(subSchema ? `${nestingBreak && nestingBreak + '.'}${subSchema}.${property}` : `${property}`);
+
+        /* Extract properties from schema */
+        const properties = ExtractFromSchema(property);
+
+        ConstructList({
+            schema: subSchema ? `${schema}.${subSchema}` : schema,
+            targetType: targetType,
+            properties: properties,
+            classValue: classValue,
+            FieldAdheres,
+            PushToPropertiesList,
+            PushToClassesList,
+            subSchema: property,
+            fieldValue: fieldValue
+        });
+    } else {
+        /* Extract properties from schema */
+        const properties = ExtractFromSchema(property);
+
+        /* Continue recurstion untill right class is found */
+        ConstructList({
+            schema: subSchema ? `${schema}.${subSchema}` : schema,
+            targetType: targetType,
+            properties: properties,
+            classValue: classValue,
+            FieldAdheres,
+            PushToPropertiesList,
+            PushToClassesList,
+            subSchema: property,
+            fieldValue: fieldValue
+        });
+    }
+}
+
 /* Recursive function for constructing a list of annotatable properties and classes */
-const ConstructList = (
-    schema: string, targetType: string, properties: Dict, classValue: string,
-    FieldAdheres: Function, PushToPropertiesList: Function, PushToClassesList: Function, subSchema?: string, fieldValue?: string
-) => {
+const ConstructList = (params: Dict) => {
+    const { schema, targetType, properties, classValue, FieldAdheres, PushToPropertiesList, PushToClassesList, subSchema, fieldValue } = params;
+
     const propertiesList: { label: string, options: { label: string, value: string }[] } = {
         label: subSchema ? `${schema}.${subSchema}` : schema,
         options: []
@@ -32,45 +86,14 @@ const ConstructList = (
         let threshhold: boolean = false;
 
         /* Check if there is a predefined class instance */
-        if (classValue && (schema.includes(classValue) || `${schema}.${subSchema}.${property}`.includes(`${targetType}.${classValue}`))) {
-            threshhold = true;
-        } else if (!classValue) {
+        if ((classValue && (schema.includes(classValue) || `${schema}.${subSchema}.${property}`.includes(`${targetType}.${classValue}`)) || !classValue)) {
             threshhold = true;
         }
 
-        /* If type is string/integer/boolean: treat as field, otherwise treat as class */
-        if (['string', 'integer', 'number', 'boolean'].includes(propertyData.type) && threshhold) {
-            propertiesList.options.push({ label: property, value: subSchema ? `${schema}.${subSchema}.${property}` : `${schema}.${property}` });
-
-            /* Check if current field value adheres to class value */
-            if (fieldValue && fieldValue.includes(property)) {
-                FieldAdheres();
-            }
-        } else if (threshhold) {
-            /* Push Class to classes list */
-            let nestingBreak: string = '';
-
-            if (schema.split('.').length > 1) {
-                nestingBreak = schema.split('.').pop() as string;
-            }
-
-            PushToClassesList(subSchema ? `${nestingBreak && `${nestingBreak}.`}${subSchema}.${property}` : `${property}`);
-
-            /* Extract properties from schema */
-            const properties = ExtractFromSchema(property);
-
-            ConstructList(subSchema ? `${schema}.${subSchema}` : schema, targetType, properties, classValue,
-                FieldAdheres, PushToPropertiesList, PushToClassesList, property, fieldValue
-            );
-        } else {
-            /* Extract properties from schema */
-            const properties = ExtractFromSchema(property);
-
-            /* Continue recurstion untill right class is found */
-            ConstructList(subSchema ? `${schema}.${subSchema}` : schema, targetType, properties, classValue,
-                FieldAdheres, PushToPropertiesList, PushToClassesList, property, fieldValue
-            );
-        }
+        PushToList({
+            propertyData, threshhold, propertiesList, property, schema, classValue, targetType,
+            FieldAdheres, PushToClassesList, PushToPropertiesList, subSchema, fieldValue
+        });
     }
 
     PushToPropertiesList(propertiesList);
@@ -154,7 +177,17 @@ const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', 
     }
 
     /* For each property/class, collect fields for annotating */
-    ConstructList(targetType, targetType, baseModel.properties, classValue ?? '', FieldAdheres, PushToPropertiesList, PushToClassesList, undefined, fieldValue);
+    ConstructList({
+        schema: targetType,
+        targetType,
+        properties: baseModel.properties,
+        classValue: classValue ?? '',
+        FieldAdheres,
+        PushToPropertiesList,
+        PushToClassesList,
+        subSchema: undefined,
+        fieldValue
+    });
 
     return {
         fieldAdheres: fieldAdheres,
@@ -167,7 +200,7 @@ const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', 
 const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targetType: string, PushToExistingInstances: Function) => {
     /* Check type of level */
     if (!(Array.isArray(level)) && nestingLevels.length) {
-        const localLevel = level as Dict;
+        const localLevel = level;
         const nextLevel: Dict[] = localLevel[nestingLevels[0]] as Dict[];
         nestingLevels.shift();
 
@@ -178,14 +211,14 @@ const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targe
         });
     } else if (Array.isArray(level)) {
         level.forEach((instance: Dict) => {
-            PushToExistingInstances(instance as Dict);
+            PushToExistingInstances(instance);
         });
     } else if (level) {
         /* Check target type as the distinction between class and field property */
         if (['string', 'integer', 'number', 'boolean'].includes(typeof (level))) {
             PushToExistingInstances(level as unknown as string | number | boolean);
         } else if (targetType === 'class') {
-            PushToExistingInstances(level as Dict);
+            PushToExistingInstances(level);
         }
     }
 }

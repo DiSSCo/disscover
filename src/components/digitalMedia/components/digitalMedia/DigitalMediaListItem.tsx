@@ -96,7 +96,7 @@ const DigitalMediaListItem = (props: Props) => {
     });
 
     return (
-        <div className={`${classDigitalMediaListItem} position-relative px-1`}
+        <div role="button" className={`${classDigitalMediaListItem} position-relative px-1`}
             onMouseEnter={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(true) } }}
             onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(false) } }}
             onClick={() => {

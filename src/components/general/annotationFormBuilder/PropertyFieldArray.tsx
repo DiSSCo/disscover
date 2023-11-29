@@ -24,16 +24,19 @@ const PropertyFieldArray = (props: Props) => {
 
     return (
         <>
-            {(arrayIndexes && arrayIndexes.length) ? arrayIndexes.map((_, index) => {
+            {(arrayIndexes?.length) ? arrayIndexes.map((_, index) => {
+                const key = `arrayIndex${index}`;
+
                 return (
-                    <div className={`${index > 0 ? 'b-top-grey pt-2' : ''} mt-3`}>
+                    <div key={key} className={`${index > 0 ? 'b-top-grey pt-2' : ''} mt-3`}>
                         <Row>
                             <Col>
                                 <p className="fw-lightBold"> {`${name.split('.').pop()} #${index + 1}`} </p>
                             </Col>
                             <Col className="col-md-auto">
-                                <p className="c-denied c-pointer"
-                                    onClick={() => Remove && Remove(index)}
+                                <p role="button" className="c-denied c-pointer"
+                                    onClick={() => Remove?.(index)}
+                                    onKeyDown={() => Remove?.(index)}
                                 >
                                     Remove this index
                                 </p>
@@ -43,7 +46,7 @@ const PropertyFieldArray = (props: Props) => {
                             <Col>
                                 {Object.keys(properties).map((propertyName, index) => {
                                     return (
-                                        <Row className="mt-3">
+                                        <Row key={propertyName} className="mt-3">
                                             <Col>
                                                 <p> {propertyName} </p>
 

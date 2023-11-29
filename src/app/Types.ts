@@ -152,6 +152,8 @@ export interface AnnotationMotivation {
     context: string
 };
 
+export type Property = string | number | boolean;
+
 
 /* Organisation Types */
 export interface Organisation {

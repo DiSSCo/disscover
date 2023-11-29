@@ -34,12 +34,12 @@ const PropertyFieldArray = (props: Props) => {
                                 <p className="fw-lightBold"> {`${name.split('.').pop()} #${index + 1}`} </p>
                             </Col>
                             <Col className="col-md-auto">
-                                <p role="button" className="c-denied c-pointer"
+                                <button type="button" className="c-denied c-pointer button-no-style"
                                     onClick={() => Remove?.(index)}
                                     onKeyDown={() => Remove?.(index)}
                                 >
                                     Remove this index
-                                </p>
+                                </button>
                             </Col>
                         </Row>
                         <Row>

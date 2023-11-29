@@ -68,6 +68,14 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
         return formField;
     }
 
+    const FormFieldArray = (params: Dict) => {
+        const { propertyName, level, subLevel } = params;
+
+        return <PropertyFieldArray key={propertyName}
+            name={'classProperties.' + (subLevel ? `${subLevel}.` : '') + (level ? `${level}.` : '') + propertyName}
+        />;
+    }
+
     const ConstructFormField = (params: Dict) => {
         const { level, subLevel, propertyName } = params;
 
@@ -75,21 +83,21 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
             initialValues[subLevel][level][propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
 
             /* Construct a Property Field and add to array of form fields */
-            const formField = FormField({propertyName, level, subLevel});
+            const formField = FormField({ propertyName, level, subLevel });
 
             PushUnshiftToFormFields(initialValues[subLevel][level][propertyName], formField, level);
         } else if (level) {
             initialValues[level][propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
 
             /* Construct a Property Field and add to array of form fields */
-            const formField = FormField({propertyName, level, subLevel});
+            const formField = FormField({ propertyName, level, subLevel });
 
             PushUnshiftToFormFields(initialValues[level][propertyName], formField, level);
         } else {
             initialValues[propertyName] = CheckForCurrentValue(propertyName, level, subLevel);
 
             /* Construct a Property Field and add to array of form fields */
-            const formField = FormField({propertyName, level, subLevel});
+            const formField = FormField({ propertyName, level, subLevel });
 
             PushUnshiftToFormFields(initialValues[propertyName], formField);
         }
@@ -107,16 +115,14 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
                 ConstructFormField({ level, subLevel, propertyName });
             } else if (property.type && property.type === 'array') {
                 /* Add to initial values */
-                initialValues[(level ? level : '') + propertyName] = [];
+                initialValues[(level || '') + propertyName] = [];
 
                 /* Construct a Property Field Array */
                 formFields[propertyName] = {
                     title: propertyName,
                     template: 'array',
                     fields: [
-                        <PropertyFieldArray key={propertyName}
-                            name={'classProperties.' + (subLevel ? `${subLevel}.` : '') + (level ? `${level}.` : '') + propertyName}
-                        />
+                        FormFieldArray({ propertyName, level, subLevel })
                     ]
                 };
             } else {

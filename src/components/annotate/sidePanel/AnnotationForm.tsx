@@ -11,20 +11,14 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getAnnotateTarget, setAnnotateTarget, getEditAnnotation, setAnnotationFormToggle,
-    setEditAnnotation, setHighlightAnnotationId
+    getAnnotateTarget, setAnnotateTarget, getEditAnnotation, setHighlightAnnotationId
 } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { AnnotationTemplate, Dict } from 'app/Types';
-import { Annotation } from 'app/types/Annotation';
 
 /* Import Sources */
 import AnnotationMotivations from 'sources/annotationMotivations.json';
-
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 /* Import API */
 import InsertAnnotation from 'api/annotate/InsertAnnotation';
@@ -32,6 +26,7 @@ import PatchAnnotation from 'api/annotate/PatchAnnotation';
 
 /* Import Components */
 import FormTemplate from './form/FormTemplate';
+import FormBottom from './form/FormBottom';
 import ExistingInstance from './ExistingInstance';
 
 
@@ -354,45 +349,9 @@ const AnnotationForm = (props: Props) => {
                             </Col>
                         </Row>
                     }
-                    {/* Annotate new instance of button */}
-                    {((values.targetClass || values.targetField) && !annotateTarget.targetProperty.name) &&
-                        <Row className="flex-grow-1 py-3">
-                            <Col>
-                                <button type="button" className="secondaryButton w-100"
-                                    onClick={() => AnnotateNewInstance(
-                                        values.targetField ? 'field' : 'class',
-                                        values.targetField ? values.targetField : values.targetClass
-                                    )}
-                                >
-                                    Annotate new instance of {values.targetField ? 'property' : 'class'}
-
-                                    <FontAwesomeIcon icon={faPlus} className="mx-2" />
-                                </button>
-                            </Col>
-                        </Row>
-                    }
-                    {/* Submit Button */}
-                    <Row className={`${(!values.motivation && !annotateTarget.motivation) && 'flex-grow-1 align-items-end'}`}>
-                        <Col>
-                            <button type="button"
-                                className="primaryButton cancel px-4 py-1"
-                                onClick={() => {
-                                    dispatch(setEditAnnotation({} as Annotation));
-                                    dispatch(setAnnotationFormToggle(false));
-                                }}
-                            >
-                                Cancel
-                            </button>
-                        </Col>
-                        <Col className="col-md-auto">
-                            <button type="submit"
-                                className={`primaryButton ${(!values.motivation || ((values.targetField && !values.annotationValue))) ? 'disabled' : ''} px-4 py-1`}
-                                disabled={!values.motivation || ((values.targetField && !values.annotationValue))}
-                            >
-                                Save
-                            </button>
-                        </Col>
-                    </Row>
+                    <FormBottom values={values}
+                        AnnotateNewInstance={(targetPropertyType: string, targetPropertyName: string) => AnnotateNewInstance(targetPropertyType, targetPropertyName)}
+                    />
                 </Form>
             )}
         </Formik >

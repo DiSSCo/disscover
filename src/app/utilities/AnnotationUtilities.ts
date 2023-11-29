@@ -24,9 +24,7 @@ const PushToList = (params: Dict) => {
         propertiesList.options.push({ label: property, value: subSchema ? `${schema}.${subSchema}.${property}` : `${schema}.${property}` });
 
         /* Check if current field value adheres to class value */
-        if (fieldValue?.includes(property)) {
-            FieldAdheres();
-        }
+        FieldAdheres(fieldValue?.includes(property));
     } else if (threshhold) {
         /* Push Class to classes list */
         let nestingBreak: string = '';
@@ -159,8 +157,8 @@ const ConstructTargetPropertiesLists = (targetType: string = 'DigitalSpecimen', 
     }
 
     /* Function to verify current field value still adheres to one of the chosen class values */
-    const FieldAdheres = () => {
-        fieldAdheres = true;
+    const FieldAdheres = (bool: boolean) => {
+        fieldAdheres = bool;
     }
 
     /* Function to push to the properties list */

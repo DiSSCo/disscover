@@ -362,6 +362,11 @@ p {
   font-weight: 500;
 }
 
+.button-no-style {
+  background-color: inherit; 
+  border: none;
+}
+
 .removeButton:hover {
   background-color: var(--deniedDark);
 }

@@ -115,7 +115,7 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
                 ConstructFormField({ level, subLevel, propertyName });
             } else if (property.type && property.type === 'array') {
                 /* Add to initial values */
-                initialValues[(level || '') + propertyName] = [];
+                initialValues[(level ?? '') + propertyName] = [];
 
                 /* Construct a Property Field Array */
                 formFields[propertyName] = {

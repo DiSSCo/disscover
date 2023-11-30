@@ -42,7 +42,7 @@ const MapMediaExt = (props: Props) => {
     useEffect(() => {
         setDigitalMedia([]);
 
-        GetSpecimenDigitalMedia(specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')).then((digitalMedia) => {
+        GetSpecimenDigitalMedia(specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((digitalMedia) => {
             if (digitalMedia) {
                 setDigitalMedia(digitalMedia);
             }
@@ -111,7 +111,7 @@ const MapMediaExt = (props: Props) => {
                 <Row className={styles.buttonBlock}>
                     <Col className="h-100 d-flex justify-content-end align-items-end">
                         <button type="button" className={`${styles.specimenButton} border-0 bgc-primary c-white fs-4 rounded-full transition fw-bold px-3`}
-                            onClick={() => navigate(`/ds/${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`, {
+                            onClick={() => navigate(`/ds/${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`, {
                                 state: {
                                     filters: searchParams.toString()
                                 }

@@ -61,7 +61,7 @@ const IDCard = () => {
                                             <p> ID Card </p>
                                         </Col>
                                         <Col className="fs-4 c-secondary col-md-auto fw-lightBold">
-                                            <p> {digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')} </p>
+                                            <p> {digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </p>
                                         </Col>
                                     </Row>
                                 </Card.Subtitle>

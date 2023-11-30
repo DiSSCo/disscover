@@ -53,7 +53,7 @@ const AnnotationForm = (props: Props) => {
                 "ods:id": annotateTarget.target['ods:id'],
                 "ods:type": annotateTarget.targetType,
                 "oa:selector": {
-                    "ods:type": "FieldValueSelector",
+                    "ods:type": "FieldSelector",
                     "ods:field": form.targetProperty
                 }
             },

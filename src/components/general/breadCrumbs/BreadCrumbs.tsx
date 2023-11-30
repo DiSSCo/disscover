@@ -32,7 +32,7 @@ const BreadCrumbs = () => {
 
     /* Format Bread Crumbs */
     switch (pathList[0]) {
-        case 'search':
+        case 'search': {
             /* Search Page */
             breadCrumbs.push({
                 crumb: 'Specimens',
@@ -47,7 +47,7 @@ const BreadCrumbs = () => {
             }
 
             break;
-        case 'ds':
+        } case 'ds': {
             /* Specimen Page */
             let path: string = '/search';
 
@@ -65,15 +65,16 @@ const BreadCrumbs = () => {
             });
 
             break;
-        case 'dm':
+        } case 'dm': {
             /* Digital Media Page */
             breadCrumbs.push({
                 crumb: 'Digital Media'
             });
 
             breadCrumbs.push({
-                crumb: digitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')
+                crumb: digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')
             });
+        }
     }
 
     return (

@@ -75,7 +75,7 @@ const Compare = () => {
         dispatch(setCompareSpecimens(copyCompareSpecimens));
 
         /* Remove specimen id from Search Params */
-        const newParams = searchParams.getAll('ds').filter((paramSpecimenId: string) => paramSpecimenId !== specimenId.replace('https://doi.org/', ''));
+        const newParams = searchParams.getAll('ds').filter((paramSpecimenId: string) => paramSpecimenId !== specimenId.replace(process.env.REACT_APP_DOI_URL as string, ''));
 
         searchParams.delete('ds');
 

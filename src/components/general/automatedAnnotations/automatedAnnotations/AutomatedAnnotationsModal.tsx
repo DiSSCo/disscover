@@ -50,13 +50,13 @@ const AutomatedAnnotationsModal = (props: Props) => {
     useEffect(() => {
         if (automatedAnnotationsToggle) {
             if (location.pathname.includes('ds')) {
-                GetSpecimenMAS(target['ods:id'].replace('https://doi.org/', '')).then((specimenMAS) => {
+                GetSpecimenMAS(target['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((specimenMAS) => {
                     setTargetMAS(specimenMAS);
                 }).catch(error => {
                     console.warn(error);
                 });
             } else if (location.pathname.includes('dm')) {
-                GetDigitalMediaMAS(target['ods:id'].replace('https://doi.org/', '')).then((digitalMediaMAS) => {
+                GetDigitalMediaMAS(target['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((digitalMediaMAS) => {
                     setTargetMAS(digitalMediaMAS);
                 }).catch(error => {
                     console.warn(error);

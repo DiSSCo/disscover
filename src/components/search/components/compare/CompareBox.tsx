@@ -39,9 +39,9 @@ const CompareBox = () => {
 
         compareSpecimens.forEach((specimen, index) => {
             if (index === 0) {
-                compareRoute = compareRoute.concat(`ds=${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`);
+                compareRoute = compareRoute.concat(`ds=${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
             } else {
-                compareRoute = compareRoute.concat(`&ds=${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`);
+                compareRoute = compareRoute.concat(`&ds=${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
             }
         });
 

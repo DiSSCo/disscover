@@ -101,7 +101,7 @@ const DigitalMediaListItem = (props: Props) => {
             onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(false) } }}
             onClick={() => {
                 if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) {
-                    navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace('https://doi.org/', '')}`)
+                    navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`)
                 }
             }}
         >

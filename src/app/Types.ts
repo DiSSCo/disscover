@@ -115,7 +115,7 @@ export interface AnnotationTemplate {
             "ods:type": string,
             "ods:field"?: string,
             "dcterms:conformsTo"?: string,
-            "ac:hasROI"?: {
+            "ac:hasRoi"?: {
                 "ac:xFrac": number,
                 "ac:yFrac": number,
                 "ac:widthFrac": number,

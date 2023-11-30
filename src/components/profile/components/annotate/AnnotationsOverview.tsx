@@ -133,9 +133,9 @@ const AnnotationsOverview = () => {
                                     customStyles={customStyles}
                                     onRowClicked={(row) => {
                                         if (row.target.type === 'digital_specimen') {
-                                            navigate(`/ds/${row.target.id.replace('https://doi.org/', '')}`);
+                                            navigate(`/ds/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
                                         } else if (row.target.type === 'digital_media') {
-                                            navigate(`/dm/${row.target.id.replace('https://doi.org/', '')}`);
+                                            navigate(`/dm/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
                                         }
                                     }}
 

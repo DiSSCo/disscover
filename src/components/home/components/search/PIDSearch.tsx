@@ -41,7 +41,7 @@ const PIDSearch = () => {
                     dispatch(setSpecimen(specimen));
 
                     navigate({
-                        pathname: `/ds/${specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`,
+                        pathname: `/ds/${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`,
                     });
                 } else {
                     setErrorActive(true);

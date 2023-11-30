@@ -50,7 +50,7 @@ const AnnotateSteps = (props: Props) => {
             "ods:id": specimen.digitalSpecimen['ods:id'],   
             "ods:type": 'digitalSpecimen',
             "oa:selector": {
-                "ods:type": "FieldValueSelector",
+                "ods:type": "FieldSelector",
                 "ods:field": 'ods:specimenName'
             }
         },

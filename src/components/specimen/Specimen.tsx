@@ -62,7 +62,7 @@ const Specimen = () => {
         const specimenId = `${params.prefix}/${params.suffix}`;
 
         /* Fetch Full Specimen if not present or not equal to params ID; if version has changed, refetch Specimen with version */
-        if (isEmpty(specimen.digitalSpecimen) || specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') !== specimenId) {
+        if (isEmpty(specimen.digitalSpecimen) || specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '') !== specimenId) {
             /* Check for version in url */
             let version: string = '';
 
@@ -83,7 +83,7 @@ const Specimen = () => {
                     dispatch(setSpecimenAnnotations(fullSpecimen.annotations));
 
                     /* Get Specimen Versions */
-                    GetSpecimenVersions(fullSpecimen.specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')).then((versions) => {
+                    GetSpecimenVersions(fullSpecimen.specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((versions) => {
                         dispatch(setSpecimenVersions(versions));
                     }).catch(error => {
                         console.warn(error);
@@ -173,7 +173,7 @@ const Specimen = () => {
     /* Function for refreshing Annotations */
     const RefreshAnnotations = (targetProperty?: string) => {
         /* Refetch Specimen Annotations */
-        GetSpecimenAnnotations(specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '')).then((annotations) => {
+        GetSpecimenAnnotations(specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((annotations) => {
             /* Show with refreshed Annotations */
             ShowWithAnnotations(annotations, targetProperty);
 
@@ -219,7 +219,7 @@ const Specimen = () => {
                         />
 
                         <div className="flex-grow-1 overflow-hidden">
-                            {(specimen.digitalSpecimen['ods:id'] && specimen.digitalSpecimen['ods:id'].replace('https://doi.org/', '') === `${params['prefix']}/${params['suffix']}`) &&
+                            {(specimen.digitalSpecimen['ods:id'] && specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '') === `${params['prefix']}/${params['suffix']}`) &&
                                 <Container fluid className="h-100 pt-5">
                                     <Row className="h-100">
                                         <Col className={`${classSpecimenContent} h-100 transition`}>

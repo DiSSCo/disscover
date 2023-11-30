@@ -59,7 +59,7 @@ const PhysicalIDSearch = () => {
             SearchSpecimens([{ physicalSpecimenId: formData.idValue }], 25).then(({ specimens }) => {
                 if (!isEmpty(specimens)) {
                     navigate({
-                        pathname: `/ds/${specimens[0].digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`,
+                        pathname: `/ds/${specimens[0].digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`,
                     });
                 } else {
                     /* Display not found message */
@@ -81,7 +81,7 @@ const PhysicalIDSearch = () => {
                 SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({ specimens }) => {
                     if (!isEmpty(specimens)) {
                         navigate({
-                            pathname: `/ds/${specimens[0].digitalSpecimen['ods:id'].replace('https://doi.org/', '')}`,
+                            pathname: `/ds/${specimens[0].digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`,
                         });
                     } else {
                         /* Display not found message */

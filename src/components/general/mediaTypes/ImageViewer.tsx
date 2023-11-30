@@ -17,6 +17,7 @@ import {
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { getAnnotoriousMode, setAnnotoriousMode } from "redux/general/GeneralSlice";
 import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
+import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { AnnotationTemplate, Dict } from 'app/Types';
@@ -51,6 +52,7 @@ const ImageViewer = (props: Props) => {
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
     const annotoriousMode = useAppSelector(getAnnotoriousMode);
+    const user = useAppSelector(getUser);
     const [image, setImage] = useState<HTMLImageElement>();
     const [selectedAnnotation, setSelectedAnnotation] = useState<ImageAnnotation | null>(null);
     const [editAnnotation, setEditAnnotation] = useState<ImageAnnotation | null>(null);
@@ -155,7 +157,7 @@ const ImageViewer = (props: Props) => {
         let selectAction;
 
         /* Enable Annotorious edit mode if logged in and Annotation belongs to user, otherwise highlight */
-        if (KeycloakService.IsLoggedIn() && (KeycloakService.GetSubject() === w3cAnnotation.bodies[0].creator.id)) {
+        if (KeycloakService.IsLoggedIn() && (user.orcid && user.orcid === w3cAnnotation.bodies[0].creator.id)) {
             selectAction = PointerSelectAction.EDIT;
         } else {
             selectAction = PointerSelectAction.HIGHLIGHT;
@@ -176,8 +178,8 @@ const ImageViewer = (props: Props) => {
             /* For each annotation, calculate the W3C pixels relative to the TDWG AC position */
             digitalMediaAnnotations.visual.forEach((imageAnnotation: Annotation) => {
                 /* Check if the annotation is a visual one */
-                if (imageAnnotation['oa:target']['oa:selector']?.['ac:hasROI']) {
-                    const ROI = imageAnnotation['oa:target']['oa:selector']['ac:hasROI'] as {
+                if (imageAnnotation['oa:target']['oa:selector']?.['ac:hasRoi']) {
+                    const ROI = imageAnnotation['oa:target']['oa:selector']['ac:hasRoi'] as {
                         "ac:xFrac": number,
                         "ac:yFrac": number,
                         "ac:widthFrac": number,
@@ -198,7 +200,7 @@ const ImageViewer = (props: Props) => {
                             value: imageAnnotation['oa:body']['oa:value'],
                             purpose: 'commenting',
                             creator: {
-                                id: imageAnnotation.creator
+                                id: imageAnnotation['oa:creator']['ods:id']
                             }
                         }],
                         target: {
@@ -237,7 +239,7 @@ const ImageViewer = (props: Props) => {
                     "oa:selector": {
                         "ods:type": 'FragmentSelector',
                         "dcterms:conformsTo": 'https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary',
-                        "ac:hasROI": {
+                        "ac:hasRoi": {
                             "ac:xFrac": xFrac,
                             "ac:yFrac": yFrac,
                             "ac:widthFrac": widthFrac,

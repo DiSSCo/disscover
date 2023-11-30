@@ -17,7 +17,15 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import GeologicalMap from 'components/general/geologicalMap/GeologicalMap';
 
 
-const GeoReference = () => {
+/* Props Typing */
+interface Props {
+    ToggleSidePanel: Function
+};
+
+
+const GeoReference = (props: Props) => {
+    const { ToggleSidePanel } = props;
+
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     let georeference: Dict = {};
@@ -34,7 +42,7 @@ const GeoReference = () => {
             <Card.Body className="h-100 d-flex flex-column">
                 {/* Block icon and title */}
                 <Card.Title className="c-accent">
-                    <Row>
+                    <Row onClick={() => ToggleSidePanel('occurrences.location.georeference', 'class')}>
                         <Col className="col-md-auto pe-0">
                             <FontAwesomeIcon icon={faGlobe} />
                         </Col>

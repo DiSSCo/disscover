@@ -96,24 +96,26 @@ const DigitalMediaListItem = (props: Props) => {
     });
 
     return (
-        <div className={`${classDigitalMediaListItem} position-relative px-1`}
-            onMouseEnter={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(true) } }}
-            onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(false) } }}
-            onClick={() => {
-                if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) {
-                    navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`)
-                }
-            }}
-        >
-            <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-                {digitalMediaContent}
+        <div className={`${classDigitalMediaListItem} button-no-style position-relative px-1`}>
+            <button type="button" className="button-no-style h-100 w-100"
+                onMouseEnter={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(true) } }}
+                onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(false) } }}
+                onClick={() => {
+                    if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) {
+                        navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`)
+                    }
+                }}
+            >
+                <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+                    {digitalMediaContent}
 
-                <div className={classImageTitle}>
-                    {specimenDigitalMedia.digitalEntity['dcterms:type'] && Capitalize(specimenDigitalMedia.digitalEntity['dcterms:type'])}
+                    <div className={classImageTitle}>
+                        {specimenDigitalMedia.digitalEntity['dcterms:type'] && Capitalize(specimenDigitalMedia.digitalEntity['dcterms:type'])}
+                    </div>
+
+                    <div className={classBackdrop} />
                 </div>
-
-                <div className={classBackdrop} />
-            </div>
+            </button>
         </div>
     );
 }

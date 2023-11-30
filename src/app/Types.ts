@@ -131,11 +131,17 @@ export interface AnnotationTemplate {
     }
 };
 
+export interface TargetProperty {
+    name: string,
+    type: string
+}
+
 export interface AnnotateTarget {
-    property: string,
-    motivation?: string,
     target: DigitalSpecimenType | DigitalEntity,
     targetType: string,
+    targetProperty: TargetProperty,
+    currentValue?: (string|number|boolean|Dict)[],
+    motivation?: string,
     annotations: Annotation[]
 };
 
@@ -145,6 +151,8 @@ export interface AnnotationMotivation {
     additionalFields: Dict,
     context: string
 };
+
+export type Property = string | number | boolean;
 
 
 /* Organisation Types */

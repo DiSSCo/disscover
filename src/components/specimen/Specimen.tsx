@@ -161,9 +161,12 @@ const Specimen = () => {
         });
 
         dispatch(setAnnotateTarget({
-            property: targetProperty ?? '',
+            targetProperty: {
+                name: targetProperty ?? '',
+                type: 'field'
+            },
             target: specimen.digitalSpecimen,
-            targetType: 'digital_specimen',
+            targetType: 'DigitalSpecimen',
             annotations: allAnnotations
         }));
 

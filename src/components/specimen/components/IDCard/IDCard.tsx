@@ -7,6 +7,7 @@ import { getSpecimen, getSpecimenAnnotations, getSpecimenDigitalMedia } from 're
 import { setAnnotateTarget, setEditAnnotation, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
+import { TargetProperty } from 'app/Types';
 import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
@@ -32,14 +33,29 @@ const IDCard = () => {
     let bannerImage: string = '';
 
     /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property: string) => {
-        if (property) {
+    const ToggleSidePanel = (property: string, type: string = 'field') => {
+        /* Preprare Target Property */
+        let targetProperty: TargetProperty;
+
+        if (type === 'class') {
+            targetProperty = {
+                name: property,
+                type: 'class'
+            }
+        } else {
+            targetProperty = {
+                name: property,
+                type: 'field'
+            };
+        }
+
+        if (targetProperty.name) {
             /* Set the Annotate target */
             dispatch(setAnnotateTarget({
-                property,
+                targetProperty,
                 motivation: '',
                 target: specimen.digitalSpecimen,
-                targetType: 'digital_specimen',
+                targetType: 'DigitalSpecimen',
                 annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
             }));
 

@@ -28,7 +28,7 @@ const AnnotationTools = (props: Props) => {
 
     /* Class Names */
     const classSidePanel = classNames({
-        'p-0': true,
+        'p-0 h-100': true,
         'w-0': !sidePanelToggle,
         'col-md-4': sidePanelToggle
     });

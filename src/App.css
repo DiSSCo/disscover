@@ -207,6 +207,10 @@ p {
   border: 1px solid var(--grey);
 }
 
+.b-top-grey {
+  border-top: 1px solid var(--grey);
+}
+
 /* Border radius */
 .br-tl {
   border-top-left-radius: 8px;
@@ -256,7 +260,7 @@ p {
 }
 
 /* Overflow */
-.overflow-y-sroll {
+.overflow-y-scroll {
   overflow-y: scroll !important;
 }
 
@@ -269,6 +273,11 @@ p {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+/* Text area resize none */
+.no-resize {
+  resize: none;
 }
 
 /* Hover underline */
@@ -307,7 +316,7 @@ p {
 }
 
 .primaryButton.disabled {
-  background-color: #A5ABD0;
+  background-color: #A5ABD0 !important;
 }
 
 .primaryButton.cancel {
@@ -351,6 +360,11 @@ p {
   border-radius: 4px;
   transition: 0.4s;
   font-weight: 500;
+}
+
+.button-no-style {
+  background-color: inherit; 
+  border: none;
 }
 
 .removeButton:hover {

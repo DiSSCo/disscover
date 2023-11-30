@@ -86,7 +86,7 @@
                     "oa:motivation": "oa:commenting",
                     "oa:target": {
                         "ods:id": "20.5000.1025/DW0-BNT-FM0",
-                        "ods:type": "digital_specimen",
+                        "ods:type": "DigitalSpecimen",
                         "oa:selector": {
                             "ods:type": "FieldSelector",
                             "ods:field": "ods:id"

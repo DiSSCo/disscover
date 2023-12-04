@@ -193,14 +193,6 @@ const SidePanel = (props: Props) => {
                                         </p>
                                     </Col>
                                 </Row>
-                                {/* {(annotateTarget.targetProperty.name || editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string) &&
-                                        <span className="fst-italic">
-                                            {`${annotateTarget.target[annotateTarget.targetProperty.name ?
-                                                annotateTarget.targetProperty.name
-                                                : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string]}`
-                                            }
-                                        </span>
-                                    } */}
                             </Col>
                         </Row>
                     }

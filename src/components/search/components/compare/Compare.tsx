@@ -87,10 +87,10 @@ const Compare = () => {
     }
 
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <div className="d-flex flex-column h-100">
             <Header />
 
-            <Container fluid className={`${styles.content} pt-5 pb-4`}>
+            <Container fluid className="flex-grow-1 overflow-hidden pt-5 pb-4">
                 <Row className="h-100">
                     <Col md={{ span: 10, offset: 1 }} className="h-100">
                         <div className="h-100 d-flex flex-column">
@@ -102,24 +102,28 @@ const Compare = () => {
 
                             {/* ID Cards for comparison */}
                             <Row className="flex-grow-1 overflow-scroll mt-4">
-                                {compareSpecimens.map((specimen) => {
-                                    /* Constructing ID Card Extensions */
-                                    const extensions: ReactElement[] = [
-                                        <LocationExt key='location' specimen={specimen.digitalSpecimen} />,
-                                        <TaxonomyExt key='taxonomy' specimen={specimen.digitalSpecimen} />,
-                                        <OrganisationExt key='organisation' specimen={specimen.digitalSpecimen} />,
-                                        <CollectionExt key='collection' specimen={specimen.digitalSpecimen} />
-                                    ];
+                                <Col className="h-100">
+                                    <Row className="h-100 overflow-scroll">
+                                        {compareSpecimens.map((specimen) => {
+                                            /* Constructing ID Card Extensions */
+                                            const extensions: ReactElement[] = [
+                                                <LocationExt key='location' specimen={specimen.digitalSpecimen} />,
+                                                <TaxonomyExt key='taxonomy' specimen={specimen.digitalSpecimen} />,
+                                                <OrganisationExt key='organisation' specimen={specimen.digitalSpecimen} />,
+                                                <CollectionExt key='collection' specimen={specimen.digitalSpecimen} />
+                                            ];
 
-                                    return (
-                                        <Col key={specimen.digitalSpecimen['ods:id']}>
-                                            <IDCard specimen={specimen}
-                                                extensions={extensions}
-                                                OnClose={(specimenId: string) => RemoveFromComparison(specimenId)}
-                                            />
-                                        </Col>
-                                    );
-                                })}
+                                            return (
+                                                <Col key={specimen.digitalSpecimen['ods:id']}>
+                                                    <IDCard specimen={specimen}
+                                                        extensions={extensions}
+                                                        OnClose={(specimenId: string) => RemoveFromComparison(specimenId)}
+                                                    />
+                                                </Col>
+                                            );
+                                        })}
+                                    </Row>
+                                </Col>
                             </Row>
                         </div>
                     </Col>

@@ -163,7 +163,7 @@ const ResultsTable = (props: Props) => {
     }, {
         name: 'Specimen type',
         selector: row => row.specimen_type,
-        id: 'search_type',
+        id: 'search_specimen_type',
         sortable: true
     }, {
         name: 'Organisation',
@@ -189,10 +189,26 @@ const ResultsTable = (props: Props) => {
 
     /* Custom styles for Data Table */
     const customStyles = {
+        table: {
+            style: {
+                height: '100%'
+            }
+        },
+        tableWrapper : {
+            style: {
+                height: '100%',
+                backgroundColor: 'white'
+            }
+        },
+        responsiveWrapper: {
+            style: {
+                height: '100%'
+            }
+        },
         head: {
             style: {
                 color: 'white',
-                fontSize: '14px'
+                fontSize: '0.875rem !important'
             }
         },
         headRow: {
@@ -202,7 +218,8 @@ const ResultsTable = (props: Props) => {
         },
         rows: {
             style: {
-                minHeight: '40px'
+                minHeight: '40px',
+                fontSize: '0.875rem !important'
             },
             highlightOnHoverStyle: {
                 backgroundColor: '#98cdbf',
@@ -230,8 +247,8 @@ const ResultsTable = (props: Props) => {
                 index: i,
                 id: specimen.digitalSpecimen['ods:id'],
                 specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
-                country: /*specimen.data['dwc:country'] ? specimen.data['dwc:country'] :*/ '-',
-                specimen_type: specimen.digitalSpecimen['ods:topicDiscpline'] as string,
+                country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
+                specimen_type: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
                 organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
                 organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
                 toggleSelected: false,
@@ -247,6 +264,7 @@ const ResultsTable = (props: Props) => {
             <DataTable
                 columns={tableColumns}
                 data={tableData}
+                className='h-100'
                 customStyles={customStyles}
                 onRowClicked={(row) => {
                     if (compareMode) {

@@ -62,7 +62,7 @@
 
 /* Active Filters */
 .activeFilters {
-    height: 34px;
+    height: 2.125rem;
     background-color: #F9FAFC;
 }
 
@@ -96,6 +96,14 @@
 
 .digitalMediaBlock {
     height: 40%;
+}
+
+.iconRepresentation {
+    // width: min-content;
+}
+
+.digitalMediaIcon {
+    font-size: 30px;
 }
 
 .digitalMediaSlider {

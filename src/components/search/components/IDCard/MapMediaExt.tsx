@@ -18,6 +18,9 @@ import styles from 'components/search/search.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
+/* Import Components */
+import MediaRepresentation from 'components/general/mediaTypes/MediaRepresentation';
+
 /* Import API */
 import GetSpecimenDigitalMedia from 'api/specimen/GetSpecimenDigitalMedia';
 
@@ -37,6 +40,8 @@ const MapMediaExt = (props: Props) => {
 
     /* Base variables */
     const [digitalMedia, setDigitalMedia] = useState<DigitalMedia[]>([]);
+    const latitude: number | undefined = specimen.digitalSpecimen?.occurrences?.[0]?.location?.georeference?.['dwc:decimalLatitude'] ?? undefined;
+    const longitude: number | undefined = specimen.digitalSpecimen?.occurrences?.[0]?.location?.georeference?.['dwc:decimalLongitude'] ?? undefined;
 
     /* OnLoad: Check if Specimen has Digital Media attached to it */
     useEffect(() => {
@@ -64,12 +69,11 @@ const MapMediaExt = (props: Props) => {
             <div className="h-100 d-flex flex-column" >
                 <Row className="flex-grow-1">
                     <Col>
-                        {/* Needs to be checked */}
-                        {/*(specimen.data['dwc:decimalLatitude'] && specimen.data['dwc:decimalLongitude']) &&
-                            <MapContainer center={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
+                        {(latitude && longitude) &&
+                            <MapContainer center={[latitude, longitude]}
                                 zoom={13} scrollWheelZoom={false} style={{ width: "100%", height: "100%" }}
                             >
-                                <ChangeView center={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
+                                <ChangeView center={[latitude, longitude]}
                                     zoom={13}
                                 />
                                 <TileLayer
@@ -77,34 +81,42 @@ const MapMediaExt = (props: Props) => {
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
 
-                                <Marker position={[specimen.data['dwc:decimalLatitude'], specimen.data['dwc:decimalLongitude']]}
+                                <Marker position={[latitude, longitude]}
                                     icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}
                                 >
                                     <Popup>
                                         <p className="fw-bold m-0"> Coordinates </p>
-                                        <p className="mt-1 mb-0"> Latitude: {specimen.data['dwc:decimalLatitude']} </p>
-                                        <p className="mt-1"> Longitude: {specimen.data['dwc:decimalLongitude']} </p>
+                                        <p className="mt-1 mb-0"> Latitude: {latitude} </p>
+                                        <p className="mt-1"> Longitude: {longitude} </p>
                                     </Popup>
                                 </Marker>
                             </MapContainer>
-    */}
+                        }
                     </Col>
                 </Row>
 
                 {/* If present, show Digital Media */}
                 <Row className={`${styles.digitalMediaBlock} pt-2`}>
-                    <Col className="h-100">
-                        <div className={`${styles.digitalMediaSlider} h-100 w-auto`}>
+                    {/* <Col className="h-100"> */}
+                        <Col className={`${styles.digitalMediaSlider} h-100 d-flex`}>
                             {digitalMedia.map((mediaItem) => {
                                 return (
-                                    <img key={mediaItem.digitalEntity['ods:id']} src={mediaItem.digitalEntity['ac:accessUri']}
-                                        className="h-100 me-3 rounded-c"
-                                        alt={mediaItem.digitalEntity['ac:accessUri']}
-                                    />
+                                    <div className={`${styles.iconRepresentation} h-100 w-25 me-2 text-center bgc-grey rounded-c d-inline-block`}>
+                                        <MediaRepresentation mediaType={mediaItem.digitalEntity['dcterms:type'] as string}
+                                            iconClassName={styles.digitalMediaIcon}
+                                            accessUri={mediaItem.digitalEntity['ac:accessUri']}
+                                            format={mediaItem.digitalEntity['dcterms:format']}
+                                        />
+                                    </div>
+
+                                    // <img key={mediaItem.digitalEntity['ods:id']} src={mediaItem.digitalEntity['ac:accessUri']}
+                                    //     className="h-100 me-3 rounded-c"
+                                    //     alt={mediaItem.digitalEntity['ac:accessUri']}
+                                    // />
                                 );
                             })}
-                        </div>
-                    </Col>
+                        </Col>
+                    {/* </Col> */}
                 </Row>
 
                 {/* Specimen Page Button */}

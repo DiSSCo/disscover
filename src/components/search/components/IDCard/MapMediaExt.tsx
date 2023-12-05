@@ -97,25 +97,23 @@ const MapMediaExt = (props: Props) => {
 
                 {/* If present, show Digital Media */}
                 <Row className={`${styles.digitalMediaBlock} pt-2`}>
-                    {/* <Col className="h-100"> */}
-                        <Col className={`${styles.digitalMediaSlider} h-100 d-flex`}>
-                            {digitalMedia.map((mediaItem, index) => {
-                                const key = `mediaItem_${index}`;
+                    <Col className={`${styles.digitalMediaSlider} h-100 d-flex`}>
+                        {digitalMedia.map((mediaItem, index) => {
+                            const key = `mediaItem_${index}`;
 
-                                return (
-                                    <div key={key}
-                                        className="h-100 w-25 me-2 text-center bgc-grey rounded-c d-inline-block"
-                                    >
-                                        <MediaRepresentation mediaType={mediaItem.digitalEntity['dcterms:type'] as string}
-                                            iconClassName={styles.digitalMediaIcon}
-                                            accessUri={mediaItem.digitalEntity['ac:accessUri']}
-                                            format={mediaItem.digitalEntity['dcterms:format']}
-                                        />
-                                    </div>
-                                );
-                            })}
-                        </Col>
-                    {/* </Col> */}
+                            return (
+                                <div key={key}
+                                    className="h-100 w-25 me-2 text-center bgc-grey rounded-c d-inline-block"
+                                >
+                                    <MediaRepresentation mediaType={mediaItem.digitalEntity['dcterms:type'] as string}
+                                        iconClassName={styles.digitalMediaIcon}
+                                        accessUri={mediaItem.digitalEntity['ac:accessUri']}
+                                        format={mediaItem.digitalEntity['dcterms:format']}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </Col>
                 </Row>
 
                 {/* Specimen Page Button */}

@@ -151,7 +151,7 @@ const Passport = () => {
             {!editMode &&
                 <Row>
                     <Col lg={{ span: 8, offset: 2 }}>
-                        <OrganisationLogoImage organisationId={userProfile.organisation?.replace('https://ror.org/', '')} />zz
+                        <OrganisationLogoImage organisationId={userProfile.organisation?.replace('https://ror.org/', '')} />
                     </Col>
                 </Row>
             }

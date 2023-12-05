@@ -38,7 +38,7 @@ const SpecimenTypeFilters = () => {
             Zoology: false,
             Palaeontology: false,
             Other: false,
-            Environment: false,
+            Ecology: false,
             Geology: false,
             EarthSystem: false,
             Astrogeology: false
@@ -181,10 +181,11 @@ const SpecimenTypeFilters = () => {
                                     {/* Environment, Earth System and Astrogeology */}
                                     <Row>
                                         <Col md={{ span: 4 }} className="pe-2">
-                                            <FilterBlock type="Environment"
-                                                title="Environment"
-                                                discipline={disciplines['Environment']}
-                                                ToggleFilterType={() => setFieldValue('disciplines.Environment', !values.disciplines.Environment)}
+                                            <FilterBlock type="Ecology"
+                                                title="Ecology"
+                                                subTitle="Biology"
+                                                discipline={disciplines['Ecology']}
+                                                ToggleFilterType={() => setFieldValue('disciplines.Ecology', !values.disciplines.Ecology)}
                                             />
                                         </Col>
                                         <Col md={{ span: 4 }} className="px-2">

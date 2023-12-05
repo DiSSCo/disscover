@@ -14,12 +14,8 @@ import { DigitalMedia } from 'app/Types';
 /* Import Styles */
 import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo, faMusic, faFile } from '@fortawesome/free-solid-svg-icons';
-
-/* Import Webroot */
-import IIIFLogo from 'webroot/img/IIIFLogo.png';
+/* Import Components */
+import MediaIcon from 'components/general/mediaTypes/MediaRepresentation';
 
 
 /* Props Typing */
@@ -38,42 +34,13 @@ const DigitalMediaListItem = (props: Props) => {
     const digitalMedia = useAppSelector(getDigitalMedia);
 
     /* Check for the type of Digital Media and set content appropiate to it */
-    let digitalMediaContent: React.ReactElement;
-
-    switch (specimenDigitalMedia.digitalEntity['dcterms:type']) {
-        case 'StillImage':
-            digitalMediaContent = <img src={specimenDigitalMedia.digitalEntity['ac:accessUri']}
-                alt={`Broken ${specimenDigitalMedia.digitalEntity.format} link`}
-                className="h-100 mx-auto d-flex justify-content-around align-items-center"
-            />
-
-            break;
-        case 'MovingImage':
-            digitalMediaContent = <div className="text-center">
-                <FontAwesomeIcon icon={faVideo} className={`${styles.digitalMediaListItemIcon} c-secondary`} />
-                <p className="fw-lightBold">Video</p>
-            </div>
-
-            break;
-        case 'Sound':
-            digitalMediaContent = <div className="text-center">
-                <FontAwesomeIcon icon={faMusic} className={`${styles.digitalMediaListItemIcon} c-secondary`} />
-                <p className="fw-lightBold">Audio</p>
-            </div>
-
-            break;
-        default:
-            if (specimenDigitalMedia.digitalEntity.format === 'application/json' || specimenDigitalMedia.digitalEntity.format === 'application/ld+json') {
-                digitalMediaContent = <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-                    <img src={IIIFLogo} alt="IIIF Logo" />
-                </div>;
-            } else {
-                digitalMediaContent = <div className="text-center">
-                    <FontAwesomeIcon icon={faFile} className={`${styles.digitalMediaListItemIcon} c-secondary`} />
-                    <p className="fw-lightBold">File</p>
-                </div>
-            }
-    }
+    let digitalMediaContent: React.ReactElement = <div className="text-center h-100">
+        <MediaIcon mediaType={specimenDigitalMedia.digitalEntity['dcterms:type'] as string}
+            iconClassName={`${styles.digitalMediaListItemIcon} c-secondary`}
+            accessUri={specimenDigitalMedia.digitalEntity['ac:accessUri']}
+            format={specimenDigitalMedia.digitalEntity['dcterms:format']}
+        />
+    </div>
 
     /* Function for hovering over Digital Media List Items */
     const [hover, setHover] = useState(false);

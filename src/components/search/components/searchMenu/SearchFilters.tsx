@@ -107,7 +107,7 @@ const SearchFilters = (props: Props) => {
     return (
         <Row className="h-100 pb-2">
             <Col className="h-100">
-                <div className={`${styles.searchMenu} h-100 rounded-c d-flex flex-column px-2`}>
+                <div className={`${styles.searchMenu} h-100 rounded-c overflow-x-hidden d-flex flex-column px-2`}>
                     {(!isEmpty(aggregations)) &&
                         <Formik
                             initialValues={{

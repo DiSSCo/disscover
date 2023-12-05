@@ -41,7 +41,7 @@ const IDCard = (props: Props) => {
                                     className="c-primary fs-2"
                                 />
                             </Col>
-                            <Col>
+                            <Col className="textOverflow">
                                 <h2 className="fs-2"> {specimen.digitalSpecimen['ods:specimenName']} </h2>
                             </Col>
                             <Col className="col-md-auto">

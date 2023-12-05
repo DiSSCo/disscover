@@ -45,7 +45,8 @@ const Header = (props: Props) => {
     /* ClassNames */
     const classHeader = classNames({
         [`${styles.header} d-flex flex-column-reverse`]: true,
-        [`${styles.home}`]: location.pathname === '/'
+        [`${styles.home}`]: location.pathname === '/',
+        'pt-3': location.pathname !== '/'
     });
 
     const classHeaderContent = classNames({
@@ -57,7 +58,7 @@ const Header = (props: Props) => {
         <Container fluid className={`${classHeader} z-1`}>
             <Row className="h-100">
                 <Col className={`${classHeaderContent} pe-0 h-100 transition`}>
-                    <Row className="h-100 w-100 align-items-end">
+                    <Row className="h-100 w-100 align-items-center">
                         {/* Title */}
                         <Col className="col-md-auto p-0 d-flex align-items-center">
                             <Link to="/">
@@ -65,28 +66,28 @@ const Header = (props: Props) => {
                             </Link>
                         </Col>
                         {/* Desktop version or Tablet/Mobile version */}
-                        <Col className="d-md-none d-lg-block">
-                            <Row>
+                        <Col className="d-md-none d-lg-block h-100 ">
+                            <Row className="h-100 align-items-center">
                                 {/* Navigation */}
-                                <Col className="pb-3 d-flex justify-content-center">
+                                <Col className="d-flex justify-content-center">
                                     <Navigation />
                                 </Col>
                                 {/* Intro js if intro topics are present */}
                                 {introTopics &&
-                                    <Col className="col-md-auto pb-3 pe-2">
+                                    <Col className="col-md-auto pe-2">
                                         <IntroTopics introTopics={introTopics} />
                                     </Col>
                                 }
                                 {/* Language Support */}
-                                <Col className="col-md-auto pb-3">
+                                <Col className="col-md-auto">
                                     <Languages />
                                 </Col>
                                 {/* Login */}
                                 {loggedIn ?
-                                    <Col className="col-md-auto pb-2">
+                                    <Col className="col-md-auto">
                                         <Profile />
                                     </Col> :
-                                    <Col className="col-md-auto pb-3">
+                                    <Col className="col-md-auto">
                                         <Login />
                                     </Col>
                                 }

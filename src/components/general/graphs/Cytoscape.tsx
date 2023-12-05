@@ -2,7 +2,7 @@
 
 /* Impot Dependencies */
 import { useEffect } from 'react';
-import CytoscapeComponent from 'react-cytoscapejs';
+import CytoscapeComponent from '../../../../node_modules/react-cytoscapejs/src/index';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';

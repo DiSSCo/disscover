@@ -108,11 +108,6 @@ const MapMediaExt = (props: Props) => {
                                             format={mediaItem.digitalEntity['dcterms:format']}
                                         />
                                     </div>
-
-                                    // <img key={mediaItem.digitalEntity['ods:id']} src={mediaItem.digitalEntity['ac:accessUri']}
-                                    //     className="h-100 me-3 rounded-c"
-                                    //     alt={mediaItem.digitalEntity['ac:accessUri']}
-                                    // />
                                 );
                             })}
                         </Col>

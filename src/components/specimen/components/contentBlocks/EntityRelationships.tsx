@@ -5,12 +5,15 @@ import { Card, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getSpecimen } from 'redux/specimen/SpecimenSlice';
+import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
+
+/* Import Types */
+import { Dict } from 'app/Types';
 
 /* Import Components */
 import PropertiesTable from './PropertiesTable';
 import ToggleButton from './entityRelationsBlock/ToggleButton';
-import RelationalGraph from 'components/general/graphs/RelationalGraph';
+import Cytoscape from 'components/general/graphs/Cytoscape';
 
 
 /* Props Typing */
@@ -24,10 +27,12 @@ const EntityRelationships = (props: Props) => {
 
     /* Base variables */
     const [viewToggle, setViewToggle] = useState<string>('graph');
+    const [annotationsToggle, setAnnotationsToggle] = useState<boolean>(false);
     const specimen = useAppSelector(getSpecimen);
-    const relations: { id: string, name: string }[] = [];
+    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
+    const relations: { id: string, name: string, annotation?: boolean }[] = [];
 
-    /* OnLoad: Prepare relational graph data */
+    /* Prepare relational graph data */
     specimen.digitalSpecimen.entityRelationships?.forEach((entityRelationship) => {
         relations.push({
             id: entityRelationship.objectEntityIri,
@@ -35,12 +40,28 @@ const EntityRelationships = (props: Props) => {
         })
     });
 
+    /* Check for annotations with entity relationship as target property and show annotations toggle is active */
+    if ('entityRelationships' in specimenAnnotations && annotationsToggle) {
+        /* Include entity relationship annotations as potential linkages */
+        specimenAnnotations['entityRelationships'].forEach((annotation) => {
+            const entityRelationshipObject: Dict = JSON.parse(annotation['oa:body']['oa:value'] as unknown as string);
+
+            relations.push({
+                id: entityRelationshipObject.entityRelationships.objectEntityIri,
+                name: entityRelationshipObject.entityRelationships.entityRelationshipType,
+                annotation: true
+            })
+        });
+    }
+
     if (viewToggle === 'table' && specimen.digitalSpecimen.entityRelationships?.length) {
         return (
             <div className="position-relative">
-                <ToggleButton viewToggle={viewToggle}
-                    SetViewToggle={(viewToggle: string) => setViewToggle(viewToggle)}
-                />
+                <div className="position-absolute end-0 z-1">
+                    <ToggleButton viewToggle={viewToggle}
+                        SetViewToggle={(viewToggle: string) => setViewToggle(viewToggle)}
+                    />
+                </div>
 
                 {specimen.digitalSpecimen.entityRelationships?.map((entityRelationship, index) => {
                     const key = `entityRelationship${index}`;
@@ -80,12 +101,23 @@ const EntityRelationships = (props: Props) => {
     } else if (viewToggle === 'graph' && specimen.digitalSpecimen.entityRelationships?.length) {
         return (
             <div className="h-100 position-relative">
-                <ToggleButton viewToggle={viewToggle}
-                    SetViewToggle={(viewToggle: string) => setViewToggle(viewToggle)}
-                />
+                <div className="position-absolute end-0 z-1">
+                    {('entityRelationships' in specimenAnnotations) &&
+                        <button type="button"
+                            className="accentButton px-3 py-1"
+                            onClick={() => setAnnotationsToggle(!annotationsToggle)}
+                        >
+                            {!annotationsToggle ? 'Toggle' : 'Hide'} Annotations
+                        </button>
+                    }
+
+                    <ToggleButton viewToggle={viewToggle}
+                        SetViewToggle={(viewToggle: string) => setViewToggle(viewToggle)}
+                    />
+                </div>
 
                 <Card className="h-100">
-                    <RelationalGraph target={specimen.digitalSpecimen}
+                    <Cytoscape target={specimen.digitalSpecimen}
                         relations={relations}
                     />
                 </Card>

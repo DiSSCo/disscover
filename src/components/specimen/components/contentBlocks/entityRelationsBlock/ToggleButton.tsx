@@ -9,7 +9,7 @@ const ToggleButton = (props: Props) => {
     const { viewToggle, SetViewToggle } = props;
 
     return (
-        <button className="position-absolute end-0 accentButton px-3 py-1 z-1 m-3"
+        <button className="accentButton px-3 py-1 m-3"
             onClick={() => {
                 if (viewToggle === 'graph') {
                     SetViewToggle('table');

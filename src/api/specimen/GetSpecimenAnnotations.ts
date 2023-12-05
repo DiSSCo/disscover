@@ -29,10 +29,13 @@ const GetSpecimenAnnotations = async (handle: string) => {
 
             /* Refactor Annotations object */
             annotations.forEach((annotation) => {
-                if (specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]) {
-                    specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string].push(annotation);
+                const annotationIndicator: string = annotation['oa:target']['oa:selector']?.['ods:field'] as string
+                    ?? annotation['oa:target']['oa:selector']?.['oa:class'] as string;
+
+                if (annotation['oa:target']['oa:selector']?.['ods:field'] && specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]) {
+                    specimenAnnotations[annotationIndicator.replace('$./', '')].push(annotation);
                 } else {
-                    specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = [annotation];
+                    specimenAnnotations[annotationIndicator.replace('$./', '')] = [annotation];
                 }
             });
         } catch (error) {

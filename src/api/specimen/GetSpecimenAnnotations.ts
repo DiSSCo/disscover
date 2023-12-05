@@ -32,7 +32,7 @@ const GetSpecimenAnnotations = async (handle: string) => {
                 const annotationIndicator: string = annotation['oa:target']['oa:selector']?.['ods:field'] as string
                     ?? annotation['oa:target']['oa:selector']?.['oa:class'] as string;
 
-                if (annotation['oa:target']['oa:selector']?.['ods:field'] && specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]) {
+                if (specimenAnnotations[annotation['oa:target']['oa:selector']?.[annotationIndicator] as string]) {
                     specimenAnnotations[annotationIndicator.replace('$./', '')].push(annotation);
                 } else {
                     specimenAnnotations[annotationIndicator.replace('$./', '')] = [annotation];

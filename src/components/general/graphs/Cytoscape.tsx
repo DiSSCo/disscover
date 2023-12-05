@@ -43,9 +43,7 @@ const Cytoscape = (props: Props) => {
         /* Grab organisation id if is organisation link */
         switch (name) {
             case 'hasOrganisationId':
-                const organisationId = id.replace('https://ror.org/', '');
-
-                if (organisationId in organisationLogos) {
+                if (id.replace('https://ror.org/', '') in organisationLogos) {
                     const organisationLogo = organisationLogos[organisationId].logo;
 
                     if (Array.isArray(organisationLogo)) {
@@ -152,21 +150,19 @@ const Cytoscape = (props: Props) => {
     }, [cy]);
 
     return (
-        <>
-            <CytoscapeComponent cy={(cyRef) => { cy = cyRef }}
-                elements={elements}
-                style={{
-                    width: '100%',
-                    height: '100%'
-                }}
-                stylesheet={stylesheet}
-                pan={{ x: 150, y: 150 }}
-                layout={{
-                    name: 'concentric',
-                    minNodeSpacing: 100
-                }}
-            />
-        </>
+        <CytoscapeComponent cy={(cyRef) => { cy = cyRef }}
+            elements={elements}
+            style={{
+                width: '100%',
+                height: '100%'
+            }}
+            stylesheet={stylesheet}
+            pan={{ x: 150, y: 150 }}
+            layout={{
+                name: 'concentric',
+                minNodeSpacing: 100
+            }}
+        />
     );
 }
 

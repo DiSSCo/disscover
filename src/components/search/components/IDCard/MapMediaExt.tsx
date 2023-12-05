@@ -99,9 +99,13 @@ const MapMediaExt = (props: Props) => {
                 <Row className={`${styles.digitalMediaBlock} pt-2`}>
                     {/* <Col className="h-100"> */}
                         <Col className={`${styles.digitalMediaSlider} h-100 d-flex`}>
-                            {digitalMedia.map((mediaItem) => {
+                            {digitalMedia.map((mediaItem, index) => {
+                                const key = `mediaItem_${index}`;
+
                                 return (
-                                    <div className={`${styles.iconRepresentation} h-100 w-25 me-2 text-center bgc-grey rounded-c d-inline-block`}>
+                                    <div key={key}
+                                        className="h-100 w-25 me-2 text-center bgc-grey rounded-c d-inline-block"
+                                    >
                                         <MediaRepresentation mediaType={mediaItem.digitalEntity['dcterms:type'] as string}
                                             iconClassName={styles.digitalMediaIcon}
                                             accessUri={mediaItem.digitalEntity['ac:accessUri']}

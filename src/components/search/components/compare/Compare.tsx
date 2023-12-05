@@ -10,9 +10,6 @@ import { setSearchSpecimen, setCompareMode, getCompareSpecimens, setCompareSpeci
 /* Import Types */
 import { DigitalSpecimen } from 'app/Types';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Components */
 import Header from 'components/general/header/Header';
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';

@@ -260,7 +260,7 @@ const ResultsTable = (props: Props) => {
     }, [searchResults, compareSpecimens]);
 
     return (
-        <div className="h-100 overflow-auto position-relative b-secondary rounded-c">
+        <div className="h-100 position-relative b-secondary rounded-c">
             <DataTable
                 columns={tableColumns}
                 data={tableData}

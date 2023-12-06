@@ -28,8 +28,6 @@ import Annotation from './Annotation';
 import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
 import Tooltip from 'components/general/tooltip/Tooltip';
 
-import { getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
-
 
 /* Props Typing */
 interface Props {

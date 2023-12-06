@@ -88,6 +88,7 @@ const Origin = (props: Props) => {
                                             {location['dwc:countryCode'] &&
                                                 <Col className="col-md-auto">
                                                     <img src={`https://flagsapi.com/${location['dwc:countryCode']}/shiny/64.png`}
+                                                        alt="Flag icon of country"
                                                         className={styles.countryFlag}
                                                     />
                                                 </Col>

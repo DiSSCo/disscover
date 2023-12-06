@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { isEmpty } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import Select, { OptionsOrGroups, SelectInstance } from 'react-select';
-import { ConstructTargetPropertiesLists, ExtractFromSchema, SearchNestedLevels } from 'app/utilities/AnnotationUtilities';
+import { ConstructTargetPropertiesLists, ExtractFromSchema, SearchNestedLevels, CheckPathForRoot } from 'app/utilities/AnnotationUtilities';
 import AnnotationFormBuilder from 'components/general/annotationFormBuilder/AnnotationFormBuilder';
 import { Row, Col } from 'react-bootstrap';
 
@@ -179,43 +179,7 @@ const AnnotationForm = (props: Props) => {
         dispatch(setAnnotateTarget(copyAnnotateTarget));
     }
 
-    /* Function for submitting a new Annotation */
-    const SubmitAnnotation = (form: Dict) => {
-        /* Define type of target property: field or class */
-        const targetType = form.targetField ? 'FieldSelector' : 'ClassSelector';
-
-        /* Define value of body */
-        const bodyValue: (string | Dict)[] = [];
-        let targetPath: string;
-
-        /* If annotationValue is present, use that as the field, otherwise expect a class to be annotated */
-        if (form.annotationValue) {
-            bodyValue.push(form.annotationValue);
-
-            targetPath = form.targetField.replace('DigitalSpecimen.', '').replace('DigitalMedia.', '');
-
-            if (targetPath.indexOf('$.') < 0) {
-                targetPath = `$.${targetPath}`;
-            }
-        } else {
-            /* If index is present, replace first dot notation with index */
-            if (annotateTarget.targetProperty.index as number >= 0) {
-                if (form.targetClass.indexOf('.') >= 0) {
-                    targetPath = form.targetClass.replace('.', `[${annotateTarget.targetProperty.index}]`);
-                } else {
-                    targetPath = form.targetClass + `.[${annotateTarget.targetProperty.index}]`;
-                }
-            } else {
-                targetPath = form.targetClass;
-            }
-
-            bodyValue.push(JSON.stringify({[targetPath.replace('$.', '')]: form.classProperties}));
-
-            if (targetPath.indexOf('$.') < 0) {
-                targetPath = `$.${targetPath}`;
-            }
-        }
-
+    const CraftAnnotation = (form: Dict, targetPath: string, bodyValue: (string | Dict)[], targetType: string) => {
         /* Prepare new Annotation object */
         const annotation: AnnotationTemplate = {
             ...(!isEmpty(editAnnotation) && { "ods:id": editAnnotation['ods:id'] }),
@@ -235,6 +199,45 @@ const AnnotationForm = (props: Props) => {
                 ...(!isEmpty(form.additionalFields) && { ...form.additionalFields }),
             }
         };
+
+        return annotation;
+    }
+
+    /* Function for submitting a new Annotation */
+    const SubmitAnnotation = (form: Dict) => {
+        /* Define type of target property: field or class */
+        const targetType = form.targetField ? 'FieldSelector' : 'ClassSelector';
+
+        /* Define value of body */
+        const bodyValue: (string | Dict)[] = [];
+        let targetPath: string;
+
+        /* If annotationValue is present, use that as the field, otherwise expect a class to be annotated */
+        if (form.annotationValue) {
+            bodyValue.push(form.annotationValue);
+
+            targetPath = form.targetField.replace('DigitalSpecimen.', '').replace('DigitalMedia.', '');
+
+            targetPath = CheckPathForRoot(targetPath);
+        } else {
+            /* If index is present, replace first dot notation with index */
+            if (annotateTarget.targetProperty.index as number >= 0) {
+                if (form.targetClass.indexOf('.') >= 0) {
+                    targetPath = form.targetClass.replace('.', `[${annotateTarget.targetProperty.index}]`);
+                } else {
+                    targetPath = form.targetClass + `.[${annotateTarget.targetProperty.index}]`;
+                }
+            } else {
+                targetPath = form.targetClass;
+            }
+
+            bodyValue.push(JSON.stringify({[targetPath.replace('$.', '')]: form.classProperties}));
+
+            targetPath = CheckPathForRoot(targetPath);
+        }
+
+        /* Craft Annotation */
+        const annotation = CraftAnnotation(form, targetPath, bodyValue, targetType);
 
         /* Check if to post or patch */
         if (!isEmpty(editAnnotation)) {

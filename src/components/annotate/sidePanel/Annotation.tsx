@@ -159,12 +159,12 @@ const Annotation = (props: Props) => {
                                     {Object.entries(annotationValue).map((keyValuePair) => {
                                         if (typeof (keyValuePair[1]) !== 'object') {
                                             return (
-                                                <p> <span className="fw-lightBold"> {keyValuePair[0]}: </span> {keyValuePair[1]} </p>
+                                                <p key={keyValuePair[0]}> <span className="fw-lightBold"> {keyValuePair[0]}: </span> {keyValuePair[1]} </p>
                                             );
                                         }
                                     })}
                                 </div> : <div>
-                                    <p> {annotationValue as string} </p>
+                                    <p> {annotationValue} </p>
                                 </div>
                             }
                         </Col>

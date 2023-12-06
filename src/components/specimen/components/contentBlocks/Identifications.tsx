@@ -79,14 +79,14 @@ const Identifications = (props: Props) => {
                             </Row>
                             <Row>
                                 <Col>
-                                    {Object.keys(identification).map((identificationKey, taxonIdentificationIndex) => {
+                                    {Object.keys(identification).map((identificationKey) => {
                                         return (
                                             <div key={identificationKey} className="mt-3">
                                                 <PropertiesTable
                                                     title={identificationKey}
                                                     properties={identification[identificationKey]}
                                                     ShowWithAnnotations={(property: string) =>
-                                                        ShowWithAnnotations(`identifications[${index - 1}]${identificationLevels[identificationKey.slice(0, identificationKey.indexOf('#')).replaceAll(' ', '') as keyof typeof identificationLevels] + '[' + (taxonIdentificationIndex - 1) + ']' ?? ''}${property}`, index)
+                                                        ShowWithAnnotations(`identifications[${index - 1}]${(identificationLevels[identificationKey.slice(0, identificationKey.indexOf('#')).replaceAll(' ', '') as keyof typeof identificationLevels] ?? '')}${property}`, index)
                                                     }
                                                 />
                                             </div>

@@ -150,18 +150,20 @@ const DigitalMedia = () => {
     /* Function for updating the Digital Media Annotations source */
     const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
         const copyDigitalMediaAnnotations = { ...digitalMediaAnnotations };
-        let indicator: string = '';
+        let propertyPath: string;
 
-        /* Check if array for target property exists */
-        if (annotation["oa:target"]['oa:selector']?.['ods:field']) {
-            indicator = annotation["oa:target"]['oa:selector']['ods:field'] as string;
+        /* Define property path from field or class */
+        if (annotation['oa:target']['oa:selector']?.['ods:field']) {
+            propertyPath = (annotation['oa:target']['oa:selector']?.['ods:field'] as string).replace('$.', '');
         } else if (annotation['oa:target']['oa:selector']?.['ac:hasRoi']) {
-            indicator = 'visual';
+            propertyPath = 'visual';
+        } else {
+            propertyPath = (annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '');
         }
 
-        if (indicator in copyDigitalMediaAnnotations) {
+        if (propertyPath in copyDigitalMediaAnnotations) {
             /* Push or patch to existing array */
-            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[indicator]];
+            const copyDigitalMediaTargetAnnotations = [...digitalMediaAnnotations[propertyPath]];
 
             const index = copyDigitalMediaTargetAnnotations.findIndex(
                 (annotationRecord) => annotationRecord['ods:id'] === annotation['ods:id']
@@ -177,10 +179,10 @@ const DigitalMedia = () => {
                 copyDigitalMediaTargetAnnotations.push(annotation);
             }
 
-            copyDigitalMediaAnnotations[indicator] = copyDigitalMediaTargetAnnotations;
+            copyDigitalMediaAnnotations[propertyPath] = copyDigitalMediaTargetAnnotations;
         } else {
             /* Create into new array */
-            copyDigitalMediaAnnotations[indicator] = [annotation];
+            copyDigitalMediaAnnotations[propertyPath] = [annotation];
         }
 
         dispatch(setDigitalMediaAnnotations(copyDigitalMediaAnnotations));

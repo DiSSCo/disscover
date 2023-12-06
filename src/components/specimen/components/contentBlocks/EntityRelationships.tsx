@@ -87,7 +87,9 @@ const EntityRelationships = (props: Props) => {
                                             <PropertiesTable
                                                 title="Properties"
                                                 properties={entityRelationship}
-                                                ShowWithAnnotations={(property: string) => ShowWithAnnotations(property)}
+                                                ShowWithAnnotations={(property: string) =>
+                                                    ShowWithAnnotations(`entityRelationships[${index - 1}]${property}`, index)
+                                                }
                                             />
                                         </div>
                                     </Col>

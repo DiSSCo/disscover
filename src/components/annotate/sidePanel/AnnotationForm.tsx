@@ -186,11 +186,34 @@ const AnnotationForm = (props: Props) => {
 
         /* Define value of body */
         const bodyValue: (string | Dict)[] = [];
+        let targetPath: string;
 
+        /* If annotationValue is present, use that as the field, otherwise expect a class to be annotated */
         if (form.annotationValue) {
             bodyValue.push(form.annotationValue);
+
+            targetPath = form.targetField.replace('DigitalSpecimen.', '').replace('DigitalMedia.', '');
+
+            if (targetPath.indexOf('$.') < 0) {
+                targetPath = `$.${targetPath}`;
+            }
         } else {
-            bodyValue.push(form.classProperties);
+            /* If index is present, replace first dot notation with index */
+            if (annotateTarget.targetProperty.index as number >= 0) {
+                if (form.targetClass.indexOf('.') >= 0) {
+                    targetPath = form.targetClass.replace('.', `[${annotateTarget.targetProperty.index}]`);
+                } else {
+                    targetPath = form.targetClass + `.[${annotateTarget.targetProperty.index}]`;
+                }
+            } else {
+                targetPath = form.targetClass;
+            }
+
+            bodyValue.push(JSON.stringify({[targetPath.replace('$.', '')]: form.classProperties}));
+
+            if (targetPath.indexOf('$.') < 0) {
+                targetPath = `$.${targetPath}`;
+            }
         }
 
         /* Prepare new Annotation object */
@@ -199,10 +222,11 @@ const AnnotationForm = (props: Props) => {
             "oa:motivation": form.motivation,
             "oa:target": {
                 "ods:id": annotateTarget.target['ods:id'],
-                "ods:type": annotateTarget.targetType,
+                "ods:type": annotateTarget.target['ods:type'] as string ?? annotateTarget.targetType,
                 "oa:selector": {
-                    "ods:type": "FieldSelector",
-                    "ods:field": form.targetProperty
+                    "ods:type": form.targetField ? "FieldSelector" : "ClassSelector",
+                    ...(form.targetField && {"ods:field": targetPath}),
+                    ...(form.targetClass && {"oa:class": targetPath})
                 }
             },
             "oa:body": {

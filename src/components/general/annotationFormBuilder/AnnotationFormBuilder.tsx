@@ -33,11 +33,11 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
         /* Check if this is an Annotation on an existing instance, otherwise there is no current value */
         if (propertyData) {
             if (level && subLevel) {
-                currentValue = propertyData[0][subLevel][level][propertyName] ?? '';
+                currentValue = propertyData[0][subLevel][level][propertyName] ?? null;
             } else if (level) {
-                currentValue = propertyData[0][level][propertyName] ?? '';
+                currentValue = propertyData[0][level][propertyName] ?? null;
             } else {
-                currentValue = propertyData[0][propertyName] ?? '';
+                currentValue = propertyData[0][propertyName] ?? null;
             }
         }
 

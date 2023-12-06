@@ -79,22 +79,22 @@ const ContentBlock = (props: Props) => {
 
                             {/* Occurrences View */}
                             <TabPanel className={classTabPanel}>
-                                <Occurrences ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
+                                <Occurrences ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
                             </TabPanel>
 
                             {/* Identifications View */}
                             <TabPanel className={classTabPanel}>
-                                <Identifications ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
+                                <Identifications ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
                             </TabPanel>
 
                             {/* Entity Relationships View */}
                             <TabPanel className={classTabPanel}>
-                                <EntityRelationships ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
+                                <EntityRelationships ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
                             </TabPanel>
 
                             {/* Assertions View */}
                             <TabPanel className={classTabPanel}>
-                                <Assertions ShowWithAnnotations={(property: string) => ShowWithAnnotations(undefined, property)} />
+                                <Assertions ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
                             </TabPanel>
 
                             {/* Original Data View */}

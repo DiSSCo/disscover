@@ -120,13 +120,21 @@ const Specimen = () => {
     /* Function for updating the Specimen Annotations source */
     const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
         const copySpecimenAnnotations = { ...specimenAnnotations };
+        let propertyPath: string;
+
+        /* Define property path from field or class */
+        if (annotation['oa:target']['oa:selector']?.['ods:field']) {
+            propertyPath = (annotation['oa:target']['oa:selector']?.['ods:field'] as string).replace('$.', '');
+        } else {
+            propertyPath = (annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '');
+        }
 
         /* Check if array for target property exists */
-        if (annotation['oa:target']['oa:selector']?.['ods:field'] as string in specimenAnnotations) {
+        if (propertyPath in specimenAnnotations) {
             /* Push or patch to existing array */
-            const copySpecimenTargetAnnotations = [...specimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string]];
+            const copySpecimenTargetAnnotations = [...specimenAnnotations[propertyPath]];
             const index = copySpecimenTargetAnnotations.findIndex(
-                (annotationRecord) => annotationRecord.id === annotation['ods:id']
+                (annotationRecord) => annotationRecord['ods:id'] === annotation['ods:id']
             );
 
             if (index >= 0) {
@@ -139,17 +147,17 @@ const Specimen = () => {
                 copySpecimenTargetAnnotations.push(annotation);
             }
 
-            copySpecimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = copySpecimenTargetAnnotations;
+            copySpecimenAnnotations[propertyPath] = copySpecimenTargetAnnotations;
         } else {
             /* Create into new array */
-            copySpecimenAnnotations[annotation['oa:target']['oa:selector']?.['ods:field'] as string] = [annotation];
+            copySpecimenAnnotations[propertyPath] = [annotation];
         }
 
         dispatch(setSpecimenAnnotations(copySpecimenAnnotations));
     }
 
     /* Function to open Side Panel with Annotations of Specimen, default is all Annotations */
-    const ShowWithAnnotations = (annotations?: SpecimenAnnotations, targetProperty?: string) => {
+    const ShowWithAnnotations = (annotations?: SpecimenAnnotations, targetProperty?: string, index?: number) => {
         /* Add up all property annotations into one annotations array */
         let allAnnotations: Annotation[] = [];
 
@@ -163,7 +171,8 @@ const Specimen = () => {
         dispatch(setAnnotateTarget({
             targetProperty: {
                 name: targetProperty ?? '',
-                type: 'field'
+                type: 'field',
+                ...(index && { index: index })
             },
             target: specimen.digitalSpecimen,
             targetType: 'DigitalSpecimen',
@@ -242,7 +251,8 @@ const Specimen = () => {
                                                         <ContentBlock selectedTab={selectedTab}
                                                             SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
                                                             ShowWithAnnotations={
-                                                                (annotations?: SpecimenAnnotations, property?: string) => ShowWithAnnotations(annotations, property)
+                                                                (annotations?: SpecimenAnnotations, property?: string, index?: number) =>
+                                                                    ShowWithAnnotations(annotations, property, index)
                                                             }
                                                         />
                                                     </Col>

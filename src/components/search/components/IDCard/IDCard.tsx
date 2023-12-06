@@ -47,7 +47,7 @@ const IDCard = (props: Props) => {
                             <Col className="col-md-auto">
                                 <FontAwesomeIcon icon={faX}
                                     className="c-primary c-pointer"
-                                    onClick={() => OnClose(specimen.digitalSpecimen.id)}
+                                    onClick={() => OnClose(specimen.digitalSpecimen['ods:id'])}
                                 />
                             </Col>
                         </Row>

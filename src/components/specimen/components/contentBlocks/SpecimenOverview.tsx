@@ -7,7 +7,7 @@ import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlic
 import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Components */
-import Discovery from './specimenBlock/Discovery';
+import Origin from './specimenBlock/Origin';
 import GeoReference from './specimenBlock/GeoReference';
 import Identification from './specimenBlock/Identification';
 import Publisher from './specimenBlock/Publisher';
@@ -44,9 +44,9 @@ const SpecimenOverview = () => {
         <Row className="h-100">
             <Col className="h-100">
                 <Row className="h-100">
-                    {/* Discovery */}
+                    {/* Origin */}
                     <Col lg={{ span: 4 }} className="h-50 pb-2">
-                        <Discovery ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                        <Origin ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
                     </Col>
 
                     {/* Geo Reference */}

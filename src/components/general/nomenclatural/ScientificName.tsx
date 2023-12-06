@@ -15,7 +15,7 @@ const ScientificName = (props: Props) => {
     let scientificNameElement: ReactElement;
 
     /* Format Scientific Name according to Nomenclatural Rules */
-    scientificNameElement = <span className="fst-italic"> {specimenName} </span>
+    scientificNameElement = <span> {specimenName} </span>
 
     return scientificNameElement;
 }

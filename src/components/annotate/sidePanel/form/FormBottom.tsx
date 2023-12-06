@@ -1,9 +1,10 @@
 /* Import Dependencies */
+import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getAnnotateTarget, setEditAnnotation, setAnnotationFormToggle } from 'redux/annotate/AnnotateSlice';
+import { getAnnotateTarget, getEditAnnotation, setEditAnnotation, setAnnotationFormToggle } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
@@ -29,11 +30,12 @@ const FormBottom = (props: Props) => {
 
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
+    const editAnnotation = useAppSelector(getEditAnnotation);
     
     return (
         <>
             {/* Annotate new instance of button */}
-            {((values.targetClass || values.targetField) && !annotateTarget.targetProperty.name) &&
+            {((values.targetClass || values.targetField) && !annotateTarget.targetProperty.name && isEmpty(editAnnotation)) &&
                 <Row className="flex-grow-1 py-3">
                     <Col>
                         <button type="button" className="secondaryButton w-100"

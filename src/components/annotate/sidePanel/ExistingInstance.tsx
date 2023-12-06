@@ -49,7 +49,8 @@ const ExistingInstance = (props: Props) => {
         /* Set Annotate target to chosen class or property */
         copyAnnotateTarget.targetProperty = {
             type: targetPropertyType,
-            name: targetPropertyName
+            name: targetPropertyName,
+            index: index
         }
 
         /* Set Annotate target current values */

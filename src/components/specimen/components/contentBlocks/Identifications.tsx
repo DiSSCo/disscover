@@ -29,6 +29,9 @@ const Identifications = (props: Props) => {
         properties: Dict,
         [taxonIdentification: string]: Dict
     }[] = [];
+    const identificationLevels = {
+        taxonIdentification: 'taxonIdentifications.',
+    };
 
     /* Craft identifications object to iterate over */
     specimen.digitalSpecimen['dwc:identification']?.forEach((identification, index) => {
@@ -82,7 +85,9 @@ const Identifications = (props: Props) => {
                                                 <PropertiesTable
                                                     title={identificationKey}
                                                     properties={identification[identificationKey]}
-                                                    ShowWithAnnotations={(property: string) => ShowWithAnnotations(property)}
+                                                    ShowWithAnnotations={(property: string) =>
+                                                        ShowWithAnnotations(`identifications[${index - 1}]${(identificationLevels[identificationKey.slice(0, identificationKey.indexOf('#')).replaceAll(' ', '') as keyof typeof identificationLevels] ?? '')}${property}`, index)
+                                                    }
                                                 />
                                             </div>
                                         );

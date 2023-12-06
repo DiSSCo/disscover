@@ -49,7 +49,9 @@ const Assertions = (props: Props) => {
                                             <PropertiesTable
                                                 title="Properties"
                                                 properties={assertion}
-                                                ShowWithAnnotations={(property: string) => ShowWithAnnotations(property)}
+                                                ShowWithAnnotations={(property: string) =>
+                                                    ShowWithAnnotations(`assertions[${index - 1}]${property}`, index)
+                                                }
                                             />
                                         </div>
                                     </Col>

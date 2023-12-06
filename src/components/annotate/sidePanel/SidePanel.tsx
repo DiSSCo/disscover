@@ -76,7 +76,7 @@ const SidePanel = (props: Props) => {
         /* Update Annotations array of target */
         const copyAnnotateTarget = { ...annotateTarget };
         const copyAnnotations = [...copyAnnotateTarget.annotations];
-        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord.id === annotation['ods:id']);
+        const annotationIndex = copyAnnotations.findIndex((annotationRecord) => annotationRecord['ods:id'] === annotation['ods:id']);
 
         /* If annotation was deleted, remove from array; patched, update array instance; else push to array */
         if (remove) {
@@ -185,8 +185,8 @@ const SidePanel = (props: Props) => {
                                                 </>
                                                 : <>
                                                     {`${annotateTarget.targetProperty.name ?
-                                                        annotateTarget.targetProperty.name
-                                                        : editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string}`
+                                                        annotateTarget.targetProperty.name.replace('$.', '')
+                                                        : (editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string).replace('$.', '')}`
                                                     }
                                                 </>
                                             }

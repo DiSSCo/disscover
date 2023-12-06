@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Moment from 'moment';
 import KeycloakService from 'keycloak/Keycloak';
@@ -14,6 +14,7 @@ import {
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
+import { Dict } from 'app/Types';
 import { Annotation as AnnotationType } from 'app/types/Annotation';
 
 /* Import Styles */
@@ -47,9 +48,24 @@ const Annotation = (props: Props) => {
     /* Base variables */
     const highlightAnnotationId = useAppSelector(getHighlightAnnotationId);
     const [userTag, setUserTag] = useState<string>('');
+    let annotationField: ReactElement | undefined;
+    let annotationValue: string | Dict = '';
 
-    /* Transform array of values to single string */
-    const annotationValue = annotation['oa:body']['oa:value'].join(', ');
+    /* Depict annotation field */
+    if (annotation['oa:target']['oa:selector']?.['ods:field']) {
+        annotationField = <span> <span className="fw-lightBold"> Field: </span> {(annotation['oa:target']['oa:selector']?.['ods:field'] as string).replace('$.', '')} </span>;
+    } else if (annotation['oa:target']['oa:selector']?.['oa:class']) {
+        annotationField = <span> <span className="fw-lightBold"> Class: </span> {(annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '')} </span>;
+    }
+
+    /* Transform array of values to displayable information */
+    if (annotation['oa:target']['oa:selector']?.['oa:class']) {
+        const annotationValueObject = JSON.parse(annotation['oa:body']['oa:value'].join(', '));
+
+        annotationValue = annotationValueObject[(annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '') as keyof typeof annotationValueObject];
+    } else {
+        annotationValue = annotation['oa:body']['oa:value'].join(', ');
+    }
 
     /* Set User Tag */
     useEffect(() => {
@@ -123,24 +139,34 @@ const Annotation = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation content */}
-                    {(typeof(annotation['oa:target']['oa:selector']?.['ods:field']) === 'string' && annotation['oa:target']['oa:selector']?.['ods:field']) &&
+                    {(annotationField) &&
                         <Row className="mt-2">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
                             </Col>
                             <Col>
-                                <p className="fst-italic"> {annotation['oa:target']['oa:selector']['ods:field']} </p>
+                                <p className="fst-italic"> {annotationField} </p>
                             </Col>
                         </Row>
                     }
                     <Row className="mt-3">
                         <Col>
-                            <p>
-                                <span className="c-primary">
-                                    {`${Capitalize(annotation['oa:motivation'].replace('oa:', ''))}: `}
-                                </span>
-                                {annotationValue}
-                            </p>
+                            <span className="c-primary">
+                                {`${Capitalize(annotation['oa:motivation'].replace('oa:', '').replace('ods:', ''))}: `}
+                            </span>
+                            {(typeof (annotationValue) === 'object') ?
+                                <div>
+                                    {Object.entries(annotationValue).map((keyValuePair) => {
+                                        if (typeof (keyValuePair[1]) !== 'object') {
+                                            return (
+                                                <p key={keyValuePair[0]}> <span className="fw-lightBold"> {keyValuePair[0]}: </span> {keyValuePair[1]} </p>
+                                            );
+                                        }
+                                    })}
+                                </div> : <div>
+                                    <p> {annotationValue} </p>
+                                </div>
+                            }
                         </Col>
                     </Row>
                     {/* Comments and actions */}

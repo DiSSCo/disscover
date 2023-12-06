@@ -28,10 +28,15 @@ const Occurrences = (props: Props) => {
     let occurrences: {
         properties: Dict,
         location?: Dict,
-        georeferece?: Dict,
-        geologicalContect?: Dict,
+        georeference?: Dict,
+        geologicalContext?: Dict,
         assertions?: Dict
     }[] = [];
+    const occurrenceLevels = {
+        location: 'location.',
+        georeference: 'location.georeference.',
+        geologicalContext: 'location.geologicalContext.'
+    };
 
     /* Craft occurrences object to iterate over */
     specimen.digitalSpecimen.occurrences?.forEach((occurrence, index) => {
@@ -45,13 +50,13 @@ const Occurrences = (props: Props) => {
             /* Check for Georeference */
             if (!isEmpty(occurrence.location.georeference)) {
                 /* Add Georeference to craft occurrence */
-                occurrences[index].georeferece = occurrence.location.georeference;
+                occurrences[index].georeference = occurrence.location.georeference;
             }
 
             /* Check for Geological Context */
             if (!isEmpty(occurrence.location.geologicalContext)) {
                 /* Add Geological Context to craft occurrence */
-                occurrences[index].geologicalContect = occurrence.location.geologicalContext;
+                occurrences[index].geologicalContext = occurrence.location.geologicalContext;
             }
 
             /* Remove extenstions from location object */
@@ -76,7 +81,7 @@ const Occurrences = (props: Props) => {
     return (
         <>
             {occurrences.map((occurrence, index) => {
-                const key = `occurrence${index}`;
+                const key = `occurrence_${index}`;
 
                 /* ClassNames */
                 const CardClass = classNames({
@@ -99,7 +104,9 @@ const Occurrences = (props: Props) => {
                                                 <PropertiesTable
                                                     title={occurreneKey}
                                                     properties={occurrence[occurreneKey as keyof typeof occurrence] as Dict}
-                                                    ShowWithAnnotations={(property: string) => ShowWithAnnotations(property)}
+                                                    ShowWithAnnotations={(property: string) =>
+                                                        ShowWithAnnotations(`occurrences[${index - 1}]${occurrenceLevels[occurreneKey as keyof typeof occurrenceLevels] ?? ''}${property}`, index)
+                                                    }
                                                 />
                                             </div>
                                         );

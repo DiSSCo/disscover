@@ -221,8 +221,26 @@ const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targe
     }
 }
 
+const RemoveRootFromPath = (targetPath: string) => {
+    const trimmedPath = targetPath.replace('$.', '');
+
+    return trimmedPath;
+}
+
+const CheckPathForRoot = (targetPath: string) => {
+    let trimmedPath: string = targetPath;
+
+    if (targetPath.indexOf('$.') < 0) {
+        trimmedPath = `$.${targetPath}`;
+    }
+
+    return trimmedPath;
+}
+
 export {
     ExtractFromSchema,
     ConstructTargetPropertiesLists,
-    SearchNestedLevels
+    SearchNestedLevels,
+    RemoveRootFromPath,
+    CheckPathForRoot
 };

@@ -68,21 +68,19 @@ const Search = () => {
 
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
-        if (!isEmpty(searchResults)) {
-            const filters = GetFilters(searchParams);
+        const filters = GetFilters(searchParams);
 
-            /* If filters differ from previous search, reset Pagination and Page numbers */
-            if (JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) {
-                dispatch(setPaginationObject({
-                    page: location.pathname.split('/')[1],
-                    pageNumber: 1,
-                    filters
-                }));
-                setPageNumber(1);
-            }
+        /* If filters differ from previous search, reset Pagination and Page numbers */
+        if (JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) {
+            dispatch(setPaginationObject({
+                page: location.pathname.split('/')[1],
+                pageNumber: 1,
+                filters
+            }));
+            setPageNumber(1);
+        }
 
-            SearchWithFilters();
-        };
+        SearchWithFilters();
     }, [searchParams]);
 
     /* OnChange of page number: search specimens */
@@ -101,33 +99,6 @@ const Search = () => {
             });
         }
 
-        /* If any filter is selected */
-        if (!isEmpty(searchFilters)) {
-            /* Action Search */
-            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
-                if (!isEmpty(specimens)) {
-                    HandleSearch(specimens, links, totalRecords);
-                } else {
-                    /* Reset Pagination and Page numbers */
-                    dispatch(setPaginationObject({
-                        page: location.pathname.split('/')[1],
-                        pageNumber: 1,
-                        filters: GetFilters(searchParams)
-                    }));
-                    setPageNumber(1);
-                }
-            }).catch(error => {
-                console.warn(error);
-            });
-        } else {
-            /* Grab Recent Specimens */
-            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, meta }) => {
-                HandleSearch(specimens, links, meta.totalRecords);
-            }).catch(error => {
-                console.warn(error);
-            });
-        }
-
         /* Function for handling Search results, page number and filters after new call */
         const HandleSearch = (specimens: DigitalSpecimen[], links: Dict, totalRecords: number) => {
             /* Set Search Results / Specimens */
@@ -138,6 +109,32 @@ const Search = () => {
 
             /* Set Total Records */
             setTotalRecords(totalRecords);
+        }
+
+        /* If any filter is selected */
+        if (isEmpty(searchFilters)) {
+            /* Grab Recent Specimens */
+            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, meta }) => {
+                HandleSearch(specimens, links, meta.totalRecords);
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            /* Action Search */
+            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
+                HandleSearch(specimens, links, totalRecords);
+
+                /* Reset Pagination and Page numbers */
+                dispatch(setPaginationObject({
+                    page: location.pathname.split('/')[1],
+                    pageNumber: 1,
+                    filters: GetFilters(searchParams)
+                }));
+                setPageNumber(1);
+
+            }).catch(error => {
+                console.warn(error);
+            });
         }
 
         /* Refresh Aggregations */

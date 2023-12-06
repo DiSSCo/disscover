@@ -264,7 +264,7 @@ const ResultsTable = (props: Props) => {
             <DataTable
                 columns={tableColumns}
                 data={tableData}
-                className='h-100'
+                className='h-100 overflow-y-scroll z-1'
                 customStyles={customStyles}
                 onRowClicked={(row) => {
                     if (compareMode) {

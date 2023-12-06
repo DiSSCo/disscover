@@ -22,14 +22,14 @@ interface Props {
 };
 
 
-const Location = (props: Props) => {
+const Origin = (props: Props) => {
     const { ToggleSidePanel } = props;
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     let location: Dict = {};
 
-    /* Use first occurrence as Location reference */
+    /* Use first occurrence as Origin reference */
     if (specimen.digitalSpecimen?.occurrences?.[0].location) {
         location = specimen.digitalSpecimen.occurrences[0].location;
     }
@@ -55,7 +55,7 @@ const Location = (props: Props) => {
                     <Col className="h-100 ps-0 d-flex flex-column overflow-hidden">
                         {/* Block icon and title */}
                         <Card.Title className="c-accent">
-                            <span> Discovery </span>
+                            <span> Origin </span>
                         </Card.Title>
 
                         {/* Properties */}
@@ -147,4 +147,4 @@ const Location = (props: Props) => {
     );
 }
 
-export default Location;
+export default Origin;

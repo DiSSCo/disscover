@@ -63,9 +63,6 @@ const Annotation = (props: Props) => {
         const annotationValueObject = JSON.parse(annotation['oa:body']['oa:value'].join(', '));
 
         annotationValue = annotationValueObject[(annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '') as keyof typeof annotationValueObject];
-
-        console.log(annotationValueObject);
-        console.log(annotation['oa:target']['oa:selector']?.['oa:class']);
     } else {
         annotationValue = annotation['oa:body']['oa:value'].join(', ');
     }
@@ -154,24 +151,22 @@ const Annotation = (props: Props) => {
                     }
                     <Row className="mt-3">
                         <Col>
-                            <p>
-                                <span className="c-primary">
-                                    {`${Capitalize(annotation['oa:motivation'].replace('oa:', '').replace('ods:', ''))}: `}
-                                </span>
-                                {(typeof (annotationValue) === 'object') ?
-                                    <div>
-                                        {Object.entries(annotationValue).map((keyValuePair) => {
-                                            if (typeof (keyValuePair[1]) !== 'object') {
-                                                return (
-                                                    <p> <span className="fw-lightBold"> {keyValuePair[0]}: </span> {keyValuePair[1]} </p>
-                                                );
-                                            }
-                                        })}
-                                    </div> : <div>
-                                        {annotationValue as string}
-                                    </div>
-                                }
-                            </p>
+                            <span className="c-primary">
+                                {`${Capitalize(annotation['oa:motivation'].replace('oa:', '').replace('ods:', ''))}: `}
+                            </span>
+                            {(typeof (annotationValue) === 'object') ?
+                                <div>
+                                    {Object.entries(annotationValue).map((keyValuePair) => {
+                                        if (typeof (keyValuePair[1]) !== 'object') {
+                                            return (
+                                                <p> <span className="fw-lightBold"> {keyValuePair[0]}: </span> {keyValuePair[1]} </p>
+                                            );
+                                        }
+                                    })}
+                                </div> : <div>
+                                    <p> {annotationValue as string} </p>
+                                </div>
+                            }
                         </Col>
                     </Row>
                     {/* Comments and actions */}

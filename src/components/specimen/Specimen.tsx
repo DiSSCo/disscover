@@ -133,6 +133,7 @@ const Specimen = () => {
         if (propertyPath in specimenAnnotations) {
             /* Push or patch to existing array */
             const copySpecimenTargetAnnotations = [...specimenAnnotations[propertyPath]];
+
             const index = copySpecimenTargetAnnotations.findIndex(
                 (annotationRecord) => annotationRecord['ods:id'] === annotation['ods:id']
             );

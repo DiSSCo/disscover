@@ -44,7 +44,7 @@ const Cytoscape = (props: Props) => {
         switch (name) {
             case 'hasOrganisationId':
                 if (id.replace('https://ror.org/', '') in organisationLogos) {
-                    const organisationLogo = organisationLogos[organisationId].logo;
+                    const organisationLogo = organisationLogos[id.replace('https://ror.org/', '')].logo;
 
                     if (Array.isArray(organisationLogo)) {
                         logo = organisationLogo[0];

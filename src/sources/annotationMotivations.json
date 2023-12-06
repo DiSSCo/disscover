@@ -3,7 +3,7 @@
         "key": "ods:adding",
         "displayName": "Addition",
         "displayNamePlural": "Additions",
-        "additionalFields": {"description": "text"},
+        "additionalFields": {},
         "context": "This annotation type is used when adding new values to previously empty attributes."
     },
     "oa:commenting": {
@@ -17,14 +17,14 @@
         "key": "oa:editing",
         "displayName": "Editing",
         "displayNamePlural": "Edits",
-        "additionalFields": {"description": "text"},
+        "additionalFields": {},
         "context": "This annotation type is used when editing an existing property value of a specimen."
     },
     "oa:assessing": {
         "key": "oa:assessing",
         "displayName": "Assessing",
         "displayNamePlural": "Assessions",
-        "additionalFields": {"reference": "string", "description": "text"},
+        "additionalFields": {"dcterms:reference": "string"},
         "context": "This annotation type is used when assessing the property value of a specimen."
     }
 }

@@ -95,6 +95,8 @@ const SpecimenTypeFilters = () => {
                                 /* Check for Disciplines with spaces */
                                 if (discipline === 'EarthSystem') {
                                     discipline = 'Earth+System';
+                                } else if (discipline === 'Other') {
+                                    discipline = 'Other+Biodiversity&topicDiscipline=Other+Geodiversity';
                                 }
 
                                 /* Append variable sign if neccesary */

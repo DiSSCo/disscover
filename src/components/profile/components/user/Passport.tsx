@@ -5,6 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { getOrganisations } from 'redux/general/GeneralSlice';
 import { getUserProfile, setUserProfile } from 'redux/user/UserSlice';
 
 /* Import Types */
@@ -21,9 +22,6 @@ import { faPencil, faX, faEnvelope, faInstitution } from '@fortawesome/free-soli
 import OrganisationLogoImage from 'components/general/mediaTypes/OrganisationLogoImage'; 
 import UserInfoForm from './UserInfoForm';
 
-/* Import API */
-import GetOrganisations from 'api/organisation/GetOrganisations';
-
 
 const Passport = () => {
     /* Hooks */
@@ -31,17 +29,8 @@ const Passport = () => {
 
     /* Base variables */
     const userProfile = useAppSelector(getUserProfile);
-    const [organisations, setOrganisations] = useState<Organisation[]>([]);
+    const organisations = useAppSelector(getOrganisations);
     const [editMode, setEditMode] = useState(false);
-
-    /* OnLoad: Get Organisations for options list and Get User Annotations */
-    useEffect(() => {
-        GetOrganisations().then((organisations) => {
-            setOrganisations(organisations);
-        }).catch(error => {
-            console.warn(error);
-        });
-    }, [])
 
     return (
         <div className={`${styles.passport} d-flex flex-column bg-white h-100`}>
@@ -107,7 +96,7 @@ const Passport = () => {
                                 </Col>
                                 <Col>
                                     {userProfile.organisation ?
-                                        <p> {organisations.find(organisation => organisation.ror === userProfile.organisation)?.name} </p>
+                                        <p> {organisations.find(organisationName => organisationName === userProfile.organisation)} </p>
                                         : <p> Not provided </p>
                                     }
                                 </Col>

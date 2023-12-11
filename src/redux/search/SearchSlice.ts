@@ -12,7 +12,7 @@ export interface SearchState {
     searchPhysicalId: {
         idType: string,
         idValue: string,
-        organisationId?: string
+        organisationName?: string
     };
     searchResults: DigitalSpecimen[];
     searchAggregations: Dict;

@@ -56,7 +56,7 @@ const TitleBar = (props: Props) => {
         /* Create and click on link to download file */
         const link = document.createElement("a");
         link.href = URL.createObjectURL(jsonFile);
-        link.download = `${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}_${specimen.digitalSpecimen.version}.json`;
+        link.download = `${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}_${specimen.digitalSpecimen['ods:version']}.json`;
 
         link.click();
     }

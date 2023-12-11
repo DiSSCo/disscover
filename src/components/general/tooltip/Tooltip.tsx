@@ -1,25 +1,28 @@
 /* Import Components */
-import { Tooltip as BootstrapTooltip, OverlayTrigger } from "react-bootstrap";
+import { Popover, OverlayTrigger, Tooltip as BootstrapTooltip } from "react-bootstrap";
 
 /* Import Types */
 import { Placement } from "react-bootstrap/esm/types";
+
+/* Import Styles */
+import styles from './styles.module.scss';
 
 
 /* Props Typing */
 interface Props {
     text: string,
+    placement: Placement,
     children: React.ReactElement,
-    placement: Placement
 };
 
 
 const Tooltip = (props: Props) => {
-    const { text, children, placement } = props;
+    const { text, placement, children } = props;
 
     const tooltip = (
-        <BootstrapTooltip>
+        <Popover className={styles.tooltip}>
             {text}
-        </BootstrapTooltip>
+        </Popover>
     );
 
     return (

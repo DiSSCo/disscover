@@ -52,10 +52,15 @@ const IDCard = (props: Props) => {
                             </Col>
                         </Row>
 
-                        {/* Specimen Identifier */}
+                        {/* Specimen Identifier, Topic Dicipline and preservation state */}
                         <Row>
-                            <Col>
+                            <Col className="col-md-auto">
                                 <p className="fs-4 c-greyDark"> {specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </p>
+                            </Col>
+                            <Col className="col-md-auto pe-1">
+                                <p className="fs-4 c-primary">
+                                    {specimen.digitalSpecimen['ods:topicDiscipline']} | {specimen.digitalSpecimen['ods:livingOrPreserved']}    
+                                </p> 
                             </Col>
                         </Row>
 

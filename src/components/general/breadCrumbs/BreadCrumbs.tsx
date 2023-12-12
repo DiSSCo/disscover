@@ -68,7 +68,7 @@ const BreadCrumbs = () => {
         } case 'dm': {
             /* Digital Media Page */
             breadCrumbs.push({
-                crumb: 'Digital Media'
+                crumb: 'Specimens'
             });
 
             /* Try to find and add Digital Specimen id */
@@ -83,6 +83,10 @@ const BreadCrumbs = () => {
                     path: `/ds/${specimenEntityRelation.objectEntityIri.replace(process.env.REACT_APP_DOI_URL as string, '')}`
                 });
             }
+
+            breadCrumbs.push({
+                crumb: 'Digital Media'
+            });
 
             breadCrumbs.push({
                 crumb: digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')

@@ -17,7 +17,7 @@ export interface GeneralState {
     introTopic: string;
     organisations: string[],
     paginationObject: PaginationObject;
-    annotoriousMode: string;
+    annotoriousMode: string | null;
 };
 
 const initialState: GeneralState = {
@@ -27,7 +27,7 @@ const initialState: GeneralState = {
     introTopic: '',
     organisations: [],
     paginationObject: {} as PaginationObject,
-    annotoriousMode: 'cursor'
+    annotoriousMode: null
 };
 
 export const GeneralSlice = createSlice({
@@ -58,7 +58,7 @@ export const GeneralSlice = createSlice({
         setPaginationObject: (state, action: PayloadAction<PaginationObject>) => {
             state.paginationObject = action.payload;
         },
-        setAnnotoriousMode: (state, action: PayloadAction<string>) => {
+        setAnnotoriousMode: (state, action: PayloadAction<string | null>) => {
             state.annotoriousMode = action.payload;
         }
     },

@@ -3,7 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import {
-    Annotator,
+    // Annotator,
+    AnnotoriousImageAnnotator,
     ImageAnnotation,
     OpenSeadragonAnnotator,
     OpenSeadragonPopup,
@@ -44,7 +45,7 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const annotorious = useAnnotator<Annotator>();
+    const annotorious = useAnnotator<AnnotoriousImageAnnotator>();
     const viewerRef = useRef<OpenSeadragon.Viewer>(null);
     const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
@@ -58,11 +59,8 @@ const ImageViewer = (props: Props) => {
     const [editAnnotation, setEditAnnotation] = useState<ImageAnnotation | null>(null);
 
     const OSDOptions: OpenSeadragon.Options = {
-        prefixUrl: 'https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/',
-        tileSources: {
-            type: 'image',
-            url: mediaUrl
-        },
+        prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/",
+        ajaxWithCredentials: true,
         crossOriginPolicy: 'Anonymous',
         gestureSettingsMouse: {
             clickToZoom: false
@@ -74,17 +72,15 @@ const ImageViewer = (props: Props) => {
         new Promise((resolve, reject) => {
             const image = new Image();
 
-            image.onload = () => resolve(image);
-            image.onerror = reject;
             image.src = digitalMedia.digitalEntity['ac:accessUri'];
+
+            image.onload = (image) => resolve(image);
+            image.onerror = () => reject;
         }).then((image: any) => {
-            setImage(image);
+            setImage(image.target);
 
             if (viewerRef.current) {
-                viewerRef.current.open({
-                    type: 'image',
-                    url: mediaUrl
-                });
+                viewerRef.current.open(digitalMedia.digitalEntity['ac:accessUri']);
             }
         });
     }, [mediaUrl]);
@@ -115,7 +111,7 @@ const ImageViewer = (props: Props) => {
             /* Event for when creating an Annotation */
             annotorious.on('createAnnotation', (w3cAnnotation: ImageAnnotation) => {
                 /* Return to cursor tool */
-                dispatch(setAnnotoriousMode('cursor'));
+                dispatch(setAnnotoriousMode(null));
 
                 /* Set selected annotation */
                 setEditAnnotation(w3cAnnotation);
@@ -126,7 +122,7 @@ const ImageViewer = (props: Props) => {
                 }, 300);
             });
 
-            /* Event for when an Annotatio has been edited */
+            /* Event for when an Annotation has been edited */
             annotorious.on('updateAnnotation', (W3cAnnotation: ImageAnnotation) => {
                 /* Set new edit target */
                 setEditAnnotation(W3cAnnotation);
@@ -209,7 +205,7 @@ const ImageViewer = (props: Props) => {
                                 type: 'FragmentSelector',
                                 value: `xywh=pixel:${x},${y},${w},${h}`
                             },
-                            source: digitalMedia.digitalEntity.mediaUrl
+                            source: digitalMedia.digitalEntity['ac:accessUri']
                         }
                     });
                 }
@@ -303,7 +299,8 @@ const ImageViewer = (props: Props) => {
             <OpenSeadragonAnnotator className="h-100"
                 adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
                 keepEnabled={false}
-                tool={annotoriousMode}
+                drawingEnabled={annotoriousMode}
+                // tool={annotoriousMode}
                 pointerSelectAction={SelectAction}
             >
                 <OpenSeadragonViewer className="openseadragon h-100"

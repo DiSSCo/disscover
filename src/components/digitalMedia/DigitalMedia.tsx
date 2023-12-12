@@ -279,10 +279,10 @@ const DigitalMedia = () => {
                                                                     <button type="button"
                                                                         className={classImageAnnotateButton}
                                                                         onClick={() => {
-                                                                            if (annotoriousMode === 'cursor') {
+                                                                            if (!annotoriousMode) {
                                                                                 dispatch(setAnnotoriousMode('rectangle'))
                                                                             } else {
-                                                                                dispatch(setAnnotoriousMode('cursor'))
+                                                                                dispatch(setAnnotoriousMode(null))
                                                                             }
                                                                         }
                                                                         }
@@ -309,7 +309,7 @@ const DigitalMedia = () => {
                                                         </Row>
                                                         <Row className={styles.digitalMediaListBlock}>
                                                             <Col className="h-100">
-                                                                <DigitalMediaList />
+                                                                {/* <DigitalMediaList /> */}
                                                             </Col>
                                                         </Row>
                                                     </div>

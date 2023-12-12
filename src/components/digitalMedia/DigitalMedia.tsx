@@ -309,7 +309,7 @@ const DigitalMedia = () => {
                                                         </Row>
                                                         <Row className={styles.digitalMediaListBlock}>
                                                             <Col className="h-100">
-                                                                {/* <DigitalMediaList /> */}
+                                                                <DigitalMediaList />
                                                             </Col>
                                                         </Row>
                                                     </div>

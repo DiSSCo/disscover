@@ -71,6 +71,19 @@ const BreadCrumbs = () => {
                 crumb: 'Digital Media'
             });
 
+            /* Try to find and add Digital Specimen id */
+            const specimenEntityRelation = digitalMedia.digitalEntity.entityRelationships?.find(
+                entityRelationship => entityRelationship.entityRelationshipType === 'hasDigitalSpecimen'
+
+            );
+
+            if (specimenEntityRelation) {
+                breadCrumbs.push({
+                    crumb: specimenEntityRelation.objectEntityIri.replace(process.env.REACT_APP_DOI_URL as string, ''),
+                    path: `/ds/${specimenEntityRelation.objectEntityIri.replace(process.env.REACT_APP_DOI_URL as string, '')}`
+                });
+            }
+
             breadCrumbs.push({
                 crumb: digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')
             });

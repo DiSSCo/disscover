@@ -81,17 +81,17 @@ const IDCard = (props: Props) => {
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 1 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 1 && styles.active} fw-lightBold`}>
                                             MIDS 1
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 2 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 2 && styles.active} fw-lightBold`}>
                                             MIDS 2
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 3 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 3 && styles.active} fw-lightBold`}>
                                             MIDS 3
                                         </div>
                                     </Col>

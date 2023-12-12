@@ -263,7 +263,7 @@ const Search = () => {
                                                             </Col>
 
                                                             {(searchResults.length > 0) &&
-                                                                <Col className="col-lg-auto">
+                                                                <Col className="col-lg-auto float-md-end">
                                                                     <div className="d-flex justify-content-end">
                                                                         <Paginator pageNumber={pageNumber}
                                                                             links={paginatorLinks}

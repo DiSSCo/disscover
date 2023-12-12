@@ -129,17 +129,17 @@ const TitleBar = (props: Props) => {
                                         </div>
                                     </Col>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 1 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 1 && styles.active} fw-lightBold`}>
                                             MIDS 1
                                         </div>
                                     </Col>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 2 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 2 && styles.active} fw-lightBold`}>
                                             MIDS 2
                                         </div>
                                     </Col>
                                     <Col md={{ span: 3 }} className="d-flex align-items-center">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 3 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 3 && styles.active} fw-lightBold`}>
                                             MIDS 3
                                         </div>
                                     </Col>

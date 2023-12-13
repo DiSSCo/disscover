@@ -27,7 +27,6 @@ import { faThumbsUp, faThumbsDown, faMessage } from '@fortawesome/free-regular-s
 
 /* Import API */
 import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
-import GetUser from 'api/user/GetUser';
 
 
 /* Props Typing */

@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 
@@ -9,7 +9,7 @@ import { getOrganisations } from 'redux/general/GeneralSlice';
 import { getUserProfile, setUserProfile } from 'redux/user/UserSlice';
 
 /* Import Types */
-import { User, Organisation } from 'app/Types';
+import { User } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/profile/profile.module.scss';

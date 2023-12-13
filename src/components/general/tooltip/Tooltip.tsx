@@ -1,5 +1,5 @@
 /* Import Components */
-import { Popover, OverlayTrigger, Tooltip as BootstrapTooltip } from "react-bootstrap";
+import { Popover, OverlayTrigger } from "react-bootstrap";
 
 /* Import Types */
 import { Placement } from "react-bootstrap/esm/types";

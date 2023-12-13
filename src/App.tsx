@@ -101,7 +101,7 @@ const App = () => {
             organisationList.push(organisationName);
           });
 
-          organisationList.sort();
+          organisationList.sort((a, b) => a.localeCompare(b));
 
           dispatch(setOrganisations(organisationList));
         }

@@ -59,8 +59,8 @@ const Search = () => {
     const compareMode = useAppSelector(getCompareMode);
     const paginationObject = useAppSelector(getPaginationObject);
     const pageSize = 25;
-    const [pageNumber, setPageNumber] = useState<number>(
-        (paginationObject.page === location.pathname.split('/')[1]) ? paginationObject.pageNumber : 1
+    const [pageNumber, setPageNumber] = useState<number | undefined>(
+        /*(paginationObject.page === location.pathname.split('/')[1]) ? paginationObject.pageNumber :*/ undefined
     );
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
@@ -70,29 +70,56 @@ const Search = () => {
     useEffect(() => {
         const filters = GetFilters(searchParams);
 
-        /* If filters differ from previous search, reset Pagination and Page numbers */
-        if (JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) {
-            dispatch(setPaginationObject({
-                page: location.pathname.split('/')[1],
-                pageNumber: 1,
-                filters
-            }));
-            setPageNumber(1);
-        }
+        if ((JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) || !searchResults.length) {
+            /* If filters differ from previous search, reset Pagination and Page numbers */
+            if ((JSON.stringify(filters) !== JSON.stringify(paginationObject.filters))) {
+                dispatch(setPaginationObject({
+                    page: location.pathname.split('/')[1],
+                    pageNumber: 1,
+                    filters
+                }));
 
-        SearchWithFilters();
+                if (pageNumber) {
+                    setPageNumber(1);
+                }
+            }
+
+            SearchWithFilters();
+        } else {
+            SearchWithFilters(false);
+        }
     }, [searchParams]);
 
     /* OnChange of page number: search specimens */
     useEffect(() => {
-        SearchWithFilters();
+        if (pageNumber) {
+            SearchWithFilters();
+        }
     }, [pageNumber]);
 
+    /* Function to refresh aggregations */
+    const RefreshAggregations = (searchFilters: SearchFilter[] = []) => {
+        if (isEmpty(searchFilters)) {
+            /* ForEach filter, push to Search Filters array */
+            for (const searchParam of searchParams.entries()) {
+                searchFilters.push({
+                    [searchParam[0]]: searchParam[1]
+                });
+            }
+        }
+
+        GetSpecimenAggregations(searchFilters).then((aggregations) => {
+            dispatch(setSearchAggregations(aggregations));
+        }).catch(error => {
+            console.warn(error);
+        });
+    }
+
     /* Function to Search for specimens with filters and page number */
-    const SearchWithFilters = () => {
+    const SearchWithFilters = (displayResults: boolean = true) => {
         const searchFilters: SearchFilter[] = [];
 
-        /* ForEach filter, push to Search Filters state */
+        /* ForEach filter, push to Search Filters array */
         for (const searchParam of searchParams.entries()) {
             searchFilters.push({
                 [searchParam[0]]: searchParam[1]
@@ -100,9 +127,11 @@ const Search = () => {
         }
 
         /* Function for handling Search results, page number and filters after new call */
-        const HandleSearch = (specimens: DigitalSpecimen[], links: Dict, totalRecords: number) => {
-            /* Set Search Results / Specimens */
-            dispatch(setSearchResults(specimens));
+        const HandleSearch = (specimens: DigitalSpecimen[], links: Dict, totalRecords: number, displayResults: boolean = true) => {
+            /* If desired, set Search Results / Specimens */
+            if (displayResults) {
+                dispatch(setSearchResults(specimens));
+            }
 
             /* Set Paginator links */
             setPaginatorLinks(links);
@@ -115,34 +144,21 @@ const Search = () => {
         if (isEmpty(searchFilters)) {
             /* Grab Recent Specimens */
             GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, meta }) => {
-                HandleSearch(specimens, links, meta.totalRecords);
+                HandleSearch(specimens, links, meta.totalRecords, displayResults);
             }).catch(error => {
                 console.warn(error);
             });
         } else {
             /* Action Search */
             SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
-                HandleSearch(specimens, links, totalRecords);
-
-                /* Reset Pagination and Page numbers */
-                dispatch(setPaginationObject({
-                    page: location.pathname.split('/')[1],
-                    pageNumber: 1,
-                    filters: GetFilters(searchParams)
-                }));
-                setPageNumber(1);
-
+                HandleSearch(specimens, links, totalRecords, displayResults);
             }).catch(error => {
                 console.warn(error);
             });
         }
 
         /* Refresh Aggregations */
-        GetSpecimenAggregations(searchFilters).then((aggregations) => {
-            dispatch(setSearchAggregations(aggregations));
-        }).catch(error => {
-            console.warn(error);
-        });
+        RefreshAggregations(searchFilters);
     };
 
     /* ClassName for Search Menu Block */
@@ -248,7 +264,7 @@ const Search = () => {
                                                         <Row className="flex-grow-1 overflow-hidden">
                                                             {/* Search Results */}
                                                             <Col md={{ span: 12 }} className="h-100 pb-2">
-                                                                <ResultsTable pageNumber={pageNumber}
+                                                                <ResultsTable pageNumber={pageNumber ?? 1}
                                                                     HideFilters={() => setFilterToggle(false)}
                                                                 />
                                                             </Col>
@@ -265,7 +281,7 @@ const Search = () => {
                                                             {(searchResults.length > 0) &&
                                                                 <Col className="col-lg-auto float-md-end">
                                                                     <div className="d-flex justify-content-end">
-                                                                        <Paginator pageNumber={pageNumber}
+                                                                        <Paginator pageNumber={pageNumber ?? 1}
                                                                             links={paginatorLinks}
                                                                             totalRecords={totalRecords}
 

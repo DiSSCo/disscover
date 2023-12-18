@@ -59,7 +59,7 @@ const ImageViewer = (props: Props) => {
     const [editAnnotation, setEditAnnotation] = useState<ImageAnnotation | null>(null);
 
     const OSDOptions: OpenSeadragon.Options = {
-        prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/",
+        prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/",
         ajaxWithCredentials: true,
         crossOriginPolicy: 'Anonymous',
         gestureSettingsMouse: {

@@ -89,19 +89,7 @@ const OriginalData = () => {
             style: {
                 fontSize: '0.875rem !important'
             }
-        },
-        // rows: {
-        //     style: {
-        //         minHeight: '40px',
-        //         fontSize: '0.875rem !important'
-        //     },
-        //     highlightOnHoverStyle: {
-        //         backgroundColor: '#98cdbf',
-        //     },
-        //     stripedStyle: {
-        //         backgroundColor: '#eef7f4'
-        //     }
-        // }
+        }
     };
 
     return (

@@ -11,7 +11,7 @@ import { DetectMobile } from 'app/Utilities';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getScreenSize, setScreenSize } from 'redux/general/GeneralSlice';
+import { getScreenSize, setScreenSize, getOrganisations, setOrganisations } from 'redux/general/GeneralSlice';
 import { getUser, setUser } from 'redux/user/UserSlice';
 
 /* Import Styles */
@@ -36,6 +36,7 @@ import DocumentRoutes from 'components/documents/Routes';
 /* Import API */
 import GetUser from 'api/user/GetUser';
 import InsertUser from 'api/user/InsertUser';
+import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
   /* Base Variables */
   const screenSize = useAppSelector(getScreenSize);
   const user = useAppSelector(getUser);
+  const organisations = useAppSelector(getOrganisations);
 
   /* Function to regulate PC and Mobile views */
   const UpdateWindowDimensions = () => {
@@ -84,6 +86,27 @@ const App = () => {
           /* Set User state */
           dispatch(setUser(user));
         }
+      });
+    }
+  }, []);
+
+  /* OnLoad: Check if Organisations list is present, otherwise fetch list */
+  useEffect(() => {
+    if (isEmpty(organisations)) {
+      GetSpecimenAggregations().then((aggregations) => {
+        if ('organisationName' in aggregations) {
+          const organisationList: string[] = [];
+
+          Object.keys(aggregations.organisationName).forEach((organisationName) => {
+            organisationList.push(organisationName);
+          });
+
+          organisationList.sort((a, b) => a.localeCompare(b));
+
+          dispatch(setOrganisations(organisationList));
+        }
+      }).catch(error => {
+        console.warn(error);
       });
     }
   }, []);

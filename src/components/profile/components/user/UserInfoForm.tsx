@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap'
 
 /* Import Types */
-import { User, Organisation } from 'app/Types';
+import { User } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/profile/profile.module.scss';
@@ -17,7 +17,7 @@ import PatchUser from 'api/user/PatchUser';
 /* Props Typing */
 interface Props {
     userProfile: User,
-    organisations: Organisation[],
+    organisations: string[],
     SetUserProfile: Function,
     DisableEditMode: Function
 };
@@ -33,7 +33,7 @@ const UserInfoForm = (props: Props) => {
                     firstName: userProfile.firstName ? userProfile.firstName : '',
                     lastName: userProfile.lastName ? userProfile.lastName : '',
                     email: userProfile.email ? userProfile.email : '',
-                    organisation: userProfile.organisation ? userProfile.organisation : '',
+                    organisationName: userProfile.organisation ?? '',
                     orcid: userProfile.orcid ? userProfile.orcid : ''
                 }}
                 onSubmit={async (values) => {
@@ -81,19 +81,19 @@ const UserInfoForm = (props: Props) => {
                     <Row className="pb-2">
                         <Col className="profile_input">
                             <p className="fs-5 c-primary fw-lightBold"> Organisation </p>
-                            <Field name="organisation" as="select"
+                            <Field name="organisationName" as="select"
                                 className="b-grey rounded-c px-2 w-100"
                             >
                                 <option value="">
                                     Select an organisation
                                 </option>
 
-                                {organisations.map((organisation) => {
+                                {organisations.map((organisationName) => {
                                     return (
-                                        <option key={organisation.ror}
-                                            value={organisation.ror}
+                                        <option key={organisationName}
+                                            value={organisationName}
                                         >
-                                            {organisation.name}
+                                            {organisationName}
                                         </option>
                                     );
                                 })}

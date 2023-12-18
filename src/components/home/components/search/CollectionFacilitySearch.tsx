@@ -1,21 +1,18 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppDispatch } from 'app/hooks';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getOrganisations } from 'redux/general/GeneralSlice';
 import { setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { DigitalSpecimen, Organisation, Dict } from 'app/Types';
+import { DigitalSpecimen, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
-
-/* Import API */
-import GetOrganisations from 'api/organisation/GetOrganisations';
 
 
 const CollectionFacilitySearch = () => {
@@ -24,16 +21,7 @@ const CollectionFacilitySearch = () => {
     const navigate = useNavigate();
 
     /* Base variables */
-    const [organisations, setOrganisations] = useState<Organisation[]>([]);
-
-    /* Fetch Organisations */
-    useEffect(() => {
-        GetOrganisations().then((organisations) => {
-            setOrganisations(organisations);
-        }).catch((error) => {
-            console.warn(error);
-        });
-    }, []);
+    const organisations = useAppSelector(getOrganisations);
 
     /* Function for handling Collection Facility search */
     const HandleSearch = (formData: Dict) => {
@@ -44,7 +32,7 @@ const CollectionFacilitySearch = () => {
             /* Navigate to Search page with Organisation as filter */
             navigate({
                 pathname: '/search',
-                search: `?organisationId=${formData.organisationId}`
+                search: `?organisationName=${formData.organisationName}`
             });
         }
     }
@@ -55,7 +43,7 @@ const CollectionFacilitySearch = () => {
                 <Formik
                     initialValues={{
                         idType: 'local',
-                        organisationId: ''
+                        organisationName: ''
                     }}
                     onSubmit={async (values) => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
@@ -93,16 +81,16 @@ const CollectionFacilitySearch = () => {
                                 </Row>
                                 <Row className="mt-1">
                                     <Col>
-                                        <Field name="organisationId" as="select"
+                                        <Field name="organisationName" as="select"
                                             className={`${styles.searchBar} rounded-full w-100 px-3`}
                                         >
                                             <option value="" label="Choose an Organisation" disabled />
 
-                                            {organisations.map((organisation) => {
+                                            {organisations.map((organisationName) => {
                                                 return (
-                                                    <option key={organisation.ror}
-                                                        value={`https://ror.org/${organisation.ror}`}
-                                                        label={organisation.name}
+                                                    <option key={organisationName}
+                                                        value={organisationName}
+                                                        label={organisationName}
                                                     />
                                                 );
                                             })}

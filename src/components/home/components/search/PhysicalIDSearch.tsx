@@ -8,17 +8,17 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getOrganisations } from 'redux/general/GeneralSlice';
 import { getSearchPhysicalId, setSearchPhysicalId, setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { DigitalSpecimen, Organisation, Dict } from 'app/Types';
+import { DigitalSpecimen, Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
 
 /* Import API */
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
-import GetOrganisations from 'api/organisation/GetOrganisations';
 
 
 const PhysicalIDSearch = () => {
@@ -27,21 +27,9 @@ const PhysicalIDSearch = () => {
     const navigate = useNavigate();
 
     /* Base variables */
-    const { idType, idValue, organisationId } = useAppSelector(getSearchPhysicalId);
-    const [organisations, setOrganisations] = useState<Organisation[]>([]);
+    const { idType, idValue, organisationName } = useAppSelector(getSearchPhysicalId);
+    const organisations = useAppSelector(getOrganisations);
     const [errorActive, setErrorActive] = useState(false);
-    let placeholder: string = '';
-
-    /* Fetch Organisations */
-    useEffect(() => {
-        GetOrganisations().then((organisations) => {
-            if (!isEmpty(organisations)) {
-                setOrganisations(organisations);
-            }
-        }).catch((error) => {
-            console.warn(error);
-        });
-    }, []);
 
     /* Function for handling Physical ID search */
     const HandleSearch = (formData: Dict) => {
@@ -73,12 +61,12 @@ const PhysicalIDSearch = () => {
             dispatch(setSearchPhysicalId({
                 idType: 'local',
                 idValue: formData.idValue,
-                organisationId: formData.organisationId
+                organisationName: formData.organisationName
             }));
 
             /* Search for Specimen by Local Identifier */
             if (formData.idValue) {
-                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationId}` }], 25).then(({ specimens }) => {
+                SearchSpecimens([{ physicalSpecimenId: `${formData.idValue}:${formData.organisationName}` }], 25).then(({ specimens }) => {
                     if (!isEmpty(specimens)) {
                         navigate({
                             pathname: `/ds/${specimens[0].digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`,
@@ -94,7 +82,7 @@ const PhysicalIDSearch = () => {
                 /* If no local id is given, navigate to Search page with chosen Organisation as filter */
                 navigate({
                     pathname: '/search',
-                    search: `?organisationId=${formData.organisationId}`
+                    search: `?organisationName=${formData.organisationName}`
                 });
             }
         }
@@ -122,7 +110,7 @@ const PhysicalIDSearch = () => {
                     initialValues={{
                         idType: idType,
                         idValue: idValue,
-                        organisationId: organisationId
+                        organisationName: organisationName
                     }}
                     onSubmit={async (values) => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
@@ -163,7 +151,7 @@ const PhysicalIDSearch = () => {
                                     </Row>
                                 </Col>
                             </Row>
-                            {/* Organisation field (organisationId, visible if idType is local */}
+                            {/* Organisation field (organisationName, visible if idType is local */}
                             {(values.idType === 'local') &&
                                 <Row className="mt-3">
                                     <Col>
@@ -174,14 +162,14 @@ const PhysicalIDSearch = () => {
                                         </Row>
                                         <Row className="mt-1">
                                             <Col>
-                                                <Field name="organisationId" as="select"
+                                                <Field name="organisationName" as="select"
                                                     className={`${styles.searchBar} rounded-full w-100 px-3`}
                                                 >
-                                                    {organisations.map((organisation) => {
+                                                    {organisations.map((organisationName) => {
                                                         return (
-                                                            <option key={organisation.ror}
-                                                                value={organisation.ror}
-                                                                label={organisation.name}
+                                                            <option key={organisationName}
+                                                                value={organisationName}
+                                                                label={organisationName}
                                                             />
                                                         );
                                                     })}

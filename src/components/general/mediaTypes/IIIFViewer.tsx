@@ -101,6 +101,7 @@ const IIIFViewer = (props: Props) => {
             }
 
             InitOpenseadragon(infoUrl, context, width, height);
+            
             return () => {
                 if (viewer) {
                     viewer.destroy();

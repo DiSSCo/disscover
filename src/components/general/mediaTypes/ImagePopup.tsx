@@ -14,7 +14,7 @@ import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
-import { Annotation } from 'app/types/Annotation';
+import { Annotation as AnnotationType } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from './mediaTypes.module.scss';
@@ -46,7 +46,7 @@ const ImagePopup = (props: Props) => {
     /* Base variables */
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
     const user = useAppSelector(getUser);
-    let annotation: Annotation | undefined;
+    let annotation: AnnotationType | undefined;
 
     /* Function for validating Annotation value input */
     const ValidateAnnotation = (values: Dict) => {
@@ -61,7 +61,7 @@ const ImagePopup = (props: Props) => {
 
     /* If Annotation is selected, get additional data from source */
     if (selectedAnnotation) {
-        annotation = digitalMediaAnnotations.visual.find((digitalMediaAnnotation) => digitalMediaAnnotation['ods:id'] === selectedAnnotation.id);
+        annotation = digitalMediaAnnotations.visual.find((digitalMediaAnnotation: AnnotationType) => digitalMediaAnnotation['ods:id'] === selectedAnnotation.id);
     }
 
     /* ClassNames */

@@ -39,11 +39,13 @@ const OriginalData = () => {
     const tableColumns: TableColumn<DataRow>[] = [{
         name: 'Property',
         selector: row => row.property_name,
-        sortable: true
+        sortable: true,
+        wrap: true
     }, {
         name: 'Value',
         selector: row => row.property_value,
-        sortable: true
+        sortable: true,
+        wrap: true
     }]
 
 
@@ -61,6 +63,34 @@ const OriginalData = () => {
             });
         }
     });
+
+    /* Custom styles for Data Table */
+    const customStyles = {
+        table: {
+            style: {
+                height: '100%',
+                width: '100%'
+            }
+        },
+        tableWrapper : {
+            style: {
+                height: '100%',
+                width: '100%',
+                backgroundColor: 'white'
+            }
+        },
+        responsiveWrapper: {
+            style: {
+                height: '100%',
+                width: '100%'
+            }
+        },
+        head: {
+            style: {
+                fontSize: '0.875rem !important'
+            }
+        }
+    };
 
     return (
         <Row className="h-100">
@@ -88,10 +118,12 @@ const OriginalData = () => {
                                     <Row className="flex-grow-1 overflow-hidden">
                                         <Col className="h-100">
                                             <Card className="h-100">
-                                                <div className="overflow-auto">
+                                                <div className="h-100 w-100">
                                                     <DataTable
                                                         columns={tableColumns}
                                                         data={tableData}
+                                                        className="h-100 w-100 overflow-y-auto"
+                                                        customStyles={customStyles}
 
                                                         striped
                                                         highlightOnHover

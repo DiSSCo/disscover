@@ -189,8 +189,8 @@ const AnnotationForm = (props: Props) => {
                 "ods:type": annotateTarget.target['ods:type'] as string ?? annotateTarget.targetType,
                 "oa:selector": {
                     "ods:type": form.targetField ? "FieldSelector" : "ClassSelector",
-                    ...(form.targetField && {"ods:field": targetPath}),
-                    ...(form.targetClass && {"oa:class": targetPath})
+                    ...(form.targetField && { "ods:field": targetPath }),
+                    ...(form.targetClass && { "oa:class": targetPath })
                 }
             },
             "oa:body": {
@@ -231,7 +231,7 @@ const AnnotationForm = (props: Props) => {
                 targetPath = form.targetClass;
             }
 
-            bodyValue.push(JSON.stringify({[targetPath.replace('$.', '')]: form.classProperties}));
+            bodyValue.push(JSON.stringify({ [targetPath.replace('$.', '')]: form.classProperties }));
 
             targetPath = CheckPathForRoot(targetPath);
         }

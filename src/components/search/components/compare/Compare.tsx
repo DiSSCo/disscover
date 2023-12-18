@@ -67,7 +67,7 @@ const Compare = () => {
         /* Remove from Compare Specimens */
         const copyCompareSpecimens = [...compareSpecimens];
 
-        copyCompareSpecimens.splice(compareSpecimens.findIndex((specimen) => specimen.digitalSpecimen.id === specimenId), 1);
+        copyCompareSpecimens.splice(compareSpecimens.findIndex((specimen) => specimen.digitalSpecimen['ods:id'] === specimenId), 1);
 
         dispatch(setCompareSpecimens(copyCompareSpecimens));
 

@@ -15,8 +15,9 @@ export interface GeneralState {
     }[];
     language: string;
     introTopic: string;
+    organisations: string[],
     paginationObject: PaginationObject;
-    annotoriousMode: string;
+    annotoriousMode: string | null;
 };
 
 const initialState: GeneralState = {
@@ -24,8 +25,9 @@ const initialState: GeneralState = {
     promptMessages: [],
     language: 'EN',
     introTopic: '',
+    organisations: [],
     paginationObject: {} as PaginationObject,
-    annotoriousMode: 'cursor'
+    annotoriousMode: null
 };
 
 export const GeneralSlice = createSlice({
@@ -50,10 +52,13 @@ export const GeneralSlice = createSlice({
         setIntroTopic: (state, action: PayloadAction<string>) => {
             state.introTopic = action.payload;
         },
+        setOrganisations: (state, action: PayloadAction<string[]>) => {
+            state.organisations = action.payload;
+        },
         setPaginationObject: (state, action: PayloadAction<PaginationObject>) => {
             state.paginationObject = action.payload;
         },
-        setAnnotoriousMode: (state, action: PayloadAction<string>) => {
+        setAnnotoriousMode: (state, action: PayloadAction<string | null>) => {
             state.annotoriousMode = action.payload;
         }
     },
@@ -67,6 +72,7 @@ export const {
     removeFromPromptMessages,
     setLanguage,
     setIntroTopic,
+    setOrganisations,
     setPaginationObject,
     setAnnotoriousMode
 } = GeneralSlice.actions;
@@ -76,6 +82,7 @@ export const getScreenSize = (state: RootState) => state.general.screenSize;
 export const getPromptMessages = (state: RootState) => state.general.promptMessages;
 export const getLanguage = (state: RootState) => state.general.language;
 export const getIntroTopic = (state: RootState) => state.general.introTopic;
+export const getOrganisations = (state: RootState) => state.general.organisations;
 export const getPaginationObject = (state: RootState) => state.general.paginationObject;
 export const getAnnotoriousMode = (state: RootState) => state.general.annotoriousMode;
 

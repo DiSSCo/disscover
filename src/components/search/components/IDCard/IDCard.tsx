@@ -52,10 +52,15 @@ const IDCard = (props: Props) => {
                             </Col>
                         </Row>
 
-                        {/* Specimen Identifier */}
+                        {/* Specimen Identifier, Topic Dicipline and preservation state */}
                         <Row>
-                            <Col>
+                            <Col className="col-md-auto">
                                 <p className="fs-4 c-greyDark"> {specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </p>
+                            </Col>
+                            <Col className="col-md-auto pe-1">
+                                <p className="fs-4 c-primary">
+                                    {specimen.digitalSpecimen['ods:topicDiscipline']} | {specimen.digitalSpecimen['ods:livingOrPreserved']}    
+                                </p> 
                             </Col>
                         </Row>
 
@@ -76,17 +81,17 @@ const IDCard = (props: Props) => {
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 1 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 1 && styles.active} fw-lightBold`}>
                                             MIDS 1
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 2 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 2 && styles.active} fw-lightBold`}>
                                             MIDS 2
                                         </div>
                                     </Col>
                                     <Col className="col-md-auto">
-                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] >= 3 && styles.active} fw-lightBold`}>
+                                        <div className={`${styles.midsBlock} ${specimen.digitalSpecimen['ods:midsLevel'] === 3 && styles.active} fw-lightBold`}>
                                             MIDS 3
                                         </div>
                                     </Col>

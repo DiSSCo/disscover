@@ -27,7 +27,6 @@ import { faThumbsUp, faThumbsDown, faMessage } from '@fortawesome/free-regular-s
 
 /* Import API */
 import DeleteAnnotation from 'api/annotate/DeleteAnnotation';
-import GetUser from 'api/user/GetUser';
 
 
 /* Props Typing */
@@ -75,13 +74,9 @@ const Annotation = (props: Props) => {
 
             setUserTag(`${firstName} ${lastName} (you)`);
         } else {
-            GetUser(annotation['oa:creator']['ods:id']).then((_user) => {
-                setUserTag(annotation['oa:creator']['ods:id']);
-            }).catch(error => {
-                console.warn(error);
-            });
+            setUserTag(annotation['oa:creator']['foaf:name'] ?? annotation['oa:creator']['ods:id']);
         }
-    }, [])
+    }, []);
 
     /* Function for highlighting an Annotation if created or modified */
     const HighlightAnnotation = () => {

@@ -279,10 +279,10 @@ const DigitalMedia = () => {
                                                                     <button type="button"
                                                                         className={classImageAnnotateButton}
                                                                         onClick={() => {
-                                                                            if (annotoriousMode === 'cursor') {
+                                                                            if (!annotoriousMode) {
                                                                                 dispatch(setAnnotoriousMode('rectangle'))
                                                                             } else {
-                                                                                dispatch(setAnnotoriousMode('cursor'))
+                                                                                dispatch(setAnnotoriousMode(null))
                                                                             }
                                                                         }
                                                                         }

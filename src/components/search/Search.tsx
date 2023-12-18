@@ -59,9 +59,7 @@ const Search = () => {
     const compareMode = useAppSelector(getCompareMode);
     const paginationObject = useAppSelector(getPaginationObject);
     const pageSize = 25;
-    const [pageNumber, setPageNumber] = useState<number | undefined>(
-        /*(paginationObject.page === location.pathname.split('/')[1]) ? paginationObject.pageNumber :*/ undefined
-    );
+    const [pageNumber, setPageNumber] = useState<number | undefined>(undefined);
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));

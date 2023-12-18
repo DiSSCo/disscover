@@ -1,11 +1,6 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Store */
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
-
 /* Import Components */
 import Origin from './specimenBlock/Origin';
 import GeoReference from './specimenBlock/GeoReference';
@@ -14,31 +9,14 @@ import Publisher from './specimenBlock/Publisher';
 import References from './specimenBlock/References';
 
 
-const SpecimenOverview = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
+/* Props Typing */
+interface Props {
+    ShowWithAnnotations: Function
+};
 
-    /* Base variables */
-    const specimen = useAppSelector(getSpecimen);
-    const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
 
-    /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property: string, type: string = 'field') => {
-        if (property) {
-            dispatch(setAnnotateTarget({
-                targetProperty: {
-                    name: property,
-                    type: type
-                },
-                motivation: '',
-                target: specimen.digitalSpecimen,
-                targetType: 'DigitalSpecimen',
-                annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
-            }));
-        }
-
-        dispatch(setSidePanelToggle(true));
-    }
+const SpecimenOverview = (props: Props) => {
+    const { ShowWithAnnotations } = props;
 
     return (
         <Row className="h-100">
@@ -46,26 +24,26 @@ const SpecimenOverview = () => {
                 <Row className="h-100">
                     {/* Origin */}
                     <Col lg={{ span: 4 }} className="h-50 pb-2">
-                        <Origin ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                        <Origin ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName)} />
                     </Col>
 
                     {/* Geo Reference */}
                     <Col lg={{ span: 8 }} className="h-50 pb-2">
-                        <GeoReference ToggleSidePanel={(property: string, type: string) => ToggleSidePanel(property, type)} />
+                        <GeoReference ShowWithAnnotations={(propertyName: string, propertyType: string) => ShowWithAnnotations(propertyName, propertyType)} />
                     </Col>
 
                     {/* Accepted Identification */}
                     <Col lg={{ span: 4 }} className="h-50 pt-2">
-                        <Identification ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                        <Identification ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName)} />
                     </Col>
 
                     {/* Publisher */}
                     <Col lg={{ span: 4 }} className="h-50 pt-2">
-                        <Publisher ToggleSidePanel={(property: string) => ToggleSidePanel(property)} />
+                        <Publisher ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName)} />
                     </Col>
 
                     {/* References */}
-                    <Col lg={{span: 4}} className="h-50 pt-2">
+                    <Col lg={{ span: 4 }} className="h-50 pt-2">
                         <References />
                     </Col>
                 </Row>

@@ -18,12 +18,12 @@ import TaxonomicTree from 'components/general/nomenclatural/TaxonomicTree';
 
 /* Props Typing */
 interface Props {
-    ToggleSidePanel: Function
+    ShowWithAnnotations: Function
 }
 
 
 const Taxonomy = (props: Props) => {
-    const { ToggleSidePanel } = props;
+    const { ShowWithAnnotations } = props;
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
@@ -57,7 +57,7 @@ const Taxonomy = (props: Props) => {
                 <Row className="flex-grow-1 pt-2 px-2 overflow-hidden">
                     <Col>
                         <TaxonomicTree taxonIdentification={taxonIdentification}
-                            ToggleSidePanel={(property: string) => ToggleSidePanel(property)}
+                            ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName)}
                         />
                     </Col>
                 </Row>

@@ -124,6 +124,22 @@ const AnnotationForm = (props: Props) => {
             existingInstances.push(instance);
         }
 
+        const CheckForExistingInstances = (nestingLevels: string[]) => {
+            const parentLevel: string = nestingLevels[nestingLevels.length - 2];
+
+            /* If target type is field and parent class is present: search for existing instances of parent class */
+            if (parentLevel && targetType === 'field') {
+                nestingLevels.splice(nestingLevels.length - 1);
+            }
+
+            if (['DigitalSpecimen', 'DigitalMedia'].includes(nestingLevels[0])) {
+                nestingLevels.shift();
+            }
+
+            /* Search nested levels for all instances of class */
+            SearchNestedLevels(annotateTarget.target, nestingLevels, targetType, PushToExistingInstances);
+        }
+
         /* Determine class or field property */
         if (option.value) {
             let nestingLevels: string[] = [];
@@ -135,14 +151,15 @@ const AnnotationForm = (props: Props) => {
                 nestingLevels.push(option.value);
             }
 
-            if (['DigitalSpecimen', 'DigitalMedia'].includes(nestingLevels[0])) {
-                nestingLevels.shift();
+            CheckForExistingInstances(nestingLevels);
+
+            if (isEmpty(existingInstances) && targetType === 'field') {
+                /* Check for other parent classes */
+                CheckForExistingInstances(nestingLevels);
+            } else {
+                /* Continue with current level of existing classes */
+                setExistingInstances(existingInstances);
             }
-
-            /* Search nested levels for all instances of class */
-            SearchNestedLevels(annotateTarget.target, nestingLevels, targetType, PushToExistingInstances);
-
-            setExistingInstances(existingInstances);
         } else {
             setExistingInstances([]);
         }
@@ -239,26 +256,28 @@ const AnnotationForm = (props: Props) => {
         /* Craft Annotation */
         const annotation = CraftAnnotation(form, targetPath, bodyValue, targetType);
 
+        console.log(annotation);
+
         /* Check if to post or patch */
-        if (!isEmpty(editAnnotation)) {
-            /* Patch Annotation */
-            PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
-                UpdateAnnotationView(annotation);
+        // if (!isEmpty(editAnnotation)) {
+        //     /* Patch Annotation */
+        //     PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
+        //         UpdateAnnotationView(annotation);
 
-                dispatch(setHighlightAnnotationId(annotation['ods:id']));
-            }).catch(error => {
-                console.warn(error);
-            });
-        } else {
-            /* Post Annotation */
-            InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
-                UpdateAnnotationView(annotation);
+        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
+        //     }).catch(error => {
+        //         console.warn(error);
+        //     });
+        // } else {
+        //     /* Post Annotation */
+        //     InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
+        //         UpdateAnnotationView(annotation);
 
-                dispatch(setHighlightAnnotationId(annotation['ods:id']));
-            }).catch(error => {
-                console.warn(error);
-            });
-        }
+        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
+        //     }).catch(error => {
+        //         console.warn(error);
+        //     });
+        // }
     }
 
     return (

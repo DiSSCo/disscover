@@ -13,7 +13,7 @@ import {
     setSpecimenDigitalMedia, getSpecimenAnnotations, setSpecimenAnnotations
 } from 'redux/specimen/SpecimenSlice';
 import {
-    getSidePanelToggle, setSidePanelToggle, setAnnotateTarget
+    getSidePanelToggle, setSidePanelToggle, getAnnotateTarget, setAnnotateTarget, setEditAnnotation
 } from 'redux/annotate/AnnotateSlice';
 import { getScreenSize, pushToPromptMessages } from 'redux/general/GeneralSlice';
 
@@ -54,6 +54,7 @@ const Specimen = () => {
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
+    const annotateTarget = useAppSelector(getAnnotateTarget);
     const [selectedTab, setSelectedTab] = useState(0);
     const [automatedAnnotationsToggle, setAutomatedAnnotationToggle] = useState(false);
 
@@ -158,21 +159,27 @@ const Specimen = () => {
     }
 
     /* Function to open Side Panel with Annotations of Specimen, default is all Annotations */
-    const ShowWithAnnotations = (annotations?: SpecimenAnnotations, targetProperty?: string, index?: number) => {
+    const ShowWithAnnotations = (annotations?: SpecimenAnnotations, propertyName?: string, propertyType?: string, index?: number) => {
         /* Add up all property annotations into one annotations array */
         let allAnnotations: Annotation[] = [];
 
         /* Append to the all annotations array, if property is the same, or all annotations are wanted */
         Object.entries(annotations ?? specimenAnnotations).forEach((annotationEntry) => {
-            if (!targetProperty || targetProperty === annotationEntry[0]) {
+            if (!propertyName || propertyName === annotationEntry[0]) {
                 allAnnotations = allAnnotations.concat(annotationEntry[1]);
             }
         });
 
+        /* Empty Edit Annotation if other target is chosen */
+        if (propertyName && propertyName !== annotateTarget.targetProperty.name) {
+            dispatch(setEditAnnotation({} as Annotation));
+        }
+
+        /* Set new Annotate Target */
         dispatch(setAnnotateTarget({
             targetProperty: {
-                name: targetProperty ?? '',
-                type: 'field',
+                name: propertyName ?? '',
+                type: propertyType ?? 'field',
                 ...(index && { index: index })
             },
             target: specimen.digitalSpecimen,
@@ -180,15 +187,16 @@ const Specimen = () => {
             annotations: allAnnotations
         }));
 
+        /* Toggle Side Panel */
         dispatch(setSidePanelToggle(true));
     }
 
     /* Function for refreshing Annotations */
-    const RefreshAnnotations = (targetProperty?: string) => {
+    const RefreshAnnotations = (propertyName?: string) => {
         /* Refetch Specimen Annotations */
         GetSpecimenAnnotations(specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((annotations) => {
             /* Show with refreshed Annotations */
-            ShowWithAnnotations(annotations, targetProperty);
+            ShowWithAnnotations(annotations, propertyName);
 
             /* Update Annotations source */
             dispatch(setSpecimenAnnotations(annotations));
@@ -246,14 +254,17 @@ const Specimen = () => {
                                                 </Row>
                                                 <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
                                                     <Col lg={{ span: 3 }} className={`${classIdCard} IDCard`}>
-                                                        <IDCard />
+                                                        <IDCard ShowWithAnnotations={
+                                                            (annotations?: SpecimenAnnotations, targetName?: string, targetType?: string) =>
+                                                                ShowWithAnnotations(annotations, targetName, targetType)
+                                                        } />
                                                     </Col>
                                                     <Col lg={{ span: 9 }} className="contentBlock ps-4 h-100 mt-4 m-lg-0">
                                                         <ContentBlock selectedTab={selectedTab}
                                                             SetSelectedTab={(tabIndex: number) => setSelectedTab(tabIndex)}
                                                             ShowWithAnnotations={
-                                                                (annotations?: SpecimenAnnotations, property?: string, index?: number) =>
-                                                                    ShowWithAnnotations(annotations, property, index)
+                                                                (annotations?: SpecimenAnnotations, targetName?: string, targetType?: string, index?: number) =>
+                                                                    ShowWithAnnotations(annotations, targetName, targetType, index)
                                                             }
                                                         />
                                                     </Col>

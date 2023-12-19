@@ -56,7 +56,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((specimenMAS) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_specimenMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -67,7 +67,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((digitalMediaMAS) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_digitalMediaMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),

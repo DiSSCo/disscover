@@ -6,6 +6,9 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 /* Import Types */
 import { Dict } from 'app/Types';
 
+/* Import Utilities */
+import MachineJobRecordTableConfig from 'app/tableConfig/MachineJobRecordTableConfig';
+
 
 /* Props Typing */
 interface Props {
@@ -51,77 +54,8 @@ const AutomatedAnnotationsOverview = (props: Props) => {
         });
     }, []);
 
-    /* Construct table columns */
-    const tableColumns: TableColumn<DataRow>[] = [{
-        name: 'Job ID',
-        selector: row => row.id,
-        id: 'mas_job_record_id',
-        sortable: true,
-        wrap: true
-    }, {
-        name: 'Scheduled',
-        selector: row => row.scheduled,
-        id: 'mas_job_record_scheduled',
-        sortable: true,
-        wrap: true
-    }, {
-        name: 'Completed',
-        selector: row => row.completed,
-        id: 'mas_job_record_completed',
-        sortable: true,
-        wrap: true
-    }, {
-        name: 'State',
-        selector: row => row.state,
-        id: 'mas_job_record_state',
-        sortable: true,
-        wrap: true
-    }];
-
-    /* Custom styles for Data Table */
-    const customStyles = {
-        table: {
-            style: {
-                width: '100%',
-                height: '100%'
-            }
-        },
-        tableWrapper: {
-            style: {
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'white'
-            }
-        },
-        responsiveWrapper: {
-            style: {
-                width: '100%',
-                height: '100%'
-            }
-        },
-        head: {
-            style: {
-                fontSize: '0.875rem !important'
-            }
-        },
-        headRow: {
-            style: {
-                backgroundColor: '#51a993'
-            }
-        },
-        rows: {
-            style: {
-                minHeight: '40px',
-                fontSize: '0.875rem !important'
-            },
-            highlightOnHoverStyle: {
-                backgroundColor: '#98cdbf',
-            },
-            stripedStyle: {
-                backgroundColor: '#eef7f4'
-            }
-        }
-    };
+    /* Table Config */
+    const { tableColumns, customStyles} = MachineJobRecordTableConfig('MAS');
 
     return (
         <DataTable

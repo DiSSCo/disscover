@@ -1,12 +1,9 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 import Moment from 'moment';
 import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
-
-/* Import Store */
-
 
 /* Import Types */
 import { Dict } from 'app/Types';
@@ -16,6 +13,9 @@ import styles from 'components/profile/profile.module.scss';
 
 /* Import Components */
 import Paginator from 'components/general/paginator/Paginator';
+
+/* Import Utilities */
+import MachineJobRecordTableConfig from 'app/tableConfig/MachineJobRecordTableConfig';
 
 /* Import API */
 import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';
@@ -61,58 +61,8 @@ const MachineJobRecordsOverview = () => {
         });
     }, [pageNumber]);
 
-    /* Set Datatable columns */
-    const tableColumns: TableColumn<DataRow>[] = [{
-        name: 'Job ID',
-        selector: row => row.id,
-        id: 'profile_machinejobrecord_jobid',
-        sortable: true,
-        wrap: true
-    }, {
-        name: 'Scheduled',
-        selector: row => row.scheduled,
-        id: 'profile_machinejobrecord_scheduled',
-        sortable: true,
-        wrap: true
-    }, {
-        name: 'Completed',
-        selector: row => row.completed,
-        id: 'profile_machinejobrecord_completed',
-        sortable: true,
-        wrap: true
-    }, {
-        name: 'State',
-        selector: row => row.state,
-        id: 'profile_machinejobrecord_state',
-        sortable: true,
-        wrap: true
-    }];
-
-    /* Custom styles for Data Table */
-    const customStyles = {
-        head: {
-            style: {
-                color: 'white',
-                fontSize: '14px'
-            }
-        },
-        headRow: {
-            style: {
-                backgroundColor: '#51a993'
-            }
-        },
-        rows: {
-            style: {
-                minHeight: '40px'
-            },
-            highlightOnHoverStyle: {
-                backgroundColor: '#98cdbf',
-            },
-            stripedStyle: {
-                backgroundColor: '#eef7f4'
-            }
-        }
-    };
+    /* Table Config */
+    const { tableColumns, customStyles } = MachineJobRecordTableConfig('profile');
 
     return (
         <div className="h-100 d-flex flex-column">

@@ -27,14 +27,13 @@ import ScheduleDigitalMediaMAS from 'api/digitalMedia/ScheduleDigitalMediaMAS';
 
 /* Props Typing */
 interface Props {
-    targetId: string,
     availableMASList: Dict[],
-    HideAutomatedAnnotationsModal: Function
+    ReturnToOverview: Function
 };
 
 
 const AutomatedAnnotationsForm = (props: Props) => {
-    const { targetId, availableMASList, HideAutomatedAnnotationsModal } = props;
+    const { availableMASList, ReturnToOverview } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -81,8 +80,8 @@ const AutomatedAnnotationsForm = (props: Props) => {
             });
         }
 
-        /* Hide MAS Modal */
-        HideAutomatedAnnotationsModal();
+        /* Return to overview tab */
+        ReturnToOverview();
     }
 
     /* ClassNames */

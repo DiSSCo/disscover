@@ -18,7 +18,7 @@ const GetDigitalMediaMachineJobRecords = async (handle: string) => {
                 responseType: 'json'
             });
 
-            /* Set Specimen MAS */
+            /* Set Specimen Machine Job Records */
             const data: JSONResultArray = result.data;
 
             specimenMachineJobRecords = data.data;

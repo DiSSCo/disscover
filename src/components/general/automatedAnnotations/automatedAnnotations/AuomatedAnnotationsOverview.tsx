@@ -10,9 +10,7 @@ import { Dict } from 'app/Types';
 /* Props Typing */
 interface Props {
     targetId: string,
-    GetMachineJobRecords: {
-        (subString: string): Promise<Dict[]>
-    }
+    GetMachineJobRecords: (subString: string) => Promise<Dict[]>
 };
 
 

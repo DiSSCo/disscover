@@ -19,7 +19,7 @@ const GetUserMachineJobRecords = async (token: string | undefined, pageSize: num
                 responseType: 'json',
                 params: {
                     pageSize: pageSize,
-                    pageNumber: pageNumber ? pageNumber : 1
+                    pageNumber: pageNumber ?? 1
                 },
                 headers: {
                     'Content-type': 'application/json',

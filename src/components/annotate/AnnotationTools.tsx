@@ -2,6 +2,7 @@
 import classNames from "classnames";
 
 /* Import Types */
+import { Dict } from "app/Types";
 import { Annotation } from "app/types/Annotation";
 
 /* Import Components */
@@ -11,19 +12,23 @@ import SidePanel from "./sidePanel/SidePanel";
 
 /* Props Typing */
 interface Props {
+    targetId: string,
     sidePanelToggle: boolean,
     automatedAnnotationsToggle: boolean,
     SetAutomatedAnnotationToggle: Function,
     ShowWithAnnotations: Function,
     UpdateAnnotationsSource: Function,
-    RefreshAnnotations: Function
+    RefreshAnnotations: Function,
+    GetMachineJobRecords: {
+        (subString: string): Promise<Dict[]>
+    }
 };
 
 
 const AnnotationTools = (props: Props) => {
-    const {
-        sidePanelToggle, automatedAnnotationsToggle, SetAutomatedAnnotationToggle,
-        ShowWithAnnotations, UpdateAnnotationsSource, RefreshAnnotations
+    const { 
+        targetId, sidePanelToggle, automatedAnnotationsToggle, SetAutomatedAnnotationToggle,
+        ShowWithAnnotations, UpdateAnnotationsSource, RefreshAnnotations, GetMachineJobRecords
     } = props;
 
     /* Class Names */
@@ -36,8 +41,10 @@ const AnnotationTools = (props: Props) => {
     return (
         <>
             {/* Automated Annotations Modal */}
-            <AutomatedAnnotationsModal automatedAnnotationsToggle={automatedAnnotationsToggle}
+            <AutomatedAnnotationsModal targetId={targetId}
+                automatedAnnotationsToggle={automatedAnnotationsToggle}
                 HideAutomatedAnnotationsModal={() => SetAutomatedAnnotationToggle(false)}
+                GetMachineJobRecords={GetMachineJobRecords}
             />
 
             {/* Annotations Side Panel */}

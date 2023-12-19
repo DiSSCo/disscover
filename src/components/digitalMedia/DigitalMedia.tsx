@@ -46,6 +46,7 @@ import Footer from 'components/general/footer/Footer';
 import GetDigitalMedia from 'api/digitalMedia/GetDigitalMedia';
 import GetDigitalMediaAnnotations from 'api/digitalMedia/GetDigitalMediaAnnotations';
 import GetDigitalMediaVersions from 'api/digitalMedia/GetDigitalMediaVersions';
+import GetDigitalMediaMachineJobRecords from 'api/digitalMedia/GetDigitalMediaMachineJobRecords';
 
 
 const DigitalMedia = () => {
@@ -326,12 +327,14 @@ const DigitalMedia = () => {
                 </Col>
 
                 {/* Annotation Tools */}
-                <AnnotationTools sidePanelToggle={sidePanelToggle}
+                <AnnotationTools targetId={!isEmpty(digitalMedia.digitalEntity) ? digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '') : ''}
+                    sidePanelToggle={sidePanelToggle}
                     automatedAnnotationsToggle={automatedAnnotationsToggle}
                     SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationsToggle(toggle)}
                     ShowWithAnnotations={() => ShowWithAnnotations()}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                     RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
+                    GetMachineJobRecords={GetDigitalMediaMachineJobRecords}
                 />
             </Row>
         </div>

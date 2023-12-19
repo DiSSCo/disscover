@@ -26,18 +26,23 @@ import GetSpecimenMAS from 'api/specimen/GetSpecimenMAS';
 import GetDigitalMediaMAS from 'api/digitalMedia/GetDigitalMediaMAS';
 
 /* Import Components */
+import AutomatedAnnotationsOverview from './AuomatedAnnotationsOverview';
 import AutomatedAnnotationsForm from './AutomatedAnnotationsForm';
 
 
 /* Props Typing */
 interface Props {
+    targetId: string,
     automatedAnnotationsToggle: boolean,
-    HideAutomatedAnnotationsModal: Function
+    HideAutomatedAnnotationsModal: Function,
+    GetMachineJobRecords: {
+        (subString: string): Promise<Dict[]>
+    }
 };
 
 
 const AutomatedAnnotationsModal = (props: Props) => {
-    const { automatedAnnotationsToggle, HideAutomatedAnnotationsModal } = props;
+    const { targetId, automatedAnnotationsToggle, HideAutomatedAnnotationsModal, GetMachineJobRecords } = props;
 
     /* Hooks */
     const location = useLocation();
@@ -96,12 +101,21 @@ const AutomatedAnnotationsModal = (props: Props) => {
                     <Col>
                         <Tabs className="h-100 d-flex flex-column">
                             <TabList className={classTabsList}>
-                                <Tab className={classTab} selectedClassName="active"> Schedule new Service </Tab>
+                                <Tab className={classTab} selectedClassName='active'> Services overview </Tab>
+                                <Tab className={classTab} selectedClassName="active"> Schedule a new Service </Tab>
                             </TabList>
 
+                            {/* Overview showing all current and past services */}
+                            <TabPanel className="react-tabs__tab-panel pt-1 px-3 flex-grow-1">
+                                <AutomatedAnnotationsOverview targetId={targetId}
+                                    GetMachineJobRecords={GetMachineJobRecords}
+                                />
+                            </TabPanel>
+
                             {/* Run a new automated annotation service */}
-                            <TabPanel className="pt-1 px-3 d-flex flex-grow-1">
-                                <AutomatedAnnotationsForm availableMASList={targetMAS}
+                            <TabPanel className="react-tabs__tab-panel pt-1 px-3 flex-grow-1">
+                                <AutomatedAnnotationsForm targetId={targetId}
+                                    availableMASList={targetMAS}
                                     HideAutomatedAnnotationsModal={() => HideAutomatedAnnotationsModal()}
                                 />
                             </TabPanel>

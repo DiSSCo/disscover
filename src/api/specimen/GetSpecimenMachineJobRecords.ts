@@ -5,8 +5,9 @@ import axios from 'axios';
 import { JSONResultArray, Dict } from 'app/Types';
 
 
-const GetSpecimenMachineJobRecords = async (handle: string) => {
+const GetSpecimenMachineJobRecords = async (handle: string, pageSize: number, pageNumber: number) => {
     let specimenMachineJobRecords: Dict[] = [];
+    let links: Dict = {};
 
     if (handle) {
         const endPoint: string = `/specimens/${handle}/mjr`;
@@ -15,19 +16,27 @@ const GetSpecimenMachineJobRecords = async (handle: string) => {
             const result = await axios({
                 method: "get",
                 url: endPoint,
-                responseType: 'json'
+                responseType: 'json',
+                params: {
+                    pageSize: pageSize,
+                    pageNumber: pageNumber ?? 1
+                }
             });
 
             /* Set Specimen Machine Job Records */
             const data: JSONResultArray = result.data;
 
             specimenMachineJobRecords = data.data;
+            links = data.links;
         } catch (error) {
             console.warn(error);
         }
     }
 
-    return specimenMachineJobRecords;
+    return {
+        machineJobRecords: specimenMachineJobRecords,
+        links: links
+    };
 }
 
 export default GetSpecimenMachineJobRecords;

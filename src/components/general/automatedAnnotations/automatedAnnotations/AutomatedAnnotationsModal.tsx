@@ -35,7 +35,7 @@ interface Props {
     targetId: string,
     automatedAnnotationsToggle: boolean,
     HideAutomatedAnnotationsModal: Function,
-    GetMachineJobRecords: (subString: string) => Promise<Dict[]>
+    GetMachineJobRecords: (targetId: string, pageSize: number, pageNumber: number) => Promise<{machineJobRecords: Dict[], links: Dict}>
 };
 
 

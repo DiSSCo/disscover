@@ -19,7 +19,7 @@ interface Props {
     ShowWithAnnotations: Function,
     UpdateAnnotationsSource: Function,
     RefreshAnnotations: Function,
-    GetMachineJobRecords: (subString: string) => Promise<Dict[]>
+    GetMachineJobRecords: (targetId: string, pageSize: number, pageNumber: number) => Promise<{machineJobRecords: Dict[], links: Dict}>
 };
 
 

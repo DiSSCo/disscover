@@ -8,9 +8,6 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Types */
 import { Dict } from 'app/Types';
 
-/* Import Styles */
-import styles from 'components/profile/profile.module.scss';
-
 /* Import Components */
 import Paginator from 'components/general/paginator/Paginator';
 
@@ -24,13 +21,14 @@ import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';
 const MachineJobRecordsOverview = () => {
     /* Base variables */
     const [tableData, setTableData] = useState<DataRow[]>([]);
-    const pageSize = 25;
-    const [pageNumber, setPageNumber] = useState<number>(1);
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const pageSize = 25;
 
     interface DataRow {
         index: number,
         id: string,
+        targetId: string,
         scheduled: string,
         completed: string,
         state: string
@@ -43,9 +41,12 @@ const MachineJobRecordsOverview = () => {
             const tableData: DataRow[] = [];
 
             machineJobRecords.forEach((machineJobRecord: Dict, index: number) => {
+                console.log(machineJobRecord);
+
                 tableData.push({
                     index: index,
                     id: machineJobRecord.id,
+                    targetId: machineJobRecord.attributes.targetId,
                     scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
                     completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
                     state: machineJobRecord.attributes.state
@@ -62,11 +63,11 @@ const MachineJobRecordsOverview = () => {
     }, [pageNumber]);
 
     /* Table Config */
-    const { tableColumns, customStyles } = MachineJobRecordTableConfig('profile');
+    const { tableColumns, customStyles } = MachineJobRecordTableConfig('profile', true);
 
     return (
         <div className="h-100 d-flex flex-column">
-            <Row className={`${styles.annotationsTable} flex-grow-1 pb-2`}>
+            <Row className="flex-grow-1 pb-2">
                 <Col className="h-100">
                     <div className="h-100 overflow-scroll b-secondary rounded-c">
                         <DataTable
@@ -76,6 +77,7 @@ const MachineJobRecordsOverview = () => {
 
                             striped
                             highlightOnHover
+                            pointerOnHover
                         />
                     </div>
                 </Col>

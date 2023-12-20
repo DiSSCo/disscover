@@ -41,8 +41,6 @@ const MachineJobRecordsOverview = () => {
             const tableData: DataRow[] = [];
 
             machineJobRecords.forEach((machineJobRecord: Dict, index: number) => {
-                console.log(machineJobRecord);
-
                 tableData.push({
                     index: index,
                     id: machineJobRecord.id,

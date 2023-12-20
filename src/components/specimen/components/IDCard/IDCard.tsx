@@ -2,13 +2,8 @@
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { useAppSelector } from 'app/hooks';
 import { getSpecimen, getSpecimenAnnotations, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget, setEditAnnotation, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
-
-/* Import Types */
-import { TargetProperty } from 'app/Types';
-import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -30,9 +25,6 @@ interface Props {
 
 const IDCard = (props: Props) => {
     const { ShowWithAnnotations } = props;
-
-    /* Hooks */
-    const dispatch = useAppDispatch();
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);

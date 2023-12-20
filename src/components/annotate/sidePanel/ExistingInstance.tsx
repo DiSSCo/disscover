@@ -57,7 +57,7 @@ const ExistingInstance = (props: Props) => {
 
         /* Set Annotate target current values */
         if (targetPropertyType === 'field' && typeof(instance) === 'object') {
-            copyAnnotateTarget.currentValue = [instance[targetPropertyName.split('.').pop() as string] as string | number | boolean];
+            copyAnnotateTarget.currentValue = [instance[targetPropertyName.split('.').pop() as string] as Property];
         } else {
             copyAnnotateTarget.currentValue = [instance];
         }
@@ -122,8 +122,8 @@ const ExistingInstance = (props: Props) => {
                         </Col>
                         <Col className="ps-2">
                             {typeof (instance) === 'object' ?
-                                <p className="fs-4"> {instance[targetPropertyName.split('.').pop() as string] as string | number | boolean ?? 'Undefined'} </p>
-                                : <p className="fs-4"> {instance as string | number | boolean} </p>
+                                <p className="fs-4"> {instance[targetPropertyName.split('.').pop() as string] as Property ?? 'Undefined'} </p>
+                                : <p className="fs-4"> {instance as Property} </p>
                             }
                         </Col>
                     </Row>

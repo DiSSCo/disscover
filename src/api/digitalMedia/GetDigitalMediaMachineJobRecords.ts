@@ -6,7 +6,7 @@ import { JSONResultArray, Dict } from 'app/Types';
 
 
 const GetDigitalMediaMachineJobRecords = async (handle: string, pageSize: number, pageNumber: number) => {
-    let specimenMachineJobRecords: Dict[] = [];
+    let digitalMediaMachineJobRecords: Dict[] = [];
     let links: Dict = {};
 
     if (handle) {
@@ -23,10 +23,10 @@ const GetDigitalMediaMachineJobRecords = async (handle: string, pageSize: number
                 }
             });
 
-            /* Set Specimen Machine Job Records */
+            /* Set DigitalMedia Machine Job Records */
             const data: JSONResultArray = result.data;
 
-            specimenMachineJobRecords = data.data;
+            digitalMediaMachineJobRecords = data.data;
             links = data.links;
         } catch (error) {
             console.warn(error);
@@ -34,7 +34,7 @@ const GetDigitalMediaMachineJobRecords = async (handle: string, pageSize: number
     }
 
     return {
-        machineJobRecords: specimenMachineJobRecords,
+        machineJobRecords: digitalMediaMachineJobRecords,
         links: links
     };
 }

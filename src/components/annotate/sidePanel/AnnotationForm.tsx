@@ -124,9 +124,35 @@ const AnnotationForm = (props: Props) => {
             existingInstances.push(instance);
         }
 
+        const CheckForExistingInstances = (nestingLevels: string[]) => {
+            const parentLevel: string = nestingLevels[nestingLevels.length - 2];
+            let localNestingLevels = [...nestingLevels];
+            let localTargetType: string = targetType;
+
+            /* If target type is field and parent class is present: search for existing instances of parent class */
+            if (parentLevel && targetType === 'field') {
+                nestingLevels.splice(nestingLevels.length - 1);
+
+                localTargetType = 'class';
+            }
+
+            if (['DigitalSpecimen', 'DigitalMedia'].includes(nestingLevels[0])) {
+                nestingLevels.shift();
+            }
+
+            /* Search nested levels for all instances of class */
+            SearchNestedLevels(annotateTarget.target, nestingLevels, localTargetType, PushToExistingInstances);
+
+            /* Splice last index from local nesting levels for parent class validation */
+            localNestingLevels.splice(localNestingLevels.length - 1);
+
+            return localNestingLevels;
+        }
+
         /* Determine class or field property */
         if (option.value) {
             let nestingLevels: string[] = [];
+            let localNestingLevels: string[] | undefined;
 
             /* Determine property indicator, keep nesting in mind */
             if (option.value.includes('.')) {
@@ -135,13 +161,11 @@ const AnnotationForm = (props: Props) => {
                 nestingLevels.push(option.value);
             }
 
-            if (['DigitalSpecimen', 'DigitalMedia'].includes(nestingLevels[0])) {
-                nestingLevels.shift();
-            }
+            do {
+                localNestingLevels = CheckForExistingInstances(localNestingLevels ?? nestingLevels);
+            } while (isEmpty(existingInstances) && targetType === 'field');
 
-            /* Search nested levels for all instances of class */
-            SearchNestedLevels(annotateTarget.target, nestingLevels, targetType, PushToExistingInstances);
-
+            /* Continue with current level of existing (parent) classes */
             setExistingInstances(existingInstances);
         } else {
             setExistingInstances([]);

@@ -18,12 +18,12 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    ToggleSidePanel: Function
+    ShowWithAnnotations: Function
 };
 
 
 const Origin = (props: Props) => {
-    const { ToggleSidePanel } = props;
+    const { ShowWithAnnotations } = props;
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
@@ -66,7 +66,7 @@ const Origin = (props: Props) => {
                                     <Col>
                                         {/* Collector */}
                                         <Row className="c-pointer"
-                                            onClick={() => ToggleSidePanel('dwc:recordedBy')}
+                                            onClick={() => ShowWithAnnotations('dwc:recordedBy')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Collector:
@@ -77,7 +77,7 @@ const Origin = (props: Props) => {
                                         </Row>
                                         {/* Country */}
                                         <Row className="c-pointer"
-                                            onClick={() => ToggleSidePanel('dwc:country')}
+                                            onClick={() => ShowWithAnnotations('occurrences[0].location.dwc:country')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold d-flex align-items-center">
                                                 Country:
@@ -96,7 +96,7 @@ const Origin = (props: Props) => {
                                         </Row>
                                         {/* Locality */}
                                         <Row className="c-pointer"
-                                            onClick={() => ToggleSidePanel('dwc:locality')}
+                                            onClick={() => ShowWithAnnotations('occurrences[0].location.dwc:locality')}
                                         >
                                             <Col className="col-md-auto m-0 fw-lightBold">
                                                 Locality:
@@ -117,7 +117,7 @@ const Origin = (props: Props) => {
                                         </Row>
                                         {/* Earliest Stage */}
                                         <Row className="c-pointer"
-                                            onClick={() => ToggleSidePanel('dwc:earliestAgeOrLowestStage')}
+                                            onClick={() => ShowWithAnnotations('occurrences[0].location.geologicalContext.dwc:earliestAgeOrLowestStage')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Earliest stage:
@@ -128,7 +128,7 @@ const Origin = (props: Props) => {
                                         </Row>
                                         {/* Latest Stage */}
                                         <Row className="c-pointer"
-                                            onClick={() => ToggleSidePanel('dwc:latestAgeOrHighestStage')}
+                                            onClick={() => ShowWithAnnotations('occurrences[0].location.geologicalContext.dwc:latestAgeOrHighestStage')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Latest stage:

@@ -15,12 +15,12 @@ import OrganisationLogoImage from 'components/general/mediaTypes/OrganisationLog
 
 /* Props Typing */
 interface Props {
-    ToggleSidePanel: Function
+    ShowWithAnnotations: Function
 };
 
 
 const Organisation = (props: Props) => {
-    const { ToggleSidePanel } = props;
+    const { ShowWithAnnotations } = props;
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
@@ -57,7 +57,7 @@ const Organisation = (props: Props) => {
                                     <Col>
                                         {/* Organisation Name */}
                                         <Row className="c-pointer"
-                                            onClick={() => ToggleSidePanel('dwc:institutionName')}
+                                            onClick={() => ShowWithAnnotations('dwc:institutionName')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Name:
@@ -68,7 +68,7 @@ const Organisation = (props: Props) => {
                                         </Row>
                                         {/*  */}
                                         <Row className="c-pointer mt-2"
-                                            onClick={() => ToggleSidePanel('dwc:datasetName')}
+                                            onClick={() => ShowWithAnnotations('dwc:datasetName')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold d-">
                                                 Collection:
@@ -79,7 +79,7 @@ const Organisation = (props: Props) => {
                                         </Row>
                                         {/* Rights Holder */}
                                         <Row className="c-pointer mt-2"
-                                            onClick={() => ToggleSidePanel('dcterms:rightsHolder')}
+                                            onClick={() => ShowWithAnnotations('dcterms:rightsHolder')}
                                         >
                                             <Col className="col-md-auto pe-0 fw-lightBold">
                                                 Rights holder:

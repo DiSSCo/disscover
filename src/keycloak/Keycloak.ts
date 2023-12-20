@@ -21,7 +21,7 @@ const InitKeyCloak = (callback?: EmptyCallback, token?: string) => {
     })
         .then((authenticated) => { 
             if (!authenticated) {
-                console.log("User is not authenticated");
+                console.info("User is not authenticated");
             }
 
             if (callback) {
@@ -49,6 +49,10 @@ const UpdateToken = (successCallback: EmptyCallback) =>
 const GetSubject = () => keycloak.subject;
 
 const HasRole = (roles: any) => roles.some((role: any) => keycloak.hasRealmRole(role));
+
+keycloak.onTokenExpired = () => {
+    Logout();
+}
 
 const KeycloakService = {
     InitKeyCloak,

@@ -20,12 +20,12 @@ import Genus from './Genus';
 /* Props Typing */
 interface Props {
     taxonIdentification: Dict,
-    ToggleSidePanel: Function
+    ShowWithAnnotations: Function
 }
 
 
 const TaxonomicTree = (props: Props) => {
-    const { taxonIdentification, ToggleSidePanel } = props;
+    const { taxonIdentification, ShowWithAnnotations } = props;
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -51,7 +51,7 @@ const TaxonomicTree = (props: Props) => {
                     {/* Kingdom */}
                     <Row>
                         <Col className="fs-4 textOverflow c-pointer"
-                            onClick={() => ToggleSidePanel('dwc:kingdom')}
+                            onClick={() => ShowWithAnnotations('dwc:kingdom')}
                         >
                             <span className="fw-lightBold">Kingdom: </span> <Kingdom kingdom={taxonIdentification["dwc:kingdom"]} />
                         </Col>
@@ -59,7 +59,7 @@ const TaxonomicTree = (props: Props) => {
                     {/* Class */}
                     <Row>
                         <Col className="fs-4 textOverflow c-pointer"
-                            onClick={() => ToggleSidePanel('dwc:class')}
+                            onClick={() => ShowWithAnnotations('dwc:class')}
                         >
                             <span className="fw-lightBold">Class: </span> <Class classProp={taxonIdentification["dwc:class"]} />
                         </Col>
@@ -67,7 +67,7 @@ const TaxonomicTree = (props: Props) => {
                     {/* Phylum */}
                     <Row>
                         <Col className="fs-4 textOverflow c-pointer"
-                            onClick={() => ToggleSidePanel('dwc:phylum')}
+                            onClick={() => ShowWithAnnotations('dwc:phylum')}
                         >
                             <span className="fw-lightBold">Phylum: </span> <Phylum phylum={taxonIdentification["dwc:phylum"]} />
                         </Col>
@@ -75,7 +75,7 @@ const TaxonomicTree = (props: Props) => {
                     {/* Order */}
                     <Row>
                         <Col className="fs-4 textOverflow c-pointer"
-                            onClick={() => ToggleSidePanel('dwc:order')}
+                            onClick={() => ShowWithAnnotations('dwc:order')}
                         >
                             <span className="fw-lightBold">Order: </span> <Order order={taxonIdentification["dwc:order"]} />
                         </Col>
@@ -83,7 +83,7 @@ const TaxonomicTree = (props: Props) => {
                     {/* Family */}
                     <Row>
                         <Col className="fs-4 textOverflow c-pointer"
-                            onClick={() => ToggleSidePanel('dwc:family')}
+                            onClick={() => ShowWithAnnotations('dwc:family')}
                         >
                             <span className="fw-lightBold">Family: </span> <Family family={taxonIdentification["dwc:family"]} />
                         </Col>
@@ -91,7 +91,7 @@ const TaxonomicTree = (props: Props) => {
                     {/* Genus */}
                     <Row>
                         <Col className="fs-4 textOverflow c-pointer"
-                            onClick={() => ToggleSidePanel('dwc:genus')}
+                            onClick={() => ShowWithAnnotations('dwc:genus')}
                         >
                             <span className="fw-lightBold">Genus: </span> <Genus genus={taxonIdentification["dwc:genus"]} />
                         </Col>

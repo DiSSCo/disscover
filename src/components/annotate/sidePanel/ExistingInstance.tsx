@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import classNames from 'classnames';
+import { FormatTargetPropertyPath } from 'app/utilities/AnnotationUtilities';
 import { ReturnPropertiesFromNestedObject } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
@@ -36,6 +37,7 @@ const ExistingInstance = (props: Props) => {
     const [collapseToggle, setCollapseToggle] = useState<boolean>(false);
     let propertiesList: { key: string, value: Property }[] = [];
     let i = index + 1;
+    const formattedTargetPropertyName = FormatTargetPropertyPath(targetPropertyName, annotateTarget.targetType, index);
 
     /* If target is class, get all properties and levels from existing instance */
     if (targetPropertyType === 'class') {
@@ -49,19 +51,43 @@ const ExistingInstance = (props: Props) => {
         /* Set Annotate target to chosen class or property */
         copyAnnotateTarget.targetProperty = {
             type: targetPropertyType,
-            name: targetPropertyName,
+            name: formattedTargetPropertyName,
             index: index
         }
 
         /* Set Annotate target current values */
-        copyAnnotateTarget.currentValue = [instance];
+        if (targetPropertyType === 'field' && typeof(instance) === 'object') {
+            copyAnnotateTarget.currentValue = [instance[targetPropertyName.split('.').pop() as string] as Property];
+        } else {
+            copyAnnotateTarget.currentValue = [instance];
+        }
 
         /* Set Annotate target motivation */
-        copyAnnotateTarget.motivation = 'oa:editing';
+        copyAnnotateTarget.motivation = 'ods:adding';
 
         dispatch(setAnnotateTarget(copyAnnotateTarget));
     }
-    
+
+    /* Function to list all existing instances */
+    const ListExistingInstances = () => {
+        const existingInstances: JSX.Element[] = [];
+
+        propertiesList.forEach((propertyPair: { key: string, value: Property }) => {
+            existingInstances.push(
+                <Row key={propertyPair.key} className="mt-1">
+                    <Col className="col-md-auto pe-0">
+                        <p className="fs-4 fw-lightBold"> {propertyPair.key}: </p>
+                    </Col>
+                    <Col className="ps-2">
+                        <p className="fs-4"> {propertyPair.value} </p>
+                    </Col>
+                </Row>
+            );
+        })
+
+        return existingInstances;
+    }
+
     /* ClassNames */
     const instancePropertiesClass = classNames({
         'd-none': !collapseToggle,
@@ -87,26 +113,18 @@ const ExistingInstance = (props: Props) => {
             {targetPropertyType === 'class' ?
                 <div className={instancePropertiesClass}>
                     {/* For each property of instance: show key and value pair */}
-                    {propertiesList.map((propertyPair: { key: string, value: Property }) => {
-                        return (
-                            <Row key={propertyPair.key} className="mt-1">
-                                <Col className="col-md-auto pe-0">
-                                    <p className="fs-4 fw-lightBold"> {propertyPair.key}: </p>
-                                </Col>
-                                <Col className="ps-2">
-                                    <p className="fs-4"> {propertyPair.value} </p>
-                                </Col>
-                            </Row>
-                        );
-                    })}
+                    {ListExistingInstances()}
                 </div>
                 : <div>
                     <Row className="mt-1">
                         <Col className="col-md-auto pe-0">
-                            <p className="fs-4 fw-lightBold"> {targetPropertyName}: </p>
+                            <p className="fs-4 fw-lightBold"> {formattedTargetPropertyName}: </p>
                         </Col>
                         <Col className="ps-2">
-                            <p className="fs-4"> {instance as string | number | boolean} </p>
+                            {typeof (instance) === 'object' ?
+                                <p className="fs-4"> {instance[targetPropertyName.split('.').pop() as string] as Property ?? 'Undefined'} </p>
+                                : <p className="fs-4"> {instance} </p>
+                            }
                         </Col>
                     </Row>
                 </div>

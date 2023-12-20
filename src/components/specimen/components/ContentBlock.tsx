@@ -69,7 +69,9 @@ const ContentBlock = (props: Props) => {
 
                             {/* Specimen Overview */}
                             <TabPanel className={`${classTabPanel} ${styles.specimenTabPanel}`}>
-                                <SpecimenOverview />
+                                <SpecimenOverview ShowWithAnnotations={(propertyName: string, propertyType: string = 'field', index?: number) =>
+                                    ShowWithAnnotations(undefined, propertyName, propertyType, index)
+                                } />
                             </TabPanel>
 
                             {/* Digital Media Overview, if present */}
@@ -79,22 +81,22 @@ const ContentBlock = (props: Props) => {
 
                             {/* Occurrences View */}
                             <TabPanel className={classTabPanel}>
-                                <Occurrences ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
+                                <Occurrences ShowWithAnnotations={(propertyName: string, index: number) => ShowWithAnnotations(undefined, propertyName, 'field', index)} />
                             </TabPanel>
 
                             {/* Identifications View */}
                             <TabPanel className={classTabPanel}>
-                                <Identifications ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
+                                <Identifications ShowWithAnnotations={(propertyName: string, index: number) => ShowWithAnnotations(undefined, propertyName, 'field', index)} />
                             </TabPanel>
 
                             {/* Entity Relationships View */}
                             <TabPanel className={classTabPanel}>
-                                <EntityRelationships ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
+                                <EntityRelationships ShowWithAnnotations={(propertyName: string, index: number) => ShowWithAnnotations(undefined, propertyName, 'field', index)} />
                             </TabPanel>
 
                             {/* Assertions View */}
                             <TabPanel className={classTabPanel}>
-                                <Assertions ShowWithAnnotations={(property: string, index: number) => ShowWithAnnotations(undefined, property, index)} />
+                                <Assertions ShowWithAnnotations={(propertyName: string, index: number) => ShowWithAnnotations(undefined, propertyName, 'field', index)} />
                             </TabPanel>
 
                             {/* Original Data View */}

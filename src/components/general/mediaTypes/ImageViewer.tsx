@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { isEmpty } from 'lodash';
 import {
-    // Annotator,
     AnnotoriousImageAnnotator,
     ImageAnnotation,
     OpenSeadragonAnnotator,
@@ -60,8 +59,8 @@ const ImageViewer = (props: Props) => {
 
     const OSDOptions: OpenSeadragon.Options = {
         prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/",
-        ajaxWithCredentials: true,
         crossOriginPolicy: 'Anonymous',
+        ajaxWithCredentials: false,
         gestureSettingsMouse: {
             clickToZoom: false
         }
@@ -80,7 +79,10 @@ const ImageViewer = (props: Props) => {
             setImage(image.target);
 
             if (viewerRef.current) {
-                viewerRef.current.open(digitalMedia.digitalEntity['ac:accessUri']);
+                viewerRef.current.open({
+                    type: 'image',
+                    url: digitalMedia.digitalEntity['ac:accessUri']
+                });
             }
         });
     }, [mediaUrl]);
@@ -300,7 +302,6 @@ const ImageViewer = (props: Props) => {
                 adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
                 keepEnabled={false}
                 drawingEnabled={annotoriousMode}
-                // tool={annotoriousMode}
                 pointerSelectAction={SelectAction}
             >
                 <OpenSeadragonViewer className="openseadragon h-100"

@@ -2,13 +2,8 @@
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { useAppSelector } from 'app/hooks';
 import { getSpecimen, getSpecimenAnnotations, getSpecimenDigitalMedia } from 'redux/specimen/SpecimenSlice';
-import { setAnnotateTarget, setEditAnnotation, setSidePanelToggle } from 'redux/annotate/AnnotateSlice';
-
-/* Import Types */
-import { TargetProperty } from 'app/Types';
-import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -22,49 +17,20 @@ import OrganisationProperty from './OrganisationProperty';
 import PhysicalSpecimenIdProperty from './PhysicalSpecimenIdProperty';
 
 
-const IDCard = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
+/* Props Typing */
+interface Props {
+    ShowWithAnnotations: Function
+};
+
+
+const IDCard = (props: Props) => {
+    const { ShowWithAnnotations } = props;
 
     /* Base variables */
     const specimen = useAppSelector(getSpecimen);
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const specimenDigitalMedia = useAppSelector(getSpecimenDigitalMedia);
     let bannerImage: string = '';
-
-    /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property: string, type: string = 'field') => {
-        /* Preprare Target Property */
-        let targetProperty: TargetProperty;
-
-        if (type === 'class') {
-            targetProperty = {
-                name: property,
-                type: 'class'
-            }
-        } else {
-            targetProperty = {
-                name: property,
-                type: 'field'
-            };
-        }
-
-        if (targetProperty.name) {
-            /* Set the Annotate target */
-            dispatch(setAnnotateTarget({
-                targetProperty,
-                motivation: '',
-                target: specimen.digitalSpecimen,
-                targetType: 'DigitalSpecimen',
-                annotations: specimenAnnotations[property] ? specimenAnnotations[property] : []
-            }));
-
-            /* Reset Edit Annotation */
-            dispatch(setEditAnnotation({} as Annotation));
-        }
-
-        dispatch(setSidePanelToggle(true));
-    }
 
     /* Check for 2D Digital Media item that fits banner */
     for (let digitalMedia of specimenDigitalMedia) {
@@ -110,7 +76,7 @@ const IDCard = () => {
                                         <Col className="col-md-auto h-100 d-flex flex-column justify-content-between">
                                             <Row className="fs-4">
                                                 <Col className={`scientificName ${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('ods:specimenName')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'ods:specimenName', 'field')}
                                                 >
                                                     <dfn className="fw-lightBold" role="term">Name in collection:</dfn>
                                                     <br className="d-none d-lg-block" />
@@ -124,7 +90,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('ods:physicalSpecimenId')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'ods:physicalSpecimenId', 'field')}
                                                 >
                                                     <span className="fw-lightBold">
                                                         Physical specimen ID ({specimen.digitalSpecimen['ods:physicalSpecimenIdType']}):
@@ -140,7 +106,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('ods:organisationId')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'ods:organisationId', 'field')}
                                                 >
                                                     <span className="fw-lightBold">Specimen provider:</span>
                                                     <br className="d-none d-lg-block" />
@@ -156,7 +122,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1`}
-                                                    onClick={() => ToggleSidePanel('dwc:collectionCode')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'dwc:collectionCode', 'field')}
                                                 >
                                                     <span className="fw-lightBold">In collection:</span>
                                                     <br className="d-none d-lg-block" />
@@ -170,7 +136,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('ods:topicDiscipline')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'ods:topicDiscipline', 'field')}
                                                 >
                                                     <span className="fw-lightBold">
                                                         Topic Discipline:
@@ -186,7 +152,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('dwc:basisOfRecord')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'dwc:basisOfRecord', 'field')}
                                                 >
                                                     <span className="fw-lightBold">
                                                         Basis of Record:
@@ -202,7 +168,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
-                                                    onClick={() => ToggleSidePanel('ods:livingOrPreserved')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'ods:livingOrPreserved', 'field')}
                                                 >
                                                     <span className="fw-lightBold">
                                                         Living or Preserved:
@@ -218,7 +184,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 text-truncate`}
-                                                    onClick={() => ToggleSidePanel('dcterms:license')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'dcterms:license', 'field')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">License:</span>
                                                     <br className="d-none d-lg-block" />
@@ -232,7 +198,7 @@ const IDCard = () => {
                                             </Row>
                                             <Row className="fs-4">
                                                 <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 text-truncate`}
-                                                    onClick={() => ToggleSidePanel('ods:sourceSystem')}
+                                                    onClick={() => ShowWithAnnotations(undefined, 'ods:sourceSystem', 'field')}
                                                 >
                                                     <span className="fw-lightBold m-0 h-50">Source System:</span>
                                                     <br className="d-none d-lg-block" />

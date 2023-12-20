@@ -31,23 +31,25 @@ const FormBottom = (props: Props) => {
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const editAnnotation = useAppSelector(getEditAnnotation);
-    
+
     return (
         <>
             {/* Annotate new instance of button */}
             {((values.targetClass || values.targetField) && !annotateTarget.targetProperty.name && isEmpty(editAnnotation)) &&
                 <Row className="flex-grow-1 py-3">
                     <Col>
-                        <button type="button" className="secondaryButton w-100"
-                            onClick={() => AnnotateNewInstance(
-                                values.targetField ? 'field' : 'class',
-                                values.targetField ? values.targetField : values.targetClass
-                            )}
-                        >
-                            Annotate new instance of {values.targetField ? 'property' : 'class'}
+                        {!values.targetField &&
+                            <button type="button" className="secondaryButton w-100"
+                                onClick={() => AnnotateNewInstance(
+                                    values.targetField ? 'field' : 'class',
+                                    values.targetField ? values.targetField : values.targetClass
+                                )}
+                            >
+                                Annotate new instance of {values.targetField ? 'property' : 'class'}
 
-                            <FontAwesomeIcon icon={faPlus} className="mx-2" />
-                        </button>
+                                <FontAwesomeIcon icon={faPlus} className="mx-2" />
+                            </button>
+                        }
                     </Col>
                 </Row>
             }

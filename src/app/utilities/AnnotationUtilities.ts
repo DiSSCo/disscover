@@ -204,7 +204,7 @@ const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targe
 
         SearchNestedLevels(nextLevel, nestingLevels, targetType, PushToExistingInstances);
     } else if (Array.isArray(level) && nestingLevels.length) {
-        level.forEach((nextLevel: Dict) => {
+        level.forEach((nextLevel: Dict, index: number) => {
             SearchNestedLevels(nextLevel, nestingLevels, targetType, PushToExistingInstances);
         });
     } else if (Array.isArray(level)) {
@@ -219,6 +219,58 @@ const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targe
             PushToExistingInstances(level);
         }
     }
+}
+
+/* Function for formatting the property path based upon the base model and its typings, indexes are assigned to the first parent class that represents an array */
+const FormatTargetPropertyPath = (path: string, targetType: string = 'DigitalSpecimen', index?: number) => {
+    let baseModel: Dict;
+    let formattedPath: string = '';
+
+        /* Prepare base model */
+    if (targetType === 'DigitalMedia') {
+        baseModel = DigitalEntity.properties;
+    } else {
+        baseModel = DigitalSpecimen.properties;
+    }
+
+    /* Function to check if type of property is array */
+    const CheckArrayType = (schema: Dict, level: string) => {
+        let formattedLevel = level;
+
+        if (schema[level].type === 'array') {
+            formattedLevel = `${level}[${index}]`;
+        }
+
+        return formattedLevel;
+    }
+
+    /* Function to concat level to field, add dot if index is greater than zero */
+    const ConcatToField = (level: string, index: number) => {
+        if (index > 0) {
+            formattedPath = formattedPath.concat(`.${level}`);
+        } else {
+            formattedPath = formattedPath.concat(level);
+        }
+    }
+
+    const levels = path.replace(`${targetType}.`, '').split('.');
+    let loopedLevels: string[] = [];
+
+    levels.forEach((level, index) => {
+        /* Push to looped levels */
+        loopedLevels.push(level);
+
+        /* Check if level is array */
+        if (level in baseModel) {
+            ConcatToField(CheckArrayType(baseModel, level), index);
+        } else if (level in ExtractFromSchema(loopedLevels[index - 1])) {
+            ConcatToField(CheckArrayType(ExtractFromSchema(loopedLevels[index - 1]), level), index);
+        } else {
+            ConcatToField(level, index);
+        }
+    });
+
+    return formattedPath;
 }
 
 const RemoveRootFromPath = (targetPath: string) => {
@@ -242,5 +294,6 @@ export {
     ConstructTargetPropertiesLists,
     SearchNestedLevels,
     RemoveRootFromPath,
-    CheckPathForRoot
+    CheckPathForRoot,
+    FormatTargetPropertyPath
 };

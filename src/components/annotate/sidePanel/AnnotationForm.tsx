@@ -126,10 +126,14 @@ const AnnotationForm = (props: Props) => {
 
         const CheckForExistingInstances = (nestingLevels: string[]) => {
             const parentLevel: string = nestingLevels[nestingLevels.length - 2];
+            let localNestingLevels = [...nestingLevels];
+            let localTargetType: string = targetType;
 
             /* If target type is field and parent class is present: search for existing instances of parent class */
             if (parentLevel && targetType === 'field') {
                 nestingLevels.splice(nestingLevels.length - 1);
+
+                localTargetType = 'class';
             }
 
             if (['DigitalSpecimen', 'DigitalMedia'].includes(nestingLevels[0])) {
@@ -137,12 +141,18 @@ const AnnotationForm = (props: Props) => {
             }
 
             /* Search nested levels for all instances of class */
-            SearchNestedLevels(annotateTarget.target, nestingLevels, targetType, PushToExistingInstances);
+            SearchNestedLevels(annotateTarget.target, nestingLevels, localTargetType, PushToExistingInstances);
+
+            /* Splice last index from local nesting levels for parent class validation */
+            localNestingLevels.splice(localNestingLevels.length - 1);
+
+            return localNestingLevels;
         }
 
         /* Determine class or field property */
         if (option.value) {
             let nestingLevels: string[] = [];
+            let localNestingLevels: string[] | undefined;
 
             /* Determine property indicator, keep nesting in mind */
             if (option.value.includes('.')) {
@@ -151,15 +161,12 @@ const AnnotationForm = (props: Props) => {
                 nestingLevels.push(option.value);
             }
 
-            CheckForExistingInstances(nestingLevels);
+            do {
+                localNestingLevels = CheckForExistingInstances(localNestingLevels ?? nestingLevels);
+            } while (isEmpty(existingInstances) && targetType === 'field');
 
-            if (isEmpty(existingInstances) && targetType === 'field') {
-                /* Check for other parent classes */
-                CheckForExistingInstances(nestingLevels);
-            } else {
-                /* Continue with current level of existing classes */
-                setExistingInstances(existingInstances);
-            }
+            /* Continue with current level of existing (parent) classes */
+            setExistingInstances(existingInstances);
         } else {
             setExistingInstances([]);
         }
@@ -256,28 +263,26 @@ const AnnotationForm = (props: Props) => {
         /* Craft Annotation */
         const annotation = CraftAnnotation(form, targetPath, bodyValue, targetType);
 
-        console.log(annotation);
-
         /* Check if to post or patch */
-        // if (!isEmpty(editAnnotation)) {
-        //     /* Patch Annotation */
-        //     PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
-        //         UpdateAnnotationView(annotation);
+        if (!isEmpty(editAnnotation)) {
+            /* Patch Annotation */
+            PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
+                UpdateAnnotationView(annotation);
 
-        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
-        //     }).catch(error => {
-        //         console.warn(error);
-        //     });
-        // } else {
-        //     /* Post Annotation */
-        //     InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
-        //         UpdateAnnotationView(annotation);
+                dispatch(setHighlightAnnotationId(annotation['ods:id']));
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            /* Post Annotation */
+            InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
+                UpdateAnnotationView(annotation);
 
-        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
-        //     }).catch(error => {
-        //         console.warn(error);
-        //     });
-        // }
+                dispatch(setHighlightAnnotationId(annotation['ods:id']));
+            }).catch(error => {
+                console.warn(error);
+            });
+        }
     }
 
     return (

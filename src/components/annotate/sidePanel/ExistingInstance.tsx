@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import classNames from 'classnames';
+import { FormatTargetPropertyPath } from 'app/utilities/AnnotationUtilities';
 import { ReturnPropertiesFromNestedObject } from 'app/Utilities';
 import { Row, Col } from 'react-bootstrap';
 
@@ -36,6 +37,7 @@ const ExistingInstance = (props: Props) => {
     const [collapseToggle, setCollapseToggle] = useState<boolean>(false);
     let propertiesList: { key: string, value: Property }[] = [];
     let i = index + 1;
+    const formattedTargetPropertyName = FormatTargetPropertyPath(targetPropertyName, annotateTarget.targetType, index);
 
     /* If target is class, get all properties and levels from existing instance */
     if (targetPropertyType === 'class') {
@@ -49,19 +51,21 @@ const ExistingInstance = (props: Props) => {
         /* Set Annotate target to chosen class or property */
         copyAnnotateTarget.targetProperty = {
             type: targetPropertyType,
-            name: targetPropertyName,
+            name: formattedTargetPropertyName,
             index: index
         }
 
         /* Set Annotate target current values */
-        copyAnnotateTarget.currentValue = [instance];
+        if (targetPropertyType === 'field' && typeof(instance) === 'object') {
+            copyAnnotateTarget.currentValue = [instance[targetPropertyName.split('.').pop() as string] as string | number | boolean];
+        } else {
+            copyAnnotateTarget.currentValue = [instance];
+        }
 
         /* Set Annotate target motivation */
         copyAnnotateTarget.motivation = 'ods:adding';
 
-        console.log(copyAnnotateTarget);
-
-        // dispatch(setAnnotateTarget(copyAnnotateTarget));
+        dispatch(setAnnotateTarget(copyAnnotateTarget));
     }
 
     /* Function to list all existing instances */
@@ -114,7 +118,7 @@ const ExistingInstance = (props: Props) => {
                 : <div>
                     <Row className="mt-1">
                         <Col className="col-md-auto pe-0">
-                            <p className="fs-4 fw-lightBold"> {targetPropertyName}: </p>
+                            <p className="fs-4 fw-lightBold"> {formattedTargetPropertyName}: </p>
                         </Col>
                         <Col className="ps-2">
                             {typeof (instance) === 'object' ?

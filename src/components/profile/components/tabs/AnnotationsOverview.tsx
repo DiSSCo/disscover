@@ -121,43 +121,39 @@ const AnnotationsOverview = () => {
     };
 
     return (
-        <Row className="h-100">
-            <Col className="h-100">
-                <div className="h-100 d-flex flex-column">
-                    <Row className={`${styles.annotationsTable} flex-grow-1 pb-2`}>
-                        <Col className="h-100">
-                            <div className="h-100 overflow-scroll b-secondary rounded-c">
-                                <DataTable
-                                    columns={tableColumns}
-                                    data={tableData}
-                                    customStyles={customStyles}
-                                    onRowClicked={(row) => {
-                                        if (row.target.type === 'DigitalSpecimen') {
-                                            navigate(`/ds/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
-                                        } else if (row.target.type === 'DigitalMedia') {
-                                            navigate(`/dm/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
-                                        }
-                                    }}
+        <div className="h-100 d-flex flex-column">
+            <Row className={`${styles.overviewTable} flex-grow-1 pb-2`}>
+                <Col className="h-100">
+                    <div className="h-100 overflow-scroll b-secondary rounded-c">
+                        <DataTable
+                            columns={tableColumns}
+                            data={tableData}
+                            customStyles={customStyles}
+                            onRowClicked={(row) => {
+                                if (row.target.type === 'DigitalSpecimen') {
+                                    navigate(`/ds/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                                } else if (row.target.type === 'DigitalMedia') {
+                                    navigate(`/dm/${row.target.id.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                                }
+                            }}
 
-                                    striped
-                                    highlightOnHover
-                                    pointerOnHover
-                                />
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row className={`justify-content-center`}>
-                        <Col className="col-md-auto">
-                            <Paginator pageNumber={pageNumber}
-                                links={paginatorLinks}
+                            striped
+                            highlightOnHover
+                            pointerOnHover
+                        />
+                    </div>
+                </Col>
+            </Row>
+            <Row className={`justify-content-center`}>
+                <Col className="col-md-auto">
+                    <Paginator pageNumber={pageNumber}
+                        links={paginatorLinks}
 
-                                SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
-                            />
-                        </Col>
-                    </Row>
-                </div>
-            </Col>
-        </Row>
+                        SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+                    />
+                </Col>
+            </Row>
+        </div>
     );
 }
 

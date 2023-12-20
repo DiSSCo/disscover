@@ -7,7 +7,8 @@ import { Row, Col } from 'react-bootstrap';
 import styles from 'components/profile/profile.module.scss';
 
 /* Import Components */
-import AnnotationsOverview from './annotate/AnnotationsOverview';
+import AnnotationsOverview from './tabs/AnnotationsOverview';
+import MachineJobRecordsOverview from './tabs/MachineJobRecordsOverview';
 
 
 const ProfileContent = () => {
@@ -30,11 +31,17 @@ const ProfileContent = () => {
                 <Tabs className="h-100 d-flex flex-column">
                     <TabList className={classTabsList}>
                         <Tab className={classTab} selectedClassName="active"> Annotations </Tab>
+                        <Tab className={classTab} selectedClassName="active"> Machine Job Records </Tab>
                     </TabList>
 
                     {/* User Annotations */}
                     <TabPanel className={classTabPanel}>
                         <AnnotationsOverview />
+                    </TabPanel>
+
+                    {/* Machine Job Records */}
+                    <TabPanel className={classTabPanel}>
+                        <MachineJobRecordsOverview />
                     </TabPanel>
                 </Tabs>
             </Col>

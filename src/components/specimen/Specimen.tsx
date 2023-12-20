@@ -39,6 +39,7 @@ import GetSpecimen from 'api/specimen/GetSpecimen';
 import GetSpecimenFull from 'api/specimen/GetSpecimenFull';
 import GetSpecimenVersions from 'api/specimen/GetSpecimenVersions';
 import GetSpecimenAnnotations from 'api/specimen/GetSpecimenAnnotations';
+import GetSpecimenMachineJobRecords from 'api/specimen/GetSpecimenMachineJobRecords';
 
 
 const Specimen = () => {
@@ -270,12 +271,14 @@ const Specimen = () => {
                 </Col>
 
                 {/* Annotation Tools */}
-                <AnnotationTools sidePanelToggle={sidePanelToggle}
+                <AnnotationTools targetId={!isEmpty(specimen.digitalSpecimen) ? specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '') : ''}
+                    sidePanelToggle={sidePanelToggle}
                     automatedAnnotationsToggle={automatedAnnotationsToggle}
                     SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
                     ShowWithAnnotations={() => ShowWithAnnotations()}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                     RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
+                    GetMachineJobRecords={GetSpecimenMachineJobRecords}
                 />
             </Row>
         </div>

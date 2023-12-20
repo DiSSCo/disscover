@@ -3,12 +3,14 @@ import { useLocation } from 'react-router-dom';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
 import { RandomString } from 'app/Utilities';
+import classNames from 'classnames';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { pushToPromptMessages } from 'redux/general/GeneralSlice';
 import { getMASTarget } from 'redux/annotate/AnnotateSlice';
+import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
@@ -25,12 +27,12 @@ import ScheduleDigitalMediaMAS from 'api/digitalMedia/ScheduleDigitalMediaMAS';
 /* Props Typing */
 interface Props {
     availableMASList: Dict[],
-    HideAutomatedAnnotationsModal: Function
+    ReturnToOverview: Function
 };
 
 
 const AutomatedAnnotationsForm = (props: Props) => {
-    const { availableMASList, HideAutomatedAnnotationsModal } = props;
+    const { availableMASList, ReturnToOverview } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -38,6 +40,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
     /* Base variables */
     const target = useAppSelector(getMASTarget);
+    const user = useAppSelector(getUser);
 
     /* Function for scheduling Machine Annotation Services */
     const ScheduleMachineAnnotations = (selectedMAS: string[]) => {
@@ -53,7 +56,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((specimenMAS) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_specimenMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -64,7 +67,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((digitalMediaMAS) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_digitalMediaMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -76,9 +79,15 @@ const AutomatedAnnotationsForm = (props: Props) => {
             });
         }
 
-        /* Hide MAS Modal */
-        HideAutomatedAnnotationsModal();
+        /* Return to overview tab */
+        ReturnToOverview();
     }
+
+    /* ClassNames */
+    const classScheduleButton = classNames({
+        'secondaryButton px-3 py-1': true,
+        'disabled': !user.orcid
+    });
 
     return (
 
@@ -98,7 +107,6 @@ const AutomatedAnnotationsForm = (props: Props) => {
                     <div className="h-100 d-flex flex-column">
                         <Row className="flex-grow-1">
                             <Col>
-
                                 {/* Machine Annotation Services explanation */}
                                 <Row>
                                     <Col>
@@ -186,11 +194,21 @@ const AutomatedAnnotationsForm = (props: Props) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
-                                <button type="submit" className="secondaryButton px-3 py-1">
+                            <Col className="col-md-auto">
+                                <button type="submit"
+                                    className={classScheduleButton}
+                                    disabled={!user.orcid}
+                                >
                                     Schedule
                                 </button>
                             </Col>
+                            {!user.orcid &&
+                                <Col>
+                                    <p className="fs-5">
+                                        A user is required to link their ORCID to schedule Machine Annotation Services, please confirm this action in your profile
+                                    </p>
+                                </Col>
+                            }
                         </Row>
                     </div>
                 </Form>

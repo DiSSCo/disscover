@@ -1,30 +1,30 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import Moment from 'moment';
 import DataTable from 'react-data-table-component';
+import Moment from 'moment';
+import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
 import { Dict } from 'app/Types';
 
-/* Import Utilities */
-import MachineJobRecordTableConfig from 'app/tableConfig/MachineJobRecordTableConfig';
-
 /* Import Components */
 import Paginator from 'components/general/paginator/Paginator';
 
+/* Import Utilities */
+import MachineJobRecordTableConfig from 'app/tableConfig/MachineJobRecordTableConfig';
 
-/* Props Typing */
-interface Props {
-    targetId: string,
-    GetMachineJobRecords: (targetId: string, pageSize: number, pageNumber: number) => Promise<{machineJobRecords: Dict[], links: Dict}>
-};
+/* Import API */
+import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';
 
 
-const AutomatedAnnotationsOverview = (props: Props) => {
-    const { targetId, GetMachineJobRecords } = props;
+const MachineJobRecordsOverview = () => {
+    /* Base variables */
+    const [tableData, setTableData] = useState<DataRow[]>([]);
+    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const pageSize = 25;
 
-    /* Declare type of a table row */
     interface DataRow {
         index: number,
         id: string,
@@ -34,19 +34,13 @@ const AutomatedAnnotationsOverview = (props: Props) => {
         state: string
     };
 
-    /* Base variables */
-    const [tableData, setTableData] = useState<DataRow[]>([]);
-    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
-    const [pageNumber, setPageNumber] = useState<number>(1);
-    const pageSize = 10;
-
-    /* OnLoad: Fetch Machine Job Records */
+    /* OnChange of Pagination Range: try to fetch User Annotations by new range */
     useEffect(() => {
-        GetMachineJobRecords(targetId, pageSize, pageNumber).then(({ machineJobRecords, links }) => {
-            /* Construct table data */
+        GetUserMachineJobRecords(KeycloakService.GetToken(), pageSize, pageNumber).then(({ machineJobRecords, links }) => {
+            /* Construct and set table data */
             const tableData: DataRow[] = [];
 
-            machineJobRecords.forEach((machineJobRecord, index) => {
+            machineJobRecords.forEach((machineJobRecord: Dict, index: number) => {
                 tableData.push({
                     index: index,
                     id: machineJobRecord.id,
@@ -58,14 +52,16 @@ const AutomatedAnnotationsOverview = (props: Props) => {
             });
 
             setTableData(tableData);
+
+            /* Set Paginator links */
             setPaginatorLinks(links);
         }).catch(error => {
             console.warn(error);
         });
-    }, []);
+    }, [pageNumber]);
 
     /* Table Config */
-    const { tableColumns, customStyles } = MachineJobRecordTableConfig('MAS');
+    const { tableColumns, customStyles } = MachineJobRecordTableConfig('profile', true);
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -74,9 +70,7 @@ const AutomatedAnnotationsOverview = (props: Props) => {
                     <div className="h-100 overflow-scroll b-secondary rounded-c">
                         <DataTable
                             columns={tableColumns}
-                            noDataComponent="No Machine Annotation job records found for this specimen"
                             data={tableData}
-                            className='h-100 overflow-y-scroll z-1'
                             customStyles={customStyles}
 
                             striped
@@ -99,4 +93,4 @@ const AutomatedAnnotationsOverview = (props: Props) => {
     );
 }
 
-export default AutomatedAnnotationsOverview;
+export default MachineJobRecordsOverview;

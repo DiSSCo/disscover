@@ -3,15 +3,14 @@ import axios from 'axios';
 
 /* Import Types */
 import { JSONResultArray, Dict } from 'app/Types';
-import { Annotation } from 'app/types/Annotation';
 
 
-const GetUserAnnotations = async (token: string | undefined, pageSize: number, pageNumber?: number) => {
-    let userAnnotations = [] as Annotation[];
+const GetUserMachineJobRecords = async (token: string | undefined, pageSize: number, pageNumber: number) => {
+    let userMachineJobRecords: Dict[] = [];
     let links: Dict = {};
 
     if (token) {
-        const endPoint = 'annotations/creator';
+        const endPoint: string = `/users/mjr`;
 
         try {
             const result = await axios({
@@ -20,7 +19,7 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
                 responseType: 'json',
                 params: {
                     pageSize: pageSize,
-                    pageNumber: pageNumber ? pageNumber : 1
+                    pageNumber: pageNumber ?? 1
                 },
                 headers: {
                     'Content-type': 'application/json',
@@ -28,22 +27,20 @@ const GetUserAnnotations = async (token: string | undefined, pageSize: number, p
                 }
             });
 
-            /* Set User Annotations with model */
+            /* Set User Machine Job Records */
             const data: JSONResultArray = result.data;
+            
+            userMachineJobRecords = data.data;
             links = data.links;
-
-            data.data.forEach((dataRow) => {
-                userAnnotations.push(dataRow.attributes as Annotation);
-            });
         } catch (error) {
             console.warn(error);
         }
     }
 
     return {
-        userAnnotations: userAnnotations,
+        machineJobRecords: userMachineJobRecords,
         links: links
     };
 }
 
-export default GetUserAnnotations;
+export default GetUserMachineJobRecords;

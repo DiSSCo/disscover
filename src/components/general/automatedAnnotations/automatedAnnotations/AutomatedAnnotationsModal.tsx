@@ -26,18 +26,21 @@ import GetSpecimenMAS from 'api/specimen/GetSpecimenMAS';
 import GetDigitalMediaMAS from 'api/digitalMedia/GetDigitalMediaMAS';
 
 /* Import Components */
+import AutomatedAnnotationsOverview from './AuomatedAnnotationsOverview';
 import AutomatedAnnotationsForm from './AutomatedAnnotationsForm';
 
 
 /* Props Typing */
 interface Props {
+    targetId: string,
     automatedAnnotationsToggle: boolean,
-    HideAutomatedAnnotationsModal: Function
+    HideAutomatedAnnotationsModal: Function,
+    GetMachineJobRecords: (targetId: string, pageSize: number, pageNumber: number) => Promise<{machineJobRecords: Dict[], links: Dict}>
 };
 
 
 const AutomatedAnnotationsModal = (props: Props) => {
-    const { automatedAnnotationsToggle, HideAutomatedAnnotationsModal } = props;
+    const { targetId, automatedAnnotationsToggle, HideAutomatedAnnotationsModal, GetMachineJobRecords } = props;
 
     /* Hooks */
     const location = useLocation();
@@ -45,6 +48,7 @@ const AutomatedAnnotationsModal = (props: Props) => {
     /* Base variables */
     const target: DigitalSpecimen | DigitalEntity = useAppSelector(getMASTarget);
     const [targetMAS, setTargetMAS] = useState<Dict[]>([]);
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     /* OnLoad: Fetch Specimen MAS */
     useEffect(() => {
@@ -94,15 +98,26 @@ const AutomatedAnnotationsModal = (props: Props) => {
             <Modal.Body>
                 <Row className="h-100">
                     <Col>
-                        <Tabs className="h-100 d-flex flex-column">
+                        <Tabs className="h-100 d-flex flex-column"
+                            selectedIndex={selectedIndex}
+                            onSelect={(index) => setSelectedIndex(index)}
+                        >
                             <TabList className={classTabsList}>
-                                <Tab className={classTab} selectedClassName="active"> Schedule new Service </Tab>
+                                <Tab className={classTab} selectedClassName='active'> Services overview </Tab>
+                                <Tab className={classTab} selectedClassName="active"> Schedule a new Service </Tab>
                             </TabList>
 
+                            {/* Overview showing all current and past services */}
+                            <TabPanel className="react-tabs__tab-panel pt-1 px-3 flex-grow-1">
+                                <AutomatedAnnotationsOverview targetId={targetId}
+                                    GetMachineJobRecords={GetMachineJobRecords}
+                                />
+                            </TabPanel>
+
                             {/* Run a new automated annotation service */}
-                            <TabPanel className="pt-1 px-3 d-flex flex-grow-1">
+                            <TabPanel className="react-tabs__tab-panel pt-1 px-3 flex-grow-1">
                                 <AutomatedAnnotationsForm availableMASList={targetMAS}
-                                    HideAutomatedAnnotationsModal={() => HideAutomatedAnnotationsModal()}
+                                    ReturnToOverview={() => setSelectedIndex(0)}
                                 />
                             </TabPanel>
                         </Tabs>

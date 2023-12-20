@@ -41,7 +41,7 @@ const TitleBar = (props: Props) => {
     const specimenActions = [
         { value: 'json', label: 'View JSON' },
         { value: 'sidePanel', label: 'View all Annotations' },
-        { value: 'automatedAnnotations', label: 'Trigger Automated Annotations', isDisabled: !KeycloakService.IsLoggedIn() },
+        { value: 'automatedAnnotations', label: 'Machine Annotation Services', isDisabled: !KeycloakService.IsLoggedIn() },
         { value: 'download', label: 'Download as JSON' }
     ];
 

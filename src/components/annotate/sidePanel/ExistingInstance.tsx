@@ -123,7 +123,7 @@ const ExistingInstance = (props: Props) => {
                         <Col className="ps-2">
                             {typeof (instance) === 'object' ?
                                 <p className="fs-4"> {instance[targetPropertyName.split('.').pop() as string] as Property ?? 'Undefined'} </p>
-                                : <p className="fs-4"> {instance as Property} </p>
+                                : <p className="fs-4"> {instance} </p>
                             }
                         </Col>
                     </Row>

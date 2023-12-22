@@ -17,6 +17,9 @@ import { DigitalSpecimen, Dict } from 'app/Types';
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
 
+/* Import Webroot */
+import Spinner from 'webroot/icons/spinner.svg';
+
 /* Import Components */
 import ColumnLink from './ColumnLink';
 import ScientificName from 'components/general/nomenclatural/ScientificName';
@@ -262,18 +265,25 @@ const ResultsTable = (props: Props) => {
         const renderedIcons: Dict = {};
 
         const PushToTableData = (specimen: DigitalSpecimen, index: number, taxonomyIconUrl?: string) => {
-            tableData.push({
-                index: index,
-                id: specimen.digitalSpecimen['ods:id'],
-                taxonomyIconUrl: taxonomyIconUrl ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
-                specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
-                country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
-                specimen_type: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
-                organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
-                organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
-                toggleSelected: false,
-                compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
-            });
+            /* Check if index exists in table data */
+            if (tableData.find(record => record.index === index)) {
+                /* Replace record in table data */
+                tableData[index].taxonomyIconUrl = taxonomyIconUrl ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])
+            } else {
+                /* Push record to table data */
+                tableData.push({
+                    index: index,
+                    id: specimen.digitalSpecimen['ods:id'],
+                    taxonomyIconUrl: taxonomyIconUrl ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
+                    specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
+                    country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
+                    specimen_type: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
+                    organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
+                    organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
+                    toggleSelected: false,
+                    compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
+                });
+            }
         }
 
         const SetTableData = (index: number) => {
@@ -310,13 +320,16 @@ const ResultsTable = (props: Props) => {
 
                     SetTableData(index);
                 } else if (taxonomyIdentification) {
-                    await GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
+                    /* Preset table data with loading icon */
+                    PushToTableData(specimen, index, Spinner)
+
+                    GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
                         PushToTableData(specimen, index, taxonomyIconUrl);
 
                         /* Add to rendered icons */
                         renderedIcons[taxonomyIdentification as string] = taxonomyIconUrl;
 
-                        SetTableData(index);
+                        setTableData(tableData);
                     }).catch(error => {
                         console.warn(error);
 
@@ -335,8 +348,6 @@ const ResultsTable = (props: Props) => {
 
         /* First loop search results without icons (due to loading) */
         LoopSearchResults();
-
-        
     }, [searchResults, compareSpecimens]);
 
     return (

@@ -5,28 +5,37 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getPhylopicBuild } from 'redux/general/GeneralSlice';
 import {
     getSearchResults, getSearchSpecimen, setSearchSpecimen,
     getCompareMode, getCompareSpecimens, setCompareSpecimens
 } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/Types';
+import { DigitalSpecimen, Dict } from 'app/Types';
+
+/* Import Styles */
+import styles from 'components/search/search.module.scss';
 
 /* Import Components */
 import ColumnLink from './ColumnLink';
 import ScientificName from 'components/general/nomenclatural/ScientificName';
+import TopicDisciplineIcon from 'components/general/mediaTypes/TopicDisciplineIcon';
+
+/* Import API */
+import GetPhylopicIcon from 'api/general/GetPhylopicIcon';
 
 
 /* Props Styling */
 interface Props {
     pageNumber: number,
+    pageSize: number,
     HideFilters: Function
 };
 
 
 const ResultsTable = (props: Props) => {
-    const { pageNumber, HideFilters } = props;
+    const { pageNumber, pageSize, HideFilters } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -34,14 +43,16 @@ const ResultsTable = (props: Props) => {
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
     const searchSpecimen = useAppSelector(getSearchSpecimen);
-    const [tableData, setTableData] = useState<DataRow[]>([]);
     const compareMode = useAppSelector(getCompareMode);
     const compareSpecimens = useAppSelector(getCompareSpecimens);
+    const phylopicBuild = useAppSelector(getPhylopicBuild);
+    const [tableData, setTableData] = useState<DataRow[]>([]);
 
     /* Declare type of a table row */
     interface DataRow {
         index: number,
         id: string,
+        taxonomyIconUrl: string,
         specimen_name: string,
         country: string,
         specimen_type: string,
@@ -146,13 +157,19 @@ const ResultsTable = (props: Props) => {
     }
 
     const tableColumns: TableColumn<DataRow>[] = [{
+        name: 'Icon',
+        selector: row => row.taxonomyIconUrl,
+        id: 'search_taxonomyIcon',
+        cell: row => <img src={row.taxonomyIconUrl} alt={row.taxonomyIconUrl} className={styles.taxonomyIcon} />,
+        maxWidth: '50px'
+    }, {
         name: 'Specimen name',
         selector: row => row.specimen_name,
         id: 'search_name',
         cell: row => <div onClick={() => SelectAction(row)}
             onKeyDown={() => SelectAction(row)}
         >
-            <ScientificName specimenName={searchResults[row.index]['digitalSpecimen']['ods:specimenName'] ?? ''} />
+            <ScientificName specimenName={searchResults[row?.index]['digitalSpecimen']['ods:specimenName'] ?? ''} />
         </div>,
         sortable: true
     }, {
@@ -194,7 +211,7 @@ const ResultsTable = (props: Props) => {
                 height: '100%'
             }
         },
-        tableWrapper : {
+        tableWrapper: {
             style: {
                 height: '100%',
                 backgroundColor: 'white'
@@ -240,12 +257,15 @@ const ResultsTable = (props: Props) => {
 
     /* OnChange of Specimen Search Results: update Table Data */
     useEffect(() => {
+        /* Construct table data */
         const tableData: DataRow[] = [];
+        const renderedIcons: Dict = {};
 
-        searchResults.forEach((specimen, i) => {
+        const PushToTableData = (specimen: DigitalSpecimen, index: number, taxonomyIconUrl?: string) => {
             tableData.push({
-                index: i,
+                index: index,
                 id: specimen.digitalSpecimen['ods:id'],
+                taxonomyIconUrl: taxonomyIconUrl ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
                 specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
                 country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
                 specimen_type: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
@@ -254,9 +274,69 @@ const ResultsTable = (props: Props) => {
                 toggleSelected: false,
                 compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
             });
-        });
+        }
 
-        setTableData(tableData);
+        const SetTableData = (index: number) => {
+            if ((index + 1) >= pageSize) {
+                setTableData(tableData);
+            }
+        }
+
+        const LoopSearchResults = async () => {
+            for (let index = 0; index < searchResults.length; index++) {
+                const specimen = searchResults[index];
+
+                /* Try to fetch Taxonomy icon if not fetched yet, otherwise attach topic discipline icon */
+                const acceptedIdentification = specimen.digitalSpecimen?.['dwc:identification']?.find((identification) =>
+                    identification['dwc:identificationVerificationStatus']
+                );
+                let taxonomyIdentification: string = '';
+
+                if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:order']) {
+                    /* Search icon by order */
+                    taxonomyIdentification = acceptedIdentification.taxonIdentifications[0]['dwc:order'];
+                } else if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:family']) {
+                    /* Search icon by family */
+                    taxonomyIdentification = acceptedIdentification?.taxonIdentifications[0]['dwc:family'];
+                } else if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:genus']) {
+                    /* Search icon by genus */
+                    taxonomyIdentification = acceptedIdentification?.taxonIdentifications[0]['dwc:genus'];
+                } else if (specimen.digitalSpecimen['ods:specimenName']) {
+                    taxonomyIdentification = specimen.digitalSpecimen['ods:specimenName'].split(' ')[0];
+                }
+
+                if (taxonomyIdentification && taxonomyIdentification in renderedIcons) {
+                    PushToTableData(specimen, index, renderedIcons[taxonomyIdentification]);
+
+                    SetTableData(index);
+                } else if (taxonomyIdentification) {
+                    await GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
+                        PushToTableData(specimen, index, taxonomyIconUrl);
+
+                        /* Add to rendered icons */
+                        renderedIcons[taxonomyIdentification as string] = taxonomyIconUrl;
+
+                        SetTableData(index);
+                    }).catch(error => {
+                        console.warn(error);
+
+                        PushToTableData(specimen, index);
+
+                        SetTableData(index);
+                    });
+                } else {
+                    /* Use topic discipline icon */
+                    PushToTableData(specimen, index);
+
+                    SetTableData(index);
+                }
+            };
+        }
+
+        /* First loop search results without icons (due to loading) */
+        LoopSearchResults();
+
+        
     }, [searchResults, compareSpecimens]);
 
     return (

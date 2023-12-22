@@ -11,7 +11,7 @@ import { DetectMobile } from 'app/Utilities';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getScreenSize, setScreenSize, getOrganisations, setOrganisations } from 'redux/general/GeneralSlice';
+import { getScreenSize, setScreenSize, getOrganisations, setOrganisations, setPhylopicBuild } from 'redux/general/GeneralSlice';
 import { getUser, setUser } from 'redux/user/UserSlice';
 
 /* Import Styles */
@@ -37,6 +37,7 @@ import DocumentRoutes from 'components/documents/Routes';
 import GetUser from 'api/user/GetUser';
 import InsertUser from 'api/user/InsertUser';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
+import GetPhylopicBuild from 'api/general/GetPhylopicBuild';
 
 
 const App = () => {
@@ -109,6 +110,15 @@ const App = () => {
         console.warn(error);
       });
     }
+  }, []);
+
+  /* OnLoad: Get latest version of Phylopic API */
+  useEffect(() => {
+    GetPhylopicBuild().then((build) => {
+      dispatch(setPhylopicBuild(build));
+    }).catch(error => {
+      console.warn(error);
+    });
   }, []);
 
   return (

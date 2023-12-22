@@ -263,6 +263,7 @@ const Search = () => {
                                                             {/* Search Results */}
                                                             <Col md={{ span: 12 }} className="h-100 pb-2">
                                                                 <ResultsTable pageNumber={pageNumber ?? 1}
+                                                                    pageSize={pageSize}
                                                                     HideFilters={() => setFilterToggle(false)}
                                                                 />
                                                             </Col>

@@ -59,8 +59,7 @@ const ImageViewer = (props: Props) => {
 
     const OSDOptions: OpenSeadragon.Options = {
         prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/",
-        crossOriginPolicy: 'Anonymous',
-        ajaxWithCredentials: false,
+        crossOriginPolicy: "Anonymous",
         gestureSettingsMouse: {
             clickToZoom: false
         }
@@ -81,7 +80,7 @@ const ImageViewer = (props: Props) => {
             if (viewerRef.current) {
                 viewerRef.current.open({
                     type: 'image',
-                    url: digitalMedia.digitalEntity['ac:accessUri']
+                    url: mediaUrl
                 });
             }
         });

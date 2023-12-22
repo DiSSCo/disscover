@@ -16,6 +16,7 @@ import { faDiamond, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
+import TopicDisciplineIcon from 'components/general/mediaTypes/TopicDisciplineIcon';
 import VersionSelect from '../../general/versionSelect/VersionSelect';
 import ActionsDropdown from 'components/general/actionsDropdown/ActionsDropdown';
 import Tooltip from 'components/general/tooltip/Tooltip';
@@ -102,7 +103,10 @@ const TitleBar = (props: Props) => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={faDiamond} className={`${styles.specimenTitle} c-primary`} />
+                        <img src={TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])}
+                            alt={specimen.digitalSpecimen['ods:topicDiscipline']}
+                            className={`${styles.topicDisciplineIcon} c-primary`}
+                        />
                     </Col>
                     <Col>
                         <h2 className={styles.specimenTitle}> {specimen.digitalSpecimen['ods:specimenName']} </h2>

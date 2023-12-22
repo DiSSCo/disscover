@@ -15,7 +15,7 @@ const GetPhylopicIcon = async (phylopicBuild: string, taxonomyIdentification?: s
                 url: endpoint,
                 responseType: 'json',
                 params: {
-                    build: phylopicBuild,
+                    build: phylopicBuild ? phylopicBuild : '292',
                     filter_name: taxonomyIdentification.toLowerCase(),
                     page: 0,
                     embed_items: true,

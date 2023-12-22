@@ -18,6 +18,7 @@ import styles from 'components/home/home.module.scss';
 /* Import Components */
 import FilterBlock from './FilterBlock';
 import TopicDisciplineText from '../TopicDisciplineText';
+import TopicDisciplineIcon from 'components/general/mediaTypes/TopicDisciplineIcon';
 
 /* Import API */
 import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
@@ -93,9 +94,7 @@ const SpecimenTypeFilters = () => {
                         Object.keys(values.disciplines).concat(['HumanMade', 'Unclassified']).forEach((discipline: string) => {
                             if (values.disciplines[discipline] || values[discipline]) {
                                 /* Check for Disciplines with spaces */
-                                if (discipline === 'EarthSystem') {
-                                    discipline = 'Earth+System';
-                                } else if (discipline === 'Other') {
+                                if (discipline === 'Other') {
                                     discipline = 'Other+Biodiversity&topicDiscipline=Other+Geodiversity';
                                 }
 
@@ -132,7 +131,8 @@ const SpecimenTypeFilters = () => {
                                             <FilterBlock type="Microbiology"
                                                 title="Microbiology"
                                                 subTitle="Biology"
-                                                discipline={disciplines['Micro Biology']}
+                                                discipline={disciplines['Microbiology']}
+                                                icon={TopicDisciplineIcon('Microbiology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Microbiology', !values.disciplines.Microbiology)}
                                             />
                                         </Col>
@@ -141,6 +141,7 @@ const SpecimenTypeFilters = () => {
                                                 title="Anthropology"
                                                 subTitle="Biology"
                                                 discipline={disciplines['Anthropology']}
+                                                icon={TopicDisciplineIcon('Anthropology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Anthropology', !values.disciplines.Anthropology)}
                                             />
                                         </Col>
@@ -149,6 +150,7 @@ const SpecimenTypeFilters = () => {
                                                 title="Botany"
                                                 subTitle="Biology"
                                                 discipline={disciplines['Botany']}
+                                                icon={TopicDisciplineIcon('Botany')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Botany', !values.disciplines.Botany)}
                                             />
                                         </Col>
@@ -160,6 +162,7 @@ const SpecimenTypeFilters = () => {
                                                 title="Zoology"
                                                 subTitle="Biology"
                                                 discipline={disciplines['Zoology']}
+                                                icon={TopicDisciplineIcon('Zoology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Zoology', !values.disciplines.Zoology)}
                                             />
                                         </Col>
@@ -168,6 +171,7 @@ const SpecimenTypeFilters = () => {
                                                 title="Palaeontology"
                                                 subTitle="Biology/Geology"
                                                 discipline={disciplines['Palaeontology']}
+                                                icon={TopicDisciplineIcon('Palaeontology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Palaeontology', !values.disciplines.Palaeontology)}
                                             />
                                         </Col>
@@ -187,6 +191,7 @@ const SpecimenTypeFilters = () => {
                                                 title="Ecology"
                                                 subTitle="Biology"
                                                 discipline={disciplines['Ecology']}
+                                                icon={TopicDisciplineIcon('Ecology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Ecology', !values.disciplines.Ecology)}
                                             />
                                         </Col>
@@ -195,6 +200,7 @@ const SpecimenTypeFilters = () => {
                                                 title="Earth Geology"
                                                 subTitle="Geology"
                                                 discipline={disciplines['Geology']}
+                                                icon={TopicDisciplineIcon('Geology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Geology', !values.disciplines.Geology)}
                                             />
                                         </Col>
@@ -203,6 +209,7 @@ const SpecimenTypeFilters = () => {
                                                 title={`Astrogeology`}
                                                 subTitle="Geology"
                                                 discipline={disciplines['Astrogeology']}
+                                                icon={TopicDisciplineIcon('Astrogeology')}
                                                 ToggleFilterType={() => setFieldValue('disciplines.Astrogeology', !values.disciplines.Astrogeology)}
                                             />
                                         </Col>

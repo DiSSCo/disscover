@@ -13,6 +13,7 @@ interface Props {
     title: string,
     subTitle?: string,
     discipline: number,
+    icon?: string,
     ToggleFilterType: Function
 };
 
@@ -21,10 +22,10 @@ const FilterBlock = (props: Props) => {
     const { type, title, subTitle, discipline, ToggleFilterType } = props;
 
     return (
-        <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3`}
+        <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3 position-relative`}
             onClick={() => ToggleFilterType()}
         >
-            <Row className="h-50">
+            <Row className="h-50 z-2 position-relative">
                 <Col>
                     {subTitle &&
                         <p className="fs-4 c-secondary fw-lightBold"> {subTitle} </p>
@@ -39,7 +40,7 @@ const FilterBlock = (props: Props) => {
                     />
                 </Col>
             </Row>
-            <Row className="h-50">
+            <Row className="h-50 z-2 position-relative">
                 <Col className="d-flex justify-content-end align-items-end">
                     <p className={styles.specimenTypeAmount}> <CountUp end={discipline} /> </p>
                 </Col>

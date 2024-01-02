@@ -25,16 +25,16 @@ const TitleBar = () => {
     let icon: IconDefinition;
 
     /* Declaring icon based on Digital Media type */
-    switch (digitalMedia.digitalEntity.type) {
-        case '2DImageObject':
+    switch (digitalMedia.digitalEntity['dcterms:type']) {
+        case 'StillImage':
             icon = faImage;
 
             break;
-        case 'video':
+        case 'MovingImage':
             icon = faVideo;
 
             break;
-        case 'audio':
+        case 'Sound':
             icon = faMusic;
 
             break;
@@ -54,7 +54,7 @@ const TitleBar = () => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <FontAwesomeIcon icon={icon} className={`${styles.digitalMediaTitle} c-primary`} />
+                        <FontAwesomeIcon icon={icon} className={`${styles.digitalMediaIcon} c-primary`} />
                     </Col>
                     <Col>
                         <h2 className={styles.digitalMediaTitle}> {digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} </h2>

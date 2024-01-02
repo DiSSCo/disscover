@@ -109,7 +109,7 @@ const AnnotationForm = (props: Props) => {
 
     /* OnLoad: Get all available classes and properties of target */
     useEffect(() => {
-        const propertyLists = ConstructTargetPropertiesLists();
+        const propertyLists = ConstructTargetPropertiesLists(annotateTarget.targetType);
 
         setTargetClassOptions(propertyLists.classes);
         setTargetPropertyOptions(propertyLists.properties);

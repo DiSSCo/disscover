@@ -13,55 +13,21 @@ import { TargetProperty } from 'app/Types';
 import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
-import styles from 'components/digitalMedia/digitalMedia.module.scss';;
+import styles from 'components/digitalMedia/digitalMedia.module.scss';
 
 
-const IDCard = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
+/* Props Typing */
+interface Props {
+    ShowWithAnnotations: Function
+};
+
+
+const IDCard = (props: Props) => {
+    const { ShowWithAnnotations } = props;
 
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
-
-    /* Function for toggling the Annotate Modal */
-    const ToggleSidePanel = (property: string, type: string = 'field') => {
-        /* Preprare Target Property */
-        let targetProperty: TargetProperty;
-
-        if (type === 'class') {
-            targetProperty = {
-                name: property,
-                type: 'class'
-            }
-        } else {
-            targetProperty = {
-                name: property,
-                type: 'field'
-            };
-        }
-
-        /* Set the Annotate target */
-        if (targetProperty.name) {
-            dispatch(setAnnotateTarget({
-                targetProperty,
-                motivation: '',
-                target: digitalMedia.digitalEntity,
-                targetType: 'DigitalMedia',
-                annotations: digitalMediaAnnotations[targetProperty.name] ? digitalMediaAnnotations[targetProperty.name] : []
-            }));
-        }
-        
-        /* Reset Edit Annotation */
-        dispatch(setEditAnnotation({} as Annotation));
-
-        dispatch(setSidePanelToggle(true));
-    }
-
-    /* ClassName for Specimen Property Hover */
-    const classPropertyBlockHover = classNames({
-        [`${styles.IDCardPropertyBlockHover} transition`]: KeycloakService.IsLoggedIn()
-    });
 
     return (
         <Row className="h-100">
@@ -83,54 +49,64 @@ const IDCard = () => {
                                 </Card.Subtitle>
 
                                 <Row className="flex-grow-1">
-                                    <Col className="col-md-auto h-100">
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
+                                    <Col className="col-md-auto h-100 d-flex flex-column justify-content-between">
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}>
                                                 <dfn className="fw-lightBold m-0 h-50" role="term">Digital Specimen ID</dfn>
                                                 <br /> <span className="fs-4 m-0 h-50"> {/* Digital Specime Id */} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleSidePanel('mediaUrl')}
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'ac:accessUri', 'field')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">Media URL</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['ac:accessUri']} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className="m-0 py-1">
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'dcterms:description', 'field')}
+                                            >
                                                 <span className="fw-lightBold m-0 h-50">Title</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:description']} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className="m-0 py-1">
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'dcterms:format', 'field')}
+                                            >
                                                 <span className="fw-lightBold m-0 h-50">Format</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:format']} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'dcterms:type', 'field')}
+                                            >
                                                 <span className="fw-lightBold m-0 h-50">Type</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:type']} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1 text-truncate`}>
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'dwc:institutionName', 'field')}
+                                            >
                                                 <span className="fw-lightBold m-0 h-50">Publisher</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dwc:institutionName']} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}>
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'dcterms:rightsHolder', 'field')}
+                                            >
                                                 <span className="fw-lightBold m-0 h-50">Rightsholder</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:rightsHolder']} </span>
                                             </Col>
                                         </Row>
-                                        <Row className={`${styles.IDCardPropertyBlock} fs-4`}>
-                                            <Col className={`${classPropertyBlockHover} rounded-c py-1`}
-                                                onClick={() => ToggleSidePanel('dcterms:license')}
+                                        <Row className="fs-4">
+                                            <Col className={`${styles.IDCardPropertyBlockHover} transition rounded-c py-1 textOverflow`}
+                                                onClick={() => ShowWithAnnotations(undefined, 'dcterms:license', 'field')}
                                             >
                                                 <span className="fw-lightBold m-0 h-50">License</span>
                                                 <br /> <span className="fs-4 m-0 h-50"> {digitalMedia.digitalEntity['dcterms:license']} </span>

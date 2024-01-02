@@ -58,11 +58,16 @@ const VersionSelect = (props: Props) => {
                     options={selectOptions}
                     styles={{
                         control: provided => ({
-                            ...provided, backgroundColor: '#A1D8CA', border: 'none', borderRadius: '999px',
-                            fontWeight: '500', fontSize: '0.875rem'
+                            ...provided, backgroundColor: '#A1D8CA', border: 'none', borderRadius: '999px', minHeight: 'auto',
+                            fontWeight: '500', fontSize: '0.875rem', paddingLeft: '0.5rem', paddingRight: '0.5rem', paddingTop: '0.25rem', paddingBottom: '0.25rem'
                         }),
                         menu: provided => ({ ...provided, zIndex: 100000, fontSize: '0.875rem' }),
-                        dropdownIndicator: provided => ({ ...provided, color: '#333333', fontSize: '0.875rem' })
+                        dropdownIndicator: provided => ({ ...provided, color: '#333333', fontSize: '0.875rem' }),
+                        valueContainer: provided => ({ ...provided, padding: '0px' }),
+                        clearIndicator: provided => ({ ...provided, padding: '0px' }),
+                        indicatorsContainer: provided => ({ ...provided, height: '1.5rem' }),
+                        input: provided => ({ ...provided, margin: '0px' }),
+                        indicatorSeparator: provided => ({ ...provided, display: 'none' })
                     }}
                     onChange={(option) => { option?.value && ChangeVersion(option.value as number) }}
                 />

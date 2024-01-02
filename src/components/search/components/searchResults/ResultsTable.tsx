@@ -50,6 +50,7 @@ const ResultsTable = (props: Props) => {
     const compareSpecimens = useAppSelector(getCompareSpecimens);
     const phylopicBuild = useAppSelector(getPhylopicBuild);
     const [tableData, setTableData] = useState<DataRow[]>([]);
+    const staticTopicDisciplines = ['Anthropology', 'Astrogeology', 'Geology', 'Ecology', 'Other Biodiversity', 'Other Geodiversity', 'Unclassified'];
 
     /* Declare type of a table row */
     interface DataRow {
@@ -319,9 +320,9 @@ const ResultsTable = (props: Props) => {
                     PushToTableData(specimen, index, renderedIcons[taxonomyIdentification]);
 
                     SetTableData(index);
-                } else if (taxonomyIdentification) {
+                } else if (taxonomyIdentification && (specimen.digitalSpecimen['ods:topicDiscipline'] && !(staticTopicDisciplines.includes(specimen.digitalSpecimen['ods:topicDiscipline'])))) {
                     /* Preset table data with loading icon */
-                    PushToTableData(specimen, index, Spinner)
+                    PushToTableData(specimen, index, Spinner);
 
                     GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
                         PushToTableData(specimen, index, taxonomyIconUrl);
@@ -329,7 +330,7 @@ const ResultsTable = (props: Props) => {
                         /* Add to rendered icons */
                         renderedIcons[taxonomyIdentification as string] = taxonomyIconUrl;
 
-                        setTableData(tableData);
+                        SetTableData(index);
                     }).catch(error => {
                         console.warn(error);
 
@@ -346,7 +347,6 @@ const ResultsTable = (props: Props) => {
             };
         }
 
-        /* First loop search results without icons (due to loading) */
         LoopSearchResults();
     }, [searchResults, compareSpecimens]);
 

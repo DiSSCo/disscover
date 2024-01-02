@@ -21,8 +21,6 @@ interface Props {
 const FilterBlock = (props: Props) => {
     const { type, title, subTitle, discipline, icon, ToggleFilterType } = props;
 
-    console.log(icon);
-
     return (
         <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3 position-relative`}
             style={{

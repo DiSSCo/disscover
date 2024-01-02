@@ -49,7 +49,7 @@ const FilterBlock = (props: Props) => {
             </Row>
             <Row className="h-50 z-2 position-relative">
                 <Col className="d-flex justify-content-end align-items-end">
-                    <p className={styles.specimenTypeAmount}> <CountUp end={discipline} /> </p>
+                    <p className="fs-3 fw-lightBold"> <CountUp end={discipline} /> </p>
                 </Col>
             </Row>
         </button>

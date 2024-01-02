@@ -18,7 +18,7 @@ import styles from 'components/home/home.module.scss';
 /* Import Components */
 import FilterBlock from './FilterBlock';
 import TopicDisciplineText from '../TopicDisciplineText';
-import TopicDisciplineIcon from 'components/general/mediaTypes/TopicDisciplineIcon';
+import TopicDisciplineIcon from 'components/general/icons/TopicDisciplineIcon';
 
 /* Import API */
 import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';

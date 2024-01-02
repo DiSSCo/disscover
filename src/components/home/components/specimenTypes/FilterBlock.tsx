@@ -19,10 +19,18 @@ interface Props {
 
 
 const FilterBlock = (props: Props) => {
-    const { type, title, subTitle, discipline, ToggleFilterType } = props;
+    const { type, title, subTitle, discipline, icon, ToggleFilterType } = props;
+
+    console.log(icon);
 
     return (
         <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3 position-relative`}
+            style={{
+                backgroundImage: `url(${icon})`,
+                backgroundSize: '4rem 4rem',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'top 0.5rem right 2.5rem'
+            }}
             onClick={() => ToggleFilterType()}
         >
             <Row className="h-50 z-2 position-relative">

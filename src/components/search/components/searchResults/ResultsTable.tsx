@@ -23,7 +23,7 @@ import Spinner from 'webroot/icons/spinner.svg';
 /* Import Components */
 import ColumnLink from './ColumnLink';
 import ScientificName from 'components/general/nomenclatural/ScientificName';
-import TopicDisciplineIcon from 'components/general/mediaTypes/TopicDisciplineIcon';
+import TopicDisciplineIcon from 'components/general/icons/TopicDisciplineIcon';
 
 /* Import API */
 import GetPhylopicIcon from 'api/general/GetPhylopicIcon';

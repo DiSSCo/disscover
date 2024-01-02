@@ -10,6 +10,7 @@
     background-color: #bfedf2;
     border-radius: 12px;
     height: 110px;
+    text-align: left;
     cursor: pointer;
     transition: 0.3s;
 }
@@ -38,8 +39,6 @@
 
 .topicDisciplineIcon {
     height: 85%;
-    // filter: url(#blue-wash);
-    filter: url(#blue-wash);
 }
 
 .specimenTypeHumanMade {

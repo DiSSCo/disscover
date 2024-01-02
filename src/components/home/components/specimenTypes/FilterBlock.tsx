@@ -22,7 +22,8 @@ const FilterBlock = (props: Props) => {
     const { type, title, subTitle, discipline, icon, ToggleFilterType } = props;
 
     return (
-        <div className={`${styles.specimenTypeBlock} py-2 px-3 mb-3 position-relative`}
+        <button type="button"
+            className={`${styles.specimenTypeBlock} py-2 px-3 mb-3 position-relative w-100 b-none`}
             style={{
                 backgroundImage: `url(${icon})`,
                 backgroundSize: '4rem 4rem',
@@ -51,7 +52,7 @@ const FilterBlock = (props: Props) => {
                     <p className={styles.specimenTypeAmount}> <CountUp end={discipline} /> </p>
                 </Col>
             </Row>
-        </div>
+        </button>
     );
 }
 

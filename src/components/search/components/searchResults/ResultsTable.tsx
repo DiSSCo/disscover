@@ -324,13 +324,13 @@ const ResultsTable = (props: Props) => {
             /* Check if index exists in table data */
             if (tableData.find(record => record.index === index)) {
                 /* Replace record in table data */
-                tableData[index].taxonomyIconUrl = taxonomyIconUrl || TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])
+                tableData[index].taxonomyIconUrl = taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])
             } else {
                 /* Push record to table data */
                 tableData.push({
                     index: index,
                     id: specimen.digitalSpecimen['ods:id'],
-                    taxonomyIconUrl: taxonomyIconUrl || TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
+                    taxonomyIconUrl: taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
                     specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
                     country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
                     specimen_type: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',

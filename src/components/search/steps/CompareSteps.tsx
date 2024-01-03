@@ -43,7 +43,7 @@ const CompareSteps = () => {
     /* Function for setting compare Specimens */
     const SetCompareSpecimens = (resolve: Function) => {
         if (compareSpecimens.length < 1) {
-            GetSpecimen('20.5000.1025/QZF-FFF-51T').then((specimen) => {
+            GetSpecimen('TEST/BTQ-Z54-JYC').then((specimen) => {
                 dispatch(setCompareSpecimens([specimen]));
             }).catch(error => {
                 console.warn(error);
@@ -51,7 +51,7 @@ const CompareSteps = () => {
         }
 
         if (compareSpecimens.length < 2) {
-            GetSpecimen('20.5000.1025/6W8-1KK-KJY').then((specimen) => {
+            GetSpecimen('TEST/V7Q-CV9-RNF').then((specimen) => {
                 const copyCompareSpecimens = [...compareSpecimens];
 
                 copyCompareSpecimens.push(specimen);
@@ -98,9 +98,13 @@ const CompareSteps = () => {
                 onBeforeChange={(nextIndex) => {
                     return new Promise((resolve) => {
                         if (nextIndex === 2) {
-                            /* On step 3: enable comparison mode and set search query to 'Iguanodon' */
-                            SetSearchParam('q', 'Iguanodon');
+                            /* On step 3: enable comparison mode and set search query to 'bellis perennis' */
+                            SetSearchParam('q', 'bellis perennis');
                             dispatch(setCompareMode(true));
+
+                            if (compareSpecimens.length) {
+                                dispatch(setCompareSpecimens([]));
+                            }
 
                             resolve();
                         } else if (nextIndex === 3) {
@@ -108,13 +112,21 @@ const CompareSteps = () => {
                             dispatch(setCompareMode(true));
 
                             if (compareSpecimens.length < 1) {
-                                GetSpecimen('20.5000.1025/QZF-FFF-51T').then((specimen) => {
+                                GetSpecimen('TEST/BTQ-Z54-JYC').then((specimen) => {
                                     dispatch(setCompareSpecimens([specimen]));
 
                                     resolve();
                                 }).catch(error => {
                                     console.warn(error);
                                 });
+                            } else if (compareSpecimens.length > 1) {
+                                const copyCompareSpecimens = [...compareSpecimens];
+
+                                copyCompareSpecimens.pop();
+
+                                dispatch(setCompareSpecimens(copyCompareSpecimens));
+
+                                resolve();
                             } else {
                                 resolve();
                             }

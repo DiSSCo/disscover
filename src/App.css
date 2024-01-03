@@ -98,6 +98,13 @@ p {
   width: 0px;
 }
 
+/* Font family */
+.ff-default * {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
 /* Font sizes, default is 16px */
 .fs-1 {
   font-size: 2.5rem !important;
@@ -137,7 +144,7 @@ p {
 }
 
 .c-white {
-  color: white;
+  color: white !important;
 }
 
 .c-grey {
@@ -371,7 +378,7 @@ p {
 }
 
 .button-no-style {
-  background-color: inherit; 
+  background-color: inherit;
   border: none;
 }
 

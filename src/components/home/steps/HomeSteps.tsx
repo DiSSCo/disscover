@@ -76,6 +76,12 @@ const HomeSteps = (props: Props) => {
                 dispatch(setIntroTopic(''));
                 SetAdvancedSearch(false);
             }}
+            options={{
+                nextLabel: '>',
+                prevLabel: '<',
+                buttonClass: 'primaryButton px-3 c-white fw-lightBold',
+                tooltipClass: 'ff-default'
+            }}
         />
     );
 }

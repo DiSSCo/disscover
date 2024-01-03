@@ -6,7 +6,7 @@ import { Steps } from 'intro.js-react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
 import { getSpecimen } from 'redux/specimen/SpecimenSlice';
-import { setMASTarget } from 'redux/annotate/AnnotateSlice';
+import { setMASTarget, setMASTabIndex } from 'redux/annotate/AnnotateSlice';
 
 /* Import Sources */
 import SpecimenIntro from 'sources/introText/specimen.json';
@@ -57,16 +57,19 @@ const MASSteps = (props: Props) => {
                 intro: MASIntro[5]
             },
             {
-                element: ".specimenActions",
                 intro: MASIntro[6]
             },
             {
-                element: ".sidePanel",
+                element: ".specimenActions",
                 intro: MASIntro[7]
             },
             {
-                element: ".refreshAnnotationsButton",
+                element: ".sidePanel",
                 intro: MASIntro[8]
+            },
+            {
+                element: ".refreshAnnotationsButton",
+                intro: MASIntro[9]
             }
         ]);
     } else {
@@ -82,14 +85,23 @@ const MASSteps = (props: Props) => {
                 initialStep={0}
                 onBeforeChange={(nextIndex) => {
                     return new Promise((resolve) => {
-                        if ([3, 4, 5].includes(nextIndex)) {
+                        if ([3, 4, 5, 6].includes(nextIndex)) {
                             /* On Step 4: Show Automated Annotations Modal and set MAS target */
                             SetAutomatedAnnotationsToggle(true);
                             dispatch(setMASTarget(specimen.digitalSpecimen));
 
+                            if (nextIndex >= 4) {
+                                dispatch(setMASTabIndex(1));
+                            } else {
+                                dispatch(setMASTabIndex(0));
+                            }
+
                             setTimeout(() => {
                                 resolve();
                             }, 500);
+                        } else if (nextIndex === 4) {
+                            /* On step 5: Switch to schedule tab */
+                            setMASTabIndex(1);
                         } else if ([7, 8].includes(nextIndex)) {
                             /* On step 8: Show the Annotations Side Panel */
                             ShowWithAnnotations();

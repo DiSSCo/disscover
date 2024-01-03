@@ -66,6 +66,18 @@ const SpecimenSteps = (props: Props) => {
             element: ".contentBlock",
             intro: specimenIntro[9]
         },
+        {
+            element: ".contentBlock",
+            intro: specimenIntro[10]
+        },
+        {
+            element: ".contentBlock",
+            intro: specimenIntro[11]
+        },
+        {
+            element: ".contentBlock",
+            intro: specimenIntro[12]
+        },
     ];
 
     return (
@@ -81,18 +93,33 @@ const SpecimenSteps = (props: Props) => {
 
                             resolve();
                         } else if (nextIndex === 7) {
-                            /* On step 8: set tab to original data */
+                            /* On step 8: set tab to digital media */
                             SetSelectedTab(1);
 
                             resolve();
                         } else if (nextIndex === 8) {
-                            /* On step 9: set tab to digital media */
+                            /* On step 9: set tab to occurrences */
                             SetSelectedTab(2);
-                            
+
                             resolve();
-                        } else if (nextIndex === 9) {
-                            /* On step 10: set tab to provenance */
+                        }  else if (nextIndex === 9) {
+                            /* On step 10: set tab to identifications */
                             SetSelectedTab(3);
+
+                            resolve();
+                        }  else if (nextIndex === 10) {
+                            /* On step 11: set tab to entity relationships */
+                            SetSelectedTab(4);
+
+                            resolve();
+                        }  else if (nextIndex === 11) {
+                            /* On step 12: set tab to assertions */
+                            SetSelectedTab(5);
+
+                            resolve();
+                        } else if (nextIndex === 12) {
+                            /* On step 13: set tab to original data */
+                            SetSelectedTab(6);
 
                             resolve();
                         } else {

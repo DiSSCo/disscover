@@ -15,8 +15,8 @@ import {
     getDigitalMediaAnnotations, setDigitalMediaAnnotations
 } from 'redux/digitalMedia/DigitalMediaSlice';
 import {
-    setMASTarget, setAnnotateTarget,
-    getSidePanelToggle, setSidePanelToggle
+    setMASTarget, getAnnotateTarget, setAnnotateTarget,
+    setEditAnnotation, getSidePanelToggle, setSidePanelToggle
 } from 'redux/annotate/AnnotateSlice';
 import { pushToPromptMessages, getAnnotoriousMode, setAnnotoriousMode } from 'redux/general/GeneralSlice';
 
@@ -59,6 +59,7 @@ const DigitalMedia = () => {
     const digitalMedia = useAppSelector(getDigitalMedia);
     const digitalMediaVersions = useAppSelector(getDigitalMediaVersions);
     const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
+    const annotateTarget = useAppSelector(getAnnotateTarget);
     const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
     const [automatedAnnotationsToggle, setAutomatedAnnotationsToggle] = useState<boolean>(false);
@@ -190,21 +191,27 @@ const DigitalMedia = () => {
     }
 
     /* Function to open Side Panel with Annotations of Digital Media, default is all Annotations */
-    const ShowWithAnnotations = (annotations?: DigitalMediaAnnotations, targetProperty?: string) => {
+    const ShowWithAnnotations = (annotations?: DigitalMediaAnnotations, propertyName?: string, propertyType?: string, index?: number) => {
         /* Add up all property annotations into one annotations array */
         let allAnnotations: Annotation[] = [];
 
         /* Append to the all annotations array, if property is the same, or all annotations are wanted */
         Object.entries(annotations ?? digitalMediaAnnotations).forEach((annotationEntry) => {
-            if (!targetProperty || targetProperty === annotationEntry[0]) {
+            if (!propertyName || propertyName === annotationEntry[0]) {
                 allAnnotations = allAnnotations.concat(annotationEntry[1]);
             }
         });
 
+        /* Empty Edit Annotation if other target is chosen */
+        if (propertyName && propertyName !== annotateTarget.targetProperty.name) {
+            dispatch(setEditAnnotation({} as Annotation));
+        }
+
         dispatch(setAnnotateTarget({
             targetProperty: {
-                name: targetProperty ?? '',
-                type: 'field'
+                name: propertyName ?? '',
+                type: propertyType ?? 'field',
+                ...(index && { index: index })
             },
             target: digitalMedia.digitalEntity,
             targetType: 'DigitalMedia',
@@ -215,11 +222,11 @@ const DigitalMedia = () => {
     }
 
     /* Function for refreshing Annotations */
-    const RefreshAnnotations = (targetProperty?: string) => {
+    const RefreshAnnotations = (propertyName?: string) => {
         /* Refetch Digital Media Annotations */
         GetDigitalMediaAnnotations(digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')).then((annotations) => {
             /* Show with refreshed Annotations */
-            ShowWithAnnotations(annotations, targetProperty);
+            ShowWithAnnotations(annotations, propertyName);
 
             /* Update Annotations source */
             dispatch(setDigitalMediaAnnotations(annotations));
@@ -264,7 +271,10 @@ const DigitalMedia = () => {
                                             </Row>
                                             <Row className="py-4 flex-grow-1 overflow-scroll overflow-lg-hidden">
                                                 <Col lg={{ span: 3 }} className="h-100">
-                                                    <IDCard />
+                                                    <IDCard ShowWithAnnotations={
+                                                        (annotations?: DigitalMediaAnnotations, targetName?: string, targetType?: string) =>
+                                                            ShowWithAnnotations(annotations, targetName, targetType)
+                                                    } />
                                                 </Col>
                                                 <Col lg={{ span: 9 }} className="ps-4 h-100 mt-4 m-lg-0">
                                                     <div className="h-100 d-flex flex-column">

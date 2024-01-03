@@ -191,6 +191,10 @@ p {
 }
 
 /* Border */
+.b-none {
+  border: none;
+}
+
 .b-primary {
   border: 1px solid var(--primary);
 }

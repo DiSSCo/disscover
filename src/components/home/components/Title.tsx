@@ -21,7 +21,7 @@ const Title = () => {
         <Row>
             <Col>
                 <h1 className={`${classTitle}`}>
-                    Annotate specimens and <br /> contribute to science
+                    Annotate digital specimens and <br /> contribute to science
                 </h1>
             </Col>
         </Row>

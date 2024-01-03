@@ -12,62 +12,41 @@ import ZoologyIcon from 'webroot/icons/topicDiscipline/zoology.svg';
 
 
 const TopicDisciplineIcon = (topicDiscipline?: string) => {
-    let topicDisciplineIcon: string = '';
-
     switch (topicDiscipline) {
         case 'Anthropology': {
-            topicDisciplineIcon = AnthropologyIcon;
-
-            break;
+            return  AnthropologyIcon;
         }
         case 'Astrogeology': {
-            topicDisciplineIcon = AstrogeologyIcon;
-
-            break;
+            return AstrogeologyIcon;
         }
         case 'Botany': {
-            topicDisciplineIcon = BotanyIcon;
-
-            break;
+            return BotanyIcon;
         }
         case 'Ecology': {
-            topicDisciplineIcon = EcologyIcon;
-
-            break;
+            return EcologyIcon;
         }
         case 'Geology': {
-            topicDisciplineIcon = GeologyIcon;
-
-            break;
+            return GeologyIcon;
         }
         case 'Microbiology': {
-            topicDisciplineIcon = MicrobiologyIcon;
-
-            break;
+            return MicrobiologyIcon;
         }
         case 'Other Biodiversity': {
-            topicDisciplineIcon = OtherBiodiversityIcon;
-
-            break;
+            return OtherBiodiversityIcon;
         }
         case 'Other Geodiversity': {
-            topicDisciplineIcon = OtherGeodiversityIcon;
-
-            break;
+            return OtherGeodiversityIcon;
         }
         case 'Palaeontology': {
-            topicDisciplineIcon = PalaeontologyIcon;
-
-            break;
+            return PalaeontologyIcon;
         }
         case 'Zoology': {
-            topicDisciplineIcon = ZoologyIcon;
-
-            break;
+            return ZoologyIcon;
+        }
+        default: {
+            return '';
         }
     }
-
-    return topicDisciplineIcon;
 }
 
 export default TopicDisciplineIcon;

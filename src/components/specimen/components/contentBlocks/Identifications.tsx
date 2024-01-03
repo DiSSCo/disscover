@@ -11,7 +11,7 @@ import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 import { Dict } from 'app/Types';
 
 /* Import Components */
-import PropertiesTable from './PropertiesTable';
+import PropertiesBlock from './PropertiesBlock';
 
 
 /* Props Typing */
@@ -59,44 +59,14 @@ const Identifications = (props: Props) => {
             {identifications.map((identification, index) => {
                 const key = `identification${index}`;
 
-                /* ClassNames */
-                const CardClass = classNames({
-                    'mt-3': index > 0
-                });
-
-                return (
-                    <Card key={key} className={CardClass}>
-                        <Card.Body>
-                            <Row>
-                                <Col>
-                                    <p className="fs-2 fw-lightBold">
-                                        {identification.properties['dwc:identificationVerificationStatus'] ?
-                                            <> {`Identification #${++index} (accepted)`} </>
-                                            : <> {`Identification #${++index}`} </>
-                                        }
-                                    </p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {Object.keys(identification).map((identificationKey) => {
-                                        return (
-                                            <div key={identificationKey} className="mt-3">
-                                                <PropertiesTable
-                                                    title={identificationKey}
-                                                    properties={identification[identificationKey]}
-                                                    ShowWithAnnotations={(property: string) =>
-                                                        ShowWithAnnotations(`identifications[${index - 1}]${(identificationLevels[identificationKey.slice(0, identificationKey.indexOf('#')).replaceAll(' ', '') as keyof typeof identificationLevels] ?? '')}${property}`, index)
-                                                    }
-                                                />
-                                            </div>
-                                        );
-                                    })}
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
-                );
+                return <PropertiesBlock key={key}
+                    index={index}
+                    instanceName='Identification'
+                    taxonAcceptedName='Accepted Identification'
+                    instanceLevel='identifications'
+                    instanceProperties={identification}
+                    ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName, index)}
+                />
             })}
         </>
     );

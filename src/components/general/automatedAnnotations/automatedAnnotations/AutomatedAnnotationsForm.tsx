@@ -62,7 +62,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                     key: RandomString(),
                     message: 'Machine Annotation Service, committed successfully!',
                     template: 'success'
-                }))
+                }));
             }).catch(error => {
                 console.warn(error);
             });
@@ -73,7 +73,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                     key: RandomString(),
                     message: 'Machine Annotation Service, committed successfully!',
                     template: 'success'
-                }))
+                }));
             }).catch(error => {
                 console.warn(error);
             });

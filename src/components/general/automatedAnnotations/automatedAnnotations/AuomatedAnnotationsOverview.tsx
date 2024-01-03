@@ -52,7 +52,7 @@ const AutomatedAnnotationsOverview = (props: Props) => {
                     id: machineJobRecord.id,
                     targetId: machineJobRecord.attributes.targetId,
                     scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
-                    completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
+                    completed: machineJobRecord.attributes.timeCompleted ? Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') : '--',
                     state: machineJobRecord.attributes.state
                 });
             });

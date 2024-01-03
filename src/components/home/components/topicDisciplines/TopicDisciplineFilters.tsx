@@ -24,14 +24,13 @@ import TopicDisciplineIcon from 'components/general/icons/TopicDisciplineIcon';
 import GetSpecimenDisciplines from 'api/specimen/GetSpecimenDisciplines';
 
 
-const SpecimenTypeFilters = () => {
+const TopicDisciplineFilters = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     /* Base variables */
     const [initialValues, setInitalValues] = useState<Dict>({
-        all: false,
         disciplines: {
             Microbiology: false,
             Anthropology: false,
@@ -44,17 +43,30 @@ const SpecimenTypeFilters = () => {
             EarthSystem: false,
             Astrogeology: false
         },
+        NaturalOrigin: false,
         HumanMade: false,
         Unclassified: false
     });
     const [disciplines, setDisciplines] = useState<Dict>({ reduce: 0 });
     const [totalSpecimenCount, setTotalSpecimenCount] = useState<number>(0);
-    const checkAllBoxRef = useRef<HTMLInputElement>(null);
+    const [naturalOriginCount, setNaturalOriginCount] = useState<number>(0);
+    const naturalOriginCheckBoxRef = useRef<HTMLInputElement>(null);
 
     /* OnLoad: fetch Disciplines */
     useEffect(() => {
         GetSpecimenDisciplines().then(({ disciplines, metadata }) => {
             setDisciplines(disciplines.topicDiscipline);
+
+            /* Calculate total records belonging to Natural Origin */
+            let naturalOriginCount: number = 0;
+
+            for (const disciplineKey in disciplines.topicDiscipline) {
+                if (disciplineKey !== 'Unclassified') {
+                    naturalOriginCount += disciplines.topicDiscipline[disciplineKey];
+                }
+            }
+
+            setNaturalOriginCount(naturalOriginCount);
 
             /* Set total specimen count */
             if (metadata.totalRecords) {
@@ -68,7 +80,7 @@ const SpecimenTypeFilters = () => {
     /* Function for selecting or deselecting all filters */
     const SelectAll = (selected: boolean) => {
         const copyInitalValues = {
-            all: selected,
+            NaturalOrigin: selected,
             disciplines: {}
         } as Dict;
 
@@ -119,7 +131,6 @@ const SpecimenTypeFilters = () => {
                             <Row>
                                 <Col>
                                     <p className="fs-2 c-primary fw-bold">Total specimens: <CountUp end={totalSpecimenCount} /></p>
-                                    <p className="fs-3 c-secondary fw-lightBold mt-2">Natural origin</p>
                                 </Col>
                             </Row>
                             {/* Specimen Type Blocks */}
@@ -217,40 +228,47 @@ const SpecimenTypeFilters = () => {
                                 </Col>
                             </Row>
 
-                            {/* Select all checkbox */}
-                            <Row>
-                                <Col className="col-md-auto pe-1 d-flex align-items-center">
-                                    <Field name="all" type="checkbox"
-                                        className={styles.specimenTypeSpecialCheckbox}
-                                        innerRef={checkAllBoxRef}
-                                        onClick={(checkbox: any) => SelectAll(checkbox.target.checked)}
-                                    />
-                                </Col>
-                                <Col className="d-flex align-items-center">
-                                    <p className="fs-3 fw-lightBold c-secondary c-pointer"
+                            {/* Human Made and Unclassified */}
+                            <Row className="mt-4">
+                                <Col md={{ span: 4 }} className="pe-2">
+                                    <div className={`${styles.specimenTypeGreenVariant} ${styles.specimenTypeBlock} py-3 px-4`}
                                         onClick={() => {
-                                            if (checkAllBoxRef.current?.value === 'true') {
+                                            if (naturalOriginCheckBoxRef.current?.value === 'true') {
                                                 SelectAll(false);
-                                            } else if (checkAllBoxRef.current?.value === 'false') {
+                                            } else if (naturalOriginCheckBoxRef.current?.value === 'false') {
                                                 SelectAll(true);
                                             }
                                         }}
                                     >
-                                        Select all
-                                    </p>
+                                        <Row className="h-50">
+                                            <Col>
+                                                <p className={`${styles.topicOriginTitle} fw-lightBold`}> Natural Origin </p>
+                                            </Col>
+                                            <Col className="col-md-auto">
+                                                <Field name={`NaturalOrigin`}
+                                                    type="checkbox"
+                                                    className={styles.specimenTypeSpecialCheckbox}
+                                                    innerRef={naturalOriginCheckBoxRef}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        <Row className="h-50">
+                                            <Col className="d-flex justify-content-end align-items-end">
+                                                <p className={`${styles.topicOriginTitle} fw-lightBold`}>
+                                                    <CountUp end={naturalOriginCount} />
+                                                </p>
+                                            </Col>
+                                        </Row>
+                                    </div>
                                 </Col>
-                            </Row>
-
-                            {/* Human Made and Unclassified */}
-                            <Row className="mt-4">
-                                <Col md={{ span: 6 }} className="pe-2">
-                                    <div className={`${styles.specimenTypeHumanMade} ${styles.specimenTypeBlock} py-3 px-4`}
+                                <Col md={{ span: 4 }} className="px-2">
+                                    <div className={`${styles.specimenTypeBlueVariant} ${styles.specimenTypeBlock} py-3 px-4`}
                                         onClick={() => setFieldValue('HumanMade', !values.HumanMade)}
                                     >
                                         <Row className="h-50">
                                             <Col>
-                                                <p className="fs-2 fw-lightBold"> Human Made </p>
-                                                <p className={styles.specimenTypeSpecialSubTitle}> (Archive material) </p>
+                                                <p className={`${styles.topicOriginTitle} fw-lightBold`}> Human made </p>
+                                                <p className={`${styles.specimenTypeSpecialSubTitle} fs-4`}> (Archive material) </p>
                                             </Col>
                                             <Col className="col-md-auto">
                                                 <Field name={`HumanMade`}
@@ -261,20 +279,20 @@ const SpecimenTypeFilters = () => {
                                         </Row>
                                         <Row className="h-50">
                                             <Col className="d-flex justify-content-end align-items-end">
-                                                <p className={styles.specimenTypeAmount}>
+                                                <p className={`${styles.topicOriginTitle} fw-lightBold`}>
                                                     <CountUp end={disciplines['Human Made']} />
                                                 </p>
                                             </Col>
                                         </Row>
                                     </div>
                                 </Col>
-                                <Col md={{ span: 6 }} className="ps-2">
-                                    <div className={`${styles.specimenTypeUnclassified} ${styles.specimenTypeBlock} py-3 px-4`}
+                                <Col md={{ span: 4 }} className="ps-2">
+                                    <div className={`${styles.specimenTypeGreenVariant} ${styles.specimenTypeBlock} py-3 px-4`}
                                         onClick={() => setFieldValue('Unclassified', !values.Unclassified)}
                                     >
                                         <Row className="h-50">
                                             <Col>
-                                                <p className="fs-2 fw-lightBold"> Unclassified </p>
+                                                <p className={`${styles.topicOriginTitle} fw-lightBold`}> Unclassified </p>
                                             </Col>
                                             <Col className="col-md-auto">
                                                 <Field name={`Unclassified`}
@@ -285,7 +303,7 @@ const SpecimenTypeFilters = () => {
                                         </Row>
                                         <Row className="h-50">
                                             <Col className="d-flex justify-content-end align-items-end">
-                                                <p className={styles.specimenTypeAmount}>
+                                                <p className={`${styles.topicOriginTitle} fw-lightBold`}>
                                                     <CountUp end={disciplines['Unclassified']} />
                                                 </p>
                                             </Col>
@@ -315,4 +333,4 @@ const SpecimenTypeFilters = () => {
     );
 }
 
-export default SpecimenTypeFilters;
+export default TopicDisciplineFilters;

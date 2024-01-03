@@ -30,7 +30,7 @@ const PropertiesBlock = (props: Props) => {
     const { index, instanceName, taxonAcceptedName, instanceLevel, instanceLevels, instanceProperties, ShowWithAnnotations } = props;
 
     /* Base variables */
-    const [collapsed, setCollapsed] = useState<boolean>((index > 0) ? true : false);
+    const [collapsed, setCollapsed] = useState<boolean>(index > 0);
     let blockName: string;
     
     if (taxonAcceptedName && instanceProperties.properties['dwc:identificationVerificationStatus'] && instanceProperties.properties['dwc:identificationVerificationStatus'] === true) {

@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import classNames from 'classnames';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
@@ -11,7 +10,7 @@ import { getSpecimen, getSpecimenAnnotations } from 'redux/specimen/SpecimenSlic
 import { Dict } from 'app/Types';
 
 /* Import Components */
-import PropertiesTable from './PropertiesTable';
+import PropertiesBlock from './PropertiesBlock';
 import ToggleButton from './entityRelationsBlock/ToggleButton';
 import Cytoscape from 'components/general/graphs/Cytoscape';
 
@@ -64,39 +63,17 @@ const EntityRelationships = (props: Props) => {
                 </div>
 
                 {specimen.digitalSpecimen.entityRelationships?.map((entityRelationship, index) => {
+                    console.log(entityRelationship);
+
                     const key = `entityRelationship${index}`;
 
-                    /* ClassNames */
-                    const CardClass = classNames({
-                        'mt-3': index > 0
-                    });
-
-                    return (
-                        <Card key={key} className={CardClass}>
-                            <Card.Body>
-                                <Row>
-                                    <Col>
-                                        <p className="fs-2 fw-lightBold">
-                                            {`Entity Relationship #${++index}`}
-                                        </p>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <div className="mt-3">
-                                            <PropertiesTable
-                                                title="Properties"
-                                                properties={entityRelationship}
-                                                ShowWithAnnotations={(property: string) =>
-                                                    ShowWithAnnotations(`entityRelationships[${index - 1}]${property}`, index)
-                                                }
-                                            />
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    );
+                    return <PropertiesBlock key={key}
+                        index={index}
+                        instanceName='Entity Relationship'
+                        instanceLevel='entityRelationships'
+                        instanceProperties={entityRelationship}
+                        ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName, index)}
+                    />
                 })}
             </div>
         );

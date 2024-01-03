@@ -1,13 +1,12 @@
 /* Import Dependencies */
-import { Card, Row, Col } from 'react-bootstrap';
-import classNames from "classnames";
+import { Card } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from "app/hooks";
 import { getSpecimen } from "redux/specimen/SpecimenSlice";
 
 /* Import Components */
-import PropertiesTable from './PropertiesTable';
+import PropertiesBlock from './PropertiesBlock';
 
 
 /* Props Typing */
@@ -28,37 +27,13 @@ const Assertions = (props: Props) => {
                 {specimen.digitalSpecimen.assertions?.map((assertion, index) => {
                     const key = `assertion${index}`;
 
-                    /* ClassNames */
-                    const CardClass = classNames({
-                        'mt-3': index > 0
-                    });
-
-                    return (
-                        <Card key={key} className={CardClass}>
-                            <Card.Body>
-                                <Row>
-                                    <Col>
-                                        <p className="fs-2 fw-lightBold">
-                                            {`Assertion #${++index}`}
-                                        </p>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <div className="mt-3">
-                                            <PropertiesTable
-                                                title="Properties"
-                                                properties={assertion}
-                                                ShowWithAnnotations={(property: string) =>
-                                                    ShowWithAnnotations(`assertions[${index - 1}]${property}`, index)
-                                                }
-                                            />
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    );
+                    return <PropertiesBlock key={key}
+                        index={index}
+                        instanceName='Assertion'
+                        instanceLevel='assertions'
+                        instanceProperties={assertion}
+                        ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName, index)}
+                    />
                 })}
             </>
                 : <Card className="h-100 d-flex justify-content-center align-items-center">

@@ -1,7 +1,5 @@
 /* Import Dependencies */
 import { isEmpty, cloneDeep } from 'lodash';
-import classNames from 'classnames';
-import { Card, Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
@@ -11,7 +9,7 @@ import { getSpecimen } from 'redux/specimen/SpecimenSlice';
 import { Dict } from 'app/Types';
 
 /* Import Components */
-import PropertiesTable from './PropertiesTable';
+import PropertiesBlock from './PropertiesBlock';
 
 
 /* Props Typing */
@@ -83,39 +81,16 @@ const Occurrences = (props: Props) => {
             {occurrences.map((occurrence, index) => {
                 const key = `occurrence_${index}`;
 
-                /* ClassNames */
-                const CardClass = classNames({
-                    'mt-3': index > 0
-                });
+                console.log(occurrence);
 
-                return (
-                    <Card key={key} className={CardClass}>
-                        <Card.Body>
-                            <Row>
-                                <Col>
-                                    <p className="fs-2 fw-lightBold"> {`Occurrence #${++index}`} </p>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {Object.keys(occurrence).map((occurreneKey) => {
-                                        return (
-                                            <div key={occurreneKey} className="mt-3">
-                                                <PropertiesTable
-                                                    title={occurreneKey}
-                                                    properties={occurrence[occurreneKey as keyof typeof occurrence] as Dict}
-                                                    ShowWithAnnotations={(property: string) =>
-                                                        ShowWithAnnotations(`occurrences[${index - 1}]${occurrenceLevels[occurreneKey as keyof typeof occurrenceLevels] ?? ''}${property}`, index)
-                                                    }
-                                                />
-                                            </div>
-                                        );
-                                    })}
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
-                );
+                return <PropertiesBlock key={key}
+                    index={index}
+                    instanceName='Occurrence'
+                    instanceLevel='occurrences'
+                    instanceLevels={occurrenceLevels}
+                    instanceProperties={occurrence}
+                    ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName, index)}
+                />
             })}
         </>
     );

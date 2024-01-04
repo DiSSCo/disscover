@@ -12,7 +12,7 @@ import styles from 'components/specimen/specimen.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faDiamond, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
@@ -103,10 +103,13 @@ const TitleBar = (props: Props) => {
                 {/* Title and Icon */}
                 <Row className="mt-2">
                     <Col className="col-md-auto pe-1 d-flex align-items-center">
-                        <img src={TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])}
-                            alt={specimen.digitalSpecimen['ods:topicDiscipline']}
-                            className={`${styles.topicDisciplineIcon} c-primary`}
-                        />
+                        {specimen.digitalSpecimen['ods:topicDiscipline'] !== 'Unclassified' ?
+                            <img src={TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])}
+                                alt={specimen.digitalSpecimen['ods:topicDiscipline']}
+                                className={`${styles.topicDisciplineIcon} c-primary`}
+                            />
+                            : <FontAwesomeIcon icon={faDiamond} className="fs-2 c-primary" />
+                        }
                     </Col>
                     <Col>
                         <h2 className={styles.specimenTitle}> {specimen.digitalSpecimen['ods:specimenName']} </h2>

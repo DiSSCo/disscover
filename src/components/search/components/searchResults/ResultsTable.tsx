@@ -13,6 +13,7 @@ import {
 
 /* Import Types */
 import { DigitalSpecimen, Dict } from 'app/Types';
+import { DigitalSpecimen as SpecimenType } from 'app/types/DigitalSpecimen';
 
 /* Import Styles */
 import styles from 'components/search/search.module.scss';
@@ -57,11 +58,13 @@ const ResultsTable = (props: Props) => {
         index: number,
         id: string,
         taxonomyIconUrl: string,
-        specimen_name: string,
-        country: string,
-        specimen_type: string,
-        organisation: string,
-        organisationId: string,
+        // accessionName: string,
+        // accessionId: string,
+        // country: string,
+        // specimenType: string,
+        // organisation: string,
+        // organisationId: string,
+        specimen: SpecimenType,
         toggleSelected: boolean,
         compareSelected: boolean
     };
@@ -161,41 +164,63 @@ const ResultsTable = (props: Props) => {
     }
 
     const tableColumns: TableColumn<DataRow>[] = [{
-        name: 'Icon',
         selector: row => row.taxonomyIconUrl,
         id: 'search_taxonomyIcon',
         cell: row => <img src={row.taxonomyIconUrl} alt={row.taxonomyIconUrl} className={styles.taxonomyIcon} />,
-        maxWidth: '50px'
+        width: '3rem'
     }, {
-        name: 'Specimen name',
-        selector: row => row.specimen_name,
-        id: 'search_name',
+        name: 'Accession Name',
+        selector: row => row.specimen['ods:specimenName'] ?? '',
+        id: 'search_accessionName',
         cell: row => <div onClick={() => SelectAction(row)}
             onKeyDown={() => SelectAction(row)}
         >
             <ScientificName specimenName={searchResults[row?.index]['digitalSpecimen']['ods:specimenName'] ?? ''} />
         </div>,
-        sortable: true
+        sortable: true,
+        grow: 1.5
     }, {
-        name: 'Country',
-        selector: row => row.country,
-        id: 'search_country',
-        sortable: true
+        name: 'DOI',
+        selector: row => row.id.replace(process.env.REACT_APP_DOI_URL as string, ''),
+        id: 'search_specimenDOI',
+        grow: 1.5
+    }, {
+        name: 'Accession ID',
+        selector: row => row.specimen['ods:normalisedPhysicalSpecimenId'] ?? '',
+        id: 'search_accessionId',
+        grow: 2
+    }, {
+        name: 'Scientific Name',
+        selector: row => row.specimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '',
+        id: 'search_scientificName',
+        sortable: true,
+        grow: 2
     }, {
         name: 'Specimen type',
-        selector: row => row.specimen_type,
-        id: 'search_specimen_type',
+        selector: row => row.specimen['ods:topicDiscipline'] as string ?? '',
+        id: 'search_specimenType',
         sortable: true
     }, {
-        name: 'Organisation',
-        selector: row => row.organisation,
-        id: 'search_organisation',
-        cell: row => <ColumnLink link={row.organisationId} text={row.organisation} />,
+        name: 'Origin',
+        selector: row => row.specimen.occurrences?.[0]?.location?.['dwc:country'] ?? '',
+        id: 'search_origin',
+        sortable: true
+    }, {
+        name: "Collected",
+        selector: row => row.specimen.occurrences?.[0]?.['dwc:eventDate'] ?? '',
+        id: 'search_collected',
+        sortable: true
+    }, {
+        name: 'Holder',
+        selector: row => row.specimen['dwc:institutionName'] ?? row.specimen['dwc:institutionId'] ?? '',
+        id: 'search_holder',
+        cell: row => <ColumnLink link={row.specimen['dwc:institutionId'] ?? ''} text={row.specimen['dwc:institutionName'] ?? row.specimen['dwc:institutionId'] ?? ''} />,
         ignoreRowClick: true,
         style: {
             color: "#28bacb"
         },
-        sortable: true
+        sortable: true,
+        grow: 1.5
     }];
 
     if (compareMode) {
@@ -331,11 +356,13 @@ const ResultsTable = (props: Props) => {
                     index: index,
                     id: specimen.digitalSpecimen['ods:id'],
                     taxonomyIconUrl: taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
-                    specimen_name: specimen.digitalSpecimen['ods:specimenName'] ?? '',
-                    country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
-                    specimen_type: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
-                    organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
-                    organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
+                    specimen: specimen.digitalSpecimen,
+                    // accessionName: specimen.digitalSpecimen['ods:specimenName'] ?? '',
+                    // accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'] ?? '',
+                    // country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
+                    // specimenType: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
+                    // organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
+                    // organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
                     toggleSelected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });

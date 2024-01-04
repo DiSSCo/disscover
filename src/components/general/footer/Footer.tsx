@@ -53,16 +53,16 @@ const Footer = () => {
                         </Col>
                         <Col className="d-flex justify-content-end">
                             <p className="fs-5">
-                                <Link to="/privacy-policy">
+                                <Link to="/privacy">
                                     Privacy
                                 </Link>
                             </p>
                         </Col>
                         <Col className="col-md-auto">
                             <p className="fs-5">
-                                <a href="https://login-demo.dissco.eu/auth/realms/dissco/theme-info/terms-of-use" target="_blank" rel="noreferer">
+                                <Link to="/terms">
                                     Terms
-                                </a>
+                                </Link>
                             </p>
                         </Col>
                         <Col className="col-md-auto">

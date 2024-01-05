@@ -58,12 +58,6 @@ const ResultsTable = (props: Props) => {
         index: number,
         id: string,
         taxonomyIconUrl: string,
-        // accessionName: string,
-        // accessionId: string,
-        // country: string,
-        // specimenType: string,
-        // organisation: string,
-        // organisationId: string,
         specimen: SpecimenType,
         toggleSelected: boolean,
         compareSelected: boolean
@@ -199,7 +193,8 @@ const ResultsTable = (props: Props) => {
         name: 'Specimen type',
         selector: row => row.specimen['ods:topicDiscipline'] as string ?? '',
         id: 'search_specimenType',
-        sortable: true
+        sortable: true,
+        grow: 1.5
     }, {
         name: 'Origin',
         selector: row => row.specimen.occurrences?.[0]?.location?.['dwc:country'] ?? '',
@@ -220,7 +215,7 @@ const ResultsTable = (props: Props) => {
             color: "#28bacb"
         },
         sortable: true,
-        grow: 1.5
+        grow: 2
     }];
 
     if (compareMode) {
@@ -357,12 +352,6 @@ const ResultsTable = (props: Props) => {
                     id: specimen.digitalSpecimen['ods:id'],
                     taxonomyIconUrl: taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
                     specimen: specimen.digitalSpecimen,
-                    // accessionName: specimen.digitalSpecimen['ods:specimenName'] ?? '',
-                    // accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'] ?? '',
-                    // country: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '-',
-                    // specimenType: specimen.digitalSpecimen['ods:topicDiscipline'] as string ?? '',
-                    // organisation: specimen.digitalSpecimen['dwc:institutionName'] ?? specimen.digitalSpecimen['dwc:institutionId'] ?? '',
-                    // organisationId: specimen.digitalSpecimen['dwc:institutionId'] ?? '',
                     toggleSelected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });

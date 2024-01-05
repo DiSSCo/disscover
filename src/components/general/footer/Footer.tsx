@@ -18,9 +18,6 @@ const Footer = () => {
     /* Base variables */
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
 
-    /* Get current year */
-    const currentYear = new Date().getFullYear();
-
     /* ClassNames for Footer */
     const classFooter = classNames({
         [`${styles.footer} z-2`]: true,

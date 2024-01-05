@@ -11,8 +11,6 @@ import { getMASTarget, getMASTabIndex, setMASTabIndex } from 'redux/annotate/Ann
 
 /* Impor Types */
 import { Dict } from 'app/Types';
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalEntity } from 'app/types/DigitalEntity';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';

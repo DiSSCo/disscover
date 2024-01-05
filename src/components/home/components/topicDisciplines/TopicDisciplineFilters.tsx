@@ -30,7 +30,7 @@ const TopicDisciplineFilters = () => {
     const navigate = useNavigate();
 
     /* Base variables */
-    const [initialValues, setInitalValues] = useState<Dict>({
+    const [initialValues, setInitialValues] = useState<Dict>({
         disciplines: {
             Microbiology: false,
             Anthropology: false,
@@ -88,7 +88,7 @@ const TopicDisciplineFilters = () => {
             copyInitalValues.disciplines[discipline] = selected;
         });
 
-        setInitalValues(copyInitalValues);
+        setInitialValues(copyInitalValues);
     }
 
     return (
@@ -231,7 +231,8 @@ const TopicDisciplineFilters = () => {
                             {/* Human Made and Unclassified */}
                             <Row className="mt-4">
                                 <Col md={{ span: 4 }} className="pe-2">
-                                    <div className={`${styles.specimenTypeGreenVariant} ${styles.specimenTypeBlock} py-3 px-4`}
+                                    <button type="button"
+                                        className={`${styles.specimenTypeGreenVariant} ${styles.specimenTypeBlock} py-3 px-4 w-100 b-none`}
                                         onClick={() => {
                                             if (naturalOriginCheckBoxRef.current?.value === 'true') {
                                                 SelectAll(false);
@@ -259,10 +260,11 @@ const TopicDisciplineFilters = () => {
                                                 </p>
                                             </Col>
                                         </Row>
-                                    </div>
+                                    </button>
                                 </Col>
                                 <Col md={{ span: 4 }} className="px-2">
-                                    <div className={`${styles.specimenTypeBlueVariant} ${styles.specimenTypeBlock} py-3 px-4`}
+                                    <button type="button"
+                                        className={`${styles.specimenTypeBlueVariant} ${styles.specimenTypeBlock} py-3 px-4 w-100 b-none`}
                                         onClick={() => setFieldValue('HumanMade', !values.HumanMade)}
                                     >
                                         <Row className="h-50">
@@ -284,10 +286,11 @@ const TopicDisciplineFilters = () => {
                                                 </p>
                                             </Col>
                                         </Row>
-                                    </div>
+                                    </button>
                                 </Col>
                                 <Col md={{ span: 4 }} className="ps-2">
-                                    <div className={`${styles.specimenTypeGreenVariant} ${styles.specimenTypeBlock} py-3 px-4`}
+                                    <button type="button"
+                                        className={`${styles.specimenTypeGreenVariant} ${styles.specimenTypeBlock} py-3 px-4 w-100 b-none`}
                                         onClick={() => setFieldValue('Unclassified', !values.Unclassified)}
                                     >
                                         <Row className="h-50">
@@ -308,7 +311,7 @@ const TopicDisciplineFilters = () => {
                                                 </p>
                                             </Col>
                                         </Row>
-                                    </div>
+                                    </button>
                                 </Col>
                             </Row>
                             {/* Select all and Submit */}

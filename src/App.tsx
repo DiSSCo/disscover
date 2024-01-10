@@ -11,7 +11,10 @@ import { DetectMobile } from 'app/Utilities';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getScreenSize, setScreenSize, getOrganisations, setOrganisations, setPhylopicBuild } from 'redux/general/GeneralSlice';
+import {
+  getScreenSize, setScreenSize, setWindowDimensions,
+  getOrganisations, setOrganisations, setPhylopicBuild
+} from 'redux/general/GeneralSlice';
 import { getUser, setUser } from 'redux/user/UserSlice';
 
 /* Import Styles */
@@ -51,6 +54,7 @@ const App = () => {
 
   /* Function to regulate PC and Mobile views */
   const UpdateWindowDimensions = () => {
+    /* Set screen size */
     if (DetectMobile()) {
       dispatch(setScreenSize('sm'));
     } else if (window.innerWidth <= 992) {
@@ -58,6 +62,12 @@ const App = () => {
     } else {
       dispatch(setScreenSize('lg'));
     }
+
+    /* Set window dimensions */
+    dispatch(setWindowDimensions({
+      vw: window.innerWidth,
+      vh: window.innerHeight
+    }))
   };
 
   useEffect(() => {

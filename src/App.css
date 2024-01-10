@@ -222,6 +222,10 @@ p {
   border-top: 1px solid var(--grey);
 }
 
+.b-bottom-grey {
+  border-bottom: 1px solid var(--grey);
+}
+
 /* Border radius */
 .br-tl {
   border-top-left-radius: 8px;
@@ -275,6 +279,14 @@ p {
   overflow-y: scroll !important;
 }
 
+.overflow-x-scroll {
+  overflow-x: scroll !important;
+}
+
+.overflow-x-visible {
+  overflow-x: visible;
+}
+
 .overflow-x-hidden {
   overflow-x: hidden;
 }
@@ -308,7 +320,6 @@ p {
 
 
 /* Global Components Styling */
-
 .primaryButton {
   background-color: var(--primary);
   color: white;

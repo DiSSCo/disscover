@@ -255,7 +255,7 @@ const Search = () => {
 
                                 <Col className={`${classSearchResults} h-100 searchResults`}>
                                     <Row className="h-100 position-relative">
-                                        <Col className={`${classSearchResultsTable} h-100`}>
+                                        <Col className={`${classSearchResultsTable} h-100 z-1`}>
                                             <Row className="h-100">
                                                 <Col className="h-100">
                                                     <div className="h-100 d-flex flex-column">

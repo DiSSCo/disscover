@@ -19,7 +19,8 @@ import styles from './tables.module.scss';
 interface Props {
     columns: any,
     data: Dict[],
-    pinnedColumns?: string[]
+    selectedRowId?: number,
+    SelectAction?: Function
 };
 
 declare module '@tanstack/react-table' {
@@ -31,12 +32,13 @@ declare module '@tanstack/react-table' {
 
 
 const DataTable = (props: Props) => {
-    const { columns, data, pinnedColumns } = props;
+    const { columns, data, selectedRowId, SelectAction } = props;
 
     /* Base variables */
     const windowDimensions = useAppSelector(getWindowDimensions);
-    const oneRem = 0.85 * windowDimensions.vw / 100;
     const [hoverRowId, setHoverRowId] = useState<number>(-1);
+    const oneRem = 0.85 * windowDimensions.vw / 100;
+    let pinnedCount: number = 0;
 
     /* Table initiation */
     const table = useReactTable({
@@ -46,26 +48,27 @@ const DataTable = (props: Props) => {
     });
 
     /* Function to determine table header class names */
-    const HeaderClassNames = (headerId: string) => {
+    const HeaderClassNames = (pinned: boolean = false) => {
         return classNames({
             'bgc-secondary c-white fs-4 px-3 py-3': true,
-            'position-sticky z-1': pinnedColumns?.includes(headerId)
+            'position-sticky z-1': pinned
         });
     }
 
     /* Function to determine table row class names */
-    const RowClassNames = (rowId: string) => {
+    const RowClassNames = (selected: boolean) => {
         return classNames({
-            [`${styles.dataTableRow} bgc-white`]: true
+            [`${styles.dataTableRow} bgc-white`]: true,
+            'bgc-tableHover': selected
         });
     }
- 
+
     /* Function to determine table column class names */
-    const ColumnClassNames = (columnId: string, rowIndex: number) => {
+    const ColumnClassNames = (rowIndex: number, selected: boolean, pinned: boolean = false) => {
         return classNames({
             [`${styles.dataTableColumn} fs-4 px-3 py-2 b-bottom-grey c-pointer`]: true,
-            'position-sticky z-1 bgc-white': pinnedColumns?.includes(columnId),
-            'bgc-tableHover': hoverRowId === rowIndex
+            'position-sticky z-1 bgc-white': pinned,
+            'bgc-tableHover': hoverRowId === rowIndex || selected
         });
     }
 
@@ -92,7 +95,7 @@ const DataTable = (props: Props) => {
                                                 minWidth: headerWidth,
                                                 ...(header.column.columnDef.meta?.pinned && { 'left': `${totalRowWidth - headerWidth}px` })
                                             }}
-                                            className={HeaderClassNames(header.id)}
+                                            className={HeaderClassNames(header.column.columnDef.meta?.pinned)}
                                         >
                                             {header.isPlaceholder
                                                 ? null
@@ -111,12 +114,13 @@ const DataTable = (props: Props) => {
                 <tbody className="flex-grow-1 overflow-x-hidden overflow-y-scrol bgc-white"
                     onMouseLeave={() => setHoverRowId(-1)}
                 >
-                    {table.getRowModel().rows.map((row, rowIndex) => {
+                    {table.getRowModel().rows.map((row) => {
                         let totalRowWidth: number = 0;
 
                         return (
                             <tr key={row.id}
-                                className={RowClassNames(row.id)}
+                                className={RowClassNames(row.original.selected)}
+                                onClick={() => { if (!window.getSelection()?.toString() && SelectAction) { SelectAction(row.original) } }}
                                 onMouseEnter={() => setHoverRowId(Number(row.id))}
                             >
                                 {row.getVisibleCells().map((cell, cellIndex) => {
@@ -132,9 +136,9 @@ const DataTable = (props: Props) => {
                                                 width: columnWidth,
                                                 minWidth: columnWidth,
                                                 ...(cell.column.columnDef.meta?.pinned && { left: `${totalRowWidth - columnWidth}px` }),
-                                                ...((pinnedColumns?.includes(cell.column.id) && (cellIndex + 1) === pinnedColumns.length) && { 'borderRight': '1px solid #D9D9DF' })
+                                                ...((cell.column.columnDef.meta?.pinned && (cellIndex + 1) === pinnedCount) && { 'borderRight': '1px solid #D9D9DF' })
                                             }}
-                                            className={ColumnClassNames(cell.column.id, rowIndex)}
+                                            className={ColumnClassNames(Number(row.id), row.original.selected, cell.column.columnDef.meta?.pinned)}
                                         >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </td>

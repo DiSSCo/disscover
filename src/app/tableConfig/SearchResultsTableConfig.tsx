@@ -72,10 +72,7 @@ const SearchResultsTableConfig = () => {
         })
     ];
 
-    /* Define pinned columns */
-    const pinnedColumns = ['DOI', 'accessionName'];
-
-    return { columns, pinnedColumns };
+    return { columns };
 }
 
 export default SearchResultsTableConfig;

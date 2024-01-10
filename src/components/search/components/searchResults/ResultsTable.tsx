@@ -50,7 +50,7 @@ const ResultsTable = (props: Props) => {
     const dispatch = useAppDispatch();
 
     /* Table configuration */
-    const { columns, pinnedColumns } = SearchResultsTableConfig();
+    const { columns } = SearchResultsTableConfig();
 
     /* Base variables */
     const searchResults = useAppSelector(getSearchResults);
@@ -60,6 +60,7 @@ const ResultsTable = (props: Props) => {
     const phylopicBuild = useAppSelector(getPhylopicBuild);
     const [tableColumns, setTableColumns] = useState(columns);
     const [tableData, setTableData] = useState<DataRow[]>([]);
+    const [selectedRowId, setSelectedRowId] = useState<number>();
     const staticTopicDisciplines = ['Anthropology', 'Astrogeology', 'Geology', 'Ecology', 'Other Biodiversity', 'Other Geodiversity', 'Unclassified'];
 
     /* Declare type of a table row */
@@ -74,7 +75,7 @@ const ResultsTable = (props: Props) => {
         collected: string,
         holder: string,
         taxonomyIconUrl: string,
-        toggleSelected: boolean,
+        selected: boolean,
         compareSelected: boolean
     };
 
@@ -86,17 +87,17 @@ const ResultsTable = (props: Props) => {
         dispatch(setSearchSpecimen(specimen));
 
         /* Unselect current Row */
-        const unselectedRow = tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.DOI !== specimen.digitalSpecimen['ods:id']));
+        const unselectedRow = tableData.find((tableRow) => (tableRow.selected && tableRow.DOI !== specimen.digitalSpecimen['ods:id']));
 
         if (unselectedRow) {
-            unselectedRow.toggleSelected = false;
+            unselectedRow.selected = false;
         }
 
         /* Select chosen Table Row */
         const selectedRow = tableData.find((tableRow) => tableRow.DOI === specimen.digitalSpecimen['ods:id']);
 
         if (selectedRow) {
-            selectedRow.toggleSelected = true;
+            selectedRow.selected = true;
         }
 
         const copyTableData = [...tableData];
@@ -134,10 +135,10 @@ const ResultsTable = (props: Props) => {
     useEffect(() => {
         if (isEmpty(searchSpecimen)) {
             /* Unselect current Row */
-            const currentRow = tableData.find((tableRow) => tableRow.toggleSelected);
+            const currentRow = tableData.find((tableRow) => tableRow.selected);
 
             if (currentRow) {
-                currentRow.toggleSelected = false;
+                currentRow.selected = false;
             }
         }
 
@@ -149,11 +150,11 @@ const ResultsTable = (props: Props) => {
     /* Function to check if selected Specimen is still selected after page change */
     useEffect(() => {
         if (!isEmpty(searchSpecimen)) {
-            if (!tableData.find((tableRow) => (tableRow.toggleSelected && tableRow.DOI === searchSpecimen.digitalSpecimen['ods:id']))) {
+            if (!tableData.find((tableRow) => (tableRow.selected && tableRow.DOI === searchSpecimen.digitalSpecimen['ods:id']))) {
                 const currentRow = tableData.find((tableRow) => tableRow.DOI === searchSpecimen.digitalSpecimen['ods:id']);
 
                 if (currentRow) {
-                    currentRow.toggleSelected = true;
+                    currentRow.selected = true;
 
                     const copyTableData = [...tableData];
 
@@ -322,7 +323,7 @@ const ResultsTable = (props: Props) => {
                     collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'] ?? '',
                     holder: specimen.digitalSpecimen['dwc:institutionName'] ?? (specimen.digitalSpecimen['dwc:institutionId'] ?? ''),
                     taxonomyIconUrl: taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
-                    toggleSelected: false,
+                    selected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });
             }
@@ -360,7 +361,7 @@ const ResultsTable = (props: Props) => {
 
             <DataTable columns={columns}
                 data={tableData}
-                pinnedColumns={pinnedColumns}
+                SelectAction={(row: DataRow) => SelectAction(row)}
             />
         </div>
     );

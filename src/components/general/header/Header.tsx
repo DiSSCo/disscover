@@ -18,7 +18,6 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import IntroTopics from './components/IntroTopics';
-import Languages from './components/Languages';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Navigation from './components/Navigation';
@@ -78,10 +77,6 @@ const Header = (props: Props) => {
                                         <IntroTopics introTopics={introTopics} />
                                     </Col>
                                 }
-                                {/* Language Support */}
-                                <Col className="col-md-auto">
-                                    <Languages />
-                                </Col>
                                 {/* Login */}
                                 {loggedIn ?
                                     <Col className="col-md-auto">

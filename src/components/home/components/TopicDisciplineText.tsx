@@ -21,7 +21,7 @@ const TopicDisciplineText = () => {
                     {`Select the categories on the ${filtersPosition} to refine your search`}
                 </p>
                 <p className="fs-3 c-primary fw-lightBold">
-                    or click on view to see all the specimens in the seleceted categories.
+                    or click on view to see all the specimens in the selected categories.
                 </p>
             </Col>
         </Row>

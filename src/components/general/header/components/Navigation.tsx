@@ -54,7 +54,7 @@ const Navigation = () => {
                         }
                     }}>
                         <p className={classNavItemSpecimens}>
-                            {t('specimens')}
+                            {t('all_specimens')}
                         </p>
                     </Link>
                 </Col>

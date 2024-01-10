@@ -84,15 +84,15 @@ const SearchSteps = (props: Props) => {
                 onBeforeChange={(nextIndex) => {
                     return new Promise((resolve) => {
                         if (nextIndex === 2) {
-                            /* On step 2: Set search query to: 'Iguanodon' */
-                            SetSearchParam('q', 'Iguanodon');
+                            /* On step 2: Set search query to: 'bellis perennis' */
+                            SetSearchParam('q', 'bellis perennis');
 
                             dispatch(setSearchSpecimen({} as DigitalSpecimen));
 
                             resolve();
                         } else if (nextIndex === 3) {
-                            /* On step 3: Set search result to first index of search results of 'Iguanodon' query */
-                            dispatch(setSearchSpecimen(searchResults[0]));
+                            /* On step 3: Set search result to second index of search results of 'bellis perennis' query */
+                            dispatch(setSearchSpecimen(searchResults[1]));
 
                             setTimeout(() => {
                                 resolve();
@@ -106,9 +106,9 @@ const SearchSteps = (props: Props) => {
 
                             resolve();
                         } else if (nextIndex === 5) {
-                            /* On step 5: Set Topic Discipline filter to 'Palaeontology' */
+                            /* On step 5: Set Topic Discipline filter to 'Botany' */
                             SetFilterToggle(true);
-                            SetSearchParam('topicDiscipline', 'Palaeontology');
+                            SetSearchParam('topicDiscipline', 'Botany');
 
                             resolve();
                         } else if (nextIndex === 6) {

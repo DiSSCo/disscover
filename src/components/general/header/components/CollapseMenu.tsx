@@ -14,7 +14,6 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 import Profile from './Profile';
 import Login from './Login';
 import Navigation from './Navigation';
-import Languages from './Languages';
 import IntroTopics from './IntroTopics';
 
 
@@ -61,13 +60,6 @@ const CollapseMenu = (props: Props) => {
                 {/* Navigation */}
                 <Col>
                     <Navigation />
-                </Col>
-            </Row>
-            <Row className="mt-3 px-2">
-                {/* Languages */}
-                <Col>
-                    <p className="fs-3 c-primary fw-lightBold"> Language </p>
-                    <Languages />
                 </Col>
             </Row>
             {introTopics &&

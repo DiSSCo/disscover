@@ -32,29 +32,28 @@
     padding: 10px;
 }
 
-.specimenTypeAmount {
-    font-size: 20px;
-    font-weight: 500;
-}
-
 .topicDisciplineIcon {
     height: 85%;
 }
 
-.specimenTypeHumanMade {
-    background-color: #AED0E3;
+.topicOriginTitle {
+    font-size: 1.2rem;
 }
 
-.specimenTypeHumanMade:hover {
-    background-color: #8dbcd8;
-}
-
-.specimenTypeUnclassified {
+.specimenTypeGreenVariant {
     background-color: #A1D8CA;
 }
 
-.specimenTypeUnclassified:hover {
+.specimenTypeGreenVariant:hover {
     background-color: #81cab8;
+}
+
+.specimenTypeBlueVariant {
+    background-color: #AED0E3;
+}
+
+.specimenTypeBlueVariant:hover {
+    background-color: #8dbcd8;
 }
 
 .specimenTypeSpecialSubTitle {

@@ -18,9 +18,6 @@ const Footer = () => {
     /* Base variables */
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
 
-    /* Get current year */
-    const currentYear = new Date().getFullYear();
-
     /* ClassNames for Footer */
     const classFooter = classNames({
         [`${styles.footer} z-2`]: true,
@@ -45,14 +42,23 @@ const Footer = () => {
                             </p>
                         </Col>
                         <Col>
-                            <p className="fs-5">
-                                © DiSSCo {currentYear}
+                            <p className="fs-5 c-pointer">
+                                <a href="mailto: info@dissco.eu" rel="noreferer">
+                                    Get support
+                                </a>
                             </p>
                         </Col>
                         <Col className="d-flex justify-content-end">
                             <p className="fs-5">
-                                <Link to="/privacy-policy">
-                                    Privacy Policy
+                                <Link to="/privacy">
+                                    Privacy
+                                </Link>
+                            </p>
+                        </Col>
+                        <Col className="col-md-auto">
+                            <p className="fs-5">
+                                <Link to="/terms">
+                                    Terms
                                 </Link>
                             </p>
                         </Col>

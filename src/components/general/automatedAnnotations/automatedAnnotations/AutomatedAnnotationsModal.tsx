@@ -6,13 +6,11 @@ import classNames from 'classnames';
 import { Row, Col, Modal } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector } from 'app/hooks';
-import { getMASTarget } from 'redux/annotate/AnnotateSlice';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getMASTarget, getMASTabIndex, setMASTabIndex } from 'redux/annotate/AnnotateSlice';
 
 /* Impor Types */
 import { Dict } from 'app/Types';
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalEntity } from 'app/types/DigitalEntity';
 
 /* Import Styles */
 import styles from 'components/specimen/specimen.module.scss';
@@ -43,12 +41,13 @@ const AutomatedAnnotationsModal = (props: Props) => {
     const { targetId, automatedAnnotationsToggle, HideAutomatedAnnotationsModal, GetMachineJobRecords } = props;
 
     /* Hooks */
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
     /* Base variables */
-    const target: DigitalSpecimen | DigitalEntity = useAppSelector(getMASTarget);
+    const target = useAppSelector(getMASTarget);
+    const MASTabIndex = useAppSelector(getMASTabIndex);
     const [targetMAS, setTargetMAS] = useState<Dict[]>([]);
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     /* OnLoad: Fetch Specimen MAS */
     useEffect(() => {
@@ -99,8 +98,8 @@ const AutomatedAnnotationsModal = (props: Props) => {
                 <Row className="h-100">
                     <Col>
                         <Tabs className="h-100 d-flex flex-column"
-                            selectedIndex={selectedIndex}
-                            onSelect={(index) => setSelectedIndex(index)}
+                            selectedIndex={MASTabIndex}
+                            onSelect={(index) => { dispatch(setMASTabIndex(index)) }}
                         >
                             <TabList className={classTabsList}>
                                 <Tab className={classTab} selectedClassName='active'> Services overview </Tab>
@@ -117,7 +116,7 @@ const AutomatedAnnotationsModal = (props: Props) => {
                             {/* Run a new automated annotation service */}
                             <TabPanel className="react-tabs__tab-panel pt-1 px-3 flex-grow-1">
                                 <AutomatedAnnotationsForm availableMASList={targetMAS}
-                                    ReturnToOverview={() => setSelectedIndex(0)}
+                                    ReturnToOverview={() => dispatch(setMASTabIndex(0))}
                                 />
                             </TabPanel>
                         </Tabs>

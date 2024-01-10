@@ -16,7 +16,8 @@ export interface AnnotateState {
     editAnnotation: Annotation;
     highlightAnnotationId: string;
     overviewAnnotations: Annotation[];
-    MASTarget: DigitalSpecimen | DigitalEntity
+    MASTarget: DigitalSpecimen | DigitalEntity,
+    MASTabIndex: number
 }
 
 const initialState: AnnotateState = {
@@ -36,7 +37,8 @@ const initialState: AnnotateState = {
     editAnnotation: {} as Annotation,
     highlightAnnotationId: '',
     overviewAnnotations: [],
-    MASTarget: {} as DigitalSpecimen | DigitalEntity
+    MASTarget: {} as DigitalSpecimen | DigitalEntity,
+    MASTabIndex: 0
 };
 
 export const AnnotateSlice = createSlice({
@@ -63,6 +65,9 @@ export const AnnotateSlice = createSlice({
         },
         setMASTarget: (state, action: PayloadAction<DigitalSpecimen | DigitalEntity>) => {
             state.MASTarget = action.payload;
+        },
+        setMASTabIndex: (state, action: PayloadAction<number>) => {
+            state.MASTabIndex = action.payload;
         }
     },
 })
@@ -75,7 +80,8 @@ export const {
     setEditAnnotation,
     setHighlightAnnotationId,
     setOverviewAnnotations,
-    setMASTarget
+    setMASTarget,
+    setMASTabIndex
 } = AnnotateSlice.actions;
 
 /* Connect with Root State */
@@ -86,5 +92,6 @@ export const getEditAnnotation = (state: RootState) => state.annotate.editAnnota
 export const getHighlightAnnotationId = (state: RootState) => state.annotate.highlightAnnotationId;
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
 export const getMASTarget = (state: RootState) => state.annotate.MASTarget;
+export const getMASTabIndex = (state: RootState) => state.annotate.MASTabIndex;
 
 export default AnnotateSlice.reducer;

@@ -10,7 +10,7 @@ import styles from './home.module.scss';
 import Header from 'components/general/header/Header';
 import HomeSteps from './steps/HomeSteps';
 import Title from './components/Title';
-import SpecimenTypeFilters from "./components/specimenTypes/SpecimenTypeFilters";
+import TopicDisciplineFilters from "./components/topicDisciplines/TopicDisciplineFilters";
 import IntroText from "./components/IntroText";
 import GlobalSearchBar from "./components/search/GlobalSearchBar";
 import AdvancedSearch from "./components/search/AdvancedSearch";
@@ -52,7 +52,7 @@ const Home = () => {
                         </Row>
                         <Row className="h-100 align-items-center">
                             <Col lg={{ span: 6 }} md={{ span: 12 }} className="specimenTypeFilters pe-lg-5 pt-md-4">
-                                <SpecimenTypeFilters />
+                                <TopicDisciplineFilters />
                             </Col>
                             <Col lg={{ span: 6 }} md={{ span: 12 }}
                                 className="ps-lg-5 mt-md-4 d-flex flex-lg-column flex-md-column-reverse position-relative"

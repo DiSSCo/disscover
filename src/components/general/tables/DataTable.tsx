@@ -19,7 +19,6 @@ import styles from './tables.module.scss';
 interface Props {
     columns: any,
     data: Dict[],
-    selectedRowId?: number,
     SelectAction?: Function
 };
 
@@ -32,7 +31,7 @@ declare module '@tanstack/react-table' {
 
 
 const DataTable = (props: Props) => {
-    const { columns, data, selectedRowId, SelectAction } = props;
+    const { columns, data, SelectAction } = props;
 
     /* Base variables */
     const windowDimensions = useAppSelector(getWindowDimensions);
@@ -45,6 +44,13 @@ const DataTable = (props: Props) => {
         columns: columns,
         data: data,
         getCoreRowModel: getCoreRowModel()
+    });
+
+    /* Count pinned columns */
+    columns.forEach((column: Dict) => {
+        if (column.meta.pinned) {
+            pinnedCount++;
+        }
     });
 
     /* Function to determine table header class names */
@@ -119,7 +125,7 @@ const DataTable = (props: Props) => {
 
                         return (
                             <tr key={row.id}
-                                className={RowClassNames(row.original.selected)}
+                                className={RowClassNames(row.original.selected || row.original.compareSelected)}
                                 onClick={() => { if (!window.getSelection()?.toString() && SelectAction) { SelectAction(row.original) } }}
                                 onMouseEnter={() => setHoverRowId(Number(row.id))}
                             >
@@ -138,7 +144,7 @@ const DataTable = (props: Props) => {
                                                 ...(cell.column.columnDef.meta?.pinned && { left: `${totalRowWidth - columnWidth}px` }),
                                                 ...((cell.column.columnDef.meta?.pinned && (cellIndex + 1) === pinnedCount) && { 'borderRight': '1px solid #D9D9DF' })
                                             }}
-                                            className={ColumnClassNames(Number(row.id), row.original.selected, cell.column.columnDef.meta?.pinned)}
+                                            className={ColumnClassNames(Number(row.id), row.original.selected || row.original.compareSelected, cell.column.columnDef.meta?.pinned)}
                                         >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </td>

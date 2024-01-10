@@ -1,10 +1,15 @@
 /* Import Dependencies */
 import { createColumnHelper } from '@tanstack/react-table';
 
+/* Import Store */
+import { useAppSelector } from 'app/hooks';
+import { getCompareMode } from 'redux/search/SearchSlice';
+
 
 const SearchResultsTableConfig = () => {
     /* Type interface */
     interface SearchResult {
+        compareSelected: boolean,
         DOI: string,
         taxonomyIconUrl: string,
         accessionName: string,
@@ -17,9 +22,18 @@ const SearchResultsTableConfig = () => {
     };
 
     /* Base variables */
+    const compareMode = useAppSelector(getCompareMode);
     const columnHelper = createColumnHelper<SearchResult>();
 
     const columns = [
+        ...(compareMode ? [columnHelper.accessor('compareSelected', {
+            header: '',
+            cell: info => <input type="checkbox" defaultChecked={info.getValue()} />,
+            meta: {
+                widthInRem: 3,
+                pinned: true
+            }
+        })] : []),
         columnHelper.accessor('DOI', {
             cell: info => info.getValue().replace(process.env.REACT_APP_DOI_URL as string, ''),
             meta: {

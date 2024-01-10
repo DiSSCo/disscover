@@ -197,6 +197,10 @@ p {
   background-color: var(--greyLight);
 }
 
+.bgc-tableHover {
+  background-color: rgb(152, 205, 191);
+}
+
 /* Border */
 .b-none {
   border: none;

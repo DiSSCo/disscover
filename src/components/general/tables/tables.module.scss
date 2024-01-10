@@ -5,3 +5,15 @@
     border-collapse: separate;
     border-spacing: 0;
 }
+
+.dataTableRow {
+    transition: 0.15s;
+}
+
+.dataTableRow:hover {
+    background-color: rgb(152, 205, 191) !important;
+}
+
+.dataTableColumn {
+    transition: 0.15s;
+}

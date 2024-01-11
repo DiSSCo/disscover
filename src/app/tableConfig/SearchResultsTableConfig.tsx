@@ -57,31 +57,36 @@ const SearchResultsTableConfig = () => {
         columnHelper.accessor('scientificName', {
             header: 'Scientific Name',
             meta: {
-                widthInRem: 14
+                widthInRem: 14,
+                sortable: true
             }
         }),
         columnHelper.accessor('specimenType', {
             header: 'Specimen Type',
             meta: {
-                widthInRem: 10
+                widthInRem: 10,
+                sortable: true
             }
         }),
         columnHelper.accessor('origin', {
             header: 'Origin',
             meta: {
-                widthInRem: 10
+                widthInRem: 10,
+                sortable: true
             }
         }),
         columnHelper.accessor('collected', {
             header: 'Collected',
             meta: {
-                widthInRem: 10
+                widthInRem: 10,
+                sortable: true
             }
         }),
         columnHelper.accessor('holder', {
             header: 'Holder',
             meta: {
-                widthInRem: 12
+                widthInRem: 12,
+                sortable: true
             }
         })
     ];

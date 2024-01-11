@@ -1,8 +1,15 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import '@tanstack/react-table'
-import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import classNames from 'classnames';
+import '@tanstack/react-table'
+import {
+    flexRender,
+    getCoreRowModel,
+    getSortedRowModel,
+    useReactTable,
+    FilterFn
+} from '@tanstack/react-table';
+import { RankingInfo, rankItem } from '@tanstack/match-sorter-utils'
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
@@ -13,6 +20,10 @@ import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from './tables.module.scss';
+
+/* Import Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Props Typing */
@@ -25,9 +36,19 @@ interface Props {
 declare module '@tanstack/react-table' {
     interface ColumnMeta<TData extends unknown, TValue> {
         widthInRem?: number,
+        sortable?: boolean,
         pinned?: boolean
     }
-}
+};
+
+declare module '@tanstack/table-core' {
+    interface FilterFns {
+        fuzzy: FilterFn<unknown>
+    }
+    interface FilterMeta {
+        itemRank: RankingInfo
+    }
+};
 
 
 const DataTable = (props: Props) => {
@@ -39,11 +60,29 @@ const DataTable = (props: Props) => {
     const oneRem = 0.85 * windowDimensions.vw / 100;
     let pinnedCount: number = 0;
 
+    /* Sorting functionality */
+    const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+        /* Rank the item */
+        const itemRank = rankItem(row.getValue(columnId), value)
+
+        /* Store the itemRank info */
+        addMeta({
+            itemRank,
+        })
+
+        /* Return if the item should be filtered in/out */
+        return itemRank.passed
+    }
+
     /* Table initiation */
     const table = useReactTable({
         columns: columns,
         data: data,
-        getCoreRowModel: getCoreRowModel()
+        filterFns: {
+            fuzzy: fuzzyFilter,
+        },
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel()
     });
 
     /* Count pinned columns */
@@ -103,12 +142,31 @@ const DataTable = (props: Props) => {
                                             }}
                                             className={HeaderClassNames(header.column.columnDef.meta?.pinned)}
                                         >
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
+                                            {header.isPlaceholder ? null : (
+                                                <>
+                                                    <div className={header.column.columnDef.meta?.sortable
+                                                        ? 'c-pointer select-none'
+                                                        : ''
+                                                    }
+                                                        {...(header.column.columnDef.meta?.sortable && {
+                                                            onClick: header.column.getToggleSortingHandler()
+                                                        })}
+                                                    >
+                                                        {flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                        {{
+                                                            asc: <FontAwesomeIcon icon={faChevronUp}
+                                                                className="ms-2"
+                                                            />,
+                                                            desc: <FontAwesomeIcon icon={faChevronDown}
+                                                                className="ms-2"
+                                                            />
+                                                        }[header.column.getIsSorted() as string] ?? null}
+                                                    </div>
+                                                </>
+                                            )}
                                         </th>
                                     );
                                 })}

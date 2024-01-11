@@ -173,7 +173,6 @@ const DataTable = (props: Props) => {
                 </thead>
 
                 <tbody className="flex-grow-1 overflow-x-hidden overflow-y-scrol bgc-white"
-                    role="presentation"
                     onMouseLeave={() => setHoverRowId(-1)}
                 >
                     {table.getRowModel().rows.map((row) => {

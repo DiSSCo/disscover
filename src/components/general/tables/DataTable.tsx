@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import classNames from 'classnames';
-import '@tanstack/react-table'
 import {
     flexRender,
     getCoreRowModel,
@@ -34,7 +33,7 @@ interface Props {
 };
 
 declare module '@tanstack/react-table' {
-    interface ColumnMeta<TData extends unknown, TValue> {
+    interface ColumnMeta<TData, TValue> {
         widthInRem?: number,
         sortable?: boolean,
         pinned?: boolean
@@ -143,29 +142,27 @@ const DataTable = (props: Props) => {
                                             className={HeaderClassNames(header.column.columnDef.meta?.pinned)}
                                         >
                                             {header.isPlaceholder ? null : (
-                                                <>
-                                                    <div className={header.column.columnDef.meta?.sortable
-                                                        ? 'c-pointer select-none'
-                                                        : ''
-                                                    }
-                                                        {...(header.column.columnDef.meta?.sortable && {
-                                                            onClick: header.column.getToggleSortingHandler()
-                                                        })}
-                                                    >
-                                                        {flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )}
-                                                        {{
-                                                            asc: <FontAwesomeIcon icon={faChevronUp}
-                                                                className="ms-2"
-                                                            />,
-                                                            desc: <FontAwesomeIcon icon={faChevronDown}
-                                                                className="ms-2"
-                                                            />
-                                                        }[header.column.getIsSorted() as string] ?? null}
-                                                    </div>
-                                                </>
+                                                <div className={header.column.columnDef.meta?.sortable
+                                                    ? 'c-pointer select-none'
+                                                    : ''
+                                                }
+                                                    {...(header.column.columnDef.meta?.sortable && {
+                                                        onClick: header.column.getToggleSortingHandler()
+                                                    })}
+                                                >
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                    {{
+                                                        asc: <FontAwesomeIcon icon={faChevronUp}
+                                                            className="ms-2"
+                                                        />,
+                                                        desc: <FontAwesomeIcon icon={faChevronDown}
+                                                            className="ms-2"
+                                                        />
+                                                    }[header.column.getIsSorted() as string] ?? null}
+                                                </div>
                                             )}
                                         </th>
                                     );
@@ -176,6 +173,7 @@ const DataTable = (props: Props) => {
                 </thead>
 
                 <tbody className="flex-grow-1 overflow-x-hidden overflow-y-scrol bgc-white"
+                    role="presentation"
                     onMouseLeave={() => setHoverRowId(-1)}
                 >
                     {table.getRowModel().rows.map((row) => {

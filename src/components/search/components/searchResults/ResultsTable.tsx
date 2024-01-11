@@ -50,7 +50,6 @@ const ResultsTable = (props: Props) => {
     const compareMode = useAppSelector(getCompareMode);
     const compareSpecimens = useAppSelector(getCompareSpecimens);
     const phylopicBuild = useAppSelector(getPhylopicBuild);
-    const [tableColumns, setTableColumns] = useState(columns);
     const [tableData, setTableData] = useState<DataRow[]>([]);
     const staticTopicDisciplines = ['Anthropology', 'Astrogeology', 'Geology', 'Ecology', 'Other Biodiversity', 'Other Geodiversity', 'Unclassified'];
 

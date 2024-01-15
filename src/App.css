@@ -132,15 +132,15 @@ p {
 }
 
 .c-primary {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 
 .c-secondary {
-  color: var(--secondary);
+  color: var(--secondary) !important;
 }
 
 .c-accent {
-  color: var(--accent);
+  color: var(--accent) !important;
 }
 
 .c-white {

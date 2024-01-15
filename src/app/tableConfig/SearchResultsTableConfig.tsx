@@ -18,7 +18,7 @@ const SearchResultsTableConfig = () => {
         specimenType: string,
         origin: string,
         collected: string,
-        holder: string
+        holder: [string, string]
     };
 
     /* Base variables */
@@ -95,8 +95,15 @@ const SearchResultsTableConfig = () => {
         }),
         columnHelper.accessor('holder', {
             header: 'Holder',
+            cell: info => <a href={info.getValue()[1]}
+                target="_blank" rel="noreferer"
+                className="c-accent h-underline"
+            >
+                {info.getValue()[0]}
+            </a>,
             meta: {
                 widthInRem: 12,
+                link: true,
                 sortable: true
             }
         })

@@ -63,7 +63,7 @@ const ResultsTable = (props: Props) => {
         specimenType: string,
         origin: string,
         collected: string,
-        holder: string,
+        holder: [string, string],
         taxonomyIconUrl: string | undefined,
         selected: boolean,
         compareSelected: boolean
@@ -240,7 +240,9 @@ const ResultsTable = (props: Props) => {
                     specimenType: specimen.digitalSpecimen['ods:topicDiscipline'] ?? 'Unclassified',
                     origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '',
                     collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'] ?? '',
-                    holder: specimen.digitalSpecimen['dwc:institutionName'] ?? (specimen.digitalSpecimen['dwc:institutionId'] ?? ''),
+                    holder: specimen.digitalSpecimen['dwc:institutionName'] ?
+                        [specimen.digitalSpecimen['dwc:institutionName'], specimen.digitalSpecimen['dwc:institutionId'] ?? '']
+                        : [specimen.digitalSpecimen['dwc:institutionId'] ?? '', specimen.digitalSpecimen['dwc:institutionId'] ?? ''],
                     taxonomyIconUrl: taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
                     selected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])

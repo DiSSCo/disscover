@@ -35,6 +35,7 @@ interface Props {
 declare module '@tanstack/react-table' {
     interface ColumnMeta<TData, TValue> {
         widthInRem?: number,
+        link?: boolean,
         sortable?: boolean,
         pinned?: boolean
     }
@@ -181,7 +182,6 @@ const DataTable = (props: Props) => {
                         return (
                             <tr key={row.id}
                                 className={RowClassNames(row.original.selected || row.original.compareSelected)}
-                                onClick={() => { if (!window.getSelection()?.toString() && SelectAction) { SelectAction(row.original) } }}
                                 onMouseEnter={() => setHoverRowId(Number(row.id))}
                             >
                                 {row.getVisibleCells().map((cell, cellIndex) => {
@@ -200,6 +200,7 @@ const DataTable = (props: Props) => {
                                                 ...((cell.column.columnDef.meta?.pinned && (cellIndex + 1) === pinnedCount) && { 'borderRight': '1px solid #D9D9DF' })
                                             }}
                                             className={ColumnClassNames(Number(row.id), row.original.selected || row.original.compareSelected, cell.column.columnDef.meta?.pinned)}
+                                            onClick={() => { if (!window.getSelection()?.toString() && SelectAction && !cell.column.columnDef.meta?.link) { SelectAction(row.original) } }}
                                         >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </td>

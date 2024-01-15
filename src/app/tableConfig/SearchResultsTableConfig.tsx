@@ -34,6 +34,17 @@ const SearchResultsTableConfig = () => {
                 pinned: true
             }
         })] : []),
+        columnHelper.accessor('taxonomyIconUrl', {
+            header: '',
+            cell: info => <img src={info.getValue()}
+                alt={info.getValue()}
+                className="w-100"
+            />,
+            meta: {
+                widthInRem: 4,
+                pinned: true
+            }
+        }),
         columnHelper.accessor('DOI', {
             cell: info => info.getValue().replace(process.env.REACT_APP_DOI_URL as string, ''),
             meta: {

@@ -64,7 +64,7 @@ const ResultsTable = (props: Props) => {
         origin: string,
         collected: string,
         holder: string,
-        taxonomyIconUrl: string,
+        taxonomyIconUrl: string | undefined,
         selected: boolean,
         compareSelected: boolean
     };
@@ -189,7 +189,7 @@ const ResultsTable = (props: Props) => {
             }
 
             if (taxonomyIdentification && taxonomyIdentification in renderedIcons) {
-                PushToTableData(specimen, index, renderedIcons[taxonomyIdentification]);
+                PushToTableData(specimen, index, renderedIcons[taxonomyIdentification], true);
 
                 SetTableData(index);
             } else if (taxonomyIdentification && (specimen.digitalSpecimen['ods:topicDiscipline'] && !(staticTopicDisciplines.includes(specimen.digitalSpecimen['ods:topicDiscipline'])))) {
@@ -197,7 +197,7 @@ const ResultsTable = (props: Props) => {
                 PushToTableData(specimen, index, Spinner);
 
                 GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
-                    PushToTableData(specimen, index, taxonomyIconUrl);
+                    PushToTableData(specimen, index, taxonomyIconUrl, true);
 
                     /* Add to rendered icons */
                     renderedIcons[taxonomyIdentification] = taxonomyIconUrl;
@@ -206,13 +206,13 @@ const ResultsTable = (props: Props) => {
                 }).catch(error => {
                     console.warn(error);
 
-                    PushToTableData(specimen, index);
+                    PushToTableData(specimen, index, undefined, true);
 
                     SetTableData(index);
                 });
             } else {
                 /* Use topic discipline icon */
-                PushToTableData(specimen, index);
+                PushToTableData(specimen, index, undefined);
 
                 SetTableData(index);
             }
@@ -224,11 +224,11 @@ const ResultsTable = (props: Props) => {
         /* Construct table data */
         const tableData: DataRow[] = [];
 
-        const PushToTableData = (specimen: DigitalSpecimen, index: number, taxonomyIconUrl?: string) => {
+        const PushToTableData = (specimen: DigitalSpecimen, index: number, taxonomyIconUrl?: string, taxonomyIncluded: boolean = false) => {
             /* Check if index exists in table data */
             if (tableData.find(record => record.index === index)) {
                 /* Replace record in table data */
-                tableData[index].taxonomyIconUrl = taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])
+                tableData[index].taxonomyIconUrl = taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])
             } else {
                 /* Push record to table data */
                 tableData.push({
@@ -241,7 +241,7 @@ const ResultsTable = (props: Props) => {
                     origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '',
                     collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'] ?? '',
                     holder: specimen.digitalSpecimen['dwc:institutionName'] ?? (specimen.digitalSpecimen['dwc:institutionId'] ?? ''),
-                    taxonomyIconUrl: taxonomyIconUrl ?? TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
+                    taxonomyIconUrl: taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
                     selected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });

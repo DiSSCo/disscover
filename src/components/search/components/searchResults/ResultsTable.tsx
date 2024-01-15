@@ -57,13 +57,13 @@ const ResultsTable = (props: Props) => {
     interface DataRow {
         index: number,
         DOI: string,
-        accessionName: string,
-        accessionId: string,
-        scientificName: string,
-        specimenType: string,
-        origin: string,
-        collected: string,
-        holder: [string, string],
+        accessionName: string | undefined,
+        accessionId: string | undefined,
+        scientificName: string | undefined,
+        specimenType: string | undefined,
+        origin: string | undefined,
+        collected: string | undefined,
+        holder: [string | undefined, string | undefined],
         taxonomyIconUrl: string | undefined,
         selected: boolean,
         compareSelected: boolean
@@ -234,15 +234,15 @@ const ResultsTable = (props: Props) => {
                 tableData.push({
                     index: index,
                     DOI: specimen.digitalSpecimen['ods:id'],
-                    accessionName: specimen.digitalSpecimen['ods:specimenName'] ?? '',
-                    accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'] ?? '',
-                    scientificName: specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '',
+                    accessionName: specimen.digitalSpecimen['ods:specimenName'],
+                    accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'],
+                    scientificName: specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'],
                     specimenType: specimen.digitalSpecimen['ods:topicDiscipline'] ?? 'Unclassified',
-                    origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'] ?? '',
-                    collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'] ?? '',
+                    origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'],
+                    collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'],
                     holder: specimen.digitalSpecimen['dwc:institutionName'] ?
-                        [specimen.digitalSpecimen['dwc:institutionName'], specimen.digitalSpecimen['dwc:institutionId'] ?? '']
-                        : [specimen.digitalSpecimen['dwc:institutionId'] ?? '', specimen.digitalSpecimen['dwc:institutionId'] ?? ''],
+                        [specimen.digitalSpecimen['dwc:institutionName'], specimen.digitalSpecimen['dwc:institutionId']]
+                        : [specimen.digitalSpecimen['dwc:institutionId'], specimen.digitalSpecimen['dwc:institutionId']],
                     taxonomyIconUrl: taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
                     selected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])

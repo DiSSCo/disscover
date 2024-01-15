@@ -42,7 +42,7 @@ const GeoReference = (props: Props) => {
             <Card.Body className="h-100 d-flex flex-column">
                 {/* Block icon and title */}
                 <Card.Title className="c-accent">
-                    <Row onClick={() => ShowWithAnnotations('occurrences.location.georeference', 'class')}>
+                    <Row onClick={() => ShowWithAnnotations('occurrences[0]location.georeference', 'class')}>
                         <Col className="col-md-auto pe-0">
                             <FontAwesomeIcon icon={faGlobe} />
                         </Col>

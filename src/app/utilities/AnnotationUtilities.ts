@@ -246,7 +246,7 @@ const FormatTargetPropertyPath = (path: string, targetType: string = 'DigitalSpe
 
     /* Function to concat level to field, add dot if index is greater than zero */
     const ConcatToField = (level: string, index: number) => {
-        if (index > 0) {
+        if (index > 0 && formattedPath[formattedPath.length - 1] !== ']') {
             formattedPath = formattedPath.concat(`.${level}`);
         } else {
             formattedPath = formattedPath.concat(level);

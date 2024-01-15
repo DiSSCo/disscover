@@ -77,7 +77,17 @@ const AnnotationForm = (props: Props) => {
 
         /* If annotating a class instance, grab all fields from schema */
         if (targetClass) {
-            const schemaProperties = ExtractFromSchema(targetClass.split('.').pop() as string);
+            /* Get last class of path by removing indexes and dot notations */
+            let classSchemaName: string = targetClass;
+
+            if (classSchemaName[classSchemaName.length - 1] === ']') {
+                classSchemaName = classSchemaName.split('[').shift() as string;
+            } else {
+                classSchemaName = classSchemaName.split(']').pop() as string;
+                classSchemaName = classSchemaName.split('.').pop() as string;
+            }
+
+            const schemaProperties = ExtractFromSchema(classSchemaName);
             let propertyData: Dict[] | undefined = undefined;
 
             if (!isEmpty(editAnnotation)) {
@@ -244,16 +254,7 @@ const AnnotationForm = (props: Props) => {
 
             targetPath = CheckPathForRoot(targetPath);
         } else {
-            /* If index is present, replace first dot notation with index */
-            if (annotateTarget.targetProperty.index as number >= 0) {
-                if (form.targetClass.indexOf('.') >= 0) {
-                    targetPath = form.targetClass.replace('.', `[${annotateTarget.targetProperty.index}]`);
-                } else {
-                    targetPath = form.targetClass + `.[${annotateTarget.targetProperty.index}]`;
-                }
-            } else {
-                targetPath = form.targetClass;
-            }
+            targetPath = form.targetClass;
 
             bodyValue.push(JSON.stringify({ [targetPath.replace('$.', '')]: form.classProperties }));
 
@@ -263,26 +264,28 @@ const AnnotationForm = (props: Props) => {
         /* Craft Annotation */
         const annotation = CraftAnnotation(form, targetPath, bodyValue, targetType);
 
+        console.log(annotation);
+
         /* Check if to post or patch */
-        if (!isEmpty(editAnnotation)) {
-            /* Patch Annotation */
-            PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
-                UpdateAnnotationView(annotation);
+        // if (!isEmpty(editAnnotation)) {
+        //     /* Patch Annotation */
+        //     PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
+        //         UpdateAnnotationView(annotation);
 
-                dispatch(setHighlightAnnotationId(annotation['ods:id']));
-            }).catch(error => {
-                console.warn(error);
-            });
-        } else {
-            /* Post Annotation */
-            InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
-                UpdateAnnotationView(annotation);
+        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
+        //     }).catch(error => {
+        //         console.warn(error);
+        //     });
+        // } else {
+        //     /* Post Annotation */
+        //     InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
+        //         UpdateAnnotationView(annotation);
 
-                dispatch(setHighlightAnnotationId(annotation['ods:id']));
-            }).catch(error => {
-                console.warn(error);
-            });
-        }
+        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
+        //     }).catch(error => {
+        //         console.warn(error);
+        //     });
+        // }
     }
 
     return (

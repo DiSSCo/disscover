@@ -273,6 +273,12 @@ const AnnotateSteps = (props: Props) => {
                     clearInterval(targetInterval);
                     UpdateAnnotationView(dummyAnnotation, true);
                 }}
+                options={{
+                    nextLabel: '>',
+                    prevLabel: '<',
+                    buttonClass: 'primaryButton px-3 c-white fw-lightBold',
+                    tooltipClass: 'ff-default'
+                }}
             />
         </>
     );

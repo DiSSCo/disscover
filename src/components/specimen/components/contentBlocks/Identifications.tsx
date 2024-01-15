@@ -27,10 +27,10 @@ const Identifications = (props: Props) => {
     const specimen = useAppSelector(getSpecimen);
     let identifications: {
         properties: Dict,
-        [taxonIdentification: string]: Dict
+        [taxonIdentifications: string]: Dict
     }[] = [];
     const identificationLevels = {
-        taxonIdentification: 'taxonIdentifications.',
+        taxonIdentifications: 'taxonIdentifications',
     };
 
     /* Craft identifications object to iterate over */
@@ -38,13 +38,16 @@ const Identifications = (props: Props) => {
         const copyIdentification = cloneDeep(identification);
 
         /* Push new craft occurrence to array */
-        identifications.push({ properties: {} });
+        identifications.push({
+            properties: {},
+            taxonIdentifications: []
+        });
 
         /* Check for Taxon Identifications */
         if (!isEmpty(identification.taxonIdentifications)) {
-            identification.taxonIdentifications?.forEach((taxonIdentification, index) => {
+            identification.taxonIdentifications?.forEach((taxonIdentification, taxonIdentificationIndex) => {
                 /* Add Taxon Identification to craft identification */
-                identifications[index][`taxon Identification #${++index}`] = taxonIdentification;
+                identifications[index].taxonIdentifications[taxonIdentificationIndex] = taxonIdentification;
             });
         }
 
@@ -64,6 +67,7 @@ const Identifications = (props: Props) => {
                     instanceName='Identification'
                     taxonAcceptedName='Accepted Identification'
                     instanceLevel='identifications'
+                    instanceLevels={identificationLevels}
                     instanceProperties={identification}
                     ShowWithAnnotations={(propertyName: string) => ShowWithAnnotations(propertyName, index)}
                 />

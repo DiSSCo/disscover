@@ -120,6 +120,12 @@ const MASSteps = (props: Props) => {
                     /* Reset intro topic */
                     dispatch(setIntroTopic(''));
                 }}
+                options={{
+                    nextLabel: '>',
+                    prevLabel: '<',
+                    buttonClass: 'primaryButton px-3 c-white fw-lightBold',
+                    tooltipClass: 'ff-default'
+                }}
             />
         </>
     );

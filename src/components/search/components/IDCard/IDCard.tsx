@@ -42,7 +42,9 @@ const IDCard = (props: Props) => {
                                 />
                             </Col>
                             <Col className="textOverflow">
-                                <h2 className="fs-2"> {specimen.digitalSpecimen['ods:specimenName']} </h2>
+                                <h2 className="fs-2 textOverflow">
+                                    {specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} | {specimen.digitalSpecimen['ods:specimenName']}
+                                </h2>
                             </Col>
                             <Col className="col-md-auto">
                                 <FontAwesomeIcon icon={faX}

@@ -81,8 +81,6 @@ const Occurrences = (props: Props) => {
             {occurrences.map((occurrence, index) => {
                 const key = `occurrence_${index}`;
 
-                console.log(occurrence);
-
                 return <PropertiesBlock key={key}
                     index={index}
                     instanceName='Occurrence'

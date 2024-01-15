@@ -11,6 +11,21 @@ const Capitalize = (string: string) => {
     }
 }
 
+/* Function to replace capitals in a string with spaces */
+const AddSpaceBeforeCaptials = (string: string) => {
+    let spacedString: string = string;
+
+    for (let index = 0; index < string.length; index++) {
+        if (string[index] === string[index].toUpperCase()) {
+            let splittedArray = string.split(string[index], 2);
+
+            spacedString = `${splittedArray[0]} ${string[index]}${splittedArray[1]}`;
+        }
+    }
+
+    return spacedString;
+}
+
 /* Function for displaying a properties' value, or 'not provided'; used in ID Card */
 const CheckProperty = (property: string | undefined): string => {
     if (property) {
@@ -95,6 +110,7 @@ const ReturnPropertiesFromNestedObject = (propertiesObject: Dict) => {
 
 export {
     Capitalize,
+    AddSpaceBeforeCaptials,
     CheckProperty,
     DetectMobile,
     GetFilters,

@@ -1,5 +1,5 @@
 /* Import Components */
-import { Capitalize } from 'app/Utilities';
+import { Capitalize, AddSpaceBeforeCaptials } from 'app/Utilities';
 import { Col } from 'react-bootstrap';
 
 /* Import Styles */
@@ -32,7 +32,7 @@ const ActiveFiltersTag = (props: Props) => {
                                 onClick={() => RemoveFilter(filter)}
                             />
 
-                            {`${Capitalize(filterKey)}: ${filter}`}
+                            {`${Capitalize(AddSpaceBeforeCaptials(filterKey))}: ${filter}`}
                         </div>
                     </Col>
                 );

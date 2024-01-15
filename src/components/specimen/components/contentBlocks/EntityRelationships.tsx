@@ -63,8 +63,6 @@ const EntityRelationships = (props: Props) => {
                 </div>
 
                 {specimen.digitalSpecimen.entityRelationships?.map((entityRelationship, index) => {
-                    console.log(entityRelationship);
-
                     const key = `entityRelationship${index}`;
 
                     return <PropertiesBlock key={key}

@@ -1,4 +1,7 @@
+// @ts-nocheck
+
 /* Import Dependencies */
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import KeycloakService from 'keycloak/Keycloak';
@@ -9,12 +12,11 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
 import { useAppSelector } from 'app/hooks';
-import { getDigitalMediaAnnotations } from 'redux/digitalMedia/DigitalMediaSlice';
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
-import { Annotation as AnnotationType } from 'app/types/Annotation';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Styles */
 import styles from './mediaTypes.module.scss';
@@ -26,27 +28,32 @@ import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 /* Props Typing */
 interface Props {
-    selectedAnnotation: ImageAnnotation,
-    editAnnotation: ImageAnnotation,
+    selectedAnnotation: Annotation,
     tooltipFieldRef: any,
     annotorious: any,
 
     RefreshAnnotations: Function,
     SubmitAnnotation: Function,
     SetSelectedAnnotation: Function,
-    SetEditAnnotation: Function,
     RemoveAnnotation: Function
 };
 
 
 const ImagePopup = (props: Props) => {
-    const { selectedAnnotation, editAnnotation, tooltipFieldRef, annotorious,
-        RefreshAnnotations, SubmitAnnotation, SetSelectedAnnotation, SetEditAnnotation, RemoveAnnotation } = props;
+    const { selectedAnnotation, tooltipFieldRef, annotorious,
+        SubmitAnnotation, RemoveAnnotation } = props;
 
     /* Base variables */
-    const digitalMediaAnnotations = useAppSelector(getDigitalMediaAnnotations);
     const user = useAppSelector(getUser);
-    let annotation: AnnotationType | undefined;
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const annotoriousAnnotation = annotorious.getSelected()[0];
+
+    /* OnChange of Selected Annotation in Annotorious: check if it is a template for a new Annotation, if so, set Edit Mode to true */
+    useEffect(() => {
+        if (!annotoriousAnnotation.id.includes('20.5000.1025') && !annotoriousAnnotation.id.includes('TEST')) {
+            setEditMode(true);
+        }
+    }, [annotoriousAnnotation]);
 
     /* Function for validating Annotation value input */
     const ValidateAnnotation = (values: Dict) => {
@@ -59,18 +66,13 @@ const ImagePopup = (props: Props) => {
         return errors;
     }
 
-    /* If Annotation is selected, get additional data from source */
-    if (selectedAnnotation) {
-        annotation = digitalMediaAnnotations.visual.find((digitalMediaAnnotation: AnnotationType) => digitalMediaAnnotation['ods:id'] === selectedAnnotation.id);
-    }
-
     /* ClassNames */
     const classEditBlock = classNames({
-        'd-none': !editAnnotation
+        'd-none': !editMode
     });
 
     const classInfoBlock = classNames({
-        'd-none': editAnnotation
+        'd-none': editMode
     });
 
     return (
@@ -83,8 +85,7 @@ const ImagePopup = (props: Props) => {
                             <div className={classEditBlock}>
                                 <Formik
                                     initialValues={{
-                                        annotationValue: editAnnotation?.body.length ?
-                                            editAnnotation.body[0].value[0] : '',
+                                        annotationValue: selectedAnnotation ? selectedAnnotation['oa:body']['oa:value'] : ''
                                     }}
                                     enableReinitialize={true}
                                     validate={ValidateAnnotation}
@@ -92,12 +93,12 @@ const ImagePopup = (props: Props) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
 
                                         /* Submit new Annotation */
-                                        if (!selectedAnnotation.body.length) {
-                                            /* Patch Annotation */
-                                            SubmitAnnotation([form.annotationValue], 'insert');
-                                        } else {
+                                        if (!annotoriousAnnotation.id.includes('20.5000.1025') && !annotoriousAnnotation.id.includes('TEST')) {
                                             /* Insert Annotation */
-                                            SubmitAnnotation([form.annotationValue], 'patch')
+                                            SubmitAnnotation([form.annotationValue], 'insert')
+                                        } else {
+                                            /* Patch Annotation */
+                                            SubmitAnnotation([form.annotationValue], 'patch');
                                         }
                                     }}
                                 >
@@ -130,30 +131,30 @@ const ImagePopup = (props: Props) => {
                                 </Formik>
                             </div>
 
-                            {annotation &&
+                            {selectedAnnotation &&
                                 <div className={classInfoBlock}>
                                     {/* Creator and Actions */}
                                     <Row>
                                         <Col>
-                                            <p className="c-primary fw-lightBold"> {annotation['oa:creator']['foaf:name']} </p>
+                                            <p className="c-primary fw-lightBold"> {selectedAnnotation['oa:creator']['foaf:name']} </p>
                                         </Col>
                                         <Col className="col-md-auto">
-                                            <p className="c-primary"> {Moment(annotation['dcterms:created']).format('MMMM DD - YYYY')} </p>
+                                            <p className="c-primary"> {Moment(selectedAnnotation['dcterms:created']).format('MMMM DD - YYYY')} </p>
                                         </Col>
                                     </Row>
                                     {/* ID and Version */}
                                     <Row>
                                         <Col>
-                                            <p className="fs-4 c-grey"> {annotation['ods:id']} </p>
+                                            <p className="fs-4 c-grey"> {selectedAnnotation['ods:id']} </p>
                                         </Col>
                                         <Col className="col-md-auto">
-                                            <p className="fs-4 c-grey"> Version: {annotation['ods:version']} </p>
+                                            <p className="fs-4 c-grey"> Version: {selectedAnnotation['ods:version']} </p>
                                         </Col>
                                     </Row>
                                     {/* Motivation and Value */}
                                     <Row className="mt-2">
                                         <Col className="col-md-auto pe-0">
-                                            <p className="c-primary fw-lightBold"> {Capitalize(annotation['oa:motivation'].replace('oa:', '').replace('ods:', ''))}: </p>
+                                            <p className="c-primary fw-lightBold"> {Capitalize(selectedAnnotation['oa:motivation'].replace('oa:', '').replace('ods:', ''))}: </p>
                                         </Col>
                                         <Col className="ps-1">
                                             <p>
@@ -172,24 +173,15 @@ const ImagePopup = (props: Props) => {
                         <Col>
                             <button type="button"
                                 className="primaryButton fs-4 px-3"
-                                onClick={() => {
-                                    if (!selectedAnnotation.body.length) {
-                                        /* Remove when annotation was left empty */
-                                        RefreshAnnotations();
-                                    }
-
-                                    SetSelectedAnnotation(null);
-
-                                    annotorious.state.selection.clear();
-                                }}
+                                onClick={() => annotorious.cancelSelected()}
                             >
-                                {selectedAnnotation?.body.length ?
-                                    <span> Close </span>
-                                    : <span> Cancel </span>
+                                {editMode ?
+                                    <span> Cancel </span>
+                                    : <span> Close </span>
                                 }
                             </button>
                         </Col>
-                        {(KeycloakService.IsLoggedIn() && selectedAnnotation?.body.length && !editAnnotation
+                        {/* {(KeycloakService.IsLoggedIn() && selectedAnnotation?.body.length && !editAnnotation
                             && user.orcid && user.orcid === selectedAnnotation.body[0].creator.id) &&
                             <>
                                 <Col className="col-md-auto">
@@ -205,7 +197,7 @@ const ImagePopup = (props: Props) => {
                                     />
                                 </Col>
                             </>
-                        }
+                        } */}
                     </Row>
                 </Col>
             </Row>

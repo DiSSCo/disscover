@@ -249,7 +249,7 @@ const DigitalMedia = () => {
 
     const classImageAnnotateButton = classNames({
         'primaryButton px-3 py-2 d-flex align-items-center': true,
-        'active': annotoriousMode === 'rectangle'
+        'active': annotoriousMode === 'draw'
     });
 
     return (
@@ -290,10 +290,10 @@ const DigitalMedia = () => {
                                                                     <button type="button"
                                                                         className={classImageAnnotateButton}
                                                                         onClick={() => {
-                                                                            if (!annotoriousMode) {
-                                                                                dispatch(setAnnotoriousMode('rectangle'))
+                                                                            if (annotoriousMode === 'move') {
+                                                                                dispatch(setAnnotoriousMode('draw'));
                                                                             } else {
-                                                                                dispatch(setAnnotoriousMode(null))
+                                                                                dispatch(setAnnotoriousMode('move'));
                                                                             }
                                                                         }
                                                                         }

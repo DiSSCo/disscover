@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /* Import Dependencies */
 import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
@@ -54,8 +56,7 @@ const ImageViewer = (props: Props) => {
     const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const user = useAppSelector(getUser);
     const [image, setImage] = useState<HTMLImageElement>();
-    const [selectedAnnotation, setSelectedAnnotation] = useState<ImageAnnotation | null>(null);
-    const [editAnnotation, setEditAnnotation] = useState<ImageAnnotation | null>(null);
+    const [selectedAnnotation, setSelectedAnnotation] = useState<Annotation | undefined>();
 
     const OSDOptions: OpenSeadragon.Options = {
         prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/",
@@ -89,33 +90,33 @@ const ImageViewer = (props: Props) => {
     /* Function for handling Annotorious */
     useEffect(() => {
         if (annotorious && image) {
-            const annotoriousAnnotations = annotorious.getAnnotations();
-
-            if (!annotoriousAnnotations.length) {
-                RefreshAnnotations();
-            }
+            /* Load initial Annotorious Annotations */
+            LoadAnnotations();
 
             /* Event for when selecting or deselecting an Annotation */
-            annotorious.on('selectionChanged', (w3cAnnotations: ImageAnnotation[]) => {
-                const selected: boolean = annotorious.state.selection.isSelected(w3cAnnotations[0]);
+            annotorious.on('selectionChanged', (selectedAnnotations: ImageAnnotation[]) => {
+                const annotoriousAnnotations = annotorious.getAnnotations();
+                const annotoriousAnnotation = selectedAnnotations[0];
 
-                if (selected) {
-                    /* Set selected annotation */
-                    setSelectedAnnotation(w3cAnnotations[0]);
-                } else {
-                    /* Reset selected and edit annotation */
-                    setSelectedAnnotation(null);
-                    setEditAnnotation(null);
-                }
+                /* Check for unfinished annotations */
+                annotoriousAnnotations.forEach((annotation) => {
+                    if (!annotation.id.includes('20.5000.1025') && !annotation.id.includes('TEST') && (!annotoriousAnnotation || annotoriousAnnotation.id !== annotation.id)) {
+                        annotorious.removeAnnotation(annotation);
+                    }
+                });
+
+                /* Set selected annotation */
+                const annotation: Annotation | undefined = digitalMediaAnnotations.visual.find(
+                    (digitalMediaAnnotation: AnnotationType) => digitalMediaAnnotation['ods:id'] === annotoriousAnnotation?.id
+                );
+
+                setSelectedAnnotation(annotation);
             });
 
             /* Event for when creating an Annotation */
             annotorious.on('createAnnotation', (w3cAnnotation: ImageAnnotation) => {
                 /* Return to cursor tool */
-                dispatch(setAnnotoriousMode(null));
-
-                /* Set selected annotation */
-                setEditAnnotation(w3cAnnotation);
+                dispatch(setAnnotoriousMode('move'));
 
                 /* Focus on input field */
                 setTimeout(() => {
@@ -125,17 +126,23 @@ const ImageViewer = (props: Props) => {
 
             /* Event for when an Annotation has been edited */
             annotorious.on('updateAnnotation', (W3cAnnotation: ImageAnnotation) => {
-                /* Set new edit target */
-                setEditAnnotation(W3cAnnotation);
+                
             });
         }
     }, [annotorious, image]);
 
-    /* Function for refreshing annotations on Annotorious layer */
-    const RefreshAnnotations = () => {
-        /* If there are visual annotations present, calculate positions and redraw */
+    /* Function for loading initial Annotorious Annotations upon the canvas */
+    const LoadAnnotations = () => {
         if (!isEmpty(digitalMediaAnnotations.visual)) {
-            const visualImageAnnotations = CalculateAnnotationPositions();
+            const visualImageAnnotations: ImageAnnotation[] = [];
+
+            digitalMediaAnnotations.visual.forEach((annotation) => {
+                const annotoriousAnnotation = ReformatToAnnotoriousAnnotation(annotation);
+
+                if (annotoriousAnnotation) {
+                    visualImageAnnotations.push(annotoriousAnnotation);
+                }
+            });
 
             annotorious.setAnnotations(visualImageAnnotations);
         } else {
@@ -143,18 +150,26 @@ const ImageViewer = (props: Props) => {
         }
     }
 
-    useEffect(() => {
-        if (annotorious) {
-            RefreshAnnotations();
-        }
-    }, [digitalMediaAnnotations]);
+    /* Function for refreshing annotations on Annotorious layer */
+    // const RefreshAnnotations = () => {
+    //     /* If there are visual annotations present, calculate positions and redraw */
+    //     if (!isEmpty(digitalMediaAnnotations.visual)) {
+    //         const visualImageAnnotations = CalculateAnnotationPositions();
 
-    /* Function for depicting method when selecting an Annotation */
+    //         console.log(visualImageAnnotations);
+
+    //         annotorious.setAnnotations(visualImageAnnotations);
+    //     } else {
+    //         annotorious.setAnnotations([]);
+    //     }
+    // }
+
+    /* Function for depicting a method when selecting an Annotation */
     const SelectAction = (w3cAnnotation: ImageAnnotation) => {
         let selectAction;
 
         /* Enable Annotorious edit mode if logged in and Annotation belongs to user, otherwise highlight */
-        if (KeycloakService.IsLoggedIn() && (user.orcid && user.orcid === w3cAnnotation.bodies[0].creator.id)) {
+        if (KeycloakService.IsLoggedIn() && (user.orcid && user.orcid === w3cAnnotation?.bodies?.[0]?.creator?.id)) {
             selectAction = PointerSelectAction.EDIT;
         } else {
             selectAction = PointerSelectAction.HIGHLIGHT;
@@ -163,64 +178,79 @@ const ImageViewer = (props: Props) => {
         return selectAction;
     }
 
-    /* Function for calculating annotation positions */
-    const CalculateAnnotationPositions = () => {
-        const visualImageAnnotations: Dict[] = [];
+    /* Function for calculating annotation positions and formatting to the Annotorious format */
+    const ReformatToAnnotoriousAnnotation = (annotation: Annotation) => {
+        let annotoriousAnnotation: ImageAnnotation | undefined;
 
         if (image) {
             /* Get original size of image */
             const imgWidth = image.width;
             const imgHeight = image.height;
 
-            /* For each annotation, calculate the W3C pixels relative to the TDWG AC position */
-            digitalMediaAnnotations.visual.forEach((imageAnnotation: Annotation) => {
-                /* Check if the annotation is a visual one */
-                if (imageAnnotation['oa:target']['oa:selector']?.['ac:hasRoi']) {
-                    const ROI = imageAnnotation['oa:target']['oa:selector']['ac:hasRoi'] as {
-                        "ac:xFrac": number,
-                        "ac:yFrac": number,
-                        "ac:widthFrac": number,
-                        "ac:heightFrac": number
-                    };
+            /* Check if the annotation is a visual one and */
+            if (annotation['oa:target']['oa:selector']?.['ac:hasRoi']) {
+                /* Calculate the W3C pixels relative to the TDWG AC position */
+                const ROI = annotation['oa:target']['oa:selector']['ac:hasRoi'] as {
+                    "ac:xFrac": number,
+                    "ac:yFrac": number,
+                    "ac:widthFrac": number,
+                    "ac:heightFrac": number
+                };
 
-                    const x = ROI["ac:xFrac"] * imgWidth;
-                    const y = ROI["ac:yFrac"] * imgHeight;
-                    const w = ROI["ac:widthFrac"] * imgWidth;
-                    const h = ROI["ac:heightFrac"] * imgHeight;
+                const x = ROI["ac:xFrac"] * imgWidth;
+                const y = ROI["ac:yFrac"] * imgHeight;
+                const w = ROI["ac:widthFrac"] * imgWidth;
+                const h = ROI["ac:heightFrac"] * imgHeight;
 
-                    visualImageAnnotations.push({
-                        id: imageAnnotation['ods:id'],
-                        "@context": 'http://www.w3.org/ns/anno.jsonld',
-                        type: 'Annotation',
-                        body: [{
-                            type: 'TextualBody',
-                            value: imageAnnotation['oa:body']['oa:value'],
-                            purpose: 'commenting',
-                            creator: {
-                                id: imageAnnotation['oa:creator']['ods:id']
-                            }
-                        }],
-                        target: {
-                            selector: {
-                                conformsTo: 'http://www.w3.org/TR/media-frags/',
-                                type: 'FragmentSelector',
-                                value: `xywh=pixel:${x},${y},${w},${h}`
-                            },
-                            source: digitalMedia.digitalEntity['ac:accessUri']
+                annotoriousAnnotation = {
+                    id: annotation['ods:id'],
+                    "@context": 'http://www.w3.org/ns/anno.jsonld',
+                    type: 'Annotation',
+                    body: [{
+                        type: 'TextualBody',
+                        value: annotation['oa:body']['oa:value'],
+                        purpose: 'commenting',
+                        creator: {
+                            id: annotation['oa:creator']['ods:id']
                         }
-                    });
-                }
-            });
+                    }],
+                    target: {
+                        selector: {
+                            conformsTo: 'http://www.w3.org/TR/media-frags/',
+                            type: 'FragmentSelector',
+                            value: `xywh=pixel:${x},${y},${w},${h}`
+                        },
+                        source: digitalMedia.digitalEntity['ac:accessUri']
+                    }
+                };
+            }
         }
 
-        return visualImageAnnotations;
+        return annotoriousAnnotation;
+    }
+
+    /* Function to update an Annotorious Annotation on the canvas */
+    const UpdateAnnotoriousAnnotation = (annotoriousAnnotation: ImageAnnotation, originalId?: string) => {
+        const annotoriousAnnotations = annotorious.getAnnotations();
+
+        /* Remove old Annotorious Annotation */
+        if (originalId) {
+            annotorious.removeAnnotation(originalId);
+        } else {
+            annotorious.removeAnnotation(annotoriousAnnotation.id);
+        }
+
+        /* Replace with new version of Annotation */
+        annotorious.addAnnotation(annotoriousAnnotation);
     }
 
     /* Function for submitting an Annotation */
     const SubmitAnnotation = (values: string[], method: string) => {
         if (image) {
+            const annotoriousAnnotation = annotorious.getSelected()[0];
+
             /* Calculate W3C pixels to TDWG AC position */
-            const coordinates = editAnnotation.target.selector.value.split(',');
+            const coordinates = annotoriousAnnotation.target.selector.value.split(',');
 
             const xFrac = Number(coordinates[0].replace('xywh=pixel:', '')) / image.width;
             const yFrac = Number(coordinates[1]) / image.height;
@@ -255,13 +285,19 @@ const ImageViewer = (props: Props) => {
                 /* Post Annotation */
                 InsertAnnotation(imageAnnotation, KeycloakService.GetToken()).then((annotation) => {
                     UpdateAnnotationsSource(annotation, false);
+
+                    /* Update Annotorious Annotation */
+                    UpdateAnnotoriousAnnotation(ReformatToAnnotoriousAnnotation(annotation), annotoriousAnnotation.id);
                 }).catch(error => {
                     console.warn(error);
                 });
             } else if (method === 'patch') {
                 /* Patch Annotation */
-                PatchAnnotation(imageAnnotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
+                PatchAnnotation(imageAnnotation, selectedAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
                     UpdateAnnotationsSource(annotation);
+
+                    /* Update Annotorious Annotation */
+                    UpdateAnnotoriousAnnotation(ReformatToAnnotoriousAnnotation(annotation));
                 }).catch(error => {
                     console.warn(error);
                 });
@@ -283,24 +319,22 @@ const ImageViewer = (props: Props) => {
     }
 
     /* Prepare ToolTip */
-    const tooltip = <ImagePopup selectedAnnotation={selectedAnnotation}
-        editAnnotation={editAnnotation}
+    const tooltip = <ImagePopup selectedAnnotation={selectedAnnotation as ImageAnnotation}
         tooltipFieldRef={tooltipFieldRef}
         annotorious={annotorious}
 
-        RefreshAnnotations={() => RefreshAnnotations()}
         SubmitAnnotation={(values: string[], method: string) => SubmitAnnotation(values, method)}
         SetSelectedAnnotation={(selectedAnnotation: ImageAnnotation) => setSelectedAnnotation(selectedAnnotation)}
-        SetEditAnnotation={(editAnnotation: ImageAnnotation) => setEditAnnotation(editAnnotation)}
         RemoveAnnotation={() => RemoveAnnotation()}
     />
 
     return (
         <div className="w-100 h-100">
-            <OpenSeadragonAnnotator className="h-100"
+            <OpenSeadragonAnnotator
                 adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
-                keepEnabled={false}
-                drawingEnabled={annotoriousMode}
+                drawingEnabled={annotoriousMode === 'draw' ? true : false}
+                drawingMode="click"
+                tool="rectangle"
                 pointerSelectAction={SelectAction}
             >
                 <OpenSeadragonViewer className="openseadragon h-100"

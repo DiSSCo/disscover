@@ -264,28 +264,26 @@ const AnnotationForm = (props: Props) => {
         /* Craft Annotation */
         const annotation = CraftAnnotation(form, targetPath, bodyValue, targetType);
 
-        console.log(annotation);
-
         /* Check if to post or patch */
-        // if (!isEmpty(editAnnotation)) {
-        //     /* Patch Annotation */
-        //     PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
-        //         UpdateAnnotationView(annotation);
+        if (!isEmpty(editAnnotation)) {
+            /* Patch Annotation */
+            PatchAnnotation(annotation, editAnnotation['ods:id'], KeycloakService.GetToken()).then((annotation) => {
+                UpdateAnnotationView(annotation);
 
-        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
-        //     }).catch(error => {
-        //         console.warn(error);
-        //     });
-        // } else {
-        //     /* Post Annotation */
-        //     InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
-        //         UpdateAnnotationView(annotation);
+                dispatch(setHighlightAnnotationId(annotation['ods:id']));
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            /* Post Annotation */
+            InsertAnnotation(annotation, KeycloakService.GetToken()).then((annotation) => {
+                UpdateAnnotationView(annotation);
 
-        //         dispatch(setHighlightAnnotationId(annotation['ods:id']));
-        //     }).catch(error => {
-        //         console.warn(error);
-        //     });
-        // }
+                dispatch(setHighlightAnnotationId(annotation['ods:id']));
+            }).catch(error => {
+                console.warn(error);
+            });
+        }
     }
 
     return (

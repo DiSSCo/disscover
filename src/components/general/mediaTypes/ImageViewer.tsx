@@ -12,7 +12,8 @@ import {
     OpenSeadragonViewer,
     PointerSelectAction,
     useAnnotator,
-    W3CImageFormat
+    W3CImageFormat,
+    W3CAnnotation
 } from '@annotorious/react';
 
 /* Import Store */
@@ -22,7 +23,7 @@ import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
-import { AnnotationTemplate, Dict } from 'app/Types';
+import { AnnotationTemplate } from 'app/Types';
 import { Annotation } from 'app/types/Annotation';
 
 /* Import API */
@@ -46,7 +47,7 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const annotorious = useAnnotator<AnnotoriousImageAnnotator>();
+    const annotorious = useAnnotator<AnnotoriousImageAnnotator<W3CAnnotation>>();
     const viewerRef = useRef<OpenSeadragon.Viewer>(null);
     const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
@@ -56,7 +57,6 @@ const ImageViewer = (props: Props) => {
     const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const user = useAppSelector(getUser);
     const [image, setImage] = useState<HTMLImageElement>();
-    const [selectedAnnotation, setSelectedAnnotation] = useState<Annotation | undefined>();
 
     const OSDOptions: OpenSeadragon.Options = {
         prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/",
@@ -94,7 +94,7 @@ const ImageViewer = (props: Props) => {
             LoadAnnotations();
 
             /* Event for when selecting or deselecting an Annotation */
-            annotorious.on('selectionChanged', (selectedAnnotations: ImageAnnotation[]) => {
+            annotorious.on('selectionChanged', (selectedAnnotations: W3CAnnotation[]) => {
                 const annotoriousAnnotations = annotorious.getAnnotations();
                 const annotoriousAnnotation = selectedAnnotations[0];
 
@@ -104,17 +104,10 @@ const ImageViewer = (props: Props) => {
                         annotorious.removeAnnotation(annotation);
                     }
                 });
-
-                /* Set selected annotation */
-                const annotation: Annotation | undefined = digitalMediaAnnotations.visual.find(
-                    (digitalMediaAnnotation: AnnotationType) => digitalMediaAnnotation['ods:id'] === annotoriousAnnotation?.id
-                );
-
-                setSelectedAnnotation(annotation);
             });
 
             /* Event for when creating an Annotation */
-            annotorious.on('createAnnotation', (w3cAnnotation: ImageAnnotation) => {
+            annotorious.on('createAnnotation', () => {
                 /* Return to cursor tool */
                 dispatch(setAnnotoriousMode('move'));
 
@@ -125,16 +118,34 @@ const ImageViewer = (props: Props) => {
             });
 
             /* Event for when an Annotation has been edited */
-            annotorious.on('updateAnnotation', (W3cAnnotation: ImageAnnotation) => {
-                
+            annotorious.on('updateAnnotation', () => {
+
             });
         }
     }, [annotorious, image]);
 
+    /* OnChange of Digital Media Annotations: check state of Annotations on the canvas */
+    useEffect(() => {
+        if (annotorious && annotorious.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
+            const annotoriousAnnotations: W3CAnnotation[] = annotorious.getAnnotations();
+
+            /* For each Annotorious Annotation, check if it still exists, otherwise remove */
+            annotoriousAnnotations.forEach((annotoriousAnnotation) => {
+                if (!(digitalMediaAnnotations.visual.find((annotation) => annotation['ods:id'] === annotoriousAnnotation.id))) {
+                    annotorious.removeAnnotation(annotoriousAnnotation);
+                }
+            });
+        } else if (annotorious && !annotorious.getAnnotations().length) {
+            console.log('test');
+
+            LoadAnnotations();
+        }
+    }, [digitalMediaAnnotations]);
+
     /* Function for loading initial Annotorious Annotations upon the canvas */
     const LoadAnnotations = () => {
         if (!isEmpty(digitalMediaAnnotations.visual)) {
-            const visualImageAnnotations: ImageAnnotation[] = [];
+            const visualImageAnnotations: W3CAnnotation[] = [];
 
             digitalMediaAnnotations.visual.forEach((annotation) => {
                 const annotoriousAnnotation = ReformatToAnnotoriousAnnotation(annotation);
@@ -150,29 +161,15 @@ const ImageViewer = (props: Props) => {
         }
     }
 
-    /* Function for refreshing annotations on Annotorious layer */
-    // const RefreshAnnotations = () => {
-    //     /* If there are visual annotations present, calculate positions and redraw */
-    //     if (!isEmpty(digitalMediaAnnotations.visual)) {
-    //         const visualImageAnnotations = CalculateAnnotationPositions();
-
-    //         console.log(visualImageAnnotations);
-
-    //         annotorious.setAnnotations(visualImageAnnotations);
-    //     } else {
-    //         annotorious.setAnnotations([]);
-    //     }
-    // }
-
     /* Function for depicting a method when selecting an Annotation */
-    const SelectAction = (w3cAnnotation: ImageAnnotation) => {
+    const SelectAction = (annotoriousAnnotation: ImageAnnotation) => {
         let selectAction;
 
         /* Enable Annotorious edit mode if logged in and Annotation belongs to user, otherwise highlight */
-        if (KeycloakService.IsLoggedIn() && (user.orcid && user.orcid === w3cAnnotation?.bodies?.[0]?.creator?.id)) {
+        if (KeycloakService.IsLoggedIn() && (user.orcid && user.orcid === annotoriousAnnotation?.bodies?.[0]?.creator?.id)) {
             selectAction = PointerSelectAction.EDIT;
         } else {
-            selectAction = PointerSelectAction.HIGHLIGHT;
+            selectAction = PointerSelectAction.SELECT;
         }
 
         return selectAction;
@@ -180,7 +177,7 @@ const ImageViewer = (props: Props) => {
 
     /* Function for calculating annotation positions and formatting to the Annotorious format */
     const ReformatToAnnotoriousAnnotation = (annotation: Annotation) => {
-        let annotoriousAnnotation: ImageAnnotation | undefined;
+        let annotoriousAnnotation: W3CAnnotation = {} as W3CAnnotation;
 
         if (image) {
             /* Get original size of image */
@@ -208,7 +205,7 @@ const ImageViewer = (props: Props) => {
                     type: 'Annotation',
                     body: [{
                         type: 'TextualBody',
-                        value: annotation['oa:body']['oa:value'],
+                        value: annotation['oa:body']['oa:value'][0] as string ?? '',
                         purpose: 'commenting',
                         creator: {
                             id: annotation['oa:creator']['ods:id']
@@ -230,18 +227,19 @@ const ImageViewer = (props: Props) => {
     }
 
     /* Function to update an Annotorious Annotation on the canvas */
-    const UpdateAnnotoriousAnnotation = (annotoriousAnnotation: ImageAnnotation, originalId?: string) => {
-        const annotoriousAnnotations = annotorious.getAnnotations();
-
+    const UpdateAnnotoriousAnnotation = (annotoriousAnnotation: W3CAnnotation, originalId?: string) => {
         /* Remove old Annotorious Annotation */
         if (originalId) {
             annotorious.removeAnnotation(originalId);
+
+            /* Replace with new version of Annotation */
+            annotorious.addAnnotation(annotoriousAnnotation);
         } else {
-            annotorious.removeAnnotation(annotoriousAnnotation.id);
+            annotorious.updateAnnotation(annotoriousAnnotation);
         }
 
-        /* Replace with new version of Annotation */
-        annotorious.addAnnotation(annotoriousAnnotation);
+        /* Set selected annotation */
+        annotorious.setSelected(annotoriousAnnotation.id);
     }
 
     /* Function for submitting an Annotation */
@@ -284,7 +282,7 @@ const ImageViewer = (props: Props) => {
             if (method === 'insert') {
                 /* Post Annotation */
                 InsertAnnotation(imageAnnotation, KeycloakService.GetToken()).then((annotation) => {
-                    UpdateAnnotationsSource(annotation, false);
+                    UpdateAnnotationsSource(annotation);
 
                     /* Update Annotorious Annotation */
                     UpdateAnnotoriousAnnotation(ReformatToAnnotoriousAnnotation(annotation), annotoriousAnnotation.id);
@@ -293,7 +291,7 @@ const ImageViewer = (props: Props) => {
                 });
             } else if (method === 'patch') {
                 /* Patch Annotation */
-                PatchAnnotation(imageAnnotation, selectedAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
+                PatchAnnotation(imageAnnotation, annotoriousAnnotation.id, KeycloakService.GetToken()).then((annotation) => {
                     UpdateAnnotationsSource(annotation);
 
                     /* Update Annotorious Annotation */
@@ -306,12 +304,15 @@ const ImageViewer = (props: Props) => {
     }
 
     /* Function for removing an Annotation */
-    const RemoveAnnotation = () => {
+    const RemoveAnnotation = (annotation: Annotation) => {
         /* Ask for user confirmation */
-        if (window.confirm(`Do you really want delete the annotation with id: ${selectedAnnotation['ods:id']}?`)) {
+        if (window.confirm(`Do you really want delete the annotation with id: ${annotation['ods:id']}?`)) {
+            /* Deselect annotation */
+            annotorious.cancelSelected();
+
             /* Remove annotation */
-            DeleteAnnotation(selectedAnnotation['ods:id'], KeycloakService.GetToken()).then(() => {
-                UpdateAnnotationsSource(selectedAnnotation, true);
+            DeleteAnnotation(annotation['ods:id'], KeycloakService.GetToken()).then(() => {
+                UpdateAnnotationsSource(annotation, true);
             }).catch(error => {
                 console.warn(error);
             });
@@ -319,13 +320,11 @@ const ImageViewer = (props: Props) => {
     }
 
     /* Prepare ToolTip */
-    const tooltip = <ImagePopup selectedAnnotation={selectedAnnotation as ImageAnnotation}
-        tooltipFieldRef={tooltipFieldRef}
+    const tooltip = <ImagePopup tooltipFieldRef={tooltipFieldRef}
         annotorious={annotorious}
 
         SubmitAnnotation={(values: string[], method: string) => SubmitAnnotation(values, method)}
-        SetSelectedAnnotation={(selectedAnnotation: ImageAnnotation) => setSelectedAnnotation(selectedAnnotation)}
-        RemoveAnnotation={() => RemoveAnnotation()}
+        RemoveAnnotation={(annotation: Annotation) => RemoveAnnotation(annotation)}
     />
 
     return (

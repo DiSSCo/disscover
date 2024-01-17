@@ -132,15 +132,15 @@ p {
 }
 
 .c-primary {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 
 .c-secondary {
-  color: var(--secondary);
+  color: var(--secondary) !important;
 }
 
 .c-accent {
-  color: var(--accent);
+  color: var(--accent) !important;
 }
 
 .c-white {
@@ -197,6 +197,10 @@ p {
   background-color: var(--greyLight);
 }
 
+.bgc-tableHover {
+  background-color: rgb(152, 205, 191);
+}
+
 /* Border */
 .b-none {
   border: none;
@@ -220,6 +224,10 @@ p {
 
 .b-top-grey {
   border-top: 1px solid var(--grey);
+}
+
+.b-bottom-grey {
+  border-bottom: 1px solid var(--grey);
 }
 
 /* Border radius */
@@ -275,6 +283,14 @@ p {
   overflow-y: scroll !important;
 }
 
+.overflow-x-scroll {
+  overflow-x: scroll !important;
+}
+
+.overflow-x-visible {
+  overflow-x: visible;
+}
+
 .overflow-x-hidden {
   overflow-x: hidden;
 }
@@ -308,7 +324,6 @@ p {
 
 
 /* Global Components Styling */
-
 .primaryButton {
   background-color: var(--primary);
   color: white;

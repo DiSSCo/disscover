@@ -8,6 +8,10 @@ import { PaginationObject } from 'app/Types';
 
 export interface GeneralState {
     screenSize: string,
+    windowDimensions: {
+        vw: number,
+        vh: number
+    }
     promptMessages: {
         key: string,
         message: string,
@@ -23,6 +27,7 @@ export interface GeneralState {
 
 const initialState: GeneralState = {
     screenSize: 'lg',
+    windowDimensions: {vw: 0, vh: 0},
     promptMessages: [],
     language: 'EN',
     introTopic: '',
@@ -38,6 +43,9 @@ export const GeneralSlice = createSlice({
     reducers: {
         setScreenSize: (state, action: PayloadAction<string>) => {
             state.screenSize = action.payload;
+        },
+        setWindowDimensions: (state, action: PayloadAction<{vw: number, vh: number}>) => {
+            state.windowDimensions = action.payload;
         },
         setPromptMessages: (state, action: PayloadAction<{ key: string, message: string, template?: string }[]>) => {
             state.promptMessages = action.payload;
@@ -72,6 +80,7 @@ export const GeneralSlice = createSlice({
 /* Action Creators */
 export const {
     setScreenSize,
+    setWindowDimensions,
     setPromptMessages,
     pushToPromptMessages,
     removeFromPromptMessages,
@@ -85,6 +94,7 @@ export const {
 
 /* Connect with Root State */
 export const getScreenSize = (state: RootState) => state.general.screenSize;
+export const getWindowDimensions = (state: RootState) => state.general.windowDimensions;
 export const getPromptMessages = (state: RootState) => state.general.promptMessages;
 export const getLanguage = (state: RootState) => state.general.language;
 export const getIntroTopic = (state: RootState) => state.general.introTopic;

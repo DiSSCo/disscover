@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getPaginationObject, setPaginationObject } from 'redux/general/GeneralSlice';
 import {
     getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen,
-    setSearchAggregations, getCompareMode, setCompareMode
+    setSearchAggregations, getCompareMode, setCompareMode, setCompareSpecimens
 } from 'redux/search/SearchSlice';
 
 /* Import Types */
@@ -63,6 +63,12 @@ const Search = () => {
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
+    
+    /* OnLoad: disabel compare mode and reset compare specimens */
+    useEffect(() => {
+        dispatch(setCompareMode(false));
+        dispatch(setCompareSpecimens([]));
+    }, []);
 
     /* OnChange of search params: reset page number, then search specimens */
     useEffect(() => {
@@ -255,7 +261,7 @@ const Search = () => {
 
                                 <Col className={`${classSearchResults} h-100 searchResults`}>
                                     <Row className="h-100 position-relative">
-                                        <Col className={`${classSearchResultsTable} h-100`}>
+                                        <Col className={`${classSearchResultsTable} h-100 z-1`}>
                                             <Row className="h-100">
                                                 <Col className="h-100">
                                                     <div className="h-100 d-flex flex-column">

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /* Import Dependencies */
 import { useEffect, useState, useRef } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
@@ -13,7 +11,8 @@ import {
     PointerSelectAction,
     useAnnotator,
     W3CImageFormat,
-    W3CAnnotation
+    W3CAnnotation,
+    W3CAnnotationTarget
 } from '@annotorious/react';
 
 /* Import Store */
@@ -136,8 +135,6 @@ const ImageViewer = (props: Props) => {
                 }
             });
         } else if (annotorious && !annotorious.getAnnotations().length) {
-            console.log('test');
-
             LoadAnnotations();
         }
     }, [digitalMediaAnnotations]);
@@ -248,7 +245,8 @@ const ImageViewer = (props: Props) => {
             const annotoriousAnnotation = annotorious.getSelected()[0];
 
             /* Calculate W3C pixels to TDWG AC position */
-            const coordinates = annotoriousAnnotation.target.selector.value.split(',');
+            const target = annotoriousAnnotation.target as W3CAnnotationTarget & { selector: { value: string } };
+            const coordinates = target.selector?.value.split(',');
 
             const xFrac = Number(coordinates[0].replace('xywh=pixel:', '')) / image.width;
             const yFrac = Number(coordinates[1]) / image.height;

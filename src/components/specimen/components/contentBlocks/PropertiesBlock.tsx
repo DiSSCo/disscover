@@ -72,7 +72,7 @@ const PropertiesBlock = (props: Props) => {
                                                         const subKey: string = `subClass_${subIndex}`;
 
                                                         return (
-                                                            <div key={subIndex} className="mt-3">
+                                                            <div key={subKey} className="mt-3">
                                                                 <PropertiesTable
                                                                     title={`${propertyKey} #${subIndex + 1}`}
                                                                     properties={subInstance}

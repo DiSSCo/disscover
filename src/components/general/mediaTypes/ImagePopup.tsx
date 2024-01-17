@@ -113,7 +113,7 @@ const ImagePopup = (props: Props) => {
 
                                                     {errors.annotationValue &&
                                                         <p className="fs-5 c-denied mt-2">
-                                                            {errors.annotationValue as string}
+                                                            {errors.annotationValue}
                                                         </p>
                                                     }
                                                 </Col>

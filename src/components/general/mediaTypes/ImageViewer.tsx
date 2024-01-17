@@ -331,7 +331,7 @@ const ImageViewer = (props: Props) => {
         <div className="w-100 h-100">
             <OpenSeadragonAnnotator
                 adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
-                drawingEnabled={annotoriousMode === 'draw' ? true : false}
+                drawingEnabled={annotoriousMode === 'draw'}
                 drawingMode="click"
                 tool="rectangle"
                 pointerSelectAction={SelectAction}

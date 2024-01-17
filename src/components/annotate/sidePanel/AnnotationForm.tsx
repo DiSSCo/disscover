@@ -80,7 +80,7 @@ const AnnotationForm = (props: Props) => {
             /* Get last class of path by removing indexes and dot notations */
             let classSchemaName: string = targetClass;
 
-            if (classSchemaName[classSchemaName.length - 1] === ']') {
+            if (classSchemaName.endsWith(']')) {
                 classSchemaName = classSchemaName.split('[').shift() as string;
             } else {
                 classSchemaName = classSchemaName.split(']').pop() as string;

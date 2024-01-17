@@ -69,8 +69,10 @@ const PropertiesBlock = (props: Props) => {
                                             <>
                                                 {Array.isArray(instanceProperties[propertyKey]) ?
                                                     instanceProperties[propertyKey].map((subInstance: Dict, subIndex: number) => {
+                                                        const subKey: string = `subClass_${subIndex}`;
+
                                                         return (
-                                                            <div className="mt-3">
+                                                            <div key={subIndex} className="mt-3">
                                                                 <PropertiesTable
                                                                     title={`${propertyKey} #${subIndex + 1}`}
                                                                     properties={subInstance}

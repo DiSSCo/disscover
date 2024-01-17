@@ -15,11 +15,11 @@ const Capitalize = (string: string) => {
 const AddSpaceBeforeCaptials = (string: string) => {
     let spacedString: string = string;
 
-    for (let index = 0; index < string.length; index++) {
-        if (string[index] === string[index].toUpperCase()) {
-            let splittedArray = string.split(string[index], 2);
+    for (const character of string) {
+        if (character === character.toUpperCase()) {
+            let splittedArray = string.split(character, 2);
 
-            spacedString = `${splittedArray[0]} ${string[index]}${splittedArray[1]}`;
+            spacedString = `${splittedArray[0]} ${character}${splittedArray[1]}`;
         }
     }
 

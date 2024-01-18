@@ -14,7 +14,7 @@ import {
 import { DigitalSpecimen, Dict } from 'app/Types';
 
 /* Import Utilities */
-import SearchResultsTableConfig from 'app/tableConfig/SearchResultsTableConfig';
+import SearchResultsTableConfig from 'app/config/tables/SearchResultsTableConfig';
 
 /* Import Webroot */
 import Spinner from 'webroot/icons/spinner.svg';

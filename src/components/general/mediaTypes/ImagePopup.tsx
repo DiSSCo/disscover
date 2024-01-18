@@ -46,7 +46,7 @@ const ImagePopup = (props: Props) => {
 
     /* OnChange of Selected Annotation in Annotorious: check if it is a template for a new Annotation, if so, set Edit Mode to true */
     useEffect(() => {
-        if (annotoriousAnnotation && !annotoriousAnnotation.id.includes('20.5000.1025') && !annotoriousAnnotation.id.includes('TEST')) {
+        if (annotoriousAnnotation && !annotoriousAnnotation.id.includes('/')) {
             setEditMode(true);
         }
     }, [annotoriousAnnotation]);
@@ -89,12 +89,12 @@ const ImagePopup = (props: Props) => {
                                         await new Promise((resolve) => setTimeout(resolve, 500));
 
                                         /* Submit new Annotation */
-                                        if (!annotoriousAnnotation.id.includes('20.5000.1025') && !annotoriousAnnotation.id.includes('TEST')) {
+                                        if (!annotoriousAnnotation.id.includes('/')) {
                                             /* Insert Annotation */
                                             SubmitAnnotation([form.annotationValue], 'insert');
                                         } else {
                                             /* Patch Annotation */
-                                            SubmitAnnotation([form.annotationValue], 'patch', );
+                                            SubmitAnnotation([form.annotationValue], 'patch');
 
                                             /* Disable edit mode */
                                             setEditMode(false);

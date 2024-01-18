@@ -10,10 +10,10 @@ import {
     OpenSeadragonViewer,
     PointerSelectAction,
     useAnnotator,
-    W3CImageFormat,
-    W3CAnnotation,
-    W3CAnnotationTarget
+    W3CImageFormat
 } from '@annotorious/react';
+import { W3CImageAnnotation, W3CImageAnnotationTarget, W3CImageSelector } from '@annotorious/annotorious';
+
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from "app/hooks";
@@ -46,7 +46,7 @@ const ImageViewer = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const annotorious = useAnnotator<AnnotoriousImageAnnotator<W3CAnnotation>>();
+    const annotorious = useAnnotator<AnnotoriousImageAnnotator<W3CImageAnnotation>>();
     const viewerRef = useRef<OpenSeadragon.Viewer>(null);
     const tooltipFieldRef = useRef<HTMLInputElement>(null);
 
@@ -93,13 +93,13 @@ const ImageViewer = (props: Props) => {
             LoadAnnotations();
 
             /* Event for when selecting or deselecting an Annotation */
-            annotorious.on('selectionChanged', (selectedAnnotations: W3CAnnotation[]) => {
+            annotorious.on('selectionChanged', (selectedAnnotations: W3CImageAnnotation[]) => {
                 const annotoriousAnnotations = annotorious.getAnnotations();
                 const annotoriousAnnotation = selectedAnnotations[0];
 
                 /* Check for unfinished annotations */
                 annotoriousAnnotations.forEach((annotation) => {
-                    if (!annotation.id.includes('20.5000.1025') && !annotation.id.includes('TEST') && (!annotoriousAnnotation || annotoriousAnnotation.id !== annotation.id)) {
+                    if (!annotation.id.includes('/') && (!annotoriousAnnotation || annotoriousAnnotation.id !== annotation.id)) {
                         annotorious.removeAnnotation(annotation);
                     }
                 });
@@ -126,7 +126,7 @@ const ImageViewer = (props: Props) => {
     /* OnChange of Digital Media Annotations: check state of Annotations on the canvas */
     useEffect(() => {
         if (annotorious && annotorious.getAnnotations().length !== digitalMediaAnnotations.visual.length) {
-            const annotoriousAnnotations: W3CAnnotation[] = annotorious.getAnnotations();
+            const annotoriousAnnotations: W3CImageAnnotation[] = annotorious.getAnnotations();
 
             /* For each Annotorious Annotation, check if it still exists, otherwise remove */
             annotoriousAnnotations.forEach((annotoriousAnnotation) => {
@@ -142,7 +142,7 @@ const ImageViewer = (props: Props) => {
     /* Function for loading initial Annotorious Annotations upon the canvas */
     const LoadAnnotations = () => {
         if (!isEmpty(digitalMediaAnnotations.visual)) {
-            const visualImageAnnotations: W3CAnnotation[] = [];
+            const visualImageAnnotations: W3CImageAnnotation[] = [];
 
             digitalMediaAnnotations.visual.forEach((annotation) => {
                 const annotoriousAnnotation = ReformatToAnnotoriousAnnotation(annotation);
@@ -174,7 +174,7 @@ const ImageViewer = (props: Props) => {
 
     /* Function for calculating annotation positions and formatting to the Annotorious format */
     const ReformatToAnnotoriousAnnotation = (annotation: Annotation) => {
-        let annotoriousAnnotation: W3CAnnotation = {} as W3CAnnotation;
+        let annotoriousAnnotation: W3CImageAnnotation = {} as W3CImageAnnotation;
 
         if (image) {
             /* Get original size of image */
@@ -224,7 +224,7 @@ const ImageViewer = (props: Props) => {
     }
 
     /* Function to update an Annotorious Annotation on the canvas */
-    const UpdateAnnotoriousAnnotation = (annotoriousAnnotation: W3CAnnotation, originalId?: string) => {
+    const UpdateAnnotoriousAnnotation = (annotoriousAnnotation: W3CImageAnnotation, originalId?: string) => {
         /* Remove old Annotorious Annotation */
         if (originalId) {
             annotorious.removeAnnotation(originalId);
@@ -245,8 +245,9 @@ const ImageViewer = (props: Props) => {
             const annotoriousAnnotation = annotorious.getSelected()[0];
 
             /* Calculate W3C pixels to TDWG AC position */
-            const target = annotoriousAnnotation.target as W3CAnnotationTarget & { selector: { value: string } };
-            const coordinates = target.selector?.value.split(',');
+            const target = annotoriousAnnotation.target as W3CImageAnnotationTarget;
+            const selector = target.selector as W3CImageSelector;
+            const coordinates = selector?.value.split(',');
 
             const xFrac = Number(coordinates[0].replace('xywh=pixel:', '')) / image.width;
             const yFrac = Number(coordinates[1]) / image.height;

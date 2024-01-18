@@ -8,6 +8,7 @@
     ]
   },
   "dependencies": {
+    "@annotorious/annotorious": "^3.0.0-rc.18",
     "@annotorious/react": "^3.0.0-rc.18",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",

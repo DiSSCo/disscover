@@ -1,6 +1,9 @@
 /* Import Dependencies */
 import { Steps } from 'intro.js-react';
 
+/* Import Config */
+import StepsConfig from 'app/config/StepsConfig';
+
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
@@ -27,6 +30,7 @@ const HomeSteps = (props: Props) => {
     /* Base variables */
     const introTopic = useAppSelector(getIntroTopic);
     const homeSteps = HomeIntro.home;
+    const { options } = StepsConfig();
 
     /* Construct Intro.js steps for Homepage */
     const steps = {
@@ -76,12 +80,7 @@ const HomeSteps = (props: Props) => {
                 dispatch(setIntroTopic(''));
                 SetAdvancedSearch(false);
             }}
-            options={{
-                nextLabel: '>',
-                prevLabel: '<',
-                buttonClass: 'primaryButton px-3 c-white fw-lightBold',
-                tooltipClass: 'ff-default'
-            }}
+            options={options}
         />
     );
 }

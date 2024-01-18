@@ -2,6 +2,9 @@
 import { useSearchParams } from 'react-router-dom';
 import { Steps } from 'intro.js-react';
 
+/* Import Config */
+import StepsConfig from 'app/config/StepsConfig';
+
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
@@ -31,6 +34,7 @@ const SearchSteps = (props: Props) => {
     const introTopic = useAppSelector(getIntroTopic);
     const searchResults = useAppSelector(getSearchResults);
     const searchIntro = SearchIntro.search;
+    const { options } = StepsConfig();
 
     /* Function for setting a Search Param */
     const SetSearchParam = (param: string, query?: string) => {
@@ -125,12 +129,7 @@ const SearchSteps = (props: Props) => {
                     /* Reset intro topic */
                     dispatch(setIntroTopic(''));
                 }}
-                options={{
-                    nextLabel: '>',
-                    prevLabel: '<',
-                    buttonClass: 'primaryButton px-3 c-white fw-lightBold',
-                    tooltipClass: 'ff-default'
-                }}
+                options={options}
             />
         </>
     );

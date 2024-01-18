@@ -8,7 +8,7 @@ import { Row, Col } from 'react-bootstrap';
 import { Dict } from 'app/Types';
 
 /* Import Utilities */
-import MachineJobRecordTableConfig from 'app/tableConfig/MachineJobRecordTableConfig';
+import MachineJobRecordTableConfig from 'app/config/tables/MachineJobRecordTableConfig';
 
 /* Import Components */
 import Paginator from 'components/general/paginator/Paginator';

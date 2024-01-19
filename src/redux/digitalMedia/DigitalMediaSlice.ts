@@ -10,6 +10,7 @@ export interface DigitalMediaState {
     digitalMedia: DigitalMedia;
     digitalMediaVersions: number[];
     digitalMediaAnnotations: DigitalMediaAnnotations;
+    allowVisualAnnotations: boolean;
 }
 
 const initialState: DigitalMediaState = {
@@ -17,7 +18,8 @@ const initialState: DigitalMediaState = {
     digitalMediaVersions: [],
     digitalMediaAnnotations: {
         visual: []
-    } as DigitalMediaAnnotations
+    } as DigitalMediaAnnotations,
+    allowVisualAnnotations: false
 };
 
 export const DigitalMediaSlice = createSlice({
@@ -32,6 +34,9 @@ export const DigitalMediaSlice = createSlice({
         },
         setDigitalMediaAnnotations: (state, action: PayloadAction<DigitalMediaAnnotations>) => {
             state.digitalMediaAnnotations = action.payload;
+        },
+        setAllowVisualAnnotations: (state, action: PayloadAction<boolean>) => {
+            state.allowVisualAnnotations = action.payload;
         }
     },
 })
@@ -40,12 +45,14 @@ export const DigitalMediaSlice = createSlice({
 export const {
     setDigitalMedia,
     setDigitalMediaVersions,
-    setDigitalMediaAnnotations
+    setDigitalMediaAnnotations,
+    setAllowVisualAnnotations
 } = DigitalMediaSlice.actions;
 
 /* Connect with Root State */
 export const getDigitalMedia = (state: RootState) => state.digitalMedia.digitalMedia;
 export const getDigitalMediaVersions = (state: RootState) => state.digitalMedia.digitalMediaVersions;
 export const getDigitalMediaAnnotations = (state: RootState) => state.digitalMedia.digitalMediaAnnotations;
+export const getAllowVisualAnnotations = (state: RootState) => state.digitalMedia.allowVisualAnnotations;
 
 export default DigitalMediaSlice.reducer;

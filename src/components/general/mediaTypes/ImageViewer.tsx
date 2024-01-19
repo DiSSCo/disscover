@@ -14,11 +14,10 @@ import {
 } from '@annotorious/react';
 import { W3CImageAnnotation, W3CImageAnnotationTarget, W3CImageSelector } from '@annotorious/annotorious';
 
-
 /* Import Store */
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { getAnnotoriousMode, setAnnotoriousMode } from "redux/general/GeneralSlice";
-import { getDigitalMedia, getDigitalMediaAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
+import { getDigitalMedia, getDigitalMediaAnnotations, setAllowVisualAnnotations } from "redux/digitalMedia/DigitalMediaSlice";
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
@@ -65,6 +64,11 @@ const ImageViewer = (props: Props) => {
         }
     };
 
+    /* OnLoad: Disable visual annotations on default */
+    useEffect(() => {
+        dispatch(setAllowVisualAnnotations(false));
+    }, []);
+
     /* OnLoad: fetch image details */
     useEffect(() => {
         new Promise((resolve, reject) => {
@@ -78,6 +82,18 @@ const ImageViewer = (props: Props) => {
             setImage(image.target);
 
             if (viewerRef.current) {
+                const Done = () => {
+                    /* If fetch was succesfull, allow visual annotations */
+                    dispatch(setAllowVisualAnnotations(true));
+                }
+
+                viewerRef.current.addHandler('open', () => {
+                    var tiledImage = viewerRef.current?.world.getItemAt(0);
+                    if (!tiledImage?.getFullyLoaded()) {
+                        tiledImage?.addOnceHandler('fully-loaded-change', Done);
+                    }
+                });
+
                 viewerRef.current.open({
                     type: 'image',
                     url: mediaUrl

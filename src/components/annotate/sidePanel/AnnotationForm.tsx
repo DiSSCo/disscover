@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { useState, useEffect, useRef } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import KeycloakService from 'keycloak/Keycloak';
 import Select, { OptionsOrGroups, SelectInstance } from 'react-select';
 import { ConstructTargetPropertiesLists, ExtractFromSchema, SearchNestedLevels, CheckPathForRoot } from 'app/utilities/AnnotationUtilities';
@@ -53,27 +53,42 @@ const AnnotationForm = (props: Props) => {
     const [initialValues, setInitialValues] = useState<Dict>({});
     const [classFormFields, setClassFormFields] = useState<Dict>({});
 
-    /* OnLoad or change of Annotate Target: Prepare initial form values */
-    useEffect(() => {
+    /* Function to determine which field or class source to use */
+    const DetermineFieldOrClass = () => {
         let targetField: string = '';
         let targetClass: string = '';
-        let motivation: string = '';
-        let classProperties = {};
+        let motivation: string | undefined = '';
 
-        /* Determine presence of target field or class */
         if (!isEmpty(editAnnotation)) {
-            targetField = editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string;
+            if (editAnnotation['oa:target']['oa:selector']?.['ods:field']) {
+                targetField = editAnnotation['oa:target']?.['oa:selector']?.['ods:field'] as string;
+            } else if (editAnnotation['oa:target']['oa:selector']?.['oa:class']) {
+                targetClass = editAnnotation['oa:target']?.['oa:selector']?.['oa:class'] as string;
+            }
+
             motivation = editAnnotation['oa:motivation'] as string;
         } else if (annotateTarget.targetProperty.type === 'field') {
             targetField = annotateTarget.targetProperty.name;
+            motivation = annotateTarget.motivation;
         } else if (annotateTarget.targetProperty.type === 'class') {
             targetClass = annotateTarget.targetProperty.name;
-        }
-
-        /* Determine motivation */
-        if (annotateTarget.motivation) {
             motivation = annotateTarget.motivation;
         }
+
+        return {
+            targetField: targetField,
+            targetClass: targetClass,
+            motivation: motivation
+        }
+    }
+
+    /* OnLoad or change of Annotate Target: Prepare initial form values */
+    useEffect(() => {
+        let classProperties = {};
+        let annotationValue: unknown[] = [];
+
+        /* Determine presence of target field or class, and motivation */
+        const { targetField, targetClass, motivation } = DetermineFieldOrClass();
 
         /* If annotating a class instance, grab all fields from schema */
         if (targetClass) {
@@ -91,9 +106,11 @@ const AnnotationForm = (props: Props) => {
             let propertyData: Dict[] | undefined = undefined;
 
             if (!isEmpty(editAnnotation)) {
-                propertyData = editAnnotation['oa:body']['oa:value'] as Dict[];
+                propertyData = [JSON.parse(editAnnotation['oa:body']['oa:value'][0] as string)[targetClass.replace('$.', '')]] as Dict[];
             } else if (!isEmpty(annotateTarget.currentValue)) {
                 propertyData = annotateTarget.currentValue as Dict[];
+            } else if (get(annotateTarget.target, targetClass)) {
+                propertyData = [get(annotateTarget.target, targetClass)] as Dict[];
             }
 
             const classForm = AnnotationFormBuilder(schemaProperties, targetClass, propertyData);
@@ -102,6 +119,8 @@ const AnnotationForm = (props: Props) => {
 
             /* Set Class form fields */
             setClassFormFields(classForm.formFields);
+        } else {
+            annotationValue = !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : get(annotateTarget.target, targetField) as unknown[];
         }
 
         /* Set initial form values */
@@ -109,7 +128,7 @@ const AnnotationForm = (props: Props) => {
             targetField: targetField,
             targetClass: targetClass,
             motivation: motivation,
-            annotationValue: !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : '',
+            annotationValue: annotationValue,
             additionalFields: {
                 ...(!isEmpty(editAnnotation) && editAnnotation['oa:body']['dcterms:reference'] && { reference: editAnnotation['oa:body']['dcterms:reference'] })
             },
@@ -213,7 +232,7 @@ const AnnotationForm = (props: Props) => {
         dispatch(setAnnotateTarget(copyAnnotateTarget));
     }
 
-    const CraftAnnotation = (form: Dict, targetPath: string, bodyValue: (string | Dict)[], targetType: string) => {
+    const CraftAnnotation = (form: Dict, bodyValue: (string | Dict)[], targetType: string, targetPath?: string, ) => {
         /* Prepare new Annotation object */
         const annotation: AnnotationTemplate = {
             ...(!isEmpty(editAnnotation) && { "ods:id": editAnnotation['ods:id'] }),
@@ -221,11 +240,13 @@ const AnnotationForm = (props: Props) => {
             "oa:target": {
                 "ods:id": annotateTarget.target['ods:id'],
                 "ods:type": annotateTarget.target['ods:type'] as string ?? annotateTarget.targetType,
-                "oa:selector": {
-                    "ods:type": form.targetField ? "FieldSelector" : "ClassSelector",
-                    ...(form.targetField && { "ods:field": targetPath }),
-                    ...(form.targetClass && { "oa:class": targetPath })
-                }
+                ...((form.targetField || form.targetClass) && {
+                    "oa:selector": {
+                        "ods:type": form.targetField ? "FieldSelector" : "ClassSelector",
+                        ...(form.targetField && { "ods:field": targetPath }),
+                        ...(form.targetClass && { "oa:class": targetPath })
+                    }
+                })
             },
             "oa:body": {
                 "ods:type": targetType,
@@ -244,25 +265,27 @@ const AnnotationForm = (props: Props) => {
 
         /* Define value of body */
         const bodyValue: (string | Dict)[] = [];
-        let targetPath: string;
+        let targetPath: string | undefined;
 
         /* If annotationValue is present, use that as the field, otherwise expect a class to be annotated */
-        if (form.annotationValue) {
+        if (form.annotationValue && form.targetField) {
             bodyValue.push(form.annotationValue);
 
-            targetPath = form.targetField.replace('DigitalSpecimen.', '').replace('DigitalMedia.', '');
+            targetPath = form.targetField.replace('DigitalSpecimen.', '').replace('DigitalMedia.', '') as string;
 
             targetPath = CheckPathForRoot(targetPath);
-        } else {
-            targetPath = form.targetClass;
+        } else if (form.targetClass) {
+            targetPath = form.targetClass as string;
 
             bodyValue.push(JSON.stringify({ [targetPath.replace('$.', '')]: form.classProperties }));
 
             targetPath = CheckPathForRoot(targetPath);
+        } else {
+            bodyValue.push(form.annotationValue);
         }
 
         /* Craft Annotation */
-        const annotation = CraftAnnotation(form, targetPath, bodyValue, targetType);
+        const annotation = CraftAnnotation(form, bodyValue, targetType, targetPath);
 
         /* Check if to post or patch */
         if (!isEmpty(editAnnotation)) {
@@ -303,10 +326,33 @@ const AnnotationForm = (props: Props) => {
                     <Row>
                         <Col>
                             {/* If not present, choose a Target Class or Property */}
-                            {!annotateTarget.targetProperty.name && isEmpty(editAnnotation) &&
+                            {(!annotateTarget.targetProperty.name && annotateTarget.targetProperty.type !== 'superClass') && isEmpty(editAnnotation) &&
                                 <Row className="mt-5">
                                     <Col>
-                                        <p className="fs-3 formFieldTitle"> Select Class or Property </p>
+                                        <p className="formFieldTitle fs-3"> Select the target of your annotation </p>
+                                        <p className="fs-4">
+                                            Annotations target parts of a digital object. <br />
+                                            These consist out of classes and fields, each class holds fields. <br />
+                                            The digital object functions as a super class, which can also be targeted. <br />
+                                            Classes can contain sub classes, which can contain even more classes, and so on.
+                                        </p>
+
+                                        <button type="button" className="secondaryButton fs-4 px-3 py-1 mt-3"
+                                            onClick={() => {
+                                                const copyAnnotateTarget = { ...annotateTarget };
+
+                                                copyAnnotateTarget.targetProperty = {
+                                                    name: '',
+                                                    type: 'superClass'
+                                                };
+
+                                                dispatch(setAnnotateTarget(copyAnnotateTarget));
+                                            }}
+                                        >
+                                            Make annotation on whole {annotateTarget.targetType}
+                                        </button>
+
+                                        <p className="formFieldTitle fs-3 mt-3"> Select Class or Property </p>
 
                                         <Select options={targetClassOptions}
                                             className="mt-2"
@@ -333,7 +379,7 @@ const AnnotationForm = (props: Props) => {
                                 </Row>
                             }
                             {/* Motivation */}
-                            {annotateTarget.targetProperty.name &&
+                            {(annotateTarget.targetProperty.name || annotateTarget.targetProperty.type === 'superClass') &&
                                 <Row className="mt-3">
                                     <Col>
                                         <p className="formFieldTitle pb-1"> Annotation type </p>

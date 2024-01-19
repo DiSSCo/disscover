@@ -26,11 +26,11 @@ const AnnotationFormBuilder = (properties: Dict, targetClass: string, propertyDa
         }
     };
 
-    /* Function to check for a current value of a property */
+    /* Function to check for current value(s) of a property or class */
     const CheckForCurrentValue = (propertyName: string, level?: string, subLevel?: string) => {
         let currentValue = '';
 
-        /* Check if this is an Annotation on an existing instance, otherwise there is no current value */
+        /* Check if there is property data available for this instance */
         if (propertyData) {
             if (level && subLevel) {
                 currentValue = propertyData[0][subLevel][level][propertyName] ?? null;

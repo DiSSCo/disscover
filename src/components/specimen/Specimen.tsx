@@ -122,12 +122,12 @@ const Specimen = () => {
     /* Function for updating the Specimen Annotations source */
     const UpdateAnnotationsSource = (annotation: Annotation, remove: boolean = false) => {
         const copySpecimenAnnotations = { ...specimenAnnotations };
-        let propertyPath: string;
+        let propertyPath: string = '';
 
         /* Define property path from field or class */
         if (annotation['oa:target']['oa:selector']?.['ods:field']) {
             propertyPath = (annotation['oa:target']['oa:selector']?.['ods:field'] as string).replace('$.', '');
-        } else {
+        } else if (annotation['oa:target']['oa:selector']?.['ods:class']) {
             propertyPath = (annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '');
         }
 
@@ -286,7 +286,7 @@ const Specimen = () => {
                     sidePanelToggle={sidePanelToggle}
                     automatedAnnotationsToggle={automatedAnnotationsToggle}
                     SetAutomatedAnnotationToggle={(toggle: boolean) => setAutomatedAnnotationToggle(toggle)}
-                    ShowWithAnnotations={() => ShowWithAnnotations()}
+                    ShowWithAnnotations={(propertyName?: string, propertyType?: string) => ShowWithAnnotations(undefined, propertyName, propertyType)}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                     RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
                     GetMachineJobRecords={GetSpecimenMachineJobRecords}

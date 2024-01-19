@@ -45,7 +45,7 @@ const GetSpecimenFull = async (handle: string) => {
             if (annotations) {
                 annotations.forEach((annotation) => {
                     let annotationIndicator: string = (annotation['oa:target']['oa:selector']?.['ods:field'] as string)
-                        ?? (annotation['oa:target']['oa:selector']?.['oa:class'] as string);
+                        ?? (annotation['oa:target']['oa:selector']?.['oa:class'] as string) ?? '';
 
                     annotationIndicator = annotationIndicator.replace('$.', '');
 

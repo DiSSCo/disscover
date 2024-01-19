@@ -29,7 +29,7 @@ const Home = () => {
     });
 
     const classAdvancedToggled = classNames({
-        'transition mt-2 mt-lg-4': true,
+        'transition mt-2 mt-lg-4 mb-lg-5': true,
         'opacity-0': advancedSearch,
         'opacity-1': !advancedSearch
     });

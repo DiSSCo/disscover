@@ -3,7 +3,6 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Components */
 import Title from './Title';
-import TopicDisciplineText from './TopicDisciplineText';
 
 
 const IntroText = () => {
@@ -28,10 +27,6 @@ const IntroText = () => {
                         </p>
                     </Col>
                 </Row>
-                {/* Search Explanation */}
-                <span className="d-none d-lg-block mt-lg-5">
-                    <TopicDisciplineText />
-                </span>
             </Col>
         </Row>
     );

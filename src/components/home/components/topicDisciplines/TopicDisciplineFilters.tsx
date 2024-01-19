@@ -17,7 +17,6 @@ import styles from 'components/home/home.module.scss';
 
 /* Import Components */
 import FilterBlock from './FilterBlock';
-import TopicDisciplineText from '../TopicDisciplineText';
 import TopicDisciplineIcon from 'components/general/icons/TopicDisciplineIcon';
 
 /* Import API */
@@ -320,12 +319,6 @@ const TopicDisciplineFilters = () => {
                                     <button className="primaryButton px-3 py-1" type="submit">
                                         View
                                     </button>
-                                </Col>
-                            </Row>
-                            {/* On smaller screens: Intro text */}
-                            <Row className="mt-md-4 d-lg-none">
-                                <Col>
-                                    <TopicDisciplineText />
                                 </Col>
                             </Row>
                         </Form>

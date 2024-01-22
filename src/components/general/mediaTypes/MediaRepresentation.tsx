@@ -11,24 +11,28 @@ interface Props {
     mediaType: string,
     iconClassName: string,
     accessUri?: string,
-    format?: string
+    format?: string,
+    clickEvent?: Function
 };
 
 
 const MediaRepresentation = (props: Props) => {
-    const { mediaType, iconClassName, accessUri, format } = props;
+    const { mediaType, iconClassName, accessUri, format, clickEvent } = props;
 
     /* Base variables */
     let mediaIcon: JSX.Element | undefined;
 
     switch (mediaType) {
         case 'StillImage':
-            mediaIcon = <div className="h-100 w-100 d-flex justify-content-center overflow-hidden">
+            mediaIcon = <button type="button"
+                className="h-100 w-100 b-none d-flex justify-content-center overflow-hidden"
+                onClick={() => { if (clickEvent) { clickEvent() } }}
+            >
                 <img src={accessUri}
                     alt={`Broken ${accessUri} link`}
                     className="h-100 d-flex justify-content-around align-items-center"
                 />
-            </div>
+            </button>
 
             break;
         case 'MovingImage':

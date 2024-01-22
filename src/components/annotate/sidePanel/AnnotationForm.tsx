@@ -57,7 +57,7 @@ const AnnotationForm = (props: Props) => {
     const DetermineFieldOrClass = () => {
         let targetField: string = '';
         let targetClass: string = '';
-        let motivation: string | undefined = '';
+        let motivation: string | undefined = 'oa:commenting';
 
         if (!isEmpty(editAnnotation)) {
             if (editAnnotation['oa:target']['oa:selector']?.['ods:field']) {
@@ -69,10 +69,10 @@ const AnnotationForm = (props: Props) => {
             motivation = editAnnotation['oa:motivation'] as string;
         } else if (annotateTarget.targetProperty.type === 'field') {
             targetField = annotateTarget.targetProperty.name;
-            motivation = annotateTarget.motivation;
+            motivation = 'ods:adding';
         } else if (annotateTarget.targetProperty.type === 'class') {
             targetClass = annotateTarget.targetProperty.name;
-            motivation = annotateTarget.motivation;
+            motivation = 'ods:adding';
         }
 
         return {
@@ -90,8 +90,8 @@ const AnnotationForm = (props: Props) => {
         /* Determine presence of target field or class, and motivation */
         const { targetField, targetClass, motivation } = DetermineFieldOrClass();
 
-        /* If annotating a class instance, grab all fields from schema */
-        if (targetClass) {
+        /* If annotating a class instance, grab all fields from schema, otherwise grab annotation value field */
+        try {
             /* Get last class of path by removing indexes and dot notations */
             let classSchemaName: string = targetClass;
 
@@ -119,7 +119,7 @@ const AnnotationForm = (props: Props) => {
 
             /* Set Class form fields */
             setClassFormFields(classForm.formFields);
-        } else {
+        } catch {
             annotationValue = !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : get(annotateTarget.target, targetField) as unknown[];
         }
 
@@ -232,7 +232,7 @@ const AnnotationForm = (props: Props) => {
         dispatch(setAnnotateTarget(copyAnnotateTarget));
     }
 
-    const CraftAnnotation = (form: Dict, bodyValue: (string | Dict)[], targetType: string, targetPath?: string, ) => {
+    const CraftAnnotation = (form: Dict, bodyValue: (string | Dict)[], targetType: string, targetPath?: string,) => {
         /* Prepare new Annotation object */
         const annotation: AnnotationTemplate = {
             ...(!isEmpty(editAnnotation) && { "ods:id": editAnnotation['ods:id'] }),
@@ -277,7 +277,11 @@ const AnnotationForm = (props: Props) => {
         } else if (form.targetClass) {
             targetPath = form.targetClass as string;
 
-            bodyValue.push(JSON.stringify({ [targetPath.replace('$.', '')]: form.classProperties }));
+            if (form.annotationValue) {
+                bodyValue.push(form.annotationValue);
+            } else {
+                bodyValue.push(JSON.stringify({ [targetPath.replace('$.', '')]: form.classProperties }));
+            }
 
             targetPath = CheckPathForRoot(targetPath);
         } else {
@@ -385,7 +389,7 @@ const AnnotationForm = (props: Props) => {
                                         <p className="formFieldTitle pb-1"> Annotation type </p>
                                         <Field name="motivation" as="select"
                                             className="formField w-100"
-                                            disabled={annotateTarget.motivation && values.motivation}
+                                            disabled={(annotateTarget.motivation && values.motivation) || editAnnotation['oa:motivation']}
                                         >
                                             <option value="" disabled={true}>
                                                 Select annotation type

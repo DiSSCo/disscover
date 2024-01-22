@@ -58,11 +58,11 @@ const Annotation = (props: Props) => {
     }
 
     /* Transform array of values to displayable information */
-    if (annotation['oa:target']['oa:selector']?.['oa:class']) {
+    try {
         const annotationValueObject = JSON.parse(annotation['oa:body']['oa:value'].join(', '));
 
         annotationValue = annotationValueObject[(annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '') as keyof typeof annotationValueObject];
-    } else {
+    } catch {
         annotationValue = annotation['oa:body']['oa:value'].join(', ');
     }
 

@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useNavigate, createSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
@@ -18,9 +18,12 @@ const GlobalSearchBar = (props: Props) => {
 
     /* Hooks */
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     /* Function for handling Specimen search methods */
     const HandleSearch = (searchQuery: string) => {
+        searchParams.delete('organisationName');
+
         navigate({
             pathname: '/search',
             search: `?${createSearchParams({ q: searchQuery })}`

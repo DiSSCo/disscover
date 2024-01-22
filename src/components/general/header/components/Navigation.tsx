@@ -30,8 +30,8 @@ const Navigation = () => {
 
     const classNavItemSpecimens = classNames({
         'fs-3 c-pointer': true,
-        [`${styles.navItemActive}`]: location.pathname === '/search' || location.pathname === '/ds',
-        [`${styles.navItem}`]: location.pathname !== '/search' && location.pathname !== '/ds',
+        [`${styles.navItemActive}`]: location.pathname === '/search' || location.pathname.includes('/ds'),
+        [`${styles.navItem}`]: location.pathname !== '/search' && !location.pathname.includes('/ds'),
     });
 
     return (

@@ -25,7 +25,7 @@ const MediaRepresentation = (props: Props) => {
     switch (mediaType) {
         case 'StillImage':
             mediaIcon = <button type="button"
-                className="h-100 w-100 b-none d-flex justify-content-center overflow-hidden"
+                className="h-100 w-100 rounded-c b-none d-flex justify-content-center overflow-hidden"
                 onClick={() => { if (clickEvent) { clickEvent() } }}
             >
                 <img src={accessUri}
@@ -51,9 +51,12 @@ const MediaRepresentation = (props: Props) => {
             break;
         default:
             if (format === 'application/json' || format === 'application/ld+json') {
-                mediaIcon = <div className="h-100 mx-auto d-flex justify-content-around align-items-center">
+                mediaIcon = <button type="button"
+                    className="h-100 w-100 rounded-c b-none mx-auto d-flex justify-content-around align-items-center"
+                    onClick={() => { if (clickEvent) { clickEvent() } }}
+                >
                     <img src={IIIFLogo} alt="IIIF Logo" />
-                </div>;
+                </button>;
             } else {
                 mediaIcon = <div className="text-center">
                     <FontAwesomeIcon icon={faFile} className={`${iconClassName} c-secondary`} />

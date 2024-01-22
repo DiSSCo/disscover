@@ -32,8 +32,6 @@ const FormTemplate = (props: Props) => {
     const annotationMotivations = { ...AnnotationMotivations };
     const motivationObject = annotationMotivations[motivation as keyof typeof annotationMotivations];
 
-    console.log(motivation);
-
     return (
         <Row className="h-100">
             <Col className="h-100">

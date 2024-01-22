@@ -34,7 +34,7 @@ const DigitalMediaListItem = (props: Props) => {
     const digitalMedia = useAppSelector(getDigitalMedia);
 
     /* Check for the type of Digital Media and set content appropiate to it */
-    let digitalMediaContent: React.ReactElement = <div className="text-center h-100">
+    let digitalMediaContent: React.ReactElement = <div className="text-center h-100 w-100 c-rounded">
         <MediaIcon mediaType={specimenDigitalMedia.digitalEntity['dcterms:type'] as string}
             iconClassName={`${styles.digitalMediaListItemIcon} c-secondary`}
             accessUri={specimenDigitalMedia.digitalEntity['ac:accessUri']}

@@ -121,8 +121,6 @@ const Search = () => {
 
     /* Function to Search for specimens with filters and page number */
     const SearchWithFilters = (displayResults: boolean = true) => {
-        console.log(displayResults);
-
         const searchFilters: SearchFilter[] = [];
 
         /* ForEach filter, push to Search Filters array */
@@ -136,8 +134,6 @@ const Search = () => {
         const HandleSearch = (specimens: DigitalSpecimen[], links: Dict, totalRecords: number, displayResults: boolean = true) => {
             /* If desired, set Search Results / Specimens */
             if (displayResults) {
-                console.log(specimens);
-
                 dispatch(setSearchResults(specimens));
             }
 

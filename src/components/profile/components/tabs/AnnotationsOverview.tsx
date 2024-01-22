@@ -39,7 +39,7 @@ const AnnotationsOverview = () => {
         index: number,
         id: string,
         target: Dict,
-        property: string,
+        propertyName: string,
         motivation: string,
         annotationValue: string
     };
@@ -59,19 +59,22 @@ const AnnotationsOverview = () => {
 
     /* Set Datatable columns */
     const tableColumns: TableColumn<DataRow>[] = [{
-        name: 'Property',
-        selector: row => row.property,
+        name: 'Target Name',
+        selector: row => row.propertyName,
         id: 'search_name',
-        sortable: true
+        sortable: true,
+        wrap: true
     }, {
         name: 'Motivation',
         selector: row => row.motivation,
         id: 'search_country',
-        sortable: true
+        sortable: true,
+        wrap: true
     }, {
         name: 'Annotation',
         selector: row => row.annotationValue,
         id: 'search_type',
+        wrap: true
     }];
 
     /* OnChange of User Annotations: set Table Data */
@@ -85,7 +88,10 @@ const AnnotationsOverview = () => {
                 index: index,
                 id: annotation['ods:id'],
                 target: annotation['oa:target'],
-                property: annotation['oa:target']['oa:selector']?.['ods:field'] as string ?? '',
+                propertyName: annotation['oa:target']['oa:selector']?.['ods:field'] as string
+                    ?? annotation['oa:target']['oa:selector']?.['oa:class']
+                    ?? (annotation['oa:target']['oa:selector']?.['ac:hasRoi'] && 'Visual Annotation')
+                    ?? '',
                 motivation: annotation['oa:motivation'],
                 annotationValue: annotationValue
             });
@@ -122,7 +128,7 @@ const AnnotationsOverview = () => {
 
     return (
         <div className="h-100 d-flex flex-column">
-            <Row className={`${styles.overviewTable} flex-grow-1 pb-2`}>
+            <Row className="flex-grow-1 pb-2 overflow-hidden">
                 <Col className="h-100">
                     <div className="h-100 overflow-scroll b-secondary rounded-c">
                         <DataTable
@@ -144,6 +150,7 @@ const AnnotationsOverview = () => {
                     </div>
                 </Col>
             </Row>
+
             <Row className={`justify-content-center`}>
                 <Col className="col-md-auto">
                     <Paginator pageNumber={pageNumber}

@@ -66,7 +66,9 @@ const TitleBar = (props: Props) => {
     const SpecimenActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/specimens/${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}
+                    /api/v1/specimens/${specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`
+                );
 
                 return;
             case 'sidePanel':

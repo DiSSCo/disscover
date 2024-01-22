@@ -31,16 +31,7 @@ const MidsOption = (props: Props) => {
                 onClick={() => method()}
             >
                 <Row>
-                    <Col sm={{ span: 12 }} md={{ span: 12 }} className="col-lg-auto pe-0 d-flex justify-content-center pe-0">
-                        <Field name={`filters.${searchFilter}.${item[0]}`}
-                            type="checkbox"
-                            checked={selected}
-                            onChange={() => {
-                                method();
-                            }}
-                        />
-                    </Col>
-                    <Col className="d-flex justify-content-center px-2 ps-0">
+                    <Col className="text-center">
                         <span>MIDS {item[0]}</span>
                     </Col>
                 </Row>

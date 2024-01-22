@@ -53,6 +53,8 @@ const ResultsTable = (props: Props) => {
     const [tableData, setTableData] = useState<DataRow[]>([]);
     const staticTopicDisciplines = ['Anthropology', 'Astrogeology', 'Geology', 'Ecology', 'Other Biodiversity', 'Other Geodiversity', 'Unclassified'];
 
+    console.log(searchResults);
+
     /* Declare type of a table row */
     interface DataRow {
         index: number,
@@ -256,7 +258,11 @@ const ResultsTable = (props: Props) => {
             }
         }
 
-        LoopSearchResults(PushToTableData, SetTableData);
+        if (searchResults.length) {
+            LoopSearchResults(PushToTableData, SetTableData);
+        } else {
+            setTableData(tableData);
+        }
     }, [searchResults, compareSpecimens]);
 
     return (

@@ -22,6 +22,7 @@ const DigitalMediaList = () => {
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
     const [specimenDigitalMedia, setSpecimenDigitalMedia] = useState<DigitalMedia[]>([]);
+    const [hoverItem, setHoverItem] = useState<string | undefined>();
     let specimenId: string = '';
 
     /* Find Digital Specimen linkage */
@@ -44,13 +45,18 @@ const DigitalMediaList = () => {
     if (specimenDigitalMedia) {
         specimenDigitalMedia.forEach((specimenDigitalMedia) => {
             digitalMediaItems.push(
-                <DigitalMediaListItem key={specimenDigitalMedia.digitalEntity['ods:id']} specimenDigitalMedia={specimenDigitalMedia} />
+                <DigitalMediaListItem key={specimenDigitalMedia.digitalEntity['ods:id']} specimenDigitalMedia={specimenDigitalMedia}
+                    hover={specimenDigitalMedia.digitalEntity['ods:id'] === hoverItem}
+                    ToggleHover={(digitalMediaId: string) => setHoverItem(digitalMediaId)}
+                />
             );
         });
     }
 
     return (
-        <div className={`${styles.digitalMediaList} bgc-white rounded-c h-100`}>
+        <div className={`${styles.digitalMediaList} bgc-white rounded-c h-100`}
+            onMouseLeave={() => setHoverItem(undefined)}
+        >
             {digitalMediaItems}
         </div>
     );

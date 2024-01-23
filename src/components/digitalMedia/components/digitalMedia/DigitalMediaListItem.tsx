@@ -20,12 +20,14 @@ import MediaIcon from 'components/general/mediaTypes/MediaRepresentation';
 
 /* Props Typing */
 interface Props {
-    specimenDigitalMedia: DigitalMedia
+    specimenDigitalMedia: DigitalMedia,
+    hover: boolean,
+    ToggleHover: Function
 };
 
 
 const DigitalMediaListItem = (props: Props) => {
-    const { specimenDigitalMedia } = props;
+    const { specimenDigitalMedia, hover, ToggleHover } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -41,9 +43,6 @@ const DigitalMediaListItem = (props: Props) => {
             format={specimenDigitalMedia.digitalEntity['dcterms:format']}
         />
     </div>
-
-    /* Function for hovering over Digital Media List Items */
-    const [hover, setHover] = useState(false);
 
     /* ClassName for a Digital Media List Item */
     const classDigitalMediaListItem = classNames({
@@ -65,8 +64,7 @@ const DigitalMediaListItem = (props: Props) => {
     return (
         <div className={`${classDigitalMediaListItem} button-no-style position-relative px-1`}>
             <button type="button" className="button-no-style h-100 w-100"
-                onMouseEnter={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(true) } }}
-                onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(false) } }}
+                onMouseEnter={() => { ToggleHover(specimenDigitalMedia.digitalEntity['ods:id']) }}
                 onClick={() => {
                     if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) {
                         navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`)

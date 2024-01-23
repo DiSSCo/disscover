@@ -45,6 +45,7 @@ const SearchFilters = (props: Props) => {
     const filtersList: Dict = { ...SearchFiltersJSON };
     const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
     const aggregations = useAppSelector(getSearchAggregations);
+
     const initialValues: Dict = {
         filters: {
             q: searchParams.get('q') ? searchParams.get('q') : '',

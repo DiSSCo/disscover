@@ -219,6 +219,13 @@ const ResultsTable = (props: Props) => {
         };
     }
 
+    /* Function to set the Table Data */
+    const SetTableData = (index: number) => {
+        if ((index + 1) >= pageSize) {
+            setTableData(tableData);
+        }
+    }
+
     /* OnChange of Specimen Search Results: update Table Data */
     useEffect(() => {
         /* Construct table data */
@@ -247,12 +254,6 @@ const ResultsTable = (props: Props) => {
                     selected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });
-            }
-        }
-
-        const SetTableData = (index: number) => {
-            if ((index + 1) >= pageSize) {
-                setTableData(tableData);
             }
         }
 

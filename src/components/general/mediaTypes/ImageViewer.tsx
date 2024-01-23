@@ -88,7 +88,8 @@ const ImageViewer = (props: Props) => {
                 }
 
                 viewerRef.current.addHandler('open', () => {
-                    var tiledImage = viewerRef.current?.world.getItemAt(0);
+                    const tiledImage = viewerRef.current?.world.getItemAt(0);
+                    
                     if (!tiledImage?.getFullyLoaded()) {
                         tiledImage?.addOnceHandler('fully-loaded-change', Done);
                     }

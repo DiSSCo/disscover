@@ -13,9 +13,6 @@ import { getUserProfileAnnotations, setUserProfileAnnotations } from 'redux/user
 /* Import Types */
 import { Dict } from 'app/Types';
 
-/* Import Styles */
-import styles from 'components/profile/profile.module.scss';
-
 /* Import Components */
 import Paginator from 'components/general/paginator/Paginator';
 

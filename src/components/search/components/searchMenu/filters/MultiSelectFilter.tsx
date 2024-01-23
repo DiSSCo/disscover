@@ -161,7 +161,6 @@ const MultiSelectFilter = (props: Props) => {
                             <Row className="mt-1">
                                 {filteredItems.selected.map((item, index) => {
                                     return <MidsOption key={item[0]}
-                                        searchFilter={searchFilter}
                                         item={item}
                                         method={() => remove(index)}
                                         selected={true}
@@ -171,7 +170,6 @@ const MultiSelectFilter = (props: Props) => {
                                 {/* Optional Items to select */}
                                 {filteredItems.selectable.map((item) => {
                                     return <MidsOption key={item[0]}
-                                        searchFilter={searchFilter}
                                         item={item}
                                         method={() => push(item[0])}
                                     />

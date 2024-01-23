@@ -126,7 +126,7 @@ const SidePanel = (props: Props) => {
 
     /* Function to determine the target type being annotated */
     const DetermineTargetValues = () => {
-        let targetName: string = '';
+        let targetName: string = annotateTarget.targetType;
         let targetType: string = 'super class';
 
         if (!isEmpty(editAnnotation)) {
@@ -137,7 +137,7 @@ const SidePanel = (props: Props) => {
                 targetName = editAnnotation['oa:target']['oa:selector']['oa:class'] as string;
                 targetType = 'class';
             }
-        } else {
+        } else if (annotateTarget.targetProperty.name) {
             targetName = annotateTarget.targetProperty.name;
             targetType = annotateTarget.targetProperty.type;
         }

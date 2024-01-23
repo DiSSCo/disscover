@@ -333,6 +333,7 @@ const AnnotationForm = (props: Props) => {
             }}
         >
             {({ values, setFieldValue }) => {
+                const targetPropertyName: string = values.targetField ?? values.targetClass;
                 const targetPropertyType: string = values.targetField ? 'field' : 'class';
 
                 return (
@@ -448,7 +449,7 @@ const AnnotationForm = (props: Props) => {
                                                 const key = `instance-${index}`;
 
                                                 return <ExistingInstance key={key}
-                                                    targetPropertyName={values.targetField ? values.targetField : values.targetClass}
+                                                    targetPropertyName={targetPropertyName}
                                                     targetPropertyType={targetPropertyType}
                                                     instance={existingInstance}
                                                     index={index}

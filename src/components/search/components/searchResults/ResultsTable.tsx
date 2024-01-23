@@ -164,8 +164,9 @@ const ResultsTable = (props: Props) => {
     }
 
     const LoopSearchResults = async (PushToTableData: Function, SetTableData: Function) => {
+        const tableData: DataRow[] = [];
         const renderedIcons: Dict = {};
-
+        
         for (let index = 0; index < searchResults.length; index++) {
             const specimen = searchResults[index];
 
@@ -250,11 +251,13 @@ const ResultsTable = (props: Props) => {
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });
             }
+
+            SetTableData(index);
         }
 
         /* Function to set the Table Data */
         const SetTableData = (index: number) => {
-            if ((index + 1) >= pageSize) {
+            if ((index + 1) <= pageSize) {
                 setTableData(tableData);
             }
         }

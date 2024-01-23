@@ -16,7 +16,7 @@ import { SearchFilter, Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import SelectOption from './SelectOption';
@@ -153,6 +153,14 @@ const MultiSelectFilter = (props: Props) => {
                     <Row>
                         <Col>
                             <p className="fs-4 fw-bold"> {filter.displayName} </p>
+                        </Col>
+                        <Col className="col-md-auto">
+                            <a href="https://github.com/tdwg/mids" target="_blank" rel="noreferer">
+                                <FontAwesomeIcon icon={faInfoCircle}
+                                    className="fs-4 float-end me-2 mt-1"
+                                    onClick={() => window.location}
+                                />
+                            </a>
                         </Col>
                     </Row>
 

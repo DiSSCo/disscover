@@ -24,8 +24,9 @@ const MediaRepresentation = (props: Props) => {
 
     switch (mediaType) {
         case 'StillImage':
-            mediaIcon = <div className="h-100 w-100 rounded-c b-none d-flex justify-content-center overflow-hidden"
+            mediaIcon = <div className={`h-100 w-100 rounded-c b-none d-flex justify-content-center overflow-hidden ${clickEvent && 'c-pointer'}`}
                 onClick={() => { if (clickEvent) { clickEvent() } }}
+                onKeyDown={() => { if (clickEvent) { clickEvent() } }}
             >
                 <img src={accessUri}
                     alt={`Broken ${accessUri} link`}

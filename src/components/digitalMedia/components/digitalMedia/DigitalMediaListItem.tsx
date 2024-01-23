@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capitalize } from 'app/Utilities';
 import classNames from 'classnames';

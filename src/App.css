@@ -322,8 +322,13 @@ p {
   cursor: pointer;
 }
 
+/* Form Components */
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
 
-/* Global Components Styling */
+/* Global Components */
 .primaryButton {
   background-color: var(--primary);
   color: white;

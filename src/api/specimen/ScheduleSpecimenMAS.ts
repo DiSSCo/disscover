@@ -5,7 +5,7 @@ import axios from 'axios';
 import { JSONResultArray, Dict } from 'app/Types';
 
 
-const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, token?: string) => {
+const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, batching: boolean = false, token?: string) => {
     let specimenMAS: Dict[] = [];
 
     if (handle && token) {
@@ -17,6 +17,9 @@ const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, token?: str
                 url: endPoint,
                 data: MASRequest,
                 responseType: 'json',
+                params: {
+                    batching: batching
+                },
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`

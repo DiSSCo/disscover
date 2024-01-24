@@ -43,7 +43,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Function for scheduling Machine Annotation Services */
-    const ScheduleMachineAnnotations = (selectedMAS: string[]) => {
+    const ScheduleMachineAnnotations = (selectedMAS: string[], batching: boolean) => {
         /* Create MAS request */
         const MASRecord = {
             data: {
@@ -56,7 +56,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_specimenMAS) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, batching, KeycloakService.GetToken()).then((_specimenMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -67,7 +67,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_digitalMediaMAS) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, batching,  KeycloakService.GetToken()).then((_digitalMediaMAS) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -93,16 +93,17 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         <Formik initialValues={{
             selectedMAS: [] as string[],
-            MASList: ""
+            MASList: "",
+            batching: false
         }}
             onSubmit={async (values) => {
                 await new Promise((resolve) => setTimeout(resolve, 100));
 
                 /* Schedule Machine Annotation Services */
-                ScheduleMachineAnnotations(values.selectedMAS);
+                ScheduleMachineAnnotations(values.selectedMAS, values.batching);
             }}
         >
-            {({ values }) => (
+            {({ values, setFieldValue }) => (
                 <Form className="h-100">
                     <div className="h-100 d-flex flex-column">
                         <Row className="flex-grow-1">
@@ -190,7 +191,21 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                         </FieldArray>
                                     </Col>
                                 </Row>
-
+                            </Col>
+                        </Row>
+                        <Row className="mb-4">
+                            <Col className="col-md-auto pe-0">
+                                <Field name="batching"
+                                    type="checkbox"
+                                    className="checkbox"
+                                />
+                            </Col>
+                            <Col>
+                                <button type="button" className="button-no-style"
+                                    onClick={() => setFieldValue('batching', !values.batching)}
+                                >
+                                    <p>Allow batch annotations</p>
+                                </button>
                             </Col>
                         </Row>
                         <Row>

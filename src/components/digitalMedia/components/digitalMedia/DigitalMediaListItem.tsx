@@ -62,7 +62,7 @@ const DigitalMediaListItem = (props: Props) => {
 
     return (
         <div className={`${classDigitalMediaListItem} button-no-style position-relative px-1`}>
-            <button type="button" className="button-no-style h-100 w-100"
+            <div className="button-no-style h-100 w-100"
                 onMouseEnter={() => { ToggleHover(specimenDigitalMedia.digitalEntity['ods:id']) }}
                 onClick={() => {
                     if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) {
@@ -79,7 +79,7 @@ const DigitalMediaListItem = (props: Props) => {
 
                     <div className={classBackdrop} />
                 </div>
-            </button>
+            </div>
         </div>
     );
 }

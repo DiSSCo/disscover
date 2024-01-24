@@ -39,7 +39,8 @@ const MediaRepresentation = (props: Props) => {
 
     switch (mediaType) {
         case 'StillImage':
-            mediaIcon = <div className={`${classMediaIcon} h-100 w-100 rounded-c b-none d-flex justify-content-center overflow-hidden`}
+            mediaIcon = <button type="button"
+                className={`${classMediaIcon} h-100 w-100 rounded-c b-none d-flex justify-content-center overflow-hidden`}
                 onClick={() => OnSelect()}
                 onKeyDown={() => OnSelect()}
             >
@@ -47,7 +48,7 @@ const MediaRepresentation = (props: Props) => {
                     alt={`Broken ${accessUri} link`}
                     className="h-100 d-flex justify-content-around align-items-center"
                 />
-            </div>
+            </button>
 
             break;
         case 'MovingImage':

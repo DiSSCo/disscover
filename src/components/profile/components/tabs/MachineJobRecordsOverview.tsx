@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
 import Moment from 'moment';
 import KeycloakService from 'keycloak/Keycloak';
 import { Row, Col } from 'react-bootstrap';
@@ -13,6 +12,9 @@ import Paginator from 'components/general/paginator/Paginator';
 
 /* Import Utilities */
 import MachineJobRecordTableConfig from 'app/config/tables/MachineJobRecordTableConfig';
+
+/* Import Components */
+import DataTable from 'components/general/tables/DataTable';
 
 /* Import API */
 import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';
@@ -61,21 +63,15 @@ const MachineJobRecordsOverview = () => {
     }, [pageNumber]);
 
     /* Table Config */
-    const { tableColumns, customStyles } = MachineJobRecordTableConfig('profile', true);
+    const { columns } = MachineJobRecordTableConfig(false);
 
     return (
         <div className="h-100 d-flex flex-column">
             <Row className="flex-grow-1 pb-2">
                 <Col className="h-100">
                     <div className="h-100 overflow-scroll b-secondary rounded-c">
-                        <DataTable
-                            columns={tableColumns}
+                        <DataTable columns={columns}
                             data={tableData}
-                            customStyles={customStyles}
-
-                            striped
-                            highlightOnHover
-                            pointerOnHover
                         />
                     </div>
                 </Col>

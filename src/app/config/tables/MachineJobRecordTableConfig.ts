@@ -1,9 +1,9 @@
 /* Import Dependencies */
-import { TableColumn } from "react-data-table-component";
+import { createColumnHelper } from '@tanstack/react-table';
 
 
-const MachineJobRecordTableConfig = (idPrefix: string, showTargetId: boolean = false) => {
-    interface DataRow {
+const MachineJobRecordTableConfig = (showTargetId: boolean = true) => {
+    interface MachineJobRecord {
         index: number,
         id: string,
         targetId: string
@@ -12,70 +12,46 @@ const MachineJobRecordTableConfig = (idPrefix: string, showTargetId: boolean = f
         state: string
     };
 
-    /* Set Datatable columns */
-    const tableColumns: TableColumn<DataRow>[] = [
-        {
-            name: 'TargetID',
-            selector: row => row.targetId,
-            id: `${idPrefix}_machinejobrecord_targetId`,
-            sortable: true,
-            wrap: true,
-            omit: showTargetId
-        }, {
-            name: 'Job ID',
-            selector: row => row.id,
-            id: `${idPrefix}_machinejobrecord_jobid`,
-            sortable: true,
-            wrap: true
-        }, {
-            name: 'Scheduled',
-            selector: row => row.scheduled,
-            id: `${idPrefix}_machinejobrecord_scheduled`,
-            sortable: true,
-            wrap: true
-        }, {
-            name: 'Completed',
-            selector: row => row.completed,
-            id: `${idPrefix}_machinejobrecord_completed`,
-            sortable: true,
-            wrap: true
-        }, {
-            name: 'State',
-            selector: row => row.state,
-            id: `${idPrefix}_machinejobrecord_state`,
-            sortable: true,
-            wrap: true
-        }];
+    /* Base variables */
+    const columnHelper = createColumnHelper<MachineJobRecord>();
 
-    /* Custom styles for Data Table */
-    const customStyles = {
-        head: {
-            style: {
-                color: 'white',
-                fontSize: '14px'
+    const columns = [
+        ...(showTargetId ? [columnHelper.accessor('id', {
+            header: 'Job ID',
+            meta: {
+                widthInRem: 14
             }
-        },
-        headRow: {
-            style: {
-                backgroundColor: '#51a993'
+        })] : []),
+        columnHelper.accessor('targetId', {
+            header: 'Target ID',
+            meta: {
+                widthInRem: 14,
             }
-        },
-        rows: {
-            style: {
-                minHeight: '40px'
-            },
-            highlightOnHoverStyle: {
-                backgroundColor: '#98cdbf',
-            },
-            stripedStyle: {
-                backgroundColor: '#eef7f4'
+        }),
+        columnHelper.accessor('scheduled', {
+            header: 'Scheduled',
+            meta: {
+                widthInRem: 14
             }
-        }
-    };
+        }),
+        columnHelper.accessor('completed', {
+            header: 'Completed',
+            meta: {
+                widthInRem: 14,
+                sortable: true
+            }
+        }),
+        columnHelper.accessor('state', {
+            header: 'State',
+            meta: {
+                widthInRem: 10,
+                sortable: true
+            }
+        })
+    ];
 
     return {
-        tableColumns: tableColumns,
-        customStyles: customStyles
+        columns: columns
     };
 }
 

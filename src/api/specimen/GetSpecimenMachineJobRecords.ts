@@ -5,7 +5,7 @@ import axios from 'axios';
 import { JSONResultArray, Dict } from 'app/Types';
 
 
-const GetSpecimenMachineJobRecords = async (handle: string, pageSize: number, pageNumber: number) => {
+const GetSpecimenMachineJobRecords = async (handle: string, pageSize: number, pageNumber: number, state?: string) => {
     let specimenMachineJobRecords: Dict[] = [];
     let links: Dict = {};
 
@@ -19,7 +19,8 @@ const GetSpecimenMachineJobRecords = async (handle: string, pageSize: number, pa
                 responseType: 'json',
                 params: {
                     pageSize: pageSize,
-                    pageNumber: pageNumber ?? 1
+                    pageNumber: pageNumber ?? 1,
+                    ...(state && { state })
                 }
             });
 

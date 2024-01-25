@@ -328,6 +328,14 @@ p {
   height: 1rem;
 }
 
+.filterDropdown {
+  width: 100%;
+  font-size: 0.875rem !important;;
+  background-color: transparent;
+  border: 2px solid var(--secondary);
+  border-radius: 8px;
+}
+
 /* Global Components */
 .primaryButton {
   background-color: var(--primary);

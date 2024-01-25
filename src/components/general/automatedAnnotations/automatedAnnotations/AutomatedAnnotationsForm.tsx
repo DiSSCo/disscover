@@ -128,7 +128,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                         <Col>
                                                             <p className="formFieldTitle"> Choose MAS to schedule </p>
                                                             <Field name="MASList" as="select"
-                                                                className="formField w-75 mt-1"
+                                                                className="formField w-75 mt-1 fs-4"
                                                                 onChange={(event: Dict) => push(event.target.value)}
                                                             >
                                                                 {availableMASList.length > 0 ?

@@ -176,7 +176,7 @@ const DataTable = (props: Props) => {
                 <tbody className="flex-grow-1 overflow-x-hidden overflow-y-scrol bgc-white"
                     onMouseLeave={() => setHoverRowId(-1)}
                 >
-                    {table.getRowModel().rows.map((row) => {
+                    {data.length ? table.getRowModel().rows.map((row) => {
                         let totalRowWidth: number = 0;
 
                         return (
@@ -208,7 +208,9 @@ const DataTable = (props: Props) => {
                                 })}
                             </tr>
                         );
-                    })}
+                    }) : <div className="w-100 text-center position-absolute mt-2">
+                        <p> No records found </p>
+                    </div>}
                 </tbody>
             </table>
         </div>

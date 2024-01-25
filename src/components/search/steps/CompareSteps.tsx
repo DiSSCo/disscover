@@ -2,6 +2,9 @@
 import { useSearchParams } from 'react-router-dom';
 import { Steps } from 'intro.js-react';
 
+/* Import Config */
+import StepsConfig from 'app/config/StepsConfig';
+
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
@@ -26,6 +29,7 @@ const CompareSteps = () => {
     const introTopic = useAppSelector(getIntroTopic);
     const compareSpecimens = useAppSelector(getCompareSpecimens);
     const compareIntro = SearchIntro.compare;
+    const { options } = StepsConfig();
 
     /* Function for setting a Search Param */
     const SetSearchParam = (param: string, query?: string) => {
@@ -144,6 +148,7 @@ const CompareSteps = () => {
                     /* Reset intro topic */
                     dispatch(setIntroTopic(''));
                 }}
+                options={options}
             />
         </>
     );

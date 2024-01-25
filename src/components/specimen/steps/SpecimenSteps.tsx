@@ -1,6 +1,9 @@
 /* Import Dependencies */
 import { Steps } from 'intro.js-react';
 
+/* Import Config */
+import StepsConfig from 'app/config/StepsConfig';
+
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
@@ -24,6 +27,7 @@ const SpecimenSteps = (props: Props) => {
     /* Base variables */
     const introTopic = useAppSelector(getIntroTopic);
     const specimenIntro = SpecimenIntro.specimen;
+    const { options } = StepsConfig();
 
     /* Construct Intro.js steps for Specimen page */
     const steps = [
@@ -132,6 +136,7 @@ const SpecimenSteps = (props: Props) => {
                     SetSelectedTab(0);
                     dispatch(setIntroTopic(''));
                 }}
+                options={options}
             />
         </>
     );

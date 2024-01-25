@@ -10,9 +10,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
-    getDigitalMedia, setDigitalMedia,
-    getDigitalMediaVersions, setDigitalMediaVersions,
-    getDigitalMediaAnnotations, setDigitalMediaAnnotations
+    getDigitalMedia, setDigitalMedia, getDigitalMediaVersions, setDigitalMediaVersions,
+    getDigitalMediaAnnotations, setDigitalMediaAnnotations, getAllowVisualAnnotations
 } from 'redux/digitalMedia/DigitalMediaSlice';
 import {
     setMASTarget, getAnnotateTarget, setAnnotateTarget,
@@ -62,6 +61,7 @@ const DigitalMedia = () => {
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const annotoriousMode = useAppSelector(getAnnotoriousMode);
     const sidePanelToggle = useAppSelector(getSidePanelToggle);
+    const allowVisualAnnotations = useAppSelector(getAllowVisualAnnotations);
     const [automatedAnnotationsToggle, setAutomatedAnnotationsToggle] = useState<boolean>(false);
 
     const digitalMediaActions = [
@@ -249,7 +249,7 @@ const DigitalMedia = () => {
 
     const classImageAnnotateButton = classNames({
         'primaryButton px-3 py-2 d-flex align-items-center': true,
-        'active': annotoriousMode === 'rectangle'
+        'active': annotoriousMode === 'draw'
     });
 
     return (
@@ -285,15 +285,15 @@ const DigitalMedia = () => {
                                                                 />
                                                             </Col>
                                                             <Col />
-                                                            {(digitalMedia.digitalEntity['dcterms:type'] === 'StillImage' && KeycloakService.IsLoggedIn()) &&
+                                                            {(digitalMedia.digitalEntity['dcterms:type'] === 'StillImage' && KeycloakService.IsLoggedIn() && allowVisualAnnotations) &&
                                                                 <Col className="col-md-auto pe-0">
                                                                     <button type="button"
                                                                         className={classImageAnnotateButton}
                                                                         onClick={() => {
-                                                                            if (!annotoriousMode) {
-                                                                                dispatch(setAnnotoriousMode('rectangle'))
+                                                                            if (annotoriousMode === 'move') {
+                                                                                dispatch(setAnnotoriousMode('draw'));
                                                                             } else {
-                                                                                dispatch(setAnnotoriousMode(null))
+                                                                                dispatch(setAnnotoriousMode('move'));
                                                                             }
                                                                         }
                                                                         }

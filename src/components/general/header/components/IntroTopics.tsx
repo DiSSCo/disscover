@@ -76,7 +76,7 @@ const IntroTopics = (props: Props) => {
 
     return (
         <div className="position-relative">
-            <button type="button" className="primaryButton px-2 py-1"
+            <button type="button" className="b-none bgc-main c-primary fw-lightBold px-2 py-1"
                 onClick={() => TakeATour()}
             >
                 Take a tour

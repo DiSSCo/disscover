@@ -3,6 +3,9 @@ import { useState } from 'react';
 import KeycloakService from 'keycloak/Keycloak';
 import { Steps } from 'intro.js-react';
 
+/* Import Config */
+import StepsConfig from 'app/config/StepsConfig';
+
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getIntroTopic, setIntroTopic } from 'redux/general/GeneralSlice';
@@ -39,6 +42,7 @@ const AnnotateSteps = (props: Props) => {
     const specimenAnnotations = useAppSelector(getSpecimenAnnotations);
     const [targetInterval, setTargetInterval] = useState<ReturnType<typeof setInterval>>();
     const annotateIntro = SpecimenIntro.annotate;
+    const { options } = StepsConfig();
 
     /* Dummy Annotation for Showcase */
     const dummyAnnotation: Annotation = {
@@ -273,6 +277,7 @@ const AnnotateSteps = (props: Props) => {
                     clearInterval(targetInterval);
                     UpdateAnnotationView(dummyAnnotation, true);
                 }}
+                options={options}
             />
         </>
     );

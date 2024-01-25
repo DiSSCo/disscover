@@ -47,7 +47,7 @@ const AnnotationTools = (props: Props) => {
 
             {/* Annotations Side Panel */}
             <div className={`${classSidePanel} transition`}>
-                <SidePanel ShowWithAllAnnotations={() => ShowWithAnnotations()}
+                <SidePanel ShowWithAnnotations={(targetName?: string, targetType?: string) => ShowWithAnnotations(targetName, targetType)}
                     UpdateAnnotationsSource={(annotation: Annotation, remove?: boolean) => UpdateAnnotationsSource(annotation, remove)}
                     RefreshAnnotations={(targetProperty: string) => RefreshAnnotations(targetProperty)}
                 />

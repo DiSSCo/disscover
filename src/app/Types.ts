@@ -133,8 +133,7 @@ export interface AnnotationTemplate {
 
 export interface TargetProperty {
     name: string,
-    type: string,
-    index?: number
+    type: string
 }
 
 export interface AnnotateTarget {

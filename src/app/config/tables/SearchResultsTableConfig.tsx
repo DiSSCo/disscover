@@ -38,7 +38,8 @@ const SearchResultsTableConfig = () => {
             header: '',
             cell: info => <img src={info.getValue()}
                 alt={info.getValue()}
-                className="w-100"
+                className="b-none"
+                style={{width: `${info.getValue() && 3 * 0.85}rem`, height: `${info.getValue() && 3 * 0.85}rem`}}
             />,
             meta: {
                 widthInRem: 4,

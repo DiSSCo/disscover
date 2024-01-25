@@ -32,7 +32,7 @@ const PropertiesBlock = (props: Props) => {
     /* Base variables */
     const [collapsed, setCollapsed] = useState<boolean>(index > 0);
     let blockName: string;
-    
+
     if (taxonAcceptedName && instanceProperties.properties['dwc:identificationVerificationStatus'] && instanceProperties.properties['dwc:identificationVerificationStatus'] === true) {
         blockName = taxonAcceptedName;
     } else {
@@ -64,17 +64,37 @@ const PropertiesBlock = (props: Props) => {
                             {(typeof (instanceProperties[Object.keys(instanceProperties)[0]]) === 'object') ?
                                 <>
                                     {Object.keys(instanceProperties).map((propertyKey) => {
+                                        /* Check if level holds an array */
                                         return (
-                                            <div key={propertyKey} className="mt-3">
-                                                <PropertiesTable
-                                                    title={propertyKey}
-                                                    properties={instanceProperties[propertyKey as keyof typeof instanceProperties] as Dict}
-                                                    ShowWithAnnotations={(property: string) =>
-                                                        ShowWithAnnotations(`${instanceLevel}[${index}]${instanceLevels ? instanceLevels[propertyKey as keyof typeof instanceLevels] : ''}${property}`)
-                                                    }
-                                                />
-                                            </div>
-                                        )
+                                            <>
+                                                {Array.isArray(instanceProperties[propertyKey]) ?
+                                                    instanceProperties[propertyKey].map((subInstance: Dict, subIndex: number) => {
+                                                        const subKey: string = `subClass_${subIndex}`;
+
+                                                        return (
+                                                            <div key={subKey} className="mt-3">
+                                                                <PropertiesTable
+                                                                    title={`${propertyKey} #${subIndex + 1}`}
+                                                                    properties={subInstance}
+                                                                    ShowWithAnnotations={(property: string) =>
+                                                                        ShowWithAnnotations(`${instanceLevel}[${index}]${(instanceLevels && propertyKey in instanceLevels) ? instanceLevels[propertyKey as keyof typeof instanceLevels] : ''}[${subIndex}]${property}`)
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        );
+                                                    })
+                                                    : <div key={propertyKey} className="mt-3">
+                                                        <PropertiesTable
+                                                            title={propertyKey}
+                                                            properties={instanceProperties[propertyKey as keyof typeof instanceProperties] as Dict}
+                                                            ShowWithAnnotations={(property: string) =>
+                                                                ShowWithAnnotations(`${instanceLevel}[${index}]${(instanceLevels && propertyKey in instanceLevels) ? instanceLevels[propertyKey as keyof typeof instanceLevels] : ''}${property}`)
+                                                            }
+                                                        />
+                                                    </div>
+                                                }
+                                            </>
+                                        );
                                     })}
                                 </>
                                 : <PropertiesTable title="Properties"

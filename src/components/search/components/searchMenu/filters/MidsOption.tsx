@@ -1,5 +1,4 @@
 /* Import Depdencies */
-import { Field } from 'formik';
 import classNames from 'classnames';
 import { Row, Col } from 'react-bootstrap';
 
@@ -9,7 +8,6 @@ import styles from 'components/search/search.module.scss';
 
 /* Props Typing */
 interface Props {
-    searchFilter: string,
     item: [string, number],
     method: Function,
     selected?: boolean
@@ -17,7 +15,7 @@ interface Props {
 
 
 const MidsOption = (props: Props) => {
-    const { searchFilter, item, method, selected } = props;
+    const { item, method, selected } = props;
 
     /* ClassName for Mids Option */
     const classMidsOption = classNames({
@@ -31,16 +29,7 @@ const MidsOption = (props: Props) => {
                 onClick={() => method()}
             >
                 <Row>
-                    <Col sm={{ span: 12 }} md={{ span: 12 }} className="col-lg-auto pe-0 d-flex justify-content-center pe-0">
-                        <Field name={`filters.${searchFilter}.${item[0]}`}
-                            type="checkbox"
-                            checked={selected}
-                            onChange={() => {
-                                method();
-                            }}
-                        />
-                    </Col>
-                    <Col className="d-flex justify-content-center px-2 ps-0">
+                    <Col className="text-center">
                         <span>MIDS {item[0]}</span>
                     </Col>
                 </Row>

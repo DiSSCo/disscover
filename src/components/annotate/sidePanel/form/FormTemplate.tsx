@@ -39,7 +39,7 @@ const FormTemplate = (props: Props) => {
                     <Row>
                         <Col>
                             {/* If a field property is selected */}
-                            {!classValue &&
+                            {(!classValue || !['ods:adding', 'oa:editing'].includes(motivation)) &&
                                 <>
                                     {/* Value Field */}
                                     <p className="formFieldTitle pb-1"> Annotation value </p>

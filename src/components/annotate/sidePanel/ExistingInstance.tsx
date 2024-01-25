@@ -35,9 +35,11 @@ const ExistingInstance = (props: Props) => {
     /* Base variables */
     const annotateTarget = useAppSelector(getAnnotateTarget);
     const [collapseToggle, setCollapseToggle] = useState<boolean>(false);
+    const formattedTargetPropertyName = FormatTargetPropertyPath(targetPropertyName, annotateTarget.targetType, index);
     let propertiesList: { key: string, value: Property }[] = [];
     let i = index + 1;
-    const formattedTargetPropertyName = FormatTargetPropertyPath(targetPropertyName, annotateTarget.targetType, index);
+
+    console.log(targetPropertyName);
 
     /* If target is class, get all properties and levels from existing instance */
     if (targetPropertyType === 'class') {
@@ -51,8 +53,7 @@ const ExistingInstance = (props: Props) => {
         /* Set Annotate target to chosen class or property */
         copyAnnotateTarget.targetProperty = {
             type: targetPropertyType,
-            name: formattedTargetPropertyName,
-            index: index
+            name: formattedTargetPropertyName
         }
 
         /* Set Annotate target current values */

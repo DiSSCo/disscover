@@ -19,7 +19,7 @@ import styles from 'components/search/search.module.scss';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import ActiveFiltersTag from './ActiveFiltersTag';
@@ -45,6 +45,7 @@ const SearchFilters = (props: Props) => {
     const filtersList: Dict = { ...SearchFiltersJSON };
     const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
     const aggregations = useAppSelector(getSearchAggregations);
+
     const initialValues: Dict = {
         filters: {
             q: searchParams.get('q') ? searchParams.get('q') : '',
@@ -56,7 +57,7 @@ const SearchFilters = (props: Props) => {
 
     /* Extract active filters from Search Params */
     for (const searchParam of searchParams.entries()) {
-        if (searchParam[0] !== 'q') {
+        if (searchParam[0] !== 'q' && searchParam[0] !== 'midsLevel') {
             if (!activeFilters[searchParam[0]]) {
                 activeFilters[searchParam[0]] = [searchParam[1]];
             } else {
@@ -125,14 +126,14 @@ const SearchFilters = (props: Props) => {
                                 <Form className="h-100">
                                     <Row className="py-3">
                                         <Col>
-                                            {/* Filters title and toggle */}
+                                            {/* Completeness block title */}
                                             <Row>
                                                 <Col>
                                                     <p className="c-primary">
-                                                        <FontAwesomeIcon icon={faFilter}
+                                                        <FontAwesomeIcon icon={faClipboardCheck}
                                                             className="px-2"
                                                         />
-                                                        Filters
+                                                        Quality/completeness indicators
                                                     </p>
                                                 </Col>
                                                 <Col className="col-md-auto">
@@ -140,6 +141,27 @@ const SearchFilters = (props: Props) => {
                                                         className="c-primary c-pointer"
                                                         onClick={() => HideFilters()}
                                                     />
+                                                </Col>
+                                            </Row>
+                                            {/* Completeness filters */ }
+                                            <Row>
+                                                <Col>
+                                                    <MultiSelectFilter filter={filtersList['midsLevel']}
+                                                        searchFilter='midsLevel'
+                                                        items={aggregations['midsLevel']}
+                                                        selectedItems={values.filters['midsLevel']}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                            {/* Filters block title */}
+                                            <Row className="mt-3">
+                                                <Col>
+                                                    <p className="c-primary">
+                                                        <FontAwesomeIcon icon={faFilter}
+                                                            className="px-2"
+                                                        />
+                                                        Filters
+                                                    </p>
                                                 </Col>
                                             </Row>
                                             {/* Active Filters */}
@@ -163,41 +185,43 @@ const SearchFilters = (props: Props) => {
                                                     {Object.keys(filtersList).map((filterKey) => {
                                                         const filter = filtersList[filterKey];
 
-                                                        /* Check kind of filter */
-                                                        switch (filter.filterType) {
-                                                            case 'date':
-                                                                {/* Date Filters */ }
-                                                                return <DateFilter key={filterKey}
-                                                                    filter={filter}
-                                                                    selectedValue={values.filters[filterKey]}
-                                                                    SetFieldValue={(date: Date) => setFieldValue(`filters.${filterKey}`, date)}
-                                                                />
-                                                            case 'text':
-                                                                {/* Text Filters */ }
-                                                                return <TextFilter key={filterKey}
-                                                                    filter={filter}
-                                                                    searchFilter={filterKey}
-                                                                />
-                                                            case 'taxonomy':
-                                                                {/* Taxonomy Filters */ }
-                                                                return <TaxonomyFilters key={filterKey}
-                                                                    selectedItems={values.filters}
-                                                                    SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
-                                                                />
-                                                            default:
-                                                                {/* Aggregation Filters */ }
-                                                                if (Object.keys(aggregations).includes(filterKey)) {
-                                                                    const aggregation = aggregations[filterKey];
-
-                                                                    return <MultiSelectFilter key={filterKey}
+                                                        if (filterKey !== 'midsLevel') {
+                                                            /* Check kind of filter */
+                                                            switch (filter.filterType) {
+                                                                case 'date':
+                                                                    {/* Date Filters */ }
+                                                                    return <DateFilter key={filterKey}
+                                                                        filter={filter}
+                                                                        selectedValue={values.filters[filterKey]}
+                                                                        SetFieldValue={(date: Date) => setFieldValue(`filters.${filterKey}`, date)}
+                                                                    />
+                                                                case 'text':
+                                                                    {/* Text Filters */ }
+                                                                    return <TextFilter key={filterKey}
                                                                         filter={filter}
                                                                         searchFilter={filterKey}
-                                                                        items={aggregation}
-                                                                        selectedItems={values.filters[filterKey as keyof typeof values.filters]}
                                                                     />
-                                                                } else {
-                                                                    return;
-                                                                }
+                                                                case 'taxonomy':
+                                                                    {/* Taxonomy Filters */ }
+                                                                    return <TaxonomyFilters key={filterKey}
+                                                                        selectedItems={values.filters}
+                                                                        SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
+                                                                    />
+                                                                default:
+                                                                    {/* Aggregation Filters */ }
+                                                                    if (Object.keys(aggregations).includes(filterKey)) {
+                                                                        const aggregation = aggregations[filterKey];
+
+                                                                        return <MultiSelectFilter key={filterKey}
+                                                                            filter={filter}
+                                                                            searchFilter={filterKey}
+                                                                            items={aggregation}
+                                                                            selectedItems={values.filters[filterKey as keyof typeof values.filters]}
+                                                                        />
+                                                                    } else {
+                                                                        return;
+                                                                    }
+                                                            }
                                                         }
                                                     })}
                                                 </Col>

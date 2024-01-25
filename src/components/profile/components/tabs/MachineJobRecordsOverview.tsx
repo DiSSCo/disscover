@@ -12,7 +12,7 @@ import { Dict } from 'app/Types';
 import Paginator from 'components/general/paginator/Paginator';
 
 /* Import Utilities */
-import MachineJobRecordTableConfig from 'app/tableConfig/MachineJobRecordTableConfig';
+import MachineJobRecordTableConfig from 'app/config/tables/MachineJobRecordTableConfig';
 
 /* Import API */
 import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';

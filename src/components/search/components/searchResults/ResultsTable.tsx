@@ -14,7 +14,7 @@ import {
 import { DigitalSpecimen, Dict } from 'app/Types';
 
 /* Import Utilities */
-import SearchResultsTableConfig from 'app/tableConfig/SearchResultsTableConfig';
+import SearchResultsTableConfig from 'app/config/tables/SearchResultsTableConfig';
 
 /* Import Webroot */
 import Spinner from 'webroot/icons/spinner.svg';
@@ -225,10 +225,14 @@ const ResultsTable = (props: Props) => {
         const tableData: DataRow[] = [];
 
         const PushToTableData = (specimen: DigitalSpecimen, index: number, taxonomyIconUrl?: string, taxonomyIncluded: boolean = false) => {
+            const taxonomyIcon = taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']);
+
             /* Check if index exists in table data */
             if (tableData.find(record => record.index === index)) {
                 /* Replace record in table data */
-                tableData[index].taxonomyIconUrl = taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline'])
+                tableData[index].taxonomyIconUrl = taxonomyIcon;
+
+                SetTableData(index);
             } else {
                 /* Push record to table data */
                 tableData.push({
@@ -237,26 +241,31 @@ const ResultsTable = (props: Props) => {
                     accessionName: specimen.digitalSpecimen['ods:specimenName'],
                     accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'],
                     scientificName: specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'],
-                    specimenType: specimen.digitalSpecimen['ods:topicDiscipline'] ?? 'Unclassified',
+                    specimenType: specimen.digitalSpecimen['ods:topicDiscipline'],
                     origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'],
                     collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'],
                     holder: specimen.digitalSpecimen['dwc:institutionName'] ?
                         [specimen.digitalSpecimen['dwc:institutionName'], specimen.digitalSpecimen['dwc:institutionId']]
                         : [specimen.digitalSpecimen['dwc:institutionId'], specimen.digitalSpecimen['dwc:institutionId']],
-                    taxonomyIconUrl: taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']),
+                    taxonomyIconUrl: taxonomyIcon,
                     selected: false,
                     compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
                 });
             }
         }
 
+        /* Function to set the Table Data */
         const SetTableData = (index: number) => {
-            if ((index + 1) >= pageSize) {
+            if ((index + 1) <= pageSize) {
                 setTableData(tableData);
             }
         }
 
-        LoopSearchResults(PushToTableData, SetTableData);
+        if (searchResults.length) {
+            LoopSearchResults(PushToTableData, SetTableData);
+        } else {
+            setTableData(tableData);
+        }
     }, [searchResults, compareSpecimens]);
 
     return (

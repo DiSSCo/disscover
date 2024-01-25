@@ -4,12 +4,11 @@ import { Formik, Form, Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { useAppSelector } from 'app/hooks';
 import { getOrganisations } from 'redux/general/GeneralSlice';
-import { setSearchSpecimen } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { DigitalSpecimen, Dict } from 'app/Types';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -17,7 +16,6 @@ import styles from 'components/home/home.module.scss';
 
 const CollectionFacilitySearch = () => {
     /* Hooks */
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     /* Base variables */
@@ -25,15 +23,9 @@ const CollectionFacilitySearch = () => {
 
     /* Function for handling Collection Facility search */
     const HandleSearch = (formData: Dict) => {
-        /* Reset search specimen */
-        dispatch(setSearchSpecimen({} as DigitalSpecimen));
-
         if (formData.idType === 'local') {
             /* Navigate to Search page with Organisation as filter */
-            navigate({
-                pathname: '/search',
-                search: `?organisationName=${formData.organisationName}`
-            });
+            navigate(`/search?organisationName=${formData.organisationName}`);
         }
     }
 

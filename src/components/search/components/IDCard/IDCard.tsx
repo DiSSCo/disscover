@@ -42,7 +42,9 @@ const IDCard = (props: Props) => {
                                 />
                             </Col>
                             <Col className="textOverflow">
-                                <h2 className="fs-2"> {specimen.digitalSpecimen['ods:specimenName']} </h2>
+                                <h2 className="fs-2 textOverflow">
+                                    {specimen.digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')} | {specimen.digitalSpecimen['ods:specimenName']}
+                                </h2>
                             </Col>
                             <Col className="col-md-auto">
                                 <FontAwesomeIcon icon={faX}
@@ -103,7 +105,7 @@ const IDCard = (props: Props) => {
                         <Row className="mt-4">
                             <Col>
                                 <p className="fs-4">
-                                    <span className="fw-bold"> Scientific Name: </span> {/*specimen.specimenName*/ specimen.digitalSpecimen['ods:id']}
+                                    <span className="fw-bold"> Scientific Name: </span> {specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName']}
                                 </p>
                                 <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Specimen Type: </span> {specimen.digitalSpecimen['ods:type']}
@@ -113,7 +115,7 @@ const IDCard = (props: Props) => {
                                     {<PhysicalSpecimenIdProperty specimen={specimen} />}
                                 </p>
                                 <p className="fs-4 mt-2">
-                                    <span className="fw-bold"> Physical Specimen Collection: </span> {/*specimen.physicalSpecimenCollection*/}
+                                    <span className="fw-bold"> Physical Specimen Collection: </span> {specimen.digitalSpecimen['dwc:collectionCode'] ?? specimen.digitalSpecimen['dwc:collectionId']}
                                 </p>
                                 <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Organisation: </span>

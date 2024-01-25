@@ -21,16 +21,7 @@ const CompareBox = () => {
 
     /* Base variables */
     const compareSpecimens = useAppSelector(getCompareSpecimens);
-    let compareText: string = '';
-
-    /* Determine Compare Box text */
-    if (compareSpecimens.length === 0) {
-        compareText = 'Select 2 or 3 specimens to compare';
-    } else if (compareSpecimens.length === 1) {
-        compareText = 'Select one more specimen, up to 3';
-    } else if (compareSpecimens.length === 2) {
-        compareText = 'Select up to 3 specimens';
-    }
+    let compareText: string = 'Select 2 or 3 specimens to compare';
 
     /* Function for actioning a Compare with Specimens */
     const CompareSpecimens = () => {

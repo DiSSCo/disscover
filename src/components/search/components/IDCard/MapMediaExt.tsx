@@ -109,6 +109,7 @@ const MapMediaExt = (props: Props) => {
                                         iconClassName={styles.digitalMediaIcon}
                                         accessUri={mediaItem.digitalEntity['ac:accessUri']}
                                         format={mediaItem.digitalEntity['dcterms:format']}
+                                        ClickEvent={() => navigate(`/dm/${mediaItem.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`)}
                                     />
                                 </div>
                             );

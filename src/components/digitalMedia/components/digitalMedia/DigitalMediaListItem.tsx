@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Capitalize } from 'app/Utilities';
 import classNames from 'classnames';
@@ -20,12 +19,14 @@ import MediaIcon from 'components/general/mediaTypes/MediaRepresentation';
 
 /* Props Typing */
 interface Props {
-    specimenDigitalMedia: DigitalMedia
+    specimenDigitalMedia: DigitalMedia,
+    hover: boolean,
+    ToggleHover: Function
 };
 
 
 const DigitalMediaListItem = (props: Props) => {
-    const { specimenDigitalMedia } = props;
+    const { specimenDigitalMedia, hover, ToggleHover } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -34,16 +35,13 @@ const DigitalMediaListItem = (props: Props) => {
     const digitalMedia = useAppSelector(getDigitalMedia);
 
     /* Check for the type of Digital Media and set content appropiate to it */
-    let digitalMediaContent: React.ReactElement = <div className="text-center h-100">
+    let digitalMediaContent: React.ReactElement = <div className="text-center h-100 w-100 c-rounded">
         <MediaIcon mediaType={specimenDigitalMedia.digitalEntity['dcterms:type'] as string}
             iconClassName={`${styles.digitalMediaListItemIcon} c-secondary`}
             accessUri={specimenDigitalMedia.digitalEntity['ac:accessUri']}
             format={specimenDigitalMedia.digitalEntity['dcterms:format']}
         />
     </div>
-
-    /* Function for hovering over Digital Media List Items */
-    const [hover, setHover] = useState(false);
 
     /* ClassName for a Digital Media List Item */
     const classDigitalMediaListItem = classNames({
@@ -64,9 +62,8 @@ const DigitalMediaListItem = (props: Props) => {
 
     return (
         <div className={`${classDigitalMediaListItem} button-no-style position-relative px-1`}>
-            <button type="button" className="button-no-style h-100 w-100"
-                onMouseEnter={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(true) } }}
-                onMouseLeave={() => { if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) { setHover(false) } }}
+            <div className="button-no-style h-100 w-100"
+                onMouseEnter={() => { ToggleHover(specimenDigitalMedia.digitalEntity['ods:id']) }}
                 onClick={() => {
                     if (specimenDigitalMedia.digitalEntity['ods:id'] !== digitalMedia.digitalEntity['ods:id']) {
                         navigate(`/dm/${specimenDigitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`)
@@ -82,7 +79,7 @@ const DigitalMediaListItem = (props: Props) => {
 
                     <div className={classBackdrop} />
                 </div>
-            </button>
+            </div>
         </div>
     );
 }

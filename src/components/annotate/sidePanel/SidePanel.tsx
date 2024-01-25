@@ -30,14 +30,14 @@ import Tooltip from 'components/general/tooltip/Tooltip';
 
 /* Props Typing */
 interface Props {
-    ShowWithAllAnnotations: Function,
+    ShowWithAnnotations: Function,
     UpdateAnnotationsSource?: Function,
     RefreshAnnotations?: Function
 };
 
 
 const SidePanel = (props: Props) => {
-    const { ShowWithAllAnnotations, UpdateAnnotationsSource, RefreshAnnotations } = props;
+    const { ShowWithAnnotations, UpdateAnnotationsSource, RefreshAnnotations } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -110,13 +110,44 @@ const SidePanel = (props: Props) => {
         if (annotationFormToggle || !isEmpty(editAnnotation)) {
             dispatch(setAnnotationFormToggle(false));
             dispatch(setEditAnnotation({} as Annotation));
-        } else if (annotateTarget.targetProperty.name) {
-            ShowWithAllAnnotations();
+
+            if (annotateTarget.targetProperty.name && annotateTarget.targetProperty.type !== 'superClass') {
+                ShowWithAnnotations(annotateTarget.targetProperty.name, annotateTarget.targetProperty.type);
+            } else {
+                ShowWithAnnotations();
+            }
+        } else if (annotateTarget.targetProperty.name || annotateTarget.targetProperty.type === 'superClass') {
+            ShowWithAnnotations();
         } else {
             dispatch(setSidePanelToggle(false));
             dispatch(setAnnotationFormToggle(false));
         }
     }
+
+    /* Function to determine the target type being annotated */
+    const DetermineTargetValues = () => {
+        let targetName: string = annotateTarget.targetType;
+        let targetType: string = 'super class';
+
+        if (!isEmpty(editAnnotation)) {
+            if (editAnnotation['oa:target']['oa:selector']?.['ods:field']) {
+                targetName = editAnnotation['oa:target']['oa:selector']['ods:field'] as string;
+                targetType = 'field';
+            } else if (editAnnotation['oa:target']['oa:selector']?.['oa:class']) {
+                targetName = editAnnotation['oa:target']['oa:selector']['oa:class'] as string;
+                targetType = 'class';
+            }
+        } else if (annotateTarget.targetProperty.name) {
+            targetName = annotateTarget.targetProperty.name;
+            targetType = annotateTarget.targetProperty.type;
+        }
+
+        targetName = targetName.replace('$.', '');
+
+        return { targetName, targetType };
+    }
+
+    const { targetName, targetType } = DetermineTargetValues();
 
     /* ClassName for Side Panel */
     const classSidePanel = classNames({
@@ -165,7 +196,7 @@ const SidePanel = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Annotation current value, if target property is chosen */}
-                    {(annotateTarget.targetProperty.name || !isEmpty(editAnnotation)) &&
+                    {(annotateTarget.targetProperty.name || annotateTarget.targetProperty.type === 'superClass' || !isEmpty(editAnnotation)) &&
                         <Row className="mt-5">
                             <Col className="col-md-auto pe-0">
                                 <div className={`${styles.sidePanelTopStripe} h-100`} />
@@ -173,23 +204,13 @@ const SidePanel = (props: Props) => {
                             <Col className="overflow-hidden">
                                 <Row>
                                     <Col>
-                                        {annotateTarget.targetProperty.type === 'field' ? 'Instance of property' : 'Instance of class'}
+                                        {`Instance of ${targetType}`}
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
                                         <p className="fw-bold textOverflow">
-                                            {(!annotateTarget.targetProperty.name && !editAnnotation['oa:target']['oa:selector']?.['ods:field']) ?
-                                                <>
-                                                    Annotation on whole Specimen
-                                                </>
-                                                : <>
-                                                    {`${annotateTarget.targetProperty.name ?
-                                                        annotateTarget.targetProperty.name.replace('$.', '')
-                                                        : (editAnnotation['oa:target']['oa:selector']?.['ods:field'] as string).replace('$.', '')}`
-                                                    }
-                                                </>
-                                            }
+                                            {targetName}
                                         </p>
                                     </Col>
                                 </Row>

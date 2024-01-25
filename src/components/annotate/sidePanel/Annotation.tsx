@@ -57,10 +57,8 @@ const Annotation = (props: Props) => {
         annotationField = <span> <span className="fw-lightBold"> Class: </span> {(annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '')} </span>;
     }
 
-    // console.log(annotation['oa:body']['oa:value'].join(', '));
-
     /* Transform array of values to displayable information */
-    if (annotation['oa:body']['oa:value'].join(', ')[0] === '{') {
+    if (annotation['oa:body']['oa:value'].join(', ').startsWith('{')) {
         const annotationValueObject = JSON.parse(annotation['oa:body']['oa:value'].join(', '));
 
         annotationValue = annotationValueObject[(annotation['oa:target']['oa:selector']?.['oa:class'] as string).replace('$.', '') as keyof typeof annotationValueObject];

@@ -7,7 +7,6 @@ import { AnnotateTarget } from 'app/Types';
 import { Annotation } from 'app/types/Annotation';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalEntity } from 'app/types/DigitalEntity';
-import { Dict } from 'app/Types';
 
 
 export interface AnnotateState {

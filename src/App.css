@@ -330,7 +330,7 @@ p {
 
 .filterDropdown {
   width: 100%;
-  font-size: 0.875rem !important;;
+  font-size: 0.875rem !important;
   background-color: transparent;
   border: 2px solid var(--secondary);
   border-radius: 8px;

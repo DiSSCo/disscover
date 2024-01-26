@@ -18,7 +18,7 @@ export interface AnnotateState {
     overviewAnnotations: Annotation[];
     MASTarget: DigitalSpecimen | DigitalEntity,
     MASTabIndex: number,
-    scheduledMAS: string[]
+    scheduledMASJobs: string[]
 }
 
 const initialState: AnnotateState = {
@@ -40,7 +40,7 @@ const initialState: AnnotateState = {
     overviewAnnotations: [],
     MASTarget: {} as DigitalSpecimen | DigitalEntity,
     MASTabIndex: 0,
-    scheduledMAS: []
+    scheduledMASJobs: []
 };
 
 export const AnnotateSlice = createSlice({
@@ -71,11 +71,11 @@ export const AnnotateSlice = createSlice({
         setMASTabIndex: (state, action: PayloadAction<number>) => {
             state.MASTabIndex = action.payload;
         },
-        pushToScheduledMAS: (state, action: PayloadAction<string>) => {
-            state.scheduledMAS.push(action.payload);
+        pushToScheduledMASJobs: (state, action: PayloadAction<string>) => {
+            state.scheduledMASJobs.push(action.payload);
         },
-        removeFromScheduledMAS: (state, action: PayloadAction<string>) => {
-            state.scheduledMAS.splice(state.scheduledMAS.findIndex((masId) => masId === action.payload), 1);
+        removeFromScheduledMASJobs: (state, action: PayloadAction<string>) => {
+            state.scheduledMASJobs.splice(state.scheduledMASJobs.findIndex((masJobId) => masJobId === action.payload), 1);
         }
     },
 })
@@ -90,8 +90,8 @@ export const {
     setOverviewAnnotations,
     setMASTarget,
     setMASTabIndex,
-    pushToScheduledMAS,
-    removeFromScheduledMAS
+    pushToScheduledMASJobs,
+    removeFromScheduledMASJobs
 } = AnnotateSlice.actions;
 
 /* Connect with Root State */
@@ -103,6 +103,6 @@ export const getHighlightAnnotationId = (state: RootState) => state.annotate.hig
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
 export const getMASTarget = (state: RootState) => state.annotate.MASTarget;
 export const getMASTabIndex = (state: RootState) => state.annotate.MASTabIndex;
-export const getScheduledMAS = (state: RootState) => state.annotate.scheduledMAS;
+export const getScheduledMASJobs = (state: RootState) => state.annotate.scheduledMASJobs;
 
 export default AnnotateSlice.reducer;

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, Dict } from 'app/Types';
+import { JSONResultArray, Dict } from 'app/Types';
 
 
 const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, batching: boolean = false, token?: string) => {
@@ -27,9 +27,9 @@ const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, batching: b
             });
 
             /* Set Specimen MAS */
-            const data: JSONResult = result.data;
+            const data: JSONResultArray = result.data;
 
-            specimenMAS = data.data.attributes;
+            specimenMAS = data.data[0].attributes;
         } catch (error) {
             console.warn(error);
         }

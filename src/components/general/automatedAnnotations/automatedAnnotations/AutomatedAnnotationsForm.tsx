@@ -9,7 +9,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { pushToPromptMessages } from 'redux/general/GeneralSlice';
-import { getMASTarget, pushToScheduledMAS } from 'redux/annotate/AnnotateSlice';
+import { getMASTarget, pushToScheduledMASJobs } from 'redux/annotate/AnnotateSlice';
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
@@ -56,7 +56,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, batching, KeycloakService.GetToken()).then((specimenMAS) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, batching, KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -65,12 +65,12 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 }));
 
                 /* Push to scheduled MAS */
-                dispatch(pushToScheduledMAS(specimenMAS.id));
+                dispatch(pushToScheduledMASJobs(masJobRecord.jobId));
             }).catch(error => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, batching,  KeycloakService.GetToken()).then((digitalMediaMAS) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, batching,  KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -79,7 +79,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 }));
 
                 /* Push to scheduled MAS */
-                dispatch(pushToScheduledMAS(digitalMediaMAS.id));
+                dispatch(pushToScheduledMASJobs(masJobRecord.jobId));
             }).catch(error => {
                 console.warn(error);
             });

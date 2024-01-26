@@ -37,6 +37,7 @@ const PromptMessage = (props: Props) => {
                 setActive(false);
                 RemovePromptMessage();
             }}
+            style={{zIndex: 1060}}
         >
             <Toast.Header className={`${classPromptTemplate} c-default fw-lightBold`}
                 closeButton={false}

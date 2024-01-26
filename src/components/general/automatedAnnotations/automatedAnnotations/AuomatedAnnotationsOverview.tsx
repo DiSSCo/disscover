@@ -6,7 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { pushToPromptMessages } from 'redux/general/GeneralSlice';
-import { getScheduledMAS, removeFromScheduledMAS } from 'redux/annotate/AnnotateSlice';
+import { getScheduledMASJobs, removeFromScheduledMASJobs } from 'redux/annotate/AnnotateSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
@@ -33,7 +33,7 @@ const AutomatedAnnotationsOverview = (props: Props) => {
     const dispatch = useAppDispatch();
 
     /* Base variables */
-    const scheduledMAS = useAppSelector(getScheduledMAS);
+    const scheduledMASJobs = useAppSelector(getScheduledMASJobs);
 
     /* Declare type of a table row */
     interface DataRow {
@@ -70,11 +70,11 @@ const AutomatedAnnotationsOverview = (props: Props) => {
                 });
 
                 /* Check if MAS completed since scheduling */
-                if (scheduledMAS.find((masId) => masId === machineJobRecord.masId && machineJobRecord.state === 'COMPLETED')) {
-                    dispatch(removeFromScheduledMAS(machineJobRecord.masId));
+                if (scheduledMASJobs.find((jobId) => jobId === machineJobRecord.id && machineJobRecord.attributes.state === 'COMPLETED')) {
+                    dispatch(removeFromScheduledMASJobs(machineJobRecord.jobId));
                     dispatch(pushToPromptMessages({
                         key: machineJobRecord.masId,
-                        message: `Machine Annotation Service with id: ${machineJobRecord.masId} completed running!`,
+                        message: `Machine Annotation Service Job with id: ${machineJobRecord.id} completed running!`,
                         template: 'success'
                     }));
                 }

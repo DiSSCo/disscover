@@ -2,11 +2,11 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResultArray, Dict } from 'app/Types';
+import { JSONResult, Dict } from 'app/Types';
 
 
 const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, batching: boolean = false, token?: string) => {
-    let digitalMediaMAS: Dict[] = [];
+    let digitalMediaMAS: Dict = {};
 
     if (handle && token) {
         const endPoint: string = `/digitalmedia/${handle.replace(process.env.REACT_APP_DOI_URL as string, '')}/mas`;
@@ -26,10 +26,10 @@ const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, batchin
                 },
             });
 
-            /* Set Digital Media MASl */
-            const data: JSONResultArray = result.data;
+            /* Set Digital Media MAS */
+            const data: JSONResult = result.data;
 
-            digitalMediaMAS = data.data;
+            digitalMediaMAS = data.data.attributes;
         } catch (error) {
             console.warn(error);
         }

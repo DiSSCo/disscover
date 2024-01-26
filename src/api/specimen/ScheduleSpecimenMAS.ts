@@ -2,11 +2,11 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResultArray, Dict } from 'app/Types';
+import { JSONResult, Dict } from 'app/Types';
 
 
 const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, batching: boolean = false, token?: string) => {
-    let specimenMAS: Dict[] = [];
+    let specimenMAS: Dict = {};
 
     if (handle && token) {
         const endPoint: string = `/specimens/${handle.replace(process.env.REACT_APP_DOI_URL as string, '')}/mas`;
@@ -27,9 +27,9 @@ const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, batching: b
             });
 
             /* Set Specimen MAS */
-            const data: JSONResultArray = result.data;
+            const data: JSONResult = result.data;
 
-            specimenMAS = data.data;
+            specimenMAS = data.data.attributes;
         } catch (error) {
             console.warn(error);
         }

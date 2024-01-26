@@ -39,10 +39,11 @@ const AutomatedAnnotationsOverview = (props: Props) => {
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [filterState, setFilterState] = useState<string>('');
+    const [pollInterval, setPollInterval] = useState<NodeJS.Timeout>();
     const pageSize = 10;
 
-    /* OnLoad: Fetch Machine Job Records */
-    useEffect(() => {
+    /* Function for fetching and setting Macine Job Records */
+    const FetchMachingJobRecords = () => {
         GetMachineJobRecords(targetId, pageSize, pageNumber, filterState).then(({ machineJobRecords, links }) => {
             /* Construct table data */
             const tableData: DataRow[] = [];
@@ -63,10 +64,26 @@ const AutomatedAnnotationsOverview = (props: Props) => {
         }).catch(error => {
             console.warn(error);
         });
+    }
+
+    /* OnLoad: Fetch Machine Job Records */
+    useEffect(() => {
+        FetchMachingJobRecords();
+
+        return () => {
+            clearInterval(pollInterval);
+        }
     }, [filterState]);
 
     /* Table Config */
     const { columns } = MachineJobRecordTableConfig();
+
+    /* Initiate polling for updating the API */
+    if (!pollInterval) {
+        setPollInterval(setInterval(() => {
+            FetchMachingJobRecords();
+        }, 3000));
+    }
 
     return (
         <div className="h-100 d-flex flex-column">

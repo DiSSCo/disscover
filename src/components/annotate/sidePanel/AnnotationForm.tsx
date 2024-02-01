@@ -92,7 +92,7 @@ const AnnotationForm = (props: Props) => {
         const { targetField, targetClass, motivation } = DetermineFieldOrClass();
 
         /* If annotating a class instance, grab all fields from schema, otherwise grab annotation value field */
-        try {
+        if (targetClass && ['ods:adding', 'oa:editing']) {
             /* Get last class of path by removing indexes and dot notations */
             let classSchemaName: string = targetClass;
 
@@ -120,7 +120,7 @@ const AnnotationForm = (props: Props) => {
 
             /* Set Class form fields */
             setClassFormFields(classForm.formFields);
-        } catch {
+        } else {
             annotationValue = !isEmpty(editAnnotation) ? editAnnotation['oa:body']['oa:value'] : get(annotateTarget.target, targetField) as unknown[];
         }
 
@@ -333,7 +333,7 @@ const AnnotationForm = (props: Props) => {
             }}
         >
             {({ values, setFieldValue }) => {
-                const targetPropertyName: string = values.targetField ?? values.targetClass;
+                const targetPropertyName: string = values.targetField ? values.targetField : values.targetClass;
                 const targetPropertyType: string = values.targetField ? 'field' : 'class';
 
                 return (

@@ -68,7 +68,10 @@ const PromptMessages = () => {
     }
 
     return (
-        <ToastContainer position="bottom-end" className="my-4 mx-5">
+        <ToastContainer position="bottom-end"
+            className="my-4 mx-5"
+            style={{ zIndex: 1060}}
+        >
             {toBeRendered.map((promptMessage) => {
                 return promptMessage;
             })}

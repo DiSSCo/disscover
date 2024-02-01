@@ -9,7 +9,7 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { pushToPromptMessages } from 'redux/general/GeneralSlice';
-import { getMASTarget } from 'redux/annotate/AnnotateSlice';
+import { getMASTarget, pushToScheduledMASJobs } from 'redux/annotate/AnnotateSlice';
 import { getUser } from 'redux/user/UserSlice';
 
 /* Import Types */
@@ -43,7 +43,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Function for scheduling Machine Annotation Services */
-    const ScheduleMachineAnnotations = (selectedMAS: string[]) => {
+    const ScheduleMachineAnnotations = (selectedMAS: string[], batching: boolean) => {
         /* Create MAS request */
         const MASRecord = {
             data: {
@@ -56,24 +56,30 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_specimenMAS) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, batching, KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
                     message: 'Machine Annotation Service, committed successfully!',
                     template: 'success'
                 }));
+
+                /* Push to scheduled MAS */
+                dispatch(pushToScheduledMASJobs(masJobRecord.jobId));
             }).catch(error => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((_digitalMediaMAS) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, batching,  KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
                     message: 'Machine Annotation Service, committed successfully!',
                     template: 'success'
                 }));
+
+                /* Push to scheduled MAS */
+                dispatch(pushToScheduledMASJobs(masJobRecord.jobId));
             }).catch(error => {
                 console.warn(error);
             });
@@ -93,16 +99,17 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         <Formik initialValues={{
             selectedMAS: [] as string[],
-            MASList: ""
+            MASList: "",
+            batching: false
         }}
             onSubmit={async (values) => {
                 await new Promise((resolve) => setTimeout(resolve, 100));
 
                 /* Schedule Machine Annotation Services */
-                ScheduleMachineAnnotations(values.selectedMAS);
+                ScheduleMachineAnnotations(values.selectedMAS, values.batching);
             }}
         >
-            {({ values }) => (
+            {({ values, setFieldValue }) => (
                 <Form className="h-100">
                     <div className="h-100 d-flex flex-column">
                         <Row className="flex-grow-1">
@@ -127,7 +134,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                         <Col>
                                                             <p className="formFieldTitle"> Choose MAS to schedule </p>
                                                             <Field name="MASList" as="select"
-                                                                className="formField w-75 mt-1"
+                                                                className="formField w-75 mt-1 fs-4"
                                                                 onChange={(event: Dict) => push(event.target.value)}
                                                             >
                                                                 {availableMASList.length > 0 ?
@@ -190,7 +197,21 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                         </FieldArray>
                                     </Col>
                                 </Row>
-
+                            </Col>
+                        </Row>
+                        <Row className="mb-4">
+                            <Col className="col-md-auto pe-0">
+                                <Field name="batching"
+                                    type="checkbox"
+                                    className="checkbox"
+                                />
+                            </Col>
+                            <Col>
+                                <button type="button" className="button-no-style"
+                                    onClick={() => setFieldValue('batching', !values.batching)}
+                                >
+                                    <p>Allow batch annotations</p>
+                                </button>
                             </Col>
                         </Row>
                         <Row>

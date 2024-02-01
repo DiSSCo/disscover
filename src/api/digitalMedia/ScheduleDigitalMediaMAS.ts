@@ -5,8 +5,8 @@ import axios from 'axios';
 import { JSONResultArray, Dict } from 'app/Types';
 
 
-const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, token?: string) => {
-    let digitalMediaMAS: Dict[] = [];
+const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, batching: boolean = false, token?: string) => {
+    let digitalMediaMAS: Dict = {};
 
     if (handle && token) {
         const endPoint: string = `/digitalmedia/${handle.replace(process.env.REACT_APP_DOI_URL as string, '')}/mas`;
@@ -17,16 +17,19 @@ const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, token?:
                 url: endPoint,
                 data: MASRequest,
                 responseType: 'json',
+                params: {
+                    batching: batching
+                },
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
 
-            /* Set Digital Media MASl */
+            /* Set Digital Media MAS */
             const data: JSONResultArray = result.data;
 
-            digitalMediaMAS = data.data;
+            digitalMediaMAS = data.data[0].attributes;
         } catch (error) {
             console.warn(error);
         }

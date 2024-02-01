@@ -129,7 +129,8 @@ const DigitalMedia = () => {
     const DigitalMediaActions = (action: string) => {
         switch (action) {
             case 'json':
-                window.open(`${process.env.REACT_APP_HOST_URL}/api/v1/digitalmedia/${digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
+                `/api/v1/digitalmedia/${digitalMedia.digitalEntity['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
 
                 return;
             case 'sidePanel':

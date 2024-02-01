@@ -322,8 +322,21 @@ p {
   cursor: pointer;
 }
 
+/* Form Components */
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
 
-/* Global Components Styling */
+.filterDropdown {
+  width: 100%;
+  font-size: 0.875rem !important;
+  background-color: transparent;
+  border: 2px solid var(--secondary);
+  border-radius: 8px;
+}
+
+/* Global Components */
 .primaryButton {
   background-color: var(--primary);
   color: white;

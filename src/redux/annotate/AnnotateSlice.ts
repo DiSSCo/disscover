@@ -17,7 +17,8 @@ export interface AnnotateState {
     highlightAnnotationId: string;
     overviewAnnotations: Annotation[];
     MASTarget: DigitalSpecimen | DigitalEntity,
-    MASTabIndex: number
+    MASTabIndex: number,
+    scheduledMASJobs: string[]
 }
 
 const initialState: AnnotateState = {
@@ -38,7 +39,8 @@ const initialState: AnnotateState = {
     highlightAnnotationId: '',
     overviewAnnotations: [],
     MASTarget: {} as DigitalSpecimen | DigitalEntity,
-    MASTabIndex: 0
+    MASTabIndex: 0,
+    scheduledMASJobs: []
 };
 
 export const AnnotateSlice = createSlice({
@@ -68,6 +70,12 @@ export const AnnotateSlice = createSlice({
         },
         setMASTabIndex: (state, action: PayloadAction<number>) => {
             state.MASTabIndex = action.payload;
+        },
+        pushToScheduledMASJobs: (state, action: PayloadAction<string>) => {
+            state.scheduledMASJobs.push(action.payload);
+        },
+        removeFromScheduledMASJobs: (state, action: PayloadAction<string>) => {
+            state.scheduledMASJobs.splice(state.scheduledMASJobs.findIndex((masJobId) => masJobId === action.payload), 1);
         }
     },
 })
@@ -81,7 +89,9 @@ export const {
     setHighlightAnnotationId,
     setOverviewAnnotations,
     setMASTarget,
-    setMASTabIndex
+    setMASTabIndex,
+    pushToScheduledMASJobs,
+    removeFromScheduledMASJobs
 } = AnnotateSlice.actions;
 
 /* Connect with Root State */
@@ -93,5 +103,6 @@ export const getHighlightAnnotationId = (state: RootState) => state.annotate.hig
 export const getOverviewAnnotations = (state: RootState) => state.annotate.overviewAnnotations;
 export const getMASTarget = (state: RootState) => state.annotate.MASTarget;
 export const getMASTabIndex = (state: RootState) => state.annotate.MASTabIndex;
+export const getScheduledMASJobs = (state: RootState) => state.annotate.scheduledMASJobs;
 
 export default AnnotateSlice.reducer;

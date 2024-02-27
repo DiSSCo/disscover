@@ -43,7 +43,9 @@ const AutomatedAnnotationsForm = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Function for scheduling Machine Annotation Services */
-    const ScheduleMachineAnnotations = (selectedMAS: string[], batching: boolean) => {
+    const ScheduleMachineAnnotations = (selectedMAS: string[], allowBatchingFor: {[MASid: string]: boolean} | undefined) => {
+        console.log(selectedMAS);
+
         /* Create MAS request */
         const MASRecord = {
             data: {
@@ -54,9 +56,11 @@ const AutomatedAnnotationsForm = (props: Props) => {
             }
         };
 
+        // const allowBatching = 
+
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, batching, KeycloakService.GetToken()).then((masJobRecord) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, false, KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -70,7 +74,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, batching,  KeycloakService.GetToken()).then((masJobRecord) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, false, KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -99,14 +103,13 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         <Formik initialValues={{
             selectedMAS: [] as string[],
-            MASList: "",
-            batching: false
+            allowBatchingFor: {} as {[MASid: string]: boolean}
         }}
             onSubmit={async (values) => {
                 await new Promise((resolve) => setTimeout(resolve, 100));
 
                 /* Schedule Machine Annotation Services */
-                ScheduleMachineAnnotations(values.selectedMAS, values.batching);
+                ScheduleMachineAnnotations(values.selectedMAS, values.allowBatchingFor);
             }}
         >
             {({ values, setFieldValue }) => (
@@ -187,6 +190,28 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                                                 </p>
                                                                             </Col>
                                                                         </Row>
+                                                                        <Row className="mt-2">
+                                                                            <Col className="col-md-auto pe-0">
+                                                                                <Field name={`allowBatchingFor[${MASid}]`}
+                                                                                    type="checkbox"
+                                                                                    className="checkbox"
+                                                                                />
+                                                                            </Col>
+                                                                            <Col>
+                                                                                <button type="button" className="button-no-style"
+                                                                                    onClick={() => {
+                                                                                        if (values.allowBatchingFor) {
+                                                                                            setFieldValue('allowBatchingFor', { ...values.allowBatchingFor, [MASid]: true });
+                                                                                        } else {
+
+                                                                                        }
+                                                                                        
+                                                                                    }}
+                                                                                >
+                                                                                    <p>Allow batch annotations</p>
+                                                                                </button>
+                                                                            </Col>
+                                                                        </Row>
                                                                     </div>
                                                                 );
                                                             })}
@@ -197,21 +222,6 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                         </FieldArray>
                                     </Col>
                                 </Row>
-                            </Col>
-                        </Row>
-                        <Row className="mb-4">
-                            <Col className="col-md-auto pe-0">
-                                <Field name="batching"
-                                    type="checkbox"
-                                    className="checkbox"
-                                />
-                            </Col>
-                            <Col>
-                                <button type="button" className="button-no-style"
-                                    onClick={() => setFieldValue('batching', !values.batching)}
-                                >
-                                    <p>Allow batch annotations</p>
-                                </button>
                             </Col>
                         </Row>
                         <Row>

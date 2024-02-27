@@ -32,6 +32,8 @@ const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, batching: b
             specimenMAS = data.data[0].attributes;
         } catch (error) {
             console.warn(error);
+
+            throw(error);
         }
     }
 

@@ -23,9 +23,10 @@ import { faClipboardCheck, faFilter, faChevronLeft } from '@fortawesome/free-sol
 
 /* Import Components */
 import ActiveFiltersTag from './ActiveFiltersTag';
+import BooleanFilter from './filters/BooleanFilter';
+import DateFilter from './filters/DateFilter';
 import MultiSelectFilter from './filters/MultiSelectFilter';
 import TaxonomyFilters from './filters/TaxonomyFilters';
-import DateFilter from './filters/DateFilter';
 import TextFilter from './filters/TextFilter';
 
 
@@ -42,8 +43,9 @@ const SearchFilters = (props: Props) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
-    const filtersList: Dict = { ...SearchFiltersJSON };
+    const filters: Dict = { ...SearchFiltersJSON };
     const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
+    const filtersList = Object.keys(filters).concat(taxonomies);
     const aggregations = useAppSelector(getSearchAggregations);
 
     const initialValues: Dict = {
@@ -69,7 +71,7 @@ const SearchFilters = (props: Props) => {
     /* For each aggregation, set initial value for form */
     Object.keys(aggregations).forEach((aggregationKey) => {
         /* Check if Aggregation is in filters list */
-        if (Object.keys(filtersList).concat(taxonomies).includes(aggregationKey)) {
+        if (filtersList.includes(aggregationKey)) {
             /* Check for Search Filters and add to initial values */
             const searchFilters = searchParams.getAll(aggregationKey);
 
@@ -78,7 +80,15 @@ const SearchFilters = (props: Props) => {
 
             if (searchFilters) {
                 searchFilters.forEach((searchFilter) => {
-                    if (Object.keys(aggregations[aggregationKey]).includes(searchFilter)) {
+                    let identificationKey: string | number = searchFilter;
+
+                    if (filters[aggregationKey].filterType === 'boolean') {
+                        const key: boolean = identificationKey === 'true' ? true : false;
+
+                        identificationKey = key ? '1' : '0';
+                    }
+
+                    if (Object.keys(aggregations[aggregationKey]).includes(identificationKey)) {
                         initialValues.filters[aggregationKey].push(searchFilter);
                     }
                 });
@@ -91,7 +101,7 @@ const SearchFilters = (props: Props) => {
 
     /* Function for deactivating the Search Filter */
     const RemoveFilter = (filterKey: string, filterValue: string) => {
-        /* Remove filter from active filters list */
+        /* Remove filter from active filters */
         const newActiveFilters = activeFilters[filterKey].filter((filter: string) => filter !== filterValue);
 
         /* Remove all Search Params of filter key */
@@ -143,10 +153,10 @@ const SearchFilters = (props: Props) => {
                                                     />
                                                 </Col>
                                             </Row>
-                                            {/* Completeness filters */ }
+                                            {/* Completeness filters */}
                                             <Row>
                                                 <Col>
-                                                    <MultiSelectFilter filter={filtersList['midsLevel']}
+                                                    <MultiSelectFilter filter={filters['midsLevel']}
                                                         searchFilter='midsLevel'
                                                         items={aggregations['midsLevel']}
                                                         selectedItems={values.filters['midsLevel']}
@@ -182,12 +192,19 @@ const SearchFilters = (props: Props) => {
                                             {/* Search Filters */}
                                             <Row>
                                                 <Col>
-                                                    {Object.keys(filtersList).map((filterKey) => {
-                                                        const filter = filtersList[filterKey];
+                                                    {Object.keys(filters).map((filterKey) => {
+                                                        const filter = filters[filterKey];
 
                                                         if (filterKey !== 'midsLevel') {
                                                             /* Check kind of filter */
                                                             switch (filter.filterType) {
+                                                                case 'boolean':
+                                                                    {/* Boolean Filters */ }
+                                                                    return <BooleanFilter key={filterKey}
+                                                                        filter={filter}
+                                                                        searchFilter={filterKey}
+                                                                        selectedItem={values.filters[filterKey]}
+                                                                    />
                                                                 case 'date':
                                                                     {/* Date Filters */ }
                                                                     return <DateFilter key={filterKey}

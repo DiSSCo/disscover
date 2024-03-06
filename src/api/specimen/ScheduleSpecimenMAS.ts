@@ -30,7 +30,7 @@ const ScheduleSpecimenMAS = async (handle: string, MASRequest: Dict, token?: str
         } catch (error) {
             console.warn(error);
 
-            throw(error);
+            throw (error);
         }
     }
 

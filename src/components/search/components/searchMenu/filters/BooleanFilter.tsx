@@ -22,12 +22,8 @@ const BooleanFilter = (props: Props) => {
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
 
-    console.log(selectedItem)
-
     /* OnChange of boolean filter: update Search Params */
     useEffect(() => {
-        console.log(selectedItem);
-
         let item: string | number | boolean | undefined = selectedItem[0];
 
         if (item !== undefined) {
@@ -40,8 +36,6 @@ const BooleanFilter = (props: Props) => {
             }
 
             if (typeof (item) === 'string' && item !== searchParams.get(searchFilter)) {
-                console.log(item);
-
                 setSearchParams({[searchFilter]: item});
             }
         }
@@ -67,11 +61,6 @@ const BooleanFilter = (props: Props) => {
                                             value="true"
                                         />
                                         <span className="ps-1"> True </span>
-                                        {/* <DatePicker selected={selectedValue}
-                                            onChange={(date) => SetFieldValue(date)}
-                                            className="fs-4 rounded-full border-0 w-100 px-2 py-1"
-                                            placeholderText='Select a date'
-                                        /> */}
                                     </Col>
                                     <Col className="ps-0">
                                         <Field type="radio"
@@ -79,9 +68,6 @@ const BooleanFilter = (props: Props) => {
                                             value="false"
                                         />
                                         <span className="ps-1"> False </span>
-                                        {/* <FontAwesomeIcon icon={faCalendar}
-                                            className="c-primary me-2"
-                                        /> */}
                                     </Col>
                                 </Row>
                             </label>

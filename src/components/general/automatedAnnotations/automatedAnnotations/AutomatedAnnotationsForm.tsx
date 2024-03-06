@@ -43,20 +43,26 @@ const AutomatedAnnotationsForm = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Function for scheduling Machine Annotation Services */
-    const ScheduleMachineAnnotations = (selectedMAS: string[], allowBatchingFor: {[MASid: string]: boolean} | undefined) => {
-        console.log(selectedMAS);
+    const ScheduleMachineAnnotations = (selectedMAS: string[], allowBatchingFor: { [MASid: string]: boolean } | undefined) => {
+        /* Create MAS list */
+        const MASList: { masId: string, batching: boolean }[] = [];
+
+        selectedMAS.forEach((MASId) => {
+            MASList.push({
+                masId: MASId,
+                batching: allowBatchingFor?.[MASId] ? true : false
+            });
+        });
 
         /* Create MAS request */
         const MASRecord = {
             data: {
                 type: "MasRequest",
                 attributes: {
-                    mass: selectedMAS
+                    mass: MASList
                 }
             }
         };
-
-        // const allowBatching = 
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
@@ -103,7 +109,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         <Formik initialValues={{
             selectedMAS: [] as string[],
-            allowBatchingFor: {} as {[MASid: string]: boolean}
+            allowBatchingFor: {} as { [MASid: string]: boolean }
         }}
             onSubmit={async (values) => {
                 await new Promise((resolve) => setTimeout(resolve, 100));
@@ -205,7 +211,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                                                         } else {
 
                                                                                         }
-                                                                                        
+
                                                                                     }}
                                                                                 >
                                                                                     <p>Allow batch annotations</p>

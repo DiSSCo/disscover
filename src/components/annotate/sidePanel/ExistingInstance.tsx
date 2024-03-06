@@ -39,8 +39,6 @@ const ExistingInstance = (props: Props) => {
     let propertiesList: { key: string, value: Property }[] = [];
     let i = index + 1;
 
-    console.log(targetPropertyName);
-
     /* If target is class, get all properties and levels from existing instance */
     if (targetPropertyType === 'class') {
         propertiesList = ReturnPropertiesFromNestedObject(instance as Dict);

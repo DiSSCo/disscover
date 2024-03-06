@@ -29,7 +29,9 @@ const AutomatedAnnotationsListRecords = (props: Props) => {
                 const MAS = availableMASList.find(MASOption => MASOption.id === MASid) as Dict;
 
                 return (
-                    <div className="b-primary rounded-c px-3 py-2">
+                    <div key={MASid}
+                        className="b-primary rounded-c px-3 py-2"
+                    >
                         <Row>
                             <Col>
                                 <p className="fw-lightBold"> {MAS.attributes.mas.name} </p>

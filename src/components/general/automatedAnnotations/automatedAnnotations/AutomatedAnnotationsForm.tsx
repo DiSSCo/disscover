@@ -44,8 +44,6 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
     /* Function for scheduling Machine Annotation Services */
     const ScheduleMachineAnnotations = (selectedMAS: string[], allowBatchingFor: {[MASid: string]: boolean} | undefined) => {
-        console.log(selectedMAS);
-
         /* Create MAS request */
         const MASRecord = {
             data: {

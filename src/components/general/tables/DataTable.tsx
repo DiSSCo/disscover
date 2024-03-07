@@ -23,6 +23,7 @@ import styles from './tables.module.scss';
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { log } from 'console';
 
 
 /* Props Typing */

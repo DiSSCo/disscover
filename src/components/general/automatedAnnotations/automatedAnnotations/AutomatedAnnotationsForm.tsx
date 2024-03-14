@@ -15,13 +15,12 @@ import { getUser } from 'redux/user/UserSlice';
 /* Import Types */
 import { Dict } from 'app/Types';
 
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faX } from '@fortawesome/free-solid-svg-icons';
-
 /* Import API */
 import ScheduleSpecimenMAS from 'api/specimen/ScheduleSpecimenMAS';
 import ScheduleDigitalMediaMAS from 'api/digitalMedia/ScheduleDigitalMediaMAS';
+
+/* Import Components */
+import AutomatedAnnotationsListRecord from './AutomatedAnnotationListRecords';
 
 
 /* Props Typing */
@@ -43,20 +42,30 @@ const AutomatedAnnotationsForm = (props: Props) => {
     const user = useAppSelector(getUser);
 
     /* Function for scheduling Machine Annotation Services */
-    const ScheduleMachineAnnotations = (selectedMAS: string[], batching: boolean) => {
+    const ScheduleMachineAnnotations = (selectedMAS: string[], allowBatchingFor: { [MASid: string]: boolean } | undefined) => {
+        /* Create MAS list */
+        const MASList: { masId: string, batching: boolean }[] = [];
+
+        selectedMAS.forEach((MASId) => {
+            MASList.push({
+                masId: MASId,
+                batching: !!allowBatchingFor?.[MASId]
+            });
+        });
+
         /* Create MAS request */
         const MASRecord = {
             data: {
                 type: "MasRequest",
                 attributes: {
-                    mass: selectedMAS
+                    mass: MASList
                 }
             }
         };
 
         /* Schedule MAS */
         if (location.pathname.includes('ds')) {
-            ScheduleSpecimenMAS(target['ods:id'], MASRecord, batching, KeycloakService.GetToken()).then((masJobRecord) => {
+            ScheduleSpecimenMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -70,7 +79,7 @@ const AutomatedAnnotationsForm = (props: Props) => {
                 console.warn(error);
             });
         } else if (location.pathname.includes('dm')) {
-            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, batching,  KeycloakService.GetToken()).then((masJobRecord) => {
+            ScheduleDigitalMediaMAS(target['ods:id'], MASRecord, KeycloakService.GetToken()).then((masJobRecord) => {
                 /* Prompt the user the Machine Annotation Service is scheduled */
                 dispatch(pushToPromptMessages({
                     key: RandomString(),
@@ -99,14 +108,14 @@ const AutomatedAnnotationsForm = (props: Props) => {
 
         <Formik initialValues={{
             selectedMAS: [] as string[],
-            MASList: "",
-            batching: false
+            MASList: '',
+            allowBatchingFor: {} as { [MASid: string]: boolean }
         }}
             onSubmit={async (values) => {
                 await new Promise((resolve) => setTimeout(resolve, 100));
 
                 /* Schedule Machine Annotation Services */
-                ScheduleMachineAnnotations(values.selectedMAS, values.batching);
+                ScheduleMachineAnnotations(values.selectedMAS, values.allowBatchingFor);
             }}
         >
             {({ values, setFieldValue }) => (
@@ -133,7 +142,8 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                     <Row>
                                                         <Col>
                                                             <p className="formFieldTitle"> Choose MAS to schedule </p>
-                                                            <Field name="MASList" as="select"
+                                                            <Field as="select"
+                                                                name="MASList"
                                                                 className="formField w-75 mt-1 fs-4"
                                                                 onChange={(event: Dict) => push(event.target.value)}
                                                             >
@@ -160,36 +170,11 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                                     </Row>
                                                     <Row className="mt-3">
                                                         <Col>
-                                                            {/* Show all chosen Machine annotation services */}
-                                                            {values.selectedMAS.map((MASid, index) => {
-                                                                const MAS = availableMASList.find(MASOption => MASOption.id === MASid) as Dict;
-
-                                                                return (
-                                                                    <div key={MASid}
-                                                                        className="b-primary rounded-c px-3 py-2"
-                                                                    >
-                                                                        <Row>
-                                                                            <Col>
-                                                                                <p className="fw-lightBold"> {MAS.attributes.mas.name} </p>
-                                                                            </Col>
-                                                                            <Col className="col-md-auto">
-                                                                                <button type="button" className="removeButton">
-                                                                                    <FontAwesomeIcon icon={faX} className="px-2"
-                                                                                        onClick={() => remove(index)}
-                                                                                    />
-                                                                                </button>
-                                                                            </Col>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <Col md={{ span: 8 }}>
-                                                                                <p className="fs-4">
-                                                                                    {MAS.attributes.mas.serviceDescription}
-                                                                                </p>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </div>
-                                                                );
-                                                            })}
+                                                            <AutomatedAnnotationsListRecord values={values}
+                                                                availableMASList={availableMASList}
+                                                                SetFieldValue={(field: string, value: Dict) => setFieldValue(field, value)}
+                                                                Remove={(index: number) => remove(index)}
+                                                            />
                                                         </Col>
                                                     </Row>
                                                 </>
@@ -197,21 +182,6 @@ const AutomatedAnnotationsForm = (props: Props) => {
                                         </FieldArray>
                                     </Col>
                                 </Row>
-                            </Col>
-                        </Row>
-                        <Row className="mb-4">
-                            <Col className="col-md-auto pe-0">
-                                <Field name="batching"
-                                    type="checkbox"
-                                    className="checkbox"
-                                />
-                            </Col>
-                            <Col>
-                                <button type="button" className="button-no-style"
-                                    onClick={() => setFieldValue('batching', !values.batching)}
-                                >
-                                    <p>Allow batch annotations</p>
-                                </button>
                             </Col>
                         </Row>
                         <Row>

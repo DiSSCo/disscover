@@ -5,7 +5,7 @@ import axios from 'axios';
 import { JSONResultArray, Dict } from 'app/Types';
 
 
-const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, batching: boolean = false, token?: string) => {
+const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, token?: string) => {
     let digitalMediaMAS: Dict = {};
 
     if (handle && token) {
@@ -17,9 +17,6 @@ const ScheduleDigitalMediaMAS = async (handle: string, MASRequest: Dict, batchin
                 url: endPoint,
                 data: MASRequest,
                 responseType: 'json',
-                params: {
-                    batching: batching
-                },
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`

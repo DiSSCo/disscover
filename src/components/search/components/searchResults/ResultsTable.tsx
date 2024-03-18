@@ -227,6 +227,16 @@ const ResultsTable = (props: Props) => {
         const tableData: DataRow[] = [];
 
         const PushToTableData = (specimen: DigitalSpecimen, index: number) => {
+            /* Determine Scientific Name */
+            let scientificName: string = '';
+
+            if (specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])) {
+                scientificName = specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'] ??
+                    specimen.digitalSpecimen['dwc:identification']?.[0]?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '';
+            } else {
+                scientificName = specimen.digitalSpecimen['dwc:identification']?.[0]?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '';
+            }
+
             /* Push record to table data */
             const tableRecord: DataRow = {
                 index: index,

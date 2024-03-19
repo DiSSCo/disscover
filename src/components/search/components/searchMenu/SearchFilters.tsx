@@ -83,7 +83,7 @@ const SearchFilters = (props: Props) => {
                     let identificationKey: string | number = searchFilter;
 
                     if (filters[aggregationKey].filterType === 'boolean') {
-                        const key: boolean = identificationKey === 'true' ? true : false;
+                        const key: boolean = identificationKey === 'true';
 
                         identificationKey = key ? '1' : '0';
                     }
@@ -199,33 +199,33 @@ const SearchFilters = (props: Props) => {
                                                             /* Check kind of filter */
                                                             switch (filter.filterType) {
                                                                 case 'boolean':
-                                                                    {/* Boolean Filters */ }
+                                                                    /* Boolean Filters */ 
                                                                     return <BooleanFilter key={filterKey}
                                                                         filter={filter}
                                                                         searchFilter={filterKey}
                                                                         selectedItem={values.filters[filterKey]}
                                                                     />
                                                                 case 'date':
-                                                                    {/* Date Filters */ }
+                                                                    /* Date Filters */ 
                                                                     return <DateFilter key={filterKey}
                                                                         filter={filter}
                                                                         selectedValue={values.filters[filterKey]}
                                                                         SetFieldValue={(date: Date) => setFieldValue(`filters.${filterKey}`, date)}
                                                                     />
                                                                 case 'text':
-                                                                    {/* Text Filters */ }
+                                                                    /* Text Filters */ 
                                                                     return <TextFilter key={filterKey}
                                                                         filter={filter}
                                                                         searchFilter={filterKey}
                                                                     />
                                                                 case 'taxonomy':
-                                                                    {/* Taxonomy Filters */ }
+                                                                    /* Taxonomy Filters */ 
                                                                     return <TaxonomyFilters key={filterKey}
                                                                         selectedItems={values.filters}
                                                                         SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
                                                                     />
                                                                 default:
-                                                                    {/* Aggregation Filters */ }
+                                                                    /* Aggregation Filters */ 
                                                                     if (Object.keys(aggregations).includes(filterKey)) {
                                                                         const aggregation = aggregations[filterKey];
 

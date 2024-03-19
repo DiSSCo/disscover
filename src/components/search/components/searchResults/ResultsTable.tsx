@@ -17,28 +17,23 @@ import { DigitalSpecimen, Dict } from 'app/Types';
 /* Import Config */
 import SearchResultsTableConfig from 'app/config/tables/SearchResultsTableConfig';
 
-/* Import Webroot */
-import Spinner from 'webroot/icons/spinner.svg';
-
 /* Import Components */
 import TopicDisciplineIcon from 'components/general/icons/TopicDisciplineIcon';
 import DataTable from 'components/general/tables/DataTable';
 
 /* Import API */
 import GetPhylopicIcon from 'api/general/GetPhylopicIcon';
-import { log } from 'console';
 
 
 /* Props Styling */
 interface Props {
     pageNumber: number,
-    pageSize: number,
     HideFilters: Function
 };
 
 
 const ResultsTable = (props: Props) => {
-    const { pageNumber, pageSize, HideFilters } = props;
+    const { pageNumber, HideFilters } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -174,6 +169,22 @@ const ResultsTable = (props: Props) => {
         ]
         const renderedIcons: Dict = {};
 
+        /* Function for checking if icon is in rendered icons */
+        const CheckRenderedIcons = async (taxonomyIdentification: string, index: number) => {
+            if (taxonomyIdentification in renderedIcons) {
+                copyTableData[index].taxonomyIconUrl = renderedIcons[taxonomyIdentification];
+            } else {
+                await GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
+                    copyTableData[index].taxonomyIconUrl = taxonomyIconUrl ?? '';
+
+                    /* Add to rendered icons */
+                    renderedIcons[taxonomyIdentification] = taxonomyIconUrl;
+                }).catch(error => {
+                    console.warn(error);
+                });
+            }
+        }
+
         for (let index = 0; index < tableData.length; index++) {
             const tableRecord = tableData[index];
 
@@ -203,18 +214,7 @@ const ResultsTable = (props: Props) => {
                     taxonomyIdentification = specimen.digitalSpecimen['ods:specimenName'].split(' ')[0];
                 }
 
-                if (taxonomyIdentification in renderedIcons) {
-                    copyTableData[index].taxonomyIconUrl = renderedIcons[taxonomyIdentification];
-                } else {
-                    await GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
-                        copyTableData[index].taxonomyIconUrl = taxonomyIconUrl ?? '';
-
-                        /* Add to rendered icons */
-                        renderedIcons[taxonomyIdentification] = taxonomyIconUrl;
-                    }).catch(error => {
-                        console.warn(error);
-                    });
-                }
+                await CheckRenderedIcons(taxonomyIdentification, index);
             }
         }
 
@@ -243,7 +243,7 @@ const ResultsTable = (props: Props) => {
                 DOI: specimen.digitalSpecimen['ods:id'],
                 accessionName: specimen.digitalSpecimen['ods:specimenName'],
                 accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'],
-                scientificName: specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'],
+                scientificName: scientificName,
                 specimenType: specimen.digitalSpecimen['ods:topicDiscipline'],
                 origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'],
                 collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'],

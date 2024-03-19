@@ -6,6 +6,9 @@ import classNames from 'classnames';
 import { GetFilters } from 'app/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
+/* Import Utilities */
+import { CheckCurrentTaxonomyLevel } from 'app/utilities/TaxonomyUtilities';
+
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getPaginationObject, setPaginationObject } from 'redux/general/GeneralSlice';
@@ -45,6 +48,7 @@ import CompareSteps from './steps/CompareSteps';
 import SearchSpecimens from 'api/specimen/SearchSpecimens';
 import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
 import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
+import GetSpecimenTaxonomyAggregations from 'api/specimen/GetSpecimenTaxonomyAggregations';
 
 
 const Search = () => {
@@ -63,7 +67,7 @@ const Search = () => {
     const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
-    
+
     /* OnLoad: disabel compare mode and reset compare specimens */
     useEffect(() => {
         dispatch(setCompareMode(false));
@@ -112,8 +116,37 @@ const Search = () => {
             }
         }
 
-        GetSpecimenAggregations(searchFilters).then((aggregations) => {
-            dispatch(setSearchAggregations(aggregations));
+        /* Check for deepest taxonomy level */
+        let taxonomyAggregation: [string, string] = ['kingdom', ''];
+
+        searchFilters.forEach((searchFilter: Dict) => {
+            const searchFilterName: string = Object.keys(searchFilter)[0];
+
+            if (['kingdom', 'phylum', 'class', 'order', 'family', 'genus'].includes(searchFilterName)) {
+                console.log(CheckCurrentTaxonomyLevel(searchFilterName, taxonomyAggregation[0]));
+
+                const currentTaxonomyLevel: string = CheckCurrentTaxonomyLevel(searchFilterName, taxonomyAggregation[0]);
+
+                taxonomyAggregation = [currentTaxonomyLevel, searchFilter[currentTaxonomyLevel]];
+            }
+        });
+
+        Promise.allSettled([
+            GetSpecimenAggregations(searchFilters),
+            GetSpecimenTaxonomyAggregations(taxonomyAggregation[0], taxonomyAggregation[1])
+        ]).then((results) => {
+            /* Combine default and taxonomy aggregations */
+            let combinedAggregations: Dict = {};
+
+            if (results[0].status === 'fulfilled' && !isEmpty(results[0].value)) {
+                combinedAggregations = { ...results[0].value };
+            }
+
+            if (results[1].status === 'fulfilled' && !isEmpty(results[1].value)) {
+                combinedAggregations = { ...combinedAggregations, ...results[1].value };
+            }
+
+            dispatch(setSearchAggregations(combinedAggregations));
         }).catch(error => {
             console.warn(error);
         });

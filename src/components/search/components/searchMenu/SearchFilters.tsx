@@ -43,7 +43,7 @@ const SearchFilters = (props: Props) => {
 
     /* Base variables */
     const filtersList: Dict = { ...SearchFiltersJSON };
-    const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
+    const taxonomies = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus'];
     const aggregations = useAppSelector(getSearchAggregations);
 
     const initialValues: Dict = {

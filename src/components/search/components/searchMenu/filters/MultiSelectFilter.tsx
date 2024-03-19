@@ -85,11 +85,18 @@ const MultiSelectFilter = (props: Props) => {
 
         /* Function to Refresh Aggregations */
         const RefreshAggregations = () => {
-            GetSpecimenAggregations(searchFilters).then((aggregations) => {
-                dispatch(setSearchAggregations(aggregations));
-            }).catch(error => {
-                console.warn(error);
+            Promise.allSettled([
+                GetSpecimenAggregations(searchFilters),
+
+            ]).then((results) => {
+                console.log(results);
             });
+
+            // GetSpecimenAggregations(searchFilters).then((aggregations) => {
+            //     dispatch(setSearchAggregations(aggregations));
+            // }).catch(error => {
+            //     console.warn(error);
+            // });
         }
 
         if (searchQuery) {
@@ -122,6 +129,8 @@ const MultiSelectFilter = (props: Props) => {
 
     /* OnChange of selected Items: Filter Specimens by */
     useEffect(() => {
+        console.log(selectedItems);
+
         if (selectedItems.length !== searchParams.getAll(searchFilter).length) {
             setSearchParams(searchParams => {
                 if (selectedItems.length < searchParams.getAll(searchFilter).length) {
@@ -189,6 +198,9 @@ const MultiSelectFilter = (props: Props) => {
             </Row>
         );
     } else {
+        console.log(filter);
+        console.log(filteredItems);
+
         return (
             <Row className={`${filter.filterType !== 'taxonomy' && 'mt-2'} px-2`}>
                 <Col>
@@ -258,6 +270,11 @@ const MultiSelectFilter = (props: Props) => {
                                                     method={() => push(item[0])}
                                                 />
                                             })}
+
+                                            {/* Show message if no options are present at all */}
+                                            {(!filteredItems.selected.length && !filteredItems.selectable.length) &&
+                                                <p className="fs-5"> No options found </p>
+                                            }
                                         </div>
                                     )}
                                 </FieldArray>

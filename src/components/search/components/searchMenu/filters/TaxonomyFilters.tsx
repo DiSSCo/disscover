@@ -46,6 +46,10 @@ const TaxonomyFilters = (props: Props) => {
             displayName: 'Phylum',
             filterType: 'taxonomy'
         },
+        class: {
+            displayName: 'Class',
+            filterType: 'taxonomy'
+        },
         order: {
             displayName: 'Order',
             filterType: 'taxonomy'
@@ -129,22 +133,22 @@ const TaxonomyFilters = (props: Props) => {
 
                         {filterToggle &&
                             <div className="b-primary rounded-c mt-2">
-                                {Object.keys(taxonomyFilters).map((taxonomy, index) => {
+                                {Object.keys(taxonomyFilters).map((taxonomyLevel, index) => {
                                     let parentTaxonomy: string = '';
 
-                                    if (taxonomy !== 'kingdom') {
+                                    if (taxonomyLevel !== 'kingdom') {
                                         parentTaxonomy = Object.keys(taxonomyFilters)[index - 1];
                                     }
 
                                     return (
-                                        <div key={taxonomy}>
-                                            {(taxonomy === 'kingdom' || !isEmpty(selectedItems[parentTaxonomy])) &&
-                                                <MultiSelectFilter key={taxonomy}
-                                                    filter={taxonomyFilters[taxonomy]}
-                                                    searchFilter={taxonomy}
-                                                    items={aggregations[taxonomy]}
-                                                    selectedItems={selectedItems[taxonomy]}
+                                        <div key={taxonomyLevel}>
+                                            {(taxonomyLevel === 'kingdom' || (taxonomyLevel in aggregations && selectedItems[parentTaxonomy].length)) ?
+                                                <MultiSelectFilter filter={taxonomyFilters[taxonomyLevel]}
+                                                    searchFilter={taxonomyLevel}
+                                                    items={aggregations[taxonomyLevel]}
+                                                    selectedItems={selectedItems[taxonomyLevel]}
                                                 />
+                                                : null
                                             }
                                         </div>
                                     );

@@ -1,14 +1,14 @@
 /* Import Webroot */
-import AnthropologyIcon from 'webroot/icons/topicDiscipline/anthropology.svg';
-import AstrogeologyIcon from 'webroot/icons/topicDiscipline/astrogeology.svg';
-import BotanyIcon from 'webroot/icons/topicDiscipline/botany.svg';
-import EcologyIcon from 'webroot/icons/topicDiscipline/ecology.svg';
-import GeologyIcon from 'webroot/icons/topicDiscipline/geology.svg';
-import MicrobiologyIcon from 'webroot/icons/topicDiscipline/microbiology.svg';
+import AnthropologyIcon from 'webroot/icons/topicDiscipline/anthropology.png';
+import AstrogeologyIcon from 'webroot/icons/topicDiscipline/astrogeology.png';
+import BotanyIcon from 'webroot/icons/topicDiscipline/botany.png';
+import EcologyIcon from 'webroot/icons/topicDiscipline/ecology.png';
+import GeologyIcon from 'webroot/icons/topicDiscipline/geology.png';
+import MicrobiologyIcon from 'webroot/icons/topicDiscipline/microbiology.png';
 import OtherBiodiversityIcon from 'webroot/icons/topicDiscipline/otherBiodiversity.svg';
 import OtherGeodiversityIcon from 'webroot/icons/topicDiscipline/otherGeodiversity.svg';
-import PalaeontologyIcon from 'webroot/icons/topicDiscipline/palaeontology.svg';
-import ZoologyIcon from 'webroot/icons/topicDiscipline/zoology.svg';
+import PalaeontologyIcon from 'webroot/icons/topicDiscipline/palaeontology.png';
+import ZoologyIcon from 'webroot/icons/topicDiscipline/zoology.png';
 
 
 const TopicDisciplineIcon = (topicDiscipline?: string) => {

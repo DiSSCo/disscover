@@ -29,6 +29,16 @@ interface Props {
 const IDCard = (props: Props) => {
     const { specimen, extensions, OnClose } = props;
 
+    /* Determine Scientific Name */
+    let scientificName: string = '';
+
+    if (specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])) {
+        scientificName = specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'] ??
+            specimen.digitalSpecimen['dwc:identification']?.[0]?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '';
+    } else {
+        scientificName = specimen.digitalSpecimen['dwc:identification']?.[0]?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '';
+    }
+
     return (
         <Card className="h-100 px-4 py-3">
             <div className="h-100 d-flex flex-column">
@@ -61,8 +71,8 @@ const IDCard = (props: Props) => {
                             </Col>
                             <Col className="col-md-auto pe-1">
                                 <p className="fs-4 c-primary">
-                                    {specimen.digitalSpecimen['ods:topicDiscipline']} | {specimen.digitalSpecimen['ods:livingOrPreserved']}    
-                                </p> 
+                                    {specimen.digitalSpecimen['ods:topicDiscipline']} | {specimen.digitalSpecimen['ods:livingOrPreserved']}
+                                </p>
                             </Col>
                         </Row>
 
@@ -105,7 +115,7 @@ const IDCard = (props: Props) => {
                         <Row className="mt-4">
                             <Col>
                                 <p className="fs-4">
-                                    <span className="fw-bold"> Scientific Name: </span> {specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName']}
+                                    <span className="fw-bold"> Scientific Name: </span> {scientificName}
                                 </p>
                                 <p className="fs-4 mt-2">
                                     <span className="fw-bold"> Specimen Type: </span> {specimen.digitalSpecimen['ods:type']}

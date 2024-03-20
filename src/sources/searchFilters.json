@@ -38,7 +38,7 @@
     },
     "hasMedia": {
         "displayName": "Has Media",
-        "filterType": "checkbox"
+        "filterType": "boolean"
     },
     "collectionCode": {
         "displayName": "Collection Code"

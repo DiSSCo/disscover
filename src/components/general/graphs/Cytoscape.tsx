@@ -38,7 +38,7 @@ const Cytoscape = (props: Props) => {
 
     /* Function to try and find logo to display in node */
     const FindLogo = ({ id, name }) => {
-        let logo: JSX.Element;
+        let logo: JSX.Element | string;
 
         /* Grab organisation id if is organisation link */
         switch (name) {
@@ -53,16 +53,14 @@ const Cytoscape = (props: Props) => {
                     }
                 }
 
-                break;
+                return logo;
             case 'hasSourceSystemId':
                 logo = <FontAwesomeIcon icon={faDatabase} />
 
-                break;
+                return logo;
             default:
-                break;
+                return;
         }
-
-        return logo
     }
 
     /* Push target as center piece to graph */
@@ -71,6 +69,7 @@ const Cytoscape = (props: Props) => {
             id: 'test',
             label: target['ods:specimenName']
         },
+        classes: 'targetNode',
         style: {
             'background-color': '#4d59a2'
         }
@@ -86,8 +85,9 @@ const Cytoscape = (props: Props) => {
                 label: relation.name
             },
             style: {
-                'background-image': logo,
-                ...(relation.annotation && { 'background-color': '#28bacb' })
+                'background-color': '#A1D8CA',
+                ...(relation.annotation && { 'background-color': '#28bacb' }),
+                'background-image': logo
             }
         });
 
@@ -98,7 +98,8 @@ const Cytoscape = (props: Props) => {
                 source: 'test',
                 target: relation.id,
                 label: relation.name
-            }
+            },
+            classes: "label"
         });
     });
 
@@ -115,6 +116,22 @@ const Cytoscape = (props: Props) => {
             style: {
                 label: 'data(label)',
                 'font-size': '10rem'
+            }
+        },
+        {
+            selector: '.targetNode',
+            style: {
+                label: 'data(label)'
+            }
+        },
+        {
+            selector: '.label',
+            style: {
+                'color': '#333333',
+                'font-weight': 'bold',
+                'text-background-color': '#ffffff',
+                'text-background-opacity': 0.6,
+                'text-background-padding': '4px'
             }
         }
     ];

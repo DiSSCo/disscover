@@ -218,7 +218,7 @@ const ResultsTable = (props: Props) => {
             }
         }
 
-        setTableData(copyTableData);;
+        setTableData(copyTableData);
     }
 
     /* OnChange of Specimen Search Results: update Table Data */

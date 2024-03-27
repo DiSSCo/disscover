@@ -31,12 +31,13 @@ import TextFilter from './filters/TextFilter';
 
 /* Props Typing */
 interface Props {
+    RefreshAggregations: Function,
     HideFilters: Function
 };
 
 
 const SearchFilters = (props: Props) => {
-    const { HideFilters } = props;
+    const { RefreshAggregations, HideFilters } = props;
 
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
@@ -150,6 +151,7 @@ const SearchFilters = (props: Props) => {
                                                         searchFilter='midsLevel'
                                                         items={aggregations['midsLevel']}
                                                         selectedItems={values.filters['midsLevel']}
+                                                        RefreshAggregations={() => RefreshAggregations()}
                                                     />
                                                 </Col>
                                             </Row>
@@ -206,6 +208,7 @@ const SearchFilters = (props: Props) => {
                                                                     return <TaxonomyFilters key={filterKey}
                                                                         selectedItems={values.filters}
                                                                         SetFieldValue={(taxonomy: string, value: string[]) => setFieldValue(`filters.${taxonomy}`, value)}
+                                                                        RefreshAggregations={() => RefreshAggregations()}
                                                                     />
                                                                 default:
                                                                     {/* Aggregation Filters */ }
@@ -217,6 +220,7 @@ const SearchFilters = (props: Props) => {
                                                                             searchFilter={filterKey}
                                                                             items={aggregation}
                                                                             selectedItems={values.filters[filterKey as keyof typeof values.filters]}
+                                                                            RefreshAggregations={() => RefreshAggregations()}
                                                                         />
                                                                     } else {
                                                                         return;

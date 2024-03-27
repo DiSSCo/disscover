@@ -32,7 +32,8 @@ interface Props {
     filter: Dict,
     searchFilter: string,
     items: [],
-    selectedItems: string[]
+    selectedItems: string[],
+    RefreshAggregations: Function
 };
 
 const MultiSelectFilter = (props: Props) => {
@@ -40,7 +41,8 @@ const MultiSelectFilter = (props: Props) => {
         filter,
         searchFilter,
         items,
-        selectedItems
+        selectedItems,
+        RefreshAggregations
     } = props;
 
     /* Hooks */
@@ -83,22 +85,6 @@ const MultiSelectFilter = (props: Props) => {
     useEffect(() => {
         const copyAggregations = { ...aggregations };
 
-        /* Function to Refresh Aggregations */
-        const RefreshAggregations = () => {
-            Promise.allSettled([
-                GetSpecimenAggregations(searchFilters),
-
-            ]).then((results) => {
-                console.log(results);
-            });
-
-            // GetSpecimenAggregations(searchFilters).then((aggregations) => {
-            //     dispatch(setSearchAggregations(aggregations));
-            // }).catch(error => {
-            //     console.warn(error);
-            // });
-        }
-
         if (searchQuery) {
             /* Search for aggregations by search query */
             GetSpecimenSearchTermAggregations(searchFilter, searchQuery).then((filterAggregations) => {
@@ -121,7 +107,7 @@ const MultiSelectFilter = (props: Props) => {
             }).catch(error => {
                 console.warn(error);
             });
-        } else if (searchQuery === '') {
+        } else {
             /* Reset to the default, biggest aggregations */
             RefreshAggregations();
         }
@@ -129,8 +115,6 @@ const MultiSelectFilter = (props: Props) => {
 
     /* OnChange of selected Items: Filter Specimens by */
     useEffect(() => {
-        console.log(selectedItems);
-
         if (selectedItems.length !== searchParams.getAll(searchFilter).length) {
             setSearchParams(searchParams => {
                 if (selectedItems.length < searchParams.getAll(searchFilter).length) {
@@ -198,9 +182,6 @@ const MultiSelectFilter = (props: Props) => {
             </Row>
         );
     } else {
-        console.log(filter);
-        console.log(filteredItems);
-
         return (
             <Row className={`${filter.filterType !== 'taxonomy' && 'mt-2'} px-2`}>
                 <Col>

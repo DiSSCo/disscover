@@ -22,12 +22,13 @@ import MultiSelectFilter from './MultiSelectFilter';
 /* Props Typing */
 interface Props {
     selectedItems: Dict
-    SetFieldValue: Function
+    SetFieldValue: Function,
+    RefreshAggregations: Function
 };
 
 
 const TaxonomyFilters = (props: Props) => {
-    const { selectedItems, SetFieldValue } = props;
+    const { selectedItems, SetFieldValue, RefreshAggregations } = props;
 
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
@@ -146,7 +147,8 @@ const TaxonomyFilters = (props: Props) => {
                                                 <MultiSelectFilter filter={taxonomyFilters[taxonomyLevel]}
                                                     searchFilter={taxonomyLevel}
                                                     items={aggregations[taxonomyLevel]}
-                                                    selectedItems={selectedItems[taxonomyLevel]}
+                                                    selectedItems={selectedItems[taxonomyLevel] ?? []}
+                                                    RefreshAggregations={() => RefreshAggregations()}
                                                 />
                                                 : null
                                             }

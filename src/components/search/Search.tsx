@@ -123,8 +123,6 @@ const Search = () => {
             const searchFilterName: string = Object.keys(searchFilter)[0];
 
             if (['kingdom', 'phylum', 'class', 'order', 'family', 'genus'].includes(searchFilterName)) {
-                console.log(CheckCurrentTaxonomyLevel(searchFilterName, taxonomyAggregation[0]));
-
                 const currentTaxonomyLevel: string = CheckCurrentTaxonomyLevel(searchFilterName, taxonomyAggregation[0]);
 
                 taxonomyAggregation = [currentTaxonomyLevel, searchFilter[currentTaxonomyLevel]];
@@ -138,12 +136,12 @@ const Search = () => {
             /* Combine default and taxonomy aggregations */
             let combinedAggregations: Dict = {};
 
-            if (results[0].status === 'fulfilled' && !isEmpty(results[0].value)) {
-                combinedAggregations = { ...results[0].value };
-            }
-
             if (results[1].status === 'fulfilled' && !isEmpty(results[1].value)) {
                 combinedAggregations = { ...combinedAggregations, ...results[1].value };
+            }
+
+            if (results[0].status === 'fulfilled' && !isEmpty(results[0].value)) {
+                combinedAggregations = { ...combinedAggregations, ...results[0].value };
             }
 
             dispatch(setSearchAggregations(combinedAggregations));
@@ -286,7 +284,9 @@ const Search = () => {
                                         <Row className="flex-grow-1 overflow-scroll">
                                             <Col>
                                                 {/* Search Menu */}
-                                                <SearchFilters HideFilters={() => setFilterToggle(false)} />
+                                                <SearchFilters RefreshAggregations={() => RefreshAggregations()}
+                                                    HideFilters={() => setFilterToggle(false)}
+                                                />
                                             </Col>
                                         </Row>
                                     </div>

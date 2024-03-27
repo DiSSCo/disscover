@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
+import { Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -15,8 +16,14 @@ import { Dict } from 'app/Types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
+/* Import Styles */
+import styles from 'components/search/search.module.scss';
+
 /* Import Components */
 import MultiSelectFilter from './MultiSelectFilter';
+
+/* Import API */
+import SearchSpecimenSearchTermValue from 'api/specimen/SearchSpecimenSpeciesName';
 
 
 /* Props Typing */
@@ -36,6 +43,7 @@ const TaxonomyFilters = (props: Props) => {
     /* Base variables */
     const aggregations = useAppSelector(getSearchAggregations);
     const [filterToggle, setFilterToggle] = useState<boolean>(false);
+    const [speciesResults, setSpeciesResults] = useState<Dict | undefined>();
 
     /* Taxonomy filters, listed by hierarchical order */
     const taxonomyFilters: Dict = {
@@ -93,6 +101,28 @@ const TaxonomyFilters = (props: Props) => {
         }
     }, [aggregations]);
 
+    /* Function to search by a taxonomy level query, retuning relevant scientific names */
+    const SearchByTaxonomicQuery = (query: string) => {
+        if (query) {
+            SearchSpecimenSearchTermValue('species', query).then((results: Dict) => {
+                setSpeciesResults(results);
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            setSpeciesResults(undefined);
+        }
+    }
+
+    /* Function to toggle Taxonomy Filter */
+    const ToggleTaxonomyFilter = (toggle?: boolean) => {
+        if (filterToggle) {
+            setSpeciesResults(undefined);
+        }
+
+        setFilterToggle(toggle ?? !filterToggle);
+    }
+
     return (
         <Row className="mt-2 px-2">
             <Col>
@@ -106,32 +136,49 @@ const TaxonomyFilters = (props: Props) => {
 
                         <Row>
                             <Col>
-                                <div className="b-primary rounded-full"
-                                    onClick={() => setFilterToggle(!filterToggle)}
-                                >
+                                <div className="b-primary rounded-full position-relative">
                                     <Row>
                                         <Col className="c-pointer">
-                                            <div className="fs-4 c-greyDark rounded-full border-0 w-100 px-2 py-1">
-                                                Select
-                                            </div>
+                                            <Field name={`scientificName`}
+                                                className="fs-4 rounded-full border-0 w-100 px-2 py-1"
+                                                placeholder="Select or type"
+                                                onFocus={() => ToggleTaxonomyFilter(true)}
+                                                onChange={(input: Dict) => SearchByTaxonomicQuery(input.target.value)}
+                                            />
                                         </Col>
                                         <Col className="col-md-auto c-pointer pe-4">
                                             {filterToggle ?
                                                 <FontAwesomeIcon icon={faChevronUp}
                                                     className="c-primary c-pointer"
-                                                    onClick={() => setFilterToggle(false)}
+                                                    onClick={() => ToggleTaxonomyFilter(false)}
                                                 />
                                                 : <FontAwesomeIcon icon={faChevronDown}
                                                     className="c-primary c-pointer"
-                                                    onClick={() => setFilterToggle(true)}
+                                                    onClick={() => ToggleTaxonomyFilter(true)}
                                                 />
                                             }
                                         </Col>
                                     </Row>
+
+
+                                    {/* If present, display Species Search Results */}
+                                    {(speciesResults && filterToggle) &&
+                                        <div className="position-absolute w-100 mt-2">
+                                            {Object.entries(speciesResults).map(([scientificName, number]) => (
+                                                <Row>
+                                                    <Col>
+                                                        <div className={`${styles.filterSpeciesOption} transition bgc-white px-3 py-2 b-grey`}>
+                                                            <p className="fs-4"> {scientificName} </p>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            ))}
+                                        </div>
+                                    }
                                 </div>
                             </Col>
                         </Row>
-
+ 
                         {filterToggle &&
                             <div className="b-primary rounded-c mt-2">
                                 {Object.keys(taxonomyFilters).map((taxonomyLevel, index) => {

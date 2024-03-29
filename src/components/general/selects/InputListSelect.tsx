@@ -106,9 +106,8 @@ const InputSelectList = (props: Props) => {
             {items &&
                 <ul className="p-0 list-style-none">
                     {items.map((item, index) => (
-                        <li>
-                            <button key={item.name}
-                                className={ClassInputSelectListItem(index)}
+                        <li key={item.name}>
+                            <button className={ClassInputSelectListItem(index)}
                                 onMouseEnter={() => setSelectedIndex(index)}
                                 onClick={() => {
                                     OnItemSelect(item.name);

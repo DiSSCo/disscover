@@ -84,3 +84,8 @@
 .DOILogo {
     width: 30px;
 }
+
+.warningMessage {
+    color: red;
+    padding-left: 10px;
+}

@@ -45,12 +45,12 @@ const DOITooltipDemo = (props: Props) => {
 
             if (record.data) {
                 setActive(true);
-
                 setRecord(record);
             }
         } catch (error) {
-
             console.warn(error);
+
+            setActive(true);
         }
     }
 
@@ -83,12 +83,15 @@ const DOITooltipDemo = (props: Props) => {
         marginLeft: targetRef.current ? `${targetRef.current?.offsetLeft}px` : '0px'
     }
 
+    console.log(active);
+    console.log(record);
+
     return (
         <>
             <button type="button" style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef} onClick={() => TriggerTooltip()}> {children} </button>
 
             <div id="disscoTooltip" className={`tooltip ${active && 'active'}`} ref={DOITooltipRef} style={offsetStyles}>
-                {record.data ?
+                {record?.data ?
                     <>
                         {/* Digital Extended Specimen */}
                         <div className="tooltipRow">
@@ -139,7 +142,7 @@ const DOITooltipDemo = (props: Props) => {
                         </div>
                     </>
                     :
-                    <p> Waiting on data... </p>
+                    <p className="warningMessage"> Invalid DOI was provided, please try again </p>
                 }
             </div>
         </>

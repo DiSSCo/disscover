@@ -17,7 +17,8 @@ const SearchSpecimenSearchTermValue = async (term: string, query: string) => {
                 url: endPoint,
                 params: {
                     term: term,
-                    value: query
+                    value: query,
+                    sort: true
                 },
                 responseType: 'json'
             });

@@ -59,15 +59,6 @@
     background-color: var(--primary);
 }
 
-.filterSpeciesOption {
-    border-top: 1px solid var(--grey);
-}
-
-.filterSpeciesOption:hover {
-    background-color: var(--secondary);
-    color: white;
-}
-
 /* Active Filters */
 .activeFilters {
     height: 2.125rem;

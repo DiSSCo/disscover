@@ -1,0 +1,12 @@
+/* Styling for custom Select Components */
+
+/* Input List Select Component */
+.inputListSelectOption {
+    border-top: 1px solid var(--grey);
+    transition: 0.2s;
+}
+
+.inputListSelectOption.active {
+    background-color: var(--secondary);
+    color: white;
+}

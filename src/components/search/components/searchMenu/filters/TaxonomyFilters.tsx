@@ -10,7 +10,7 @@ import { useAppSelector } from 'app/hooks';
 import { getSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Dict } from 'app/Types';
+import { InputListSelectItem, Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,6 +21,7 @@ import styles from 'components/search/search.module.scss';
 
 /* Import Components */
 import MultiSelectFilter from './MultiSelectFilter';
+import InputSelectList from 'components/general/selects/InputListSelect';
 
 /* Import API */
 import SearchSpecimenSearchTermValue from 'api/specimen/SearchSpecimenSpeciesName';
@@ -73,6 +74,17 @@ const TaxonomyFilters = (props: Props) => {
         }
     };
 
+    /* Format species results for Input List Select Component */
+    let inputListSelectItems: InputListSelectItem[] = [];
+
+    if (speciesResults) {
+        Object.entries(speciesResults).forEach(([value]) => {
+            inputListSelectItems.push({
+                name: value
+            });
+        });
+    }
+
     /* OnChange of selected items: check if parent taxon is empty, if so, remove child filters */
     useEffect(() => {
         let emptyTaxonomy: string = '';
@@ -101,7 +113,7 @@ const TaxonomyFilters = (props: Props) => {
         }
     }, [aggregations]);
 
-    /* Function to search by a taxonomy level query, retuning relevant scientific names */
+    /* Function to search Aggregations by a taxonomy level query, retuning relevant scientific names */
     const SearchByTaxonomicQuery = (query: string) => {
         if (query) {
             SearchSpecimenSearchTermValue('species', query).then((results: Dict) => {
@@ -123,6 +135,20 @@ const TaxonomyFilters = (props: Props) => {
         setFilterToggle(toggle ?? !filterToggle);
     }
 
+
+    /* Function to search for Specimens on Species level  */
+    const SearchBySpecies = (species?: string) => {
+        setSearchParams(searchParams => {
+            if (species) {
+                searchParams.set('species', species);
+            } else {
+                searchParams.delete('species');
+            }
+
+            return searchParams;
+        });
+    }
+
     return (
         <Row className="mt-2 px-2">
             <Col>
@@ -142,6 +168,7 @@ const TaxonomyFilters = (props: Props) => {
                                             <Field name={`scientificName`}
                                                 className="fs-4 rounded-full border-0 w-100 px-2 py-1"
                                                 placeholder="Select or type"
+                                                autocomplete="off"
                                                 onFocus={() => ToggleTaxonomyFilter(true)}
                                                 onChange={(input: Dict) => SearchByTaxonomicQuery(input.target.value)}
                                             />
@@ -162,23 +189,14 @@ const TaxonomyFilters = (props: Props) => {
 
 
                                     {/* If present, display Species Search Results */}
-                                    {(speciesResults && filterToggle) &&
-                                        <div className="position-absolute w-100 mt-2">
-                                            {Object.entries(speciesResults).map(([scientificName, number]) => (
-                                                <Row>
-                                                    <Col>
-                                                        <div className={`${styles.filterSpeciesOption} transition bgc-white px-3 py-2 b-grey`}>
-                                                            <p className="fs-4"> {scientificName} </p>
-                                                        </div>
-                                                    </Col>
-                                                </Row>
-                                            ))}
-                                        </div>
-                                    }
+                                    <InputSelectList items={inputListSelectItems}
+                                        OnItemSelect={(species: string) => SearchBySpecies(species)}
+                                        OnClose={() => setSpeciesResults(undefined)}
+                                    />
                                 </div>
                             </Col>
                         </Row>
- 
+
                         {filterToggle &&
                             <div className="b-primary rounded-c mt-2">
                                 {Object.keys(taxonomyFilters).map((taxonomyLevel, index) => {

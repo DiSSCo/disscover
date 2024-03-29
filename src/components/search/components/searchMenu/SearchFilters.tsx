@@ -44,8 +44,9 @@ const SearchFilters = (props: Props) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
-    const filtersList: Dict = { ...SearchFiltersJSON };
-    const taxonomies = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus'];
+    const filters: Dict = { ...SearchFiltersJSON };
+    const taxonomies = ['kingdom', 'phylum', 'order', 'family', 'genus'];
+    const filtersList = Object.keys(filters).concat(taxonomies);
     const aggregations = useAppSelector(getSearchAggregations);
 
     const initialValues: Dict = {
@@ -82,7 +83,7 @@ const SearchFilters = (props: Props) => {
                 searchFilters.forEach((searchFilter) => {
                     let identificationKey: string | number = searchFilter;
 
-                    if (filters[aggregationKey].filterType === 'boolean') {
+                    if (filters[aggregationKey] && filters[aggregationKey].filterType === 'boolean') {
                         const key: boolean = identificationKey === 'true';
 
                         identificationKey = key ? '1' : '0';

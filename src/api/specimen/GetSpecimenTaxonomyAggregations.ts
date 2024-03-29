@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, SearchFilter, Dict } from 'app/Types';
+import { JSONResult, Dict } from 'app/Types';
 
 
 const GetSpecimenTaxonomyAggregations = async (taxonomyLevel: string, taxonomicValue: string) => {

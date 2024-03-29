@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchAggregations, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { SearchFilter, Dict } from 'app/Types';
+import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +24,6 @@ import MidsOption from './MidsOption';
 
 /* Import API */
 import GetSpecimenSearchTermAggregations from 'api/specimen/GetSpecimenSearchTermAggregations';
-import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 
 
 /* Props Typing */
@@ -54,14 +53,6 @@ const MultiSelectFilter = (props: Props) => {
     const [filterToggle, setFilterToggle] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>();
     const aggregations = useAppSelector(getSearchAggregations);
-    const searchFilters: SearchFilter[] = [];
-
-    /* ForEach filter, push to Search Filters */
-    for (const searchParam of searchParams.entries()) {
-        searchFilters.push({
-            [searchParam[0]]: searchParam[1]
-        });
-    }
 
     /* OnChange of Selected Items: Filter selectable Items*/
     useEffect(() => {

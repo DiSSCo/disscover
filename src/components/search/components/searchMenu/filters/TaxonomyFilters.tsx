@@ -16,9 +16,6 @@ import { InputListSelectItem, Dict } from 'app/Types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-/* Import Styles */
-import styles from 'components/search/search.module.scss';
-
 /* Import Components */
 import MultiSelectFilter from './MultiSelectFilter';
 import InputSelectList from 'components/general/selects/InputListSelect';

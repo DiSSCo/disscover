@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useEffect, useState, useRef, SyntheticEvent } from "react"
+import { useEffect, useState, useRef } from "react"
 import classNames from "classnames";
 import { isEmpty } from "lodash";
 
@@ -41,7 +41,7 @@ const InputSelectList = (props: Props) => {
                 setSelectedIndex(localIndex + 1);
 
                 localIndex = localIndex + 1;
-            } else if (event.key === 'ArrowUp' && ((localIndex- 1) >= 0)) {
+            } else if (event.key === 'ArrowUp' && ((localIndex - 1) >= 0)) {
                 setSelectedIndex(localIndex - 1);
 
                 localIndex = localIndex - 1;
@@ -106,15 +106,16 @@ const InputSelectList = (props: Props) => {
             {items &&
                 <ul className="p-0 list-style-none">
                     {items.map((item, index) => (
-                        <li key={item.name}
-                            className={ClassInputSelectListItem(index)}
-                            onMouseEnter={() => setSelectedIndex(index)}
-                            onClick={() => {
-                                OnItemSelect(item.name);
-                                OnClose();
-                            }}
-                        >
-                            <p className="fs-4"> {item.name} </p>
+                        <li>
+                            <button key={item.name}
+                                className={ClassInputSelectListItem(index)}
+                                onMouseEnter={() => setSelectedIndex(index)}
+                                onClick={() => {
+                                    OnItemSelect(item.name);
+                                    OnClose();
+                                }}>
+                                <p className="fs-4"> {item.name} </p>
+                            </button>
                         </li>
                     ))}
                 </ul>

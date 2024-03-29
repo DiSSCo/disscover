@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useEffect, useState } from 'react';
-import { isEmpty } from 'lodash';
+import { useSearchParams } from 'react-router-dom';
+import { isEmpty, cloneDeep } from 'lodash';
 
 /* Import Store */
 import { useAppSelector, useAppDispatch } from 'app/hooks';
@@ -13,11 +14,8 @@ import {
 /* Import Types */
 import { DigitalSpecimen, Dict } from 'app/Types';
 
-/* Import Utilities */
+/* Import Config */
 import SearchResultsTableConfig from 'app/config/tables/SearchResultsTableConfig';
-
-/* Import Webroot */
-import Spinner from 'webroot/icons/spinner.svg';
 
 /* Import Components */
 import TopicDisciplineIcon from 'components/general/icons/TopicDisciplineIcon';
@@ -30,16 +28,16 @@ import GetPhylopicIcon from 'api/general/GetPhylopicIcon';
 /* Props Styling */
 interface Props {
     pageNumber: number,
-    pageSize: number,
     HideFilters: Function
 };
 
 
 const ResultsTable = (props: Props) => {
-    const { pageNumber, pageSize, HideFilters } = props;
+    const { pageNumber, HideFilters } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
+    const [searchParams] = useSearchParams();
 
     /* Table configuration */
     const { columns } = SearchResultsTableConfig();
@@ -51,7 +49,6 @@ const ResultsTable = (props: Props) => {
     const compareSpecimens = useAppSelector(getCompareSpecimens);
     const phylopicBuild = useAppSelector(getPhylopicBuild);
     const [tableData, setTableData] = useState<DataRow[]>([]);
-    const staticTopicDisciplines = ['Anthropology', 'Astrogeology', 'Geology', 'Ecology', 'Other Biodiversity', 'Other Geodiversity', 'Unclassified'];
 
     /* Declare type of a table row */
     interface DataRow {
@@ -64,6 +61,7 @@ const ResultsTable = (props: Props) => {
         origin: string | undefined,
         collected: string | undefined,
         holder: [string | undefined, string | undefined],
+        topicDiscipline: string | undefined,
         taxonomyIconUrl: string | undefined,
         selected: boolean,
         compareSelected: boolean
@@ -163,60 +161,64 @@ const ResultsTable = (props: Props) => {
         }
     }
 
-    const LoopSearchResults = async (PushToTableData: Function, SetTableData: Function) => {
+    /* Function to determine icon based upon taxonomy or topic discipline */
+    const DetermineIcons = async (tableData: DataRow[], specimens: DigitalSpecimen[]) => {
+        const copyTableData: DataRow[] = cloneDeep(tableData);
+        const topicDisciplineWithoutTaxonomy: string[] = [
+            'Anthropology', 'Other Geodiversity', 'Other Biodiversity', 'Ecology', 'Geology', 'Astrogeology', 'Unclassified'
+        ]
         const renderedIcons: Dict = {};
 
-        for (let index = 0; index < searchResults.length; index++) {
-            const specimen = searchResults[index];
-
-            /* Try to fetch Taxonomy icon if not fetched yet, otherwise attach topic discipline icon */
-            const acceptedIdentification = specimen.digitalSpecimen?.['dwc:identification']?.find((identification) =>
-                identification['dwc:identificationVerificationStatus']
-            );
-            let taxonomyIdentification: string = '';
-
-            if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:order']) {
-                /* Search icon by order */
-                taxonomyIdentification = acceptedIdentification.taxonIdentifications[0]['dwc:order'];
-            } else if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:family']) {
-                /* Search icon by family */
-                taxonomyIdentification = acceptedIdentification?.taxonIdentifications[0]['dwc:family'];
-            } else if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:genus']) {
-                /* Search icon by genus */
-                taxonomyIdentification = acceptedIdentification?.taxonIdentifications[0]['dwc:genus'];
-            } else if (specimen.digitalSpecimen['ods:specimenName']) {
-                taxonomyIdentification = specimen.digitalSpecimen['ods:specimenName'].split(' ')[0];
-            }
-
-            if (taxonomyIdentification && taxonomyIdentification in renderedIcons) {
-                PushToTableData(specimen, index, renderedIcons[taxonomyIdentification], true);
-
-                SetTableData(index);
-            } else if (taxonomyIdentification && (specimen.digitalSpecimen['ods:topicDiscipline'] && !(staticTopicDisciplines.includes(specimen.digitalSpecimen['ods:topicDiscipline'])))) {
-                /* Preset table data with loading icon */
-                PushToTableData(specimen, index, Spinner);
-
-                GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
-                    PushToTableData(specimen, index, taxonomyIconUrl, true);
+        /* Function for checking if icon is in rendered icons */
+        const CheckRenderedIcons = async (taxonomyIdentification: string, index: number) => {
+            if (taxonomyIdentification in renderedIcons) {
+                copyTableData[index].taxonomyIconUrl = renderedIcons[taxonomyIdentification];
+            } else {
+                await GetPhylopicIcon(phylopicBuild ?? '292', taxonomyIdentification).then((taxonomyIconUrl) => {
+                    copyTableData[index].taxonomyIconUrl = taxonomyIconUrl ?? '';
 
                     /* Add to rendered icons */
                     renderedIcons[taxonomyIdentification] = taxonomyIconUrl;
-
-                    SetTableData(index);
                 }).catch(error => {
                     console.warn(error);
-
-                    PushToTableData(specimen, index, undefined, true);
-
-                    SetTableData(index);
                 });
-            } else {
-                /* Use topic discipline icon */
-                PushToTableData(specimen, index, undefined);
-
-                SetTableData(index);
             }
-        };
+        }
+
+        for (let index = 0; index < tableData.length; index++) {
+            const tableRecord = tableData[index];
+
+            const specimen = specimens[index];
+
+            /* If no filter for topic discipline is present, or topic discipline specimens do not own a taxonomy, always use the topic discipline icon */
+            if (!searchParams.getAll('topicDiscipline').length || (tableRecord.topicDiscipline && topicDisciplineWithoutTaxonomy.includes(tableRecord.topicDiscipline))) {
+                /* Add topic discipline icon to table record */
+                copyTableData[index].taxonomyIconUrl = tableRecord.topicDiscipline ? TopicDisciplineIcon(tableRecord.topicDiscipline) : '';
+            } else {
+                /* Try to fetch a taxonomy based icon from Phylopic and add it to the table record */
+                const acceptedIdentification = specimen.digitalSpecimen?.['dwc:identification']?.find((identification) =>
+                    identification['dwc:identificationVerificationStatus']
+                );
+                let taxonomyIdentification: string = '';
+
+                if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:order']) {
+                    /* Search icon by order */
+                    taxonomyIdentification = acceptedIdentification.taxonIdentifications[0]['dwc:order'];
+                } else if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:family']) {
+                    /* Search icon by family */
+                    taxonomyIdentification = acceptedIdentification?.taxonIdentifications[0]['dwc:family'];
+                } else if (acceptedIdentification?.taxonIdentifications?.[0]['dwc:genus']) {
+                    /* Search icon by genus */
+                    taxonomyIdentification = acceptedIdentification?.taxonIdentifications[0]['dwc:genus'];
+                } else if (specimen.digitalSpecimen['ods:specimenName']) {
+                    taxonomyIdentification = specimen.digitalSpecimen['ods:specimenName'].split(' ')[0];
+                }
+
+                await CheckRenderedIcons(taxonomyIdentification, index);
+            }
+        }
+
+        setTableData(copyTableData);;
     }
 
     /* OnChange of Specimen Search Results: update Table Data */
@@ -224,45 +226,59 @@ const ResultsTable = (props: Props) => {
         /* Construct table data */
         const tableData: DataRow[] = [];
 
-        const PushToTableData = (specimen: DigitalSpecimen, index: number, taxonomyIconUrl?: string, taxonomyIncluded: boolean = false) => {
-            const taxonomyIcon = taxonomyIncluded ? taxonomyIconUrl : TopicDisciplineIcon(specimen.digitalSpecimen['ods:topicDiscipline']);
+        const PushToTableData = (specimen: DigitalSpecimen, index: number) => {
+            /* Determine Scientific Name */
+            let scientificName: string = '';
 
-            /* Check if index exists in table data */
-            if (tableData.find(record => record.index === index)) {
-                /* Replace record in table data */
-                tableData[index].taxonomyIconUrl = taxonomyIcon;
-
-                SetTableData(index);
+            if (specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])) {
+                scientificName = specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'] ??
+                    specimen.digitalSpecimen['dwc:identification']?.[0]?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '';
             } else {
-                /* Push record to table data */
-                tableData.push({
-                    index: index,
-                    DOI: specimen.digitalSpecimen['ods:id'],
-                    accessionName: specimen.digitalSpecimen['ods:specimenName'],
-                    accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'],
-                    scientificName: specimen.digitalSpecimen['dwc:identification']?.find((identification) => identification['dwc:identificationVerificationStatus'])?.taxonIdentifications?.[0]['dwc:scientificName'],
-                    specimenType: specimen.digitalSpecimen['ods:topicDiscipline'],
-                    origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'],
-                    collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'],
-                    holder: specimen.digitalSpecimen['dwc:institutionName'] ?
-                        [specimen.digitalSpecimen['dwc:institutionName'], specimen.digitalSpecimen['dwc:institutionId']]
-                        : [specimen.digitalSpecimen['dwc:institutionId'], specimen.digitalSpecimen['dwc:institutionId']],
-                    taxonomyIconUrl: taxonomyIcon,
-                    selected: false,
-                    compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
-                });
+                scientificName = specimen.digitalSpecimen['dwc:identification']?.[0]?.taxonIdentifications?.[0]['dwc:scientificName'] ?? '';
             }
-        }
 
-        /* Function to set the Table Data */
-        const SetTableData = (index: number) => {
-            if ((index + 1) <= pageSize) {
-                setTableData(tableData);
-            }
+            /* Push record to table data */
+            const tableRecord: DataRow = {
+                index: index,
+                DOI: specimen.digitalSpecimen['ods:id'],
+                accessionName: specimen.digitalSpecimen['ods:specimenName'],
+                accessionId: specimen.digitalSpecimen['ods:normalisedPhysicalSpecimenId'],
+                scientificName: scientificName,
+                specimenType: specimen.digitalSpecimen['ods:topicDiscipline'],
+                origin: specimen.digitalSpecimen.occurrences?.[0]?.location?.['dwc:country'],
+                collected: specimen.digitalSpecimen.occurrences?.[0]?.['dwc:eventDate'],
+                holder: specimen.digitalSpecimen['dwc:institutionName'] ?
+                    [specimen.digitalSpecimen['dwc:institutionName'], specimen.digitalSpecimen['dwc:institutionId']]
+                    : [specimen.digitalSpecimen['dwc:institutionId'], specimen.digitalSpecimen['dwc:institutionId']],
+                topicDiscipline: specimen.digitalSpecimen['ods:topicDiscipline'],
+                taxonomyIconUrl: '',
+                selected: false,
+                compareSelected: !!compareSpecimens.find((compareSpecimen) => compareSpecimen.digitalSpecimen['ods:id'] === specimen.digitalSpecimen['ods:id'])
+            };
+
+            /* Push to table data */
+            tableData.push(tableRecord);
+
+            /* Return the record for the icon check */
+            return tableRecord;
         }
 
         if (searchResults.length) {
-            LoopSearchResults(PushToTableData, SetTableData);
+            /* Loop over search results and push initial record to array */
+            const specimens: DigitalSpecimen[] = [];
+
+            for (let index = 0; index < searchResults.length; index++) {
+                const specimen = searchResults[index];
+
+                PushToTableData(specimen, index);
+                specimens.push(specimen);
+            }
+
+            /* Shove initial records into the search table */
+            setTableData(tableData);
+
+            /* Determine the icons of the records */
+            DetermineIcons(tableData, specimens);
         } else {
             setTableData(tableData);
         }

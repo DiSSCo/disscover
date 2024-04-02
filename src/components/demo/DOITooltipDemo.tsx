@@ -38,7 +38,7 @@ const DOITooltipDemo = (props: Props) => {
     }
 
     /* Function to map Handle or DOI response to valid record */
-    const FormatResponse = (responseRecord: {[name: string]: any}) => {
+    const FormatResponse = (responseRecord: { [name: string]: any }) => {
         const record = {
             data: {
                 attributes: {
@@ -60,11 +60,7 @@ const DOITooltipDemo = (props: Props) => {
         try {
             /* If DOI does not contain local prefix, try to resolve with the general handler */
             if (doi.includes('TEST') || doi.includes('SANDBOX')) {
-                let environment: string = 'dev';
-
-                if (doi.includes('SANDBOX')) {
-                    environment = 'sandbox';
-                }
+                let environment: string = doi.includes('SANDBOX') ? 'sandbox' : 'dev';
 
                 const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/v1/pids/${doi.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
                 const record = await response.json();
@@ -136,7 +132,7 @@ const DOITooltipDemo = (props: Props) => {
             <button type="button" style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef} onClick={() => TriggerTooltip()}> {children} </button>
 
             <div id="disscoTooltip" className={`tooltip ${active && 'active'}`} ref={DOITooltipRef} style={offsetStyles}>
-                {record?.data ?
+                {record.data ?
                     <>
                         {/* Digital Extended Specimen */}
                         <div className="tooltipRow">

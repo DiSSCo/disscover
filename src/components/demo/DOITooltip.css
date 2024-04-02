@@ -5,7 +5,7 @@
 }
 
 .tooltip {
-    z-index: 1000;
+    z-index: -1;
     background-color: white;
     opacity: 0;
     border: 1px solid lightgray;
@@ -22,6 +22,7 @@
 }
 
 .tooltip.active {
+    z-index: 1000;
     opacity: 1;
 }
 
@@ -43,6 +44,9 @@
 .widthRight {
     width: 80%;
     display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .digitalExtendedSpecimenTitle {
@@ -83,4 +87,9 @@
 
 .DOILogo {
     width: 30px;
+}
+
+.warningMessage {
+    color: red;
+    padding-left: 10px;
 }

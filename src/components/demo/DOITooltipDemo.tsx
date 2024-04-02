@@ -70,7 +70,6 @@ const DOITooltipDemo = (props: Props) => {
                 const record = await response.json();
 
                 if (record.data) {
-                    setActive(true);
                     setRecord(record);
                 }
             } else if (doi.includes('20.5000.1025')) {
@@ -80,7 +79,6 @@ const DOITooltipDemo = (props: Props) => {
                 if (responseRecord.values.length) {
                     const record = FormatResponse(responseRecord);
 
-                    setActive(true);
                     setRecord(record);
                 }
             } else if (doi.includes('10.3535')) {
@@ -90,10 +88,13 @@ const DOITooltipDemo = (props: Props) => {
                 if (responseRecord.values.length) {
                     const record = FormatResponse(responseRecord);
 
-                    setActive(true);
                     setRecord(record);
                 }
+            } else {
+                setRecord({});
             }
+
+            setActive(true);
         } catch (error) {
             console.warn(error);
 

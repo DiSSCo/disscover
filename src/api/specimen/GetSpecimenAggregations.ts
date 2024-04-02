@@ -7,7 +7,7 @@ import { JSONResult, SearchFilter, Dict } from 'app/Types';
 
 const GetSpecimenAggregations = async (searchFilters?: SearchFilter[]) => {
     let aggregations = {} as Dict;
-    let endPoint: string = '/specimens/aggregation';
+    let endPoint: string = 'specimens/aggregation';
 
     /* If present, destructure Search Filters into string */
     let filters: string = '';

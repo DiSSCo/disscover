@@ -269,7 +269,7 @@ const AnnotationForm = (props: Props) => {
         let targetPath: string | undefined;
 
         /* If annotationValue is present, use that as the field, otherwise expect a class to be annotated */
-        if (form.annotationValue && form.targetField) {
+        if (!isEmpty(form.annotationValue) && form.targetField) {
             bodyValue.push(form.annotationValue);
 
             targetPath = form.targetField.replace('DigitalSpecimen.', '').replace('DigitalMedia.', '') as string;
@@ -278,7 +278,7 @@ const AnnotationForm = (props: Props) => {
         } else if (form.targetClass) {
             targetPath = form.targetClass as string;
 
-            if (form.annotationValue) {
+            if (!isEmpty(form.annotationValue)) {
                 bodyValue.push(form.annotationValue);
             } else {
                 bodyValue.push(JSON.stringify({ [targetPath.replace('$.', '')]: form.classProperties }));

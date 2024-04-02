@@ -140,7 +140,7 @@ export interface AnnotateTarget {
     target: DigitalSpecimenType | DigitalEntity,
     targetType: string,
     targetProperty: TargetProperty,
-    currentValue?: (string|number|boolean|Dict)[],
+    currentValue?: (string | number | boolean | Dict)[],
     motivation?: string,
     annotations: Annotation[]
 };
@@ -180,4 +180,9 @@ export interface PaginationObject {
     page: string,
     pageNumber: number,
     filters?: string[][]
+}
+
+export interface InputListSelectItem {
+    name: string,
+    subName?: string
 }

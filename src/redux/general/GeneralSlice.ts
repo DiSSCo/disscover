@@ -74,7 +74,7 @@ export const GeneralSlice = createSlice({
         setPhylopicBuild: (state, action: PayloadAction<string>) => {
             state.phylopicBuild = action.payload;
         }
-    },
+    }
 })
 
 /* Action Creators */

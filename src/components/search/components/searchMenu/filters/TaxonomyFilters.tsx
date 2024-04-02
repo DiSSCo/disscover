@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
+import { Field } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Store */
@@ -9,7 +10,7 @@ import { useAppSelector } from 'app/hooks';
 import { getSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { Dict } from 'app/Types';
+import { InputListSelectItem, Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,17 +18,22 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import MultiSelectFilter from './MultiSelectFilter';
+import InputSelectList from 'components/general/selects/InputListSelect';
+
+/* Import API */
+import SearchSpecimenSearchTermValue from 'api/specimen/SearchSpecimenSpeciesName';
 
 
 /* Props Typing */
 interface Props {
     selectedItems: Dict
-    SetFieldValue: Function
+    SetFieldValue: Function,
+    RefreshAggregations: Function
 };
 
 
 const TaxonomyFilters = (props: Props) => {
-    const { selectedItems, SetFieldValue } = props;
+    const { selectedItems, SetFieldValue, RefreshAggregations } = props;
 
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
@@ -35,6 +41,7 @@ const TaxonomyFilters = (props: Props) => {
     /* Base variables */
     const aggregations = useAppSelector(getSearchAggregations);
     const [filterToggle, setFilterToggle] = useState<boolean>(false);
+    const [speciesResults, setSpeciesResults] = useState<Dict | undefined>();
 
     /* Taxonomy filters, listed by hierarchical order */
     const taxonomyFilters: Dict = {
@@ -44,6 +51,10 @@ const TaxonomyFilters = (props: Props) => {
         },
         phylum: {
             displayName: 'Phylum',
+            filterType: 'taxonomy'
+        },
+        class: {
+            displayName: 'Class',
             filterType: 'taxonomy'
         },
         order: {
@@ -59,6 +70,17 @@ const TaxonomyFilters = (props: Props) => {
             filterType: 'taxonomy'
         }
     };
+
+    /* Format species results for Input List Select Component */
+    let inputListSelectItems: InputListSelectItem[] = [];
+
+    if (speciesResults) {
+        Object.entries(speciesResults).forEach(([value]) => {
+            inputListSelectItems.push({
+                name: value
+            });
+        });
+    }
 
     /* OnChange of selected items: check if parent taxon is empty, if so, remove child filters */
     useEffect(() => {
@@ -88,6 +110,42 @@ const TaxonomyFilters = (props: Props) => {
         }
     }, [aggregations]);
 
+    /* Function to search Aggregations by a taxonomy level query, retuning relevant scientific names */
+    const SearchByTaxonomicQuery = (query: string) => {
+        if (query) {
+            SearchSpecimenSearchTermValue('species', query).then((results: Dict) => {
+                setSpeciesResults(results);
+            }).catch(error => {
+                console.warn(error);
+            });
+        } else {
+            setSpeciesResults(undefined);
+        }
+    }
+
+    /* Function to toggle Taxonomy Filter */
+    const ToggleTaxonomyFilter = (toggle?: boolean) => {
+        if (filterToggle) {
+            setSpeciesResults(undefined);
+        }
+
+        setFilterToggle(toggle ?? !filterToggle);
+    }
+
+
+    /* Function to search for Specimens on Species level  */
+    const SearchBySpecies = (species?: string) => {
+        setSearchParams(searchParams => {
+            if (species) {
+                searchParams.set('species', species);
+            } else {
+                searchParams.delete('species');
+            }
+
+            return searchParams;
+        });
+    }
+
     return (
         <Row className="mt-2 px-2">
             <Col>
@@ -101,50 +159,60 @@ const TaxonomyFilters = (props: Props) => {
 
                         <Row>
                             <Col>
-                                <div className="b-primary rounded-full"
-                                    onClick={() => setFilterToggle(!filterToggle)}
-                                >
+                                <div className="b-primary rounded-full position-relative">
                                     <Row>
                                         <Col className="c-pointer">
-                                            <div className="fs-4 c-greyDark rounded-full border-0 w-100 px-2 py-1">
-                                                Select
-                                            </div>
+                                            <Field name={`scientificName`}
+                                                className="fs-4 rounded-full border-0 w-100 px-2 py-1"
+                                                placeholder="Select or type"
+                                                autocomplete="off"
+                                                onFocus={() => ToggleTaxonomyFilter(true)}
+                                                onChange={(input: Dict) => SearchByTaxonomicQuery(input.target.value)}
+                                            />
                                         </Col>
                                         <Col className="col-md-auto c-pointer pe-4">
                                             {filterToggle ?
                                                 <FontAwesomeIcon icon={faChevronUp}
                                                     className="c-primary c-pointer"
-                                                    onClick={() => setFilterToggle(false)}
+                                                    onClick={() => ToggleTaxonomyFilter(false)}
                                                 />
                                                 : <FontAwesomeIcon icon={faChevronDown}
                                                     className="c-primary c-pointer"
-                                                    onClick={() => setFilterToggle(true)}
+                                                    onClick={() => ToggleTaxonomyFilter(true)}
                                                 />
                                             }
                                         </Col>
                                     </Row>
+
+
+                                    {/* If present, display Species Search Results */}
+                                    <InputSelectList items={inputListSelectItems}
+                                        OnItemSelect={(species: string) => SearchBySpecies(species)}
+                                        OnClose={() => setSpeciesResults(undefined)}
+                                    />
                                 </div>
                             </Col>
                         </Row>
 
                         {filterToggle &&
                             <div className="b-primary rounded-c mt-2">
-                                {Object.keys(taxonomyFilters).map((taxonomy, index) => {
+                                {Object.keys(taxonomyFilters).map((taxonomyLevel, index) => {
                                     let parentTaxonomy: string = '';
 
-                                    if (taxonomy !== 'kingdom') {
+                                    if (taxonomyLevel !== 'kingdom') {
                                         parentTaxonomy = Object.keys(taxonomyFilters)[index - 1];
                                     }
 
                                     return (
-                                        <div key={taxonomy}>
-                                            {(taxonomy === 'kingdom' || !isEmpty(selectedItems[parentTaxonomy])) &&
-                                                <MultiSelectFilter key={taxonomy}
-                                                    filter={taxonomyFilters[taxonomy]}
-                                                    searchFilter={taxonomy}
-                                                    items={aggregations[taxonomy]}
-                                                    selectedItems={selectedItems[taxonomy]}
+                                        <div key={taxonomyLevel}>
+                                            {(taxonomyLevel === 'kingdom' || (taxonomyLevel in aggregations && selectedItems[parentTaxonomy].length)) ?
+                                                <MultiSelectFilter filter={taxonomyFilters[taxonomyLevel]}
+                                                    searchFilter={taxonomyLevel}
+                                                    items={aggregations[taxonomyLevel]}
+                                                    selectedItems={selectedItems[taxonomyLevel] ?? []}
+                                                    RefreshAggregations={() => RefreshAggregations()}
                                                 />
+                                                : null
                                             }
                                         </div>
                                     );

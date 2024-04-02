@@ -222,7 +222,7 @@ const PrivacyPolicy = () => {
                                         <h4 className="fs-3">Security</h4>
                                         <p className="fs-4">
                                             We take appropriate technical and organisational measures to ensure data security and the protection against
-                                            accidental or unlawful destruction, accidental loss, alteration, unauthorised disclosure or access. 
+                                            accidental or unlawful destruction, accidental loss, alteration, unauthorised disclosure or access.
                                         </p> <br />
                                         <p className="fs-4">
                                             A comprehensive overview of the technical and organisational measures taken by the Naturalis Biodiversity

@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { getSearchAggregations, setSearchAggregations } from 'redux/search/SearchSlice';
 
 /* Import Types */
-import { SearchFilter, Dict } from 'app/Types';
+import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +24,6 @@ import MidsOption from './MidsOption';
 
 /* Import API */
 import GetSpecimenSearchTermAggregations from 'api/specimen/GetSpecimenSearchTermAggregations';
-import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
 
 
 /* Props Typing */
@@ -32,7 +31,8 @@ interface Props {
     filter: Dict,
     searchFilter: string,
     items: [],
-    selectedItems: string[]
+    selectedItems: string[],
+    RefreshAggregations: Function
 };
 
 const MultiSelectFilter = (props: Props) => {
@@ -40,7 +40,8 @@ const MultiSelectFilter = (props: Props) => {
         filter,
         searchFilter,
         items,
-        selectedItems
+        selectedItems,
+        RefreshAggregations
     } = props;
 
     /* Hooks */
@@ -52,14 +53,6 @@ const MultiSelectFilter = (props: Props) => {
     const [filterToggle, setFilterToggle] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>();
     const aggregations = useAppSelector(getSearchAggregations);
-    const searchFilters: SearchFilter[] = [];
-
-    /* ForEach filter, push to Search Filters */
-    for (const searchParam of searchParams.entries()) {
-        searchFilters.push({
-            [searchParam[0]]: searchParam[1]
-        });
-    }
 
     /* OnChange of Selected Items: Filter selectable Items*/
     useEffect(() => {
@@ -83,15 +76,6 @@ const MultiSelectFilter = (props: Props) => {
     useEffect(() => {
         const copyAggregations = { ...aggregations };
 
-        /* Function to Refresh Aggregations */
-        const RefreshAggregations = () => {
-            GetSpecimenAggregations(searchFilters).then((aggregations) => {
-                dispatch(setSearchAggregations(aggregations));
-            }).catch(error => {
-                console.warn(error);
-            });
-        }
-
         if (searchQuery) {
             /* Search for aggregations by search query */
             GetSpecimenSearchTermAggregations(searchFilter, searchQuery).then((filterAggregations) => {
@@ -114,7 +98,7 @@ const MultiSelectFilter = (props: Props) => {
             }).catch(error => {
                 console.warn(error);
             });
-        } else if (searchQuery === '') {
+        } else {
             /* Reset to the default, biggest aggregations */
             RefreshAggregations();
         }
@@ -258,6 +242,11 @@ const MultiSelectFilter = (props: Props) => {
                                                     method={() => push(item[0])}
                                                 />
                                             })}
+
+                                            {/* Show message if no options are present at all */}
+                                            {(!filteredItems.selected.length && !filteredItems.selectable.length) &&
+                                                <p className="fs-5"> No options found </p>
+                                            }
                                         </div>
                                     )}
                                 </FieldArray>

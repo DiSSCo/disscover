@@ -322,6 +322,11 @@ p {
   cursor: pointer;
 }
 
+/* List Style */
+.list-style-none {
+  list-style: none;
+}
+
 /* Form Components */
 .checkbox {
   width: 1rem;

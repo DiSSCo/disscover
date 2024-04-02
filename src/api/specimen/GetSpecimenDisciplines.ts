@@ -8,7 +8,7 @@ import { JSONResult, Dict } from 'app/Types';
 const GetSpecimenDisciplines = async () => {
     let disciplines = {} as Dict;
     let metadata = {} as Dict;
-    let endPoint: string = '/specimens/discipline';
+    let endPoint: string = 'specimens/discipline';
 
     try {
         const result = await axios({

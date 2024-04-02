@@ -37,15 +37,62 @@ const DOITooltipDemo = (props: Props) => {
         }
     }
 
+    /* Function to map Handle or DOI response to valid record */
+    const FormatResponse = (responseRecord: {[name: string]: any}) => {
+        const record = {
+            data: {
+                attributes: {
+                    referentName: responseRecord.values[16].data.value,
+                    specimenHost: responseRecord.values[18].data.value,
+                    specimenHostName: responseRecord.values[19].data.value,
+                    primarySpecimenObjectId: responseRecord.values[20].data.value,
+                    topicDiscipline: responseRecord.values[27].data.value,
+                    livingOrPreserved: responseRecord.values[29].data.value
+                }
+            }
+        };
+
+        return record;
+    }
+
     /* Function for fetching DOI details */
     const TriggerTooltip = async () => {
         try {
-            const response = await fetch(`https://dev.dissco.tech/handle-manager/api/v1/pids/${doi.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
-            const record = await response.json();
+            /* If DOI does not contain local prefix, try to resolve with the general handler */
+            if (doi.includes('TEST') || doi.includes('SANDBOX')) {
+                let environment: string = 'dev';
 
-            if (record.data) {
-                setActive(true);
-                setRecord(record);
+                if (doi.includes('SANDBOX')) {
+                    environment = 'sandbox';
+                }
+
+                const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/v1/pids/${doi.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                const record = await response.json();
+
+                if (record.data) {
+                    setActive(true);
+                    setRecord(record);
+                }
+            } else if (doi.includes('20.5000.1025')) {
+                const respone = await fetch(`https://hdl.handle.net/api/handles/${doi.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                const responseRecord = await respone.json();
+
+                if (responseRecord.values.length) {
+                    const record = FormatResponse(responseRecord);
+
+                    setActive(true);
+                    setRecord(record);
+                }
+            } else if (doi.includes('10.3535')) {
+                const response = await fetch(`https://doi.org/api/handles/${doi.replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+                const responseRecord = await response.json();
+
+                if (responseRecord.values.length) {
+                    const record = FormatResponse(responseRecord);
+
+                    setActive(true);
+                    setRecord(record);
+                }
             }
         } catch (error) {
             console.warn(error);
@@ -83,9 +130,6 @@ const DOITooltipDemo = (props: Props) => {
         marginLeft: targetRef.current ? `${targetRef.current?.offsetLeft}px` : '0px'
     }
 
-    console.log(active);
-    console.log(record);
-
     return (
         <>
             <button type="button" style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef} onClick={() => TriggerTooltip()}> {children} </button>
@@ -103,7 +147,8 @@ const DOITooltipDemo = (props: Props) => {
                                     <p id="tooltipScientificName" className="digitalExtendedSpecimenTitle"> {record.data.attributes.referentName} </p>
                                 </a>
 
-                                <p id="tooltipStatus" className="preservedStatus textOverflow"> {`${record.data.attributes.topicDiscipline.toLowerCase()}
+                                <p id="tooltipStatus" className="preservedStatus textOverflow">
+                                    {`${record.data.attributes.topicDiscipline[0].toUpperCase() + record.data.attributes.topicDiscipline.slice(1).toLowerCase()}
                                     ${record.data.attributes.livingOrPreserved} specimen`}
                                 </p>
                             </div>

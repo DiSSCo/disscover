@@ -37,7 +37,7 @@ const Logout = keycloak.logout;
 
 const GetToken = () => keycloak.token;
 
-const GetParsedToken = () => keycloak.tokenParsed;
+const GetParsedToken = () => keycloak.idTokenParsed;
 
 const IsLoggedIn = () => !!keycloak.token;
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 /* Import Model */
 import UserModel from 'api/model/UserModel';
+import KeycloakService from 'keycloak/Keycloak';
 
 /* Import Types */
 import { User, Dict, JSONResult } from 'app/Types';
@@ -27,25 +28,27 @@ const InsertUser = async (userId?: string, token?: string, keycloakParsed?: Dict
             }
         }
 
-        try {
-            const result = await axios({
-                method: "post",
-                url: 'users',
-                data: userRecord,
-                responseType: 'json',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+        console.log(userRecord);
 
-            /* Set User with Model */
-            const data: JSONResult = result.data;
+        // try {
+        //     const result = await axios({
+        //         method: "post",
+        //         url: 'users',
+        //         data: userRecord,
+        //         responseType: 'json',
+        //         headers: {
+        //             'Content-type': 'application/json',
+        //             'Authorization': `Bearer ${token}`
+        //         }
+        //     });
 
-            user = UserModel(data.data);
-        } catch (error) {
-            console.warn(error);
-        }
+        //     /* Set User with Model */
+        //     const data: JSONResult = result.data;
+
+        //     user = UserModel(data.data);
+        // } catch (error) {
+        //     console.warn(error);
+        // }
 
         return user;
     }

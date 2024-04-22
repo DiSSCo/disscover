@@ -51,7 +51,7 @@ const GlobalSearchBar = (props: Props) => {
                         <Row className="mt-2">
                             <Col>
                                 <Field name="searchQuery" type="text"
-                                    placeholder="Bellis Perennis"
+                                    placeholder="Bellis perennis"
                                     className={`${styles.searchBar} rounded-full w-100 px-3`}
                                 />
                             </Col>

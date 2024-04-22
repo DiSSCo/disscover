@@ -186,7 +186,9 @@ const SidePanel = (props: Props) => {
                             </Col>
                         }
                         <Col className="col-md-auto">
-                            <Tooltip text="All annotations are publicly available and subject to the CC-0 license" placement="left">
+                            <Tooltip text="All annotations are publicly available and subject to the CC-0 license"
+                                placement="left"
+                            >
                                 <span>
                                     <FontAwesomeIcon icon={faClosedCaptioning}
                                         className="fs-2 c-pointer c-accent"

@@ -41,7 +41,7 @@ const SearchBar = () => {
                     <Col className="pe-2">
                         <Field type="text" name="q"
                             className={`${styles.searchBar} rounded-c w-100 px-2 py-1`}
-                            placeholder="Bellis Perennis"
+                            placeholder="Bellis perennis"
                         />
                     </Col>
                     <Col className="col-md-auto ps-0">

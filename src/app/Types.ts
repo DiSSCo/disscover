@@ -101,10 +101,6 @@ export type DigitalMediaAnnotations = {
     [digitalMediaProperty: string]: Annotation[]
 };
 
-export type DigitalMediaObservation = {
-    test: string
-};
-
 export interface AnnotationTemplate {
     "ods:id"?: string,
     "oa:motivation": string,

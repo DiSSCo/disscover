@@ -204,7 +204,7 @@ const SearchNestedLevels = (level: Dict | Dict[], nestingLevels: string[], targe
 
         SearchNestedLevels(nextLevel, nestingLevels, targetType, PushToExistingInstances);
     } else if (Array.isArray(level) && nestingLevels.length) {
-        level.forEach((nextLevel: Dict, index: number) => {
+        level.forEach((nextLevel: Dict) => {
             SearchNestedLevels(nextLevel, nestingLevels, targetType, PushToExistingInstances);
         });
     } else if (Array.isArray(level)) {
@@ -246,7 +246,7 @@ const FormatTargetPropertyPath = (path: string, targetType: string = 'DigitalSpe
 
     /* Function to concat level to field, add dot if index is greater than zero */
     const ConcatToField = (level: string, index: number) => {
-        if (index > 0 && !formattedPath.endsWith(']')) {
+        if (index > 0) {
             formattedPath = formattedPath.concat(`.${level}`);
         } else {
             formattedPath = formattedPath.concat(level);

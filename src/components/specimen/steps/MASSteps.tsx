@@ -106,7 +106,7 @@ const MASSteps = (props: Props) => {
                         } else if (nextIndex === 4) {
                             /* On step 5: Switch to schedule tab */
                             setMASTabIndex(1);
-                        } else if ([7, 8].includes(nextIndex)) {
+                        } else if ([8].includes(nextIndex)) {
                             /* On step 8: Show the Annotations Side Panel */
                             ShowWithAnnotations();
 

@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import './DOITooltip.css';
 
 /* Import Webroot */
+import TagLogo from './webroot/tagLogo.png';
 import OrganisationLogo from './webroot/building-columns-solid.svg';
 import DOILogo from './webroot/DOI_logo.png';
 
@@ -25,7 +26,6 @@ const DOITooltipDemo = (props: Props) => {
 
     /* Base variables */
     const [record, setRecord] = useState<any>({});
-    const [active, setActive] = useState(false);
 
     /* Function to check if URL is valid */
     const IsValidUrl = (urlString: string) => {
@@ -37,8 +37,41 @@ const DOITooltipDemo = (props: Props) => {
         }
     }
 
+    /* Closing the Tooltip when clicked outside of it */
+    const UseDOITooltip = () => {
+        const [active, setActive] = useState(false);
+
+        useEffect(() => {
+            const DOITooltipElement = DOITooltipRef.current as HTMLDivElement;
+
+            const handleClickOutside = (event: any) => {
+                if (!DOITooltipElement.contains(event.target)) {
+                    if (active) {
+                        setActive(false);
+
+                        setRecord({})
+                    }
+                }
+            }
+
+            document.addEventListener("mousedown", handleClickOutside);
+
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+
+            };
+        }, [DOITooltipRef, active]);
+
+        return {
+            active,
+            setActive
+        };
+    }
+
+    const DOITooltip = UseDOITooltip();
+
     /* Function to map Handle or DOI response to valid record */
-    const FormatResponse = (responseRecord: { [name: string]: any }) => {
+    const FormatHandleNetResponse = (responseRecord: { [name: string]: any }) => {
         const record = {
             data: {
                 attributes: {
@@ -48,6 +81,24 @@ const DOITooltipDemo = (props: Props) => {
                     primarySpecimenObjectId: responseRecord.values[20].data.value,
                     topicDiscipline: responseRecord.values[27].data.value,
                     livingOrPreserved: responseRecord.values[29].data.value
+                }
+            }
+        };
+
+        return record;
+    }
+
+    /* Function to map Handle or DOI response to valid record */
+    const FormatDOIOrgResponse = (responseRecord: { [name: string]: any }) => {
+        const record = {
+            data: {
+                attributes: {
+                    referentName: responseRecord.values[26].data.value,
+                    specimenHost: responseRecord.values[14].data.value,
+                    specimenHostName: responseRecord.values[15].data.value,
+                    primarySpecimenObjectId: responseRecord.values[16].data.value,
+                    topicDiscipline: responseRecord.values[23].data.value,
+                    livingOrPreserved: responseRecord.values[25].data.value
                 }
             }
         };
@@ -73,7 +124,7 @@ const DOITooltipDemo = (props: Props) => {
                 const responseRecord = await respone.json();
 
                 if (responseRecord.values.length) {
-                    const record = FormatResponse(responseRecord);
+                    const record = FormatHandleNetResponse(responseRecord);
 
                     setRecord(record);
                 }
@@ -82,7 +133,7 @@ const DOITooltipDemo = (props: Props) => {
                 const responseRecord = await response.json();
 
                 if (responseRecord.values.length) {
-                    const record = FormatResponse(responseRecord);
+                    const record = FormatDOIOrgResponse(responseRecord);
 
                     setRecord(record);
                 }
@@ -90,84 +141,78 @@ const DOITooltipDemo = (props: Props) => {
                 setRecord({});
             }
 
-            setActive(true);
+            DOITooltip.setActive(true);
         } catch (error) {
             console.warn(error);
 
-            setActive(true);
+            DOITooltip.setActive(true);
         }
     }
 
-    /* Closing the Tooltip when clicked outside of it */
-    const UseDOITooltip = () => {
-        useEffect(() => {
-            const DOITooltipElement = DOITooltipRef.current as HTMLDivElement;
-
-            const handleClickOutside = (event: any) => {
-                if (!DOITooltipElement.contains(event.target)) {
-                    if (active) {
-                        setActive(false);
-                    }
-                }
-            }
-
-            document.addEventListener("mousedown", handleClickOutside);
-
-            return () => {
-                document.removeEventListener("mousedown", handleClickOutside);
-            };
-        }, [DOITooltipRef, active]);
-    }
-
-    UseDOITooltip();
-
     /* Set offset styles for DOI Tooltip */
     const offsetStyles = {
-        marginTop: targetRef.current ? `${targetRef.current?.offsetTop + 20}px` : '0px',
+        marginTop: (targetRef.current && DOITooltipRef.current && record.data) ? `${targetRef.current?.offsetTop - 210}px`
+            : (targetRef.current && DOITooltipRef.current) ? `${targetRef.current?.offsetTop - 45}px` : '0px',
         marginLeft: targetRef.current ? `${targetRef.current?.offsetLeft}px` : '0px'
     }
 
     return (
         <>
-            <button type="button" style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef} onClick={() => TriggerTooltip()}> {children} </button>
+            <button type="button" style={{ color: 'blue', cursor: 'pointer' }} ref={targetRef}
+                onMouseEnter={() => TriggerTooltip()}
+            >
+                {children}
+            </button>
 
-            <div id="disscoTooltip" className={`tooltip ${active && 'active'}`} ref={DOITooltipRef} style={offsetStyles}>
+            <div id="disscoTooltip" className={`tooltip ${DOITooltip.active && 'active'} ${!record.data && 'error'}`} ref={DOITooltipRef} style={offsetStyles}>
                 {record.data ?
                     <>
                         {/* Digital Extended Specimen */}
-                        <div className="tooltipRow">
+                        <div className="tooltipRow grow">
                             <div className="widthLeft">
-                                <p className="digitalExtendedSpecimenTitle"> DES </p>
+                                <img src={TagLogo}
+                                    alt="Tag Logo"
+                                    className="tagLogo"
+                                />
                             </div>
                             <div className="widthRight">
-                                <a className="tooltipLink" href={`https://dev.dissco.tech/ds/${doi}`} target="_blank">
-                                    <p id="tooltipScientificName" className="digitalExtendedSpecimenTitle"> {record.data.attributes.referentName} </p>
-                                </a>
+                                <div>
+                                    <a className="tooltipLink" href={`https://dev.dissco.tech/ds/${doi}`} target="_blank">
+                                        <p id="tooltipScientificName" className="digitalExtendedSpecimenTitle"> {record.data.attributes.referentName} </p>
+                                    </a>
 
-                                <p id="tooltipStatus" className="preservedStatus textOverflow">
-                                    {`${record.data.attributes.topicDiscipline[0].toUpperCase() + record.data.attributes.topicDiscipline.slice(1).toLowerCase()}
-                                    ${record.data.attributes.livingOrPreserved} specimen`}
-                                </p>
+                                    <p className="verbatimName">(Verbatim name)</p>
+                                </div>
+                                <div className="preservedStatusDiv grow">
+                                    <p id="tooltipStatus" className="preservedStatus textOverflow">
+                                        {`${record.data.attributes.livingOrPreserved}
+                                    ${record.data.attributes.topicDiscipline.toLowerCase()} specimen`}
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
                         {/* ID */}
-                        <div className="tooltipRow margin">
+                        <div className="tooltipRow">
                             <span className="widthLeft">
-                                <p className=""> ID </p>
+                                <p className="IDTitle"> ID </p>
                             </span>
-                            <span className="widIDTitlethRight">
+                            <span className="widthRight">
                                 {IsValidUrl(record.data.attributes.primarySpecimenObjectId) ?
-                                    <a href={record.data.attributes.primarySpecimenObjectId}> {record.data.attributes.primarySpecimenObjectId} </a>
-                                    : <p id="tooltipID" className="IDField"> {record.data.attributes.primarySpecimenObjectId} </p>
+                                    <a href={record.data.attributes.primarySpecimenObjectId}
+                                        className="tooltipLink"
+                                    >
+                                        {record.data.attributes.primarySpecimenObjectId}
+                                    </a>
+                                    : <p id="tooltipID" className="IDField">{record.data.attributes.primarySpecimenObjectId}</p>
                                 }
 
-                                <p id="tooltipGUID" className="IDField"> (Catalog Record GUID) </p>
+                                <p id="tooltipGUID" className="catalogNumber"> (Catalog number) </p>
                             </span>
                         </div>
 
                         {/* Organisation */}
-                        <div className="tooltipRow margin">
+                        <div className="tooltipRow">
                             <span className="widthLeft">
                                 <img src={OrganisationLogo} className="organisationIcon" alt="ORG" />
                             </span>
@@ -180,11 +225,12 @@ const DOITooltipDemo = (props: Props) => {
 
                         {/* DOI Logo */}
                         <div className="tooltopRow DOIRow">
+                            <span className="digitalExtendedSpecienNote">DES</span>
+
                             <img src={DOILogo} alt="DOI Logo" className="DOILogo" />
                         </div>
                     </>
-                    :
-                    <p className="warningMessage"> Invalid DOI was provided, please try again </p>
+                    : <p className="warningMessage"> Invalid DOI was provided, please try again </p>
                 }
             </div>
         </>

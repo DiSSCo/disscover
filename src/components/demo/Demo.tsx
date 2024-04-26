@@ -30,7 +30,8 @@ const Demo = () => {
                                 <p className="text-center">
                                     This demo page demonstrates the DOI Tooltip component offered by DiSSCo.
                                     <br />
-                                    It is a component that can be used to cite DOI in text. When clicked on, it displays details on the DOI.
+                                    It is a component that can be used to cite a digital specimen DOI in a HTML page.
+                                    When hovered on with the mouse, it displays details on the DOI.
                                     <br />
                                     To implement the component yourself, please refer to this Notebook
                                     <br />
@@ -58,9 +59,9 @@ const Demo = () => {
                             <Col md={{ span: 6, offset: 3 }} className="mt-5">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 
-                                <DOITooltipDemo doi={'TEST/ZZZ-ZW5-RF7'}>
+                                <DOITooltipDemo doi={'10.3535/M42-Z4P-DRD'}>
                                     <span>
-                                        TEST/ZZZ-ZW5-RF7
+                                        10.3535/M42-Z4P-DRD
                                     </span>
                                 </DOITooltipDemo>
 

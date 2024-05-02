@@ -38,6 +38,33 @@ const MachineJobRecordsOverview = () => {
         state: string
     };
 
+    /* Function to link Machine Job Records with the respective MAS data */
+    const ConnectMASData = (machineJobRecord: Dict, index: number, PushToArray: Function) => {
+        GetMAS(machineJobRecord.attributes.masId).then((MAS) => {
+            PushToArray({
+                index: index,
+                id: machineJobRecord.id,
+                name: MAS.attributes.name,
+                targetId: machineJobRecord.attributes.targetId,
+                scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
+                completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
+                state: machineJobRecord.attributes.state
+            });
+        }).catch(error => {
+            console.warn(error);
+
+            PushToArray({
+                index: index,
+                id: machineJobRecord.id,
+                name: '',
+                targetId: machineJobRecord.attributes.targetId,
+                scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
+                completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
+                state: machineJobRecord.attributes.state
+            });
+        });
+    };
+
     /* OnChange of Pagination Range: try to fetch User Annotations by new range */
     useEffect(() => {
         GetUserMachineJobRecords(KeycloakService.GetToken(), pageSize, pageNumber).then(({ machineJobRecords, links }) => {
@@ -45,29 +72,7 @@ const MachineJobRecordsOverview = () => {
             const tableData: DataRow[] = [];
 
             machineJobRecords.forEach((machineJobRecord: Dict, index: number) => {
-                GetMAS(machineJobRecord.attributes.masId).then((MAS) => {
-                    tableData.push({
-                        index: index,
-                        id: machineJobRecord.id,
-                        name: MAS.attributes.name,
-                        targetId: machineJobRecord.attributes.targetId,
-                        scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
-                        completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
-                        state: machineJobRecord.attributes.state
-                    });
-                }).catch(error => {
-                    console.warn(error);
-
-                    tableData.push({
-                        index: index,
-                        id: machineJobRecord.id,
-                        name: '',
-                        targetId: machineJobRecord.attributes.targetId,
-                        scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
-                        completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
-                        state: machineJobRecord.attributes.state
-                    });
-                });
+                ConnectMASData(machineJobRecord, index, (tableRecord: DataRow) => tableData.push(tableRecord));
             });
 
             setTableData(tableData);

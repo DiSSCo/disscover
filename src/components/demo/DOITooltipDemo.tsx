@@ -150,10 +150,21 @@ const DOITooltipDemo = (props: Props) => {
     }
 
     /* Set offset styles for DOI Tooltip */
-    const offsetStyles = {
-        marginTop: (targetRef.current && DOITooltipRef.current && record.data) ? `${targetRef.current?.offsetTop - 210}px`
-            : (targetRef.current && DOITooltipRef.current) ? `${targetRef.current?.offsetTop - 45}px` : '0px',
-        marginLeft: targetRef.current ? `${targetRef.current?.offsetLeft}px` : '0px'
+    let offsetStyles: { marginTop: string, marginLeft: string } = {
+        marginTop: '0px',
+        marginLeft: '0px'
+    };
+
+    if (targetRef.current && DOITooltipRef.current && record.data) {
+        offsetStyles = {
+            marginTop: `${targetRef.current?.offsetTop - 210}px`,
+            marginLeft: `${targetRef.current?.offsetLeft}px`
+        }
+    } else if (targetRef.current && DOITooltipRef.current) {
+        offsetStyles = {
+            marginTop: `${targetRef.current?.offsetTop - 45}px`,
+            marginLeft: `${targetRef.current?.offsetLeft}px`
+        }
     }
 
     return (

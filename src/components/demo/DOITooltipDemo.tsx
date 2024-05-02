@@ -185,7 +185,7 @@ const DOITooltipDemo = (props: Props) => {
                                 </div>
                                 <div className="preservedStatusDiv grow">
                                     <p id="tooltipStatus" className="preservedStatus textOverflow">
-                                        {`${record.data.attributes.livingOrPreserved}
+                                        {`${record.data.attributes.livingOrPreserved[0].toUpperCase() + record.data.attributes.livingOrPreserved.slice(1)}
                                     ${record.data.attributes.topicDiscipline.toLowerCase()} specimen`}
                                     </p>
                                 </div>

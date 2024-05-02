@@ -18,6 +18,7 @@ import DataTable from 'components/general/tables/DataTable';
 
 /* Import API */
 import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';
+import GetMAS from 'api/mas/GetMAS';
 
 
 const MachineJobRecordsOverview = () => {
@@ -30,6 +31,7 @@ const MachineJobRecordsOverview = () => {
     interface DataRow {
         index: number,
         id: string,
+        name: string,
         targetId: string,
         scheduled: string,
         completed: string,
@@ -43,13 +45,28 @@ const MachineJobRecordsOverview = () => {
             const tableData: DataRow[] = [];
 
             machineJobRecords.forEach((machineJobRecord: Dict, index: number) => {
-                tableData.push({
-                    index: index,
-                    id: machineJobRecord.id,
-                    targetId: machineJobRecord.attributes.targetId,
-                    scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
-                    completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
-                    state: machineJobRecord.attributes.state
+                GetMAS(machineJobRecord.attributes.masId).then((MAS) => {
+                    tableData.push({
+                        index: index,
+                        id: machineJobRecord.id,
+                        name: MAS.attributes.name,
+                        targetId: machineJobRecord.attributes.targetId,
+                        scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
+                        completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
+                        state: machineJobRecord.attributes.state
+                    });
+                }).catch(error => {
+                    console.warn(error);
+
+                    tableData.push({
+                        index: index,
+                        id: machineJobRecord.id,
+                        name: '',
+                        targetId: machineJobRecord.attributes.targetId,
+                        scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
+                        completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
+                        state: machineJobRecord.attributes.state
+                    });
                 });
             });
 

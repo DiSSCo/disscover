@@ -71,8 +71,10 @@ const MachineJobRecordsOverview = () => {
             /* Construct and set table data */
             const tableData: DataRow[] = [];
 
+            const PushToTableData = (tableRecord: DataRow) => tableData.push(tableRecord);
+
             machineJobRecords.forEach((machineJobRecord: Dict, index: number) => {
-                ConnectMASData(machineJobRecord, index, (tableRecord: DataRow) => tableData.push(tableRecord));
+                ConnectMASData(machineJobRecord, index, PushToTableData);
             });
 
             setTableData(tableData);

@@ -175,7 +175,7 @@ const Search = () => {
             setTotalRecords(totalRecords);
         }
 
-        /* If any filter is selected */
+        /* If not any filter is selected */
         if (isEmpty(searchFilters)) {
             /* Grab Recent Specimens */
             GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, meta }) => {

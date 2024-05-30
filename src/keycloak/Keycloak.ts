@@ -11,13 +11,12 @@ const keycloak = new Keycloak({
     clientId: "orchestration-service"
 });
 
-const InitKeyCloak = (callback?: EmptyCallback, token?: string) => {
+const InitKeyCloak = (callback?: EmptyCallback) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
         pkceMethod: "S256",
-        token: token,
-        refreshToken: token
+        scope: 'roles profile email'
     })
         .then((authenticated) => { 
             if (!authenticated) {

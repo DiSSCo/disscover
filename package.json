@@ -39,7 +39,7 @@
     "intro.js": "^7.0.1",
     "intro.js-react": "^1.0.0",
     "json-schema-to-typescript": "^13.1.1",
-    "keycloak-js": "^18.0.1",
+    "keycloak-js": "^21.0.1",
     "leaflet": "^1.9.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -93,5 +93,6 @@
     "@types/openseadragon": "^3.0.6",
     "@types/react-datepicker": "^4.8.0",
     "@types/validator": "^13.7.17"
-  }
+  },
+  "proxy": "https://dev.dissco.tech"
 }

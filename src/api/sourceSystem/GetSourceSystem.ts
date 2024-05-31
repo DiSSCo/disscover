@@ -15,7 +15,7 @@ const GetSourceSystem = async (handle: string) => {
             const result = await axios({
                 method: "get",
                 url: endPoint,
-                baseURL: 'https://orchestration.dissco.tech',
+                baseURL: `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api/v1`.replace('dev', 'dev-orchestration').replace('sandbox', 'orchestration'),
                 responseType: 'json'
             });
 

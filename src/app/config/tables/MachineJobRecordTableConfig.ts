@@ -6,6 +6,7 @@ const MachineJobRecordTableConfig = (showTargetId: boolean = true) => {
     interface MachineJobRecord {
         index: number,
         id: string,
+        name: string,
         targetId: string
         scheduled: string,
         completed: string,
@@ -24,6 +25,12 @@ const MachineJobRecordTableConfig = (showTargetId: boolean = true) => {
         })] : []),
         columnHelper.accessor('targetId', {
             header: 'Target ID',
+            meta: {
+                widthInRem: 14,
+            }
+        }),
+        columnHelper.accessor('name', {
+            header: 'Name',
             meta: {
                 widthInRem: 14,
             }

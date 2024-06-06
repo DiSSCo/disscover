@@ -19,6 +19,7 @@ import DataTable from 'components/general/tables/DataTable';
 /* Import API */
 import GetUserMachineJobRecords from 'api/user/GetUserMachineJobRecords';
 import GetMAS from 'api/mas/GetMAS';
+import { isEmpty } from 'lodash';
 
 
 const MachineJobRecordsOverview = () => {
@@ -41,15 +42,19 @@ const MachineJobRecordsOverview = () => {
     /* Function to link Machine Job Records with the respective MAS data */
     const ConnectMASData = (machineJobRecord: Dict, index: number, PushToArray: Function) => {
         GetMAS(machineJobRecord.attributes.masId).then((MAS) => {
-            PushToArray({
-                index: index,
-                id: machineJobRecord.id,
-                name: MAS.attributes.name,
-                targetId: machineJobRecord.attributes.targetId,
-                scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
-                completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
-                state: machineJobRecord.attributes.state
-            });
+            if (!isEmpty) {
+                PushToArray({
+                    index: index,
+                    id: machineJobRecord.id,
+                    name: MAS.attributes.name,
+                    targetId: machineJobRecord.attributes.targetId,
+                    scheduled: Moment(machineJobRecord.attributes.timeStarted).format('MMMM DD - YYYY'),
+                    completed: Moment(machineJobRecord.attributes.timeCompleted).format('MMMM DD - YYYY') ?? '--',
+                    state: machineJobRecord.attributes.state
+                });
+            } else {
+                throw("No MAS found for given MAS ID");
+            }
         }).catch(error => {
             console.warn(error);
 
@@ -85,6 +90,8 @@ const MachineJobRecordsOverview = () => {
             console.warn(error);
         });
     }, [pageNumber]);
+
+    console.log(tableData);
 
     /* Table Config */
     const { columns } = MachineJobRecordTableConfig(false);

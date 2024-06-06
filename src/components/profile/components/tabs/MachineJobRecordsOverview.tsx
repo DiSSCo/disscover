@@ -91,8 +91,6 @@ const MachineJobRecordsOverview = () => {
         });
     }, [pageNumber]);
 
-    console.log(tableData);
-
     /* Table Config */
     const { columns } = MachineJobRecordTableConfig(false);
 

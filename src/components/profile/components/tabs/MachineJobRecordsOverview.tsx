@@ -53,7 +53,7 @@ const MachineJobRecordsOverview = () => {
                     state: machineJobRecord.attributes.state
                 });
             } else {
-                throw("No MAS found for given MAS ID");
+                throw(new Error("No MAS found for given MAS ID"));
             }
         }).catch(error => {
             console.warn(error);

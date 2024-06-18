@@ -3,7 +3,6 @@ import './app/i18n';
 import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import reportWebVitals from './reportWebVitals';
 
 /* Import Utilities */
 import KeycloakService from 'app/Keycloak';
@@ -44,5 +43,3 @@ const RenderRoot = () => {
 
 /* Initiate keycloak which will render the root after receiving the user token */
 KeycloakService.InitKeyCloak(RenderRoot);
-
-reportWebVitals();

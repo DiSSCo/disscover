@@ -39,6 +39,8 @@ const GetDigitalSpecimenAggregations = async ({ searchFilters }: { searchFilters
         /* Set aggregations */
         const data: JSONResult = result.data;
 
+        console.log(data);
+
         aggregations = data.data.attributes;
     } catch (error: any) {
         console.log(error);

@@ -1,0 +1,24 @@
+/* Custom styling for the custom button component */
+.button {
+    background-color: transparent;
+    transition: 0.3s;
+    color: inherit;
+}
+
+.button:hover {
+    filter: brightness(130%);
+}
+
+/* Primary variant */
+.primary {
+    background-color: var(--primary);
+    color: white;
+    font-weight: bold;
+}
+
+/* Secondary variant */
+.secondary {
+    background-color: var(--secondary);
+    color: white;
+    font-weight: bold;
+}

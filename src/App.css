@@ -1,0 +1,351 @@
+/* Root variables */
+:root {
+  --primary: #4d59a2;
+  --secondary: #51a993;
+  --secondary-hover: #81cab8;
+  --secondary-soft: #a1d8ca;
+  --secondary-hard: #1C949A;
+  --accent: #28bacb;
+  --accent-hover: #95e1e9;
+  --accent-soft: #bfedf2;
+  --accent-dark: #aed0e3;
+  --accent-dark-hover: #8dbcd8;
+  --background: #F9FAFC;
+  --greyLight: #f1f1f3;
+  --grey: #D9D9DF;
+  --greyMedium: #B4B4BF;
+  --greyDark: #868696;
+  --error: #E74C3C;
+}
+
+/* Import Montserrat Font */
+@font-face {
+  font-family: 'Montserrat';
+  src: url(webroot/font/Montserrat-VariableFont_wght.ttf);
+}
+
+/* Global styles */
+html {
+  height: 100vh;
+  font-size: 0.85vw;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333333;
+  background-color: var(--background);
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+a {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: inherit;
+  text-decoration: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Font sizes, default is 16px */
+.fs-title {
+  font-size: 3rem !important;
+}
+
+.fs-subTitle {
+  font-size: 2rem !important;
+}
+
+.fs-5 {
+  font-size: 0.75rem !important;
+}
+
+.fs-4 {
+  font-size: 0.875rem !important;
+}
+
+.fs-3 {
+  font-size: 1.125rem !important;
+}
+
+.fs-2 {
+  font-size: 1.5rem !important;
+}
+
+.fs-1 {
+  font-size: 2.5rem !important;
+}
+
+/* Text color */
+.tc-primary {
+  color: var(--primary);
+}
+
+.tc-secondary {
+  color: var(--secondary);
+}
+
+.tc-accent {
+  color: var(--accent);
+}
+
+.tc-white {
+  color: #ffffff;
+}
+
+.tc-grey {
+  color: var(--greyDark);
+}
+
+/* Font weight */
+.fw-lightBold {
+  font-weight: 500;
+}
+
+/* Text overflow */
+.textOverflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Button no style */
+.button-no-style {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  text-align: inherit;
+}
+
+/* Background color */
+.bgc-primary {
+  background-color: var(--primary) !important;
+}
+
+.bgc-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bgc-secondary-soft {
+  background-color: var(--secondary-soft) !important;
+}
+
+.bgc-secondary-soft-transparent {
+  background-color: rgb(161, 216, 202, 0.4) !important;
+}
+
+.bgc-secondary-hard {
+  background-color: var(--secondary-hard);
+}
+
+.bgc-accent {
+  background-color: var(--accent) !important;
+}
+
+.bgc-accent-soft {
+  background-color: var(--accent-soft) !important;
+}
+
+.bgc-accent-dark {
+  background-color: var(--accent-dark) !important;
+}
+
+.bgc-default {
+  background-color: var(--background);
+}
+
+.bgc-white {
+  background-color: #ffffff;
+}
+
+.bgc-grey {
+  background-color: var(--grey);
+}
+
+.bgc-none {
+  background-color: transparent;
+}
+
+/* Border */
+.b-primary {
+  border: 1px solid var(--primary);
+}
+
+.bl-primary {
+  border-left: 1px solid var(--primary);
+}
+
+.b-secondary-hard {
+  border: 1px solid var(--secondary-hard);
+}
+
+.b-grey {
+  border: 1px solid var(--grey);
+}
+
+.b-none {
+  border: none;
+}
+
+/* Border radius */
+.br-corner {
+  border-radius: 8px;
+}
+
+.br-round {
+  border-radius: 999px;
+}
+
+/* Overflow */
+.overflow-y-scroll {
+  overflow-y: scroll !important;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll !important;
+}
+
+.overflow-x-visible {
+  overflow-x: visible;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+/* Z-index */
+.z--1 {
+  z-index: -1;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.z-2 {
+  z-index: 2;
+}
+
+/* Transition */
+.tr-smooth {
+  transition: 0.3s;
+}
+
+.tr-fast {
+  transition: 0.15s;
+}
+
+/* Hover */
+.hover-primary:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.hover-primary-light:hover {
+  background-color: var(--primary);
+  filter: brightness(130%);
+}
+
+.hover-secondary:hover {
+  background-color: var(--secondary-hover);
+}
+
+.hover-accent:hover {
+  background-color: var(--accent-hover);
+}
+
+.hover-accent-dark:hover {
+  background-color: var(--accent-dark-hover);
+}
+
+.hover-grey:hover {
+  background-color: var(--grey);
+}
+
+/* Mouse Cursor */
+.mc-pointer {
+  cursor: pointer;
+}
+
+/* Scroll Bars */
+
+/* width */
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+/* Bootstrap overwrite */
+.page-item {
+  min-width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.page-item.active {
+  line-height: 28px;
+  z-index: 0;
+}
+
+.page-link {
+  height: 100%;
+  width: 100%;
+  color: #333333;
+  line-height: 40px;
+  padding: 0;
+}
+
+.pagination {
+  padding: 0;
+  margin: 0;
+}
+
+li.page-item.active .page-link {
+  background-color: var(--secondary-hard);
+  border: none;
+}

@@ -1,0 +1,19 @@
+/* Custom styling for the notification component */
+.error {
+    background-color: var(--error);
+}
+
+.loadingBar {
+    height: 4px;
+    animation: progressAnimation 6s;
+}
+
+@keyframes progressAnimation {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}

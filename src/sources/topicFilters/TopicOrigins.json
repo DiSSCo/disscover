@@ -1,0 +1,14 @@
+{
+    "topicOrigins": {
+        "naturalOrigin": {
+            "name": "Natural Origin"
+        },
+        "humanMade": {
+            "name": "Human made",
+            "subTitle": "(Archive material)"
+        },
+        "unclassified": {
+            "name": "Unclassified"
+        }
+    }
+}

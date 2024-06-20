@@ -41,8 +41,6 @@ const GetDigitalSpecimenAggregations = async ({ searchFilters }: { searchFilters
 
         aggregations = data.data.attributes;
     } catch (error: any) {
-        console.log(error);
-
         throw (DefaultException('Digital Specimen Aggregations', error.request.responseURL));
     };
 

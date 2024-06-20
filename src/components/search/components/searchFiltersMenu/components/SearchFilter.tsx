@@ -70,7 +70,6 @@ const SearchFilter = (props: Props) => {
         };
         case 'taxonomy': {
             formField = <TaxonomyFilter fieldValues={fieldValue as { [taxonomicLevel: string]: string[] }}
-                aggregations={aggregations?.[name] as { [taxonomyKey: string]: { [aggregaton: string]: number } }}
                 formValues={formValues ?? {}}
                 SetFormValues={(values: Dict) => SetFormValues?.(values)}
                 SubmitForm={SubmitForm}

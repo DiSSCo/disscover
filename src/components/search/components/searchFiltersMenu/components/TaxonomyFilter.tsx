@@ -19,7 +19,6 @@ import TaxonomicTree from './taxonomyFilter/TaxonomicTree';
 /* Props Type */
 type Props = {
     fieldValues: { [taxonomicLevel: string]: string[] },
-    aggregations?: { [taxonomicLevel: string]: { [aggregation: string]: number } },
     formValues: Dict,
     SetFormValues: Function,
     SubmitForm: Function
@@ -32,7 +31,7 @@ type Props = {
  * @returns 
  */
 const TaxonomyFilter = (props: Props) => {
-    const { fieldValues, aggregations, formValues, SetFormValues, SubmitForm } = props;
+    const { fieldValues, formValues, SetFormValues, SubmitForm } = props;
 
     /* Base variables */
     const [taxonomicRegistration, setTaxonomicRegistration] = useState<{
@@ -64,7 +63,6 @@ const TaxonomyFilter = (props: Props) => {
                     <TaxonomicTree 
                         fieldValues={fieldValues}
                         taxonomicRegistration={taxonomicRegistration}
-                        aggregations={aggregations}
                         formValues={formValues}
                         SetTaxonomicRegistration={setTaxonomicRegistration}
                         SetFormValues={SetFormValues}

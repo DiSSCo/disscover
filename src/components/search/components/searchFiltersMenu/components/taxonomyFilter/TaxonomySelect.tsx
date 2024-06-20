@@ -67,13 +67,7 @@ const TaxonomySelect = (props: Props) => {
                 fieldValues={fieldValues}
                 enableInputField={true}
                 SetFieldValue={(field: string, value: string | string[]) => SetFieldValue(field, value)}
-                OnSelect={() => {
-                    /* Submit search filters form */
-                    SubmitForm()
-
-                    /* Reset aggregations */
-                    // setFilterAggregations(bootAggregations[name]);
-                }}
+                OnSelect={() =>  SubmitForm()}
                 OnChange={(value: string) => dynamicSearch.DynamicSearch(value, { searchFilterName: 'species', value })}
             />
         </div>

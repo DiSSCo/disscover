@@ -7,8 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 
 /* Import Utitlities */
-import { SearchNestedObjectNode } from 'app/Utilities';
-import { NextTaxonomyLevel, HarvestTaxonomicAggregations, RemoveBranchFromTree } from 'app/utilities/TaxonomicUtilities';
+import { NextTaxonomyLevel, HarvestTaxonomicAggregations, RemoveBranchFromTaxonomicTree } from 'app/utilities/TaxonomicUtilities';
 
 /* Import Hooks */
 import { useAppSelector } from 'app/Hooks';
@@ -29,7 +28,6 @@ type Props = {
     taxonomicRegistration: {
         [taxonomicLevel: string]: string[]
     },
-    aggregations?: { [taxonomicLevel: string]: { [aggregation: string]: number } },
     formValues: Dict,
     SetTaxonomicRegistration: Function,
     SetFormValues: Function,
@@ -37,27 +35,39 @@ type Props = {
 };
 
 
+/**
+ * Component that renders the taxonomic tree when using the taxonomic filter
+ * @param fieldValues The current values of all the taxonomical filters in the search filter in the form
+ * @param taxonomicRegistration The registration that looks after which taxonomies have been selected and rendered
+ * @param formValues All of the current form values
+ * @param SetTaxonomicRegistration A function to set and update the taxonomic registration
+ * @param SetFormValue A function to set and update all of the form values
+ * @param OnSelect A function that is called when a taxonomic option has been selected
+ * @returns JSX Component
+ */
 const TaxonomicTree = (props: Props) => {
-    const { fieldValues, taxonomicRegistration, aggregations, formValues, SetTaxonomicRegistration, SetFormValues, OnSelect } = props;
+    const { fieldValues, taxonomicRegistration, formValues, SetTaxonomicRegistration, SetFormValues, OnSelect } = props;
 
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
     const bootAggregations = useAppSelector(getAggregations);
+
+    /* Distill the kingdoms from the boot aggregations, these will function as the base of the taxonomic tree */
     let kingdoms: Dict = {};
 
     Object.keys(bootAggregations.kingdom).forEach(kingdom => {
         kingdoms[kingdom] = {};
     });
 
+    /* The variable that will hold the taxonomic tree in full */
     const [taxonomicTreeData, setTaxonomicTreeData] = useState<Dict>({
         ...kingdoms
     });
 
     /* Iterate through the different taxonomic levels of aggregations to extract the taxonomic levels and their values */
     useEffect(() => {
-        /* Fill in lacking species names from search params */
         const taxonomicRequests = Object.entries(fieldValues).map(([taxonomicLevel, activeTaxonomies]) => {
             return new Promise<Dict>((resolve) => {
                 /* Preprare empty requests array */
@@ -123,10 +133,10 @@ const TaxonomicTree = (props: Props) => {
                                 /* Remove from taxonomic registration */
                                 const index: number = taxonomicRegistration[taxonomicLevel].findIndex(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
 
-                                taxonomicRegistration[taxonomicLevel].splice(index, 1);                                
+                                taxonomicRegistration[taxonomicLevel].splice(index, 1);
 
                                 /* Remove the complete branch of the broken or deselected taxonomic value */
-                                const { taxonomicTree, taxonomicValuePurgeList } = await RemoveBranchFromTree(
+                                const { taxonomicTree, taxonomicValuePurgeList } = await RemoveBranchFromTaxonomicTree(
                                     taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration, Object.keys(bootAggregations.kingdom).map(kingdom => kingdom)
                                 );
 
@@ -134,7 +144,7 @@ const TaxonomicTree = (props: Props) => {
                                 const newformValues = { ...formValues };
 
                                 taxonomicValuePurgeList.map(purgeItem => {
-                                    /* Split item into array consisting of [field, value] */                       
+                                    /* Split item into array consisting of [field, value] */
                                     const taxonomicLevelValue: string[] = purgeItem.replace('.', '&').split('&', 2);
 
                                     /* Try to find index of field value in original form values and remove */
@@ -152,8 +162,6 @@ const TaxonomicTree = (props: Props) => {
                                 setTaxonomicTreeData(taxonomicTree);
                             })();
                         };
-                    } else {
-                        console.log('empty')
                     };
 
                     resolve({});
@@ -161,10 +169,10 @@ const TaxonomicTree = (props: Props) => {
             });
         });
 
+        /* Based upon the results retrieved from the requests, build the complete taxonomic tree */
         Promise.all(taxonomicRequests).then((taxonomicTreeSegments: (Dict | undefined)[]) => {
             let taxonomicTree: Dict = {
                 ...taxonomicTreeData
-                // ...kingdoms
             };
 
             /* Add new taxonomic segments to taxonomic tree */
@@ -181,10 +189,10 @@ const TaxonomicTree = (props: Props) => {
     }, [searchParams]);
 
     /**
-     * Recursive function to built the taxanomic levels visually
-     * @param taxonomicTreeSegment The current taxonomic level's options
+     * Recursive function to build the taxanomic levels visually
+     * @param taxonomicTreeSegment A branch segment to be merged into the taxonomic tree
      * @param taxonomicLevel The current taxonomic level
-     * @returns HTML
+     * @returns JSX Component, representing the taxonomic tree
      */
     const RenderTaxonomicLevels = (taxonomicTreeSegment: Dict, taxonomicLevel: string = 'kingdom') => {
         return (

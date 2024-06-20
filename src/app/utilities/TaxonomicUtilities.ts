@@ -55,6 +55,12 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
         kingdom: taxonomicHarvest.kingdom[0]
     };
 
+    /**
+     * Function to set and populate a new branch in the taxonomic tree based upon the given taxonomic level and values
+     * @param taxonomicLevel The current taxonomic level
+     * @param values The values assigned to the current taxonomic level
+     * @param taxonomicTree The current taxonomic tree to build further on
+     */
     const SetTaxonomicLevel = (taxonomicLevel: string, values: string[], taxonomicTree: Dict) => {
         /* Switch to set the correct values to the taxonomic level, default is kingdom */
         switch (taxonomicLevel) {
@@ -199,7 +205,16 @@ const GetTaxonomicLevels = () => {
     ];
 };
 
-const RemoveBranchFromTree = async (baseTaxonomicTree: Dict, taxonomicLevel: string, taxonomicValue: string, taxonomicRegistration: Dict, kingdoms: string[]) => {
+/**
+ * Function to remove a branch from the taxonomic tree
+ * @param baseTaxonomicTree 
+ * @param taxonomicLevel 
+ * @param taxonomicValue 
+ * @param taxonomicRegistration 
+ * @param kingdoms 
+ * @returns 
+ */
+const RemoveBranchFromTaxonomicTree = async (baseTaxonomicTree: Dict, taxonomicLevel: string, taxonomicValue: string, taxonomicRegistration: Dict, kingdoms: string[]) => {
     /* Base variables */
     const taxonomicTree = { ...baseTaxonomicTree };
     let branch: Dict = {};
@@ -255,11 +270,11 @@ const RemoveBranchFromTree = async (baseTaxonomicTree: Dict, taxonomicLevel: str
      */
     const TaxonomicCleanUp = (taxonomicLevel: string, aggregations: { [taxonomicLevel: string]: { [aggregation: string]: number } }) => {
         /* Harvest the path (segment of taxonomic tree) that adheres to the given taxonomic level and determine the taxonomic value */
+        console.log(taxonomicLevel);
+
         if (taxonomicLevel in aggregations && !taxonomicRegistration[taxonomicLevel].find((taxonomicValue: string) => Object.keys(aggregations[taxonomicLevel]).includes(taxonomicValue))) {
             let path: Dict = {};
             let taxonomicValue: string = '';
-
-            console.log('test');
 
             switch (taxonomicLevel) {
                 case 'species':
@@ -297,8 +312,8 @@ const RemoveBranchFromTree = async (baseTaxonomicTree: Dict, taxonomicLevel: str
                     taxonomicValue = Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom';
             };
 
-            if (/*CheckPathForUnknown(path) && */path[taxonomicValue] && Object.keys(path[taxonomicValue]).length <= 1 && !kingdoms.includes(taxonomicValue)/*&& taxonomicValue.includes('Unknown')*/) {
-                delete path[taxonomicValue];
+            if (path[taxonomicValue] && !taxonomicRegistration[taxonomicLevel].includes(taxonomicValue)) {
+                path[taxonomicValue] = {};
             };
 
             /* If there are more parent taxonomy levels, continue by recursively calling this function again for the previous taxonomy level */
@@ -309,7 +324,11 @@ const RemoveBranchFromTree = async (baseTaxonomicTree: Dict, taxonomicLevel: str
     };
 
     /* Clean up loose ends in the taxonomic tree */
+    console.log(taxonomicLevel);
+
     TaxonomicCleanUp(taxonomicLevel, aggregations);
+
+    console.log(taxonomicTree);
 
     /**
      * 
@@ -361,5 +380,5 @@ export {
     NextTaxonomyLevel,
     HarvestTaxonomicAggregations,
     GetTaxonomicLevels,
-    RemoveBranchFromTree
+    RemoveBranchFromTaxonomicTree
 };

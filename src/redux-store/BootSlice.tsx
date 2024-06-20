@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/Store';
 
 

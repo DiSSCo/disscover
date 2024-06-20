@@ -22,7 +22,6 @@ import SearchFilters from 'sources/searchFilters/searchFilters.json';
 
 /* Import API */
 import GetDigitalSpecimenAggregations from 'api/digitalSpecimen/GetDigitalSpecimenAggregations';
-import GetDigitalSpecimenTaxonomyAggregations from 'api/digitalSpecimen/GetDigitalSpecimenTaxonomyAggregations';
 
 /* Import Components */
 import { SearchFilter } from './SearchFiltersMenuComponents';
@@ -59,14 +58,7 @@ const SearchFiltersMenu = () => {
                     searchFilters: searchFilters.GetSearchFilters()
                 },
                 Method: GetDigitalSpecimenAggregations
-            },
-            // {
-            //     alias: 'digitalSpecimenTaxonomyAggregations',
-            //     params: {
-            //         searchFilters: searchFilters.GetSearchFilters()
-            //     },
-            //     Method: GetDigitalSpecimenTaxonomyAggregations
-            // }
+            }
         ],
         triggers: [searchParams],
         Handler: (results: Dict) => {
@@ -121,7 +113,7 @@ const SearchFiltersMenu = () => {
                     }}
                     enableReinitialize={true}
                 >
-                    {({ values, setFieldValue, submitForm }) => (
+                    {({ values, setFieldValue, setValues, submitForm  }) => (
                         <Form className="h-100 d-flex flex-column">
                             {/* Quality completeness indicators */}
                             <Row>
@@ -211,7 +203,9 @@ const SearchFiltersMenu = () => {
                                                                         searchQuery={values.search?.[key]}
                                                                         searchFilter={searchFilter}
                                                                         aggregations={{ [key]: aggregations?.[key] }}
+                                                                        formValues={values}
                                                                         SetFieldValue={(field: string, value: string | string[]) => setFieldValue(field, value)}
+                                                                        SetFormValues={(values: Dict) => setValues(values)}
                                                                         SubmitForm={submitForm}
                                                                     />
                                                                 </Col>

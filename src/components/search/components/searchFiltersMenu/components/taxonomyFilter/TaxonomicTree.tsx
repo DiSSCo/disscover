@@ -30,13 +30,15 @@ type Props = {
         [taxonomicLevel: string]: string[]
     },
     aggregations?: { [taxonomicLevel: string]: { [aggregation: string]: number } },
+    formValues: Dict,
     SetTaxonomicRegistration: Function,
+    SetFormValues: Function,
     OnSelect?: Function
 };
 
 
 const TaxonomicTree = (props: Props) => {
-    const { fieldValues, taxonomicRegistration, aggregations, SetTaxonomicRegistration, OnSelect } = props;
+    const { fieldValues, taxonomicRegistration, aggregations, formValues, SetTaxonomicRegistration, SetFormValues, OnSelect } = props;
 
     /* Hooks */
     const [searchParams, setSearchParams] = useSearchParams();
@@ -56,91 +58,7 @@ const TaxonomicTree = (props: Props) => {
     /* Iterate through the different taxonomic levels of aggregations to extract the taxonomic levels and their values */
     useEffect(() => {
         /* Fill in lacking species names from search params */
-        // searchParams.getAll('species').forEach(species => {
-        //     if (!(species in taxonomicRegistration)) {
-        //         taxonomicRegistration.species[species] = 0;
-        //     };
-        // });
-
-        // const taxonomicRequests = Object.entries(taxonomicRegistration).map(([taxonomicLevel, activeTaxonomies]) => {
-        //     console.log(taxonomicLevel, activeTaxonomies);
-
-        //     if (!isEmpty(activeTaxonomies)) {
-        //         return new Promise<Dict>((resolve) => {
-        //             /* Preprare empty requests array */
-        //             const requests: { alias: string, params?: Dict, Method: Function }[] = [];
-
-        //             /* Check if all values from taxonomic level are present in taxonomic tree, if not, add as request to the requests array */
-        //             console.log(fieldValues);
-
-        //             activeTaxonomies.map(key => {
-        //                 if (fieldValues[taxonomicLevel].includes(key)) {
-        //                     /* Push to requests */
-        //                     requests.push({
-        //                         alias: key,
-        //                         params: {
-        //                             searchFilters: {
-        //                                 [taxonomicLevel]: [key]
-        //                             }
-        //                         },
-        //                         Method: GetDigitalSpecimenTaxonomyAggregations
-        //                     });
-        //                 } else if (taxonomicLevel === 'kingdom') {
-        //                     taxonomicTreeData[key] = {};
-        //                 };
-        //             });
-
-        //             /* If there are new requests, fetch them from the API */
-        //             if (!isEmpty(requests)) {
-        //                 /* Build promises array to simultaneously fetch taxonomic aggregations */
-        //                 const promises: Promise<{ [taxonomicLevel: string]: { [aggregation: string]: number } }>[] = [];
-
-        //                 for (let index = 0; index < requests.length; index++) {
-        //                     promises.push(GetDigitalSpecimenTaxonomyAggregations({
-        //                         searchFilters: requests[index].params?.searchFilters
-        //                     }));
-        //                 };
-
-        //                 /* Resolve promises and return taxonomic tree segments */
-        //                 let taxonomicTreeSegments: Dict = {};
-
-        //                 Promise.all(promises).then((results) => {
-        //                     console.log(results);
-
-        //                     /* Construct new taxonomic tree segments */
-        //                     Promise.all(results.map(async (result) => {
-        //                         console.log(result);
-
-        //                         const harvestedTaxonomicAggregations = await HarvestTaxonomicAggregations(result);
-
-        //                         console.log(harvestedTaxonomicAggregations);
-
-        //                         taxonomicTreeSegments = { ...taxonomicTreeSegments, ...harvestedTaxonomicAggregations };
-        //                     })).then(() => {
-        //                         resolve(taxonomicTreeSegments);
-        //                     }).catch(error => {
-        //                         console.error(error);
-        //                     });
-        //                 }).catch(error => {
-        //                     console.error(error);
-        //                 }).finally(() => {
-        //                     console.log(taxonomicRegistration);
-
-        //                     SetTaxonomicRegistration({ ...taxonomicRegistration });
-        //                 });
-        //             } else {
-        //                 resolve({});
-        //             }
-        //         });
-        //     } else {
-        //         return new Promise<undefined>((resolve) => {
-        //             resolve(undefined);
-        //         });
-        //     }
-        // });
-
         const taxonomicRequests = Object.entries(fieldValues).map(([taxonomicLevel, activeTaxonomies]) => {
-            // if (!isEmpty(activeTaxonomies)) {
             return new Promise<Dict>((resolve) => {
                 /* Preprare empty requests array */
                 const requests: { alias: string, params?: Dict, Method: Function }[] = [];
@@ -162,9 +80,6 @@ const TaxonomicTree = (props: Props) => {
                         /* Push to taxonomic registration */
                         taxonomicRegistration[taxonomicLevel].push(key);
                     };
-                    // else if (taxonomicLevel === 'kingdom') {
-                    //     taxonomicTreeData[key] = {};
-                    // };
                 });
 
                 /* If there are new requests, fetch them from the API */
@@ -195,8 +110,6 @@ const TaxonomicTree = (props: Props) => {
                     }).catch(error => {
                         console.error(error);
                     }).finally(() => {
-                        console.log(taxonomicRegistration);
-
                         SetTaxonomicRegistration({ ...taxonomicRegistration });
                     });
                 } else {
@@ -207,38 +120,45 @@ const TaxonomicTree = (props: Props) => {
 
                         if (taxonomicValue) {
                             (async () => {
-                                /* Remove the complete branch of the broken or deselected taxonomic value */
-                                const { taxonomicValuePurgeList } = await RemoveBranchFromTree(taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration);
-
                                 /* Remove from taxonomic registration */
                                 const index: number = taxonomicRegistration[taxonomicLevel].findIndex(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
 
-                                taxonomicRegistration[taxonomicLevel].splice(index, 1);
+                                taxonomicRegistration[taxonomicLevel].splice(index, 1);                                
 
-                                // SetTaxonomicRegistration({ ...taxonomicRegistration });
+                                /* Remove the complete branch of the broken or deselected taxonomic value */
+                                const { taxonomicTree, taxonomicValuePurgeList } = await RemoveBranchFromTree(
+                                    taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration, Object.keys(bootAggregations.kingdom).map(kingdom => kingdom)
+                                );
 
                                 /* Remove from search params */
-                                taxonomicValuePurgeList.map(purgeItem => {
-                                    const taxonomicLevelValue: string[] = purgeItem.split('.', 1);
-                            
-                                    console.log(taxonomicLevelValue);
-                            
-                                    searchParams.delete(taxonomicLevelValue[0], taxonomicLevelValue[1]);
+                                const newformValues = { ...formValues };
 
-                                    setSearchParams(searchParams);
+                                taxonomicValuePurgeList.map(purgeItem => {
+                                    /* Split item into array consisting of [field, value] */                       
+                                    const taxonomicLevelValue: string[] = purgeItem.replace('.', '&').split('&', 2);
+
+                                    /* Try to find index of field value in original form values and remove */
+                                    const index: number = newformValues.filters.taxonomy[taxonomicLevelValue[0]].findIndex((value: string) => value === taxonomicLevelValue[1]);
+                                    newformValues.filters.taxonomy[taxonomicLevelValue[0]].splice(index, 1);
+
+                                    /* Prepare to delete field value from search params */
+                                    searchParams.delete(taxonomicLevelValue[0], taxonomicLevelValue[1]);
                                 });
+
+                                /* Set updated data to form values, search params and taxonomic tree data */
+                                SetTaxonomicRegistration({ ...taxonomicRegistration });
+                                SetFormValues(newformValues);
+                                setSearchParams(searchParams);
+                                setTaxonomicTreeData(taxonomicTree);
                             })();
                         };
+                    } else {
+                        console.log('empty')
                     };
 
                     resolve({});
                 };
             });
-            // } else {
-            //     return new Promise<undefined>((resolve) => {
-            //         resolve(undefined);
-            //     });
-            // }
         });
 
         Promise.all(taxonomicRequests).then((taxonomicTreeSegments: (Dict | undefined)[]) => {

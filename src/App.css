@@ -270,24 +270,24 @@ p {
 }
 
 .hover-primary-light:hover {
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
   filter: brightness(130%);
 }
 
 .hover-secondary:hover {
-  background-color: var(--secondary-hover);
+  background-color: var(--secondary-hover) !important;
 }
 
 .hover-accent:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--accent-hover) !important;
 }
 
 .hover-accent-dark:hover {
-  background-color: var(--accent-dark-hover);
+  background-color: var(--accent-dark-hover) !important;
 }
 
 .hover-grey:hover {
-  background-color: var(--grey);
+  background-color: var(--grey) !important;
 }
 
 /* Mouse Cursor */

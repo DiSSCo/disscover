@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'app/Store';
 
 
@@ -21,7 +21,7 @@ export const BootSlice = createSlice({
     initialState,
     reducers: {
         setBootState: (state, action: PayloadAction<BootState>) => {
-            state.aggregations = action.payload.aggregations;
+            state.aggregations = action.payload.aggregations
         }
     },
 })
@@ -29,18 +29,24 @@ export const BootSlice = createSlice({
 /* Action Creators */
 export const { setBootState } = BootSlice.actions;
 
-/* Connect with Root State */
-export const getAggregations = (state: RootState) => state.boot.aggregations;
-export const getOrganisationNames = (state: RootState) => {
+/* Selector actions */
+const SelectAggregations = (state: RootState) => state.boot.aggregations;
+
+const SelectOrganisationNames = createSelector([SelectAggregations], (aggregations: { [searchFilterName: string]: { [aggregation: string]: number } }) => {
     const organisationNames: string[] = [];
 
-    if ('organisationName' in state.boot.aggregations) {
-        Object.keys(state.boot.aggregations.organisationName).forEach(key => {
+    if ('organisationName' in aggregations) {
+        Object.keys(aggregations.organisationName).forEach(key => {
             organisationNames.push(key);
         });
     };
 
     return organisationNames;
-};
+});
+
+/* Connect with Root State */
+export const getAggregations = (state: RootState) => state.boot.aggregations;
+export const getOrganisationNames = (state: RootState) => SelectOrganisationNames(state);
+
 
 export default BootSlice.reducer;

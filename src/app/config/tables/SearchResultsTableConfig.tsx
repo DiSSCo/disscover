@@ -8,7 +8,7 @@ import { useAppSelector } from 'app/Hooks';
 
 const SearchResultsTableConfig = () => {
     /* Type interface */
-    interface SearchResult {
+    type SearchResult = {
         compareSelected: boolean,
         DOI: string,
         taxonomyIconUrl: string,
@@ -47,7 +47,7 @@ const SearchResultsTableConfig = () => {
             }
         }),
         columnHelper.accessor('DOI', {
-            cell: info => info.getValue().replace(process.env.REACT_APP_DOI_URL as string, ''),
+            cell: info => info.getValue().replace(import.meta.env.VITE_DOI_URL as string, ''),
             meta: {
                 widthInRem: 10,
                 pinned: true

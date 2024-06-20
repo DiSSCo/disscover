@@ -8,6 +8,9 @@ import { useAppSelector } from 'app/Hooks';
 /* Import Store */
 import { getAggregations } from 'redux-store/BootSlice';
 
+/* Import Types */
+import { Dict } from 'app/Types';
+
 /* Import Components */
 import TaxonomySelect from './taxonomyFilter/TaxonomySelect';
 import TaxonomicTree from './taxonomyFilter/TaxonomicTree';
@@ -17,6 +20,8 @@ import TaxonomicTree from './taxonomyFilter/TaxonomicTree';
 type Props = {
     fieldValues: { [taxonomicLevel: string]: string[] },
     aggregations?: { [taxonomicLevel: string]: { [aggregation: string]: number } },
+    formValues: Dict,
+    SetFormValues: Function,
     SubmitForm: Function
 };
 
@@ -27,7 +32,7 @@ type Props = {
  * @returns 
  */
 const TaxonomyFilter = (props: Props) => {
-    const { fieldValues, aggregations, SubmitForm } = props;
+    const { fieldValues, aggregations, formValues, SetFormValues, SubmitForm } = props;
 
     /* Base variables */
     const [taxonomicRegistration, setTaxonomicRegistration] = useState<{
@@ -60,7 +65,9 @@ const TaxonomyFilter = (props: Props) => {
                         fieldValues={fieldValues}
                         taxonomicRegistration={taxonomicRegistration}
                         aggregations={aggregations}
+                        formValues={formValues}
                         SetTaxonomicRegistration={setTaxonomicRegistration}
+                        SetFormValues={SetFormValues}
                         OnSelect={SubmitForm}
                     />
                 </Col>

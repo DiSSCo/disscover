@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { isEmpty } from "lodash";
-import { useSearchParams } from "react-router-dom";
 
 /* Import Types */
 import { Dict } from "app/Types";
@@ -16,7 +15,7 @@ import GetDigitalSpecimenTaxonomyAggregations from "api/digitalSpecimen/GetDigit
  * @param taxonomicLevel The current taxonomic level
  * @returns String
  */
-const NextTaxonomyLevel = (taxonomicLevel: string) => {
+const NextTaxonomyLevel = (taxonomicLevel?: string) => {
     switch (taxonomicLevel) {
         case 'kingdom': return 'phylum';
         case 'phylum': return 'class';
@@ -200,14 +199,10 @@ const GetTaxonomicLevels = () => {
     ];
 };
 
-const RemoveBranchFromTree = async (taxonomicTree: Dict, taxonomicLevel: string, taxonomicValue: string, taxonomicRegistration: Dict) => {
+const RemoveBranchFromTree = async (baseTaxonomicTree: Dict, taxonomicLevel: string, taxonomicValue: string, taxonomicRegistration: Dict, kingdoms: string[]) => {
     /* Base variables */
+    const taxonomicTree = { ...baseTaxonomicTree };
     let branch: Dict = {};
-
-    /* Get taxonomic aggregations, if taxonomic level is not kingdom */
-    if (taxonomicLevel === 'kingdom') {
-        taxonomicTree[taxonomicValue] = {};
-    };
 
     /* Fech aggregations for given taxonomy level */
     const aggregations = await GetDigitalSpecimenTaxonomyAggregations({
@@ -215,9 +210,6 @@ const RemoveBranchFromTree = async (taxonomicTree: Dict, taxonomicLevel: string,
             [taxonomicLevel]: [taxonomicValue]
         }
     });
-
-    console.log(aggregations);
-    console.log(taxonomicTree);
 
     /* Determine by taxonomic level, where to split the branch from the main tree */
     switch (taxonomicLevel) {
@@ -249,7 +241,75 @@ const RemoveBranchFromTree = async (taxonomicTree: Dict, taxonomicLevel: string,
         case 'species':
             branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'][taxonomicValue];
             taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'][taxonomicValue] = {};
+
+            break;
+        default:
+            branch = taxonomicTree[taxonomicValue ?? 'Unknown kingdom'];
+            taxonomicTree[taxonomicValue] = {};
     };
+
+    /**
+     * Function to check if there are obsolete or unknown taxonomic values with no children, these can be removed to clean up the taxonomic tree
+     * @param taxonomicLevel The current taxonomic level
+     * @param aggregations The aggregations fetched for the taxonomic level
+     */
+    const TaxonomicCleanUp = (taxonomicLevel: string, aggregations: { [taxonomicLevel: string]: { [aggregation: string]: number } }) => {
+        /* Harvest the path (segment of taxonomic tree) that adheres to the given taxonomic level and determine the taxonomic value */
+        if (taxonomicLevel in aggregations && !taxonomicRegistration[taxonomicLevel].find((taxonomicValue: string) => Object.keys(aggregations[taxonomicLevel]).includes(taxonomicValue))) {
+            let path: Dict = {};
+            let taxonomicValue: string = '';
+
+            console.log('test');
+
+            switch (taxonomicLevel) {
+                case 'species':
+                    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'];
+                    taxonomicValue = Object.keys(aggregations.species)[0] ?? 'Unknown species';
+
+                    break;
+                case 'genus':
+                    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'];
+                    taxonomicValue = Object.keys(aggregations.genus)[0] ?? 'Unknown genus';
+
+                    break;
+                case 'family':
+                    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'];
+                    taxonomicValue = Object.keys(aggregations.family)[0] ?? 'Unknown family';
+
+                    break;
+                case 'order':
+                    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'];
+                    taxonomicValue = Object.keys(aggregations.order)[0] ?? 'Unknown order';
+
+                    break;
+                case 'class':
+                    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'];
+                    taxonomicValue = Object.keys(aggregations.class)[0] ?? 'Unknown class';
+
+                    break;
+                case 'phylum':
+                    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'];
+                    taxonomicValue = Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum';
+
+                    break;
+                default:
+                    path = taxonomicTree;
+                    taxonomicValue = Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom';
+            };
+
+            if (/*CheckPathForUnknown(path) && */path[taxonomicValue] && Object.keys(path[taxonomicValue]).length <= 1 && !kingdoms.includes(taxonomicValue)/*&& taxonomicValue.includes('Unknown')*/) {
+                delete path[taxonomicValue];
+            };
+
+            /* If there are more parent taxonomy levels, continue by recursively calling this function again for the previous taxonomy level */
+            if (taxonomicLevel !== 'kingdom') {
+                TaxonomicCleanUp(PreviousTaxonomyLevel(taxonomicLevel), aggregations);
+            };
+        };
+    };
+
+    /* Clean up loose ends in the taxonomic tree */
+    TaxonomicCleanUp(taxonomicLevel, aggregations);
 
     /**
      * 
@@ -277,15 +337,24 @@ const RemoveBranchFromTree = async (taxonomicTree: Dict, taxonomicLevel: string,
 
     PurgeBranch(branch, NextTaxonomyLevel(taxonomicLevel));
 
-    /* Remove from search params */
-    console.log(taxonomicValuePurgeList);
-
     return {
         taxonomicTree,
-        taxonomicValuePurgeList
+        taxonomicValuePurgeList,
+        updatedTaxonomicRegistration: taxonomicRegistration
     };
+};
 
-    // if (baseTaxonomicLevel)
+const PreviousTaxonomyLevel = (taxonomicLevel?: string) => {
+    switch (taxonomicLevel) {
+        case 'species': return 'genus';
+        case 'genus': return 'family';
+        case 'family': return 'order';
+        case 'order': return 'class';
+        case 'class': return 'phylum';
+        case 'phylum': return 'kingdom';
+        case 'kingdom': return 'kingdom';
+        default: return 'species';
+    };
 };
 
 export {

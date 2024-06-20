@@ -74,7 +74,7 @@ const AdvancedSearch = () => {
      * @param doi The provided DOI
      */
     const SearchByDOI = async (doi: string) => {
-        const handle = doi.replace(process.env.REACT_APP_DOI_URL as string, '');
+        const handle = doi.replace(import.meta.env.VITE_DOI_URL as string, '');
 
         /* Try to fetch digital specimen by DOI */
         GetDigitalSpecimen({ handle }).then(() => {
@@ -112,7 +112,7 @@ const AdvancedSearch = () => {
 
         GetDigitalSpecimens({ searchFilters, pageSize: 1 }).then(({ digitalSpecimens }) => {
             /* If a hit is found, navigate to the digital specimen page */
-            navigate(`/ds/${digitalSpecimens[0].digitalSpecimen['ods:id'].replace(process.env.REACT_APP_DOI_URL as string, '')}`);
+            navigate(`/ds/${digitalSpecimens[0].digitalSpecimen['ods:id'].replace(import.meta.env.VITE_DOI_URL as string, '')}`);
         }).catch(error => {
             console.error(error);
 

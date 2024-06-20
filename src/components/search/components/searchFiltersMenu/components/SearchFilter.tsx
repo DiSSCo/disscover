@@ -2,7 +2,7 @@
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { SearchFilter as SearchFilterType } from 'app/Types';
+import { SearchFilter as SearchFilterType, Dict } from 'app/Types';
 
 /* Import Local Components */
 import BlockFilter from './BlockFilter';
@@ -18,7 +18,9 @@ type Props = {
     searchFilter: SearchFilterType,
     aggregations?: { [searchFilterName: string]: { [aggregation: string]: number } | { [subSearchFilterName: string]: { [aggregation: string]: number } } },
     text?: string,
+    formValues?: Dict,
     SetFieldValue?: Function,
+    SetFormValues?: Function,
     SubmitForm: Function
 };
 
@@ -36,7 +38,7 @@ type Props = {
  * @returns JSX Component
  */
 const SearchFilter = (props: Props) => {
-    const { name, fieldValue, searchQuery, searchFilter, aggregations, text, SetFieldValue, SubmitForm } = props;
+    const { name, fieldValue, searchQuery, searchFilter, aggregations, text, formValues, SetFieldValue, SetFormValues, SubmitForm } = props;
 
     /* Base variables */
     let formField: JSX.Element;
@@ -69,6 +71,8 @@ const SearchFilter = (props: Props) => {
         case 'taxonomy': {
             formField = <TaxonomyFilter fieldValues={fieldValue as { [taxonomicLevel: string]: string[] }}
                 aggregations={aggregations?.[name] as { [taxonomyKey: string]: { [aggregaton: string]: number } }}
+                formValues={formValues ?? {}}
+                SetFormValues={(values: Dict) => SetFormValues?.(values)}
                 SubmitForm={SubmitForm}
             />
 

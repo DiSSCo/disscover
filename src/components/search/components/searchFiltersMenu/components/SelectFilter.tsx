@@ -108,6 +108,7 @@ const SelectFilter = (props: Props) => {
                 items={multiSelectItems}
                 fieldValues={fieldValues}
                 enableInputField={enableSearchQuery}
+                allowMultiSelectAtOnce={true}
                 SetFieldValue={(field: string, value: string | string[]) => SetFieldValue(field, value)}
                 OnSelect={() => {
                     /* Submit search filters form */

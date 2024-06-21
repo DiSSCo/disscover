@@ -25,10 +25,14 @@ import { Button } from "../CustomUI";
 type Props = {
     name: string,
     namePrefix?: string,
+    searchName?: string,
     items: MultiSelectItem[],
     fieldValues: string[],
+    listPosition?: 'static' | 'absolute',
     enableInputField?: boolean,
+    allowMultiSelectAtOnce?: boolean,
     SetFieldValue: Function,
+    OnClick?: Function,
     OnSelect?: Function,
     OnChange?: Function
 };
@@ -41,7 +45,7 @@ type Props = {
  * @returns JSX Component
  */
 const MultiSelect = (props: Props) => {
-    const { name, namePrefix, items, fieldValues, enableInputField, SetFieldValue, OnSelect, OnChange } = props;
+    const { name, namePrefix, searchName, items, fieldValues, listPosition, enableInputField, allowMultiSelectAtOnce, SetFieldValue, OnClick, OnSelect, OnChange } = props;
 
     /* Hooks */
     const searchFilters = useSearchFilters();
@@ -72,14 +76,17 @@ const MultiSelect = (props: Props) => {
     };
 
     /* Class Names */
-    const multiSelectListClass = classNames({
-        "d-block": multiSelectTrigger,
-        "d-none": !multiSelectTrigger
-    });
+    const MultiSelectListClass = (items: MultiSelectItem[]) => {
+        return classNames({
+            "d-block": multiSelectTrigger,
+            "d-none": !multiSelectTrigger || !items.length,
+            [`position-${listPosition}`]: listPosition
+        });
+    };
 
     return (
         <div ref={multiSelectRef}>
-            <FieldArray name={`filters.${name}`}>
+            <FieldArray name={`${namePrefix}.${name}`}>
                 {({ push, remove }) => (
                     <Row>
                         <Col>
@@ -87,7 +94,7 @@ const MultiSelect = (props: Props) => {
                                 <Row>
                                     {/* Visible select field */}
                                     <Col className="position-relative d-flex align-items-center">
-                                        <Field name={`search.${name}`}
+                                        <Field name={`search.${searchName ?? name}`}
                                             placeholder={enableInputField ? 'Select or type' : 'Select'}
                                             className={`${styles.inputField} w-100 fs-4 px-3 py-1 b-primary br-round`}
                                             readOnly={!enableInputField}
@@ -97,12 +104,15 @@ const MultiSelect = (props: Props) => {
                                                 }
                                             }) => {
                                                 /* Set field value */
-                                                SetFieldValue(`search.${name}`, field.target.value);
+                                                SetFieldValue(`search.${searchName ?? name}`, field.target.value);
 
                                                 /* Trigger OnChange event if present */
                                                 OnChange?.(field.target.value);
                                             }}
-                                            onClick={() => setMultiSelectTrigger(true)}
+                                            onClick={() => {
+                                                setMultiSelectTrigger(true);
+                                                OnClick?.();
+                                            }}
                                         />
 
                                         {/* Absolute chevron down */}
@@ -118,8 +128,8 @@ const MultiSelect = (props: Props) => {
                                     </Col>
                                 </Row>
 
-                                {/* Absolute positioned select list */}
-                                <div className={`${multiSelectListClass} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
+                                {/* Select list */}
+                                <div className={`${MultiSelectListClass(items)} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
                                     {items.map((item) => (
                                         <button key={item.value}
                                             type="button"
@@ -133,6 +143,9 @@ const MultiSelect = (props: Props) => {
                                                 } else {
                                                     push(item.value);
                                                 };
+
+                                                /* Close items list */
+                                                !allowMultiSelectAtOnce && setMultiSelectTrigger(false);
 
                                                 /* Execute default select action, if present */
                                                 OnSelect?.();

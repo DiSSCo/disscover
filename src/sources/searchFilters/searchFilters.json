@@ -43,7 +43,8 @@
                     "type": "select"
                 }
             },
-            "searchable": true
+            "searchable": true,
+            "searchAlias": "species"
         },
         "country": {
             "label": "Country",

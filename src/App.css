@@ -291,8 +291,12 @@ p {
 }
 
 /* Mouse Cursor */
+.mc-default {
+  cursor: default !important;
+}
+
 .mc-pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 /* Scroll Bars */

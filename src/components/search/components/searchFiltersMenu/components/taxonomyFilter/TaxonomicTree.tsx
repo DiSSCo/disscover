@@ -137,7 +137,7 @@ const TaxonomicTree = (props: Props) => {
 
                                 /* Remove the complete branch of the broken or deselected taxonomic value */
                                 const { taxonomicTree, taxonomicValuePurgeList } = await RemoveBranchFromTaxonomicTree(
-                                    taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration, Object.keys(bootAggregations.kingdom).map(kingdom => kingdom)
+                                    taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration
                                 );
 
                                 /* Remove from search params */
@@ -154,6 +154,9 @@ const TaxonomicTree = (props: Props) => {
                                     /* Prepare to delete field value from search params */
                                     searchParams.delete(taxonomicLevelValue[0], taxonomicLevelValue[1]);
                                 });
+
+                                /* Undo taxonomic search */
+                                newformValues.search.taxonomy = '';
 
                                 /* Set updated data to form values, search params and taxonomic tree data */
                                 SetTaxonomicRegistration({ ...taxonomicRegistration });
@@ -205,7 +208,8 @@ const TaxonomicTree = (props: Props) => {
 
                                 /* Class Names */
                                 const taxonomicLevelValueClass = classNames({
-                                    'tc-primary fw-bold': fieldValuesIndex >= 0
+                                    'tc-primary fw-bold': fieldValuesIndex >= 0,
+                                    'mc-default': key.includes('Unknown')
                                 });
 
                                 return (
@@ -214,14 +218,17 @@ const TaxonomicTree = (props: Props) => {
                                             <button type="button"
                                                 className={`${taxonomicLevelValueClass} button-no-style fs-5`}
                                                 onClick={() => {
-                                                    /* Check if index is present in field values, if not push to array, otherwise remove */
-                                                    if (fieldValuesIndex >= 0) {
-                                                        remove(fieldValuesIndex);
-                                                    } else {
-                                                        push(key);
-                                                    };
+                                                    /* Check if key is not part of unknown values */
+                                                    if (!key.includes('Unknown')) {
+                                                        /* Check if index is present in field values, if not push to array, otherwise remove */
+                                                        if (fieldValuesIndex >= 0) {
+                                                            remove(fieldValuesIndex);
+                                                        } else if (!key.includes('Unknown')) {
+                                                            push(key);
+                                                        };
 
-                                                    OnSelect?.();
+                                                        OnSelect?.();
+                                                    }
                                                 }}
                                             >
                                                 <p>{key}</p>

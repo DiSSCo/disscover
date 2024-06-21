@@ -1,12 +1,10 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import classNames from 'classnames';
+import { useRef, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { useAppSelector } from 'app/Hooks';
-
-/* Import Store */
-import { getAggregations } from 'redux-store/BootSlice';
+import { useFocus } from 'app/Hooks';
 
 /* Import Types */
 import { Dict } from 'app/Types';
@@ -20,6 +18,7 @@ import TaxonomicTree from './taxonomyFilter/TaxonomicTree';
 type Props = {
     fieldValues: { [taxonomicLevel: string]: string[] },
     formValues: Dict,
+    SetFieldValue: Function,
     SetFormValues: Function,
     SubmitForm: Function
 };
@@ -31,7 +30,7 @@ type Props = {
  * @returns 
  */
 const TaxonomyFilter = (props: Props) => {
-    const { fieldValues, formValues, SetFormValues, SubmitForm } = props;
+    const { fieldValues, formValues, SetFieldValue, SetFormValues, SubmitForm } = props;
 
     /* Base variables */
     const [taxonomicRegistration, setTaxonomicRegistration] = useState<{
@@ -45,22 +44,37 @@ const TaxonomyFilter = (props: Props) => {
         genus: [],
         species: []
     });
+    const [taxonomicFilterTrigger, setTaxonomicFilterTrigger] = useState<boolean>(false);
+
+    /* Set focus on taxonomy filter */
+    const taxonomyFilterRef = useRef<HTMLDivElement>(null);
+    useFocus({
+        ref: taxonomyFilterRef,
+        OnFocusLose: () => setTaxonomicFilterTrigger(false)
+    });
+
+    /* Class Names */
+    const multiSelectListClass = classNames({
+        "d-block": taxonomicFilterTrigger,
+        "d-none": !taxonomicFilterTrigger
+    });
 
     return (
-        <div>
+        <div ref={taxonomyFilterRef}>
             {/* Taxonomic select */}
             <Row>
                 <Col>
-                    <TaxonomySelect fieldValues={[]}
-                        SetFieldValue={() => {}}
+                    <TaxonomySelect fieldValues={fieldValues.species}
+                        SetFieldValue={(field: string, value: string | string[]) => SetFieldValue(field, value)}
                         SubmitForm={SubmitForm}
+                        ToggleTaxonomyFilter={(foo: boolean) => setTaxonomicFilterTrigger(foo)}
                     />
                 </Col>
             </Row>
             {/* Taxonomic tree */}
-            <Row>
+            <Row className={`${multiSelectListClass} mt-2`}>
                 <Col>
-                    <TaxonomicTree 
+                    <TaxonomicTree
                         fieldValues={fieldValues}
                         taxonomicRegistration={taxonomicRegistration}
                         formValues={formValues}

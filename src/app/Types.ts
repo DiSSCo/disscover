@@ -149,7 +149,8 @@ export type SearchFilter = {
     type: string,
     nestedIn?: string,
     contains?: {[searchFilterName: string]: SearchFilter},
-    searchable?: boolean
+    searchable?: boolean,
+    searchAlias?: string
 };
 
 /* Search filters Type (fetch requests) */

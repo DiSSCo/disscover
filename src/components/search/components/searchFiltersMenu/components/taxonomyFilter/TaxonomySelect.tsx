@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
 import { useDynamicSearch } from 'app/Hooks';
@@ -19,12 +18,13 @@ import { MultiSelect } from 'components/elements/customUI/CustomUI';
 type Props = {
     fieldValues: string[],
     SetFieldValue: Function,
-    SubmitForm: Function
+    SubmitForm: Function,
+    ToggleTaxonomyFilter: Function
 };
 
 
 const TaxonomySelect = (props: Props) => {
-    const { fieldValues, SetFieldValue, SubmitForm } = props;
+    const { fieldValues, SetFieldValue, SubmitForm, ToggleTaxonomyFilter } = props;
 
     /* Base variables */
     const [filterAggregations, setFilterAggregations] = useState<{
@@ -54,20 +54,25 @@ const TaxonomySelect = (props: Props) => {
             [filterName: string]: {
                 [aggregation: string]: number
             }
-        }) => {
-            setFilterAggregations(aggregations['species']);
-        },
-        Resetter: () => setFilterAggregations(undefined)
+        }) => setFilterAggregations(aggregations['species']),
+        Resetter: () => setFilterAggregations({})
     });
 
     return (
         <div>
-            <MultiSelect name="taxonomy.species"
+            <MultiSelect name="species"
+                namePrefix="filters.taxonomy"
+                searchName="taxonomy"
                 items={multiSelectItems}
                 fieldValues={fieldValues}
+                listPosition="absolute"
                 enableInputField={true}
                 SetFieldValue={(field: string, value: string | string[]) => SetFieldValue(field, value)}
-                OnSelect={() =>  SubmitForm()}
+                OnClick={() => ToggleTaxonomyFilter(true)}
+                OnSelect={() => {
+                    SubmitForm();
+                    setFilterAggregations({});
+                }}
                 OnChange={(value: string) => dynamicSearch.DynamicSearch(value, { searchFilterName: 'species', value })}
             />
         </div>

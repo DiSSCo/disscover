@@ -105,7 +105,7 @@ const SearchFiltersMenu = () => {
                         /* Extract filters */
                         const filters = { ...values.filters, ...values.filters.taxonomy };
 
-                        /* Add taxonomic filters to default filters and remove taxonomy filter key from filters */
+                        /* Remove taxonomy filter key from filters */
                         delete filters.taxonomy;
 
                         /* OnSubmit: set the search filters equal to this form's values */

@@ -1,14 +1,18 @@
 /* Import Dependencies */
+import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { usePagination } from 'app/Hooks';
+import { useAppSelector, usePagination } from 'app/Hooks';
+
+/* Import Store */
+import { getDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
 
 /* Import API */
 import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
 
 /* Import Components */
-import { SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
+import { IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
 import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
 
 
@@ -17,12 +21,31 @@ import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
  * @returns JSX Component
  */
 const Search = () => {
+    /* Base variables */
+    const digitalSpecimen = useAppSelector(getDigitalSpecimen);
+
     /* OnLoad: setup pagination */
     const pagination = usePagination({
         pageSize: 25,
         resultKey: 'digitalSpecimens',
         allowSearchParams: true,
         Method: GetDigitalSpecimens
+    });
+
+    /* Class Names */
+    const searchFiltersMenuClass = classNames({
+        'col-lg-3': !digitalSpecimen,
+        'w-0 p-0 overflow-hidden': !!digitalSpecimen
+    });
+
+    const searchResultsClass = classNames({
+        'col-lg-9': !digitalSpecimen,
+        'col-lg-6': !!digitalSpecimen
+    });
+
+    const idCardClass = classNames({
+        'w-0': !digitalSpecimen,
+        'col-lg-6': !!digitalSpecimen
     });
 
     return (
@@ -51,17 +74,17 @@ const Search = () => {
                         {/* Big body containing on the left: the search filters menu, and on the right: the search results table */}
                         <Row className="flex-grow-1 overflow-y-hidden mt-3">
                             {/* Search filters menu */}
-                            <Col lg={{ span: 3 }}
-                                className="h-100"
-                            >
+                            <div className={`${searchFiltersMenuClass} h-100 tr-smooth`}>
                                 <SearchFiltersMenu />
-                            </Col>
+                            </div>
                             {/* Search results table */}
-                            <Col lg={{ span: 9 }}
-                                className="h-100"
-                            >
+                            <div className={`${searchResultsClass} h-100 tr-smooth`}>
                                 <SearchResults pagination={pagination} />
-                            </Col>
+                            </div>
+                            {/* ID card */}
+                            <div className={`${idCardClass} h-100 tr-smooth`}>
+                                <IdCard />
+                            </div>
                         </Row>
                     </Col>
                 </Row>

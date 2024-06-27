@@ -1,6 +1,6 @@
 /* Import Types */
 import { Annotation } from "./types/Annotation";
-import { DigitalEntity } from "./types/DigitalEntity";
+import { DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
 import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
 
 
@@ -16,7 +16,7 @@ type DataFragment = {
     type: string,
     attributes: {
         digitalSpecimen?: DigitalSpecimenType,
-        digitalEntity?: DigitalEntity,
+        digitalEntity?: DigitalMediaType,
         originalData?: Dict,
         digitalMediaObjects?: {
             digitalMediaObject: DigitalMedia,
@@ -121,7 +121,7 @@ export type DigitalSpecimen = {
 
 /* Digital Media Type */
 export type DigitalMedia = {
-    digitalEntity: DigitalEntity
+    digitalEntity: DigitalMediaType
     originalData: Dict
 }
 

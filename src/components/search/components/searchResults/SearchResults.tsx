@@ -4,6 +4,12 @@ import { Row, Col } from 'react-bootstrap';
 /* Import Config */
 import SearchResultsTableConfig from 'app/config/tables/SearchResultsTableConfig';
 
+/* Import Hooks */
+import { useAppDispatch } from 'app/Hooks';
+
+/* Import Store */
+import { setDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
+
 /* Import Types */
 import { DigitalSpecimen, PaginationObject } from 'app/Types';
 
@@ -40,6 +46,9 @@ type Props = {
 
 const SearchResults = (props: Props) => {
     const { pagination } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /* Data table configuration */
     const { columns } = SearchResultsTableConfig();
@@ -80,7 +89,16 @@ const SearchResults = (props: Props) => {
                         {/* Data table */}
                         <DataTable columns={columns}
                             data={tableData}
-                            SelectAction={() => { }}
+                            SelectAction={(row: DataRow) => {
+                                /* If compare is active, add to compare, otherwise open specimen in id card */
+                                if ('compareSelected' in row) {
+
+                                } else {
+                                    const digitalSpecimen = pagination.records.find((record) => record.digitalSpecimen['ods:id'] === row.DOI) as DigitalSpecimen | undefined;
+
+                                    dispatch(setDigitalSpecimen(digitalSpecimen));
+                                };
+                            }}
                         />
 
                         {/* Loading screen for data table when pagination is loading */}

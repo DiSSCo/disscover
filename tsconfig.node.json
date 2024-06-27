@@ -4,10 +4,11 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "ES2022",
+      "ES2022.String"
     ],
     "composite": true,
-    "allowJs": false,
+    "allowJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

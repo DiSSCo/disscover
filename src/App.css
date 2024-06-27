@@ -121,6 +121,11 @@ p {
   color: var(--greyDark);
 }
 
+/* Width */
+.w-0 {
+  width: 0 !important;
+}
+
 /* Font weight */
 .fw-lightBold {
   font-weight: 500;

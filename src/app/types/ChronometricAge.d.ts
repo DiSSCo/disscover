@@ -7,10 +7,25 @@
 
 export interface ChronometricAge {
   /**
+   * The identifier for the Chronometric Age object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case ods:ChronometricAge
+   */
+  "@type": "ods:ChronometricAge";
+  /**
+   * https://rs.tdwg.org/chrono/terms/chronometricAgeID
+   */
+  "chrono:chronometricAgeID"?: string;
+  /**
    * https://rs.tdwg.org/chrono/terms/verbatimChronometricAge
    */
   "chrono:verbatimChronometricAge"?: string;
-  "???:verbatimChronometricAgeProtocol"?: string;
+  /**
+   * The verbatim name of the protocol used to determine the chronometric age.
+   */
+  "ods:verbatimChronometricAgeProtocol"?: string;
   /**
    * https://rs.tdwg.org/chrono/terms/uncalibratedChronometricAge
    */
@@ -50,7 +65,7 @@ export interface ChronometricAge {
   /**
    * https://rs.tdwg.org/chrono/terms/materialDatedID
    */
-  "chrono:materialDatedId"?: string;
+  "chrono:materialDatedID"?: string;
   /**
    * https://rs.tdwg.org/chrono/terms/materialDatedRelationship
    */
@@ -71,5 +86,4 @@ export interface ChronometricAge {
    * https://rs.tdwg.org/chrono/terms/chronometricAgeRemarks
    */
   "chrono:chronometricAgeRemarks"?: string;
-  [k: string]: unknown;
 }

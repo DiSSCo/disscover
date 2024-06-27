@@ -5,27 +5,52 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * Based on https://rs.gbif.org/extension/resource_relationship_2024-02-19.xml but with ods specific terms
+ */
 export interface EntityRelationship {
-  entityRelationshipType: string;
   /**
-   * The link to the referenced resource. This could be an internal object linked through the PID or an external object
+   * The identifier for Entity Relationship digital object.
    */
-  objectEntityIri: string;
+  "@id"?: string;
   /**
-   * The data time on which the relationship was established
+   * The type of the record, in this case a ods:EntityRelationship
    */
-  entityRelationshipDate: string;
+  "@type": "ods:EntityRelationship";
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipOfResource
+   */
+  "dwc:relationshipOfResource": string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipOfResourceID
+   */
+  "dwc:relationshipOfResourceID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relatedResourceID
+   */
+  "dwc:relatedResourceID": string;
+  /**
+   * The URI of the related resource
+   */
+  "ods:relatedResourceURI"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipEstablishedDate
+   */
+  "dwc:relationshipEstablishedDate"?: string;
   /**
    * When multiple relationships are added an order can be defined
    */
-  entityRelationshipOrder?: number;
+  "ods:entityRelationshipOrder"?: number;
   /**
-   * The name of the relationship creator
+   * https://rs.tdwg.org/dwc/terms/relationshipAccordingTo
    */
-  entityRelationshipCreatorName?: string;
+  "dwc:relationshipAccordingTo"?: string;
   /**
    * The PID of the creator, this could be a Orcid(user), PID(machine) or ROR(organisation)
    */
-  entityRelationshipCreatorId: string;
-  [k: string]: unknown;
+  "ods:relationshipAccordingToID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipRemarks
+   */
+  "dwc:relationshipRemarks"?: string;
 }

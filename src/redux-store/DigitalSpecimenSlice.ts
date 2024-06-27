@@ -7,7 +7,7 @@ import { DigitalSpecimen, DigitalMedia, AnnotationArray, Dict } from 'app/Types'
 
 
 export interface SpecimenState {
-    // specimen: DigitalSpecimen | undefined;
+    digitalSpecimen: DigitalSpecimen | undefined;
     // specimenVersions: number[];
     // specimenDigitalMedia: DigitalMedia[];
     // specimenAnnotations: AnnotationArray;
@@ -20,7 +20,7 @@ export interface SpecimenState {
 }
 
 const initialState: SpecimenState = {
-    // specimen: undefined,
+    digitalSpecimen: undefined,
     // specimenVersions: [],
     // specimenDigitalMedia: [] as DigitalMedia[],
     // specimenAnnotations: {} as AnnotationArray,
@@ -32,9 +32,9 @@ export const DigitalSpecimenSlice = createSlice({
     name: 'digitalSpecimen',
     initialState,
     reducers: {
-        // setSpecimen: (state, action: PayloadAction<DigitalSpecimen>) => {
-        //     state.specimen = action.payload;
-        // },
+        setDigitalSpecimen: (state, action: PayloadAction<DigitalSpecimen | undefined>) => {
+            state.digitalSpecimen = action.payload;
+        },
         // setSpecimenVersions: (state, action: PayloadAction<number[]>) => {
         //     state.specimenVersions = action.payload;
         // },
@@ -55,7 +55,7 @@ export const DigitalSpecimenSlice = createSlice({
 
 /* Action Creators */
 export const {
-    // setSpecimen,
+    setDigitalSpecimen,
     // setSpecimenVersions,
     // setSpecimenDigitalMedia, 
     // setSpecimenAnnotations, 
@@ -64,7 +64,7 @@ export const {
 } = DigitalSpecimenSlice.actions;
 
 /* Connect with Root State */
-// export const getSpecimen = (state: RootState) => state.specimen.specimen;
+export const getDigitalSpecimen = (state: RootState) => state.digitalSpecimen.digitalSpecimen;
 // export const getSpecimenVersions = (state: RootState) => state.specimen.specimenVersions;
 // export const getSpecimenDigitalMedia = (state: RootState) => state.specimen.specimenDigitalMedia;
 // export const getSpecimenAnnotations = (state: RootState) => state.specimen.specimenAnnotations;

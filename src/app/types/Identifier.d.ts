@@ -5,23 +5,48 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
 export interface Identifier {
   /**
-   * The type of the identifier
+   * The identifier for the Identifier object.
    */
-  "???:identifierType"?: string;
+  "@id"?: string;
   /**
-   * The value for the identifier
+   * The type of the digital object, in this case a ods:Identifier
    */
-  "???:identifierValue": string;
+  "@type": "ods:Identifier";
   /**
-   * Is the identifier part of the physical label
+   * The type of the identifier, https://purl.org/dc/elements/1.1/title
    */
-  "???:partOfLabel"?: boolean;
+  "dcterms:title": string;
   /**
-   * Part of barcode or nfc chip
+   * The local title of the identifier
    */
-  "???:barcodeOrNfc"?: string;
-  isIdPersistent?: boolean;
-  [k: string]: unknown;
+  "ods:localTitle"?: string;
+  /**
+   * The value for the identifier, https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier": string;
+  /**
+   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   */
+  "dcterms:format"?: string;
+  /**
+   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   */
+  "dcterms:subject"?: string;
+  /**
+   * Indicates whether the identifier is part of the physical label
+   */
+  "ods:isPartOfLabel"?: boolean;
+  /**
+   * Indicates whether the identifier is part of the barcode or nfc chip
+   */
+  "ods:isBarcodeOrNFC"?: boolean;
+  /**
+   * Indicates whether the identifier is a persistent identifier
+   */
+  "ods:isIDPersistent"?: boolean;
 }

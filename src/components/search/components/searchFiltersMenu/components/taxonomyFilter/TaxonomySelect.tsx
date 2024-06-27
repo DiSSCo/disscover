@@ -23,6 +23,14 @@ type Props = {
 };
 
 
+/**
+ * Component that renders the taxonomy select for searching species
+ * @param fieldValues The values of all of the taxonomy related fields in the form
+ * @param SetFormValues Function to set all form values
+ * @param SubmitForm Function to submit the form
+ * @param ToggleTaxonomyFilter Function to toggle the taxonomy filter (focus)
+ * @returns JSX Component
+ */
 const TaxonomySelect = (props: Props) => {
     const { fieldValues, SetFieldValue, SubmitForm, ToggleTaxonomyFilter } = props;
 

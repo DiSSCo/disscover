@@ -7,6 +7,18 @@
 
 export interface Location {
   /**
+   * The identifier for the Location object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Location
+   */
+  "@type": "ods:Location";
+  /**
+   * https://rs.tdwg.org/dwc/terms/locationID
+   */
+  "dwc:locationID"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/continent
    */
   "dwc:continent"?: string;
@@ -47,9 +59,17 @@ export interface Location {
    */
   "dwc:locality"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/verbatimLocality
+   */
+  "dwc:verbatimLocality"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/minimumElevationInMeters
    */
   "dwc:minimumElevationInMeters"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/higherGeographyID
+   */
+  "dwc:higherGeographyID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/higherGeography
    */
@@ -58,6 +78,10 @@ export interface Location {
    * https://rs.tdwg.org/dwc/terms/maximumElevationInMeters
    */
   "dwc:maximumElevationInMeters"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimElevation
+   */
+  "dwc:verbatimElevation"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters
    */
@@ -75,6 +99,10 @@ export interface Location {
    */
   "dwc:maximumDepthInMeters"?: number;
   /**
+   * https://rs.tdwg.org/dwc/terms/verbatimDepth
+   */
+  "dwc:verbatimDepth"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/verticalDatum
    */
   "dwc:verticalDatum"?: string;
@@ -86,15 +114,42 @@ export interface Location {
    * https://rs.tdwg.org/dwc/terms/locationRemarks
    */
   "dwc:locationRemarks"?: string;
-  georeference?: {
+  /**
+   * An object which describes the geographical reference of the location of the specimen.
+   */
+  "ods:GeoReference"?: {
+    /**
+     * The identifier for the Geo Reference object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the object, in this case ods:GeoReference
+     */
+    "@type": "ods:GeoReference";
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimCoordinates
+     */
+    "dwc:verbatimCoordinates"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/decimalLatitude
      */
     "dwc:decimalLatitude"?: number;
     /**
+     * https://rs.tdwg.org/dwc/terms/verbatimLatitude
+     */
+    "dwc:verbatimLatitude"?: string;
+    /**
      * https://rs.tdwg.org/dwc/terms/decimalLongitude
      */
     "dwc:decimalLongitude"?: number;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimLongitude
+     */
+    "dwc:verbatimLongitude"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem
+     */
+    "dwc:verbatimCoordinateSystem"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/geodeticDatum
      */
@@ -114,11 +169,15 @@ export interface Location {
     /**
      * https://rs.tdwg.org/dwc/terms/footprintWKT
      */
-    "dwc:footprintWkt"?: string;
+    "dwc:footprintWKT"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/footprintSRS
      */
-    "dwc:footprintSrs"?: string;
+    "dwc:footprintSRS"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimSRS
+     */
+    "dwc:verbatimSRS"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/footprintSpatialFit
      */
@@ -143,10 +202,19 @@ export interface Location {
      * https://rs.tdwg.org/dwc/terms/georeferenceRemarks
      */
     "dwc:georeferenceRemarks"?: string;
-    "???:preferredSpatialRepresentation"?: string;
-    [k: string]: unknown;
   };
-  geologicalContext?: {
+  /**
+   * An object which describes the geological context of th location of the specimen.
+   */
+  "ods:GeologicalContext"?: {
+    /**
+     * The identifier for the Geological Context object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the object, in this case ods:GeologicalContext
+     */
+    "@type": "ods:GeologicalContext";
     /**
      * https://rs.tdwg.org/dwc/terms/earliestEonOrLowestEonothem
      */
@@ -215,7 +283,5 @@ export interface Location {
      * https://rs.tdwg.org/dwc/terms/bed
      */
     "dwc:bed"?: string;
-    [k: string]: unknown;
   };
-  [k: string]: unknown;
 }

@@ -15,7 +15,7 @@ export interface SearchState {
     //     organisationName?: string
     // };
     // searchResults: DigitalSpecimen[];
-    searchAggregations: Dict;
+    // searchAggregations: Dict;
     // searchSpecimen: DigitalSpecimen;
     // compareMode: boolean;
     // compareSpecimens: DigitalSpecimen[];
@@ -29,7 +29,7 @@ const initialState: SearchState = {
     //     idValue: ''
     // },
     // searchResults: [] as DigitalSpecimen[],
-    searchAggregations: {} as Dict
+    // searchAggregations: {} as Dict
     // searchSpecimen: {} as DigitalSpecimen,
     // compareMode: false,
     // compareSpecimens: [] as DigitalSpecimen[]
@@ -51,9 +51,9 @@ export const SearchSlice = createSlice({
         // setSearchResults: (state, action: PayloadAction<DigitalSpecimen[]>) => {
         //     state.searchResults = action.payload;
         // },
-        setSearchAggregations: (state, action: PayloadAction<Dict>) => {
-            state.searchAggregations = action.payload;
-        }
+        // setSearchAggregations: (state, action: PayloadAction<Dict>) => {
+        //     state.searchAggregations = action.payload;
+        // }
         // setSearchSpecimen: (state, action: PayloadAction<DigitalSpecimen>) => {
         //     state.searchSpecimen = action.payload;
         // },
@@ -72,7 +72,7 @@ export const {
     // setSearchPIDQuery,
     // setSearchPhysicalId,
     // setSearchResults,
-    setSearchAggregations,
+    // setSearchAggregations,
     // setSearchSpecimen,
     // setCompareMode,
     // setCompareSpecimens

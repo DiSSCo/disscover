@@ -25,9 +25,13 @@ type Props = {
 
 
 /**
- * 
- * @param props 
- * @returns 
+ * Component that renders the taxonomy filter
+ * @param fieldValues The values of all of the taxonomy related fields in the form
+ * @param formValues All of the form values
+ * @param SetFieldValue Function to set a value of specific form field
+ * @param SetFormValues Function to set all form values
+ * @param SubmitForm Function to submit the form
+ * @returns JSX Component
  */
 const TaxonomyFilter = (props: Props) => {
     const { fieldValues, formValues, SetFieldValue, SetFormValues, SubmitForm } = props;

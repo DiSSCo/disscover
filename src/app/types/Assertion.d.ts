@@ -6,16 +6,72 @@
  */
 
 export interface Assertion {
-  "???:assertionType"?: string;
-  "???:assertionMadeDate"?: string;
-  "???:assertionEffectiveDate"?: string;
-  "???:assertionValue"?: string;
-  "???:assertionValueNumeric"?: number;
-  "???:assertionUnit"?: string;
-  "???:assertionByAgentName"?: string;
-  "???:assertionByAgentId"?: string;
-  "???:assertionProtocol"?: string;
-  "???:assertionProtocolId"?: string;
-  "???:assertionRemarks"?: string;
-  [k: string]: unknown;
+  /**
+   * The identifier for the Assertion object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Assertion
+   */
+  "@type": "ods:Assertion";
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementID
+   */
+  "dwc:measurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   */
+  "dwc:parentMeasurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementType
+   */
+  "dwc:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementType
+   */
+  "dwciri:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   */
+  "dwc:measurementDeterminedDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwc:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwciri:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   */
+  "dwc:measurementAccuracy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   */
+  "dwc:measurementUnit"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   */
+  "dwciri:measurementUnit"?: string;
+  /**
+   * Name of the agent who made the assertion
+   */
+  "ods:assertionByAgentName"?: string;
+  /**
+   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
+   */
+  "ods:assertionByAgentID"?: string;
+  /**
+   * The protocol used to make the assertion
+   */
+  "ods:assertionProtocol"?: string;
+  /**
+   * The ID of the protocol used to make the assertion
+   */
+  "ods:assertionProtocolID"?: string;
+  /**
+   * Remarks about the assertion
+   */
+  "ods:assertionRemarks"?: string;
 }

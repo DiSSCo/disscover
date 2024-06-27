@@ -41,7 +41,17 @@ type Props = {
 /**
  * Component that renders a multi select field which allows for selecting multiple items from a dropdown
  * @param name The name of the form field in question
+ * @param namePrefix The prefix where in the name is nested
+ * @param searchName The name used for the search field
  * @param items The multi select items to be visible in the dropdown
+ * @param fieldValues The values of all of the taxonomy related fields in the form
+ * @param listPosition The CSS position of the list, either static or absolute
+ * @param enableInputField If true, will enable the input field to be used for searching
+ * @param allowMultiSelectAtOnce If true, will enable multiple options to be selected before losing focus
+ * @param SetFieldValue Function to set a value of specific form field
+ * @param OnClick Function that should be called when the user clicks on the input field
+ * @param OnSelect Function that should be callled when an option from the multi select is selected
+ * @param OnChange Function that should be called when a change in the input field occurs
  * @returns JSX Component
  */
 const MultiSelect = (props: Props) => {

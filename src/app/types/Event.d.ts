@@ -6,15 +6,106 @@
  */
 
 export interface Event {
-  "???:eventName"?: string;
+  /**
+   * The identifier for the Event object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case ods:Event
+   */
+  "@type": "ods:Event";
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismQuantity
+   */
+  "dwc:organismQuantity"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismQuantityType
+   */
+  "dwc:organismQuantityType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/sex
+   */
+  "dwc:sex"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/lifeStage
+   */
+  "dwc:lifeStage"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/reproductiveCondition
+   */
+  "dwc:reproductiveCondition"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/behavior
+   */
+  "dwc:behavior"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/caste
+   */
+  "dwc:caste"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/vitality
+   */
+  "dwc:vitality"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/establishmentMeans
+   */
+  "dwc:establishmentMeans"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/occurrenceStatus
+   */
+  "dwc:occurrenceStatus"?: "present" | "absent";
+  /**
+   * https://rs.tdwg.org/dwc/terms/pathway
+   */
+  "dwc:pathway"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/degreeOfEstablishment
+   */
+  "dwc:degreeOfEstablishment"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/georeferenceVerificationStatus
+   */
+  "dwc:georeferenceVerificationStatus"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/occurrenceRemarks
+   */
+  "dwc:occurrenceRemarks"?: string;
+  /**
+   * The name of the event
+   */
+  "ods:eventName"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/fieldNumber
    */
   "dwc:fieldNumber"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/recordNumber
+   */
+  "dwc:recordNumber"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/eventType
+   */
+  "dwc:eventType"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/eventDate
    */
   "dwc:eventDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/eventTime
+   */
+  "dwc:eventTime"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/endDayOfYear
+   */
+  "dwc:endDayOfYear"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/startDayOfYear
+   */
+  "dwc:startDayOfYear"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimEventDate
+   */
+  "dwc:verbatimEventDate"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/year
    */
@@ -31,16 +122,26 @@ export interface Event {
    * https://rs.tdwg.org/dwc/terms/habitat
    */
   "dwc:habitat"?: string;
-  "???:protocolDescription"?: string;
+  /**
+   * https://rs.tdwg.org/eco/terms/protocolDescriptions
+   */
+  "eco:protocolDescriptions"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/sampleSizeValue
    */
-  "dwc:sampleSizeValue"?: string;
+  "dwc:sampleSizeValue"?: number;
   /**
    * https://rs.tdwg.org/dwc/terms/sampleSizeUnit
    */
   "dwc:sampleSizeUnit"?: string;
-  "???:eventEffort"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/samplingProtocol
+   */
+  "dwc:samplingProtocol"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/samplingEffort
+   */
+  "dwc:samplingEffort"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/fieldNotes
    */
@@ -49,12 +150,106 @@ export interface Event {
    * https://rs.tdwg.org/dwc/terms/eventRemarks
    */
   "dwc:eventRemarks"?: string;
-  "???:collectorName"?: string;
-  "???:collectorId"?: string;
-  location?: Location;
-  [k: string]: unknown;
+  /**
+   * The full name of the collector
+   */
+  "ods:collectorName"?: string;
+  /**
+   * The identifier of the collector, recommended would be a ORCID or Wikidata ID
+   */
+  "ods:collectorID"?: string;
+  /**
+   * Contains zero or more ods:Assertion objects
+   */
+  "ods:hasAssertion"?: Assertion[];
+  "ods:Location"?: Location;
 }
+export interface Assertion {
+  /**
+   * The identifier for the Assertion object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Assertion
+   */
+  "@type": "ods:Assertion";
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementID
+   */
+  "dwc:measurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   */
+  "dwc:parentMeasurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementType
+   */
+  "dwc:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementType
+   */
+  "dwciri:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   */
+  "dwc:measurementDeterminedDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwc:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwciri:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   */
+  "dwc:measurementAccuracy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   */
+  "dwc:measurementUnit"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   */
+  "dwciri:measurementUnit"?: string;
+  /**
+   * Name of the agent who made the assertion
+   */
+  "ods:assertionByAgentName"?: string;
+  /**
+   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
+   */
+  "ods:assertionByAgentID"?: string;
+  /**
+   * The protocol used to make the assertion
+   */
+  "ods:assertionProtocol"?: string;
+  /**
+   * The ID of the protocol used to make the assertion
+   */
+  "ods:assertionProtocolID"?: string;
+  /**
+   * Remarks about the assertion
+   */
+  "ods:assertionRemarks"?: string;
+}
+/**
+ * Contains an object of type ods:Location
+ */
 export interface Location {
+  /**
+   * The identifier for the Location object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Location
+   */
+  "@type": "ods:Location";
+  /**
+   * https://rs.tdwg.org/dwc/terms/locationID
+   */
+  "dwc:locationID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/continent
    */
@@ -96,9 +291,17 @@ export interface Location {
    */
   "dwc:locality"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/verbatimLocality
+   */
+  "dwc:verbatimLocality"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/minimumElevationInMeters
    */
   "dwc:minimumElevationInMeters"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/higherGeographyID
+   */
+  "dwc:higherGeographyID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/higherGeography
    */
@@ -107,6 +310,10 @@ export interface Location {
    * https://rs.tdwg.org/dwc/terms/maximumElevationInMeters
    */
   "dwc:maximumElevationInMeters"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimElevation
+   */
+  "dwc:verbatimElevation"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters
    */
@@ -124,6 +331,10 @@ export interface Location {
    */
   "dwc:maximumDepthInMeters"?: number;
   /**
+   * https://rs.tdwg.org/dwc/terms/verbatimDepth
+   */
+  "dwc:verbatimDepth"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/verticalDatum
    */
   "dwc:verticalDatum"?: string;
@@ -135,15 +346,42 @@ export interface Location {
    * https://rs.tdwg.org/dwc/terms/locationRemarks
    */
   "dwc:locationRemarks"?: string;
-  georeference?: {
+  /**
+   * An object which describes the geographical reference of the location of the specimen.
+   */
+  "ods:GeoReference"?: {
+    /**
+     * The identifier for the Geo Reference object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the object, in this case ods:GeoReference
+     */
+    "@type": "ods:GeoReference";
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimCoordinates
+     */
+    "dwc:verbatimCoordinates"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/decimalLatitude
      */
     "dwc:decimalLatitude"?: number;
     /**
+     * https://rs.tdwg.org/dwc/terms/verbatimLatitude
+     */
+    "dwc:verbatimLatitude"?: string;
+    /**
      * https://rs.tdwg.org/dwc/terms/decimalLongitude
      */
     "dwc:decimalLongitude"?: number;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimLongitude
+     */
+    "dwc:verbatimLongitude"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem
+     */
+    "dwc:verbatimCoordinateSystem"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/geodeticDatum
      */
@@ -163,11 +401,15 @@ export interface Location {
     /**
      * https://rs.tdwg.org/dwc/terms/footprintWKT
      */
-    "dwc:footprintWkt"?: string;
+    "dwc:footprintWKT"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/footprintSRS
      */
-    "dwc:footprintSrs"?: string;
+    "dwc:footprintSRS"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimSRS
+     */
+    "dwc:verbatimSRS"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/footprintSpatialFit
      */
@@ -192,10 +434,19 @@ export interface Location {
      * https://rs.tdwg.org/dwc/terms/georeferenceRemarks
      */
     "dwc:georeferenceRemarks"?: string;
-    "???:preferredSpatialRepresentation"?: string;
-    [k: string]: unknown;
   };
-  geologicalContext?: {
+  /**
+   * An object which describes the geological context of th location of the specimen.
+   */
+  "ods:GeologicalContext"?: {
+    /**
+     * The identifier for the Geological Context object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the object, in this case ods:GeologicalContext
+     */
+    "@type": "ods:GeologicalContext";
     /**
      * https://rs.tdwg.org/dwc/terms/earliestEonOrLowestEonothem
      */
@@ -264,7 +515,5 @@ export interface Location {
      * https://rs.tdwg.org/dwc/terms/bed
      */
     "dwc:bed"?: string;
-    [k: string]: unknown;
   };
-  [k: string]: unknown;
 }

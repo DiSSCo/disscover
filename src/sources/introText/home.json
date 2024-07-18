@@ -1,9 +1,0 @@
-{
-    "home": [
-        "Welcome to DiSSCover! This portal allows you to search digital specimen and related data within the DiSSCo technical infrastructure and act upon it. The Homepage allows you to define a set of global filters for searching, or let you execute a more specific query, using different parameters. This tutorial will show you these functionalities.",
-        "First off, DiSSCover’s main purpose is to enrich the existing specimen data within the system. We call these enrichments “annotations”. An annotation can be an addition to a specimen, a correction to an existing value, or another type of annotation. Another purpose of the portal is to simply display the data that is in the infrastructure in an orderly manner. To get started, we first want to search for some specimens. DiSSCover provides a variety of methods for searching.",
-        "You can search on Natural Origin using the blocks on the left. Simply select a set of boxes and click on ‘view’ to view the results. Each block represents a different natural origin or ‘topic discipline’ that houses specimens.",
-        "Search freely on any term you would like using the free text search. For example, you can search for all specimens related to ‘Bellis Perennis’. Click on ‘search’ to execute your search query.",
-        "For more specific or advanced searching, click on ‘search by ID or collection’. This will open up four more search options."
-    ]
-}

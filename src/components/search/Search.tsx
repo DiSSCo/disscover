@@ -1,370 +1,116 @@
 /* Import Dependencies */
-import { useEffect, useState } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
-import { isEmpty } from 'lodash';
 import classNames from 'classnames';
-import { GetFilters } from 'app/Utilities';
 import { Container, Row, Col } from 'react-bootstrap';
 
-/* Import Utilities */
-import { CheckCurrentTaxonomyLevel } from 'app/utilities/TaxonomyUtilities';
+/* Import Hooks */
+import { useAppSelector, usePagination } from 'app/Hooks';
 
 /* Import Store */
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getPaginationObject, setPaginationObject } from 'redux/general/GeneralSlice';
-import {
-    getSearchResults, setSearchResults, getSearchSpecimen, setSearchSpecimen,
-    setSearchAggregations, getCompareMode, setCompareMode, setCompareSpecimens
-} from 'redux/search/SearchSlice';
-
-/* Import Types */
-import { DigitalSpecimen, SearchFilter, Dict } from 'app/Types';
-
-/* Import Styles */
-import styles from './search.module.scss';
-
-/* Import Icons */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
-
-/* Import Components */
-import Header from 'components/general/header/Header';
-import BreadCrumbs from 'components/general/breadCrumbs/BreadCrumbs';
-import SearchBar from './components/searchMenu/SearchBar';
-import SearchFilters from './components/searchMenu/SearchFilters';
-import ActiveFilters from './components/searchMenu/ActiveFilters';
-import ResultsTable from './components/searchResults/ResultsTable';
-import Paginator from 'components/general/paginator/Paginator';
-import IDCard from './components/IDCard/IDCard';
-import MapMediaExt from './components/IDCard/MapMediaExt';
-import CompareBox from './components/compare/CompareBox';
-import Footer from 'components/general/footer/Footer';
-
-/* Import Introduction Steps */
-import SearchSteps from './steps/SearchSteps';
-import CompareSteps from './steps/CompareSteps';
+import { getSearchDigitalSpecimen, getCompareDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import API */
-import SearchSpecimens from 'api/specimen/SearchSpecimens';
-import GetRecentSpecimens from 'api/specimen/GetRecentSpecimens';
-import GetSpecimenAggregations from 'api/specimen/GetSpecimenAggregations';
-import GetSpecimenTaxonomyAggregations from 'api/specimen/GetSpecimenTaxonomyAggregations';
+import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
+
+/* Import Styles */
+import styles from './Search.module.scss';
+
+/* Import Components */
+import { CompareDigitalSpecimenMenu, IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
+import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
 
 
+/**
+ * Base component that renders the Search page
+ * @returns JSX Component
+ */
 const Search = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
-    const [searchParams] = useSearchParams();
-    const location = useLocation();
-
     /* Base variables */
-    const searchResults = useAppSelector(getSearchResults);
-    const searchSpecimen = useAppSelector(getSearchSpecimen);
-    const compareMode = useAppSelector(getCompareMode);
-    const paginationObject = useAppSelector(getPaginationObject);
-    const pageSize = 25;
-    const [pageNumber, setPageNumber] = useState<number | undefined>(undefined);
-    const [paginatorLinks, setPaginatorLinks] = useState<Dict>({});
-    const [totalRecords, setTotalRecords] = useState<number>(0);
-    const [filterToggle, setFilterToggle] = useState(isEmpty(searchSpecimen));
+    const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
+    const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
 
-    /* OnLoad: disabel compare mode and reset compare specimens */
-    useEffect(() => {
-        dispatch(setCompareMode(false));
-        dispatch(setCompareSpecimens([]));
-    }, []);
-
-    /* OnChange of search params: reset page number, then search specimens */
-    useEffect(() => {
-        const filters = GetFilters(searchParams);
-
-        if ((JSON.stringify(filters) !== JSON.stringify(paginationObject.filters)) || !searchResults.length) {
-            /* If filters differ from previous search, reset Pagination and Page numbers */
-            if ((JSON.stringify(filters) !== JSON.stringify(paginationObject.filters))) {
-                dispatch(setPaginationObject({
-                    page: location.pathname.split('/')[1],
-                    pageNumber: 1,
-                    filters
-                }));
-
-                if (pageNumber) {
-                    setPageNumber(1);
-                }
-            }
-
-            SearchWithFilters();
-        } else {
-            SearchWithFilters(false);
-        }
-    }, [searchParams]);
-
-    /* OnChange of page number: search specimens */
-    useEffect(() => {
-        if (pageNumber) {
-            SearchWithFilters();
-        }
-    }, [pageNumber]);
-
-    /* Function to refresh aggregations */
-    const RefreshAggregations = (searchFilters: SearchFilter[] = []) => {
-        if (isEmpty(searchFilters)) {
-            /* ForEach filter, push to Search Filters array */
-            for (const searchParam of searchParams.entries()) {
-                searchFilters.push({
-                    [searchParam[0]]: searchParam[1]
-                });
-            }
-        }
-
-        /* Check for deepest taxonomy level */
-        let taxonomyAggregation: [string, string] = ['kingdom', ''];
-
-        searchFilters.forEach((searchFilter: Dict) => {
-            const searchFilterName: string = Object.keys(searchFilter)[0];
-
-            if (['kingdom', 'phylum', 'class', 'order', 'family', 'genus'].includes(searchFilterName)) {
-                const currentTaxonomyLevel: string = CheckCurrentTaxonomyLevel(searchFilterName, taxonomyAggregation[0]);
-
-                taxonomyAggregation = [currentTaxonomyLevel, searchFilter[currentTaxonomyLevel]];
-            }
-        });
-
-        Promise.allSettled([
-            GetSpecimenAggregations(searchFilters),
-            GetSpecimenTaxonomyAggregations(taxonomyAggregation[0], taxonomyAggregation[1])
-        ]).then((results) => {
-            /* Combine default and taxonomy aggregations */
-            let combinedAggregations: Dict = {};
-
-            if (results[1].status === 'fulfilled' && !isEmpty(results[1].value)) {
-                combinedAggregations = { ...combinedAggregations, ...results[1].value };
-            }
-
-            if (results[0].status === 'fulfilled' && !isEmpty(results[0].value)) {
-                combinedAggregations = { ...combinedAggregations, ...results[0].value };
-            }
-
-            dispatch(setSearchAggregations(combinedAggregations));
-        }).catch(error => {
-            console.warn(error);
-        });
-    }
-
-    /* Function to Search for specimens with filters and page number */
-    const SearchWithFilters = (displayResults: boolean = true) => {
-        const searchFilters: SearchFilter[] = [];
-
-        /* ForEach filter, push to Search Filters array */
-        for (const searchParam of searchParams.entries()) {
-            searchFilters.push({
-                [searchParam[0]]: searchParam[1]
-            });
-        }
-
-        /* Function for handling Search results, page number and filters after new call */
-        const HandleSearch = (specimens: DigitalSpecimen[], links: Dict, totalRecords: number, displayResults: boolean = true) => {
-            /* If desired, set Search Results / Specimens */
-            if (displayResults) {
-                dispatch(setSearchResults(specimens));
-            }
-
-            /* Set Paginator links */
-            setPaginatorLinks(links);
-
-            /* Set Total Records */
-            setTotalRecords(totalRecords);
-        }
-
-        /* If not any filter is selected */
-        if (isEmpty(searchFilters)) {
-            /* Grab Recent Specimens */
-            GetRecentSpecimens(pageSize, pageNumber).then(({ specimens, links, meta }) => {
-                HandleSearch(specimens, links, meta.totalRecords, displayResults);
-            }).catch(error => {
-                console.warn(error);
-            });
-        } else {
-            /* Action Search */
-            SearchSpecimens(searchFilters, pageSize, pageNumber).then(({ specimens, links, totalRecords }) => {
-                HandleSearch(specimens, links, totalRecords, displayResults);
-            }).catch(error => {
-                console.warn(error);
-            });
-        }
-
-        /* Refresh Aggregations */
-        RefreshAggregations(searchFilters);
-    };
-
-    /* ClassName for Search Menu Block */
-    const classSearchMenu = classNames({
-        'transition': true,
-        'w-0': !isEmpty(searchSpecimen) && !filterToggle,
+    /* OnLoad: setup pagination */
+    const pagination = usePagination({
+        pageSize: 25,
+        resultKey: 'digitalSpecimens',
+        allowSearchParams: true,
+        Method: GetDigitalSpecimens
     });
 
-    /* ClassName for Search Results Block */
-    const classSearchResults = classNames({
-        'transition bgc-main position-absolute': true,
-        'offset-md-6 col-md-6 offset-lg-3 col-lg-9': isEmpty(searchSpecimen) && filterToggle,
-        'col-md-12 col-lg-12': !isEmpty(searchSpecimen) && !filterToggle
+    /* Class Names */
+    const searchResultsClass = classNames({
+        'col-lg-6': !!searchDigitalSpecimen,
+        'col-lg-9 offset-lg-3': !searchDigitalSpecimen
     });
 
-    /* ClassName for Search Results Table */
-    const classSearchResultsTable = classNames({
-        'transition col-md-12': true,
-        'w-50': !isEmpty(searchSpecimen)
-    });
-
-    /* ClassName for ID Card Block */
-    const classIDCard = classNames({
-        'transition position-absolute z-0': true,
-        [`${styles.IDCard}`]: true,
-        'w-50': !isEmpty(searchSpecimen)
+    const compareDigitalSpecimenMenuClass = classNames({
+        'd-none': !compareDigitalSpecimen
     });
 
     return (
-        <div className="d-flex flex-column h-100">
-            <Header introTopics={[
-                { intro: 'search', title: 'About This Page' },
-                { intro: 'compare', title: 'Comparing Specimens' }
-            ]} />
+        <div className="h-100 d-flex flex-column">
+            {/* Render header*/}
+            <Header span={10}
+                offset={1}
+            />
 
-            <SearchSteps SetFilterToggle={(toggle: boolean) => setFilterToggle(toggle)} />
-            <CompareSteps />
-
-            <Container fluid className="flex-grow-1 overflow-hidden pt-5 pb-4">
+            {/* Search page body */}
+            <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">
-                    <Col md={{ span: 10, offset: 1 }} className="h-100">
-                        <div className="h-100 d-flex flex-column">
-                            <Row>
-                                <Col>
-                                    <BreadCrumbs />
-                                </Col>
-                            </Row>
-
-                            <Row className={`mt-3`}>
-                                <Col lg={{ span: 3 }} className="col-md-auto searchBar">
-                                    <SearchBar />
-                                </Col>
-
-                                {/* If filters are hidden, show toggle button and current active filters */}
-                                <Col className="activeFilters">
-                                    <Row className="justify-content-end">
-                                        {!filterToggle ?
-                                            <>
-                                                <Col className="h-100 col-md-auto pe-0">
-                                                    <button type="button"
-                                                        className="primaryButton px-3 py-1"
-                                                        onClick={() => { setFilterToggle(true); dispatch(setSearchSpecimen({} as DigitalSpecimen)) }}
-                                                    >
-                                                        <FontAwesomeIcon icon={faFilter} className="pe-1" /> Filters
-                                                    </button>
-                                                </Col>
-                                                <Col className="d-md-none d-lg-block">
-                                                    <ActiveFilters />
-                                                </Col>
-                                            </> : <Col />
-                                        }
-                                    </Row>
-                                </Col>
-
-                                <Col className="col-md-auto">
-                                    <button type="button"
-                                        className={`${styles.compareButton} rounded-full transition px-3 py-1`}
-                                        onClick={() => { dispatch(setCompareMode(!compareMode)); dispatch(setSearchSpecimen({} as DigitalSpecimen)); }}
-                                    >
-                                        Compare
-                                    </button>
-                                </Col>
-                            </Row>
-
-                            <Row className="flex-grow-1 position-relative overflow-hidden">
-                                <Col md={{ span: 6 }} lg={{ span: 3 }} className={`${classSearchMenu} searchMenu h-100`}>
-                                    <div className="h-100 d-flex flex-column">
-                                        <Row className="flex-grow-1 overflow-scroll">
-                                            <Col>
-                                                {/* Search Menu */}
-                                                <SearchFilters RefreshAggregations={() => RefreshAggregations()}
-                                                    HideFilters={() => setFilterToggle(false)}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </Col>
-
-                                <Col className={`${classSearchResults} h-100 searchResults`}>
-                                    <Row className="h-100 position-relative">
-                                        <Col className={`${classSearchResultsTable} h-100 z-1`}>
-                                            <Row className="h-100">
-                                                <Col className="h-100">
-                                                    <div className="h-100 d-flex flex-column">
-                                                        <Row className="flex-grow-1 overflow-hidden">
-                                                            {/* Search Results */}
-                                                            <Col md={{ span: 12 }} className="h-100 pb-2">
-                                                                <ResultsTable pageNumber={pageNumber ?? 1}
-                                                                    HideFilters={() => setFilterToggle(false)}
-                                                                />
-                                                            </Col>
-                                                        </Row>
-
-                                                        <Row className="justify-content-center position-relative">
-                                                            <Col className="fs-4 py-2 position-absolute start-0 ps-4">
-                                                                {(totalRecords === 1) ?
-                                                                    <p className="fst-italic"> 1 specimen found </p>
-                                                                    : <p className="fst-italic"> {`${totalRecords} specimens found`} </p>
-                                                                }
-                                                            </Col>
-
-                                                            {(searchResults.length > 0) &&
-                                                                <Col className="col-lg-auto float-md-end">
-                                                                    <div className="d-flex justify-content-end">
-                                                                        <Paginator pageNumber={paginationObject?.pageNumber ?? pageNumber ?? 1}
-                                                                            links={paginatorLinks}
-                                                                            totalRecords={totalRecords}
-
-                                                                            SetPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
-                                                                        />
-                                                                    </div>
-                                                                </Col>
-                                                            }
-                                                        </Row>
-                                                    </div>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                        <Col md={{ span: 6, offset: 6 }} className={`${classIDCard} IDCard pb-2`}>
-                                            {/* ID Card */}
-                                            {!isEmpty(searchSpecimen) &&
-                                                <IDCard specimen={searchSpecimen}
-                                                    extensions={[
-                                                        <Row key='mapMedia' className="flex-grow-1 pt-3 overflow-hidden">
-                                                            <Col className="h-100">
-                                                                <MapMediaExt specimen={searchSpecimen} />
-                                                            </Col>
-                                                        </Row>
-                                                    ]}
-                                                    OnClose={() => dispatch(setSearchSpecimen({} as DigitalSpecimen))}
-                                                />
-                                            }
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </div>
+                    <Col lg={{ span: 10, offset: 1 }}
+                        className="h-100 d-flex flex-column"
+                    >
+                        {/* Bread crumbs */}
+                        <Row>
+                            <Col>
+                                <BreadCrumbs />
+                            </Col>
+                        </Row>
+                        {/* Top bar */}
+                        <Row className="mt-2">
+                            <Col>
+                                <TopBar />
+                            </Col>
+                        </Row>
+                        {/* Big body containing on the left: the search filters menu, and on the right: the search results table, when toggled the ID card */}
+                        <Row className="flex-grow-1 position-relative overflow-y-hidden mt-3">
+                            {/* Search filters menu */}
+                            <Col lg={{ span: 3 }}
+                                className="h-100 position-absolute"
+                            >
+                                <SearchFiltersMenu />
+                            </Col>
+                            {/* Search results table */}
+                            <Col className={`${searchResultsClass} h-100 tr-smooth z-1 bgc-default`}>
+                                <SearchResults pagination={pagination} />
+                            </Col>
+                            {/* ID card */}
+                            <Col lg={{ span: 6, offset: 6 }}
+                                className={`${styles.idCard} h-100 position-absolute`}
+                            >
+                                <IdCard />
+                            </Col>
+                        </Row>
                     </Col>
 
-                    {/* Compare box, to compare Specimens if compare mode is true */}
-                    <div className={`${styles.compareBoxBlock} position-absolute bottom-0 d-flex justify-content-end pe-5`}>
-                        {compareMode &&
-                            <CompareBox />
-                        }
+                    {/* Compare digital specimens menu */}
+                    <div 
+                        className={`${compareDigitalSpecimenMenuClass} position-absolute w-25 end-0 bottom-0 z-1`}
+                    >
+                        <Row>
+                            <Col lg={{ span: 10 }}>
+                                <CompareDigitalSpecimenMenu />
+                            </Col>
+                        </Row>
                     </div>
                 </Row>
             </Container>
 
-            <Footer />
+            {/* Render footer */}
+            <Footer span={10}
+                offset={1}
+            />
         </div>
     );
-}
+};
 
 export default Search;

@@ -5,7 +5,22 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
 export interface Citation {
+  /**
+   * The identifier for the Citation object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier"?: string;
   /**
    * https://purl.org/dc/terms/type
    */
@@ -23,32 +38,31 @@ export interface Citation {
    */
   "dcterms:creator"?: string;
   /**
-   * Unclear yet
+   * Page number of the citation
    */
-  "???:citationPageNumber"?: string;
+  "ods:citationPageNumber"?: string;
   /**
-   * Unclear yet
+   * Any further remarks about the citation
    */
-  "???:citationRemarks"?: string;
+  "ods:citationRemarks"?: string;
   /**
-   * Unclear yet
+   * The type of reference
    */
-  "???:referenceType"?: string;
+  "ods:referenceType"?: string;
   /**
    * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
    */
   "dcterms:bibliographicCitation"?: string;
   /**
-   * Unclear yet
+   * The year the reference was published
    */
-  "???:referenceYear"?: string;
+  "ods:referenceYear"?: number;
   /**
-   * Unclear yet
+   * Reference to the web source of this citation
    */
-  "???:referenceIri"?: string;
+  "ods:referenceIRI"?: string;
   /**
-   * Unclear yet
+   * Is the citation peer reviewed?
    */
-  "???:isPeerReviewed"?: boolean;
-  [k: string]: unknown;
+  "ods:isPeerReviewed"?: boolean;
 }

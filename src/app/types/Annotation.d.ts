@@ -5,67 +5,204 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * Information about the Annotation data model. This model has been based on the W3C Web Annotation model
+ */
 export interface Annotation {
-  "ods:id": string;
-  "rdf:type": "Annotation";
+  /**
+   * The unique identifier (handle) of the Annotation object
+   */
+  "@id": string;
+  /**
+   * The type of the object, in this case ods:Annotation
+   */
+  "@type": "ods:Annotation";
+  /**
+   * The handle of the annotation. It is a unique identifier for the annotation. It is composed of the handle of the document followed by a slash and a unique identifier for the annotation.
+   */
+  "ods:ID": string;
+  /**
+   * Handle of the job record, if the annotation was produced by a Machine Annotation Service, only filled when annotation was created by a MAS
+   */
+  "ods:jobID"?: string;
+  /**
+   * The type of the annotation. It is always ods:Annotation. https://www.w3.org/TR/rdf12-schema/#ch_type
+   */
+  "rdf:type": "ods:Annotation";
+  /**
+   * The version of the object, each change generates a new version
+   */
   "ods:version": number;
+  /**
+   * The motivation for the annotation. Based on a selection of https://www.w3.org/TR/annotation-model/#motivation-and-purpose. The motivation ods:adding is added for DiSSCo's purposes.
+   */
   "oa:motivation": "ods:adding" | "oa:assessing" | "oa:editing" | "oa:commenting";
+  /**
+   * Describes the reason for the annotation. https://www.w3.org/TR/annotation-vocab/#motivatedby
+   */
   "oa:motivatedBy"?: string;
-  "oa:target": {
-    "ods:id": string;
-    "ods:type": string;
-    "oa:selector"?:
+  /**
+   * Indicates the particular object and part of the object on which the annotation has been made.
+   */
+  "oa:hasTarget": {
+    /**
+     * This is the PID of the target object. Valid targets are the Digital Specimen, Digital Media Object or another annotation.
+     */
+    "@id": string;
+    /**
+     * This is the handle to the type of the target object.
+     */
+    "@type": string;
+    /**
+     * This is the PID of the target object. Valid targets are the Digital Specimen, Digital Media Object or another annotation.
+     */
+    "ods:ID": string;
+    /**
+     * This is the handle to the type of the target object.
+     */
+    "ods:type"?: string;
+    /**
+     * Optional field to indicate the part of the target object that is being annotated. It can be a field, a class or a region of interest.
+     */
+    "oa:hasSelector"?:
       | {
-          "ods:type": "FieldSelector";
+          /**
+           * A selector for an individual field.
+           */
+          "@type": "ods:FieldSelector";
+          /**
+           * The full jsonPath of the field being annotated. Following: https://goessner.net/articles/JsonPath/index.html#e2
+           */
           "ods:field": string;
-          [k: string]: unknown;
         }
       | {
-          "ods:type": "ClassSelector";
-          "oa:class": string;
-          [k: string]: unknown;
+          /**
+           * A selector for an individual class.
+           */
+          "@type": "ods:ClassSelector";
+          /**
+           * The full jsonPath of the class being annotated. Following: https://goessner.net/articles/JsonPath/index.html#e2
+           */
+          "ods:class": string;
         }
       | {
-          "ods:type"?: "FragmentSelector";
-          "ac:hasRoi": {
+          /**
+           * A selector for an specific Region of Interest (Roi). Only applicable on media objects.
+           */
+          "@type": "oa:FragmentSelector";
+          /**
+           * https://ac.tdwg.org/termlist/2023-02-24#ac_hasROI
+           */
+          "ac:hasROI": {
+            /**
+             * https://ac.tdwg.org/termlist/2023-02-24#ac_xFrac
+             */
             "ac:xFrac": number;
+            /**
+             * https://ac.tdwg.org/termlist/2023-02-24#ac_yFrac
+             */
             "ac:yFrac": number;
+            /**
+             * https://ac.tdwg.org/termlist/2023-02-24#ac_widthFrac
+             */
             "ac:widthFrac": number;
+            /**
+             * https://ac.tdwg.org/termlist/2023-02-24#ac_heightFrac
+             */
             "ac:heightFrac": number;
-            [k: string]: unknown;
           };
-          "dcterms:conformsTo"?: string;
-          [k: string]: unknown;
+          /**
+           * https://purl.org/dc/terms/conformsTo
+           */
+          "dcterms:conformsTo": string;
         };
-    [k: string]: unknown;
   };
-  "oa:body": {
-    "ods:type": string;
-    "oa:value": unknown[];
-    "dcterms:reference"?: string;
+  /**
+   * The body of the annotation contains the specific value of the annotation
+   */
+  "oa:hasBody": {
+    /**
+     * https://www.w3.org/TR/annotation-vocab/#textualbody
+     */
+    "@type": string;
+    /**
+     * An array of multiple values in string representation specific for the particular selector
+     */
+    "oa:value": string[];
+    /**
+     * Indicates how the value came to be. https://purl.org/dc/terms/references
+     */
+    "dcterms:references"?: string;
+    /**
+     * A score between 0 and 1 indicating the confidence in the value. 1 is the highest confidence and 0 is the lowest.
+     */
     "ods:score"?: number;
-    [k: string]: unknown;
   };
-  "oa:creator": {
-    "ods:type": string;
+  /**
+   * Object containing information on who created the object
+   */
+  "dcterms:creator": {
+    /**
+     * The PID if the type is SoftwareAgent, the ORCID if the type is Person and the ROR if the type is Organisation.
+     */
+    "@id": string;
+    /**
+     * The type of the creator.
+     */
+    "@type": "foaf:Person" | "foaf:Organisation" | "as:Application";
+    /**
+     * The name of the creator. http://xmlns.com/foaf/0.1/#term_name
+     */
     "foaf:name"?: string;
-    "ods:id": string;
-    [k: string]: unknown;
   };
+  /**
+   * The date and time when the annotation was created. https://purl.org/dc/terms/created
+   */
   "dcterms:created": string;
-  "ods:deletedOn"?: string;
-  "oa:generated"?: string;
+  /**
+   * Timestamp Annotation was tombstoned and no longer active. Generated on request of the user. Empty as long as Annotation is active
+   */
+  "ods:dateTombstoned"?: string;
+  /**
+   * The date and time when the annotation was generated. https://purl.org/dc/terms/issued
+   */
+  "dcterms:issued"?: string;
+  /**
+   * Object containing information on who generated the object. Generated is here seen as who stored/indexed the object. In most case this will be the annotation-processing-service
+   */
   "as:generator": {
-    "ods:id": string;
+    /**
+     * The PID if the type is SoftwareAgent, the ORCID if the type is Person and the ROR if the type is Organisation.
+     */
+    "@id": string;
+    /**
+     * The type of the creator.
+     */
+    "@type": "foaf:Person" | "foaf:Organisation" | "as:Application";
+    /**
+     * The name of the creator. http://xmlns.com/foaf/0.1/#term_name
+     */
     "foaf:name"?: string;
-    "ods:type": string;
-    [k: string]: unknown;
   };
-  "schema.org:aggregateRating"?: {
-    "ods:type": string;
-    "schema.org:ratingCount": number;
-    "schema.org:ratingValue": number;
-    [k: string]: unknown;
+  /**
+   * The average rating based on multiple ratings or reviews
+   */
+  "schema:AggregateRating"?: {
+    /**
+     * Indicates which type of aggregateRating we are using.
+     */
+    "@type": "schema:AggregateRating";
+    /**
+     * The count of total number of ratings. https://schema.org/ratingCount
+     */
+    "schema:ratingCount": number;
+    /**
+     * The rating for the content. https://schema.org/ratingValue
+     */
+    "schema:ratingValue": number;
   };
-  [k: string]: unknown;
+  /**
+   * Internally generated PID to identify the batch the annotation was generated by
+   */
+  "ods:batchID"?: string;
 }

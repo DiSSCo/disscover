@@ -1,0 +1,15 @@
+/* Custom styles for custom table components */
+
+/* Data Table */
+.dataTable {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.dataTableRow {
+    height: 40px;
+}
+
+.dataTableColumn {
+    transition: 0.15s;
+}

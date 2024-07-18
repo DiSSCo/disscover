@@ -1,40 +1,34 @@
 /* Import Types */
 import { Annotation } from "./types/Annotation";
-import { DigitalEntity } from "./types/DigitalEntity";
+import { DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
 import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
 
 
-/* Generic Types */
-export type Callback = {
-    (param: any): Function | void;
-};
-
-export type EmptyCallback = {
-    (): Function | void;
-}
-
+/* General type for a dictionary */
 export type Dict = {
     [name: string]: any;
 };
 
 
-/* JSON Result Interface */
+/* Types for JSON Result Interfaces */
+type DataFragment = {
+    id: string,
+    type: string,
+    attributes: {
+        digitalSpecimen?: DigitalSpecimenType,
+        digitalEntity?: DigitalMediaType,
+        originalData?: Dict,
+        digitalMediaObjects?: {
+            digitalMediaObject: DigitalMediaType,
+            annotations: Annotation[]
+        }[],
+        annotations?: Annotation[]
+        [property: string]: any
+    }
+}
+
 export type JSONResult = {
-    data: {
-        id: string,
-        type: string,
-        attributes: {
-            digitalSpecimen?: DigitalSpecimenType,
-            digitalEntity?: DigitalEntity,
-            originalData?: Dict,
-            digitalMediaObjects?: {
-                digitalMediaObject: DigitalMedia,
-                annotations: Annotation[]
-            }[],
-            annotations?: Annotation[],
-            [property: string]: any
-        }
-    },
+    data: DataFragment,
     links: {
         self: string
     },
@@ -44,22 +38,12 @@ export type JSONResult = {
 };
 
 export type JSONResultArray = {
-    data: {
-        id: string,
-        type: string,
-        attributes: {
-            digitalSpecimen?: DigitalSpecimenType,
-            digitalEntity?: DigitalEntity,
-            originalData?: Dict,
-            digitalMediaObjects?: {
-                digitalMediaObject: DigitalMedia,
-                annotations: Annotation[]
-            }[],
-            annotations?: Annotation[]
-        }
-    }[],
+    data: DataFragment[],
     links: {
-        self: string
+        self: string,
+        first?: string,
+        next?: string,
+        previous?: string
     },
     meta?: {
         totalRecords: number
@@ -76,32 +60,34 @@ export type User = {
     orcid?: string,
 };
 
-/* Search Types */
-export interface SearchFilter {
-    [filter: string]: string | []
+/* Annotation Types */
+export type AnnotationArray = {
+    [property: string]: Annotation[]
 }
 
-/* Specimen Types */
-export interface DigitalSpecimen {
-    digitalSpecimen: DigitalSpecimenType,
-    originalData: Dict
+export type TargetProperty = {
+    name: string,
+    type: string
 }
 
-export interface SpecimenAnnotations {
-    [specimenProperty: string]: Annotation[]
+export type AnnotationTarget = {
+    superClass: string,
+    name?: string,
+    type?: string,
+    index?: number,
+    annotations: Annotation[]
 };
 
-/* Digital Media Types */
-export interface DigitalMedia {
-    digitalEntity: DigitalEntity
-    originalData: Dict
-}
-
-export type DigitalMediaAnnotations = {
-    [digitalMediaProperty: string]: Annotation[]
+export type AnnotationType = {
+    name: string,
+    displayName: string,
+    additionalFields: Dict,
+    description: string
 };
 
-export interface AnnotationTemplate {
+export type Property = string | number | boolean;
+
+export type AnnotationTemplate = {
     "ods:id"?: string,
     "oa:motivation": string,
     "oa:target": {
@@ -127,40 +113,15 @@ export interface AnnotationTemplate {
     }
 };
 
-export interface TargetProperty {
-    name: string,
-    type: string
-}
-
-export interface AnnotateTarget {
-    target: DigitalSpecimenType | DigitalEntity,
-    targetType: string,
-    targetProperty: TargetProperty,
-    currentValue?: (string | number | boolean | Dict)[],
-    motivation?: string,
-    annotations: Annotation[]
-};
-
-export interface AnnotationMotivation {
-    key: string,
-    displayName: string,
-    additionalFields: Dict,
-    context: string
-};
-
-export type Property = string | number | boolean;
-
-
-/* Organisation Types */
-export interface Organisation {
+/* Organisation Type */
+export type Organisation = {
     id: string,
     name: string,
     ror: string
 }
 
-
-/* Source System Types */
-export interface SourceSystem {
+/* Source System Type */
+export type SourceSystem = {
     id: string,
     created: Date,
     type: string,
@@ -170,15 +131,51 @@ export interface SourceSystem {
     mappingId: string
 }
 
+/* Search Filter Type (search filters) */
+export type SearchFilter = {
+    label: string,
+    type: string,
+    nestedIn?: string,
+    contains?: {[searchFilterName: string]: SearchFilter},
+    searchable?: boolean,
+    searchAlias?: string
+};
 
-/* General Types */
-export interface PaginationObject {
-    page: string,
-    pageNumber: number,
-    filters?: string[][]
+/* Search filters Type (fetch requests) */
+export type SearchFilters = {
+    [searchFilter: string]: string[]
 }
 
-export interface InputListSelectItem {
-    name: string,
-    subName?: string
+/* Pagination Object Type */
+export type PaginationObject = {
+    records: Dict[],
+    totalRecords: number,
+    currentPage: number,
+    lastPage: number,
+    loading: boolean,
+    GoToPage: Function,
+    Next?: Function,
+    Previous?: Function,
+    Last?: Function
 }
+
+/* Dropdown item type */
+export type DropdownItem = {
+    label: string,
+    value: string,
+    action?: Function
+};
+
+/* Multi select item */
+export type MultiSelectItem = {
+    label: string,
+    value: string,
+    count?: number
+};
+
+/* Notification type */
+export type Notification = {
+    key: string,
+    message: string,
+    template?: string
+};

@@ -52,7 +52,11 @@ const CollectionFacilitySearch = (props: Props) => {
                     <Row className="mt-1">
                         <Col>
                             <Dropdown items={collectionFacilityIDTypeDropdownItems}
-                                selectedItemValue={(formValues?.collectionFacilityIdType ?? 'local')}
+                                selectedItem={{
+                                    label: (formValues?.collectionFacilityIdType ?? 'local'),
+                                    value: (formValues?.collectionFacilityIdType ?? 'local')
+                                }}
+                                hasDefault={true}
                                 styles={{
                                     background: '#ffffff',
                                     color: '#28bacb',
@@ -79,7 +83,11 @@ const CollectionFacilitySearch = (props: Props) => {
                                 label: organisationName,
                                 value: organisationName
                             }))}
-                                selectedItemValue={formValues?.organisationName}
+                                selectedItem={formValues?.organisationName ? {
+                                    label: formValues.organisationName,
+                                    value: formValues.organisationName
+                                } : undefined}
+                                hasDefault={true}
                                 styles={{
                                     background: '#ffffff',
                                     color: '#28bacb',

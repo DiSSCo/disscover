@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, Dict } from 'app/Types';
+import { JSONResult } from 'app/Types';
 
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';

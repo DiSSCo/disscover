@@ -9,7 +9,7 @@ import { useAppDispatch } from 'app/Hooks';
 import { setCompareDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Buttons */
 import { Button } from 'components/elements/customUI/CustomUI';

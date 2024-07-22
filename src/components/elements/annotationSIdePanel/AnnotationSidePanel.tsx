@@ -18,9 +18,7 @@ type Props = {
  * Component that renders the annotation side panel
  * @returns 
  */
-const AnnotationSidePanel = (props: Props) => {
-    const { HideAnnotationSidePanel } = props;
-
+const AnnotationSidePanel = (_props: Props) => {
     return (
         <div className={`${styles.annotationSidePanel} h-100 w-100 bgc-default px-4 py-4`}>
             {/* Top bar */}

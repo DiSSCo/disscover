@@ -65,7 +65,7 @@ const AdvancedSearch = () => {
         doi: '',
         physicalSpecimenIdType: 'global',
         normalisedPhysicalSpecimenId: '',
-        organisationName: Object.keys(organisationNames)[0],
+        organisationName: Object.values(organisationNames)[0],
         collectionFacilityIdType: 'local'
     };
 

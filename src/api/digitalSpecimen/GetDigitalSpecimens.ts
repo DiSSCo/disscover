@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 /* Import Types */
-import { DigitalSpecimen, SearchFilters, JSONResultArray, Dict } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { SearchFilters, JSONResultArray, Dict } from 'app/Types';
 
 /* Import Exceptions */
 import { NoSearchResults } from 'app/Exceptions';

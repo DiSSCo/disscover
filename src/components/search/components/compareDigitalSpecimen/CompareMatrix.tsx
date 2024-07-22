@@ -2,9 +2,6 @@
 import { isEmpty } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Types */
-import { DigitalSpecimen } from 'app/Types';
-
 /* Import Components */
 import { CompareCollection, TitleCard } from './CompareDigitalSpecimenComponents';
 

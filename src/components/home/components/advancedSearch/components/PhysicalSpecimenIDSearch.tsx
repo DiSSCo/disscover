@@ -66,7 +66,10 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                     <Row className="mt-1">
                         <Col>
                             <Dropdown items={physicalSpecimenIDTypeDropdownItems}
-                                selectedItemValue={(formValues?.physicalSpecimenIdType ?? 'global')}
+                                selectedItem={{
+                                    label: formValues?.physicalSpecimenIdType ?? 'global',
+                                    value: formValues?.physicalSpecimenIdType ?? 'global'
+                                }}
                                 styles={{
                                     background: '#ffffff',
                                     color: '#28bacb',
@@ -94,7 +97,10 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                                     label: organisationName,
                                     value: organisationName
                                 }))}
-                                    selectedItemValue={formValues?.organisationName}
+                                    selectedItem={{
+                                        label: formValues?.organisationName,
+                                        value: formValues?.organisationName
+                                    }}
                                     styles={{
                                         background: '#ffffff',
                                         color: '#28bacb',

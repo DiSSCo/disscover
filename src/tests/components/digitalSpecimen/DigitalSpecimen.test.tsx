@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import "@testing-library/react/dont-cleanup-after-each";
-import userEvent from '@testing-library/user-event'
-import { screen, waitFor, cleanup } from '@testing-library/react';
+import { screen, cleanup } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 

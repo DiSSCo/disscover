@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 /* Import Types */
-import { DigitalSpecimen, JSONResult } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { JSONResult } from 'app/Types';
 
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';

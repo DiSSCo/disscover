@@ -13,7 +13,6 @@ import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpeci
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen as DigitalSpecimenType } from 'app/types/DigitalSpecimen';
-import { Dict } from 'app/Types';
 
 /* Import API */
 import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';

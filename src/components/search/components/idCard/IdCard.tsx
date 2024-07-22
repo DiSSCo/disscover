@@ -17,7 +17,6 @@ import { getSearchDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { Dict } from 'app/Types';
 
 /* Import Icons */
 import { faChevronRight, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';

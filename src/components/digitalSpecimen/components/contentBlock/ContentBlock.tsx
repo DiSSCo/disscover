@@ -1,9 +1,8 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Components */
 import { Assertions, DigitalSpecimenDigitalMedia, DigitalSpecimenOverview, EntityRelationships, Events, Identifications, OriginalData } from './ContentBlockComponents';

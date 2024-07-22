@@ -30,7 +30,7 @@ type Props = {
  * @returns JSX Component
  */
 const TopicDisciplineFilter = (props: Props) => {
-    const { id, topicDiscipline, count, icon, OnSelect } = props;
+    const { id, topicDiscipline, count, OnSelect } = props;
 
     return (
         <button type="button"

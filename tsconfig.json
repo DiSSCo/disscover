@@ -7,6 +7,8 @@
     "skipLibCheck": true,
     "allowJs": true,
     "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "types": ["node", "@testing-library/jest-dom"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -23,6 +25,7 @@
       "components/*": ["components/*"],
       "redux-store/*": ["redux-store/*"],
       "sources/*": ["sources/*"],
+      "tests/*": ["tests/*"],
       "webroot/*": ["webroot/*"]
     },
 

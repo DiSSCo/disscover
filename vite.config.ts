@@ -12,6 +12,7 @@ export default defineConfig({
       components: '/src/components',
       "redux-store": '/src/redux-store',
       sources: '/src/sources',
+      tests: '/src/tests',
       webroot: '/src/webroot'
     }
   },
@@ -25,6 +26,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*'],
       exclude: [],
+      provider: "v8"
     }
   },
 })

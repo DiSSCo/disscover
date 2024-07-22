@@ -27,7 +27,6 @@ RUN npm run build
 # Setting up NGINX
 FROM nginx:stable-alpine
 
-# COPY --from=build /disscover/build /var/www/html/
 COPY --from=build /disscover/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 

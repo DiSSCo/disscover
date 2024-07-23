@@ -8,6 +8,9 @@ import { useAppSelector } from 'app/Hooks';
 /* Import Store */
 import { getCompareDigitalSpecimen } from 'redux-store/SearchSlice';
 
+/* Import Types */
+import { Dict } from 'app/Types';
+
 
 /**
  * Config function that sets up the basic table column template for the search results table on the search page
@@ -18,7 +21,7 @@ const SearchResultsTableConfig = () => {
     type SearchResult = {
         selected: boolean,
         DOI: string,
-        taxonomyIconUrl: Promise<any | string>,
+        taxonomyIconUrl: Promise<string | Dict>,
         specimenName: string,
         physicalSpecimenID: string,
         topicDiscipline: string,
@@ -34,9 +37,9 @@ const SearchResultsTableConfig = () => {
     /**
      * 
      */
-    const taxonomyIconCell = (promise: Promise<any | string>) => {
+    const TaxonomyIconCell = (promise: Promise<Dict | string>) => {
         /* Base variables */
-        const [taxonomyIcon, setTaxonomyIcon] = useState<any | string | undefined>();
+        const [taxonomyIcon, setTaxonomyIcon] = useState<string | undefined>();
 
         Promise.resolve(promise).then(value => {
             setTaxonomyIcon(typeof value == 'object' ? value.default : value);
@@ -55,9 +58,7 @@ const SearchResultsTableConfig = () => {
     const columns = [
         ...(compareDigitalSpecimen ? [columnHelper.accessor('selected', {
             header: '',
-            cell: info => <>
-                <input type="checkbox" defaultChecked={info.getValue()} />
-            </>,
+            cell: info => <input type="checkbox" defaultChecked={info.getValue()} />,
             meta: {
                 widthInRem: 3,
                 pinned: true
@@ -65,7 +66,7 @@ const SearchResultsTableConfig = () => {
         })] : []),
         columnHelper.accessor('taxonomyIconUrl', {
             header: '',
-            cell: info => taxonomyIconCell(info.getValue()),
+            cell: info => TaxonomyIconCell(info.getValue()),
             meta: {
                 widthInRem: 4,
                 pinned: true

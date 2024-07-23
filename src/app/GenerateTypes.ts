@@ -32,15 +32,13 @@ const typesDict = {
 const HarvestTypes = (typesDict: { [type: string]: string }) => {
     const promises: Promise<Dict>[] = [];
 
-    for (let index = 0; index < Object.keys(typesDict).length; index++) {
-        const key = Object.keys(typesDict)[index];
-
+    Object.values(typesDict).forEach(typeValue => {
         promises.push(axios({
             method: 'get',
-            url: typesDict[key],
+            url: typeValue,
             responseType: 'json'
         }));
-    };
+    });
 
     Promise.all(promises).then(async results => {
         for (let index = 0; index < results.length; index++) {

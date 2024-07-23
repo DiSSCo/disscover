@@ -23,7 +23,7 @@ afterAll(() => Server.close());
 
 /* Mock Keycloak Service */
 vi.mock('keycloak/Keycloak.ts', () => {
-  const KeycloakService = vi.importActual('tests/mock/keycloak/KeycloakService.ts');
+  const KeycloakService = vi.importMock('tests/mock/keycloak/KeycloakService.ts');
 
   return {
     __esModule: true,

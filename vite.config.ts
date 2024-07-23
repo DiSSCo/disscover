@@ -16,6 +16,12 @@ export default defineConfig({
       webroot: '/src/webroot'
     }
   },
+  server: {
+    port: 3000,
+    proxy: {
+      '^/api/.*': 'https://dev.dissco.tech'
+    }
+  },
   build: {
     outDir: './build',
     emptyOutDir: true

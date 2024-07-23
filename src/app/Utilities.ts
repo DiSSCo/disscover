@@ -31,29 +31,12 @@ const GetNestedObjectNode = (sourceObject: Dict, nestedLevels: string[]): string
  * @returns Human readable string
  */
 const MakeReadableString = (string: string): string => {
-    const splitArray: RegExpMatchArray | null = string.match(/[A-Z]?[a-z]+|[0-9]+|[A-Z]+(?![a-z])/g);
+    const splitArray: RegExpMatchArray | null = string.match(/[A-Z]?[a-z]+|[\d]+|[A-Z]+(?![a-z])/g);
 
     return startCase(splitArray?.join(' ')) ?? startCase(string.split(/(?=[A-Z])/).join(' '));
-};
-
-const SearchNestedObjectNode = (sourceObject: Dict, identificationKey: string): any | undefined => {
-    let result: any | undefined;
-
-    for (let index = 0; index < Object.keys(sourceObject).length; index++) {
-        if (identificationKey === Object.keys(sourceObject)[index]) {
-            result = sourceObject[Object.keys(sourceObject)[index]];
-
-            return result;
-        } else if (typeof sourceObject[Object.keys(sourceObject)[index]] === 'object') {
-            result = SearchNestedObjectNode(sourceObject[Object.keys(sourceObject)[index]], identificationKey);
-        };
-    };
-
-    return result;
 };
 
 export {
     GetNestedObjectNode,
     MakeReadableString,
-    SearchNestedObjectNode
 };

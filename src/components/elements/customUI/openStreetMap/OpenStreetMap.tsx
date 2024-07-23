@@ -20,7 +20,7 @@ type Props = {
  * @param georeference A geological reference object holding the latitude and longitude among other properties
  * @returns JSX Component
  */
-const Map = (props: Props) => {
+const OpenStreetMap = (props: Props) => {
     const { georeference } = props;
 
     return (
@@ -50,4 +50,4 @@ const Map = (props: Props) => {
     );
 }
 
-export default Map;
+export default OpenStreetMap;

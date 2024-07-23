@@ -43,6 +43,25 @@ const BlockFilter = (props: Props) => {
     });
 
     /**
+     * Function that fires when selecting a block
+     * @param blockFilerItem A string that represents the selected block filter item
+     * @param Push Function to push an item to the field array items
+     * @param Remove Function to remove an item from the field array items
+     */
+    const SelectBlock = (blockFilterItem: string, Push: Function, Remove: Function) => {
+        /* Check if index is present in field values, if not push to array, otherwise remove */
+        const index: number = fieldValues.findIndex(fieldValue => fieldValue === blockFilterItem);
+
+        if (index >= 0) {
+            Remove(index);
+        } else {
+            Push(blockFilterItem);
+        };
+
+        SubmitForm();
+    };
+
+    /**
      * Function to generate a class name for a single block filter item
      * @param value The value of the block filter item
      * @returns Class Name
@@ -65,18 +84,7 @@ const BlockFilter = (props: Props) => {
                                 >
                                     <button type="button"
                                         className={`${BlockFilterItemClass(blockFilterItem)} button-no-style hover-primary tr-smooth b-primary br-corner w-100 fs-5 fw-bold text-center py-1`}
-                                        onClick={() => {
-                                            /* Check if index is present in field values, if not push to array, otherwise remove */
-                                            const index: number = fieldValues.findIndex(fieldValue => fieldValue === blockFilterItem);
-
-                                            if (index >= 0) {
-                                                remove(index);
-                                            } else {
-                                                push(blockFilterItem);
-                                            };
-
-                                            SubmitForm();
-                                        }}
+                                        onClick={() => SelectBlock(blockFilterItem, push, remove)}
                                     >
                                         {`${text ? text + ' ' : ''}${blockFilterItem}`}
                                     </button>

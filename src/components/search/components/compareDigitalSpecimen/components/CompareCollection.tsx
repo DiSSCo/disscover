@@ -64,10 +64,8 @@ const CompareCollection = (props: Props) => {
 
                     {/* Collection fields */}
                     <div className={`${collectionFieldsClass} mt-1`}>
-                        {Object.entries(fields).map(([fieldName, values], index) => (
-                            <div key={fieldName}
-                                className={`${index === 0 ? '' : ''}`}
-                            >
+                        {Object.entries(fields).map(([fieldName, values]) => (
+                            <div key={fieldName}>
                                 <Row className="flex-nowrap">
                                     {/* Field name */}
                                     <Col lg={{ span: 2 }}

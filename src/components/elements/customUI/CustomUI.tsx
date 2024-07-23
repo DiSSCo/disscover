@@ -4,7 +4,7 @@ import DataTable from "./dataTable/DataTable";
 import Dropdown from "./dropdown/Dropdown";
 import InputField from "./inputField/InputField";
 import LoadingScreen from "./loadingScreen/LoadingScreen";
-import Map from "./map/Map";
+import OpenStreetMap from "./openStreetMap/OpenStreetMap";
 import MultiSelect from "./multiSelect/MultiSelect";
 import Spinner from "./spinner/Spinner";
 import Tabs from "./tabs/Tabs";
@@ -18,8 +18,8 @@ export {
     Dropdown,
     InputField,
     LoadingScreen,
-    Map,
     MultiSelect,
+    OpenStreetMap,
     Spinner,
     Tabs,
     Tooltip

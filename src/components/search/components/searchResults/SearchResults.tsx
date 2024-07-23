@@ -33,7 +33,7 @@ import { DataTable, LoadingScreen } from 'components/elements/customUI/CustomUI'
 type DataRow = {
     index: number,
     DOI: string,
-    taxonomyIconUrl: Promise<any | string>,
+    taxonomyIconUrl: Promise<string | Dict | undefined>,
     specimenName: string | undefined,
     physicalSpecimenID: string | undefined,
     topicDiscipline: string | undefined,
@@ -80,7 +80,7 @@ const SearchResults = (props: Props) => {
         /* Base variables */
         const nonBiologicalTopicDisciplines = ['Anthropology', 'Other Geodiversity', 'Other Biodiversity', 'Ecology', 'Geology', 'Astrogeology', 'Unclassified'];
         const topicDisciplines = searchParams.getAll('topicDiscipline');
-        let icon: Promise<Dict | string | undefined> = new Promise((resolve) => resolve(undefined));
+        let icon: Promise<Dict | string | undefined> = Promise.resolve(undefined);
 
         /* If not any or a single non biological topic discipline is selected, use topic discipline icon */
         if (!topicDisciplines.length || topicDisciplines.some(topicDiscipline => nonBiologicalTopicDisciplines.includes(topicDiscipline))) {
@@ -90,7 +90,7 @@ const SearchResults = (props: Props) => {
             const acceptedIdentification = digitalSpecimen?.['ods:hasIdentification']?.find((identification) =>
                 identification['ods:isVerifiedIdentification']
             );
-            let taxonomyIdentification: string | undefined;
+            let taxonomyIdentification: string | undefined = digitalSpecimen['ods:specimenName']?.split(' ')[0];
 
             if (acceptedIdentification?.['ods:hasTaxonIdentification']?.[0]['dwc:order']) {
                 /* Search icon by order */
@@ -101,13 +101,11 @@ const SearchResults = (props: Props) => {
             } else if (acceptedIdentification?.['ods:hasTaxonIdentification']?.[0]['dwc:genus']) {
                 /* Search icon by genus */
                 taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentification'][0]['dwc:genus'];
-            } else {
-                taxonomyIdentification = digitalSpecimen['ods:specimenName']?.split(' ')[0];
             };
 
             /* Try to fetch a taxonomy based icon from Phylopic if not already present in the taxonomy icon url array and add it to the table record */
             if (taxonomyIdentification && taxonomyIdentification in taxonomyIcons) {
-                icon = new Promise((resolve) => resolve(taxonomyIcons[taxonomyIdentification]));
+                icon = Promise.resolve(taxonomyIcons[taxonomyIdentification]);
             } else if (taxonomyIdentification) {
                 icon = GetPhylopicIcon(phylopicBuild, taxonomyIdentification);
 
@@ -131,7 +129,7 @@ const SearchResults = (props: Props) => {
             tableDataArray.push({
                 index,
                 DOI: digitalSpecimen['ods:ID'],
-                taxonomyIconUrl: !isEmpty(tableData) && tableData[index].DOI === digitalSpecimen['ods:ID'] ? tableData[index].taxonomyIconUrl : DetermineTableRowIcon(digitalSpecimen),
+                taxonomyIconUrl: !isEmpty(tableData) && tableData[index] && tableData[index].DOI === digitalSpecimen['ods:ID'] ? tableData[index].taxonomyIconUrl : DetermineTableRowIcon(digitalSpecimen),
                 specimenName: digitalSpecimen['ods:specimenName'],
                 physicalSpecimenID: digitalSpecimen['ods:normalisedPhysicalSpecimenID'],
                 topicDiscipline: digitalSpecimen['ods:topicDiscipline'],
@@ -179,10 +177,10 @@ const SearchResults = (props: Props) => {
 
                                         dispatch(setCompareDigitalSpecimen(updatedCompareDigitalSpecimen));
                                     } else if (compareDigitalSpecimen.length < 10) {
-                                        const digitalSpecimen: DigitalSpecimen | undefined =  pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
+                                        const digitalSpecimen: DigitalSpecimen | undefined = pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
 
                                         dispatch(setCompareDigitalSpecimen([
-                                            ...(compareDigitalSpecimen && compareDigitalSpecimen),
+                                            ...(compareDigitalSpecimen ? compareDigitalSpecimen : []),
                                             ...(digitalSpecimen ? [digitalSpecimen] : [])
                                         ]));
                                     };
@@ -190,7 +188,7 @@ const SearchResults = (props: Props) => {
                                     const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
 
                                     dispatch(setSearchDigitalSpecimen(digitalSpecimen));
-                                };
+                                }
                             }}
                         />
 

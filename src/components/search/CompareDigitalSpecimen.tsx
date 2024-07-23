@@ -3,10 +3,9 @@ import { isEmpty } from "lodash";
 import jp from 'jsonpath';
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 /* Import Hooks */
-import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useFetch, useSearchFilters } from "app/Hooks";
 
 /* Import Store */

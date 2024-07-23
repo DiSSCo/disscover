@@ -21,6 +21,9 @@ import { Dict } from 'app/Types';
 /* Import API */
 import GetDigitalSpecimenTaxonomyAggregations from 'api/digitalSpecimen/GetDigitalSpecimenTaxonomyAggregations';
 
+/* Import Components */
+import TaxonomicLevel from './TaxonomicLevel';
+
 
 /* Props Type */
 type Props = {
@@ -66,109 +69,113 @@ const TaxonomicTree = (props: Props) => {
         ...kingdoms
     });
 
+    const GeneratePromise = (taxonomicLevel: string, activeTaxonomies: string[], Resolve: Function) => {
+        /* Preprare empty requests array */
+        const requests: { alias: string, params?: Dict, Method: Function }[] = [];
+
+        /* Check if all values from taxonomic level are present in taxonomic registration, if not, add as request to the requests array */
+        activeTaxonomies.map(key => {
+            if (!taxonomicRegistration[taxonomicLevel].includes(key)) {
+                /* Push to requests */
+                requests.push({
+                    alias: key,
+                    params: {
+                        searchFilters: {
+                            [taxonomicLevel]: [key]
+                        }
+                    },
+                    Method: GetDigitalSpecimenTaxonomyAggregations
+                });
+
+                /* Push to taxonomic registration */
+                taxonomicRegistration[taxonomicLevel].push(key);
+            };
+        });
+
+        /* If there are new requests, fetch them from the API */
+        if (!isEmpty(requests)) {
+            /* Build promises array to simultaneously fetch taxonomic aggregations */
+            const promises: Promise<{ [taxonomicLevel: string]: { [aggregation: string]: number } }>[] = [];
+
+            requests.map(request => {
+                promises.push(GetDigitalSpecimenTaxonomyAggregations({
+                    searchFilters: request.params?.searchFilters
+                }));
+            });
+
+            /* Resolve promises and return taxonomic tree segments */
+            let taxonomicTreeSegments: Dict = {};
+
+            Promise.all(promises).then((results) => {
+                /* Construct new taxonomic tree segments */
+                Promise.all(results.map(async (result) => {
+                    const harvestedTaxonomicAggregations = await HarvestTaxonomicAggregations(result);
+
+                    taxonomicTreeSegments = { ...taxonomicTreeSegments, ...harvestedTaxonomicAggregations };
+                })).then(() => {
+                    Resolve(taxonomicTreeSegments);
+                }).catch(error => {
+                    console.error(error);
+                });
+            }).catch(error => {
+                console.error(error);
+            }).finally(() => {
+                SetTaxonomicRegistration({ ...taxonomicRegistration });
+            });
+        } else {
+            /* Check for active taxonomic levels that are broken or deselected */
+            if (fieldValues[taxonomicLevel].length < taxonomicRegistration[taxonomicLevel].length) {
+                /* Search for the broken or deselected value */
+                const taxonomicValue: string | undefined = taxonomicRegistration[taxonomicLevel].find(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
+
+                if (taxonomicValue) {
+                    (async () => {
+                        /* Remove from taxonomic registration */
+                        const index: number = taxonomicRegistration[taxonomicLevel].findIndex(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
+
+                        taxonomicRegistration[taxonomicLevel].splice(index, 1);
+
+                        /* Remove the complete branch of the broken or deselected taxonomic value */
+                        const { taxonomicTree, taxonomicValuePurgeList } = await RemoveBranchFromTaxonomicTree(
+                            taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration
+                        );
+
+                        /* Remove from search params */
+                        const newformValues = { ...formValues };
+
+                        taxonomicValuePurgeList.map(purgeItem => {
+                            /* Split item into array consisting of [field, value] */
+                            const taxonomicLevelValue: string[] = purgeItem.replace('.', '&').split('&', 2);
+
+                            /* Try to find index of field value in original form values and remove */
+                            const index: number = newformValues.filters.taxonomy[taxonomicLevelValue[0]].findIndex((value: string) => value === taxonomicLevelValue[1]);
+                            newformValues.filters.taxonomy[taxonomicLevelValue[0]].splice(index, 1);
+
+                            /* Prepare to delete field value from search params */
+                            searchParams.delete(taxonomicLevelValue[0], taxonomicLevelValue[1]);
+                        });
+
+                        /* Undo taxonomic search */
+                        newformValues.search.taxonomy = '';
+
+                        /* Set updated data to form values, search params and taxonomic tree data */
+                        SetTaxonomicRegistration({ ...taxonomicRegistration });
+                        SetFormValues(newformValues);
+                        setSearchParams(searchParams);
+                        setTaxonomicTreeData(taxonomicTree);
+                    })();
+                };
+            };
+
+            Resolve({});
+        };
+    };
+
     /* Iterate through the different taxonomic levels of aggregations to extract the taxonomic levels and their values */
     useEffect(() => {
         const taxonomicRequests = Object.entries(fieldValues).map(([taxonomicLevel, activeTaxonomies]) => {
             return new Promise<Dict>((resolve) => {
-                /* Preprare empty requests array */
-                const requests: { alias: string, params?: Dict, Method: Function }[] = [];
-
-                /* Check if all values from taxonomic level are present in taxonomic registration, if not, add as request to the requests array */
-                activeTaxonomies.map(key => {
-                    if (!taxonomicRegistration[taxonomicLevel].includes(key)) {
-                        /* Push to requests */
-                        requests.push({
-                            alias: key,
-                            params: {
-                                searchFilters: {
-                                    [taxonomicLevel]: [key]
-                                }
-                            },
-                            Method: GetDigitalSpecimenTaxonomyAggregations
-                        });
-
-                        /* Push to taxonomic registration */
-                        taxonomicRegistration[taxonomicLevel].push(key);
-                    };
-                });
-
-                /* If there are new requests, fetch them from the API */
-                if (!isEmpty(requests)) {
-                    /* Build promises array to simultaneously fetch taxonomic aggregations */
-                    const promises: Promise<{ [taxonomicLevel: string]: { [aggregation: string]: number } }>[] = [];
-
-                    for (let index = 0; index < requests.length; index++) {
-                        promises.push(GetDigitalSpecimenTaxonomyAggregations({
-                            searchFilters: requests[index].params?.searchFilters
-                        }));
-                    };
-
-                    /* Resolve promises and return taxonomic tree segments */
-                    let taxonomicTreeSegments: Dict = {};
-
-                    Promise.all(promises).then((results) => {
-                        /* Construct new taxonomic tree segments */
-                        Promise.all(results.map(async (result) => {
-                            const harvestedTaxonomicAggregations = await HarvestTaxonomicAggregations(result);
-
-                            taxonomicTreeSegments = { ...taxonomicTreeSegments, ...harvestedTaxonomicAggregations };
-                        })).then(() => {
-                            resolve(taxonomicTreeSegments);
-                        }).catch(error => {
-                            console.error(error);
-                        });
-                    }).catch(error => {
-                        console.error(error);
-                    }).finally(() => {
-                        SetTaxonomicRegistration({ ...taxonomicRegistration });
-                    });
-                } else {
-                    /* Check for active taxonomic levels that are broken or deselected */
-                    if (fieldValues[taxonomicLevel].length < taxonomicRegistration[taxonomicLevel].length) {
-                        /* Search for the broken or deselected value */
-                        const taxonomicValue: string | undefined = taxonomicRegistration[taxonomicLevel].find(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
-
-                        if (taxonomicValue) {
-                            (async () => {
-                                /* Remove from taxonomic registration */
-                                const index: number = taxonomicRegistration[taxonomicLevel].findIndex(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
-
-                                taxonomicRegistration[taxonomicLevel].splice(index, 1);
-
-                                /* Remove the complete branch of the broken or deselected taxonomic value */
-                                const { taxonomicTree, taxonomicValuePurgeList } = await RemoveBranchFromTaxonomicTree(
-                                    taxonomicTreeData, taxonomicLevel, taxonomicValue, taxonomicRegistration
-                                );
-
-                                /* Remove from search params */
-                                const newformValues = { ...formValues };
-
-                                taxonomicValuePurgeList.map(purgeItem => {
-                                    /* Split item into array consisting of [field, value] */
-                                    const taxonomicLevelValue: string[] = purgeItem.replace('.', '&').split('&', 2);
-
-                                    /* Try to find index of field value in original form values and remove */
-                                    const index: number = newformValues.filters.taxonomy[taxonomicLevelValue[0]].findIndex((value: string) => value === taxonomicLevelValue[1]);
-                                    newformValues.filters.taxonomy[taxonomicLevelValue[0]].splice(index, 1);
-
-                                    /* Prepare to delete field value from search params */
-                                    searchParams.delete(taxonomicLevelValue[0], taxonomicLevelValue[1]);
-                                });
-
-                                /* Undo taxonomic search */
-                                newformValues.search.taxonomy = '';
-
-                                /* Set updated data to form values, search params and taxonomic tree data */
-                                SetTaxonomicRegistration({ ...taxonomicRegistration });
-                                SetFormValues(newformValues);
-                                setSearchParams(searchParams);
-                                setTaxonomicTreeData(taxonomicTree);
-                            })();
-                        };
-                    };
-
-                    resolve({});
-                };
+                GeneratePromise(taxonomicLevel, activeTaxonomies, resolve);
             });
         });
 
@@ -195,59 +202,15 @@ const TaxonomicTree = (props: Props) => {
      * Recursive function to build the taxanomic levels visually
      * @param taxonomicTreeSegment A branch segment to be merged into the taxonomic tree
      * @param taxonomicLevel The current taxonomic level
-     * @returns JSX Component, representing the taxonomic tree
+     * @returns JSX Component, representing the taxonomic treec cccccccccccccccccccccqqcqcqqccqqqccqccccqccccccccccccccccccccccccccccc
      */
     const RenderTaxonomicLevels = (taxonomicTreeSegment: Dict, taxonomicLevel: string = 'kingdom') => {
-        return (
-            <div>
-                <FieldArray name={`filters.taxonomy.${taxonomicLevel}`}>
-                    {({ push, remove }) => (
-                        <>
-                            {Object.entries(taxonomicTreeSegment).map(([key, object]) => {
-                                const fieldValuesIndex: number = fieldValues[taxonomicLevel].findIndex(fieldValue => fieldValue === key);
-
-                                /* Class Names */
-                                const taxonomicLevelValueClass = classNames({
-                                    'tc-primary fw-bold': fieldValuesIndex >= 0,
-                                    'mc-default': key.includes('Unknown')
-                                });
-
-                                return (
-                                    <Row key={key}>
-                                        <Col>
-                                            <button type="button"
-                                                className={`${taxonomicLevelValueClass} button-no-style fs-5`}
-                                                onClick={() => {
-                                                    /* Check if key is not part of unknown values */
-                                                    if (!key.includes('Unknown')) {
-                                                        /* Check if index is present in field values, if not push to array, otherwise remove */
-                                                        if (fieldValuesIndex >= 0) {
-                                                            remove(fieldValuesIndex);
-                                                        } else if (!key.includes('Unknown')) {
-                                                            push(key);
-                                                        };
-
-                                                        OnSelect?.();
-                                                    }
-                                                }}
-                                            >
-                                                <p>{key}</p>
-                                            </button>
-
-                                            {!isEmpty(object) &&
-                                                <div className="ms-1 ps-1 bl-primary">
-                                                    {RenderTaxonomicLevels(object, NextTaxonomyLevel(taxonomicLevel))}
-                                                </div>
-                                            }
-                                        </Col>
-                                    </Row>
-                                );
-                            })}
-                        </>
-                    )}
-                </FieldArray>
-            </div>
-        );
+        return <TaxonomicLevel taxonomicLevel={taxonomicLevel}
+            taxonomicTreeSegment={taxonomicTreeSegment}
+            fieldValues={fieldValues}
+            OnSelect={OnSelect}
+            RenderTaxonomicLevels={RenderTaxonomicLevels}
+        />
     };
 
     return (

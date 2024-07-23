@@ -81,6 +81,29 @@ const MultiSelect = (props: Props) => {
         multiSelectItems = multiSelectItems.filter(item => searchFilters.CheckSearchFilter(name, item.value));
     };
 
+    /**
+     * Function that fires when an item has been selected
+     * @param item The item that has been selected
+     * @param Push A function that pushes the selected item to the form field array
+     * @param Remove A function that removes the selected item from the form field array
+     */
+    const SelectItem = (item: MultiSelectItem, Push: Function, Remove: Function) => {
+        /* Check if index is present in field values, if not push to array, otherwise remove */
+        const index: number = fieldValues.findIndex(fieldValue => fieldValue === item.value);
+
+        if (index >= 0) {
+            Remove(index);
+        } else {
+            Push(item.value);
+        };
+
+        /* Close items list */
+        !allowMultiSelectAtOnce && setMultiSelectTrigger(false);
+
+        /* Execute default select action, if present */
+        OnSelect?.();
+    };
+
     /* Class Names */
     const MultiSelectListClass = (items: MultiSelectItem[]) => {
         return classNames({
@@ -156,22 +179,7 @@ const MultiSelect = (props: Props) => {
                                         <button key={item.value}
                                             type="button"
                                             className="button-no-style"
-                                            onClick={() => {
-                                                /* Check if index is present in field values, if not push to array, otherwise remove */
-                                                const index: number = fieldValues.findIndex(fieldValue => fieldValue === item.value);
-
-                                                if (index >= 0) {
-                                                    remove(index);
-                                                } else {
-                                                    push(item.value);
-                                                };
-
-                                                /* Close items list */
-                                                !allowMultiSelectAtOnce && setMultiSelectTrigger(false);
-
-                                                /* Execute default select action, if present */
-                                                OnSelect?.();
-                                            }}
+                                            onClick={() => SelectItem(item, push, remove)}
                                         >
                                             <Row key={item.value}>
                                                 <Col>
@@ -180,7 +188,7 @@ const MultiSelect = (props: Props) => {
                                                             <Col lg="auto"
                                                                 className="pe-0 d-flex align-items-center"
                                                             >
-                                                                <Field name={`${namePrefix + '.' ?? ''}${name}`}
+                                                                <Field name={`${namePrefix ? namePrefix + '.' : ''}${name}`}
                                                                     type="checkbox"
                                                                     value={item.value}
                                                                 />

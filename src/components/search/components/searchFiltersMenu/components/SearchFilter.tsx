@@ -44,7 +44,7 @@ const SearchFilter = (props: Props) => {
     let formField: JSX.Element;
 
     switch (searchFilter.type) {
-        case 'select': {
+        case 'select':
             formField = <SelectFilter name={name}
                 namePrefix={searchFilter.nestedIn ?? undefined}
                 fieldValues={fieldValue as string[]}
@@ -56,8 +56,7 @@ const SearchFilter = (props: Props) => {
             />;
 
             break;
-        };
-        case 'block': {
+        case 'block':
             formField = <BlockFilter name={name}
                 namePrefix={searchFilter.nestedIn ?? undefined}
                 fieldValues={fieldValue as string[]}
@@ -67,8 +66,7 @@ const SearchFilter = (props: Props) => {
             />
 
             break;
-        };
-        case 'taxonomy': {
+        case 'taxonomy':
             formField = <TaxonomyFilter fieldValues={fieldValue as { [taxonomicLevel: string]: string[] }}
                 formValues={formValues ?? {}}
                 SetFieldValue={(field: string, value: string | string[]) => SetFieldValue?.(field, value)}
@@ -77,8 +75,7 @@ const SearchFilter = (props: Props) => {
             />
 
             break;
-        };
-        default: {
+        default:
             formField = <SelectFilter name={name}
                 namePrefix={searchFilter.nestedIn ?? undefined}
                 fieldValues={fieldValue as string[]}
@@ -86,7 +83,6 @@ const SearchFilter = (props: Props) => {
                 SetFieldValue={(field: string, value: string[]) => SetFieldValue?.(field, value)}
                 SubmitForm={SubmitForm}
             />;
-        };
     };
 
     return (

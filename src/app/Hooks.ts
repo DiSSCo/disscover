@@ -108,15 +108,11 @@ const useFetch = () => {
     const FetchMultiple = ({ callMethods, triggers, Handler, ErrorHandler }:
         { callMethods: { alias: string, params?: Dict, Method: Function }[], triggers?: any[], Handler?: Function, ErrorHandler?: Function }
     ) => {
-        useEffect(() => {
-            setLoading(true);
-
-            const promises: Promise<Dict>[] = [];
-
-            callMethods.forEach(callMethod => {
-                promises.push(callMethod.Method(callMethod.params));
-            });
-
+        /**
+         * Function to process the promises received by all requests
+         * @param promises The request promises to resolve
+         */
+        const ProcessPromises = (promises: Promise<Dict>[]) => {
             Promise.all(promises).then((results) => {
                 const aliasedResults: { [alias: string]: Dict } = {};
 
@@ -130,6 +126,18 @@ const useFetch = () => {
             }).finally(() => {
                 setLoading(false);
             });
+        };
+
+        useEffect(() => {
+            setLoading(true);
+
+            const promises: Promise<Dict>[] = [];
+
+            callMethods.forEach(callMethod => {
+                promises.push(callMethod.Method(callMethod.params));
+            });
+
+            ProcessPromises(promises);
         }, triggers ?? []);
     };
 
@@ -396,7 +404,7 @@ const useSearchFilters = () => {
         const searchFilters = [...searchParams.entries()].reduce((filtersObject, [key, value]) => {
             return {
                 ...filtersObject,
-                [key]: key in filtersObject ? [...filtersObject?.[key as keyof typeof filtersObject], value] : [value]
+                [key]: key in filtersObject ? [...filtersObject[key as keyof typeof filtersObject] ?? [], value] : [value]
             }
         }, {});
 

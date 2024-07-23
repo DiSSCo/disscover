@@ -50,7 +50,7 @@ const TopicFilters = (props: Props) => {
     ));
 
     const topicOriginCounts = {
-        naturalOrigin: Object.values(naturalOrigins).reduce((total, count) => total + count),
+        naturalOrigin: Object.values(naturalOrigins).reduce((total, count) => total + count, 0),
         humanMade: 0,
         unclassified: topicDisciplines.topicDiscipline?.['Unclassified'] ?? 0
     };
@@ -84,30 +84,34 @@ const TopicFilters = (props: Props) => {
                         <Row>
                             <Col>
                                 <FieldArray name="topicDisciplines">
-                                    {({ push, remove }) => (
-                                        <Row>
-                                            {Object.entries(TopicDisciplines.topicDisciplines).map(([key, topicDiscipline]) => (
-                                                <Col key={key}
-                                                    lg={{ span: 4 }}
-                                                    className="my-2 px-2"
-                                                >
-                                                    <TopicDisciplineFilter id={key}
-                                                        topicDiscipline={topicDiscipline}
-                                                        count={topicDisciplines.topicDiscipline[capitalize(key)]}
-                                                        OnSelect={() => {
-                                                            const index: number = values.topicDisciplines.findIndex((topicDiscipline) => topicDiscipline === key);
+                                    {({ push, remove }) => {
+                                        const SelectFilter = (key: string) => {
+                                            const index: number = values.topicDisciplines.findIndex((topicDiscipline) => topicDiscipline === key);
 
-                                                            if (index >= 0) {
-                                                                remove(index);
-                                                            } else {
-                                                                push(key);
-                                                            }
-                                                        }}
-                                                    />
-                                                </Col>
-                                            ))}
-                                        </Row>
-                                    )}
+                                            if (index >= 0) {
+                                                remove(index);
+                                            } else {
+                                                push(key);
+                                            }
+                                        };
+
+                                        return (
+                                            <Row>
+                                                {Object.entries(TopicDisciplines.topicDisciplines).map(([key, topicDiscipline]) => (
+                                                    <Col key={key}
+                                                        lg={{ span: 4 }}
+                                                        className="my-2 px-2"
+                                                    >
+                                                        <TopicDisciplineFilter id={key}
+                                                            topicDiscipline={topicDiscipline}
+                                                            count={topicDisciplines.topicDiscipline[capitalize(key)]}
+                                                            OnSelect={SelectFilter}
+                                                        />
+                                                    </Col>
+                                                ))}
+                                            </Row>
+                                        );
+                                    }}
                                 </FieldArray>
                             </Col>
                         </Row>

@@ -23,7 +23,7 @@ export const BootSlice = createSlice({
     initialState,
     reducers: {
         setBootState: (state, action: PayloadAction<BootState>) => {
-            state.aggregations = action.payload.aggregations,
+            state.aggregations = action.payload.aggregations;
             state.phylopicBuild = action.payload.phylopicBuild;
         }
     },

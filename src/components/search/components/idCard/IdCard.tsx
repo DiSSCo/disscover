@@ -26,7 +26,7 @@ import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
 import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecimenDigitalMedia';
 
 /* Import Components */
-import { Button, LoadingScreen, Map } from 'components/elements/customUI/CustomUI';
+import { Button, LoadingScreen, OpenStreetMap } from 'components/elements/customUI/CustomUI';
 import { DigitalMediaItem } from 'components/elements/Elements';
 
 
@@ -186,7 +186,7 @@ const IdCard = () => {
                         {digitalSpecimen?.['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference'] &&
                             <Row className="h-50">
                                 <Col>
-                                    <Map georeference={digitalSpecimen?.['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference']} />
+                                    <OpenStreetMap georeference={digitalSpecimen?.['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference']} />
                                 </Col>
                             </Row>
                         }

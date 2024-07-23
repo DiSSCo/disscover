@@ -207,7 +207,7 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
         taxonomicAggregations.kingdom['Unknown kingdom'] = 0;
 
         taxonomicTree = HarvestTaxonomicAggregations(taxonomicAggregations);
-    };
+    }
 
     return taxonomicTree;
 };
@@ -229,43 +229,43 @@ const GetTaxonomicLevels = () => {
 };
 
 /* RemoveBranchFromTaxonomicTree helper functions */
-const RemovePhylum = (taxonomicTree: Dict, branch: Dict, aggregations: Dict, taxonomicValue: string) => {
-    branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][taxonomicValue];
+const RemovePhylum = (taxonomicTree: Dict, aggregations: Dict, taxonomicValue: string) => {
+    const branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][taxonomicValue];
     taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][taxonomicValue] = {};
 
     return branch;
 };
 
-const RemoveClass = (taxonomicTree: Dict, branch: Dict, aggregations: Dict, taxonomicValue: string) => {
-    branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][taxonomicValue];
+const RemoveClass = (taxonomicTree: Dict, aggregations: Dict, taxonomicValue: string) => {
+    const branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][taxonomicValue];
     taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][taxonomicValue] = {};
 
     return branch;
 };
 
-const RemoveOrder = (taxonomicTree: Dict, branch: Dict, aggregations: Dict, taxonomicValue: string) => {
-    branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][taxonomicValue];
+const RemoveOrder = (taxonomicTree: Dict, aggregations: Dict, taxonomicValue: string) => {
+    const branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][taxonomicValue];
     taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][taxonomicValue] = {};
 
     return branch;
 };
 
-const RemoveFamily = (taxonomicTree: Dict, branch: Dict, aggregations: Dict, taxonomicValue: string) => {
-    branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][taxonomicValue];
+const RemoveFamily = (taxonomicTree: Dict, aggregations: Dict, taxonomicValue: string) => {
+    const branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][taxonomicValue];
     taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][taxonomicValue] = {};
 
     return branch;
 };
 
-const RemoveGenus = (taxonomicTree: Dict, branch: Dict, aggregations: Dict, taxonomicValue: string) => {
-    branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][taxonomicValue];
+const RemoveGenus = (taxonomicTree: Dict, aggregations: Dict, taxonomicValue: string) => {
+    const branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][taxonomicValue];
     taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][taxonomicValue] = {};
 
     return branch;
 };
 
-const RemoveSpecies = (taxonomicTree: Dict, branch: Dict, aggregations: Dict, taxonomicValue: string) => {
-    branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'][taxonomicValue];
+const RemoveSpecies = (taxonomicTree: Dict, aggregations: Dict, taxonomicValue: string) => {
+    const branch = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'][taxonomicValue];
     taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'][taxonomicValue] = {};
 
     return branch;
@@ -294,27 +294,27 @@ const RemoveBranchFromTaxonomicTree = async (baseTaxonomicTree: Dict, taxonomicL
     /* Determine by taxonomic level, where to split the branch from the main tree */
     switch (taxonomicLevel) {
         case 'phylum':
-            branch = RemovePhylum(taxonomicTree, branch, aggregations, taxonomicValue);
+            branch = RemovePhylum(taxonomicTree, aggregations, taxonomicValue);
 
             break;
         case 'class':
-            branch = RemoveClass(taxonomicTree, branch, aggregations, taxonomicValue);
+            branch = RemoveClass(taxonomicTree, aggregations, taxonomicValue);
 
             break;
         case 'order':
-            branch = RemoveOrder(taxonomicTree, branch, aggregations, taxonomicValue);
+            branch = RemoveOrder(taxonomicTree, aggregations, taxonomicValue);
 
             break;
         case 'family':
-            branch = RemoveFamily(taxonomicTree, branch, aggregations, taxonomicValue);
+            branch = RemoveFamily(taxonomicTree, aggregations, taxonomicValue);
 
             break;
         case 'genus':
-            branch = RemoveGenus(taxonomicTree, branch, aggregations, taxonomicValue);
+            branch = RemoveGenus(taxonomicTree, aggregations, taxonomicValue);
 
             break;
         case 'species':
-            branch = RemoveSpecies(taxonomicTree, branch, aggregations, taxonomicValue);
+            branch = RemoveSpecies(taxonomicTree, aggregations, taxonomicValue);
 
             break;
         default:
@@ -377,44 +377,44 @@ const PreviousTaxonomyLevel = (taxonomicLevel?: string): string => {
 };
 
 /* TaxonomicCleanUp helper functions */
-const CleanUpSpecies = (taxonomicTree: Dict, path: Dict, aggregations: Dict, taxonomicValue: string) => {
-    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'];
-    taxonomicValue = Object.keys(aggregations.species)[0] ?? 'Unknown species';
+const CleanUpSpecies = (taxonomicTree: Dict, aggregations: Dict) => {
+    const path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'][Object.keys(aggregations.genus)[0] ?? 'Unknown genus'];
+    const taxonomicValue = Object.keys(aggregations.species)[0] ?? 'Unknown species';
 
     return { path, taxonomicValue };
 };
 
-const CleanUpGenus = (taxonomicTree: Dict, path: Dict, aggregations: Dict, taxonomicValue: string) => {
-    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'];
-    taxonomicValue = Object.keys(aggregations.genus)[0] ?? 'Unknown genus';
+const CleanUpGenus = (taxonomicTree: Dict, aggregations: Dict) => {
+    const path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'][Object.keys(aggregations.family)[0] ?? 'Unknown family'];
+    const taxonomicValue = Object.keys(aggregations.genus)[0] ?? 'Unknown genus';
 
     return { path, taxonomicValue };
 };
 
-const CleanUpFamily = (taxonomicTree: Dict, path: Dict, aggregations: Dict, taxonomicValue: string) => {
-    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'];
-    taxonomicValue = Object.keys(aggregations.family)[0] ?? 'Unknown family';
+const CleanUpFamily = (taxonomicTree: Dict, aggregations: Dict) => {
+    const path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'][Object.keys(aggregations.order)[0] ?? 'Unknown order'];
+    const taxonomicValue = Object.keys(aggregations.family)[0] ?? 'Unknown family';
 
     return { path, taxonomicValue };
 };
 
-const CleanUpOrder = (taxonomicTree: Dict, path: Dict, aggregations: Dict, taxonomicValue: string) => {
-    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'];
-    taxonomicValue = Object.keys(aggregations.order)[0] ?? 'Unknown order';
+const CleanUpOrder = (taxonomicTree: Dict, aggregations: Dict) => {
+    const path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'][Object.keys(aggregations.class)[0] ?? 'Unknown class'];
+    const taxonomicValue = Object.keys(aggregations.order)[0] ?? 'Unknown order';
 
     return { path, taxonomicValue };
 };
 
-const CleanUpClass = (taxonomicTree: Dict, path: Dict, aggregations: Dict, taxonomicValue: string) => {
-    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'];
-    taxonomicValue = Object.keys(aggregations.class)[0] ?? 'Unknown class';
+const CleanUpClass = (taxonomicTree: Dict, aggregations: Dict) => {
+    const path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'][Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum'];
+    const taxonomicValue = Object.keys(aggregations.class)[0] ?? 'Unknown class';
 
     return { path, taxonomicValue };
 };
 
-const CleanUpPhylum = (taxonomicTree: Dict, path: Dict, aggregations: Dict, taxonomicValue: string) => {
-    path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'];
-    taxonomicValue = Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum';
+const CleanUpPhylum = (taxonomicTree: Dict, aggregations: Dict) => {
+    const path = taxonomicTree[Object.keys(aggregations.kingdom)[0] ?? 'Unknown kingdom'];
+    const taxonomicValue = Object.keys(aggregations.phylum)[0] ?? 'Unknown phylum';
 
     return { path, taxonomicValue };
 };
@@ -435,37 +435,37 @@ const TaxonomicCleanUp = (taxonomicLevel: string, aggregations: { [taxonomicLeve
 
         switch (taxonomicLevel) {
             case 'species':
-                cleanUp = CleanUpSpecies(taxonomicTree, path, aggregations, taxonomicValue);
+                cleanUp = CleanUpSpecies(taxonomicTree, aggregations);
                 path = cleanUp.path;
                 taxonomicValue = cleanUp.taxonomicValue;
 
                 break;
             case 'genus':
-                cleanUp = CleanUpGenus(taxonomicTree, path, aggregations, taxonomicValue);
+                cleanUp = CleanUpGenus(taxonomicTree, aggregations);
                 path = cleanUp.path;
                 taxonomicValue = cleanUp.taxonomicValue;
 
                 break;
             case 'family':
-                cleanUp = CleanUpFamily(taxonomicTree, path, aggregations, taxonomicValue);
+                cleanUp = CleanUpFamily(taxonomicTree, aggregations);
                 path = cleanUp.path;
                 taxonomicValue = cleanUp.taxonomicValue;
 
                 break;
             case 'order':
-                cleanUp = CleanUpOrder(taxonomicTree, path, aggregations, taxonomicValue);
+                cleanUp = CleanUpOrder(taxonomicTree, aggregations);
                 path = cleanUp.path;
                 taxonomicValue = cleanUp.taxonomicValue;
 
                 break;
             case 'class':
-                cleanUp = CleanUpClass(taxonomicTree, path, aggregations, taxonomicValue);
+                cleanUp = CleanUpClass(taxonomicTree, aggregations);
                 path = cleanUp.path;
                 taxonomicValue = cleanUp.taxonomicValue;
 
                 break;
             case 'phylum':
-                cleanUp = CleanUpPhylum(taxonomicTree, path, aggregations, taxonomicValue);
+                cleanUp = CleanUpPhylum(taxonomicTree, aggregations);
                 path = cleanUp.path;
                 taxonomicValue = cleanUp.taxonomicValue;
 

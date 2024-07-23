@@ -31,7 +31,7 @@ const GetNestedObjectNode = (sourceObject: Dict, nestedLevels: string[]): string
  * @returns Human readable string
  */
 const MakeReadableString = (string: string): string => {
-    const splitArray: RegExpMatchArray | null = string.match(/[A-Z]?[a-z]+|[\d]+|[A-Z]+(?![a-z])/g);
+    const splitArray: RegExpMatchArray | null = string.match(/[A-Z]?[a-z]+|\d+|[A-Z]+(?![a-z])/g);
 
     return startCase(splitArray?.join(' ')) ?? startCase(string.split(/(?=[A-Z])/).join(' '));
 };

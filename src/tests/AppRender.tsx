@@ -22,8 +22,8 @@ afterEach(() => Server.resetHandlers());
 afterAll(() => Server.close());
 
 /* Mock Keycloak Service */
-vi.mock('keycloak/Keycloak.ts', () => {
-  const KeycloakService = vi.importMock('tests/mock/keycloak/KeycloakService.ts');
+vi.mock('keycloak/Keycloak.ts', async () => {
+  const KeycloakService = await vi.importMock('tests/mock/keycloak/KeycloakService.ts');
 
   return {
     __esModule: true,

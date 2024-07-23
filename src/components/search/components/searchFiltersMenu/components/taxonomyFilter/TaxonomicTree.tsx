@@ -1,13 +1,10 @@
 /* Import Dependencies */
-import classNames from 'classnames';
-import { FieldArray } from 'formik';
 import { isEmpty, merge } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 
 /* Import Utitlities */
-import { NextTaxonomyLevel, HarvestTaxonomicAggregations, RemoveBranchFromTaxonomicTree } from 'app/utilities/TaxonomicUtilities';
+import { HarvestTaxonomicAggregations, RemoveBranchFromTaxonomicTree } from 'app/utilities/TaxonomicUtilities';
 
 /* Import Hooks */
 import { useAppSelector } from 'app/Hooks';
@@ -128,6 +125,10 @@ const TaxonomicTree = (props: Props) => {
                 /* Search for the broken or deselected value */
                 const taxonomicValue: string | undefined = taxonomicRegistration[taxonomicLevel].find(taxonomicValue => !fieldValues[taxonomicLevel].includes(taxonomicValue));
 
+                const FindFieldIndex = (newformValues: Dict, taxonomicLevelValue: string[]) => {
+                    return newformValues.filters.taxonomy[taxonomicLevelValue[0]].findIndex((value: string) => value === taxonomicLevelValue[1]);
+                };
+
                 if (taxonomicValue) {
                     (async () => {
                         /* Remove from taxonomic registration */
@@ -141,14 +142,14 @@ const TaxonomicTree = (props: Props) => {
                         );
 
                         /* Remove from search params */
-                        const newformValues = { ...formValues };
+                        const newformValues = { ...formValues }; 
 
                         taxonomicValuePurgeList.map(purgeItem => {
                             /* Split item into array consisting of [field, value] */
                             const taxonomicLevelValue: string[] = purgeItem.replace('.', '&').split('&', 2);
 
                             /* Try to find index of field value in original form values and remove */
-                            const index: number = newformValues.filters.taxonomy[taxonomicLevelValue[0]].findIndex((value: string) => value === taxonomicLevelValue[1]);
+                            const index: number = FindFieldIndex(newformValues, taxonomicLevelValue);
                             newformValues.filters.taxonomy[taxonomicLevelValue[0]].splice(index, 1);
 
                             /* Prepare to delete field value from search params */
@@ -202,7 +203,7 @@ const TaxonomicTree = (props: Props) => {
      * Recursive function to build the taxanomic levels visually
      * @param taxonomicTreeSegment A branch segment to be merged into the taxonomic tree
      * @param taxonomicLevel The current taxonomic level
-     * @returns JSX Component, representing the taxonomic treec cccccccccccccccccccccqqcqcqqccqqqccqccccqccccccccccccccccccccccccccccc
+     * @returns JSX Component, representing the taxonomic tree
      */
     const RenderTaxonomicLevels = (taxonomicTreeSegment: Dict, taxonomicLevel: string = 'kingdom') => {
         return <TaxonomicLevel taxonomicLevel={taxonomicLevel}

@@ -53,7 +53,7 @@ const TaxonomicLevel = (props: Props) => {
                                                 };
 
                                                 OnSelect?.();
-                                            };
+                                            }
                                         }}
                                     >
                                         <p>{key}</p>

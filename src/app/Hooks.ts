@@ -112,20 +112,14 @@ const useFetch = () => {
          * Function to process the promises received by all requests
          * @param promises The request promises to resolve
          */
-        const ProcessPromises = (promises: Promise<Dict>[]) => {
-            Promise.all(promises).then((results) => {
-                const aliasedResults: { [alias: string]: Dict } = {};
+        const ProcessResults = (results: Dict[]) => {
+            const aliasedResults: { [alias: string]: Dict } = {};
 
-                results.forEach((result, index) => {
-                    aliasedResults[callMethods[index].alias] = result;
-                });
-
-                Handler?.(aliasedResults);
-            }).catch(error => {
-                ErrorHandler?.(error);
-            }).finally(() => {
-                setLoading(false);
+            results.forEach((result, index) => {
+                aliasedResults[callMethods[index].alias] = result;
             });
+
+            return aliasedResults;
         };
 
         useEffect(() => {
@@ -137,7 +131,13 @@ const useFetch = () => {
                 promises.push(callMethod.Method(callMethod.params));
             });
 
-            ProcessPromises(promises);
+            Promise.all(promises).then((results) => {
+                Handler?.(ProcessResults(results));
+            }).catch(error => {
+                ErrorHandler?.(error);
+            }).finally(() => {
+                setLoading(false);
+            });
         }, triggers ?? []);
     };
 

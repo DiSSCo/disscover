@@ -101,7 +101,7 @@ const SearchResults = (props: Props) => {
             } else if (acceptedIdentification?.['ods:hasTaxonIdentification']?.[0]['dwc:genus']) {
                 /* Search icon by genus */
                 taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentification'][0]['dwc:genus'];
-            };
+            }
 
             /* Try to fetch a taxonomy based icon from Phylopic if not already present in the taxonomy icon url array and add it to the table record */
             if (taxonomyIdentification && taxonomyIdentification in taxonomyIcons) {
@@ -111,7 +111,7 @@ const SearchResults = (props: Props) => {
 
                 /* Add to dictionary of known taxonomic identifications and icon urls */
                 taxonomyIcons[taxonomyIdentification] = icon;
-            };
+            }
         };
 
         return icon;
@@ -180,10 +180,10 @@ const SearchResults = (props: Props) => {
                                         const digitalSpecimen: DigitalSpecimen | undefined = pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
 
                                         dispatch(setCompareDigitalSpecimen([
-                                            ...(compareDigitalSpecimen ? compareDigitalSpecimen : []),
+                                            ...(compareDigitalSpecimen),
                                             ...(digitalSpecimen ? [digitalSpecimen] : [])
                                         ]));
-                                    };
+                                    }
                                 } else {
                                     const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
 

@@ -41,7 +41,7 @@ const useDynamicSearch = ({ Method, Handler, Resetter }: { Method: Function, Han
             /* Save search request */
             setSearchRequests([...searchRequests, promise]);
 
-            /* Call on hanlder with result */
+            /* Call on handler with result */
             promise.then((searchResult) => {
                 Handler(searchResult);
             });

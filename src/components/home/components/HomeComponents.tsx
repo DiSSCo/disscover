@@ -2,7 +2,7 @@
 import AdvancedSearch from "./advancedSearch/AdvancedSearch";
 import Introduction from "./introduction/Introduction";
 import SearchBar from "./searchBar/SearchBar";
-import TopicFilters from "./topicDisciplineFilters/TopicFilters";
+import TopicFilters from "./topicFilters/TopicFilters";
 
 
 /* Export components as home components */

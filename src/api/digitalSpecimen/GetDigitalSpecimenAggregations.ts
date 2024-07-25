@@ -10,8 +10,8 @@ import { DefaultException } from 'app/Exceptions';
 
 /**
  * Function to fetch the Digital Specimen Aggregations from the API
- * @param searchFilters 
- * @returns 
+ * @param searchFilters The search filters to pass onto with the request
+ * @returns Aggregations dictionary or undefined
  */
 const GetDigitalSpecimenAggregations = async ({ searchFilters }: { searchFilters?: SearchFilters }) => {
     let aggregations: Dict | undefined;

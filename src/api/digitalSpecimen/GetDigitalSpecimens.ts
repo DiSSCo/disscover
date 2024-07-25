@@ -10,7 +10,7 @@ import { NoSearchResults } from 'app/Exceptions';
 
 
 /**
- * Function for fetching specimens by criteria deliverd as search filters
+ * Function for fetching specimens by criteria delivered as search filters
  * @param pageSize The size as in the number of records returned per page
  * @param pageNumber The number of the requested page
  * @param searchFilters The search filters to pass along as criteria for results

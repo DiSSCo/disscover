@@ -25,7 +25,7 @@ const GetDigitalSpecimenTaxonomyAggregations = async ({ searchFilters }: { searc
 
     if (searchFilters) {
         /* For each filter */
-        Object.entries(searchFilters).filter(([key]) => ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'].includes(key)).map(([key, values], index) => {
+        Object.entries(searchFilters).filter(([key]) => taxonomicLevels.includes(key)).map(([key, values], index) => {
             /* Apply each value if value is relevant to taxonomy */
             if (taxonomicLevels.includes(key)) {
                 values.forEach((value, valueIndex) => {

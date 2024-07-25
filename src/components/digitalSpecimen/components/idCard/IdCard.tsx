@@ -24,7 +24,7 @@ type Props = {
 /**
  * Component that renders the ID card on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
- * @param digitalMediaDigitalMedia The digital media belonging to the digital specimen
+ * @param digitalSpecimenDigitalMedia The digital media belonging to the digital specimen
  * @returns JSX Component
  */
 const IdCard = (props: Props) => {

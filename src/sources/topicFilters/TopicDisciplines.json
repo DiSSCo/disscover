@@ -1,0 +1,49 @@
+{
+    "topicDisciplines": {
+        "microbiology": {
+            "name": "Microbiology",
+            "topicOrigin": "natural",
+            "category": "Biology"
+        },
+        "anthropology": {
+            "name": "Anthropology",
+            "topicOrigin": "natural",
+            "category": "Biology"
+        },
+        "botany": {
+            "name": "Botany",
+            "topicOrigin": "natural",
+            "category": "Biology"
+        },
+        "zoology": {
+            "name": "Zoology",
+            "topicOrigin": "natural",
+            "category": "Biology"
+        },
+        "palaeontology": {
+            "name": "Palaeontology",
+            "topicOrigin": "natural",
+            "category": "Biology/Geology"
+        },
+        "other": {
+            "name": "Other Bio / Geodiversity",
+            "topicOrigin": "natural",
+            "category": "Biology/Geology"
+        },
+        "ecology": {
+            "name": "Ecology",
+            "topicOrigin": "natural",
+            "category": "Biology"
+        },
+        "geology": {
+            "name": "Earth Geology",
+            "topicOrigin": "natural",
+            "category": "Geology"
+        },
+        "astrogeology": {
+            "name": "Astrogeology",
+            "topicOrigin": "natural",
+            "category": "Geology"
+        }
+    }
+}

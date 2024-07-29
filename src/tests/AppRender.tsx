@@ -1,18 +1,17 @@
 /* Import Components */
-import { MemoryRouter as Router } from 'react-router-dom';
+import { render, RenderOptions, RenderResult } from '@testing-library/react';
+import { PreloadedStateShapeFromReducersMapObject } from '@reduxjs/toolkit';
 import { PropsWithChildren } from 'react';
-import { render } from '@testing-library/react';
-import type { RenderOptions } from '@testing-library/react';
-import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import 'i18n';
+import { MemoryRouter as Router } from 'react-router-dom';
+import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 
 /* Import Store */
-import { setupStore } from 'app/store';
-import type { AppStore, RootState } from 'app/store';
+import { setupStore } from 'app/Store';
+import type { AppStore, RootState } from 'app/Store';
 
 /* Import Server API */
-import Server from './mock/APIMock';
+import Server from 'tests/mock/APIMock';
 
 
 /* Mock API Server */
@@ -23,8 +22,8 @@ afterEach(() => Server.resetHandlers());
 afterAll(() => Server.close());
 
 /* Mock Keycloak Service */
-jest.mock('keycloak/Keycloak.ts', () => {
-  const KeycloakService = jest.requireActual('tests/mock/keycloak/KeycloakService.ts');
+vi.mock('keycloak/Keycloak.ts', async () => {
+  const KeycloakService = await vi.importMock('tests/mock/keycloak/KeycloakService.ts');
 
   return {
     __esModule: true,
@@ -35,28 +34,38 @@ jest.mock('keycloak/Keycloak.ts', () => {
 /* This type interface extends the default options for render from RTL, as well
 as allows the user to specify other things such as initialState and store */
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>
+  preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>
   store?: AppStore
 }
 
-export function renderWithProviders(
+interface RenderWithProvidersResult extends RenderResult {
+  store: AppStore;
+};
+
+
+export const renderWithProviders = (
   route: string,
   ui: React.ReactElement,
-  {
-    preloadedState = {},
-    /* Automatically create a store instance if no store was passed in */
+  extendedRenderOptions: ExtendedRenderOptions = {}
+): RenderWithProvidersResult => {
+  const {
+    preloadedState = {} as PreloadedStateShapeFromReducersMapObject<RootState>,
     store = setupStore(preloadedState),
     ...renderOptions
-  }: ExtendedRenderOptions = {}
-) {
-  function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
-    return (
-      <Provider store={store}>
-        <Router initialEntries={[route]}>
-          {children}
-        </Router>
-      </Provider>
-    );
-  }
-  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
-}
+  } = extendedRenderOptions;
+
+  const Wrapper = ({ children }: PropsWithChildren) => (
+    <Provider store={store}>
+      <Router initialEntries={[route]}>
+        {children}
+      </Router>
+    </Provider>
+  );
+
+  const renderResult = render(ui, { wrapper: Wrapper, ...renderOptions });
+
+  return {
+    ...renderResult,
+    store
+  };
+};

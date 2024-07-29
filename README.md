@@ -2,7 +2,7 @@
 
 Search, discover and act upon data within the DiSSCo digital infrastructure.
 
-Obeys to the Apache version 2.0 license.
+Adheres to the Apache version 2.0 license.
 
 ## About this application
 
@@ -10,7 +10,7 @@ DiSSCover is a service provided by the Distributed System of Scientific Collecti
 
 ## Technical specs
 
-DiSSCover is built using the React framework as the core foundation (bootstrapped with [Create React App](https://github.com/facebook/create-react-app)). A bunch of packages are applied to complete the boilerplate using NPM. Some noteworthy packages:
+DiSSCover is built using the React framework as the core foundation (bootstrapped with [VITE](https://github.com/facebook/create-react-app)). A bunch of packages are applied to complete the boilerplate using NPM. Some noteworthy packages:
 
 - Bootstrap 5, CSS grid, modals and styling
 - SCSS modules, import styles with prefixes

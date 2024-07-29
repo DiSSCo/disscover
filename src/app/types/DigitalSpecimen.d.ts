@@ -7,9 +7,17 @@
 
 export interface DigitalSpecimen {
   /**
-   * The unique digital identifier of the object
+   * The unique identifier of the Digital Specimen object
    */
-  "ods:id": string;
+  "@id": string;
+  /**
+   * The type of the object, in this case ods:DigitalSpecimen
+   */
+  "@type": "ods:DigitalSpecimen";
+  /**
+   * The unique identifier of the object
+   */
+  "ods:ID": string;
   /**
    * The version of the object, each change generates a new version
    */
@@ -19,7 +27,7 @@ export interface DigitalSpecimen {
    */
   "ods:created": string;
   /**
-   * The FDO type of the object
+   * The DOI to the FDO type of the object
    */
   "ods:type": string;
   /**
@@ -29,11 +37,15 @@ export interface DigitalSpecimen {
   /**
    * The physical specimen identifier of the object. When locally unique this is a combination between source-system-id and the local identifier
    */
-  "ods:normalisedPhysicalSpecimenId"?: string;
+  "ods:normalisedPhysicalSpecimenID": string;
+  /**
+   * The physical specimen identifier of the object. Taken over as-is
+   */
+  "ods:physicalSpecimenID": string;
   /**
    * To indicate if the physical identifier is globally unique or locally unique
    */
-  "ods:physicalSpecimenIdType": "Resolvable" | "Global" | "Local";
+  "ods:physicalSpecimenIDType": "Resolvable" | "Global" | "Local";
   /**
    * The topic origin of the specimen
    */
@@ -67,11 +79,11 @@ export interface DigitalSpecimen {
   /**
    * The specimen is marked as a type specimen
    */
-  "ods:markedAsType"?: boolean;
+  "ods:isMarkedAsType"?: boolean;
   /**
    * Indicates if there are any media objects attached to this specimen
    */
-  "ods:hasMedia"?: boolean;
+  "ods:isKnownToContainMedia"?: boolean;
   /**
    * The accepted specimen name of the digital specimen
    */
@@ -79,21 +91,25 @@ export interface DigitalSpecimen {
   /**
    * The handle to the source system object which retrieved the data from the CMS
    */
-  "ods:sourceSystem": string;
+  "ods:sourceSystemID": string;
   /**
-   * License for the metadata of the physical specimen
+   * Whether the specimen is living or preserved
    */
-  "ods:livingOrPreserved"?: string;
+  "ods:livingOrPreserved"?: "Living" | "Preserved";
   /**
-   * http://purl.org/dc/terms/license
+   * The language of the Digital Specimen metadata. Only indicate, not enforced. Recommended to use ISO 639-1 codes
    */
-  "dcterms:license": string;
+  "ods:language"?: string[];
   /**
-   * Modification date for specimen information
+   * https://purl.org/dc/terms/license
+   */
+  "dcterms:license"?: string;
+  /**
+   * https://purl.org/dc/terms/modified
    */
   "dcterms:modified"?: string;
   /**
-   * The basis for the record
+   * https://rs.tdwg.org/dwc/terms/basisOfRecord
    */
   "dwc:basisOfRecord"?: string;
   /**
@@ -111,11 +127,11 @@ export interface DigitalSpecimen {
   /**
    * ROR or Wikidata identifier, based on https://rs.tdwg.org/dwc/terms/institutionID
    */
-  "dwc:institutionId"?: string;
+  "dwc:institutionID": string;
   /**
    * Full museum name according to ROR or Wikidata
    */
-  "dwc:institutionName"?: string;
+  "ods:institutionName"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/collectionCode
    */
@@ -123,24 +139,35 @@ export interface DigitalSpecimen {
   /**
    * https://rs.tdwg.org/dwc/terms/collectionID
    */
-  "dwc:collectionId"?: string;
+  "dwc:collectionID"?: string;
   /**
-   * ROR or Wikidata identifier for the owning institution
+   * https://rs.tdwg.org/dwc/terms/informationWithheld
    */
-  "dwc:ownerInstitutionId"?: string;
+  "dwc:informationWithheld"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/dataGeneralizations
+   */
+  "dwc:dataGeneralizations"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/ownerInstitutionCode
+   */
+  "dwc:ownerInstitutionCode"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/recordedBy
    */
   "dwc:recordedBy"?: string;
-  "???:recordedByAgent"?: Agent;
   /**
    * https://rs.tdwg.org/dwc/terms/recordedByID
    */
-  "dwc:recordedById"?: string;
+  "dwc:recordedByID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/datasetName
    */
   "dwc:datasetName"?: string;
+  /**
+   * http://rs.tdwg.org/dwc/terms/datasetID
+   */
+  "dwc:datasetID"?: string;
   /**
    * https://purl.org/dc/terms/accessRights
    */
@@ -149,39 +176,182 @@ export interface DigitalSpecimen {
    * https://purl.org/dc/terms/rightsHolder
    */
   "dcterms:rightsHolder"?: string;
-  materialEntity?: MaterialEntity[];
-  "dwc:identification"?: Identification[];
-  assertions?: Assertion[];
-  occurrences?: Occurrence[];
-  entityRelationships?: EntityRelationship[];
-  citations?: Citation[];
-  identifiers?: Identifier[];
-  chronometricAge?: ChronometricAge[];
-  [k: string]: unknown;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimLabel
+   */
+  "dwc:verbatimLabel"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismID
+   */
+  "dwc:organismID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismName
+   */
+  "dwc:organismName"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismScope
+   */
+  "dwc:organismScope"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/associatedOrganisms
+   */
+  "dwc:associatedOrganisms"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismRemarks
+   */
+  "dwc:organismRemarks"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/dynamicProperties
+   */
+  "dwc:dynamicProperties"?: string;
+  /**
+   * Contains zero or more ods:MaterialEntity objects
+   */
+  "ods:hasMaterialEntity"?: MaterialEntity[];
+  /**
+   * Contains zero or more ods:Identification objects
+   */
+  "ods:hasIdentification"?: Identification1[];
+  /**
+   * Contains zero or more ods:Assertion objects
+   */
+  "ods:hasAssertion"?: Assertion2[];
+  /**
+   * Contains zero or more ods:Event objects
+   */
+  "ods:hasEvent"?: Event1[];
+  /**
+   * Contains zero or more ods:EntityRelationship objects
+   */
+  "ods:hasEntityRelationship"?: EntityRelationship1[];
+  /**
+   * Contains zero or more ods:Citation objects
+   */
+  "ods:hasCitation"?: Citation2[];
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier2[];
+  /**
+   * Contains zero or more ods:ChronometricAge objects
+   */
+  "ods:hasChronometricAge"?: ChronometricAge[];
+  /**
+   * Contains zero or more ods:Agent objects
+   */
+  "ods:hasAgent"?: Agent1[];
 }
-export interface Agent {
-  agentRole?: string;
-  agentType: string;
-  agentName: string;
-  agentRoleBegan?: string;
-  agentRoleEnded?: string;
-  agentRoleOrder?: number;
-  identifiers?: Identification[];
-  [k: string]: unknown;
+export interface MaterialEntity {
+  /**
+   * The identifier for the Material Entity object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:MaterialEntity
+   */
+  "@type": "ods:MaterialEntity";
+  /**
+   * https://rs.tdwg.org/dwc/terms/materialEntityID
+   */
+  "dwc:materialEntityID"?: string;
+  /**
+   * Type of material entity
+   */
+  "ods:materialEntityType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/preparations
+   */
+  "dwc:preparations"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/disposition
+   */
+  "dwc:disposition"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/institutionCode
+   */
+  "dwc:institutionCode"?: string;
+  /**
+   * ROR or Wikidata identifier, based on https://rs.tdwg.org/dwc/terms/institutionID
+   */
+  "dwc:institutionID"?: string;
+  /**
+   * Full museum name according to ROR or Wikidata
+   */
+  "ods:institutionName"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/collectionCode
+   */
+  "dwc:collectionCode"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/collectionID
+   */
+  "dwc:collectionID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/ownerInstitutionCode
+   */
+  "dwc:ownerInstitutionCode"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/recordedBy
+   */
+  "dwc:recordedBy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/recordedByID
+   */
+  "dwc:recordedByID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimLabel
+   */
+  "dwc:verbatimLabel"?: string;
+  /**
+   * Contains zero or more ods:Identification objects
+   */
+  "ods:hasIdentification"?: Identification[];
+  /**
+   * Contains zero or more ods:Assertion objects
+   */
+  "ods:hasAssertion"?: Assertion[];
+  /**
+   * Contains zero or more ods:EntityRelationship objects
+   */
+  "ods:hasEntityRelationship"?: EntityRelationship[];
+  /**
+   * Contains zero or more ods:Citation objects
+   */
+  "ods:hasCitation"?: Citation1[];
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier[];
+  /**
+   * Contains zero or more ods:Event objects
+   */
+  "ods:hasEvent"?: Event[];
+  /**
+   * Contains zero or more ods:Agent objects
+   */
+  "ods:hasAgent"?: Agent[];
 }
 export interface Identification {
   /**
-   * Check DWC terms
+   * The identifier for the Identification object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identification
+   */
+  "@type": "ods:Identification";
+  /**
+   * https://rs.tdwg.org/dwc/terms/identificationID
    */
   "dwc:identificationID"?: string;
   /**
-   * Unclear yet
+   * The type of identification
    */
-  "???:identificationType"?: string;
+  "ods:identificationType"?: string;
   /**
-   * Unclear yet
+   * The full formula of the taxonomic identification
    */
-  "???:taxonFormula"?: string;
+  "ods:taxonFormula"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/verbatimIdentification
    */
@@ -197,7 +367,7 @@ export interface Identification {
   /**
    * https://rs.tdwg.org/dwc/terms/identifiedByID
    */
-  "dwc:identifiedById"?: string;
+  "dwc:identifiedByID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/dateIdentified
    */
@@ -209,29 +379,47 @@ export interface Identification {
   /**
    * If this is the accepted identification, based on https://rs.tdwg.org/dwc/terms/identificationVerificationStatus
    */
-  "dwc:identificationVerificationStatus": boolean;
+  "ods:isVerifiedIdentification": boolean;
   /**
    * https://rs.tdwg.org/dwc/terms/identificationRemarks
    */
   "dwc:identificationRemarks"?: string;
   /**
-   * Unclear yet
+   * https://rs.tdwg.org/dwc/terms/identificationQualifier
    */
-  "???:typeDesignationType"?: string;
+  "dwc:identificationQualifier"?: string;
   /**
-   * Unclear yet
+   * Can contain zero to more ods:Citation objects
    */
-  "???:typeDesignatedBy"?: string;
-  citations?: Citation[];
-  taxonIdentifications?: {
+  "ods:hasCitation"?: Citation[];
+  /**
+   * Can contain zero to more ods:TaxonIdentification objects
+   */
+  "ods:hasTaxonIdentification"?: {
     /**
-     * See DWC Terms
+     * The identifier for the Taxon Identification object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the digital object, in this case a ods:TaxonIdentification
+     */
+    "@type": "ods:TaxonIdentification";
+    /**
+     * https://rs.tdwg.org/dwc/terms/taxonID
      */
     "dwc:taxonID"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/scientificName
      */
     "dwc:scientificName": string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/scientificNameID
+     */
+    "dwc:scientificNameID"?: string;
+    /**
+     * A Hyper Text Markup Language (HTML) representation of the scientific name. Includes correct formatting of the name.
+     */
+    "ods:scientificNameHtmlLabel"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/scientificNameAuthorship
      */
@@ -240,15 +428,22 @@ export interface Identification {
      * https://rs.tdwg.org/dwc/terms/nameAccordingTo
      */
     "dwc:nameAccordingTo"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/namePublishedInYear
+     */
     "dwc:namePublishedInYear"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/taxonRank
      */
     "dwc:taxonRank"?: string;
     /**
-     * Unclear yet
+     * https://rs.tdwg.org/dwc/terms/verbatimTaxonRank
      */
-    "???:taxonSource"?: string;
+    "dwc:verbatimTaxonRank"?: string;
+    /**
+     * The source of the taxonomic concept
+     */
+    "ods:taxonSource"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/taxonRemarks
      */
@@ -302,14 +497,67 @@ export interface Identification {
      */
     "dwc:subgenus"?: string;
     /**
-     * Unclear yet
+     * https://rs.tdwg.org/dwc/terms/acceptedNameUsage
      */
-    "???:acceptedScientificName"?: string;
-    [k: string]: unknown;
+    "dwc:acceptedNameUsage"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/acceptedNameUsageID
+     */
+    "dwc:acceptedNameUsageID"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/cultivarEpithet
+     */
+    "dwc:cultivarEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/genericName
+     */
+    "dwc:genericName"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/infragenericEpithet
+     */
+    "dwc:infragenericEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/infraspecificEpithet
+     */
+    "dwc:infraspecificEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/nomenclaturalStatus
+     */
+    "dwc:nomenclaturalStatus"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/originalNameUsage
+     */
+    "dwc:originalNameUsage"?: string;
+    /**
+     * http://rs.tdwg.org/dwc/terms/subtribe
+     */
+    "dwc:subtribe"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/superfamily
+     */
+    "dwc:superfamily"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/tribe
+     */
+    "dwc:tribe"?: string;
   }[];
-  [k: string]: unknown;
 }
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
 export interface Citation {
+  /**
+   * The identifier for the Citation object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier"?: string;
   /**
    * https://purl.org/dc/terms/type
    */
@@ -327,133 +575,360 @@ export interface Citation {
    */
   "dcterms:creator"?: string;
   /**
-   * Unclear yet
+   * Page number of the citation
    */
-  "???:citationPageNumber"?: string;
+  "ods:citationPageNumber"?: string;
   /**
-   * Unclear yet
+   * Any further remarks about the citation
    */
-  "???:citationRemarks"?: string;
+  "ods:citationRemarks"?: string;
   /**
-   * Unclear yet
+   * The type of reference
    */
-  "???:referenceType"?: string;
+  "ods:referenceType"?: string;
   /**
    * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
    */
   "dcterms:bibliographicCitation"?: string;
   /**
-   * Unclear yet
+   * The year the reference was published
    */
-  "???:referenceYear"?: string;
+  "ods:referenceYear"?: number;
   /**
-   * Unclear yet
+   * Reference to the web source of this citation
    */
-  "???:referenceIri"?: string;
+  "ods:referenceIRI"?: string;
   /**
-   * Unclear yet
+   * Is the citation peer reviewed?
    */
-  "???:isPeerReviewed"?: boolean;
-  [k: string]: unknown;
-}
-export interface MaterialEntity {
-  materialEntityId?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/preparations
-   */
-  "dwc:preparations"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/disposition
-   */
-  "dwc:disposition"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/institutionCode
-   */
-  "dwc:institutionCode"?: string;
-  /**
-   * ROR or Wikidata identifier, based on https://rs.tdwg.org/dwc/terms/institutionID
-   */
-  "???:institutionId"?: string;
-  /**
-   * Full museum name according to ROR or Wikidata
-   */
-  "dwc:institutionName"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/collectionCode
-   */
-  "dwc:collectionCode"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/collectionID
-   */
-  "dwc:collectionId"?: string;
-  /**
-   * ROR or Wikidata identifier for the owning institution
-   */
-  "dwc:ownerInstitutionId"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/recordedBy
-   */
-  "dwc:recordedBy"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/recordedByID
-   */
-  "dwc:recordedById"?: string;
-  identifications?: Identification[];
-  assertions?: Assertion[];
-  entityRelationships?: EntityRelationship[];
-  citations?: Citation[];
-  identifiers?: Identification[];
-  events?: Event[];
-  [k: string]: unknown;
+  "ods:isPeerReviewed"?: boolean;
 }
 export interface Assertion {
-  "???:assertionType"?: string;
-  "???:assertionMadeDate"?: string;
-  "???:assertionEffectiveDate"?: string;
-  "???:assertionValue"?: string;
-  "???:assertionValueNumeric"?: number;
-  "???:assertionUnit"?: string;
-  "???:assertionByAgentName"?: string;
-  "???:assertionByAgentId"?: string;
-  "???:assertionProtocol"?: string;
-  "???:assertionProtocolId"?: string;
-  "???:assertionRemarks"?: string;
-  [k: string]: unknown;
+  /**
+   * The identifier for the Assertion object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Assertion
+   */
+  "@type": "ods:Assertion";
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementID
+   */
+  "dwc:measurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   */
+  "dwc:parentMeasurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementType
+   */
+  "dwc:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementType
+   */
+  "dwciri:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   */
+  "dwc:measurementDeterminedDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwc:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwciri:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   */
+  "dwc:measurementAccuracy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   */
+  "dwc:measurementUnit"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   */
+  "dwciri:measurementUnit"?: string;
+  /**
+   * Name of the agent who made the assertion
+   */
+  "ods:assertionByAgentName"?: string;
+  /**
+   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
+   */
+  "ods:assertionByAgentID"?: string;
+  /**
+   * The protocol used to make the assertion
+   */
+  "ods:assertionProtocol"?: string;
+  /**
+   * The ID of the protocol used to make the assertion
+   */
+  "ods:assertionProtocolID"?: string;
+  /**
+   * Remarks about the assertion
+   */
+  "ods:assertionRemarks"?: string;
 }
+/**
+ * Based on https://rs.gbif.org/extension/resource_relationship_2024-02-19.xml but with ods specific terms
+ */
 export interface EntityRelationship {
-  entityRelationshipType: string;
   /**
-   * The link to the referenced resource. This could be an internal object linked through the PID or an external object
+   * The identifier for Entity Relationship digital object.
    */
-  objectEntityIri: string;
+  "@id"?: string;
   /**
-   * The data time on which the relationship was established
+   * The type of the record, in this case a ods:EntityRelationship
    */
-  entityRelationshipDate: string;
+  "@type": "ods:EntityRelationship";
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipOfResource
+   */
+  "dwc:relationshipOfResource": string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipOfResourceID
+   */
+  "dwc:relationshipOfResourceID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relatedResourceID
+   */
+  "dwc:relatedResourceID": string;
+  /**
+   * The URI of the related resource
+   */
+  "ods:relatedResourceURI"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipEstablishedDate
+   */
+  "dwc:relationshipEstablishedDate"?: string;
   /**
    * When multiple relationships are added an order can be defined
    */
-  entityRelationshipOrder?: number;
+  "ods:entityRelationshipOrder"?: number;
   /**
-   * The name of the relationship creator
+   * https://rs.tdwg.org/dwc/terms/relationshipAccordingTo
    */
-  entityRelationshipCreatorName?: string;
+  "dwc:relationshipAccordingTo"?: string;
   /**
    * The PID of the creator, this could be a Orcid(user), PID(machine) or ROR(organisation)
    */
-  entityRelationshipCreatorId: string;
-  [k: string]: unknown;
+  "ods:relationshipAccordingToID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipRemarks
+   */
+  "dwc:relationshipRemarks"?: string;
+}
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
+export interface Citation1 {
+  /**
+   * The identifier for the Citation object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier"?: string;
+  /**
+   * https://purl.org/dc/terms/type
+   */
+  "dcterms:type"?: string;
+  /**
+   * https://purl.org/dc/terms/date
+   */
+  "dcterms:date"?: string;
+  /**
+   * https://purl.org/dc/terms/title
+   */
+  "dcterms:title"?: string;
+  /**
+   * https://purl.org/dc/elements/1.1/creator
+   */
+  "dcterms:creator"?: string;
+  /**
+   * Page number of the citation
+   */
+  "ods:citationPageNumber"?: string;
+  /**
+   * Any further remarks about the citation
+   */
+  "ods:citationRemarks"?: string;
+  /**
+   * The type of reference
+   */
+  "ods:referenceType"?: string;
+  /**
+   * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
+   */
+  "dcterms:bibliographicCitation"?: string;
+  /**
+   * The year the reference was published
+   */
+  "ods:referenceYear"?: number;
+  /**
+   * Reference to the web source of this citation
+   */
+  "ods:referenceIRI"?: string;
+  /**
+   * Is the citation peer reviewed?
+   */
+  "ods:isPeerReviewed"?: boolean;
+}
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
+export interface Identifier {
+  /**
+   * The identifier for the Identifier object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identifier
+   */
+  "@type": "ods:Identifier";
+  /**
+   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   */
+  "dcterms:title": string;
+  /**
+   * The local title of the identifier
+   */
+  "ods:localTitle"?: string;
+  /**
+   * The value for the identifier, https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier": string;
+  /**
+   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   */
+  "dcterms:format"?: string;
+  /**
+   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   */
+  "dcterms:subject"?: string;
+  /**
+   * Indicates whether the identifier is part of the physical label
+   */
+  "ods:isPartOfLabel"?: boolean;
+  /**
+   * Indicates whether the identifier is part of the barcode or nfc chip
+   */
+  "ods:isBarcodeOrNFC"?: boolean;
+  /**
+   * Indicates whether the identifier is a persistent identifier
+   */
+  "ods:isIDPersistent"?: boolean;
 }
 export interface Event {
-  "???:eventName"?: string;
+  /**
+   * The identifier for the Event object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case ods:Event
+   */
+  "@type": "ods:Event";
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismQuantity
+   */
+  "dwc:organismQuantity"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/organismQuantityType
+   */
+  "dwc:organismQuantityType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/sex
+   */
+  "dwc:sex"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/lifeStage
+   */
+  "dwc:lifeStage"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/reproductiveCondition
+   */
+  "dwc:reproductiveCondition"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/behavior
+   */
+  "dwc:behavior"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/caste
+   */
+  "dwc:caste"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/vitality
+   */
+  "dwc:vitality"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/establishmentMeans
+   */
+  "dwc:establishmentMeans"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/occurrenceStatus
+   */
+  "dwc:occurrenceStatus"?: "present" | "absent";
+  /**
+   * https://rs.tdwg.org/dwc/terms/pathway
+   */
+  "dwc:pathway"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/degreeOfEstablishment
+   */
+  "dwc:degreeOfEstablishment"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/georeferenceVerificationStatus
+   */
+  "dwc:georeferenceVerificationStatus"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/occurrenceRemarks
+   */
+  "dwc:occurrenceRemarks"?: string;
+  /**
+   * The name of the event
+   */
+  "ods:eventName"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/fieldNumber
    */
   "dwc:fieldNumber"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/recordNumber
+   */
+  "dwc:recordNumber"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/eventType
+   */
+  "dwc:eventType"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/eventDate
    */
   "dwc:eventDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/eventTime
+   */
+  "dwc:eventTime"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/endDayOfYear
+   */
+  "dwc:endDayOfYear"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/startDayOfYear
+   */
+  "dwc:startDayOfYear"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimEventDate
+   */
+  "dwc:verbatimEventDate"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/year
    */
@@ -470,16 +945,26 @@ export interface Event {
    * https://rs.tdwg.org/dwc/terms/habitat
    */
   "dwc:habitat"?: string;
-  "???:protocolDescription"?: string;
+  /**
+   * https://rs.tdwg.org/eco/terms/protocolDescriptions
+   */
+  "eco:protocolDescriptions"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/sampleSizeValue
    */
-  "dwc:sampleSizeValue"?: string;
+  "dwc:sampleSizeValue"?: number;
   /**
    * https://rs.tdwg.org/dwc/terms/sampleSizeUnit
    */
   "dwc:sampleSizeUnit"?: string;
-  "???:eventEffort"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/samplingProtocol
+   */
+  "dwc:samplingProtocol"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/samplingEffort
+   */
+  "dwc:samplingEffort"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/fieldNotes
    */
@@ -488,12 +973,106 @@ export interface Event {
    * https://rs.tdwg.org/dwc/terms/eventRemarks
    */
   "dwc:eventRemarks"?: string;
-  "???:collectorName"?: string;
-  "???:collectorId"?: string;
-  location?: Location;
-  [k: string]: unknown;
+  /**
+   * The full name of the collector
+   */
+  "ods:collectorName"?: string;
+  /**
+   * The identifier of the collector, recommended would be a ORCID or Wikidata ID
+   */
+  "ods:collectorID"?: string;
+  /**
+   * Contains zero or more ods:Assertion objects
+   */
+  "ods:hasAssertion"?: Assertion1[];
+  "ods:Location"?: Location;
 }
+export interface Assertion1 {
+  /**
+   * The identifier for the Assertion object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Assertion
+   */
+  "@type": "ods:Assertion";
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementID
+   */
+  "dwc:measurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   */
+  "dwc:parentMeasurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementType
+   */
+  "dwc:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementType
+   */
+  "dwciri:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   */
+  "dwc:measurementDeterminedDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwc:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwciri:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   */
+  "dwc:measurementAccuracy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   */
+  "dwc:measurementUnit"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   */
+  "dwciri:measurementUnit"?: string;
+  /**
+   * Name of the agent who made the assertion
+   */
+  "ods:assertionByAgentName"?: string;
+  /**
+   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
+   */
+  "ods:assertionByAgentID"?: string;
+  /**
+   * The protocol used to make the assertion
+   */
+  "ods:assertionProtocol"?: string;
+  /**
+   * The ID of the protocol used to make the assertion
+   */
+  "ods:assertionProtocolID"?: string;
+  /**
+   * Remarks about the assertion
+   */
+  "ods:assertionRemarks"?: string;
+}
+/**
+ * Contains an object of type ods:Location
+ */
 export interface Location {
+  /**
+   * The identifier for the Location object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Location
+   */
+  "@type": "ods:Location";
+  /**
+   * https://rs.tdwg.org/dwc/terms/locationID
+   */
+  "dwc:locationID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/continent
    */
@@ -535,9 +1114,17 @@ export interface Location {
    */
   "dwc:locality"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/verbatimLocality
+   */
+  "dwc:verbatimLocality"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/minimumElevationInMeters
    */
   "dwc:minimumElevationInMeters"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/higherGeographyID
+   */
+  "dwc:higherGeographyID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/higherGeography
    */
@@ -546,6 +1133,10 @@ export interface Location {
    * https://rs.tdwg.org/dwc/terms/maximumElevationInMeters
    */
   "dwc:maximumElevationInMeters"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimElevation
+   */
+  "dwc:verbatimElevation"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters
    */
@@ -563,6 +1154,10 @@ export interface Location {
    */
   "dwc:maximumDepthInMeters"?: number;
   /**
+   * https://rs.tdwg.org/dwc/terms/verbatimDepth
+   */
+  "dwc:verbatimDepth"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/verticalDatum
    */
   "dwc:verticalDatum"?: string;
@@ -574,15 +1169,42 @@ export interface Location {
    * https://rs.tdwg.org/dwc/terms/locationRemarks
    */
   "dwc:locationRemarks"?: string;
-  georeference?: {
+  /**
+   * An object which describes the geographical reference of the location of the specimen.
+   */
+  "ods:GeoReference"?: {
+    /**
+     * The identifier for the Geo Reference object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the object, in this case ods:GeoReference
+     */
+    "@type": "ods:GeoReference";
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimCoordinates
+     */
+    "dwc:verbatimCoordinates"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/decimalLatitude
      */
     "dwc:decimalLatitude"?: number;
     /**
+     * https://rs.tdwg.org/dwc/terms/verbatimLatitude
+     */
+    "dwc:verbatimLatitude"?: string;
+    /**
      * https://rs.tdwg.org/dwc/terms/decimalLongitude
      */
     "dwc:decimalLongitude"?: number;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimLongitude
+     */
+    "dwc:verbatimLongitude"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem
+     */
+    "dwc:verbatimCoordinateSystem"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/geodeticDatum
      */
@@ -602,11 +1224,15 @@ export interface Location {
     /**
      * https://rs.tdwg.org/dwc/terms/footprintWKT
      */
-    "dwc:footprintWkt"?: string;
+    "dwc:footprintWKT"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/footprintSRS
      */
-    "dwc:footprintSrs"?: string;
+    "dwc:footprintSRS"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimSRS
+     */
+    "dwc:verbatimSRS"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/footprintSpatialFit
      */
@@ -631,10 +1257,19 @@ export interface Location {
      * https://rs.tdwg.org/dwc/terms/georeferenceRemarks
      */
     "dwc:georeferenceRemarks"?: string;
-    "???:preferredSpatialRepresentation"?: string;
-    [k: string]: unknown;
   };
-  geologicalContext?: {
+  /**
+   * An object which describes the geological context of th location of the specimen.
+   */
+  "ods:GeologicalContext"?: {
+    /**
+     * The identifier for the Geological Context object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the object, in this case ods:GeologicalContext
+     */
+    "@type": "ods:GeologicalContext";
     /**
      * https://rs.tdwg.org/dwc/terms/earliestEonOrLowestEonothem
      */
@@ -703,11 +1338,385 @@ export interface Location {
      * https://rs.tdwg.org/dwc/terms/bed
      */
     "dwc:bed"?: string;
-    [k: string]: unknown;
   };
-  [k: string]: unknown;
 }
-export interface Occurrence {
+export interface Agent {
+  /**
+   * The identifier for the Agent object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Agent
+   */
+  "@type": "ods:Agent";
+  /**
+   * Indicates the role of the agent
+   */
+  "ods:agentRole": string;
+  /**
+   * Indicates the type of agent
+   */
+  "ods:agentType": string;
+  /**
+   * Primary identifier of the agent, additional identifiers can go in the identifiers array
+   */
+  "ods:agentID"?: string;
+  /**
+   * Full name of the agent
+   */
+  "ods:agentName": string;
+  /**
+   * Date the agent began the role
+   */
+  "ods:agentRoleBegan"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "ods:agentRoleEnded"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:agentRoleOrder"?: number;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier1[];
+}
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
+export interface Identifier1 {
+  /**
+   * The identifier for the Identifier object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identifier
+   */
+  "@type": "ods:Identifier";
+  /**
+   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   */
+  "dcterms:title": string;
+  /**
+   * The local title of the identifier
+   */
+  "ods:localTitle"?: string;
+  /**
+   * The value for the identifier, https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier": string;
+  /**
+   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   */
+  "dcterms:format"?: string;
+  /**
+   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   */
+  "dcterms:subject"?: string;
+  /**
+   * Indicates whether the identifier is part of the physical label
+   */
+  "ods:isPartOfLabel"?: boolean;
+  /**
+   * Indicates whether the identifier is part of the barcode or nfc chip
+   */
+  "ods:isBarcodeOrNFC"?: boolean;
+  /**
+   * Indicates whether the identifier is a persistent identifier
+   */
+  "ods:isIDPersistent"?: boolean;
+}
+export interface Identification1 {
+  /**
+   * The identifier for the Identification object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identification
+   */
+  "@type": "ods:Identification";
+  /**
+   * https://rs.tdwg.org/dwc/terms/identificationID
+   */
+  "dwc:identificationID"?: string;
+  /**
+   * The type of identification
+   */
+  "ods:identificationType"?: string;
+  /**
+   * The full formula of the taxonomic identification
+   */
+  "ods:taxonFormula"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimIdentification
+   */
+  "dwc:verbatimIdentification"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/typeStatus
+   */
+  "dwc:typeStatus"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/identifiedBy
+   */
+  "dwc:identifiedBy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/identifiedByID
+   */
+  "dwc:identifiedByID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/dateIdentified
+   */
+  "dwc:dateIdentified"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/identificationReferences
+   */
+  "dwc:identificationReferences"?: string;
+  /**
+   * If this is the accepted identification, based on https://rs.tdwg.org/dwc/terms/identificationVerificationStatus
+   */
+  "ods:isVerifiedIdentification": boolean;
+  /**
+   * https://rs.tdwg.org/dwc/terms/identificationRemarks
+   */
+  "dwc:identificationRemarks"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/identificationQualifier
+   */
+  "dwc:identificationQualifier"?: string;
+  /**
+   * Can contain zero to more ods:Citation objects
+   */
+  "ods:hasCitation"?: Citation[];
+  /**
+   * Can contain zero to more ods:TaxonIdentification objects
+   */
+  "ods:hasTaxonIdentification"?: {
+    /**
+     * The identifier for the Taxon Identification object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the digital object, in this case a ods:TaxonIdentification
+     */
+    "@type": "ods:TaxonIdentification";
+    /**
+     * https://rs.tdwg.org/dwc/terms/taxonID
+     */
+    "dwc:taxonID"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/scientificName
+     */
+    "dwc:scientificName": string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/scientificNameID
+     */
+    "dwc:scientificNameID"?: string;
+    /**
+     * A Hyper Text Markup Language (HTML) representation of the scientific name. Includes correct formatting of the name.
+     */
+    "ods:scientificNameHtmlLabel"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/scientificNameAuthorship
+     */
+    "dwc:scientificNameAuthorship"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/nameAccordingTo
+     */
+    "dwc:nameAccordingTo"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/namePublishedInYear
+     */
+    "dwc:namePublishedInYear"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/taxonRank
+     */
+    "dwc:taxonRank"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/verbatimTaxonRank
+     */
+    "dwc:verbatimTaxonRank"?: string;
+    /**
+     * The source of the taxonomic concept
+     */
+    "ods:taxonSource"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/taxonRemarks
+     */
+    "dwc:taxonRemarks"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/kingdom
+     */
+    "dwc:kingdom"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/phylum
+     */
+    "dwc:phylum"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/class
+     */
+    "dwc:class"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/order
+     */
+    "dwc:order"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/family
+     */
+    "dwc:family"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/subfamily
+     */
+    "dwc:subfamily"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/genus
+     */
+    "dwc:genus"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/specificEpithet
+     */
+    "dwc:specificEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/taxonomicStatus
+     */
+    "dwc:taxonomicStatus"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/nomenclaturalCode
+     */
+    "dwc:nomenclaturalCode"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/vernacularName
+     */
+    "dwc:vernacularName"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/subgenus
+     */
+    "dwc:subgenus"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/acceptedNameUsage
+     */
+    "dwc:acceptedNameUsage"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/acceptedNameUsageID
+     */
+    "dwc:acceptedNameUsageID"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/cultivarEpithet
+     */
+    "dwc:cultivarEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/genericName
+     */
+    "dwc:genericName"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/infragenericEpithet
+     */
+    "dwc:infragenericEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/infraspecificEpithet
+     */
+    "dwc:infraspecificEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/nomenclaturalStatus
+     */
+    "dwc:nomenclaturalStatus"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/originalNameUsage
+     */
+    "dwc:originalNameUsage"?: string;
+    /**
+     * http://rs.tdwg.org/dwc/terms/subtribe
+     */
+    "dwc:subtribe"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/superfamily
+     */
+    "dwc:superfamily"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/tribe
+     */
+    "dwc:tribe"?: string;
+  }[];
+}
+export interface Assertion2 {
+  /**
+   * The identifier for the Assertion object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Assertion
+   */
+  "@type": "ods:Assertion";
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementID
+   */
+  "dwc:measurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   */
+  "dwc:parentMeasurementID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementType
+   */
+  "dwc:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementType
+   */
+  "dwciri:measurementType"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   */
+  "dwc:measurementDeterminedDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwc:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementValue
+   */
+  "dwciri:measurementValue"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   */
+  "dwc:measurementAccuracy"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   */
+  "dwc:measurementUnit"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   */
+  "dwciri:measurementUnit"?: string;
+  /**
+   * Name of the agent who made the assertion
+   */
+  "ods:assertionByAgentName"?: string;
+  /**
+   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
+   */
+  "ods:assertionByAgentID"?: string;
+  /**
+   * The protocol used to make the assertion
+   */
+  "ods:assertionProtocol"?: string;
+  /**
+   * The ID of the protocol used to make the assertion
+   */
+  "ods:assertionProtocolID"?: string;
+  /**
+   * Remarks about the assertion
+   */
+  "ods:assertionRemarks"?: string;
+}
+export interface Event1 {
+  /**
+   * The identifier for the Event object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case ods:Event
+   */
+  "@type": "ods:Event";
   /**
    * https://rs.tdwg.org/dwc/terms/organismQuantity
    */
@@ -733,6 +1742,14 @@ export interface Occurrence {
    */
   "dwc:behavior"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/caste
+   */
+  "dwc:caste"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/vitality
+   */
+  "dwc:vitality"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/establishmentMeans
    */
   "dwc:establishmentMeans"?: string;
@@ -757,30 +1774,41 @@ export interface Occurrence {
    */
   "dwc:occurrenceRemarks"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/informationWithheld
+   * The name of the event
    */
-  "dwc:informationWithheld"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/dataGeneralizations
-   */
-  "dwc:dataGeneralizations"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/recordedBy
-   */
-  "dwc:recordedBy"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/recordedByID
-   */
-  "dwc:recordedById"?: string;
-  "???:eventName"?: string;
+  "ods:eventName"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/fieldNumber
    */
   "dwc:fieldNumber"?: string;
   /**
+   * https://rs.tdwg.org/dwc/terms/recordNumber
+   */
+  "dwc:recordNumber"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/eventType
+   */
+  "dwc:eventType"?: string;
+  /**
    * https://rs.tdwg.org/dwc/terms/eventDate
    */
   "dwc:eventDate"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/eventTime
+   */
+  "dwc:eventTime"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/endDayOfYear
+   */
+  "dwc:endDayOfYear"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/startDayOfYear
+   */
+  "dwc:startDayOfYear"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/verbatimEventDate
+   */
+  "dwc:verbatimEventDate"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/year
    */
@@ -797,11 +1825,14 @@ export interface Occurrence {
    * https://rs.tdwg.org/dwc/terms/habitat
    */
   "dwc:habitat"?: string;
-  "???:protocolDescription"?: string;
+  /**
+   * https://rs.tdwg.org/eco/terms/protocolDescriptions
+   */
+  "eco:protocolDescriptions"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/sampleSizeValue
    */
-  "dwc:sampleSizeValue"?: string;
+  "dwc:sampleSizeValue"?: number;
   /**
    * https://rs.tdwg.org/dwc/terms/sampleSizeUnit
    */
@@ -810,7 +1841,10 @@ export interface Occurrence {
    * https://rs.tdwg.org/dwc/terms/samplingProtocol
    */
   "dwc:samplingProtocol"?: string;
-  "???:eventEffort"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/samplingEffort
+   */
+  "dwc:samplingEffort"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/fieldNotes
    */
@@ -819,38 +1853,196 @@ export interface Occurrence {
    * https://rs.tdwg.org/dwc/terms/eventRemarks
    */
   "dwc:eventRemarks"?: string;
-  "???:collectorName"?: string;
-  "???:collectorId"?: string;
-  assertions?: Assertion[];
-  location?: Location;
-  [k: string]: unknown;
+  /**
+   * The full name of the collector
+   */
+  "ods:collectorName"?: string;
+  /**
+   * The identifier of the collector, recommended would be a ORCID or Wikidata ID
+   */
+  "ods:collectorID"?: string;
+  /**
+   * Contains zero or more ods:Assertion objects
+   */
+  "ods:hasAssertion"?: Assertion1[];
+  "ods:Location"?: Location;
 }
-export interface Identifier {
+/**
+ * Based on https://rs.gbif.org/extension/resource_relationship_2024-02-19.xml but with ods specific terms
+ */
+export interface EntityRelationship1 {
   /**
-   * The type of the identifier
+   * The identifier for Entity Relationship digital object.
    */
-  "???:identifierType"?: string;
+  "@id"?: string;
   /**
-   * The value for the identifier
+   * The type of the record, in this case a ods:EntityRelationship
    */
-  "???:identifierValue": string;
+  "@type": "ods:EntityRelationship";
   /**
-   * Is the identifier part of the physical label
+   * https://rs.tdwg.org/dwc/terms/relationshipOfResource
    */
-  "???:partOfLabel"?: boolean;
+  "dwc:relationshipOfResource": string;
   /**
-   * Part of barcode or nfc chip
+   * https://rs.tdwg.org/dwc/terms/relationshipOfResourceID
    */
-  "???:barcodeOrNfc"?: string;
-  isIdPersistent?: boolean;
-  [k: string]: unknown;
+  "dwc:relationshipOfResourceID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relatedResourceID
+   */
+  "dwc:relatedResourceID": string;
+  /**
+   * The URI of the related resource
+   */
+  "ods:relatedResourceURI"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipEstablishedDate
+   */
+  "dwc:relationshipEstablishedDate"?: string;
+  /**
+   * When multiple relationships are added an order can be defined
+   */
+  "ods:entityRelationshipOrder"?: number;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipAccordingTo
+   */
+  "dwc:relationshipAccordingTo"?: string;
+  /**
+   * The PID of the creator, this could be a Orcid(user), PID(machine) or ROR(organisation)
+   */
+  "ods:relationshipAccordingToID"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/relationshipRemarks
+   */
+  "dwc:relationshipRemarks"?: string;
+}
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
+export interface Citation2 {
+  /**
+   * The identifier for the Citation object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier"?: string;
+  /**
+   * https://purl.org/dc/terms/type
+   */
+  "dcterms:type"?: string;
+  /**
+   * https://purl.org/dc/terms/date
+   */
+  "dcterms:date"?: string;
+  /**
+   * https://purl.org/dc/terms/title
+   */
+  "dcterms:title"?: string;
+  /**
+   * https://purl.org/dc/elements/1.1/creator
+   */
+  "dcterms:creator"?: string;
+  /**
+   * Page number of the citation
+   */
+  "ods:citationPageNumber"?: string;
+  /**
+   * Any further remarks about the citation
+   */
+  "ods:citationRemarks"?: string;
+  /**
+   * The type of reference
+   */
+  "ods:referenceType"?: string;
+  /**
+   * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
+   */
+  "dcterms:bibliographicCitation"?: string;
+  /**
+   * The year the reference was published
+   */
+  "ods:referenceYear"?: number;
+  /**
+   * Reference to the web source of this citation
+   */
+  "ods:referenceIRI"?: string;
+  /**
+   * Is the citation peer reviewed?
+   */
+  "ods:isPeerReviewed"?: boolean;
+}
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
+export interface Identifier2 {
+  /**
+   * The identifier for the Identifier object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identifier
+   */
+  "@type": "ods:Identifier";
+  /**
+   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   */
+  "dcterms:title": string;
+  /**
+   * The local title of the identifier
+   */
+  "ods:localTitle"?: string;
+  /**
+   * The value for the identifier, https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier": string;
+  /**
+   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   */
+  "dcterms:format"?: string;
+  /**
+   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   */
+  "dcterms:subject"?: string;
+  /**
+   * Indicates whether the identifier is part of the physical label
+   */
+  "ods:isPartOfLabel"?: boolean;
+  /**
+   * Indicates whether the identifier is part of the barcode or nfc chip
+   */
+  "ods:isBarcodeOrNFC"?: boolean;
+  /**
+   * Indicates whether the identifier is a persistent identifier
+   */
+  "ods:isIDPersistent"?: boolean;
 }
 export interface ChronometricAge {
+  /**
+   * The identifier for the Chronometric Age object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case ods:ChronometricAge
+   */
+  "@type": "ods:ChronometricAge";
+  /**
+   * https://rs.tdwg.org/chrono/terms/chronometricAgeID
+   */
+  "chrono:chronometricAgeID"?: string;
   /**
    * https://rs.tdwg.org/chrono/terms/verbatimChronometricAge
    */
   "chrono:verbatimChronometricAge"?: string;
-  "???:verbatimChronometricAgeProtocol"?: string;
+  /**
+   * The verbatim name of the protocol used to determine the chronometric age.
+   */
+  "ods:verbatimChronometricAgeProtocol"?: string;
   /**
    * https://rs.tdwg.org/chrono/terms/uncalibratedChronometricAge
    */
@@ -890,7 +2082,7 @@ export interface ChronometricAge {
   /**
    * https://rs.tdwg.org/chrono/terms/materialDatedID
    */
-  "chrono:materialDatedId"?: string;
+  "chrono:materialDatedID"?: string;
   /**
    * https://rs.tdwg.org/chrono/terms/materialDatedRelationship
    */
@@ -911,5 +2103,46 @@ export interface ChronometricAge {
    * https://rs.tdwg.org/chrono/terms/chronometricAgeRemarks
    */
   "chrono:chronometricAgeRemarks"?: string;
-  [k: string]: unknown;
+}
+export interface Agent1 {
+  /**
+   * The identifier for the Agent object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Agent
+   */
+  "@type": "ods:Agent";
+  /**
+   * Indicates the role of the agent
+   */
+  "ods:agentRole": string;
+  /**
+   * Indicates the type of agent
+   */
+  "ods:agentType": string;
+  /**
+   * Primary identifier of the agent, additional identifiers can go in the identifiers array
+   */
+  "ods:agentID"?: string;
+  /**
+   * Full name of the agent
+   */
+  "ods:agentName": string;
+  /**
+   * Date the agent began the role
+   */
+  "ods:agentRoleBegan"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "ods:agentRoleEnded"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:agentRoleOrder"?: number;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier1[];
 }

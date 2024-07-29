@@ -1,0 +1,38 @@
+/* Custom styling for the custom button component */
+.button {
+    background-color: transparent;
+    transition: 0.3s;
+    color: inherit;
+}
+
+.button:hover {
+    filter: brightness(130%);
+}
+
+.button:disabled {
+    filter: brightness(80%);
+}
+
+/* Primary variant */
+.primary {
+    background-color: var(--primary);
+    color: white;
+    font-weight: bold;
+}
+
+/* Secondary variant */
+.secondary {
+    background-color: var(--secondary);
+    color: white;
+    font-weight: bold;
+}
+
+/* Grey variant */
+.grey {
+    background-color: var(--grey);
+    font-weight: bold;
+}
+
+.grey:hover {
+    filter: brightness(90%);
+}

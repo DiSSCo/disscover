@@ -7,17 +7,25 @@
 
 export interface Identification {
   /**
-   * Check DWC terms
+   * The identifier for the Identification object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identification
+   */
+  "@type": "ods:Identification";
+  /**
+   * https://rs.tdwg.org/dwc/terms/identificationID
    */
   "dwc:identificationID"?: string;
   /**
-   * Unclear yet
+   * The type of identification
    */
-  "???:identificationType"?: string;
+  "ods:identificationType"?: string;
   /**
-   * Unclear yet
+   * The full formula of the taxonomic identification
    */
-  "???:taxonFormula"?: string;
+  "ods:taxonFormula"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/verbatimIdentification
    */
@@ -33,7 +41,7 @@ export interface Identification {
   /**
    * https://rs.tdwg.org/dwc/terms/identifiedByID
    */
-  "dwc:identifiedById"?: string;
+  "dwc:identifiedByID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/dateIdentified
    */
@@ -45,29 +53,47 @@ export interface Identification {
   /**
    * If this is the accepted identification, based on https://rs.tdwg.org/dwc/terms/identificationVerificationStatus
    */
-  "dwc:identificationVerificationStatus": boolean;
+  "ods:isVerifiedIdentification": boolean;
   /**
    * https://rs.tdwg.org/dwc/terms/identificationRemarks
    */
   "dwc:identificationRemarks"?: string;
   /**
-   * Unclear yet
+   * https://rs.tdwg.org/dwc/terms/identificationQualifier
    */
-  "???:typeDesignationType"?: string;
+  "dwc:identificationQualifier"?: string;
   /**
-   * Unclear yet
+   * Can contain zero to more ods:Citation objects
    */
-  "???:typeDesignatedBy"?: string;
-  citations?: Citation[];
-  taxonIdentifications?: {
+  "ods:hasCitation"?: Citation[];
+  /**
+   * Can contain zero to more ods:TaxonIdentification objects
+   */
+  "ods:hasTaxonIdentification"?: {
     /**
-     * See DWC Terms
+     * The identifier for the Taxon Identification object.
+     */
+    "@id"?: string;
+    /**
+     * The type of the digital object, in this case a ods:TaxonIdentification
+     */
+    "@type": "ods:TaxonIdentification";
+    /**
+     * https://rs.tdwg.org/dwc/terms/taxonID
      */
     "dwc:taxonID"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/scientificName
      */
     "dwc:scientificName": string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/scientificNameID
+     */
+    "dwc:scientificNameID"?: string;
+    /**
+     * A Hyper Text Markup Language (HTML) representation of the scientific name. Includes correct formatting of the name.
+     */
+    "ods:scientificNameHtmlLabel"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/scientificNameAuthorship
      */
@@ -76,15 +102,22 @@ export interface Identification {
      * https://rs.tdwg.org/dwc/terms/nameAccordingTo
      */
     "dwc:nameAccordingTo"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/namePublishedInYear
+     */
     "dwc:namePublishedInYear"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/taxonRank
      */
     "dwc:taxonRank"?: string;
     /**
-     * Unclear yet
+     * https://rs.tdwg.org/dwc/terms/verbatimTaxonRank
      */
-    "???:taxonSource"?: string;
+    "dwc:verbatimTaxonRank"?: string;
+    /**
+     * The source of the taxonomic concept
+     */
+    "ods:taxonSource"?: string;
     /**
      * https://rs.tdwg.org/dwc/terms/taxonRemarks
      */
@@ -138,14 +171,67 @@ export interface Identification {
      */
     "dwc:subgenus"?: string;
     /**
-     * Unclear yet
+     * https://rs.tdwg.org/dwc/terms/acceptedNameUsage
      */
-    "???:acceptedScientificName"?: string;
-    [k: string]: unknown;
+    "dwc:acceptedNameUsage"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/acceptedNameUsageID
+     */
+    "dwc:acceptedNameUsageID"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/cultivarEpithet
+     */
+    "dwc:cultivarEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/genericName
+     */
+    "dwc:genericName"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/infragenericEpithet
+     */
+    "dwc:infragenericEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/infraspecificEpithet
+     */
+    "dwc:infraspecificEpithet"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/nomenclaturalStatus
+     */
+    "dwc:nomenclaturalStatus"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/originalNameUsage
+     */
+    "dwc:originalNameUsage"?: string;
+    /**
+     * http://rs.tdwg.org/dwc/terms/subtribe
+     */
+    "dwc:subtribe"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/superfamily
+     */
+    "dwc:superfamily"?: string;
+    /**
+     * https://rs.tdwg.org/dwc/terms/tribe
+     */
+    "dwc:tribe"?: string;
   }[];
-  [k: string]: unknown;
 }
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
 export interface Citation {
+  /**
+   * The identifier for the Citation object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier"?: string;
   /**
    * https://purl.org/dc/terms/type
    */
@@ -163,32 +249,31 @@ export interface Citation {
    */
   "dcterms:creator"?: string;
   /**
-   * Unclear yet
+   * Page number of the citation
    */
-  "???:citationPageNumber"?: string;
+  "ods:citationPageNumber"?: string;
   /**
-   * Unclear yet
+   * Any further remarks about the citation
    */
-  "???:citationRemarks"?: string;
+  "ods:citationRemarks"?: string;
   /**
-   * Unclear yet
+   * The type of reference
    */
-  "???:referenceType"?: string;
+  "ods:referenceType"?: string;
   /**
    * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
    */
   "dcterms:bibliographicCitation"?: string;
   /**
-   * Unclear yet
+   * The year the reference was published
    */
-  "???:referenceYear"?: string;
+  "ods:referenceYear"?: number;
   /**
-   * Unclear yet
+   * Reference to the web source of this citation
    */
-  "???:referenceIri"?: string;
+  "ods:referenceIRI"?: string;
   /**
-   * Unclear yet
+   * Is the citation peer reviewed?
    */
-  "???:isPeerReviewed"?: boolean;
-  [k: string]: unknown;
+  "ods:isPeerReviewed"?: boolean;
 }

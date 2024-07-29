@@ -6,199 +6,89 @@
  */
 
 export interface Agent {
-  agentRole?: string;
-  agentType: string;
-  agentName: string;
-  agentRoleBegan?: string;
-  agentRoleEnded?: string;
-  agentRoleOrder?: number;
-  identifiers?: Identification[];
-  [k: string]: unknown;
+  /**
+   * The identifier for the Agent object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Agent
+   */
+  "@type": "ods:Agent";
+  /**
+   * Indicates the role of the agent
+   */
+  "ods:agentRole": string;
+  /**
+   * Indicates the type of agent
+   */
+  "ods:agentType": string;
+  /**
+   * Primary identifier of the agent, additional identifiers can go in the identifiers array
+   */
+  "ods:agentID"?: string;
+  /**
+   * Full name of the agent
+   */
+  "ods:agentName": string;
+  /**
+   * Date the agent began the role
+   */
+  "ods:agentRoleBegan"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "ods:agentRoleEnded"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:agentRoleOrder"?: number;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier[];
 }
-export interface Identification {
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
+export interface Identifier {
   /**
-   * Check DWC terms
+   * The identifier for the Identifier object.
    */
-  "dwc:identificationID"?: string;
+  "@id"?: string;
   /**
-   * Unclear yet
+   * The type of the digital object, in this case a ods:Identifier
    */
-  "???:identificationType"?: string;
+  "@type": "ods:Identifier";
   /**
-   * Unclear yet
+   * The type of the identifier, https://purl.org/dc/elements/1.1/title
    */
-  "???:taxonFormula"?: string;
+  "dcterms:title": string;
   /**
-   * https://rs.tdwg.org/dwc/terms/verbatimIdentification
+   * The local title of the identifier
    */
-  "dwc:verbatimIdentification"?: string;
+  "ods:localTitle"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/typeStatus
+   * The value for the identifier, https://purl.org/dc/terms/identifier
    */
-  "dwc:typeStatus"?: string;
+  "dcterms:identifier": string;
   /**
-   * https://rs.tdwg.org/dwc/terms/identifiedBy
+   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
    */
-  "dwc:identifiedBy"?: string;
+  "dcterms:format"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/identifiedByID
+   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
    */
-  "dwc:identifiedById"?: string;
+  "dcterms:subject"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/dateIdentified
+   * Indicates whether the identifier is part of the physical label
    */
-  "dwc:dateIdentified"?: string;
+  "ods:isPartOfLabel"?: boolean;
   /**
-   * https://rs.tdwg.org/dwc/terms/identificationReferences
+   * Indicates whether the identifier is part of the barcode or nfc chip
    */
-  "dwc:identificationReferences"?: string;
+  "ods:isBarcodeOrNFC"?: boolean;
   /**
-   * If this is the accepted identification, based on https://rs.tdwg.org/dwc/terms/identificationVerificationStatus
+   * Indicates whether the identifier is a persistent identifier
    */
-  "dwc:identificationVerificationStatus": boolean;
-  /**
-   * https://rs.tdwg.org/dwc/terms/identificationRemarks
-   */
-  "dwc:identificationRemarks"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:typeDesignationType"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:typeDesignatedBy"?: string;
-  citations?: Citation[];
-  taxonIdentifications?: {
-    /**
-     * See DWC Terms
-     */
-    "dwc:taxonID"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/scientificName
-     */
-    "dwc:scientificName": string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/scientificNameAuthorship
-     */
-    "dwc:scientificNameAuthorship"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/nameAccordingTo
-     */
-    "dwc:nameAccordingTo"?: string;
-    "dwc:namePublishedInYear"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/taxonRank
-     */
-    "dwc:taxonRank"?: string;
-    /**
-     * Unclear yet
-     */
-    "???:taxonSource"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/taxonRemarks
-     */
-    "dwc:taxonRemarks"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/kingdom
-     */
-    "dwc:kingdom"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/phylum
-     */
-    "dwc:phylum"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/class
-     */
-    "dwc:class"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/order
-     */
-    "dwc:order"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/family
-     */
-    "dwc:family"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/subfamily
-     */
-    "dwc:subfamily"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/genus
-     */
-    "dwc:genus"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/specificEpithet
-     */
-    "dwc:specificEpithet"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/taxonomicStatus
-     */
-    "dwc:taxonomicStatus"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/nomenclaturalCode
-     */
-    "dwc:nomenclaturalCode"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/vernacularName
-     */
-    "dwc:vernacularName"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/subgenus
-     */
-    "dwc:subgenus"?: string;
-    /**
-     * Unclear yet
-     */
-    "???:acceptedScientificName"?: string;
-    [k: string]: unknown;
-  }[];
-  [k: string]: unknown;
-}
-export interface Citation {
-  /**
-   * https://purl.org/dc/terms/type
-   */
-  "dcterms:type"?: string;
-  /**
-   * https://purl.org/dc/terms/date
-   */
-  "dcterms:date"?: string;
-  /**
-   * https://purl.org/dc/terms/title
-   */
-  "dcterms:title"?: string;
-  /**
-   * https://purl.org/dc/elements/1.1/creator
-   */
-  "dcterms:creator"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:citationPageNumber"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:citationRemarks"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:referenceType"?: string;
-  /**
-   * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
-   */
-  "dcterms:bibliographicCitation"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:referenceYear"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:referenceIri"?: string;
-  /**
-   * Unclear yet
-   */
-  "???:isPeerReviewed"?: boolean;
-  [k: string]: unknown;
+  "ods:isIDPersistent"?: boolean;
 }

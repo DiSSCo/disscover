@@ -1,27 +1,40 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "ES2022.String", "DOM", "DOM.Iterable"],
+    "module": "ES2022",
     "skipLibCheck": true,
+    "allowJs": true,
     "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "types": ["node", "@testing-library/jest-dom"],
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "api/*": ["api/*"],
+      "app/*": ["app/*"],
+      "components/*": ["components/*"],
+      "redux-store/*": ["redux-store/*"],
+      "sources/*": ["sources/*"],
+      "tests/*": ["tests/*"],
+      "webroot/*": ["webroot/*"]
+    },
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "vite.config.ts"]
 }

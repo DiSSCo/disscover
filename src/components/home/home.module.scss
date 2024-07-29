@@ -1,110 +1,14 @@
-/* Custom styling for Home page */
-
-/* Generic */
-.content {
-    margin-top: 4.5em;
-}
-
-/* Topic Discipine Filters */
-.specimenTypeBlock {
-    background-color: #bfedf2;
-    border-radius: 12px;
-    height: 6.5rem;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.specimenTypeBlock:hover {
-    background-color: #95e1e9;
-}
-
-.specimenTypeCheckbox {
-    -ms-transform: scale(1.2);
-    /* IE */
-    -moz-transform: scale(1.2);
-    /* FF */
-    -webkit-transform: scale(1.2);
-    /* Safari and Chrome */
-    -o-transform: scale(1.2);
-    /* Opera */
-    transform: scale(1.2);
-    padding: 10px;
-}
-
-.topicDisciplineIcon {
-    height: 85%;
-}
-
-.topicOriginTitle {
-    font-size: 1.2rem;
-}
-
-.specimenTypeGreenVariant {
-    background-color: #A1D8CA;
-}
-
-.specimenTypeGreenVariant:hover {
-    background-color: #81cab8;
-}
-
-.specimenTypeBlueVariant {
-    background-color: #AED0E3;
-}
-
-.specimenTypeBlueVariant:hover {
-    background-color: #8dbcd8;
-}
-
-.specimenTypeSpecialSubTitle {
-    font-size: 14px;
-}
-
-.specimenTypeSpecialCheckbox {
-    -ms-transform: scale(1.3);
-    /* IE */
-    -moz-transform: scale(1.3);
-    /* FF */
-    -webkit-transform: scale(1.3);
-    /* Safari and Chrome */
-    -o-transform: scale(1.3);
-    /* Opera */
-    transform: scale(1.3);
-    padding: 10px;
-}
-
-/* Global Search Bar */
-.searchBar {
-    height: 40px;
-    border-color: var(--grey);
-}
-
-.searchBar::placeholder {
-    font-style: italic;
-    color: var(--greyDark);
-}
+/* Custom styling for the components of the home page */
 
 /* Advanced Search */
-.advancedSearchToggle:after {
-    display: block;
-    content: '';
-    border-bottom: solid 3px var(--accent);
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
-    transform-origin: 0% 50%;
+.advancedSearch {
+    margin-bottom: -80rem;
+    transition: 0.5s;
+    overflow: visible;
 }
 
-.advancedSearchToggle:hover:after {
-    transform: scaleX(1);
-}
-
-.notFound {
-    opacity: 0;
-    color: var(--denied);
-    font-weight: 400;
-    transition: 0.4s;
-}
-
-.notFound.active {
-    opacity: 100;
+/* Topic Filters */
+.topicFilter {
+    height: 7rem;
+    transition: 0.3s;
 }

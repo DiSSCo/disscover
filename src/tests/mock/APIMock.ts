@@ -1,50 +1,38 @@
 /* Import Depdencies */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node'
 
 /* Import Mock Data */
-import SpecimenFullMock from 'tests/mock/specimen/specimenFull.json';
-import SpecimenMock from 'tests/mock/specimen/specimen.json';
-import SpecimenAnnotationsMock from 'tests/mock/specimen/specimenAnnotations.json';
-import SpecimenDigitalMediaMock from 'tests/mock/specimen/specimenDigitalMedia.json';
-import SpecimenVersionsMock from 'tests/mock/specimen/specimenVersions.json';
-import SpecimenDisciplineMock from 'tests/mock/specimen/specimenDiscipline.json';
-import UserMock from 'tests/mock/user/user.json';
-import SourceSystemMock from 'tests/mock/sourceSystem/sourceSystem.json';
+import DigitalSpecimenMock from 'tests/mock/digitalSpecimen/digitalSpecimen.json';
+import SpecimenAnnotationsMock from 'tests/mock/digitalSpecimen/specimenAnnotations.json';
+import SpecimenDigitalMediaMock from 'tests/mock/digitalSpecimen/specimenDigitalMedia.json';
+import SpecimenVersionsMock from 'tests/mock/digitalSpecimen/specimenVersions.json';
+import SpecimenDisciplineMock from 'tests/mock/digitalSpecimen/specimenDiscipline.json';
 
 
+/**
+ * Function to set up a custom mock server for simulating API calls
+ */
 const Server = setupServer(
-    /* Get Full Specimen by id */
-    rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/full', (_req, res, ctx) => {
-        return res(ctx.json(SpecimenFullMock));
+    /* Get Digital Specimen by ID */
+    http.get('/digital-specimen/20.5000.1025/DW0-BNT-FM0', () => {
+        return HttpResponse.json(DigitalSpecimenMock);
     }),
-    /* Get Specimen by id */
-    rest.get('/specimens/20.5000.1025/DW0-BNT-FM0', (_req, res, ctx) => {
-        return res(ctx.json(SpecimenMock));
+    /* Get Digital Specimen's Annotations by ID */
+    http.get('/digital-specimen/20.5000.1025/DW0-BNT-FM0/annotations', () => {
+        return HttpResponse.json(SpecimenAnnotationsMock);
     }),
-    /* Get Specimen's Annotations by id */
-    rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/annotations', (_req, res, ctx) => {
-        return res(ctx.json(SpecimenAnnotationsMock));
+    /* Get Digital Specimen, Digital Media */
+    http.get('/digital-specimen/20.5000.1025/DW0-BNT-FM0/digital-media', () => {
+        return HttpResponse.json(SpecimenDigitalMediaMock);
     }),
-    /* Get Specimen Digital Media */
-    rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/digitalmedia', (_req, res, ctx) => {
-        return res(ctx.json(SpecimenDigitalMediaMock));
+    /* Get Digital Specimen's verions by id */
+    http.get('/digital-specimen/20.5000.1025/DW0-BNT-FM0/versions', () => {
+        return HttpResponse.json(SpecimenVersionsMock);
     }),
-    /* Get Specimen's verions by id */
-    rest.get('/specimens/20.5000.1025/DW0-BNT-FM0/versions', (_req, res, ctx) => {
-        return res(ctx.json(SpecimenVersionsMock));
-    }),
-    /* Get Specimen Disciplines */
-    rest.get('/specimens/discipline', (_req, res, ctx) => {
-        return res(ctx.json(SpecimenDisciplineMock));
-    }),
-    /* Get User */
-    rest.get('/users/SubjectId', (_req, res, ctx) => {
-        return res(ctx.json(UserMock));
-    }),
-    /* Get Source System */
-    rest.get('https://orchestration.dissco.tech/source-system/sourceSystemId', (_req, res, ctx) => {
-        return res(ctx.json(SourceSystemMock));
+    /* Get Topic Disciplines numbers */
+    http.get('/digital-specimen/discipline', () => {
+        return HttpResponse.json(SpecimenDisciplineMock);
     })
 );
 

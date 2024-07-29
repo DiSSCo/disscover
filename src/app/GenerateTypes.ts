@@ -1,103 +1,73 @@
 /* Import Dependencies */
+import axios from 'axios';
 import { writeFileSync } from 'fs'
-import { compileFromFile } from "json-schema-to-typescript";
+import { compile } from "json-schema-to-typescript";
 import { resolve } from 'path';
 
+/* Import Types */
+import { Dict } from './Types';
 
-/* Assertion */
-const Assertion = async () => {
-    writeFileSync('src/app/types/Assertion.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'assertions.json'), {}));
-}
 
-Assertion();
+/* Dict of types and their endpoints to fetch */
+const typesDict = {
+    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/assertion.json',
+    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/chronometric-age.json',
+    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/citation.json',
+    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/entity-relationship.json',
+    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/identification.json',
+    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/identifier.json',
+    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/location.json',
+    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/agent.json',
+    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/event.json',
+    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/latest/digital-media.json',
+    materialEntity: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/material-entity.json',
+    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/digital-specimen.json',
+    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/latest/annotation.json'
+};
 
-/* Chronometric Age */
-const ChronometricAge = async () => {
-    writeFileSync('src/app/types/ChronometricAge.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'chronometric_age.json'), {}));
-}
+/**
+ * Function to generate local type and json files based on the provided schemas
+ * @param typesDict A dictionary which keys indicate the name of the schema and value is an url that references the schema's source
+ */
+const HarvestTypes = (typesDict: { [type: string]: string }) => {
+    const promises: Promise<Dict>[] = [];
 
-ChronometricAge();
+    Object.values(typesDict).forEach(typeValue => {
+        promises.push(axios({
+            method: 'get',
+            url: typeValue,
+            responseType: 'json'
+        }));
+    });
 
-/* Citation */
-const Citation = async () => {
-    writeFileSync('src/app/types/Citation.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'citations.json'), {}));
-}
+    Promise.all(promises).then(async results => {
+        for (let index = 0; index < results.length; index++) {
+            const type: string = Object.keys(typesDict)[index][0].toUpperCase() + Object.keys(typesDict)[index].slice(1);
+            let result: Dict = results[index];
 
-Citation();
+            /* Check for refs inside schema, if so, replace with local generated files */
+            Object.values(result.data.properties).filter((value: any) => (value.type === 'array')).map((value: any) => {
+                if (value.items && '$ref' in value.items) {
+                    let refTypeName: string = value.items['$ref'].split('/').pop();
 
-/* Entity Relationship */
-const EntityRelationship = async () => {
-    writeFileSync('src/app/types/EntityRelationship.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'entity_relationships.json'), {}));
-}
+                    /* Check for - symbols and replace with camel case */
+                    refTypeName = refTypeName.split('-', 2).map((string, index) => index === 1 ? `${string[0].toUpperCase() + string.slice(1)}` : string).toString().replace(',', '');
 
-EntityRelationship();
+                    value.items['$ref'] =  resolve(__dirname, '../sources/dataModel', `./${refTypeName}`);
+                };
+            });
 
-/* Identification */
-const Identification = async () => {
-    writeFileSync('src/app/types/Identification.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'identifications.json'), {}));
-}
+            await compile(result.data, Object.keys(typesDict)[index]).then(ts => {
+                /* Write to source data model */
+                writeFileSync(`../sources/dataModel/${Object.keys(typesDict)[index]}.json`, JSON.stringify(result.data));
 
-Identification();
+                /* Write to types */
+                writeFileSync(`./types/${type}.d.ts`, ts);
+            }).catch(error => {
+                console.error(error);
+            });
+        };
+    });
+};
 
-/* Identifier */
-const Identifier = async () => {
-    writeFileSync('src/app/types/Identifier.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'identifiers.json'), {}));
-}
-
-Identifier();
-
-/* Location */
-const Location = async () => {
-    writeFileSync('src/app/types/Location.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'location.json'), {}));
-}
-
-Location();
-
-/* Agent */
-const Agent = async () => {
-    writeFileSync('src/app/types/Agent.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'agent.json'), {}));
-}
-
-Agent();
-
-/* Occurrence */
-const Occurrence = async () => {
-    writeFileSync('src/app/types/Occurrence.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'occurrences.json'), {}));
-}
-
-Occurrence();
-
-/* Event */
-const Event = async () => {
-    writeFileSync('src/app/types/Event.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'events.json'), {}));
-}
-
-Event();
-
-/* Digital Entity */
-const DigitalEntity = async () => {
-    writeFileSync('src/app/types/DigitalEntity.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'digital_entity.json'), {}));
-}
-
-DigitalEntity();
-
-/* Material Entity */
-const MaterialEntity = async () => {
-    writeFileSync('src/app/types/MaterialEntity.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'material_entity.json'), {}));
-}
-
-MaterialEntity();
-
-/* Digital Specimen */
-const DigitalSpecimen = async () => {
-    writeFileSync('src/app/types/DigitalSpecimen.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'digital_specimen.json'), {}));
-}
-
-DigitalSpecimen();
-
-/* Annotation */
-const Annotation = async () => {
-    writeFileSync('src/app/types/Annotation.d.ts', await compileFromFile(resolve(__dirname, '../sources/dataModel', 'annotation.json'), {}))
-}
-
-Annotation();
+HarvestTypes(typesDict);

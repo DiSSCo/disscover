@@ -1,87 +1,112 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
+import CountUp from 'react-countup';
 
-/* Import Styles */
-import styles from './home.module.scss';
+/* Import Hooks */
+import { useFetch } from 'app/Hooks';
+
+/* Import Types */
+import { Dict } from 'app/Types';
+
+/* Import API */
+import GetDigitalSpecimenDisciplines from 'api/digitalSpecimen/GetDigitalSpecimenDisciplines';
 
 /* Import Components */
-import Header from 'components/general/header/Header';
-import HomeSteps from './steps/HomeSteps';
-import Title from './components/Title';
-import TopicDisciplineFilters from "./components/topicDisciplines/TopicDisciplineFilters";
-import IntroText from "./components/IntroText";
-import GlobalSearchBar from "./components/search/GlobalSearchBar";
-import AdvancedSearch from "./components/search/AdvancedSearch";
-import Footer from 'components/general/footer/Footer';
+import { Header, Footer } from 'components/elements/Elements';
+import { AdvancedSearch, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 
 
+/**
+ * Base component that renders the Home page
+ * @returns JSX Component
+ */
 const Home = () => {
+    /* Hooks */
+    const fetch = useFetch();
+
     /* Base variables */
-    const [advancedSearch, setAdvancedSearch] = useState<boolean>(false);
+    const [digitalSpecimenDisciplines, setDigitalSpecimenDisciplines] = useState<{
+        disciplines: { topicDiscipline: { [topicDiscipline: string]: number } },
+        metadata?: Dict
+    } | undefined>();
 
-    /* ClassName for Advanced Search */
-    const classAdvancedSearch = classNames({
-        'opacity-0 transition z--1': true,
-        'position-fixed top-100': !advancedSearch,
-        'position-absolute opacity-100 z-1 top-0': advancedSearch
-    });
-
-    const classAdvancedToggled = classNames({
-        'transition mt-2 mt-lg-4 mb-lg-5': true,
-        'opacity-0': advancedSearch,
-        'opacity-1': !advancedSearch
+    /* OnLoad: fetch digital specimen disciplines */
+    fetch.Fetch({
+        Method: GetDigitalSpecimenDisciplines,
+        Handler: (digitalSpecimenDisciplines: {
+            disciplines: { topicDiscipline: { [topicDiscipline: string]: number } },
+            metadata?: Dict
+        }) => setDigitalSpecimenDisciplines(digitalSpecimenDisciplines)
     });
 
     return (
-        <div className="h-100 overflow-scroll d-flex flex-column">
-            <Header introTopics={[{intro: 'home', title: 'About This Page'}]}/>
+        <div className="h-100 d-flex flex-column">
+            {/* Render header*/}
+            <Header span={10}
+                offset={1}
+            />
 
-            <HomeSteps SetAdvancedSearch={(toggle: boolean) => setAdvancedSearch(toggle)} />
+            {/* Home page body */}
+            {(!fetch.loading && digitalSpecimenDisciplines) &&
+                <Container fluid className="flex-grow-1">
+                    <Row className="h-100">
+                        <Col lg={{ span: 10, offset: 1 }}>
+                            <Row className="h-100 align-items-center overflow-y-hidden overflow-x-hidden">
+                                {/* Left side containing: total count and topic discipline filters */}
+                                <Col lg={{ span: 6 }}
+                                    className="pe-5"
+                                >
+                                    {/* Total count */}
+                                    <Row>
+                                        <Col>
+                                            <p className="fs-2 tc-primary fw-bold">
+                                                Total specimens: <CountUp end={digitalSpecimenDisciplines?.metadata?.totalRecords ?? 0} />
+                                            </p>
+                                        </Col>
+                                    </Row>
+                                    {/* Topic discipline filters */}
+                                    <Row className="mt-2">
+                                        <Col>
+                                            <TopicFilters topicDisciplines={digitalSpecimenDisciplines?.disciplines} />
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                {/* Right side containing: title, introduction text and advanced search options */}
+                                <Col lg={{ span: 6 }}
+                                    className="position-relative mt-1 ps-5"
+                                >
+                                    {/* Introduction */}
+                                    <Row className="pb-3">
+                                        <Col>
+                                            <Introduction />
+                                        </Col>
+                                    </Row>
+                                    {/* Query bar */}
+                                    <Row className="mt-5">
+                                        <Col>
+                                            <SearchBar />
+                                        </Col>
+                                    </Row>
+                                    {/* Advanced search */}
+                                    <Row>
+                                        <Col>
+                                            <AdvancedSearch />
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Container>
+            }
 
-            <Container fluid className={`${styles.content} flex-grow-1`}>
-                <Row className="h-100">
-                    {/* First part of Homepage, relative to screen height */}
-                    <Col md={{ span: 10, offset: 1 }} className="h-100">
-                        {/* Title for tablet smaller screens */}
-                        <Row className="d-lg-none mt-md-5">
-                            <Col>
-                                <Title />
-                            </Col>
-                        </Row>
-                        <Row className="h-100 align-items-center">
-                            <Col lg={{ span: 6 }} md={{ span: 12 }} className="specimenTypeFilters pe-lg-5 pt-md-4">
-                                <TopicDisciplineFilters />
-                            </Col>
-                            <Col lg={{ span: 6 }} md={{ span: 12 }}
-                                className="ps-lg-5 mt-md-4 d-flex flex-lg-column flex-md-column-reverse position-relative"
-                            >
-                                {/* Introduction Text */}
-                                <Row className={classAdvancedToggled}>
-                                    <Col>
-                                        <IntroText />
-                                    </Col>
-                                </Row>
-                                {/* General Search Bar */}
-                                <Row className={`${classAdvancedToggled} globalSearchBar`}>
-                                    <Col>
-                                        <GlobalSearchBar ToggleAdvancedFilter={() => setAdvancedSearch(true)} />
-                                    </Col>
-                                </Row>
-                                {/* Advanced Search */}
-                                <div className={`${classAdvancedSearch} advancedSearch w-100 pe-5`} role="advancedSearch">
-                                    <AdvancedSearch HideAdvancedSearch={() => setAdvancedSearch(false)} />
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
-
-            <Footer />
+            {/* Render footer */}
+            <Footer span={10}
+                offset={1}
+            />
         </div>
     );
-}
+};
 
 export default Home;

@@ -1,0 +1,96 @@
+{
+    "searchFilters": {
+        "midsLevel": {
+            "label": "MIDS Level",
+            "type": "block"
+        },
+        "topicDiscipline": {
+            "label": "Topic Discipline",
+            "type": "select",
+            "nestedIn": "filters"
+        },
+        "taxonomy": {
+            "label": "Taxonomy",
+            "type": "taxonomy",
+            "nestedIn": "filters",
+            "contains": {
+                "kingdom": {
+                    "label": "Kingdom",
+                    "type": "select"
+                },
+                "class": {
+                    "label": "Class",
+                    "type": "select"
+                },
+                "phylum": {
+                    "label": "Phylum",
+                    "type": "select"
+                },
+                "order": {
+                    "label": "Order",
+                    "type": "select"
+                },
+                "family": {
+                    "label": "Family",
+                    "type": "select"
+                },
+                "genus": {
+                    "label": "Genus",
+                    "type": "select"
+                },
+                "species": {
+                    "label": "Species",
+                    "type": "select"
+                }
+            },
+            "searchable": true,
+            "searchAlias": "species"
+        },
+        "country": {
+            "label": "Country",
+            "type": "select",
+            "nestedIn": "filters",
+            "searchable": true
+        },
+        "organisationName": {
+            "label": "Organisation",
+            "type": "select",
+            "nestedIn": "filters",
+            "searchable": true
+        },
+        "sourceSystemID": {
+            "label": "Source System",
+            "type": "select",
+            "nestedIn": "filters",
+            "searchable": true
+        },
+        "typeStatus": {
+            "label": "Type status",
+            "type": "select",
+            "nestedIn": "filters",
+            "searchable": true
+        },
+        "livingOrPreserved": {
+            "label": "Living or preserved",
+            "type": "block",
+            "nestedIn": "filters"
+        },
+        "license": {
+            "label": "License",
+            "type": "select",
+            "nestedIn": "filters",
+            "searchable": true
+        },
+        "hasMedia": {
+            "label": "Has Media",
+            "type": "boolean",
+            "nestedIn": "filters"
+        },
+        "collectionCode": {
+            "label": "Collection Code",
+            "type": "select",
+            "nestedIn": "filters",
+            "searchable": true
+        }
+    }
+}

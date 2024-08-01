@@ -21,7 +21,7 @@ const GetDigitalSpecimenDigitalMedia = async({ handle } : { handle: string }) =>
         try {
             const result = await axios({
                 method: 'get',
-                url: `digital-specimen/${handle}/digitalmedia`,
+                url: `digital-specimen/${handle}/digital-media`,
                 responseType: 'json'
             });
 

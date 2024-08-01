@@ -51,7 +51,7 @@ const BreadCrumbs = () => {
                 });
 
                 breadCrumbs.push({
-                    crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}}`,
+                    crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`,
                     path: `/ds/${digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
                 });
         };

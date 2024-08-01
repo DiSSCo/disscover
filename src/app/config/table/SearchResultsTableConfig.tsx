@@ -17,7 +17,7 @@ import { Dict } from 'app/Types';
  * @returns Table columns
  */
 const SearchResultsTableConfig = () => {
-    /* Type interface */
+    /* Search results type */
     type SearchResult = {
         selected: boolean,
         DOI: string,
@@ -35,7 +35,8 @@ const SearchResultsTableConfig = () => {
     const columnHelper = createColumnHelper<SearchResult>();
 
     /**
-     * 
+     * Function to generate an icon in the taxonomy cell based upon the fetched data
+     * @param promise A promise holding the result of the fetch for the icon
      */
     const TaxonomyIconCell = (promise: Promise<Dict | string>) => {
         /* Base variables */

@@ -169,7 +169,7 @@ const AdvancedSearch = () => {
                             <Col>
                                 <Button type="button"
                                     variant="blank"
-                                    className="tc-accent"
+                                    className="tc-accent py-0"
                                     OnClick={() => setAdvancedSearchToggle(true)}
                                 >
                                     Search by ID or collection
@@ -177,7 +177,7 @@ const AdvancedSearch = () => {
                             </Col>
                         </Row>
                         {/* Advanced search window, absolute to relative column in Home.tsx */}
-                        <div className={`${styles.advancedSearch} ${advancedSearchClass} position-absolute h-100 pe-5 bottom-0 bgc-default`}>
+                        <div className={`${styles.advancedSearch} ${advancedSearchClass} position-absolute h-100 w-50 pe-5 ps-5 end-0 bottom-0 pt-5 bgc-default`}>
                             {/* Title and close icon */}
                             <Row>
                                 <Col>
@@ -209,6 +209,7 @@ const AdvancedSearch = () => {
                                                 formValues: values,
                                                 SetFieldValue: (field: string, value: string | number | boolean) => setFieldValue(field, value)
                                             }}
+                                            tabPanelClassName='pt-3'
                                             SetSelectedIndex={(index: number) => setSelectedTabIndex(index)}
                                         />
                                     </Col>

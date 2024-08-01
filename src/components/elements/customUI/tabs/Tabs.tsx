@@ -20,6 +20,7 @@ type Props = {
         [propName: string]: string | number | boolean | Dict | Function
     },
     tabClassName?: string,
+    tabPanelClassName?: string,
     SetSelectedIndex: Function
 };
 
@@ -29,12 +30,13 @@ type Props = {
  * @param tabs An object containg tab records, identified with the name of the tab as the key and the JSX component as the value
  * @param selectedIndex The selected index in the parent state
  * @param tabProps The Props object that should be passed onto the individual tabs
- * @param tabClassName Additional class names to append to an individual tab
+ * @param tabClassName Additional class names to append to a tab
+ * @param tabPanelClassName Addition class names to append to a tab panel
  * @param SetSelectedIndex A function to set the selected index in the parent component
  * @returns JSX Component
  */
 const Tabs = (props: Props) => {
-    const { tabs, selectedIndex, tabProps, tabClassName, SetSelectedIndex } = props;
+    const { tabs, selectedIndex, tabProps, tabClassName, tabPanelClassName, SetSelectedIndex } = props;
 
     /* Base variables */
     const [localSelectedIndex, setLocalSelectedIndex] = useState<number>(selectedIndex ?? 0);
@@ -68,7 +70,7 @@ const Tabs = (props: Props) => {
             {/* Tab Panels */}
             {Object.entries(tabs).map(([key, value]) => (
                 <TabPanel key={`tabPanel_${key}`}
-                    className="react-tabs__tab-panel w-100 flex-grow-1 pt-3"
+                    className={`${tabPanelClassName} react-tabs__tab-panel w-100 flex-grow-1`}
                 >
                     {cloneElement(value, {
                         ...tabProps

@@ -16,7 +16,7 @@ type DataFragment = {
     type: string,
     attributes: {
         digitalSpecimen?: DigitalSpecimenType,
-        digitalEntity?: DigitalMediaType,
+        digitalMedia?: DigitalMediaType,
         originalData?: Dict,
         digitalMediaObjects?: {
             digitalMediaObject: DigitalMediaType,
@@ -59,77 +59,6 @@ export type User = {
     organisation?: string
     orcid?: string,
 };
-
-/* Annotation Types */
-export type AnnotationArray = {
-    [property: string]: Annotation[]
-}
-
-export type TargetProperty = {
-    name: string,
-    type: string
-}
-
-export type AnnotationTarget = {
-    superClass: string,
-    name?: string,
-    type?: string,
-    index?: number,
-    annotations: Annotation[]
-};
-
-export type AnnotationType = {
-    name: string,
-    displayName: string,
-    additionalFields: Dict,
-    description: string
-};
-
-export type Property = string | number | boolean;
-
-export type AnnotationTemplate = {
-    "ods:id"?: string,
-    "oa:motivation": string,
-    "oa:target": {
-        "ods:id": string,
-        "ods:type": string,
-        "oa:selector": {
-            "ods:type": string,
-            "ods:field"?: string,
-            "dcterms:conformsTo"?: string,
-            "ac:hasRoi"?: {
-                "ac:xFrac": number,
-                "ac:yFrac": number,
-                "ac:widthFrac": number,
-                "ac:heightFrac": number
-            }
-        },
-    }
-    "oa:body": {
-        "ods:type": string,
-        "oa:value": string[],
-        "dcterms:reference"?: string,
-        "ods:score"?: 100
-    }
-};
-
-/* Organisation Type */
-export type Organisation = {
-    id: string,
-    name: string,
-    ror: string
-}
-
-/* Source System Type */
-export type SourceSystem = {
-    id: string,
-    created: Date,
-    type: string,
-    name: string,
-    endpoint: string,
-    description: string,
-    mappingId: string
-}
 
 /* Search Filter Type (search filters) */
 export type SearchFilter = {

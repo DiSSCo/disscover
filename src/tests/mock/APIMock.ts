@@ -23,7 +23,7 @@ const Server = setupServer(
         return HttpResponse.json(SpecimenAnnotationsMock);
     }),
     /* Get Digital Specimen, Digital Media */
-    http.get('/digital-specimen/20.5000.1025/DW0-BNT-FM0/digitalmedia', () => {
+    http.get('/digital-specimen/20.5000.1025/DW0-BNT-FM0/digital-media', () => {
         return HttpResponse.json(SpecimenDigitalMediaMock);
     }),
     /* Get Digital Specimen's verions by id */

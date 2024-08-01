@@ -49,9 +49,9 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
             <Row>
                 <Col>
                     <p className="fs-4">
-                        A physical specimen id is the identifier attached to the physical object, usually as a barcode.
-                        This can be a globally unique identifier such as a CETAF identifier, DOI or IGSN number,
-                        or a local identifier such as a local catalog number.
+                        A physical specimen ID is the identifier associated with the physical object, usually as a barcode.
+                        This can be a globally unique identifier, such as a CETAF identifier, DOI, or IGSN number,
+                        or a local identifier such as an institutional catalog number.
                     </p>
                 </Col>
             </Row>

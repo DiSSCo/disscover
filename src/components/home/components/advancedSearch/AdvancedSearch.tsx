@@ -57,7 +57,7 @@ const AdvancedSearch = () => {
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const initialFormValues: {
         doi: string,
-        physicalSpecimenIdType: 'global' | 'local',
+        physicalSpecimenIdType: 'global' | 'local' | 'resolvable',
         normalisedPhysicalSpecimenId: string,
         organisationName: string,
         collectionFacilityIdType: 'local'
@@ -99,7 +99,7 @@ const AdvancedSearch = () => {
      * @param physicalSpecimenId The physical specimen id
      * @param organisationName The name of the hosting organisation
      */
-    const SearchByPhysicalSpecimenId = (type: "global" | "local", physicalSpecimenId: string, organisationName?: string) => {
+    const SearchByPhysicalSpecimenId = (type: 'global' | 'local' | 'resolvable', physicalSpecimenId: string, organisationName?: string) => {
         /* Base search filters on physcial specimen id type */
         let searchFilters: SearchFilters = {
             physicalSpecimenId: [physicalSpecimenId]

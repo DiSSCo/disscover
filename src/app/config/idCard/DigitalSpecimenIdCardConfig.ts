@@ -10,52 +10,46 @@ const DigitalSpecimenIdCardConfig = ({ digitalSpecimen }: { digitalSpecimen: Dig
     jsonPath: string,
     link?: string
 }[] => {
-    const idCardFields: {
-        label: string,
-        jsonPath: string,
-        link?: string
-    }[] = [
-            {
-                label: 'Specimen name',
-                jsonPath: "$['ods:specimenName']"
-            },
-            {
-                label: `Physical specimen ID (${digitalSpecimen["ods:physicalSpecimenIDType"]})`,
-                jsonPath: "$['ods:normalisedPhysicalSpecimenID']",
-                link: "$['ods:normalisedPhysicalSpecimenID']"
-            },
-            {
-                label: 'Specimen provider',
-                jsonPath: "$['ods:institutionName']",
-                link: "$['dwc:institutionID']"
-            },
-            {
-                label: 'In collection',
-                jsonPath: "$['dwc:collectionCode']"
-            },
-            {
-                label: 'Topic discipline',
-                jsonPath: "$['ods:topicDiscipline']"
-            },
-            {
-                label: 'Basis of record',
-                jsonPath: "$['dwc:basisOfRecord']"
-            },
-            {
-                label: 'Living or preserved',
-                jsonPath: "$['ods:livingOrPreserved']"
-            },
-            {
-                label: 'Licence',
-                jsonPath: "$['dcterms:license']"
-            },
-            {
-                label: 'Source system',
-                jsonPath: "$['ods:sourceSystemID']"
-            }
-        ];
-
-    return idCardFields;
+    return [
+        {
+            label: 'Specimen name',
+            jsonPath: "$['ods:specimenName']"
+        },
+        {
+            label: `Physical specimen ID (${digitalSpecimen["ods:physicalSpecimenIDType"]})`,
+            jsonPath: "$['ods:normalisedPhysicalSpecimenID']",
+            ...(digitalSpecimen["ods:physicalSpecimenIDType"] === 'Resolvable' && { link: "ods:normalisedPhysicalSpecimenID']" })
+        },
+        {
+            label: 'Specimen provider',
+            jsonPath: "$['ods:organisationName']",
+            link: "$['dwc:organisationID']"
+        },
+        {
+            label: 'In collection',
+            jsonPath: "$['dwc:collectionCode']"
+        },
+        {
+            label: 'Topic discipline',
+            jsonPath: "$['ods:topicDiscipline']"
+        },
+        {
+            label: 'Basis of record',
+            jsonPath: "$['dwc:basisOfRecord']"
+        },
+        {
+            label: 'Living or preserved',
+            jsonPath: "$['ods:livingOrPreserved']"
+        },
+        {
+            label: 'Licence',
+            jsonPath: "$['dcterms:license']"
+        },
+        {
+            label: 'Source system',
+            jsonPath: "$['ods:sourceSystemID']"
+        }
+    ];
 };
 
 export default DigitalSpecimenIdCardConfig;

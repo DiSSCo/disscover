@@ -19,11 +19,9 @@ import PropertiesTable from './PropertiesTable';
 
 /* Props Type */
 type Props = {
-    index: number,
-    nameOfClass: string,
+    index?: number,
     title: string,
     taxonAcceptedName?: string,
-    /*instanceLevels?: Dict,*/
     properties: Dict
 };
 
@@ -31,17 +29,16 @@ type Props = {
 /**
  * Component that renders a block for displaying all properties of a digital specimen class
  * @param index The index of the class
- * @param nameOfClass The name of the class, which properties are shown
  * @param title The title of the the class properties
  * @param taxonAcceptedName When related to taxonomy, holds the accepted taxonomic name
  * @param properties The class's properties
  * @returns JSX Component
  */
 const ClassProperties = (props: Props) => {
-    const { index, nameOfClass, title, taxonAcceptedName,/* instanceLevels, */ properties } = props;
+    const { index, title, taxonAcceptedName, properties } = props;
 
     /* Base variables */
-    const [collapsed, setCollapsed] = useState<boolean>(index > 0);
+    const [collapsed, setCollapsed] = useState<boolean>(index && index > 0 ? true : false);
     let blockName: string;
 
     if (taxonAcceptedName && properties.properties['dwc:identificationVerificationStatus'] && properties.properties['dwc:identificationVerificationStatus'] === true) {
@@ -52,16 +49,16 @@ const ClassProperties = (props: Props) => {
 
     /* ClassNames */
     const CardClass = classNames({
-        'mt-3': index > 0
+        'mt-3': index && index > 0
     });
 
     return (
         <div>
-            <Card key={`${nameOfClass}_${index}`} className={CardClass}>
+            <Card key={`${title}_${index}`} className={CardClass}>
                 <Card.Body>
                     <Row>
                         <Col>
-                            <p className="fs-2 fw-lightBold"> {`${blockName} #${index + 1}`} </p>
+                            <p className="fs-2 fw-lightBold"> {`${blockName} ${typeof index !== 'undefined' ? '#' + (index + 1) : ''}`} </p>
                         </Col>
                         <Col className="col-md-auto">
                             <FontAwesomeIcon icon={collapsed ? faChevronDown : faChevronUp}

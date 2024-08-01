@@ -10,7 +10,7 @@ type Callback = () => Function | void;
 const keycloak = new Keycloak({
     url: "https://login-demo.dissco.eu/auth",
     realm: "dissco",
-    clientId: "orchestration-service"
+    clientId: "orchestration-service",
 });
 
 const InitKeyCloak = (callback?: Callback, token?: string) => {
@@ -19,7 +19,8 @@ const InitKeyCloak = (callback?: Callback, token?: string) => {
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
         pkceMethod: "S256",
         token: token,
-        refreshToken: token
+        refreshToken: token,
+        scope: 'roles profile email'
     })
         .then((authenticated) => { 
             if (!authenticated) {

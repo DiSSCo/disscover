@@ -77,7 +77,6 @@ const Events = (props: Props) => {
             {events.map((event, index) => (
                 <ClassProperties key={`event_${index}`}
                     index={index}
-                    nameOfClass="hasEvent"
                     title="event"
                     properties={event}
                 />

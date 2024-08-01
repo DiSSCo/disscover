@@ -40,7 +40,7 @@ const ContentBlock = (props: Props) => {
         ...(!isEmpty(digitalSpecimen['ods:hasAssertion']) && {
             'assertions': <Assertions digitalSpecimen={digitalSpecimen} />
         }),
-        'originalData': <OriginalData />
+        'originalData': <OriginalData digitalSpecimenId={digitalSpecimen['ods:ID']} />
     };
 
     return (

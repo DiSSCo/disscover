@@ -54,11 +54,11 @@ const EntityRelationships = (props: Props) => {
 
     /* Class Names */
     const graphModeButtonClass = classNames({
-        'bgc-accent': displayMode === 'graph'
+        'bgc-accent tc-white': displayMode === 'graph'
     });
 
     const tableModeButtonClass = classNames({
-        'bgc-accent': displayMode === 'table'
+        'bgc-accent tc-white': displayMode === 'table'
     });
 
     return (
@@ -74,7 +74,6 @@ const EntityRelationships = (props: Props) => {
                     {entityRelationships.map((entityRelationship, index) => (
                         <ClassProperties key={`entityRelationship_${index}`}
                             index={index}
-                            nameOfClass="hasEntityRelationship"
                             title="entityRelationship"
                             properties={entityRelationship}
                         />

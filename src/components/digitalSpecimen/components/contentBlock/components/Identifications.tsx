@@ -58,7 +58,6 @@ const Identifications = (props: Props) => {
             {identifications.map((identification, index) => (
                 <ClassProperties key={`identification_${index}`}
                     index={index}
-                    nameOfClass="hasIdentification"
                     title="identification"
                     properties={identification}
                 />

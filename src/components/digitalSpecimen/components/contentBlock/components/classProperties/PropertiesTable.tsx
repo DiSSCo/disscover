@@ -70,7 +70,7 @@ const PropertiesTable = (props: Props) => {
                         <div className={`${styles.propertiesTable} h-100 overflow-auto position-relative rounded-c}`}>
                             <DataTable columns={columns}
                                 data={tableData}
-                                SelectAction={(row: DataRow) => {}}
+                                SelectAction={(_row: DataRow) => {}}
                             />
                         </div>
                     </Col>

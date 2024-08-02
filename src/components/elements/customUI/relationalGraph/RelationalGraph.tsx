@@ -48,7 +48,7 @@ const RelationalGraph = (props: Props) => {
 
     /* Function to try and find logo to display in node */
     const FindLogo = ({ id, name }: { id: string, name: string }) => {
-        let logo: JSX.Element | string = '';
+        let logo: JSX.Element | string | undefiend;
 
         /* Grab organisation id if is organisation link */
         switch (name) {

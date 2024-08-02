@@ -88,7 +88,9 @@ const AudioPlayer = (props: Props) => {
                 ref={audioRef}
                 onLoadedMetadataCapture={() => OnLoadedMetadata()}
                 onEnded={() => { setIsPlaying(false) }}
-            />
+            >
+                <track kind="captions" />
+            </audio>
 
             <Row className="align-items-center">
                 <Col className="col-md-auto pe-0 ">

@@ -72,7 +72,7 @@ const EntityRelationships = (props: Props) => {
                 </Card>
                 : <>
                     {entityRelationships.map((entityRelationship, index) => (
-                        <ClassProperties key={`entityRelationship_${index}`}
+                        <ClassProperties key={entityRelationship.id}
                             index={index}
                             title="entityRelationship"
                             properties={entityRelationship}

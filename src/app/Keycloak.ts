@@ -20,8 +20,7 @@ const InitKeyCloak = (callback?: Callback, token?: string) => {
         pkceMethod: "S256",
         scope: 'roles profile email',
         token: token,
-        refreshToken: token,
-        scope: 'roles profile email'
+        refreshToken: token
     })
         .then((authenticated) => { 
             if (!authenticated) {

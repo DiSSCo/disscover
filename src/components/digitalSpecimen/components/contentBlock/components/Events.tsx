@@ -75,7 +75,7 @@ const Events = (props: Props) => {
     return (
         <div className="h-100">
             {events.map((event, index) => (
-                <ClassProperties key={`event_${index}`}
+                <ClassProperties key={event.mainProperties['@id']}
                     index={index}
                     title="event"
                     properties={event}

@@ -30,13 +30,17 @@ const Video = (props: Props) => {
     if (accessURI.includes('youtube')) {
         return (
             <div className={`${classVideoHover} w-100 h-100`}>
-                <iframe className={`w-100 h-100`} src={accessURI} />
+                <iframe className={`w-100 h-100`} src={accessURI}>
+                    <track kind="captions" />
+                </iframe>
             </div>
         );
     } else {
         return (
             <div className={`${classVideoHover} w-100 h-100`}>
-                <video className="w-100 rounded">
+                <video className="w-100 rounded"
+                    title={`Video player for: ${accessURI}`}
+                >
                     <source src={accessURI} type="video/mp4" />
                     <source src={accessURI} type="video/ogg" />
                     Your browser does not support direct video

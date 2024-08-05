@@ -33,6 +33,8 @@ const LoadingScreen = (props: Props) => {
         'bgc-secondary-soft-transparent': !className?.includes('bgc')
     });
 
+    (visible);
+
     return (
         <div className={`${loadingScreenClass} ${className} h-100 w-100 top-0 start-0 position-absolute tr-fast`}>
             <Row className="h-100">

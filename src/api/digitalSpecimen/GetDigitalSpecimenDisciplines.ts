@@ -33,9 +33,9 @@ const GetDigitalSpecimenDisciplines = async () => {
     } catch (error: any) {
         /* Throw error */
         throw(NotFoundException('Digital Specimen Disciplines', error.request.responseURL));
-    }
+    };
 
     return returnData;
-}
+};
 
 export default GetDigitalSpecimenDisciplines;

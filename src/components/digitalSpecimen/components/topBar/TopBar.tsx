@@ -76,7 +76,7 @@ const TopBar = (props: Props) => {
      */
     const ViewDigitalSpecimenJson = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
-            `/api/v1/specimens/${digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
+            `/api/v1/digital-specimen/${digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
         );
     };
 
@@ -128,20 +128,18 @@ const TopBar = (props: Props) => {
                             </span>
                         </Col>
                         <Col lg="auto">
-                            {!fetch.loading &&
-                                <Dropdown items={versionDropdownItems}
-                                    selectedItem={{
-                                        label: `Version ${digitalSpecimen['ods:version']}`,
-                                        value: digitalSpecimen['ods:version'].toString()
-                                    }}
-                                    hasDefault={true}
-                                    styles={{
-                                        color: '#f1f1f3',
-                                        background: '#a1d8ca',
-                                        borderRadius: '999px'
-                                    }}
-                                />
-                            }
+                            <Dropdown items={versionDropdownItems}
+                                selectedItem={{
+                                    label: fetch.loading ? 'Loading..' : `Version ${digitalSpecimen['ods:version']}`,
+                                    value: fetch.loading ? 'loading' : digitalSpecimen['ods:version'].toString()
+                                }}
+                                hasDefault={true}
+                                styles={{
+                                    color: '#f1f1f3',
+                                    background: '#a1d8ca',
+                                    borderRadius: '999px'
+                                }}
+                            />
                         </Col>
                     </Row>
                 </Col>

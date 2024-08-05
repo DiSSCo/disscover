@@ -33,13 +33,14 @@ const Button = (props: Props) => {
         'fw-bold': variant !== 'blank',
         'fs-4': !className?.includes('fs'),
         'py-2': !className?.includes('py'),
-        'px-4': !className?.includes('px')
+        'px-4': !className?.includes('px'),
+        'br-round': !className?.includes('br')
     });
 
     return (
         <button type={type}
             disabled={disabled}
-            className={`${styles.button} ${styles[variant]} ${buttonClass} b-none br-round`}
+            className={`${styles.button} ${styles[variant]} ${buttonClass} b-none`}
             onClick={() => OnClick?.()}
         >
             {children}

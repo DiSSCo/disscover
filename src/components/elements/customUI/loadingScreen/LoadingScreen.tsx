@@ -28,12 +28,13 @@ const LoadingScreen = (props: Props) => {
 
     /* Class Names */
     const loadingScreenClass = classNames({
-        "z--1 opacity-0": !visible,
-        "z-1 opacity-100": visible
+        'z--1 opacity-0': !visible,
+        'z-1 opacity-100': visible,
+        'bgc-secondary-soft-transparent': !className?.includes('bgc')
     });
 
     return (
-        <div className={`${loadingScreenClass} ${className} h-100 w-100 top-0 start-0 position-absolute bgc-secondary-soft-transparent tr-fast`}>
+        <div className={`${loadingScreenClass} ${className} h-100 w-100 top-0 start-0 position-absolute tr-fast`}>
             <Row className="h-100">
                 <Col className="d-flex justify-content-center align-items-center">
                     <div className="text-center">

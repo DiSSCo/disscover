@@ -136,7 +136,7 @@ const IdCard = () => {
                     <Col lg="auto"
                         className="d-flex align-items-center"
                     >
-                        <p className="fs-4 tc-grey">{digitalSpecimen?.['ods:ID']}</p>
+                        <p className="fs-4 tc-grey">{digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}</p>
                     </Col>
                 </Row>
                 {/* Primary details of digital specimen */}
@@ -144,7 +144,7 @@ const IdCard = () => {
                     <Col className="fs-4">
                         {/* Scientific name */}
                         <p>
-                            <span className="fw-lightBold">Scientific name:</span>
+                            <span className="fw-lightBold">Scientific name: </span>
                             {digitalSpecimen && DetermineScientificName(digitalSpecimen)}
                         </p>
                         {/* Physical specimen ID */}
@@ -194,7 +194,7 @@ const IdCard = () => {
                         {!!digitalSpecimenDigitalMedia.length &&
                             <Row className="h-50 flex-nowrap overflow-x-scroll">
                                 {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
-                                    <Col key={`${digitalMedia['ods:ID']}-${index}`}
+                                    <Col key={`${digitalMedia['ods:ID']}_${index}`}
                                         lg={{ span: 4 }}
                                         className="h-100 overflow-hidden"
                                     >

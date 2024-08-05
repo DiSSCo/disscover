@@ -119,8 +119,12 @@ const DigitalSpecimen = () => {
                                                     />
                                                 </Col>
                                                 {/* Content block */}
-                                                <Col lg={{ span: 9 }}>
-                                                    <ContentBlock digitalSpecimen={digitalSpecimen} />
+                                                <Col lg={{ span: 9 }}
+                                                    className="h-100"
+                                                >
+                                                    <ContentBlock digitalSpecimen={digitalSpecimen}
+                                                        digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
+                                                    />
                                                 </Col>
                                             </Row>
                                         </>

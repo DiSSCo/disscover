@@ -9,7 +9,7 @@ import styles from './button.module.scss';
 interface Props {
     children?: string | JSX.Element,
     type: 'button' | 'submit',
-    variant: 'primary' | 'secondary' | 'grey' | 'blank',
+    variant: 'primary' | 'secondary' | 'accent' | 'grey' | 'blank',
     disabled?: boolean,
     className?: string,
     OnClick?: Function

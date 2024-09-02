@@ -56,7 +56,7 @@ const Identifications = (props: Props) => {
     return (
         <div>
             {identifications.map((identification, index) => (
-                <ClassProperties key={identification.mainProperties['@id']}
+                <ClassProperties key={identification.mainProperties['dwc:identificationID']}
                     index={index}
                     title="identification"
                     properties={identification}

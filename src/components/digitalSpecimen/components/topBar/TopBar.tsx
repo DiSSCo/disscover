@@ -23,6 +23,7 @@ import { Button, Dropdown, Tooltip } from "components/elements/customUI/CustomUI
 /* Props type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
+    annotationMode: boolean,
     ToggleAnnotationSidePanel: Function
 };
 
@@ -30,11 +31,12 @@ type Props = {
 /**
  * Component that renders the top bar on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
+ * @param annotationMode Boolean that indicates if the annotation mode is toggled
  * @param ToggleAnnotationSidePanel Function to toggle the annotation side panel
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalSpecimen, ToggleAnnotationSidePanel } = props;
+    const { digitalSpecimen, annotationMode, ToggleAnnotationSidePanel } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -157,13 +159,15 @@ const TopBar = (props: Props) => {
                                 }}
                             />
                         </Col>
-                        <Col lg="auto">
+                        <Col lg="auto"
+                            className="pe-1"
+                        >
                             <Button type="button"
                                 variant="primary"
                                 OnClick={() => ToggleAnnotationSidePanel()}
                             >
                                 <span>
-                                    Annotate
+                                    {annotationMode ? 'Stop annotating' : 'Annotate'}
                                     <FontAwesomeIcon icon={faPenToSquare}
                                         className="ms-2"
                                     />

@@ -183,8 +183,10 @@ const IdCard = () => {
                 <Row className="flex-grow-1 overflow-hidden my-4">
                     <Col className="h-100">
                         {/* Display map, if coordinates are present */}
-                        {digitalSpecimen?.['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference'] &&
-                            <Row className="h-50">
+                        {(digitalSpecimen?.['ods:hasEvent']?.[0]?.['ods:Location']?.['ods:GeoReference']?.['dwc:decimalLatitude'] &&
+                            digitalSpecimen?.['ods:hasEvent']?.[0]?.['ods:Location']?.['ods:GeoReference']['dwc:decimalLongitude']
+                        ) &&
+                            <Row className="h-50 pb-2">
                                 <Col>
                                     <OpenStreetMap georeference={digitalSpecimen?.['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference']} />
                                 </Col>
@@ -192,7 +194,7 @@ const IdCard = () => {
                         }
                         {/* Display digital media items, if any present */}
                         {!!digitalSpecimenDigitalMedia.length &&
-                            <Row className="h-50 flex-nowrap overflow-x-scroll">
+                            <Row className="h-50 flex-nowrap overflow-x-scroll pt-2">
                                 {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
                                     <Col key={`${digitalMedia['ods:ID']}_${index}`}
                                         lg={{ span: 4 }}

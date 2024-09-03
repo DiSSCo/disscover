@@ -14,7 +14,7 @@ import { Annotation } from 'app/types/Annotation';
 import styles from './annotationSidePanel.module.scss';
 
 /* Import Components */
-import { AnnotationsOverview, TopBar } from './AnnotationSidePanelComponents';
+import { AnnotationsOverview, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
 
 
 /* Props Type */
@@ -42,6 +42,7 @@ const AnnotationSidePanel = (props: Props) => {
 
     /* Base variables */
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
+    const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
 
     /* OnLoad: fetch annotations of super class with provided method */
     fetch.Fetch({
@@ -54,19 +55,26 @@ const AnnotationSidePanel = (props: Props) => {
             setAnnotations(annotations)
         }
     });
-    
+
     return (
         <div className={`${styles.annotationSidePanel} h-100 w-100 d-flex flex-column bgc-default px-4 py-4`}>
             {/* Top bar */}
             <Row>
                 <Col>
-                    <TopBar HideAnnotationSidePanel={HideAnnotationSidePanel} />
+                    <TopBar HideAnnotationSidePanel={HideAnnotationSidePanel}
+
+                    />
                 </Col>
             </Row>
-            {/* Annotations overview */}
+            {/* Annotations overview or wizard depending on state */}
             <Row className="flex-grow-1 mt-4">
                 <Col>
-                    <AnnotationsOverview annotations={annotations} />
+                    {!annotationWizardToggle ?
+                        <AnnotationsOverview annotations={annotations}
+                            StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                        />
+                        : <AnnotationWizard />
+                    }
                 </Col>
             </Row>
         </div>

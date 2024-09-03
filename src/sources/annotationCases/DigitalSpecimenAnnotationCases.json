@@ -1,0 +1,8 @@
+{
+    "annotationCases": [
+        {
+            "name": "Georeference",
+            "jsonPath": "$..['ods:GeoReference']"
+        }
+    ]
+}

@@ -25,6 +25,10 @@ import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/ele
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
 
 
+/**
+ * Component that renders the digital specimen page
+ * @returns JSX Component
+ */
 const DigitalSpecimen = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -35,6 +39,8 @@ const DigitalSpecimen = () => {
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
+
+    console.log(digitalSpecimen);
 
     /* OnLoad: fetch digital specimen data */
     fetch.FetchMultiple({

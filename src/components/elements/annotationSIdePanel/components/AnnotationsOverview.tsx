@@ -17,16 +17,19 @@ import { Button } from "components/elements/customUI/CustomUI";
 
 /* Props Type */
 type Props = {
-    annotations: Annotation[]
+    annotations: Annotation[],
+    StartAnnotationWizard: Function
 };
 
 
 /**
  * Component that renders the annotations overview in the annotation side panel
+ * @param annotations The annotations to be rendered in the overview
+ * @param StartAnnotationWizard Function that starts the annotation wizard
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations } = props;
+    const { annotations, StartAnnotationWizard } = props;
 
     /* Base variables */
     const initialFormValues = {
@@ -74,6 +77,7 @@ const AnnotationsOverview = (props: Props) => {
                         >
                             <Button type="button"
                                 variant="accent"
+                                OnClick={() => StartAnnotationWizard()}
                             >
                                 <p>
                                     <FontAwesomeIcon icon={faPenToSquare}

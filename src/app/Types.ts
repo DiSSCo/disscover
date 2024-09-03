@@ -65,7 +65,7 @@ export type SearchFilter = {
     label: string,
     type: string,
     nestedIn?: string,
-    contains?: {[searchFilterName: string]: SearchFilter},
+    contains?: { [searchFilterName: string]: SearchFilter },
     searchable?: boolean,
     searchAlias?: string
 };
@@ -112,4 +112,11 @@ export type Notification = {
     key: string,
     message: string,
     template?: string
+};
+
+/* Progress dot */
+export type ProgressDot = {
+    label: string,
+    state: 'open' | 'current' | 'checked',
+    OnClick: Function
 };

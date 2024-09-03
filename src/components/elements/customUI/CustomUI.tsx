@@ -7,6 +7,7 @@ import InputField from "./inputField/InputField";
 import LoadingScreen from "./loadingScreen/LoadingScreen";
 import OpenStreetMap from "./openStreetMap/OpenStreetMap";
 import MultiSelect from "./multiSelect/MultiSelect";
+import ProgressDots from "./progressDots/ProgressDots";
 import RelationalGraph from "./relationalGraph/RelationalGraph";
 import Spinner from "./spinner/Spinner";
 import Tabs from "./tabs/Tabs";
@@ -23,6 +24,7 @@ export {
     LoadingScreen,
     MultiSelect,
     OpenStreetMap,
+    ProgressDots,
     RelationalGraph,
     Spinner,
     Tabs,

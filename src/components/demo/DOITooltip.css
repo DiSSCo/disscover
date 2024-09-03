@@ -1,0 +1,156 @@
+/* Custom styling for DOI Tooltip component */
+.textOverflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.tooltip {
+    display: flex;
+    font-size: 14px;
+    flex-direction: column;
+    z-index: -1;
+    background-color: white;
+    opacity: 0;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    overflow: hidden;
+    border-radius: 14px;
+    -webkit-box-shadow: -7px 8px 16px -7px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -7px 8px 16px -7px rgba(0, 0, 0, 0.75);
+    box-shadow: -7px 8px 16px -7px rgba(0, 0, 0, 0.75);
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 0.4s;
+}
+
+.tooltip.error {
+    height: auto;
+}
+
+.tooltip.active {
+    z-index: 1000;
+    opacity: 1;
+}
+
+.tooltipBody {
+    width: 100%;
+    display: flex;
+}
+
+.tooltipRow {
+    display: flex;
+    align-items: start;
+    margin: 5px 0px 5px 0px;
+}
+
+.grow {
+    flex-grow: 1;
+    overflow-y: hidden;
+}
+
+.tooltipLink {
+    color: #599cf3 !important;
+    text-decoration: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.widthLeft {
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    width: 70px;
+    text-align: right;
+    padding: 0px 15px 0px 0px;
+}
+
+.widthRight {
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Tag Logo, Specimen title, verbatim name and preserved status */
+.tagLogo {
+    width: 50px;
+    height: fit-content;
+    margin-top: 10px
+}
+
+.digitalExtendedSpecimenTitle {
+    color: #599cf3;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
+}
+
+.verbatimName {
+    font-size: 11px;
+}
+
+.preservedStatusDiv {
+    display: flex;
+    align-items: end;
+}
+
+.preservedStatus {
+    margin: 0;
+    display: inline;
+    font-weight: bold;
+}
+
+.IDTitle {
+    font-weight: bold;
+}
+
+.catalogNumber {
+    font-size: 11px;
+}
+
+.organisationIcon {
+    width: 30%;
+}
+
+.organisationTitle {
+    margin: 0;
+}
+
+.DOIRow {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0px 10px 0px 0px;
+}
+
+.digitalExtendedSpecienNote {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.DOILogo {
+    width: 25px;
+}
+
+.warningMessage {
+    color: red;
+    padding-left: 10px;
+}
+
+.tc-accent {
+    color: #28bacb;
+}
+
+.br-corner {
+    border-radius: 8px;
+}
+
+.bgc-primary {
+    background-color: #4d59a2;
+}

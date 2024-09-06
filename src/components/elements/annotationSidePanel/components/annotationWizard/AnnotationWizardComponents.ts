@@ -1,12 +1,12 @@
 /* Import Components */
-import AnnotationCasesStep from "./steps/AnnotationCasesStep";
+import AnnotationTargetStep from "./steps/AnnotationTargetStep";
 import AnnotationFormStep from "./steps/AnnotationFormStep";
 import AnnotationInstanceSelectStep from "./steps/AnnotationInstanceSelectStep";
 
 
 /* Export components as annotation wizard components */
 export {
-    AnnotationCasesStep,
+    AnnotationTargetStep,
     AnnotationFormStep,
     AnnotationInstanceSelectStep
 };

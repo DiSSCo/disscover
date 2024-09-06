@@ -2,42 +2,47 @@
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Hooks */
+import { useAppSelector } from 'app/Hooks';
+
+/* Import Store */
+import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
+
 /* Import Types */
-import { ProgressDot } from 'app/Types';
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalMedia } from 'app/types/DigitalMedia';
+import { Dict, ProgressDot } from 'app/Types';
 
 /* Import Components */
-import { AnnotationCasesStep, AnnotationFormStep, AnnotationInstanceSelectStep } from './AnnotationWizardComponents';
+import { AnnotationTargetStep, AnnotationFormStep, AnnotationInstanceSelectStep } from './AnnotationWizardComponents';
 import { ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
+
+
+/* Props Type */
+type Props = {
+    superClass: DigitalSpecimen | DigitalMedia,
+    schema: Dict
+};
 
 
 /**
  * Component that renders the annotation wizard for adding annotations
  * @returns JSX Component
  */
-const AnnotationWizard = () => {
+const AnnotationWizard = (props: Props) => {
+    const { superClass, schema } = props;
+
     /* Base variables */
+    const annotationTarget = useAppSelector(getAnnotationTarget);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tabs: { [name: string]: JSX.Element } = {
-        annotationCases: <AnnotationCasesStep />,
+        annotationTarget: <AnnotationTargetStep superClass={superClass}
+            schema={schema}
+        />,
         annotationSelectInstance: <AnnotationInstanceSelectStep />,
         annotationForm: <AnnotationFormStep />
     };
     const progressDots: ProgressDot[] = [];
-    // let stepTitle: string = '';
-
-    /* Determine step title */
-    // switch (selectedTabIndex) {
-    //     case 0:
-    //         stepTitle = 'What do you want to annotate?';
-
-    //         break;
-    //     case 1:
-    //         stepTitle = 'Annotating an new or existing instance?';
-
-    //         break;
-    //     case 2:
-    //         stepTitle = 'Please enter the values of your annotation'
-    // };
 
     /* Construct progress dots */
     Object.keys(tabs).forEach((tab, index) => {

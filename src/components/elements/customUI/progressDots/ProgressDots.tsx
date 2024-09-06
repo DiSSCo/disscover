@@ -44,7 +44,7 @@ const ProgressDots = (props: Props) => {
                     });
 
                     return (
-                        <>
+                        <div className="">
                             {index > 0 &&
                                 <Col lg
                                     className="d-flex align-items-center"
@@ -66,7 +66,7 @@ const ProgressDots = (props: Props) => {
                                     />
                                 </Button>
                             </Col>
-                        </>
+                        </div>
                     );
                 })}
             </Row>

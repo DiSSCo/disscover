@@ -1,5 +1,5 @@
 /* Import Components */
-import AnnotationSidePanel from "./annotationSIdePanel/AnnotationSidePanel";
+import AnnotationSidePanel from "./annotationSidePanel/AnnotationSidePanel";
 import BreadCrumbs from "./breadCrumbs/BreadCrumbs";
 import DigitalMediaItem from "./digitalMedia/DigitalMediaItem";
 import Footer from "./footer/Footer";

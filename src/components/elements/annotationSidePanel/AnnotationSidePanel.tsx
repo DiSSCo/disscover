@@ -9,6 +9,7 @@ import { useFetch } from 'app/Hooks';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Annotation } from 'app/types/Annotation';
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from './annotationSidePanel.module.scss';
@@ -21,6 +22,7 @@ import { AnnotationsOverview, AnnotationWizard, TopBar } from './AnnotationSideP
 type Props = {
     annotationMode: boolean,
     superClass: DigitalSpecimen | DigitalMedia | undefined,
+    schema: Dict,
     GetAnnotations: Function,
     HideAnnotationSidePanel: Function
 };
@@ -35,7 +37,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { annotationMode, superClass, GetAnnotations, HideAnnotationSidePanel } = props;
+    const { annotationMode, superClass, schema, GetAnnotations, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -69,11 +71,13 @@ const AnnotationSidePanel = (props: Props) => {
             {/* Annotations overview or wizard depending on state */}
             <Row className="flex-grow-1 mt-4">
                 <Col>
-                    {!annotationWizardToggle ?
-                        <AnnotationsOverview annotations={annotations}
+                    {(annotationWizardToggle && superClass) ?
+                        <AnnotationWizard superClass={superClass}
+                            schema={schema}
+                        />
+                        : <AnnotationsOverview annotations={annotations}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                         />
-                        : <AnnotationWizard />
                     }
                 </Col>
             </Row>

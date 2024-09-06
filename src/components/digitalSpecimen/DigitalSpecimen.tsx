@@ -14,6 +14,9 @@ import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpeci
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen as DigitalSpecimenType } from 'app/types/DigitalSpecimen';
 
+/* Import Sources */
+import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
+
 /* Import API */
 import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
 import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecimenDigitalMedia';
@@ -39,8 +42,6 @@ const DigitalSpecimen = () => {
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
-
-    console.log(digitalSpecimen);
 
     /* OnLoad: fetch digital specimen data */
     fetch.FetchMultiple({
@@ -160,6 +161,7 @@ const DigitalSpecimen = () => {
                     <div className={`${annotationSidePanelClass} tr-smooth`}>
                         <AnnotationSidePanel annotationMode={annotationMode}
                             superClass={digitalSpecimen}
+                            schema={DigitalSpecimenSchema}
                             GetAnnotations={GetDigitalSpecimenAnnotations}
                             HideAnnotationSidePanel={() => setAnnotationMode(false)}
                         />

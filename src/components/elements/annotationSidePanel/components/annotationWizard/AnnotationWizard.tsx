@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
 
 /* Import Components */

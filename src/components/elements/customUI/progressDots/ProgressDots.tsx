@@ -70,7 +70,7 @@ const ProgressDots = (props: Props) => {
                                 >
                                     <Button type="button"
                                         variant="blank"
-                                        // disabled={progressDot.state === 'open'}
+                                        disabled={index > selectedIndex}
                                         className="px-0 py-1 position-relative z-2"
                                         OnClick={progressDot.OnClick}
                                     >

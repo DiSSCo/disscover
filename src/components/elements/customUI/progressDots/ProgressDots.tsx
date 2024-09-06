@@ -32,15 +32,11 @@ const ProgressDots = (props: Props) => {
                 {progressDots.map((progressDot, index) => {
                     /* Class Names */
                     const progressDotClass = classNames({
-                        // 'tc-grey': progressDot.state === 'open',
-                        // 'tc-primary': progressDot.state === 'current',
-                        // 'tc-accent': progressDot.state === 'checked'
+                 
                     });
 
                     const progressDotLineClass = classNames({
-                        // 'bgc-grey': progressDot.state === 'open',
-                        // 'bgc-primary': progressDot.state === 'current',
-                        // 'bgc-accent': progressDot.state === 'checked'
+                        
                     });
 
                     return (

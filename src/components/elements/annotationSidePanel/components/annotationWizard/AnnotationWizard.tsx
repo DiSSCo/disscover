@@ -2,12 +2,6 @@
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Hooks */
-import { useAppSelector } from 'app/Hooks';
-
-/* Import Store */
-import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
-
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
@@ -30,14 +24,12 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { superClass, schema } = props;
+    const { schema } = props;
 
     /* Base variables */
-    const annotationTarget = useAppSelector(getAnnotationTarget);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tabs: { [name: string]: JSX.Element } = {
-        annotationTarget: <AnnotationTargetStep superClass={superClass}
-            schema={schema}
+        annotationTarget: <AnnotationTargetStep schema={schema}
         />,
         annotationSelectInstance: <AnnotationInstanceSelectStep />,
         annotationForm: <AnnotationFormStep />

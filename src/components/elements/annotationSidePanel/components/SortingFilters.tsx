@@ -1,9 +1,6 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Components */
-import { Dropdown } from 'components/elements/customUI/CustomUI';
-
 
 /**
  * Component that renders the sorting filters in the annotation side panel

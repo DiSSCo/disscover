@@ -1,12 +1,11 @@
 /* Import Dependencies */
 import { Formik, Form } from 'formik';
-import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Select, { SingleValue, OptionsOrGroups, SelectInstance } from 'react-select';
+import Select, { SingleValue } from 'react-select';
 
 /* Import Utilities */
-import { ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractClassesAndTermsFromSchema } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
 import { useAppDispatch, useTrigger } from 'app/Hooks';
@@ -28,7 +27,6 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia,
     schema: Dict
 };
 
@@ -38,7 +36,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationTargetStep = (props: Props) => {
-    const { superClass, schema } = props;
+    const { schema } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();

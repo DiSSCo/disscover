@@ -43,7 +43,7 @@ const AnnotationsOverview = (props: Props) => {
             <Row>
                 <Col>
                     <Formik initialValues={initialFormValues}
-                        onSubmit={async (values) => {
+                        onSubmit={async (_values) => {
                             await new Promise((resolve) => setTimeout(resolve, 100));
 
 

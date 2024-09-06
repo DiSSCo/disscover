@@ -20,7 +20,6 @@ import { AnnotationsOverview, AnnotationWizard, TopBar } from './AnnotationSideP
 
 /* Props Type */
 type Props = {
-    annotationMode: boolean,
     superClass: DigitalSpecimen | DigitalMedia | undefined,
     schema: Dict,
     GetAnnotations: Function,
@@ -72,9 +71,7 @@ const AnnotationSidePanel = (props: Props) => {
             <Row className="flex-grow-1 mt-4">
                 <Col>
                     {(annotationWizardToggle && superClass) ?
-                        <AnnotationWizard superClass={superClass}
-                            schema={schema}
-                        />
+                        <AnnotationWizard schema={schema} />
                         : <AnnotationsOverview annotations={annotations}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                         />

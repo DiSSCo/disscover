@@ -14,7 +14,6 @@ import { ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia,
     schema: Dict
 };
 

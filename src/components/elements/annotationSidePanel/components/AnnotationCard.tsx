@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import moment from 'moment';
 import KeycloakService from 'app/Keycloak';

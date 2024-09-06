@@ -118,6 +118,5 @@ export type Notification = {
 /* Progress dot */
 export type ProgressDot = {
     label: string,
-    state: 'open' | 'current' | 'checked',
     OnClick: Function
 };

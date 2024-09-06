@@ -44,9 +44,13 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict) => {
         PushToTermsList
     });
 
+    /* Sort Classes and Terms lists */
+    classesList.sort((a, b) => a.label > b.label ? 1 : 0)
+    termsList.sort((a, b) => a.label > b.label ? 1 : 0)
+
     return {
-        classesList: classesList.sort((a, b) => a.label > b.label ? 1 : 0),
-        termsList: termsList.sort((a, b) => a.label > b.label ? 1 : 0),
+        classesList,
+        termsList,
     };
 };
 

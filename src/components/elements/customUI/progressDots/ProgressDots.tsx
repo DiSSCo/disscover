@@ -32,19 +32,19 @@ const ProgressDots = (props: Props) => {
                 {progressDots.map((progressDot, index) => {
                     /* Class Names */
                     const progressDotClass = classNames({
-                        'tc-grey': progressDot.state === 'open',
-                        'tc-primary': progressDot.state === 'current',
-                        'tc-accent': progressDot.state === 'checked'
+                        // 'tc-grey': progressDot.state === 'open',
+                        // 'tc-primary': progressDot.state === 'current',
+                        // 'tc-accent': progressDot.state === 'checked'
                     });
 
                     const progressDotLineClass = classNames({
-                        'bgc-grey': progressDot.state === 'open',
-                        'bgc-primary': progressDot.state === 'current',
-                        'bgc-accent': progressDot.state === 'checked'
+                        // 'bgc-grey': progressDot.state === 'open',
+                        // 'bgc-primary': progressDot.state === 'current',
+                        // 'bgc-accent': progressDot.state === 'checked'
                     });
 
                     return (
-                        <div className="">
+                        <div key={progressDot.label}>
                             {index > 0 &&
                                 <Col lg
                                     className="d-flex align-items-center"
@@ -56,7 +56,7 @@ const ProgressDots = (props: Props) => {
                             <Col lg="auto">
                                 <Button type="button"
                                     variant="blank"
-                                    disabled={progressDot.state === 'open'}
+                                    // disabled={progressDot.state === 'open'}
                                     className="px-0 py-1"
                                     OnClick={progressDot.OnClick}
                                 >

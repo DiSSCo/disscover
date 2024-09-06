@@ -37,7 +37,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { annotationMode, superClass, schema, GetAnnotations, HideAnnotationSidePanel } = props;
+    const { superClass, schema, GetAnnotations, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const fetch = useFetch();

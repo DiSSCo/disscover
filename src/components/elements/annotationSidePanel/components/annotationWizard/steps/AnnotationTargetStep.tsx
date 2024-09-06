@@ -14,8 +14,6 @@ import { useAppDispatch, useTrigger } from 'app/Hooks';
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict } from 'app/Types';
 
 /* Import Sources */

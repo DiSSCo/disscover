@@ -40,7 +40,7 @@ const AnnotationWizard = (props: Props) => {
     Object.keys(tabs).forEach((tab, index) => {
         progressDots.push({
             label: tab,
-            state: index < selectedTabIndex ? 'checked' : index === selectedTabIndex ? 'current' : 'open',
+            // state: index < selectedTabIndex ? 'checked' : index === selectedTabIndex ? 'current' : 'open',
             OnClick: () => index < selectedTabIndex && setSelectedTabIndex(index)
         });
     });

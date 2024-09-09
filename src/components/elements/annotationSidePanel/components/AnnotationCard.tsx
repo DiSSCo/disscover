@@ -47,7 +47,7 @@ const AnnotationCard = (props: Props) => {
                     </Col>
                     <Col lg="auto">
                         <p className="fs-4 tc-primary fw-lightBold">
-                            {format(annotation['dcterms:created'], 'MMMM DD - YYYY')}
+                            {format(annotation['dcterms:created'], 'MMMM dd - yyyy')}
                         </p>
                     </Col>
                 </Row>

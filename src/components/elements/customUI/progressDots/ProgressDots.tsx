@@ -19,7 +19,8 @@ import { Button } from '../CustomUI';
 /* Props Type */
 type Props = {
     progressDots: ProgressDot[],
-    selectedIndex: number
+    selectedIndex: number,
+    completedTill: number
 };
 
 
@@ -27,15 +28,16 @@ type Props = {
  * Component that returns a custom progress dots component which help indicate different steps of a wizard
  * @param progressDots The progress dots to be present
  * @param selectedIndex The current selected index of the page, step, etc.
+ * @param completedTill The index representing the latest step a user has reached
  * @returns JSX Component
  */
 const ProgressDots = (props: Props) => {
-    const { progressDots, selectedIndex } = props;
+    const { progressDots, selectedIndex, completedTill } = props;
 
     /* Calculate width of progress bar */
     let progressBarWidth: string = '5%';
 
-    if (progressDots.length === selectedIndex) {
+    if (progressDots.length === completedTill) {
         progressBarWidth = '100%';
     } else if (selectedIndex) {
         progressBarWidth = `${Math.round((100 / (progressDots.length - 1)) * selectedIndex)}%`;
@@ -44,6 +46,9 @@ const ProgressDots = (props: Props) => {
     const progressBarStyles = {
         width: progressBarWidth
     };
+
+    console.log(selectedIndex);
+    console.log(completedTill);
     
     return (
         <div>
@@ -59,8 +64,9 @@ const ProgressDots = (props: Props) => {
                             });
 
                             const progressDotClass = classNames({
-                                'tc-grey': index > selectedIndex,
-                                'tc-primary': index <= selectedIndex
+                                'tc-grey': index > selectedIndex && index > completedTill,
+                                'tc-primary': index <= selectedIndex,
+                                'tc-secondary': index > selectedIndex && index <= completedTill
                             });
 
                             return (
@@ -70,7 +76,7 @@ const ProgressDots = (props: Props) => {
                                 >
                                     <Button type="button"
                                         variant="blank"
-                                        disabled={index > selectedIndex}
+                                        disabled={index > completedTill}
                                         className="px-0 py-1 position-relative z-2"
                                         OnClick={progressDot.OnClick}
                                     >

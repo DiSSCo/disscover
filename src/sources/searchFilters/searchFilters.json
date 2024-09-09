@@ -58,7 +58,7 @@
             "nestedIn": "filters",
             "searchable": true
         },
-        "sourceSystemID": {
+        "sourceSystemName": {
             "label": "Source System",
             "type": "select",
             "nestedIn": "filters",

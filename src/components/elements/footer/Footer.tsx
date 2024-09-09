@@ -79,7 +79,9 @@ const Footer = (props: Props) => {
                                 Terms
                             </Button>
                         </Col>
-                        <Col lg="auto">
+                        <Col lg="auto"
+                            className="d-flex align-items-center"
+                        >
                             <a href="https://github.com/DiSSCo/unified-curation-and-annotation-service/issues"
                                 target="_blank"
                                 rel="noreferrer"

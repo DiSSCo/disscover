@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 
 /* Impot Dependencies */
 import CytoscapeComponent from 'react-cytoscapejs';
@@ -48,7 +48,7 @@ const RelationalGraph = (props: Props) => {
 
     /* Function to try and find logo to display in node */
     const FindLogo = ({ id, name }: { id: string, name: string }) => {
-        let logo: JSX.Element | string | undefiend;
+        let logo: JSX.Element | string | undefined;
 
         /* Grab organisation id if is organisation link */
         switch (name) {

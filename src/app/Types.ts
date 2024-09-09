@@ -50,7 +50,7 @@ export type JSONResultArray = {
     }
 }
 
-/* User Type */
+/* User */
 export type User = {
     id: string,
     firstName?: string,
@@ -65,17 +65,17 @@ export type SearchFilter = {
     label: string,
     type: string,
     nestedIn?: string,
-    contains?: {[searchFilterName: string]: SearchFilter},
+    contains?: { [searchFilterName: string]: SearchFilter },
     searchable?: boolean,
     searchAlias?: string
 };
 
-/* Search filters Type (fetch requests) */
+/* Search filters (fetch requests) */
 export type SearchFilters = {
     [searchFilter: string]: string[]
 }
 
-/* Pagination Object Type */
+/* Pagination object */
 export type PaginationObject = {
     records: Dict[],
     totalRecords: number,
@@ -88,7 +88,13 @@ export type PaginationObject = {
     Last?: Function
 }
 
-/* Dropdown item type */
+/* Annotation target */
+export type AnnotationTarget = {
+    type: 'superClass' | 'class' | 'term',
+    jsonPath: string
+};
+
+/* Dropdown item */
 export type DropdownItem = {
     label: string,
     value: string,
@@ -102,9 +108,15 @@ export type MultiSelectItem = {
     count?: number
 };
 
-/* Notification type */
+/* Notification */
 export type Notification = {
     key: string,
     message: string,
     template?: string
+};
+
+/* Progress dot */
+export type ProgressDot = {
+    label: string,
+    OnClick: Function
 };

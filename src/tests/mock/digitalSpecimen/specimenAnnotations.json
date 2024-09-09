@@ -2,30 +2,37 @@
     "data": [
         {
             "attributes": {
-                "id": "20.5000.1025/00N-N8E-B3L",
-                "version": 1,
-                "type": "Annotation",
-                "motivation": "commenting",
-                "target": {
-                    "id": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
-                    "indvProp": "physicalSpecimenId",
-                    "type": "DigitalSpecimen"
+                "@id": "https://hdl.handle.net/20.5000.1025/00N-N8E-B3L",
+                "@type": "ods:Annotation",
+                "ods:ID": "https://hdl.handle.net/20.5000.1025/00N-N8E-B3L",
+                "rdf:type": "ods:Annotation",
+                "ods:version": 1,
+                "ods:motivation": "oa:commenting",
+                "ods:hasTarget": {
+                    "@id": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
+                    "@type": "DigitalSpecimen",
+                    "ods:ID": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
+                    "oa:hasSelector": {
+                        "@type": "ods:FieldSelector",
+                        "ods:field": "$['ods:topicDiscipline']"
+                    }
                 },
-                "body": {
-                    "type": "physicalSpecimenId",
-                    "value": [
-                        "Comment"
+                "oa:hasBody": {
+                    "@type": "oa:TextualBody",
+                    "oa:value": [
+                        "This is a comment"
                     ]
                 },
                 "preferenceScore": 0,
-                "creator": "string",
-                "created": "2023-02-23T12:43:58.511679Z",
-                "generator": {
+                "dcterms:creator": "string",
+                "dcterms:created": "2023-02-23T12:43:58.511679Z",
+                "dcterms:modified": "2023-02-23T12:43:58.511679Z",
+                "as:generator": {
                     "id": "https://hdl.handle.net/anno-process-service-pid",
                     "name": "Annotation Procession Service",
                     "type": "tool/Software"
                 },
-                "generated": "2023-02-23T12:43:58.522089Z"
+                "dcterms:issued": "2023-02-23T12:43:58.522089Z"
             }
         }
     ],

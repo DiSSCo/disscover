@@ -72,10 +72,10 @@ const ClassProperties = (props: Props) => {
                             <Col>
                                 {(typeof (properties[Object.keys(properties)[0]]) === 'object') ?
                                     <>
-                                        {Object.keys(properties).map((propertyKey) => {
+                                        {Object.keys(properties).map(propertyKey => {
                                             /* Check if level holds an array */
                                             return (
-                                                <>
+                                                <div key={propertyKey}>
                                                     {Array.isArray(properties[propertyKey]) ?
                                                         properties[propertyKey].map((subInstance: Dict, subIndex: number) => {
                                                             const subKey: string = `subClass_${subIndex}`;
@@ -89,14 +89,14 @@ const ClassProperties = (props: Props) => {
                                                                 </div>
                                                             );
                                                         })
-                                                        : <div key={propertyKey} className="mt-3">
+                                                        : <div className="mt-3">
                                                             <PropertiesTable
                                                                 title={propertyKey}
                                                                 properties={properties[propertyKey as keyof typeof properties] as Dict}
                                                             />
                                                         </div>
                                                     }
-                                                </>
+                                                </div>
                                             );
                                         })}
                                     </>

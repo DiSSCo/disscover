@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { useState } from 'react';
-import { Card } from 'react-bootstrap';
 
 /* Import Hooks */
 import { useFetch } from 'app/Hooks';
@@ -38,7 +37,7 @@ const OriginalData = (props: Props) => {
     /* OnLoad: fetch original data */
     fetch.Fetch({
         params: {
-            digitalSpecimenId
+            digitalSpecimenId: digitalSpecimenId.replace(import.meta.env.VITE_DOI_URL, '')
         },
         Method: GetDigitalSpecimenOriginalData,
         Handler: (originalData: Dict) => {
@@ -47,19 +46,17 @@ const OriginalData = (props: Props) => {
     });
 
     return (
-        <div className="h-100">
-            <Card className="h-100">
-                {originalData ?
-                    <ClassProperties title="originalData"
-                        properties={originalData}
-                    />
-                    : <LoadingScreen visible={true}
-                        className="bgc-white"
-                        displaySpinner={fetch.loading}
-                        text={fetch.loading ? 'Loading original data' : 'Something went wrong, please try again'}
-                    />
-                }
-            </Card>
+        <div className="h-100 position-relative">
+            {originalData ?
+                <ClassProperties title="originalData"
+                    properties={originalData}
+                />
+                : <LoadingScreen visible={true}
+                    className="bgc-white"
+                    displaySpinner={fetch.loading}
+                    text={fetch.loading ? 'Loading original data' : 'Something went wrong, please try again'}
+                />
+            }
         </div>
     );
 };

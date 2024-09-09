@@ -13,7 +13,7 @@ import { NotFoundException } from 'app/Exceptions';
  * @param digitalSpecimenId The identifier of the digital specimen
  * @returns Dictionary containing the digital specimen original data
  */
-const GetDigitalSpecimenOriginalData= async (digitalSpecimenId: string) => {
+const GetDigitalSpecimenOriginalData = async ({ digitalSpecimenId }: { digitalSpecimenId: string }) => {
     let originalData: Dict | undefined;
 
     try {
@@ -29,7 +29,7 @@ const GetDigitalSpecimenOriginalData= async (digitalSpecimenId: string) => {
         originalData = data.data.attributes;
     } catch (error: any) {
         /* Throw error */
-        throw(NotFoundException('Digital Specimen Original Data', error.request.responseURL));
+        throw (NotFoundException('Digital Specimen Original Data', error.request.responseURL));
     };
 
     return originalData;

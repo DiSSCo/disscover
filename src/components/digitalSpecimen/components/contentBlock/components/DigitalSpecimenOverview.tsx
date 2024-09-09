@@ -36,7 +36,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                         {/* Geological reference map */}
                         <Row className="py-2 h-100">
                             <Col>
-                                <OpenStreetMap georeference={digitalSpecimen['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference']} />
+                                <OpenStreetMap georeference={digitalSpecimen['ods:hasEvent']?.[0]?.['ods:Location']?.['ods:GeoReference']} />
                             </Col>
                         </Row>
                     </Card>

@@ -1,0 +1,34 @@
+{
+    "annotationCases": [
+        {
+            "name": "The whole specimen",
+            "type": "superClass",
+            "jsonPath": "$",
+            "icon": ""
+        },
+        {
+            "name": "Georeference",
+            "type": "class",
+            "jsonPath": "$..['ods:GeoReference']",
+            "icon": "faLocationDot"
+        },
+        {
+            "name": "Identification",
+            "type": "class",
+            "jsonPath": "$['ods:hasIdentification']",
+            "icon": "faMagnifyingGlass"
+        },
+        {
+            "name": "Entity Relationship",
+            "type": "class",
+            "jsonPath": "$['ods:hasEntityRelationship']",
+            "icon": "faLink"
+        },
+        {
+            "name": "Assertion",
+            "type": "class",
+            "jsonPath": "$['ods:hasAssertion']",
+            "icon": "faCommentDots"
+        }
+    ]
+}

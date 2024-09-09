@@ -10,16 +10,19 @@ import { useAppDispatch } from 'app/Hooks';
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
 
 /* Import Components */
-import { AnnotationTargetStep, AnnotationFormStep, AnnotationInstanceSelectStep } from './AnnotationWizardComponents';
+import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationTargetStep } from './AnnotationWizardComponents';
 import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
 type Props = {
-    schema: Dict
+    schema: Dict,
+    superClass: DigitalSpecimen | DigitalMedia | Dict
 };
 
 
@@ -28,7 +31,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema } = props;
+    const { schema, superClass } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -36,7 +39,7 @@ const AnnotationWizard = (props: Props) => {
     /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
         annotationTarget: <AnnotationTargetStep schema={schema} />,
-        annotationSelectInstance: <AnnotationInstanceSelectStep />,
+        annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass} />,
         annotationForm: <AnnotationFormStep />
     };
 
@@ -100,18 +103,18 @@ const AnnotationWizard = (props: Props) => {
     /**
      * Function to set the annotation target based on the user's selection (wizard step one)
      */
-    const SetAnnotationTarget = (formValues: Dict, targetType: string) => {
+    const SetAnnotationTarget = (selectedOption: { label: string, value: string }, targetType: string) => {
         /* Check if class is the super class */
         let classType: 'class' | 'superClass' = 'class';
 
-        if (formValues.class && formValues.class.value === '$') {
+        if (targetType === 'class' && selectedOption.value === '$') {
             classType = 'superClass';
         }
 
         /* Set annotation target */
         dispatch(setAnnotationTarget({
             type: targetType === 'class' ? classType : 'term',
-            jsonPath: targetType === 'class' ? formValues.class?.value as string : formValues.term?.value as string,
+            jsonPath: selectedOption.value
         }));
 
         /* Go to next step in wizard */

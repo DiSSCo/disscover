@@ -46,9 +46,6 @@ const ProgressDots = (props: Props) => {
     const progressBarStyles = {
         width: progressBarWidth
     };
-
-    console.log(selectedIndex);
-    console.log(completedTill);
     
     return (
         <div>

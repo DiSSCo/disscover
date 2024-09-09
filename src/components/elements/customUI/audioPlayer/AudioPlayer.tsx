@@ -34,7 +34,9 @@ const AudioPlayer = (props: Props) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState<number | string>(0);
 
-    /* Function for repeating the frame animation, allowing the progress bar to progress */
+    /**
+     * Function for repeating the frame animation, allowing the progress bar to progress
+     */
     const Repeat = useCallback(() => {
         if (audioRef.current && rangeRef.current) {
             const audioPlayer = audioRef.current;
@@ -65,22 +67,26 @@ const AudioPlayer = (props: Props) => {
         }
     }, [isPlaying, audioRef, Repeat]);
 
-    /* Function for OnChange of Audio progress: update progress bar */
+    /**
+     * Function for OnChange of Audio progress: update progress bar
+     */
     const HandleRangeChange = () => {
         const audioPlayer = audioRef.current as HTMLAudioElement;
         const audioRange = rangeRef.current as HTMLInputElement;
 
         audioPlayer.currentTime = Number(audioRange.value);
-    }
+    };
 
-    /* Function for tracking the audio duration and total time */
+    /**
+     * Function for tracking the audio duration and total time
+     */
     const OnLoadedMetadata = () => {
         const audioPlayer = audioRef.current as HTMLAudioElement;
         const audioRange = rangeRef.current as HTMLInputElement;
 
         setDuration(moment.utc(audioPlayer.duration * 1000).format('m:ss'));
         audioRange.max = String(Math.round(audioPlayer.duration));
-    }
+    };
 
     return (
         <div className={`${styles.audioPlayer} rounded-full px-3 py-2`}>

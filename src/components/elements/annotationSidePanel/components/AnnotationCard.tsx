@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import classNames from 'classnames';
-import moment from 'moment';
+import { format } from 'date-fns';
 import KeycloakService from 'app/Keycloak';
 import { Row, Col, Card } from 'react-bootstrap';
 
@@ -47,7 +47,7 @@ const AnnotationCard = (props: Props) => {
                     </Col>
                     <Col lg="auto">
                         <p className="fs-4 tc-primary fw-lightBold">
-                            {moment(annotation['dcterms:created']).format('MMMM DD - YYYY')}
+                            {format(annotation['dcterms:created'], 'MMMM DD - YYYY')}
                         </p>
                     </Col>
                 </Row>

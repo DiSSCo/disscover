@@ -87,7 +87,7 @@ const DigitalSpecimen = () => {
 
     const annotationSidePanelClass = classNames({
         'w-0': !annotationMode,
-        'col-lg-4': annotationMode
+        'col-lg-4 pe-0': annotationMode
     });
 
     return (

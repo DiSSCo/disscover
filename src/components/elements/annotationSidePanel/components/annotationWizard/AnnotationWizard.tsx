@@ -25,8 +25,18 @@ const AnnotationWizard = (props: Props) => {
 
     /* Base variables */
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+
+    /**
+     * Function to go the next step in the wizard
+     */
+    const NextStep = () => {
+        setSelectedTabIndex(selectedTabIndex + 1);
+    };
+
+    /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
         annotationTarget: <AnnotationTargetStep schema={schema}
+            NextStep={NextStep}
         />,
         annotationSelectInstance: <AnnotationInstanceSelectStep />,
         annotationForm: <AnnotationFormStep />
@@ -56,7 +66,9 @@ const AnnotationWizard = (props: Props) => {
             {/* Wizard steps display */}
             <Row>
                 <Col>
-                    <ProgressDots progressDots={progressDots} />
+                    <ProgressDots progressDots={progressDots}
+                        selectedIndex={selectedTabIndex}
+                    />
                 </Col>
             </Row>
         </div>

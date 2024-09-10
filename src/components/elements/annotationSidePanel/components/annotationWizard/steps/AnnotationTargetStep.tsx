@@ -25,7 +25,8 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    schema: Dict
+    schema: Dict,
+    NextStep: Function
 };
 
 
@@ -34,7 +35,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationTargetStep = (props: Props) => {
-    const { schema } = props;
+    const { schema, NextStep } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -98,10 +99,16 @@ const AnnotationTargetStep = (props: Props) => {
                                     <Button type="button"
                                         variant="accent"
                                         className="w-100 br-corner"
-                                        OnClick={() => dispatch(setAnnotationTarget({
-                                            type: annotationCase.type as 'superClass' | 'class',
-                                            jsonPath: annotationCase.jsonPath
-                                        }))}
+                                        OnClick={() => {
+                                            /* Set annotation target */
+                                            dispatch(setAnnotationTarget({
+                                                type: annotationCase.type as 'superClass' | 'class',
+                                                jsonPath: annotationCase.jsonPath
+                                            }));
+
+                                            /* Go to next step in wizard */
+                                            NextStep();
+                                        }}
                                     >
                                         <p className="fs-4 tc-white fw-lightBold text-center">
                                             {annotationCase.name}
@@ -128,10 +135,14 @@ const AnnotationTargetStep = (props: Props) => {
                                 classType = 'superClass';
                             }
 
+                            /* Set annotation target */
                             dispatch(setAnnotationTarget({
                                 type: values.targetType === 'class' ? classType : 'term',
-                                jsonPath: values.targetType === 'class' ? values.class?.value as string: values.term?.value as string,
+                                jsonPath: values.targetType === 'class' ? values.class?.value as string : values.term?.value as string,
                             }));
+
+                            /* Go to next step in wizard */
+                            NextStep();
                         }}
                     >
                         {({ values, setFieldValue, submitForm }) => (

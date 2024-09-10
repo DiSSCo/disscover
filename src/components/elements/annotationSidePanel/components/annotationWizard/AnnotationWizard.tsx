@@ -64,10 +64,12 @@ const AnnotationWizard = (props: Props) => {
         term: {
             label: string,
             value: string
-        } | undefined
+        } | undefined,
+        jsonPath: string | undefined
     } = {
         class: undefined,
-        term: undefined
+        term: undefined,
+        jsonPath: undefined
     };
 
     /**
@@ -121,40 +123,43 @@ const AnnotationWizard = (props: Props) => {
         GoToStep(tabStates.findIndex(tabState => tabState.active) + 1);
     };
 
+    /**
+     * Function to check if the user should be allowed to move forwards in the annotation wizard
+     */
+    const CheckForwardCriteria = (stepIndex: number, formValues: Dict) => {
+        let forwardAllowed: boolean = false;
+
+        console.log(selectedIndex);
+        console.log(formValues);
+
+        switch (stepIndex) {
+            case 0:
+                if (formValues.class || formValues.term) {
+                    forwardAllowed = true;
+                }
+
+                break;
+            case 1:
+                if ((formValues.class || formValues.term) && formValues.jsonPath) {
+                    forwardAllowed = true;
+                }
+
+                break;
+        };
+
+        if (selectedIndex < completedTill) {
+
+        }
+
+        return forwardAllowed;
+    };
+
     return (
         <div className="h-100 d-flex flex-column">
-            {/* Previous and next step buttons */}
-            <Row>
-                {!!selectedIndex &&
-                    <Col lg>
-                        <Button type="button"
-                            variant="blank"
-                            className="px-0 py-0 tc-primary fw-lightBold"
-                            OnClick={() => GoToStep(selectedIndex - 1)}
-                        >
-                            {`< Previous step`}
-                        </Button>
-                    </Col>
-                }
-                {selectedIndex < completedTill &&
-                    <Col lg
-                        className="d-flex justify-content-end"
-                    >
-                        <Button type="button"
-                            variant="blank"
-                            className="px-0 py-0 tc-primary fw-lightBold"
-                            OnClick={() => GoToStep(selectedIndex + 1)}
-                        >
-                            {`Next step >`}
-                        </Button>
-                    </Col>
-                }
-            </Row>
-            {/* Wizard steps display */}
-            <Row className="flex-grow-1">
-                <Col>
-                    <Formik
-                        initialValues={initialFormValues}
+            {/* Annotation wizard main body */}
+            <Row className="flex-grow-1 overflow-hidden">
+                <Col className="h-100">
+                    <Formik initialValues={initialFormValues}
                         onSubmit={async (_values) => {
                             await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -162,10 +167,40 @@ const AnnotationWizard = (props: Props) => {
                         }}
                     >
                         {({ values, setFieldValue }) => (
-                            <Form>
+                            <Form className="h-100 d-flex flex-column overflow-none">
+                                {/* Previous and next step buttons */}
+                                <Row>
+                                    {!!selectedIndex &&
+                                        <Col lg>
+                                            <Button type="button"
+                                                variant="blank"
+                                                className="px-0 py-0 tc-primary fw-lightBold"
+                                                OnClick={() => GoToStep(selectedIndex - 1)}
+                                            >
+                                                {`< Previous step`}
+                                            </Button>
+                                        </Col>
+                                    }
+                                    {CheckForwardCriteria(selectedIndex, values) &&
+                                        <Col lg
+                                            className="d-flex justify-content-end"
+                                        >
+                                            <Button type="button"
+                                                variant="blank"
+                                                className="px-0 py-0 tc-primary fw-lightBold"
+                                                OnClick={() => GoToStep(selectedIndex + 1)}
+                                            >
+                                                {`Next step >`}
+                                            </Button>
+                                        </Col>
+                                    }
+                                </Row>
+
+                                {/* Wizard steps display */}
                                 <Tabs tabs={tabs}
                                     selectedIndex={selectedIndex}
                                     tabClassName='d-none'
+                                    tabPanelClassName="flex-grow-1"
                                     tabProps={{
                                         formValues: values,
                                         SetFieldValue: setFieldValue,
@@ -174,18 +209,20 @@ const AnnotationWizard = (props: Props) => {
                                     SetSelectedIndex={GoToStep}
 
                                 />
+
+                                {/* Progress dots adhering to the wizard */}
+                                <Row className="mt-3">
+                                    <Col>
+                                        <ProgressDots progressDots={progressDots}
+                                            selectedIndex={selectedIndex}
+                                            completedTill={completedTill}
+                                            ValidationFunction={(index: number) => CheckForwardCriteria(index, values)}
+                                        />
+                                    </Col>
+                                </Row>
                             </Form>
                         )}
                     </Formik>
-                </Col>
-            </Row>
-            {/* Progress dots adhering to wizard */}
-            <Row>
-                <Col>
-                    <ProgressDots progressDots={progressDots}
-                        selectedIndex={selectedIndex}
-                        completedTill={completedTill}
-                    />
                 </Col>
             </Row>
         </div>

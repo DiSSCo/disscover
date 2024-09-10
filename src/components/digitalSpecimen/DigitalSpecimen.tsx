@@ -158,7 +158,7 @@ const DigitalSpecimen = () => {
                             <Footer />
                         </div>
                     </Col>
-                    <div className={`${annotationSidePanelClass} tr-smooth`}>
+                    <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
                         <AnnotationSidePanel superClass={digitalSpecimen}
                             schema={DigitalSpecimenSchema}
                             GetAnnotations={GetDigitalSpecimenAnnotations}

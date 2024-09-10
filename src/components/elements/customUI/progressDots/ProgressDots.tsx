@@ -20,7 +20,8 @@ import { Button } from '../CustomUI';
 type Props = {
     progressDots: ProgressDot[],
     selectedIndex: number,
-    completedTill: number
+    completedTill: number,
+    ValidationFunction?: Function
 };
 
 
@@ -29,10 +30,11 @@ type Props = {
  * @param progressDots The progress dots to be present
  * @param selectedIndex The current selected index of the page, step, etc.
  * @param completedTill The index representing the latest step a user has reached
+ * @param ValidationFunction Function that validates if a later step can be accessed
  * @returns JSX Component
  */
 const ProgressDots = (props: Props) => {
-    const { progressDots, selectedIndex, completedTill } = props;
+    const { progressDots, selectedIndex, completedTill, ValidationFunction } = props;
 
     /* Calculate width of progress bar */
     let progressBarWidth: string = '5%';
@@ -63,7 +65,7 @@ const ProgressDots = (props: Props) => {
                             const progressDotClass = classNames({
                                 'tc-grey': index > selectedIndex && index > completedTill,
                                 'tc-primary': index <= selectedIndex,
-                                'tc-secondary': index > selectedIndex && index <= completedTill
+                                'tc-secondary': ValidationFunction ? ValidationFunction(index > 0 ? index - 1 : 0) && index > selectedIndex : index > selectedIndex && index <= completedTill
                             });
 
                             return (
@@ -73,7 +75,7 @@ const ProgressDots = (props: Props) => {
                                 >
                                     <Button type="button"
                                         variant="blank"
-                                        disabled={index > completedTill}
+                                        disabled={ValidationFunction ? !ValidationFunction(index > 0 ? index - 1 : 0) : index > completedTill}
                                         className="px-0 py-1 position-relative z-2"
                                         OnClick={progressDot.OnClick}
                                     >

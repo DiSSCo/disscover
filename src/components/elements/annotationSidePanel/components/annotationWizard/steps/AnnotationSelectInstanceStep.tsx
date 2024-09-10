@@ -13,20 +13,27 @@ import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict } from 'app/Types';
 
+/* Import Components */
+import ExistingInstance from './ExistingInstance';
+
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict
+    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    formValues?: Dict,
+    SetFieldValue?: Function
 };
 
 
 /**
  * Component that renders the instance selection of the annotation wizard
- * @param superClass 
+ * @param superClass The provided super class
+ * @param formValues The current values of the parent form
+ * @param SetFieldValue Function to set the value of a field in the form
  * @returns JSX Component
  */
 const AnnotationSelectInstanceStep = (props: Props) => {
-    const { superClass } = props;
+    const { superClass, formValues, SetFieldValue } = props;
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
@@ -51,30 +58,10 @@ const AnnotationSelectInstanceStep = (props: Props) => {
 
         /* Query the super class digital object using the annotation target's json path and find the existing nodes */
         nodes = jp.nodes(superClass, jsonTargetPath);
-
-        // queryResults.forEach(result => {
-        //     if (typeof result === 'string') {
-        //         console.log(jp.paths(superClass, result));
-        //         /* Treat as a plain string */
-        //         existingInstances.push({
-        //             label: result,
-        //             jsonPath: annotationTarget.jsonPath
-        //         });
-        //     } else if (Array.isArray(result)) {
-        //         /* Treat as an array of dictionaries */
-        //         // result.forEach(resultDict => {
-        //         //     existingInstances.push({
-        //         //         label: 
-        //         //     });
-        //         // });
-        //     } else {
-        //         /* Treat as a dictionary */
-        //     }
-        // });
     }
 
     return (
-        <div>
+        <div className="h-100 d-flex flex-column">
             {/* Selected annotation target */}
             <Row>
                 <Col>
@@ -92,11 +79,34 @@ const AnnotationSelectInstanceStep = (props: Props) => {
                 </Col>
             </Row>
             {/* Annotate an existing instance */}
-            <Row className="mt-4">
-                <Col>
+            <Row className="flex-grow-1 mt-4 overflow-hidden">
+                <Col className="h-100 d-flex flex-column">
                     <p className="fw-lightBold">
                         Existing instances
                     </p>
+
+                    <Row className="flex-grow-1 overflow-scroll">
+                        <Col>
+                            {nodes.map(node => {
+                                /* Check if node is a class or term */
+                                if (Array.isArray(node.value)) {
+                                    return node.value.map((value, index) => (
+                                        <ExistingInstance jsonPath={jp.stringify([...node.path, index])}
+                                            instanceValue={value}
+                                            selected={formValues?.jsonPath === jp.stringify([...node.path, index])}
+                                            SetFieldValue={SetFieldValue}
+                                        />
+                                    ));
+                                } else {
+                                    return (<ExistingInstance jsonPath={jp.stringify(node.path)}
+                                        instanceValue={node.value}
+                                        selected={formValues?.jsonPath === jp.stringify(node.path)}
+                                        SetFieldValue={SetFieldValue}
+                                    />);
+                                }
+                            })}
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>

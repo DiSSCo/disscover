@@ -90,22 +90,14 @@ const AnnotationTargetStep = (props: Props) => {
                                                     MakeJsonPathReadableString(annotationCase.jsonPath),
                                                 value: annotationCase.jsonPath
                                             }
-                                            /* Set annotation target */
-                                            // SetAnnotationTarget?.({
-                                            //     class: {
-                                            //         label: annotationCase.jsonPath
-                                            //     }
 
-                                            //     type: annotationCase.type as 'superClass' | 'class',
-                                            //     jsonPath: annotationCase.jsonPath
-                                            // });
+                                            /* Set form values */
                                             SetFieldValue?.('class', classOption);
                                             SetFieldValue?.('term', undefined);
+                                            SetFieldValue?.('jsonPath', undefined);
 
+                                            /* Set annotation target */
                                             SetAnnotationTarget?.(classOption, 'class');
-
-                                            /* Go to next step in wizard */
-                                            // NextStep();
                                         }}
                                     >
                                         <p className="fs-4 tc-white fw-lightBold text-center">
@@ -148,6 +140,7 @@ const AnnotationTargetStep = (props: Props) => {
                                 onChange={(option: SingleValue<{ label: string; value: string; }>) => {
                                     SetFieldValue?.('class', option);
                                     SetFieldValue?.('term', undefined);
+                                    SetFieldValue?.('jsonPath', undefined);
                                 }}
                             />
                         </Col>
@@ -167,6 +160,7 @@ const AnnotationTargetStep = (props: Props) => {
                                 className="mt-2"
                                 onChange={(option: SingleValue<{ label: string; value: string; }>) => {
                                     SetFieldValue?.('term', option);
+                                    SetFieldValue?.('jsonPath', undefined);
                                 }}
                             />
                         </Col>

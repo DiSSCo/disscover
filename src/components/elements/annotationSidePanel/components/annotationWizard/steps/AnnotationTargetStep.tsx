@@ -90,22 +90,10 @@ const AnnotationTargetStep = (props: Props) => {
                                                     MakeJsonPathReadableString(annotationCase.jsonPath),
                                                 value: annotationCase.jsonPath
                                             }
-                                            /* Set annotation target */
-                                            // SetAnnotationTarget?.({
-                                            //     class: {
-                                            //         label: annotationCase.jsonPath
-                                            //     }
-
-                                            //     type: annotationCase.type as 'superClass' | 'class',
-                                            //     jsonPath: annotationCase.jsonPath
-                                            // });
                                             SetFieldValue?.('class', classOption);
                                             SetFieldValue?.('term', undefined);
 
                                             SetAnnotationTarget?.(formValues, 'class');
-
-                                            /* Go to next step in wizard */
-                                            // NextStep();
                                         }}
                                     >
                                         <p className="fs-4 tc-white fw-lightBold text-center">

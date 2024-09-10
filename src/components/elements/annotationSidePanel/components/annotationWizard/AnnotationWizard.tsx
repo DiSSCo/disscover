@@ -33,13 +33,6 @@ const AnnotationWizard = (props: Props) => {
         setSelectedTabIndex(selectedTabIndex + 1);
     };
 
-    /**
-     * Function to go the previous step in the wizard
-     */
-    const PreviousStep = () => {
-        setSelectedTabIndex(selectedTabIndex - 1);
-    };
-
     /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
         annotationTarget: <AnnotationTargetStep schema={schema}

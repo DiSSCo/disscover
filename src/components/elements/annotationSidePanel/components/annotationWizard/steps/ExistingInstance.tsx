@@ -21,6 +21,7 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     jsonPath: string,
     instanceValue: Dict | string,
+    schemaTitle?: string,
     selected: boolean,
     SetFieldValue?: Function
 };
@@ -30,12 +31,13 @@ type Props = {
  * Component that renders an existing, annotatable instance that is displayed in the annotation select instance step of the wizard
  * @param jsonPath The JSON path of the instance
  * @param instanceValue The value of the instance, either a dictionary being it a class or a string being it a term
+ * @param schemaTitle The title of the super class' schema
  * @param selected A boolean that indicates if the instance is currently selected or not
  * @param SetFieldValue Function to set the value of a field in the form
  * @returns JSX Component
  */
 const ExistingInstance = (props: Props) => {
-    const { jsonPath, instanceValue, selected, SetFieldValue } = props;
+    const { jsonPath, instanceValue, schemaTitle, selected, SetFieldValue } = props;
 
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
@@ -47,13 +49,13 @@ const ExistingInstance = (props: Props) => {
 
     return (
         <div>
-            <Card className="bgc-primary mt-3 b-grey br-corner">
+            <Card className="bgc-primary mb-3 b-grey br-corner">
                 <div className={`${selectedDivClass} bgc-white py-1 px-3 tr-fast`}>
                     {/* Instance title and target type */}
                     <Row>
                         <Col>
                             <p className="tc-primary fw-lightBold">
-                                {MakeJsonPathReadableString(jsonPath)}
+                                {jsonPath === '$' ? schemaTitle : MakeJsonPathReadableString(jsonPath)}
                             </p>
                         </Col>
                         <Col lg="auto">
@@ -97,7 +99,9 @@ const ExistingInstance = (props: Props) => {
                                         {Object.entries(instanceValue).map(([key, value], index) => {
                                             if (showAllValues || index < 3) {
                                                 return (
-                                                    <p className="fs-4">
+                                                    <p key={key}
+                                                        className="fs-4"
+                                                    >
                                                         <span className="fw-lightBold">{`${MakeJsonPathReadableString(key)}: `}</span>{`${value}`}
                                                     </p>
                                                 );

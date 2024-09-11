@@ -14,12 +14,14 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict } from 'app/Types';
 
 /* Import Components */
+import NewInstance from './NewInstance';
 import ExistingInstance from './ExistingInstance';
 
 
 /* Props Type */
 type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
+    schemaTitle?: string,
     formValues?: Dict,
     SetFieldValue?: Function
 };
@@ -28,12 +30,13 @@ type Props = {
 /**
  * Component that renders the instance selection of the annotation wizard
  * @param superClass The provided super class
+ * @param schemaTitle The title of the super class' schema
  * @param formValues The current values of the parent form
  * @param SetFieldValue Function to set the value of a field in the form
  * @returns JSX Component
  */
 const AnnotationSelectInstanceStep = (props: Props) => {
-    const { superClass, formValues, SetFieldValue } = props;
+    const { superClass, schemaTitle, formValues, SetFieldValue } = props;
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
@@ -60,55 +63,83 @@ const AnnotationSelectInstanceStep = (props: Props) => {
         nodes = jp.nodes(superClass, jsonTargetPath);
     }
 
+    /* Construct title text */
+    let titleText: string = 'Annotate a new or existing instance?';
+
+    if (annotationTarget?.type === 'term' && nodes.length) {
+        titleText = 'Annotate an existing instance';
+    } else if (annotationTarget?.type === 'term' && !nodes.length) {
+        titleText = 'Annotate a new instance as there is no existing one';
+    }
+
     return (
         <div className="h-100 d-flex flex-column">
             {/* Selected annotation target */}
             <Row>
                 <Col>
                     <p>
-                        Annotate a new or existing instance
+                        {titleText}
                     </p>
                 </Col>
             </Row>
             {/* Annotate a new instance */}
-            <Row className="mt-4">
-                <Col>
-                    <p className="fw-lightBold">
-                        A new instance
-                    </p>
-                </Col>
-            </Row>
-            {/* Annotate an existing instance */}
-            <Row className="flex-grow-1 mt-4 overflow-hidden">
-                <Col className="h-100 d-flex flex-column">
-                    <p className="fw-lightBold">
-                        Existing instances
-                    </p>
+            {(annotationTarget?.type === 'term' && !nodes.length || annotationTarget?.type !== 'term') &&
+                <Row className="mt-4">
+                    <Col>
+                        <p className="fw-lightBold">
+                            A new instance
+                        </p>
 
-                    <Row className="flex-grow-1 overflow-scroll">
-                        <Col>
-                            {nodes.map(node => {
-                                /* Check if node is a class or term */
-                                if (Array.isArray(node.value)) {
-                                    return node.value.map((value, index) => (
-                                        <ExistingInstance jsonPath={jp.stringify([...node.path, index])}
-                                            instanceValue={value}
-                                            selected={formValues?.jsonPath === jp.stringify([...node.path, index])}
+                        <NewInstance superClass={superClass}
+                            annotationTarget={annotationTarget}
+                            SetFieldValue={SetFieldValue}
+                        />
+                    </Col>
+                </Row>
+            }
+            {/* Annotate an existing instance */}
+            {!!nodes.length &&
+                <Row className="flex-grow-1 mt-4 overflow-hidden">
+                    <Col className="h-100 d-flex flex-column">
+                        <p className="fw-lightBold">
+                            Existing instances
+                        </p>
+
+                        <Row className="flex-grow-1 overflow-scroll mt-3">
+                            <Col>
+                                {nodes.map((node, index) => {
+                                    /* Check if node is a class or term */
+                                    if (Array.isArray(node.value)) {
+                                        return node.value.map((value, valueIndex) => {
+                                            const key = `existingInstance-${index}-${valueIndex}`;
+
+                                            return (
+                                                <ExistingInstance key={key}
+                                                    jsonPath={jp.stringify([...node.path, valueIndex])}
+                                                    instanceValue={value}
+                                                    schemaTitle={schemaTitle}
+                                                    selected={formValues?.jsonPath === jp.stringify([...node.path, valueIndex])}
+                                                    SetFieldValue={SetFieldValue}
+                                                />
+                                            );
+                                        });
+                                    } else {
+                                        const key = `existingInstance-${index}`;
+
+                                        return (<ExistingInstance key={key}
+                                            jsonPath={jp.stringify(node.path)}
+                                            instanceValue={node.value}
+                                            schemaTitle={schemaTitle}
+                                            selected={formValues?.jsonPath === jp.stringify(node.path)}
                                             SetFieldValue={SetFieldValue}
-                                        />
-                                    ));
-                                } else {
-                                    return (<ExistingInstance jsonPath={jp.stringify(node.path)}
-                                        instanceValue={node.value}
-                                        selected={formValues?.jsonPath === jp.stringify(node.path)}
-                                        SetFieldValue={SetFieldValue}
-                                    />);
-                                }
-                            })}
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
+                                        />);
+                                    }
+                                })}
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            }
         </div>
     );
 };

@@ -39,7 +39,9 @@ const AnnotationWizard = (props: Props) => {
     /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
         annotationTarget: <AnnotationTargetStep schema={schema} />,
-        annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass} />,
+        annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
+            schemaTitle={schema.title}
+        />,
         annotationForm: <AnnotationFormStep />
     };
 
@@ -65,11 +67,15 @@ const AnnotationWizard = (props: Props) => {
             label: string,
             value: string
         } | undefined,
-        jsonPath: string | undefined
+        jsonPath: string | undefined,
+        parentClassDropdownValues: {
+            [jsonPath: string]: number
+        }
     } = {
         class: undefined,
         term: undefined,
-        jsonPath: undefined
+        jsonPath: undefined,
+        parentClassDropdownValues: {}
     };
 
     /**
@@ -128,9 +134,6 @@ const AnnotationWizard = (props: Props) => {
      */
     const CheckForwardCriteria = (stepIndex: number, formValues: Dict) => {
         let forwardAllowed: boolean = false;
-
-        console.log(selectedIndex);
-        console.log(formValues);
 
         switch (stepIndex) {
             case 0:
@@ -197,18 +200,22 @@ const AnnotationWizard = (props: Props) => {
                                 </Row>
 
                                 {/* Wizard steps display */}
-                                <Tabs tabs={tabs}
-                                    selectedIndex={selectedIndex}
-                                    tabClassName='d-none'
-                                    tabPanelClassName="flex-grow-1"
-                                    tabProps={{
-                                        formValues: values,
-                                        SetFieldValue: setFieldValue,
-                                        SetAnnotationTarget
-                                    }}
-                                    SetSelectedIndex={GoToStep}
+                                <Row className="flex-grow-1 overflow-hidden">
+                                    <Col className="h-100">
+                                        <Tabs tabs={tabs}
+                                            selectedIndex={selectedIndex}
+                                            tabClassName='d-none'
+                                            tabPanelClassName="flex-grow-1 overflow-hidden"
+                                            tabProps={{
+                                                formValues: values,
+                                                SetFieldValue: setFieldValue,
+                                                SetAnnotationTarget
+                                            }}
+                                            SetSelectedIndex={GoToStep}
+                                        />
+                                    </Col>
+                                </Row>
 
-                                />
 
                                 {/* Progress dots adhering to the wizard */}
                                 <Row className="mt-3">

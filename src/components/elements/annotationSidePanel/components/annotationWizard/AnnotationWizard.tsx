@@ -69,7 +69,7 @@ const AnnotationWizard = (props: Props) => {
         } | undefined,
         jsonPath: string | undefined,
         parentClassDropdownValues: {
-            [jsonPath: string]: number
+            [parentClass: string]: number
         }
     } = {
         class: undefined,
@@ -209,7 +209,8 @@ const AnnotationWizard = (props: Props) => {
                                             tabProps={{
                                                 formValues: values,
                                                 SetFieldValue: setFieldValue,
-                                                SetAnnotationTarget
+                                                SetAnnotationTarget,
+                                                GoToStep: GoToStep
                                             }}
                                             SetSelectedIndex={GoToStep}
                                         />

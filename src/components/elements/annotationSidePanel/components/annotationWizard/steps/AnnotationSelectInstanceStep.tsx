@@ -23,7 +23,8 @@ type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     schemaTitle?: string,
     formValues?: Dict,
-    SetFieldValue?: Function
+    SetFieldValue?: Function,
+    GoToStep?: Function
 };
 
 
@@ -36,7 +37,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationSelectInstanceStep = (props: Props) => {
-    const { superClass, schemaTitle, formValues, SetFieldValue } = props;
+    const { superClass, schemaTitle, formValues, SetFieldValue, GoToStep } = props;
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
@@ -66,9 +67,11 @@ const AnnotationSelectInstanceStep = (props: Props) => {
     /* Construct title text */
     let titleText: string = 'Annotate a new or existing instance?';
 
-    if (annotationTarget?.type === 'term' && nodes.length) {
+    if ((nodes.length && annotationTarget?.type === 'term') ||
+        (annotationTarget?.type !== 'term' && !jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has'))
+    ) {
         titleText = 'Annotate an existing instance';
-    } else if (annotationTarget?.type === 'term' && !nodes.length) {
+    } else if (!nodes.length || (annotationTarget?.type !== 'term' && Array.isArray(nodes[0].value) && !nodes[0].value.length)) {
         titleText = 'Annotate a new instance as there is no existing one';
     }
 
@@ -83,7 +86,7 @@ const AnnotationSelectInstanceStep = (props: Props) => {
                 </Col>
             </Row>
             {/* Annotate a new instance */}
-            {(annotationTarget?.type === 'term' && !nodes.length || annotationTarget?.type !== 'term') &&
+            {(!nodes.length || (annotationTarget?.type === 'term' && !nodes.length) || (annotationTarget?.type !== 'term' && jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has'))) &&
                 <Row className="mt-4">
                     <Col>
                         <p className="fw-lightBold">
@@ -92,13 +95,15 @@ const AnnotationSelectInstanceStep = (props: Props) => {
 
                         <NewInstance superClass={superClass}
                             annotationTarget={annotationTarget}
+                            selected={formValues?.jsonPath && !jp.query(superClass, formValues?.jsonPath).length}
+                            formValues={formValues}
                             SetFieldValue={SetFieldValue}
                         />
                     </Col>
                 </Row>
             }
             {/* Annotate an existing instance */}
-            {!!nodes.length &&
+            {(!nodes.length || !(annotationTarget?.type !== 'term' && Array.isArray(nodes[0].value) && !nodes[0].value.length)) &&
                 <Row className="flex-grow-1 mt-4 overflow-hidden">
                     <Col className="h-100 d-flex flex-column">
                         <p className="fw-lightBold">
@@ -115,10 +120,10 @@ const AnnotationSelectInstanceStep = (props: Props) => {
 
                                             return (
                                                 <ExistingInstance key={key}
-                                                    jsonPath={jp.stringify([...node.path, valueIndex])}
+                                                    jsonPath={jp.stringify([...node.path, valueIndex]).replaceAll('"', "'")}
                                                     instanceValue={value}
                                                     schemaTitle={schemaTitle}
-                                                    selected={formValues?.jsonPath === jp.stringify([...node.path, valueIndex])}
+                                                    selected={formValues?.jsonPath === jp.stringify([...node.path, valueIndex]).replaceAll('"', "'")}
                                                     SetFieldValue={SetFieldValue}
                                                 />
                                             );
@@ -127,10 +132,10 @@ const AnnotationSelectInstanceStep = (props: Props) => {
                                         const key = `existingInstance-${index}`;
 
                                         return (<ExistingInstance key={key}
-                                            jsonPath={jp.stringify(node.path)}
+                                            jsonPath={jp.stringify(node.path).replaceAll('"', "'")}
                                             instanceValue={node.value}
                                             schemaTitle={schemaTitle}
-                                            selected={formValues?.jsonPath === jp.stringify(node.path)}
+                                            selected={formValues?.jsonPath === jp.stringify(node.path).replaceAll('"', "'")}
                                             SetFieldValue={SetFieldValue}
                                         />);
                                     }

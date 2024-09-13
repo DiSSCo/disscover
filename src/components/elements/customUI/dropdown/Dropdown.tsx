@@ -19,6 +19,7 @@ interface Props {
     },
     placeholder?: string,
     hasDefault?: boolean,
+    useAsFilter?: boolean,
     styles?: {
         color?: string,
         textColor?: string,
@@ -35,29 +36,22 @@ interface Props {
     * @param selectedItem The currently selected item, holds a label and value
     * @param placeholder A possible placeholder to display in the field when no option is selected
     * @param hasDefault Boolean indicating if the dropdown alwyas has a default value
+    * @param useAsFilter Boolean indicating if the dropdown should be used as a filter
     * @param styles A possible object that can hold rules for adhering to certain styles
     * @param OnChange A global function that triggers when an option is selected, has priority over an action of an option
 */
 const Dropdown = (props: Props) => {
-    const { selectedItem, items, placeholder, hasDefault, styles, OnChange } = props;
+    const { selectedItem, items, placeholder, hasDefault, useAsFilter, styles, OnChange } = props;
 
     /* Base variables */
     const [selectItems, setSelectItems] = useState<{ label: string, value: string, action?: Function }[]>(items);
-
-    /* If placeholder is given, add as default option */
-    if (placeholder && !selectedItem && !items.find((item) => [placeholder, 'Reset filter'].includes(item.label))) {
-        items.unshift({
-            label: placeholder,
-            value: ""
-        });
-    };
 
     /**
      * Function to check if the chosen option has a value and the default should change to 'Reset filter'
      * @param option The selected option from the Select Component
      */
     const CheckItems = (option: SingleValue<DropdownItem> | undefined) => {
-        if ((option?.value || selectedItem) && !selectItems.find((item) => item.label === 'Reset filter')) {
+        if (useAsFilter && (option?.value || selectedItem) && !selectItems.find((item) => item.label === 'Reset filter')) {
             if (!hasDefault && selectItems[0].label !== placeholder) {
                 selectItems.unshift({
                     label: 'Reset filter',
@@ -78,14 +72,8 @@ const Dropdown = (props: Props) => {
     }, [selectedItem]);
 
     return (
-        <Select value={selectedItem ?? {
-            label: placeholder ?? 'Select an option',
-            value: ''
-        }}
-            defaultValue={{
-                label: placeholder ?? 'Select an option',
-                value: ''
-            }}
+        <Select value={selectedItem}
+            placeholder={placeholder}
             options={selectItems}
             isSearchable={false}
             styles={{
@@ -115,11 +103,11 @@ const Dropdown = (props: Props) => {
                     width: '100%',
                     position: 'absolute',
                     right: '0',
-                    color: styles?.textColor ?? '#333333',
+                    color: styles?.textColor ?? '#333333'
                 }),
                 placeholder: provided => ({
                     ...provided,
-                    color: '#FF8E3E'
+                    color: styles?.textColor ?? '#333333'
 
                 }),
                 dropdownIndicator: provided => ({

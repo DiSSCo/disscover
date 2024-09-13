@@ -95,6 +95,7 @@ const AnnotationTargetStep = (props: Props) => {
                                             SetFieldValue?.('class', classOption);
                                             SetFieldValue?.('term', undefined);
                                             SetFieldValue?.('jsonPath', undefined);
+                                            SetFieldValue?.('parentClassDropdownValues', {});
 
                                             /* Set annotation target */
                                             SetAnnotationTarget?.(classOption, 'class');
@@ -141,6 +142,7 @@ const AnnotationTargetStep = (props: Props) => {
                                     SetFieldValue?.('class', option);
                                     SetFieldValue?.('term', undefined);
                                     SetFieldValue?.('jsonPath', undefined);
+                                    SetFieldValue?.('parentClassDropdownValues', {});
                                 }}
                             />
                         </Col>
@@ -161,6 +163,7 @@ const AnnotationTargetStep = (props: Props) => {
                                 onChange={(option: SingleValue<{ label: string; value: string; }>) => {
                                     SetFieldValue?.('term', option);
                                     SetFieldValue?.('jsonPath', undefined);
+                                    SetFieldValue?.('parentClassDropdownValues', {});
                                 }}
                             />
                         </Col>

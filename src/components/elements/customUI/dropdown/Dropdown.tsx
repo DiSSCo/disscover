@@ -19,6 +19,7 @@ interface Props {
     },
     placeholder?: string,
     hasDefault?: boolean,
+    disabled?: boolean,
     useAsFilter?: boolean,
     styles?: {
         color?: string,
@@ -36,12 +37,13 @@ interface Props {
     * @param selectedItem The currently selected item, holds a label and value
     * @param placeholder A possible placeholder to display in the field when no option is selected
     * @param hasDefault Boolean indicating if the dropdown alwyas has a default value
+    * @param disabled Boolean indicating if the dropdown should be disabled
     * @param useAsFilter Boolean indicating if the dropdown should be used as a filter
     * @param styles A possible object that can hold rules for adhering to certain styles
     * @param OnChange A global function that triggers when an option is selected, has priority over an action of an option
 */
 const Dropdown = (props: Props) => {
-    const { selectedItem, items, placeholder, hasDefault, useAsFilter, styles, OnChange } = props;
+    const { selectedItem, items, placeholder, hasDefault, disabled, useAsFilter, styles, OnChange } = props;
 
     /* Base variables */
     const [selectItems, setSelectItems] = useState<{ label: string, value: string, action?: Function }[]>(items);
@@ -76,6 +78,7 @@ const Dropdown = (props: Props) => {
             placeholder={placeholder}
             options={selectItems}
             isSearchable={false}
+            isDisabled={disabled}
             styles={{
                 control: provided => ({
                     ...provided,

@@ -94,6 +94,16 @@ export type AnnotationTarget = {
     jsonPath: string
 };
 
+/* Parent class */
+export type ParentClass = {
+    jsonPath: string,
+    name: string,
+    parentName?: string,
+    present: boolean,
+    options?: number,
+    dependent?: boolean
+};
+
 /* Dropdown item */
 export type DropdownItem = {
     label: string,

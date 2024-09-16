@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { isEmpty } from 'lodash';
 import jp, { PathComponent } from 'jsonpath';
 import { Row, Col } from 'react-bootstrap';
 
@@ -23,8 +24,7 @@ type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     schemaTitle?: string,
     formValues?: Dict,
-    SetFieldValue?: Function,
-    GoToStep?: Function
+    SetFieldValue?: Function
 };
 
 
@@ -37,7 +37,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationSelectInstanceStep = (props: Props) => {
-    const { superClass, schemaTitle, formValues, SetFieldValue, GoToStep } = props;
+    const { superClass, schemaTitle, formValues, SetFieldValue } = props;
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
@@ -67,12 +67,18 @@ const AnnotationSelectInstanceStep = (props: Props) => {
     /* Construct title text */
     let titleText: string = 'Annotate a new or existing instance?';
 
-    if ((nodes.length && annotationTarget?.type === 'term') ||
-        (annotationTarget?.type !== 'term' && !jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has'))
-    ) {
-        titleText = 'Annotate an existing instance';
-    } else if (!nodes.length || (annotationTarget?.type !== 'term' && Array.isArray(nodes[0].value) && !nodes[0].value.length)) {
+    /* Conditions for checking if a new or existing instances may be selected */
+    const allowForNewInstance: boolean = (!nodes.length && annotationTarget?.type === 'term') ||
+    (annotationTarget?.type !== 'term' && !nodes.length) || jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has');
+
+    const allowForExistingInstances: boolean = !!(nodes.length && ((Array.isArray(nodes[0].value) && nodes[0].value.length)
+        || !isEmpty(nodes[0].value))
+    );
+
+    if (allowForNewInstance && !allowForExistingInstances) {
         titleText = 'Annotate a new instance as there is no existing one';
+    } else if (!allowForNewInstance && allowForExistingInstances) {
+        titleText = 'Annotate an existing instance';
     }
 
     return (
@@ -86,7 +92,7 @@ const AnnotationSelectInstanceStep = (props: Props) => {
                 </Col>
             </Row>
             {/* Annotate a new instance */}
-            {(!nodes.length || (annotationTarget?.type === 'term' && !nodes.length) || (annotationTarget?.type !== 'term' && jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has'))) &&
+            {allowForNewInstance &&
                 <Row className="mt-4">
                     <Col>
                         <p className="fw-lightBold">
@@ -103,7 +109,7 @@ const AnnotationSelectInstanceStep = (props: Props) => {
                 </Row>
             }
             {/* Annotate an existing instance */}
-            {(!nodes.length || !(annotationTarget?.type !== 'term' && Array.isArray(nodes[0].value) && !nodes[0].value.length)) &&
+            {allowForExistingInstances &&
                 <Row className="flex-grow-1 mt-4 overflow-hidden">
                     <Col className="h-100 d-flex flex-column">
                         <p className="fw-lightBold">

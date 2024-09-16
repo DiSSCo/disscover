@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import jp from 'jsonpath';
 import { useState } from 'react';
@@ -10,21 +9,16 @@ import { MakeReadableString } from 'app/Utilities';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
-import { useAppDispatch, useTrigger } from 'app/Hooks';
-
-/* Import Store */
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { useTrigger } from 'app/Hooks';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
-import { AnnotationTarget, Dict, DropdownItem } from 'app/Types';
-
-/* Import Icons */
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { AnnotationTarget, Dict, ParentClass } from 'app/Types';
 
 /* Import Components */
-import { Button, Dropdown } from 'components/elements/customUI/CustomUI';
+import ParentClassification from './ParentClassification';
+import { Button } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
@@ -34,15 +28,6 @@ type Props = {
     annotationTarget?: AnnotationTarget,
     formValues?: Dict,
     SetFieldValue?: Function
-};
-
-/* Parent class type */
-type ParentClass = {
-    jsonPath: string,
-    name: string,
-    parentName?: string,
-    present: boolean,
-    options?: number
 };
 
 
@@ -59,7 +44,6 @@ const NewInstance = (props: Props) => {
     const { superClass, selected, annotationTarget, formValues, SetFieldValue } = props;
 
     /* Hooks */
-    const dispatch = useAppDispatch();
     const trigger = useTrigger();
 
     /* Base variables */
@@ -93,13 +77,14 @@ const NewInstance = (props: Props) => {
                         });
                     }
 
-                    parentNodes.forEach(parentNode => {
+                    parentNodes.forEach((parentNode, parentIndex) => {
                         parentClasses.push({
                             jsonPath: jp.stringify(parentNode.path).replaceAll('"', "'"),
                             name: MakeJsonPathReadableString(jp.stringify(parentNode.path)),
-                            ...(index > 0 && { parentName: pathArray[index] }),
+                            ...(index > 0 && { parentName: MakeJsonPathReadableString(pathArray[index]) }),
                             present: (Array.isArray(parentNode.value) && !!parentNode.value.length) || (!Array.isArray(parentNode.value) && typeof (parentNode.value) === 'object'),
-                            ...(parentNode.value.length && { options: parentNode.value.length })
+                            ...(parentNode.value.length && { options: parentNode.value.length }),
+                            ...(parentClasses[parentIndex]?.options && { dependent: true })
                         });
                     });
                 }
@@ -108,120 +93,6 @@ const NewInstance = (props: Props) => {
 
         setParentClasses(parentClasses);
     }, [annotationTarget]);
-
-    /**
-     * Function that checks the state of a parent class and which UI should be rendered to handle the chain and change annotation target if necessary
-     * @param parentClass The provided parent class
-     */
-    const CheckParentClass = (parentClass: ParentClass, index: number) => {
-        /* Check if a potential previous parent class was not present, if so cancel render */
-        if (index > 0 && !parentClasses[index - 1].present) {
-            return <> </>;
-        } else {
-            if (!parentClass.present) {
-                return (
-                    <div className="mt-2">
-                        <div className="bgc-accent-soft br-corner px-3 py-1">
-                            <p className="fs-4 fw-lightBold">
-                                <FontAwesomeIcon icon={faCircleExclamation}
-                                    className="tc-grey"
-                                />
-                                {` Parent class '${parentClass.name}' is not present.
-                                Add a new instance of '${MakeJsonPathReadableString(annotationTarget?.jsonPath ?? '')}' by
-                                also adding the parent class.`}
-                            </p>
-                        </div>
-
-                        <Button type="button"
-                            variant="primary"
-                            disabled={selected}
-                            className="fs-5 mt-3 py-1 px-3"
-                            OnClick={() => {
-                                if (annotationTarget) {
-                                    /* Set field values in form to parent class */
-                                    SetFieldValue?.('jsonPath', `${parentClass.jsonPath}[0]`);
-                                    SetFieldValue?.('class', {
-                                        label: MakeJsonPathReadableString(parentClass.jsonPath),
-                                        value: parentClass.jsonPath
-                                    });
-                                    SetFieldValue?.('term', undefined);
-
-                                    /* Set annotation target to parent class */
-                                    dispatch(setAnnotationTarget({
-                                        jsonPath: parentClass.jsonPath,
-                                        type: 'class'
-                                    }));
-                                }
-                            }}
-                        >
-                            {!selected ? `Add instance of ${parentClass.name}` : 'Currently selected'}
-                        </Button>
-                    </div>
-                );
-            } else if (parentClass.options) {
-                const dropdownItems: DropdownItem[] = [];
-
-                for (let i = 0; i < parentClass.options; i++) {
-                    dropdownItems.push({
-                        label: `${parentClass.name} #${i + 1}`,
-                        value: `${i}`
-                    });
-                };
-
-                return (
-                    <div className="mt-2">
-                        <div className="bgc-accent-soft br-corner mb-2 px-3 py-1">
-                            <p className="fs-4 fw-lightBold">
-                                <FontAwesomeIcon icon={faCircleExclamation}
-                                    className="tc-grey"
-                                />
-                                {` Specify on which '${parentClass.name}' the instance should be created.`}
-                            </p>
-                        </div>
-
-                        <Dropdown items={dropdownItems}
-                            hasDefault={false}
-                            placeholder="Select"
-                            selectedItem={formValues?.parentClassDropdownValues[parentClass.name] >= 0 ? {
-                                label: `${parentClass.name} #${formValues?.parentClassDropdownValues[parentClass.name] + 1}`,
-                                value: formValues?.parentClassDropdownValues[parentClass.name]
-                            } : undefined}
-                            styles={{
-                                border: true,
-                                borderRadius: '8px'
-                            }}
-                            OnChange={(option: DropdownItem) => {
-                                /* Set selected parent index in annotation wizard form */
-                                SetFieldValue?.(`parentClassDropdownValues.${parentClass.name}`, Number(option.value));
-
-                                /* Set class as present in parent classes state */
-                                parentClasses[parentClasses.findIndex(parentClassInstance => parentClassInstance.name === parentClass.name)].present = true;
-
-                                setParentClasses([...parentClasses]);
-                            }}
-                        />
-
-                        {!parentClasses.find(parentClass => !parentClass.present) &&
-                            <Button type="button"
-                                variant="primary"
-                                disabled={!(formValues?.parentClassDropdownValues[parentClass.name] >= 0) || selected}
-                                className="fs-5 mt-3 py-1 px-3"
-                                OnClick={() => {
-                                    /* Set field value in annotation form */
-                                    const jsonPath: string = annotationTarget?.jsonPath.replace(parentClass.jsonPath, `${parentClass.jsonPath}[${formValues?.parentClassDropdownValues[parentClass.name]}]`) ?? '';
-                                    const latestIndex: any = jp.query(superClass, jsonPath)[0].length;
-
-                                    SetFieldValue?.('jsonPath', `${jsonPath}[${latestIndex}]`);
-                                }}
-                            >
-                                {!selected ? `Add instance of ${MakeJsonPathReadableString(annotationTarget?.jsonPath ?? '')}` : 'Currently selected'}
-                            </Button>
-                        }
-                    </div>
-                );
-            }
-        }
-    };
 
     /* Class Names */
     const selectedDivClass = classNames({
@@ -265,7 +136,24 @@ const NewInstance = (props: Props) => {
                         </Row>
                         : <Row>
                             <Col>
-                                {parentClasses.map((parentClass, index) => CheckParentClass(parentClass, index))}
+                                {parentClasses.map((parentClass, index) => {
+                                    /* Key of parent class component */
+                                    const key = `parentClass-${index}`;
+
+                                    return (
+                                        <ParentClassification key={key}
+                                            index={index}
+                                            parentClass={parentClass}
+                                            selected={selected}
+                                            parentClasses={parentClasses}
+                                            annotationTarget={annotationTarget}
+                                            formValues={formValues}
+                                            superClass={superClass}
+                                            SetFieldValue={SetFieldValue}
+                                            SetParentClasses={setParentClasses}
+                                        />
+                                    );
+                                })}
                             </Col>
                         </Row>
                     }

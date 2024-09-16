@@ -65,7 +65,7 @@ const ProgressDots = (props: Props) => {
                             const progressDotClass = classNames({
                                 'tc-grey': index > selectedIndex && index > completedTill,
                                 'tc-primary': index <= selectedIndex,
-                                'tc-secondary': ValidationFunction ? ValidationFunction(index > 0 ? index - 1 : 0) && index > selectedIndex : index > selectedIndex && index <= completedTill
+                                'tc-secondary': ValidationFunction ? ValidationFunction(index > 0 ? (index - 1) : 0) && index > selectedIndex : index > selectedIndex && index <= completedTill
                             });
 
                             return (
@@ -75,7 +75,7 @@ const ProgressDots = (props: Props) => {
                                 >
                                     <Button type="button"
                                         variant="blank"
-                                        disabled={ValidationFunction ? !ValidationFunction(index > 0 ? index - 1 : 0) : index > completedTill}
+                                        disabled={ValidationFunction ? !ValidationFunction(index > 0 ? (index - 1) : 0) : index > completedTill}
                                         className="px-0 py-1 position-relative z-2"
                                         OnClick={progressDot.OnClick}
                                     >

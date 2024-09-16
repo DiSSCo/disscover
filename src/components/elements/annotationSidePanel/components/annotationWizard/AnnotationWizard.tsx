@@ -150,10 +150,6 @@ const AnnotationWizard = (props: Props) => {
                 break;
         };
 
-        if (selectedIndex < completedTill) {
-
-        }
-
         return forwardAllowed;
     };
 

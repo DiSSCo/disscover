@@ -48,13 +48,16 @@ const ProgressDots = (props: Props) => {
     const progressBarStyles = {
         width: progressBarWidth
     };
-    
+
     return (
         <div>
             <Row>
                 <Col className="position-relative">
                     <Row>
                         {progressDots.map((progressDot, index) => {
+                            /* Validation function setup */
+                            const Validate = () => ValidationFunction?.(index > 0 ? (index - 1) : 0);
+
                             /* Class Names */
                             const progressDotColClass = classNames({
                                 'justify-content-center': index !== 0 && index + 1 !== progressDots.length,
@@ -65,7 +68,7 @@ const ProgressDots = (props: Props) => {
                             const progressDotClass = classNames({
                                 'tc-grey': index > selectedIndex && index > completedTill,
                                 'tc-primary': index <= selectedIndex,
-                                'tc-secondary': ValidationFunction ? ValidationFunction(index > 0 ? (index - 1) : 0) && index > selectedIndex : index > selectedIndex && index <= completedTill
+                                'tc-secondary': ValidationFunction ? Validate() && index > selectedIndex : index > selectedIndex && index <= completedTill
                             });
 
                             return (
@@ -75,7 +78,7 @@ const ProgressDots = (props: Props) => {
                                 >
                                     <Button type="button"
                                         variant="blank"
-                                        disabled={ValidationFunction ? !ValidationFunction(index > 0 ? (index - 1) : 0) : index > completedTill}
+                                        disabled={ValidationFunction ? !Validate() : index > completedTill}
                                         className="px-0 py-1 position-relative z-2"
                                         OnClick={progressDot.OnClick}
                                     >

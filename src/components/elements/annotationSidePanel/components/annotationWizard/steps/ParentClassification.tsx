@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { isEmpty } from "lodash";
 import jp from 'jsonpath';
 
 /* Import Utilities */
@@ -57,6 +56,9 @@ const ParentClassification = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
 
+    /* Base variables */
+    const titleText: string = !selected ? `Add instance of ${parentClass.name}` : 'Currently selected';
+
     /* Depending on the index and previous classes, check if there was no other missing parent class and if so render the appropiate select options */
     if (index > 0 && !parentClasses[index - 1].present) {
         return <> </>;
@@ -97,88 +99,87 @@ const ParentClassification = (props: Props) => {
                         }
                     }}
                 >
-                    {!selected ? `Add instance of ${parentClass.name}` : 'Currently selected'}
+                    {titleText}
                 </Button>
             </div>
         );
-    } else if (parentClass.options) {
+    } else if (parentClass.options && (!parentClass.dependent || (parentClass.dependent && formValues?.parentClassDropdownValues?.[parentClass.parentName as string] >= 0))) {
         /* Render dropdown if parent class index needs to be defined, when multiple depending ones, wait till the parent has been set to render the next one */
-        if (!parentClass.dependent || (parentClass.dependent && formValues?.parentClassDropdownValues?.[parentClass.parentName as string] >= 0)) {
-            /* For the lenght of index options, push a dropdown item as a selectable item */
-            let dropdownItems: DropdownItem[] = [];
 
-            for (let i = 0; i < parentClass.options; i++) {
-                dropdownItems.push({
-                    label: `${parentClass.name} #${i + 1}`,
-                    value: `${i}`
-                });
-            };
+        /* For the lenght of index options, push a dropdown item as a selectable item */
+        let dropdownItems: DropdownItem[] = [];
 
-            /* If dependen on parent, filter dropdown items accordingly to parent name */
-            if (parentClass.dependent) {
-                dropdownItems = dropdownItems.filter(dropdownItem => dropdownItem.label.includes(
-                    `${parentClass.parentName as string} ${formValues?.parentClassDropdownValues?.[parentClass.parentName as string]}`
-                ));
-            }
+        for (let i = 0; i < parentClass.options; i++) {
+            dropdownItems.push({
+                label: `${parentClass.name} #${i + 1}`,
+                value: `${i}`
+            });
+        };
 
-            return (
-                <div className="mt-2">
-                    <div className="bgc-accent-soft br-corner mb-2 px-3 py-1">
-                        <p className="fs-4 fw-lightBold">
-                            <FontAwesomeIcon icon={faCircleExclamation}
-                                className="tc-grey"
-                            />
-                            {` Specify on which '${parentClass.name}' the instance should be created.`}
-                        </p>
-                    </div>
-
-                    <Dropdown items={dropdownItems}
-                        placeholder="Select"
-                        hasDefault={false}
-                        selectedItem={formValues?.parentClassDropdownValues[parentClass.name] >= 0 ? {
-                            label: `${parentClass.name} #${formValues?.parentClassDropdownValues[parentClass.name] + 1}`,
-                            value: formValues?.parentClassDropdownValues[parentClass.name]
-                        } : undefined}
-                        styles={{
-                            border: true,
-                            borderRadius: '8px'
-                        }}
-                        OnChange={(option: DropdownItem) => {
-                            /* Set selected parent index in annotation wizard form */
-                            SetFieldValue?.(`parentClassDropdownValues.${parentClass.name}`, Number(option.value));
-
-                            /* Set class as present in parent classes state */
-                            parentClasses[parentClasses.findIndex(parentClassInstance => parentClassInstance.name === parentClass.name)].present = true;
-
-                            SetParentClasses([...parentClasses]);
-                        }}
-                    />
-
-                    {(parentClasses.filter(parentClass => parentClass.name in formValues?.parentClassDropdownValues).length === parentClasses.length && (index + 1) === parentClasses.length) &&
-                        <Button type="button"
-                            variant="primary"
-                            disabled={formValues?.parentClassDropdownValues[parentClass.name] <= 0 && selected}
-                            className="fs-5 mt-3 py-1 px-3"
-                            OnClick={() => {
-                                /* Set field value in annotation form */
-                                let jsonPath: string = annotationTarget?.jsonPath.replace(parentClass.jsonPath, `${parentClass.jsonPath}[${formValues?.parentClassDropdownValues[parentClass.name]}]`) ?? '';
-
-                                /* Add latest index to JSON path if adding a new class instance to an array */
-                                if (jp.parse(jsonPath).slice(-1)[0].expression.value.includes('has')) {
-                                    const latestIndex: any = jp.query(superClass, jsonPath)[0].length;
-
-                                    jsonPath = `${jsonPath}[${latestIndex}]`;
-                                }
-
-                                SetFieldValue?.('jsonPath', jsonPath);
-                            }}
-                        >
-                            {!selected ? `Add instance of ${MakeJsonPathReadableString(annotationTarget?.jsonPath ?? '')}` : 'Currently selected'}
-                        </Button>
-                    }
-                </div>
-            );
+        /* If dependen on parent, filter dropdown items accordingly to parent name */
+        if (parentClass.dependent) {
+            dropdownItems = dropdownItems.filter(dropdownItem => dropdownItem.label.includes(
+                `${parentClass.parentName as string} ${formValues?.parentClassDropdownValues?.[parentClass.parentName as string]}`
+            ));
         }
+
+        return (
+            <div className="mt-2">
+                <div className="bgc-accent-soft br-corner mb-2 px-3 py-1">
+                    <p className="fs-4 fw-lightBold">
+                        <FontAwesomeIcon icon={faCircleExclamation}
+                            className="tc-grey"
+                        />
+                        {` Specify on which '${parentClass.name}' the instance should be created.`}
+                    </p>
+                </div>
+
+                <Dropdown items={dropdownItems}
+                    placeholder="Select"
+                    hasDefault={false}
+                    selectedItem={formValues?.parentClassDropdownValues[parentClass.name] >= 0 ? {
+                        label: `${parentClass.name} #${formValues?.parentClassDropdownValues[parentClass.name] + 1}`,
+                        value: formValues?.parentClassDropdownValues[parentClass.name]
+                    } : undefined}
+                    styles={{
+                        border: true,
+                        borderRadius: '8px'
+                    }}
+                    OnChange={(option: DropdownItem) => {
+                        /* Set selected parent index in annotation wizard form */
+                        SetFieldValue?.(`parentClassDropdownValues.${parentClass.name}`, Number(option.value));
+
+                        /* Set class as present in parent classes state */
+                        parentClasses[parentClasses.findIndex(parentClassInstance => parentClassInstance.name === parentClass.name)].present = true;
+
+                        SetParentClasses([...parentClasses]);
+                    }}
+                />
+
+                {(parentClasses.filter(parentClass => parentClass.name in formValues?.parentClassDropdownValues ?? {}).length === parentClasses.length && (index + 1) === parentClasses.length) &&
+                    <Button type="button"
+                        variant="primary"
+                        disabled={formValues?.parentClassDropdownValues[parentClass.name] <= 0 && selected}
+                        className="fs-5 mt-3 py-1 px-3"
+                        OnClick={() => {
+                            /* Set field value in annotation form */
+                            let jsonPath: string = annotationTarget?.jsonPath.replace(parentClass.jsonPath, `${parentClass.jsonPath}[${formValues?.parentClassDropdownValues[parentClass.name]}]`) ?? '';
+
+                            /* Add latest index to JSON path if adding a new class instance to an array */
+                            if (jp.parse(jsonPath).slice(-1)[0].expression.value.includes('has')) {
+                                const latestIndex: any = jp.query(superClass, jsonPath)[0].length;
+
+                                jsonPath = `${jsonPath}[${latestIndex}]`;
+                            }
+
+                            SetFieldValue?.('jsonPath', jsonPath);
+                        }}
+                    >
+                        {titleText}
+                    </Button>
+                }
+            </div>
+        );
     }
 };
 

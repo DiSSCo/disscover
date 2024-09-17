@@ -1,12 +1,12 @@
 /* Import Components */
-import AnnotationTargetStep from "./steps/AnnotationTargetStep";
 import AnnotationFormStep from "./steps/AnnotationFormStep";
-import AnnotationInstanceSelectStep from "./steps/AnnotationInstanceSelectStep";
+import AnnotationSelectInstanceStep from "./steps/AnnotationSelectInstanceStep";
+import AnnotationTargetStep from "./steps/AnnotationTargetStep";
 
 
 /* Export components as annotation wizard components */
 export {
-    AnnotationTargetStep,
     AnnotationFormStep,
-    AnnotationInstanceSelectStep
+    AnnotationSelectInstanceStep,
+    AnnotationTargetStep,
 };

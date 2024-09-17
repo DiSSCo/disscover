@@ -10,16 +10,19 @@ import { useAppDispatch } from 'app/Hooks';
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
+import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
 
 /* Import Components */
-import { AnnotationTargetStep, AnnotationFormStep, AnnotationInstanceSelectStep } from './AnnotationWizardComponents';
+import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationTargetStep } from './AnnotationWizardComponents';
 import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
 type Props = {
-    schema: Dict
+    schema: Dict,
+    superClass: DigitalSpecimen | DigitalMedia | Dict
 };
 
 
@@ -28,7 +31,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema } = props;
+    const { schema, superClass } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -36,7 +39,9 @@ const AnnotationWizard = (props: Props) => {
     /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
         annotationTarget: <AnnotationTargetStep schema={schema} />,
-        annotationSelectInstance: <AnnotationInstanceSelectStep />,
+        annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
+            schemaTitle={schema.title}
+        />,
         annotationForm: <AnnotationFormStep />
     };
 
@@ -61,10 +66,16 @@ const AnnotationWizard = (props: Props) => {
         term: {
             label: string,
             value: string
-        } | undefined
+        } | undefined,
+        jsonPath: string | undefined,
+        parentClassDropdownValues: {
+            [parentClass: string]: number
+        }
     } = {
         class: undefined,
-        term: undefined
+        term: undefined,
+        jsonPath: undefined,
+        parentClassDropdownValues: {}
     };
 
     /**
@@ -100,58 +111,54 @@ const AnnotationWizard = (props: Props) => {
     /**
      * Function to set the annotation target based on the user's selection (wizard step one)
      */
-    const SetAnnotationTarget = (formValues: Dict, targetType: string) => {
+    const SetAnnotationTarget = (selectedOption: { label: string, value: string }, targetType: string) => {
         /* Check if class is the super class */
         let classType: 'class' | 'superClass' = 'class';
 
-        if (formValues.class && formValues.class.value === '$') {
+        if (targetType === 'class' && selectedOption.value === '$') {
             classType = 'superClass';
         }
 
         /* Set annotation target */
         dispatch(setAnnotationTarget({
             type: targetType === 'class' ? classType : 'term',
-            jsonPath: targetType === 'class' ? formValues.class?.value as string : formValues.term?.value as string,
+            jsonPath: selectedOption.value
         }));
 
         /* Go to next step in wizard */
         GoToStep(tabStates.findIndex(tabState => tabState.active) + 1);
     };
 
+    /**
+     * Function to check if the user should be allowed to move forwards in the annotation wizard
+     */
+    const CheckForwardCriteria = (stepIndex: number, formValues: Dict) => {
+        let forwardAllowed: boolean = false;
+
+        switch (stepIndex) {
+            case 0:
+                if (formValues.class || formValues.term) {
+                    forwardAllowed = true;
+                }
+
+                break;
+            case 1:
+                if ((formValues.class || formValues.term) && formValues.jsonPath) {
+                    forwardAllowed = true;
+                }
+
+                break;
+        };
+
+        return forwardAllowed;
+    };
+
     return (
         <div className="h-100 d-flex flex-column">
-            {/* Previous and next step buttons */}
-            <Row>
-                {!!selectedIndex &&
-                    <Col lg>
-                        <Button type="button"
-                            variant="blank"
-                            className="px-0 py-0 tc-primary fw-lightBold"
-                            OnClick={() => GoToStep(selectedIndex - 1)}
-                        >
-                            {`< Previous step`}
-                        </Button>
-                    </Col>
-                }
-                {selectedIndex < completedTill &&
-                    <Col lg
-                        className="d-flex justify-content-end"
-                    >
-                        <Button type="button"
-                            variant="blank"
-                            className="px-0 py-0 tc-primary fw-lightBold"
-                            OnClick={() => GoToStep(selectedIndex + 1)}
-                        >
-                            {`Next step >`}
-                        </Button>
-                    </Col>
-                }
-            </Row>
-            {/* Wizard steps display */}
-            <Row className="flex-grow-1">
-                <Col>
-                    <Formik
-                        initialValues={initialFormValues}
+            {/* Annotation wizard main body */}
+            <Row className="flex-grow-1 overflow-hidden">
+                <Col className="h-100">
+                    <Formik initialValues={initialFormValues}
                         onSubmit={async (_values) => {
                             await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -159,30 +166,67 @@ const AnnotationWizard = (props: Props) => {
                         }}
                     >
                         {({ values, setFieldValue }) => (
-                            <Form>
-                                <Tabs tabs={tabs}
-                                    selectedIndex={selectedIndex}
-                                    tabClassName='d-none'
-                                    tabProps={{
-                                        formValues: values,
-                                        SetFieldValue: setFieldValue,
-                                        SetAnnotationTarget
-                                    }}
-                                    SetSelectedIndex={GoToStep}
+                            <Form className="h-100 d-flex flex-column overflow-none">
+                                {/* Previous and next step buttons */}
+                                <Row>
+                                    {!!selectedIndex &&
+                                        <Col lg>
+                                            <Button type="button"
+                                                variant="blank"
+                                                className="px-0 py-0 tc-primary fw-lightBold"
+                                                OnClick={() => GoToStep(selectedIndex - 1)}
+                                            >
+                                                {`< Previous step`}
+                                            </Button>
+                                        </Col>
+                                    }
+                                    {CheckForwardCriteria(selectedIndex, values) &&
+                                        <Col lg
+                                            className="d-flex justify-content-end"
+                                        >
+                                            <Button type="button"
+                                                variant="blank"
+                                                className="px-0 py-0 tc-primary fw-lightBold"
+                                                OnClick={() => GoToStep(selectedIndex + 1)}
+                                            >
+                                                {`Next step >`}
+                                            </Button>
+                                        </Col>
+                                    }
+                                </Row>
 
-                                />
+                                {/* Wizard steps display */}
+                                <Row className="flex-grow-1 overflow-hidden">
+                                    <Col className="h-100">
+                                        <Tabs tabs={tabs}
+                                            selectedIndex={selectedIndex}
+                                            tabClassName='d-none'
+                                            tabPanelClassName="flex-grow-1 overflow-hidden"
+                                            tabProps={{
+                                                formValues: values,
+                                                SetFieldValue: setFieldValue,
+                                                SetAnnotationTarget,
+                                                GoToStep: GoToStep
+                                            }}
+                                            SetSelectedIndex={GoToStep}
+                                        />
+                                    </Col>
+                                </Row>
+
+
+                                {/* Progress dots adhering to the wizard */}
+                                <Row className="mt-3">
+                                    <Col>
+                                        <ProgressDots progressDots={progressDots}
+                                            selectedIndex={selectedIndex}
+                                            completedTill={completedTill}
+                                            ValidationFunction={(index: number) => CheckForwardCriteria(index, values)}
+                                        />
+                                    </Col>
+                                </Row>
                             </Form>
                         )}
                     </Formik>
-                </Col>
-            </Row>
-            {/* Progress dots adhering to wizard */}
-            <Row>
-                <Col>
-                    <ProgressDots progressDots={progressDots}
-                        selectedIndex={selectedIndex}
-                        completedTill={completedTill}
-                    />
                 </Col>
             </Row>
         </div>

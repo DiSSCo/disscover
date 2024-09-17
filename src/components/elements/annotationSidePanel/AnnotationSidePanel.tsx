@@ -68,10 +68,12 @@ const AnnotationSidePanel = (props: Props) => {
                 </Col>
             </Row>
             {/* Annotations overview or wizard depending on state */}
-            <Row className="flex-grow-1 mt-4">
-                <Col>
+            <Row className="flex-grow-1 overflow-hidden mt-4">
+                <Col className="h-100">
                     {(annotationWizardToggle && superClass) ?
-                        <AnnotationWizard schema={schema} />
+                        <AnnotationWizard schema={schema}
+                            superClass={superClass}
+                        />
                         : <AnnotationsOverview annotations={annotations}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                         />

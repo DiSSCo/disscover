@@ -29,7 +29,7 @@ type Props = {
 
 
 /**
- * Component that renders the cases step of the annotation wizard
+ * Component that renders the cases target selection of the annotation wizard
  * @returns JSX Component
  */
 const AnnotationTargetStep = (props: Props) => {
@@ -90,10 +90,15 @@ const AnnotationTargetStep = (props: Props) => {
                                                     MakeJsonPathReadableString(annotationCase.jsonPath),
                                                 value: annotationCase.jsonPath
                                             }
+
+                                            /* Set form values */
                                             SetFieldValue?.('class', classOption);
                                             SetFieldValue?.('term', undefined);
+                                            SetFieldValue?.('jsonPath', undefined);
+                                            SetFieldValue?.('parentClassDropdownValues', {});
 
-                                            SetAnnotationTarget?.(formValues, 'class');
+                                            /* Set annotation target */
+                                            SetAnnotationTarget?.(classOption, 'class');
                                         }}
                                     >
                                         <p className="fs-4 tc-white fw-lightBold text-center">
@@ -136,6 +141,8 @@ const AnnotationTargetStep = (props: Props) => {
                                 onChange={(option: SingleValue<{ label: string; value: string; }>) => {
                                     SetFieldValue?.('class', option);
                                     SetFieldValue?.('term', undefined);
+                                    SetFieldValue?.('jsonPath', undefined);
+                                    SetFieldValue?.('parentClassDropdownValues', {});
                                 }}
                             />
                         </Col>
@@ -155,6 +162,8 @@ const AnnotationTargetStep = (props: Props) => {
                                 className="mt-2"
                                 onChange={(option: SingleValue<{ label: string; value: string; }>) => {
                                     SetFieldValue?.('term', option);
+                                    SetFieldValue?.('jsonPath', undefined);
+                                    SetFieldValue?.('parentClassDropdownValues', {});
                                 }}
                             />
                         </Col>
@@ -165,7 +174,10 @@ const AnnotationTargetStep = (props: Props) => {
                             <Col lg>
                                 <Button type="button"
                                     variant="accent"
-                                    OnClick={() => SetAnnotationTarget?.(formValues, 'class')}
+                                    OnClick={() => SetAnnotationTarget?.({
+                                        label: formValues.class?.label,
+                                        value: formValues.class.value
+                                    }, 'class')}
                                 >
                                     <p>{`Target class: ${formValues.class?.label}`}</p>
                                 </Button>
@@ -177,7 +189,10 @@ const AnnotationTargetStep = (props: Props) => {
                             <Col lg>
                                 <Button type="button"
                                     variant="accent"
-                                    OnClick={() => SetAnnotationTarget?.(formValues, 'term')}
+                                    OnClick={() => SetAnnotationTarget?.({
+                                        label: formValues.term?.label,
+                                        value: formValues.term?.value
+                                    }, 'term')}
                                 >
                                     <p>{`Target term: ${formValues.term?.label}`}</p>
                                 </Button>

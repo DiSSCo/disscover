@@ -251,6 +251,13 @@ p {
   border-radius: 999px;
 }
 
+.br-selected {
+  border-top-left-radius: 30px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 8px;
+}
+
 /* Position */
 .position-sticky-left {
   position: sticky;

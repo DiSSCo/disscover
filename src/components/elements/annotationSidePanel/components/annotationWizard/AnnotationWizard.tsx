@@ -42,7 +42,9 @@ const AnnotationWizard = (props: Props) => {
         annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
             schemaTitle={schema.title}
         />,
-        annotationForm: <AnnotationFormStep />
+        annotationForm: <AnnotationFormStep schema={schema}
+            superClass={superClass}
+        />
     };
 
     /* Base variables */
@@ -70,12 +72,20 @@ const AnnotationWizard = (props: Props) => {
         jsonPath: string | undefined,
         parentClassDropdownValues: {
             [parentClass: string]: number
+        },
+        motivation: 'ods:adding' | 'ods:deleting' | 'oa:assessing' | 'oa:editing' | 'oa:commenting' | undefined,
+        annotationValues: {
+            [className: string]: {
+                [termName: string]: string
+            }
         }
     } = {
         class: undefined,
         term: undefined,
         jsonPath: undefined,
-        parentClassDropdownValues: {}
+        parentClassDropdownValues: {},
+        motivation: undefined,
+        annotationValues: {}
     };
 
     /**

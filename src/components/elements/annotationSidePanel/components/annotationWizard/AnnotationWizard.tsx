@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Formik, Form } from 'formik';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
@@ -14,6 +15,9 @@ import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
 
+/* Import Icons */
+import { faX } from '@fortawesome/free-solid-svg-icons';
+
 /* Import Components */
 import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationTargetStep } from './AnnotationWizardComponents';
 import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
@@ -22,7 +26,8 @@ import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomU
 /* Props Type */
 type Props = {
     schema: Dict,
-    superClass: DigitalSpecimen | DigitalMedia | Dict
+    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    StopAnnotationWizard: Function
 };
 
 
@@ -31,7 +36,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass } = props;
+    const { schema, superClass, StopAnnotationWizard } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -177,6 +182,17 @@ const AnnotationWizard = (props: Props) => {
                             <Form className="h-100 d-flex flex-column overflow-none">
                                 {/* Previous and next step buttons */}
                                 <Row>
+                                    <Col lg="auto">
+                                        <Button type="button"
+                                            variant="blank"
+                                            className="px-0 py-0 tc-primary fw-lightBold"
+                                            OnClick={() => StopAnnotationWizard()}
+                                        >
+                                            <p>
+                                                Exit
+                                            </p>
+                                        </Button>
+                                    </Col>
                                     {!!selectedIndex &&
                                         <Col lg>
                                             <Button type="button"

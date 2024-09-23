@@ -80,6 +80,7 @@ const AnnotationSidePanel = (props: Props) => {
                     {(annotationWizardToggle && superClass) ?
                         <AnnotationWizard schema={schema}
                             superClass={superClass}
+                            StopAnnotationWizard={() => setAnnotationWizardToggle(false)}
                         />
                         : <AnnotationsOverview annotations={annotations}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}

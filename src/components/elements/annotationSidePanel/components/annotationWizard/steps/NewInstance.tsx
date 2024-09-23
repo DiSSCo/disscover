@@ -127,6 +127,7 @@ const NewInstance = (props: Props) => {
                                     OnClick={() => {
                                         const latestIndex: any = jp.query(superClass, annotationTarget.jsonPath)[0].length;
 
+                                        SetFieldValue?.('motivation', 'ods:adding');
                                         SetFieldValue?.('jsonPath', `${annotationTarget.jsonPath}[${latestIndex}]`);
                                     }}
                                 >

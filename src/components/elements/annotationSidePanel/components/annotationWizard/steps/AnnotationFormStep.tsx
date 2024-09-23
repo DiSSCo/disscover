@@ -7,10 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 import { GenerateAnnotationFormFieldProperties, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
 
 /* Import Hooks */
-import { useAppSelector, useTrigger } from "app/Hooks";
-
-/* Import Store */
-import { getAnnotationTarget } from "redux-store/AnnotateSlice";
+import { useTrigger } from "app/Hooks";
 
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
@@ -19,7 +16,7 @@ import { AnnotationFormProperty, Dict, DropdownItem } from "app/Types";
 
 /* Import Components */
 import AnnotationFormSegment from './AnnotationFormSegment';
-import { Dropdown } from "components/elements/customUI/CustomUI";
+import { Dropdown, InputTextArea } from "components/elements/customUI/CustomUI";
 
 
 /* Props Type */
@@ -46,9 +43,8 @@ const AnnotationFormStep = (props: Props) => {
     const trigger = useTrigger();
 
     /* Base variables */
-    const annotationTarget = useAppSelector(getAnnotationTarget);
     const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>();
-    const annotationMotivations = GetAnnotationMotivations();
+    const annotationMotivations = GetAnnotationMotivations(formValues?.motivation);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: AnnotationFormProperty[] = [];
 
@@ -104,6 +100,7 @@ const AnnotationFormStep = (props: Props) => {
                                     value: formValues.motivation
                                 }}
                                 placeholder="Select a motivation"
+                                disabled={formValues?.motivation === 'ods:adding'}
                                 styles={{
                                     background: '#ffffff',
                                     border: true,
@@ -124,13 +121,17 @@ const AnnotationFormStep = (props: Props) => {
             <Row className="mt-3">
                 <Col>
                     <p>
-                        Specify which value(s) you want to annotate
+                        {['ods:adding', 'oa:editing'].includes(formValues?.motivation) ?
+                            'Specify which value(s) you want to annotate'
+                            : 'Write your annotation value'
+                        }
                     </p>
                 </Col>
             </Row>
             <Row className="flex-grow-1 mt-3 overflow-scroll">
                 <Col>
-                    {(annotationFormFieldProperties && formValues) ?
+                    {/* If motivation is either adding or editing, render the complete digital object as a form, else a generic text area */}
+                    {(annotationFormFieldProperties && formValues && ['ods:adding', 'oa:editing'].includes(formValues.motivation)) ?
                         <>
                             {/* Render base class' form fields */}
                             {baseObjectFormFieldProperty &&
@@ -157,7 +158,7 @@ const AnnotationFormStep = (props: Props) => {
                                 </>
                             }
                         </>
-                        : <p>Loading</p>
+                        : <InputTextArea name="annotationValues.value" />
                     }
                 </Col>
             </Row>

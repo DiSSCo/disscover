@@ -123,7 +123,10 @@ const ExistingInstance = (props: Props) => {
                                 variant="primary"
                                 className="fs-5 py-1 px-3"
                                 disabled={selected}
-                                OnClick={() => SetFieldValue?.('jsonPath', jsonPath)}
+                                OnClick={() => {
+                                    SetFieldValue?.('motivation', 'oa:editing');
+                                    SetFieldValue?.('jsonPath', jsonPath);
+                                }}
                             >
                                 {!selected ? 'Select this instance' : 'Currently selected'}
                             </Button>

@@ -45,7 +45,7 @@ const AnnotationFormSegment = (props: Props) => {
 
     /* Render form segment based on the type of the annotation form field property */
     switch (annotationFormFieldProperty.type) {
-        case 'object':
+        case 'object': {
             /* Determine annotation form field property title */
             const annotationFormFieldPropertyTitle: string = `${annotationFormFieldProperty.name}${annotationFormFieldProperty.jsonPath !== formValues?.jsonPath &&
                 typeof (index) !== 'undefined' ? ` #${Number(index) + 1}` : ''
@@ -102,7 +102,7 @@ const AnnotationFormSegment = (props: Props) => {
 
                         fieldName = fieldName.concat(`${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`);
 
-                        if (typeof(index) !== 'undefined') {
+                        if (typeof (index) !== 'undefined') {
                             fieldValue = formValues?.annotationValues?.[fieldName]?.[index]?.[`${fieldProperty.key}`];
                             fieldName = fieldName.concat(`[${index}]`);
                         } else {
@@ -130,7 +130,7 @@ const AnnotationFormSegment = (props: Props) => {
                     })}
                 </div>
             );
-        case 'array':
+        } case 'array': {
             /* Format field name for field array sub class */
             const fieldName = `${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`;
 
@@ -187,6 +187,7 @@ const AnnotationFormSegment = (props: Props) => {
                     </FieldArray>
                 </div>
             );
+        }
     };
 };
 

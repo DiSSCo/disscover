@@ -111,7 +111,6 @@ export type AnnotationFormProperty = {
     jsonPath: string,
     type: string,
     currentValue?: string | number | boolean | Dict,
-    subClassIndex?: number,
     properties?: AnnotationFormProperty[]
 };
 

@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { lowerCase, lowerFirst } from "lodash";
+import { lowerFirst } from "lodash";
 
 /* Import Utilities */
 import { MakeReadableString } from "app/Utilities";

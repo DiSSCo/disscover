@@ -14,9 +14,9 @@ import { AnnotationFormProperty, Dict } from "app/Types";
 
 
 /**
- * 
- * @param jsonPath 
- * @returns 
+ * Function that formats a JSON path string and replaces the connections with lower dashes
+ * @param jsonPath The provided JSON path
+ * @returns Formatted JSON path string replacing connections with lower dashes
  */
 const FormatFieldNameFromJsonPath = (jsonPath: string) => {
     return jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '');
@@ -34,47 +34,47 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
     const formValues: Dict = {};
 
     /* Extract main schema */
-    await ExtractFromSchema(jsonPath).then(async (schema) => {
-        await ExtractClassesAndTermsFromSchema(schema).then(({
-            classesList,
-            termsList
-        }) => {
-            /* For each class, add it as a key property to the annotation form fields dictionary */
-            classesList.forEach(classProperty => {
-                annotationFormFieldProperties[classProperty.label] = {
-                    key: classProperty.key,
-                    name: classProperty.label,
-                    jsonPath: classProperty.value.replace(`$`, jsonPath),
-                    type: classProperty.value.includes('has') ? 'array' : 'object',
-                    properties: []
-                };
+    const schema = await ExtractFromSchema(jsonPath);
 
-                /* Add class values to form values */
-                const classValues: Dict | Dict[] = jp.value(superClass, classProperty.value.replace(`$`, jsonPath));
-                const classFormValues: Dict = { ...classValues };
+    await ExtractClassesAndTermsFromSchema(schema).then(({
+        classesList,
+        termsList
+    }) => {
+        /* For each class, add it as a key property to the annotation form fields dictionary */
+        classesList.forEach(classProperty => {
+            annotationFormFieldProperties[classProperty.label] = {
+                key: classProperty.key,
+                name: classProperty.label,
+                jsonPath: classProperty.value.replace(`$`, jsonPath),
+                type: classProperty.value.includes('has') ? 'array' : 'object',
+                properties: []
+            };
 
-                if (!Array.isArray(classValues)) {
-                    Object.entries(classValues).forEach(([key, value]) => {
-                        if (typeof(value) === 'object') {
-                            delete classFormValues[key];
-                        }
-                    });
+            /* Add class values to form values */
+            const classValues: Dict | Dict[] = jp.value(superClass, classProperty.value.replace(`$`, jsonPath));
+            const classFormValues: Dict = { ...classValues };
 
-                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues;
-                } else {
-                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues;
-                }
+            if (!Array.isArray(classValues) && classValues) {
+                Object.entries(classValues).forEach(([key, value]) => {
+                    if (typeof (value) === 'object') {
+                        delete classFormValues[key];
+                    }
+                });
 
-                /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
-                const termProperties = termsList.find(termsListOption => termsListOption.label === classProperty.label);
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues;
+            } else {
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues;
+            }
 
-                termProperties?.options.forEach(termOption => {
-                    annotationFormFieldProperties[classProperty.label].properties?.push({
-                        key: termOption.key,
-                        name: termOption.label,
-                        jsonPath: termOption.value,
-                        type: 'string'
-                    });
+            /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
+            const termProperties = termsList.find(termsListOption => termsListOption.label === classProperty.label);
+
+            termProperties?.options.forEach(termOption => {
+                annotationFormFieldProperties[classProperty.label].properties?.push({
+                    key: termOption.key,
+                    name: termOption.label,
+                    jsonPath: termOption.value,
+                    type: 'string'
                 });
             });
         });
@@ -91,7 +91,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
  * @param givenMotivation An already selected motivation that impacts the choice in motivation
  */
 const GetAnnotationMotivations = (givenMotivation?: string) => ({
-    ...(givenMotivation === 'ods:adding' && {'ods:adding': 'Addition'}),
+    ...(givenMotivation === 'ods:adding' && { 'ods:adding': 'Addition' }),
     'oa:assessing': 'Assessment',
     'oa:editing': "Modification",
     'oa:commenting': "Comment"

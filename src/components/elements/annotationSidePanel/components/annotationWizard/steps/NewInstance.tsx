@@ -6,6 +6,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
 import { MakeReadableString } from 'app/Utilities';
+import { ExtractParentClasses } from 'app/utilities/AnnotateUtilities';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
@@ -51,43 +52,12 @@ const NewInstance = (props: Props) => {
 
     /* Check for parent classes, they either contain the term 'has' or start with a capital */
     trigger.SetTrigger(() => {
-        const parentClasses: ParentClass[] = [];
+        let parentClasses: ParentClass[] = [];
 
         if (annotationTarget) {
-            const pathArray: string[] = ['$'];
-            const parents = jp.parse(annotationTarget.jsonPath).slice(1, -1);
-
-            parents.forEach((parent, index) => {
-                /* Filter path from schemas */
-                let parentName = parent.expression.value.replace('ods:', '').replace('dwc:', '').replace('dcterms:', '');
-
-                /* Add to pathArray */
-                pathArray.push(parent.expression.value);
-
-                if (parentName.includes('has') || parentName[0] === parentName[0].toUpperCase()) {
-                    /* If a parent class is empty, it needs to be targeted, if it is not completely empty, check for indexes */
-                    const parentNodes = jp.nodes(superClass, jp.stringify(pathArray).replace('][', ']..[').replaceAll('"', "'"));
-
-                    if (!parentNodes.length) {
-                        parentClasses.push({
-                            jsonPath: jp.stringify(pathArray).replaceAll('"', "'"),
-                            name: MakeJsonPathReadableString(jp.stringify(pathArray)),
-                            ...(index > 0 && { parentName: pathArray[index] }),
-                            present: false
-                        });
-                    }
-
-                    parentNodes.forEach((parentNode, parentIndex) => {
-                        parentClasses.push({
-                            jsonPath: jp.stringify(parentNode.path).replaceAll('"', "'"),
-                            name: MakeJsonPathReadableString(jp.stringify(parentNode.path)),
-                            ...(index > 0 && { parentName: MakeJsonPathReadableString(pathArray[index]) }),
-                            present: (Array.isArray(parentNode.value) && !!parentNode.value.length) || (!Array.isArray(parentNode.value) && typeof (parentNode.value) === 'object'),
-                            ...(parentNode.value.length && { options: parentNode.value.length }),
-                            ...(parentClasses[parentIndex]?.options && { dependent: true })
-                        });
-                    });
-                }
+            parentClasses = ExtractParentClasses({
+                annotationTarget,
+                superClass
             });
         }
 

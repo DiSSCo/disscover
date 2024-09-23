@@ -213,6 +213,10 @@ p {
   background-color: transparent;
 }
 
+.bgc-dark-opacity {
+  background-color: rgb(51, 51, 51, 0.75);
+}
+
 /* Border */
 .b-primary {
   border: 1px solid var(--primary);

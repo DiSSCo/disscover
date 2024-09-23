@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import classNames from 'classnames';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -15,7 +16,7 @@ import { Dict } from 'app/Types';
 import styles from './annotationSidePanel.module.scss';
 
 /* Import Components */
-import { AnnotationsOverview, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
+import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
 
 
 /* Props Type */
@@ -44,6 +45,7 @@ const AnnotationSidePanel = (props: Props) => {
     /* Base variables */
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
+    const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
 
     /* OnLoad: fetch annotations of super class with provided method */
     fetch.Fetch({
@@ -57,13 +59,18 @@ const AnnotationSidePanel = (props: Props) => {
         }
     });
 
+    /* Class Names */
+    const policyTextClass = classNames({
+        'd-none': !policyTextToggle
+    });
+
     return (
-        <div className={`${styles.annotationSidePanel} h-100 w-100 d-flex flex-column bgc-default px-4 py-4`}>
+        <div className={`${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column bgc-default px-4 py-4`}>
             {/* Top bar */}
             <Row>
                 <Col>
                     <TopBar HideAnnotationSidePanel={HideAnnotationSidePanel}
-
+                        ShowPolicyText={() => setPolicyTextToggle(true)}
                     />
                 </Col>
             </Row>
@@ -80,6 +87,10 @@ const AnnotationSidePanel = (props: Props) => {
                     }
                 </Col>
             </Row>
+            {/* Annotation policy text */}
+            <div className={`${policyTextClass} position-absolute top-0 start-0 h-100 w-100 bgc-dark-opacity z-2`}>
+                <AnnotationPolicyText HidePolicyText={() => setPolicyTextToggle(false)} />
+            </div>
         </div>
     );
 };

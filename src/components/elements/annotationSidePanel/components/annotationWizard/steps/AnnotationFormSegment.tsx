@@ -19,16 +19,21 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     annotationFormFieldProperty: AnnotationFormProperty,
     formValues?: Dict,
+    index?: number,
     Remove?: Function
 };
 
 
 /**
  * Component that returns a segment of the annotation form based upon the provided annotation form field property
+ * @param annotationFormFieldProperty The annotation form field property (and its children) to render
+ * @param formValues The current form values of the annotation form
+ * @param index An index indicating the instance of a property in the parent array
+ * @param Remove Function to remove this selected instance from the parent array
  * @returns JSX Component
  */
 const AnnotationFormSegment = (props: Props) => {
-    const { annotationFormFieldProperty, formValues, Remove } = props;
+    const { annotationFormFieldProperty, formValues, index, Remove } = props;
 
     /* Base variables */
     const [isHidden, setIsHidden] = useState<boolean>(annotationFormFieldProperty.jsonPath !== formValues?.jsonPath);
@@ -38,14 +43,12 @@ const AnnotationFormSegment = (props: Props) => {
         'd-none': isHidden
     });
 
-    // console.log(formValues);
-
     /* Render form segment based on the type of the annotation form field property */
     switch (annotationFormFieldProperty.type) {
         case 'object':
             /* Determine annotation form field property title */
             const annotationFormFieldPropertyTitle: string = `${annotationFormFieldProperty.name}${annotationFormFieldProperty.jsonPath !== formValues?.jsonPath &&
-                typeof (annotationFormFieldProperty.subClassIndex) !== 'undefined' ? ` #${Number(annotationFormFieldProperty.subClassIndex) + 1}` : ''
+                typeof (index) !== 'undefined' ? ` #${Number(index) + 1}` : ''
                 }`;
 
             return (
@@ -94,14 +97,19 @@ const AnnotationFormSegment = (props: Props) => {
                     </Row>
 
                     {annotationFormFieldProperty.properties?.map(fieldProperty => {
-                        let fieldName = `${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`;
+                        let fieldName: string = ``;
+                        let fieldValue: string = '';
 
-                        /* If is instance of sub class, add sub class index to field name */
-                        if (annotationFormFieldProperty.subClassIndex) {
-                            fieldName = fieldName.concat(`[${annotationFormFieldProperty.subClassIndex}]`);
+                        fieldName = fieldName.concat(`${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`);
+
+                        if (typeof(index) !== 'undefined') {
+                            fieldValue = formValues?.annotationValues?.[fieldName]?.[index]?.[`${fieldProperty.key}`];
+                            fieldName = fieldName.concat(`[${index}]`);
+                        } else {
+                            fieldValue = formValues?.annotationValues?.[fieldName]?.[`${fieldProperty.key}`];
                         }
 
-                        // console.log(fieldProperty);
+                        fieldName = fieldName.concat(`[${fieldProperty.key}]`);
 
                         return (
                             <Row key={fieldProperty.jsonPath}
@@ -112,8 +120,8 @@ const AnnotationFormSegment = (props: Props) => {
                                         {fieldProperty.name}
                                     </p>
 
-                                    <Field name={`annotationValues.${fieldName}.${fieldProperty.key}`}
-                                        value={formValues?.annotationValues?.[fieldName]?.[fieldProperty.key] ?? fieldProperty.currentValue ?? ''}
+                                    <Field name={`annotationValues.${fieldName}`}
+                                        value={fieldValue ?? ''}
                                         className="w-100 b-grey br-corner mt-1 py-1 px-2"
                                     />
                                 </Col>
@@ -154,20 +162,21 @@ const AnnotationFormSegment = (props: Props) => {
                                     </Row>
                                 </div>
 
-                                {/* For each sub class index, render a annotation form segment */}
+                                {/* For each sub class index, render an annotation form segment */}
                                 {formValues?.annotationValues?.[fieldName]?.map((_classObject: Dict, index: number) => {
                                     /* Set sub class as object and render form segment */
+                                    const key = `${fieldName}_${index}`;
                                     const annotationFormFieldSubProperty: AnnotationFormProperty = { ...annotationFormFieldProperty };
 
                                     annotationFormFieldSubProperty.type = 'object';
-                                    annotationFormFieldProperty.subClassIndex = index;
 
                                     return (
-                                        <div key={fieldName}
+                                        <div key={key}
                                             className="ms-4"
                                         >
                                             <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                                 formValues={formValues}
+                                                index={index}
                                                 Remove={() => remove(index)}
                                             />
                                         </div>

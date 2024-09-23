@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -23,19 +24,23 @@ import { Dropdown } from "components/elements/customUI/CustomUI";
 
 /* Props Type */
 type Props = {
-    schema: Dict,
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     formValues?: Dict,
-    SetFieldValue?: Function
+    SetFieldValue?: Function,
+    SetFormValues?: Function
 };
 
 
 /**
  * Component that renders the third and final step in the annotation wizard for defining the motivation and actual values
+ * @param superClass The selected digital object
+ * @param formValues The values of the annotation form
+ * @param SetFieldValue Funtion to set a value to a single field in the form
+ * @param SetFormValues Function to set all of the values in the form
  * @returns JSX Component
  */
 const AnnotationFormStep = (props: Props) => {
-    const { schema, superClass, formValues, SetFieldValue } = props;
+    const { superClass, formValues, SetFieldValue, SetFormValues } = props;
 
     /* Hooks */
     const trigger = useTrigger();
@@ -45,6 +50,7 @@ const AnnotationFormStep = (props: Props) => {
     const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>();
     const annotationMotivations = GetAnnotationMotivations();
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
+    let subClassObjectFormFieldProperties: AnnotationFormProperty[] = [];
 
     /* Construct annotation motivation dropdown items */
     const annotationMotivationDropdownItems: DropdownItem[] = Object.entries(annotationMotivations).map(([value, label]) => ({
@@ -55,25 +61,30 @@ const AnnotationFormStep = (props: Props) => {
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
         if (formValues) {
-            GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass, schema.title).then(annotationFormFieldProperties => {
+            GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass).then(({ annotationFormFieldProperties, newFormValues }) => {
+                /* Set form values state with current values, based upon annotation form field properties */
+                const newSetFormValues = {
+                    ...formValues,
+                    annotationValues: newFormValues
+                };
+
+                /* Set form values */
+                SetFormValues?.(newSetFormValues);
+
+                /* Set annotation form field properties */
                 setAnnotationFormFieldProperties(annotationFormFieldProperties);
             });
         }
     }, []);
 
-    /* OnChange of annotation form field properties, check for existing values within super class and append to annotation form */
-    // trigger.SetTrigger(() => {
-    //     const annotationValues: Dict = {};
-
-    //     /* For each class, add potential form values as placeholders, if possible with existing values */
-    //     annotationFormFieldProperties.forEach()
-
-    //     console.log(annotationFormFieldProperties);
-    // }, [annotationFormFieldProperties]);
-
     /* From annotation form field properties, extract base object and its properties */
     if (annotationFormFieldProperties && formValues) {
         baseObjectFormFieldProperty = Object.values(annotationFormFieldProperties).find(annotationFormFieldProperty => annotationFormFieldProperty.jsonPath === formValues.jsonPath);
+
+        /* From annotation form field properties, extract sub class objects and their properties */
+        subClassObjectFormFieldProperties = Object.values(annotationFormFieldProperties).filter(
+            annotationFormFieldProperty => annotationFormFieldProperty.jsonPath !== formValues.jsonPath
+        );
     }
 
     return (
@@ -127,22 +138,24 @@ const AnnotationFormStep = (props: Props) => {
                                     formValues={formValues}
                                 />
                             }
-                            <p className="fs-4 fw-lightBold mb-2">
-                                {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
-                            </p>
-                            {/* Render optional, additional sub classes' form fields */}
-                            {Object.values(annotationFormFieldProperties).filter(
-                                annotationFormFieldProperty => annotationFormFieldProperty.jsonPath !== formValues.jsonPath
-                            ).sort(
-                                (a) => a.type !== 'object' ? 1 : 0
-                            ).map(
-                                annotationFormFieldProperty => (
-                                    <AnnotationFormSegment key={annotationFormFieldProperty.jsonPath}
-                                        annotationFormFieldProperty={annotationFormFieldProperty}
-                                        formValues={formValues}
-                                    />
-                                )
-                            )}
+                            {!isEmpty(subClassObjectFormFieldProperties) &&
+                                <>
+                                    <p className="fs-4 fw-lightBold mb-2">
+                                        {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
+                                    </p>
+                                    {/* Render optional, additional sub classes' form fields, if present */}
+                                    {subClassObjectFormFieldProperties.sort(
+                                        (a) => a.type !== 'object' ? 1 : 0
+                                    ).map(
+                                        annotationFormFieldProperty => (
+                                            <AnnotationFormSegment key={annotationFormFieldProperty.jsonPath}
+                                                annotationFormFieldProperty={annotationFormFieldProperty}
+                                                formValues={formValues}
+                                            />
+                                        )
+                                    )}
+                                </>
+                            }
                         </>
                         : <p>Loading</p>
                     }

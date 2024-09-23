@@ -42,9 +42,7 @@ const AnnotationWizard = (props: Props) => {
         annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
             schemaTitle={schema.title}
         />,
-        annotationForm: <AnnotationFormStep schema={schema}
-            superClass={superClass}
-        />
+        annotationForm: <AnnotationFormStep superClass={superClass} />
     };
 
     /* Base variables */
@@ -175,7 +173,7 @@ const AnnotationWizard = (props: Props) => {
 
                         }}
                     >
-                        {({ values, setFieldValue }) => (
+                        {({ values, setFieldValue, setValues }) => (
                             <Form className="h-100 d-flex flex-column overflow-none">
                                 {/* Previous and next step buttons */}
                                 <Row>
@@ -215,6 +213,7 @@ const AnnotationWizard = (props: Props) => {
                                             tabProps={{
                                                 formValues: values,
                                                 SetFieldValue: setFieldValue,
+                                                SetFormValues: setValues,
                                                 SetAnnotationTarget,
                                                 GoToStep: GoToStep
                                             }}

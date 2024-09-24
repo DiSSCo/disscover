@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Formik, Form } from 'formik';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
@@ -14,9 +13,6 @@ import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
-
-/* Import Icons */
-import { faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationTargetStep } from './AnnotationWizardComponents';

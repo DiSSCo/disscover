@@ -76,6 +76,21 @@ const FormatFieldNameFromJsonPath = (jsonPath: string) => {
 };
 
 /**
+ * 
+ */
+const FormatJsonPathFromFieldName = (fieldName: string) => {
+    const splittedArray: (string | number)[] = fieldName.replaceAll("'", '').replaceAll('$', '').split('_');
+
+    splittedArray.forEach((value, index) => {
+        if (!isNaN(value as number)) {
+            splittedArray[index] = Number(value);
+        }
+    });
+
+    return jp.stringify(splittedArray);
+};
+
+/**
  * Function to generate and return a dictionary containing all classes and terms of the schema adhering to the provided schema name; and their values
  * @param jsonPath The JSON path that leads to the schema to be used
  * @returns The annotation form field properties and their associated form values
@@ -114,9 +129,9 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     }
                 });
 
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues;
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
             } else {
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues;
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
             }
 
             /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
@@ -169,6 +184,7 @@ const ProvideReadableMotivation = (motivation: 'ods:adding' | 'ods:deleting' | '
 
 export {
     ExtractParentClasses,
+    FormatJsonPathFromFieldName,
     GenerateAnnotationFormFieldProperties,
     GetAnnotationMotivations,
     ProvideReadableMotivation

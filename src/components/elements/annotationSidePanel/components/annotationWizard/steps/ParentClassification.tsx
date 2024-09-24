@@ -84,6 +84,7 @@ const ParentClassification = (props: Props) => {
                     OnClick={() => {
                         if (annotationTarget) {
                             /* Set field values in form to parent class */
+                            SetFieldValue?.('annotationValues', {});
                             SetFieldValue?.('motivation', 'ods:adding');
                             SetFieldValue?.('jsonPath', `${parentClass.jsonPath}[0]`);
                             SetFieldValue?.('class', {
@@ -173,6 +174,7 @@ const ParentClassification = (props: Props) => {
                                 jsonPath = `${jsonPath}[${latestIndex}]`;
                             }
 
+                            SetFieldValue?.('annotationValues', {});
                             SetFieldValue?.('motivation', 'ods:adding');
                             SetFieldValue?.('jsonPath', jsonPath);
                         }}

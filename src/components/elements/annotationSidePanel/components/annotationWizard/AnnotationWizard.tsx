@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { Formik, Form } from 'formik';
+import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -15,7 +16,7 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
 
 /* Import Components */
-import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationTargetStep } from './AnnotationWizardComponents';
+import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationSummaryStep, AnnotationTargetStep } from './AnnotationWizardComponents';
 import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
 
 
@@ -43,7 +44,8 @@ const AnnotationWizard = (props: Props) => {
         annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
             schemaTitle={schema.title}
         />,
-        annotationForm: <AnnotationFormStep superClass={superClass} />
+        annotationForm: <AnnotationFormStep superClass={superClass} />,
+        annotationSummary: <AnnotationSummaryStep superClass={superClass} />
     };
 
     /* Base variables */
@@ -76,7 +78,7 @@ const AnnotationWizard = (props: Props) => {
         annotationValues: {
             [className: string]: {
                 [termName: string]: string
-            }
+            } | { value: string }
         }
     } = {
         class: undefined,
@@ -153,6 +155,12 @@ const AnnotationWizard = (props: Props) => {
                 break;
             case 1:
                 if ((formValues.class || formValues.term) && formValues.jsonPath) {
+                    forwardAllowed = true;
+                }
+
+                break;
+            case 2:
+                if (!isEmpty(formValues.annotationValues) && formValues.jsonPath) {
                     forwardAllowed = true;
                 }
 

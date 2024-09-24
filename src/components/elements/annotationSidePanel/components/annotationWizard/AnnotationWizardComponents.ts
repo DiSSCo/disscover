@@ -1,6 +1,7 @@
 /* Import Components */
 import AnnotationFormStep from "./steps/AnnotationFormStep";
 import AnnotationSelectInstanceStep from "./steps/AnnotationSelectInstanceStep";
+import AnnotationSummaryStep from "./steps/AnnotationSummaryStep";
 import AnnotationTargetStep from "./steps/AnnotationTargetStep";
 
 
@@ -8,5 +9,6 @@ import AnnotationTargetStep from "./steps/AnnotationTargetStep";
 export {
     AnnotationFormStep,
     AnnotationSelectInstanceStep,
+    AnnotationSummaryStep,
     AnnotationTargetStep,
 };

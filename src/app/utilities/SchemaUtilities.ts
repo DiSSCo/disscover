@@ -146,7 +146,7 @@ const IterateOverSchemaLayer = async (params: {
     const localTermsList: { key: string, label: string, value: string }[] = [];
 
     /* Iterate over schema layer properties and determine if it is a class or term by checking the ods:has pattern */
-    for (let i = 0; i < Object.keys(schema).length; i++) {
+    for (let i = 0; i < Object.keys(schema ?? {}).length; i++) {
         const key = Object.keys(schema)[i];
         const property = Object.values(schema)[i];
 

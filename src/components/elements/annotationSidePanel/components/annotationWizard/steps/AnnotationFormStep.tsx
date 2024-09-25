@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { isEmpty } from 'lodash';
+import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -47,7 +48,7 @@ const AnnotationFormStep = (props: Props) => {
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
-    const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>();
+    const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>({});
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: AnnotationFormProperty[] = [];
@@ -61,6 +62,7 @@ const AnnotationFormStep = (props: Props) => {
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
         if (formValues) {
+            /* For selected class, get annotation form field properties and their values */
             GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass).then(({ annotationFormFieldProperties, newFormValues }) => {
                 /* Set form values state with current values, based upon annotation form field properties */
                 const newSetFormValues = {
@@ -81,7 +83,7 @@ const AnnotationFormStep = (props: Props) => {
     }, []);
 
     /* From annotation form field properties, extract base object and its properties */
-    if (annotationFormFieldProperties && formValues) {
+    if (!isEmpty(annotationFormFieldProperties) && formValues) {
         baseObjectFormFieldProperty = Object.values(annotationFormFieldProperties).find(annotationFormFieldProperty => annotationFormFieldProperty.jsonPath === formValues.jsonPath);
 
         /* From annotation form field properties, extract sub class objects and their properties */

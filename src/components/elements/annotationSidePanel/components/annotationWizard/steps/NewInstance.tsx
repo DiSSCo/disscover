@@ -116,7 +116,7 @@ const NewInstance = (props: Props) => {
                                 {parentClasses.map((parentClass, index) => {
                                     /* Key of parent class component */
                                     const key = `parentClass-${index}`;
-
+                                    
                                     return (
                                         <ParentClassification key={key}
                                             index={index}

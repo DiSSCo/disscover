@@ -2,7 +2,7 @@
 import jp from 'jsonpath';
 
 /* Import Utilities */
-import { ExtractFromSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
@@ -37,7 +37,7 @@ const ExtractParentClasses = (params: {
         /* Add to pathArray */
         pathArray.push(parent.expression.value);
 
-        if (parentName.includes('has') || parentName[0] === parentName[0].toUpperCase()) {
+        if (parentName.includes('has')) {
             /* If a parent class is empty, it needs to be targeted, if it is not completely empty, check for indexes */
             const parentNodes = jp.nodes(superClass, jp.stringify(pathArray).replaceAll('][', ']..[').replaceAll('"', "'"));
 
@@ -51,6 +51,9 @@ const ExtractParentClasses = (params: {
             }
 
             parentNodes.forEach((parentNode, parentIndex) => {
+                console.log(parentNode);
+                console.log(parentClasses[parentIndex]);
+
                 parentClasses.push({
                     jsonPath: jp.stringify(parentNode.path).replaceAll('"', "'"),
                     name: MakeJsonPathReadableString(jp.stringify(parentNode.path)),
@@ -102,49 +105,57 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
     const formValues: Dict = {};
 
     /* Extract main schema */
-    const schema = await ExtractFromSchema(jsonPath);
+    const schema = await ExtractLowestLevelSchema(jsonPath);
 
-    await ExtractClassesAndTermsFromSchema(schema).then(({
+    await ExtractClassesAndTermsFromSchema(schema, jsonPath).then(({
         classesList,
-        termsList
+        termsList,
+        termValue
     }) => {
         /* For each class, add it as a key property to the annotation form fields dictionary */
         classesList.forEach(classProperty => {
-            annotationFormFieldProperties[classProperty.label] = {
-                key: classProperty.key,
-                name: classProperty.label,
-                jsonPath: classProperty.value.replace(`$`, jsonPath),
-                type: classProperty.value.includes('has') ? 'array' : 'object',
-                properties: []
-            };
+            if (!termValue) {
+                annotationFormFieldProperties[classProperty.label] = {
+                    key: classProperty.key,
+                    name: classProperty.label,
+                    jsonPath: classProperty.value.replace(`$`, jsonPath),
+                    type: classProperty.value.includes('has') ? 'array' : 'object',
+                    properties: []
+                };
 
-            /* Add class values to form values */
-            const classValues: Dict | Dict[] = jp.value(superClass, classProperty.value.replace(`$`, jsonPath));
-            const classFormValues: Dict = { ...classValues };
+                /* Add class values to form values */
+                const classValues: Dict | Dict[] = jp.value(superClass, classProperty.value.replace(`$`, jsonPath));
+                const classFormValues: Dict = { ...classValues };
 
-            if (!Array.isArray(classValues) && classValues) {
-                Object.entries(classValues).forEach(([key, value]) => {
-                    if (typeof (value) === 'object') {
-                        delete classFormValues[key];
-                    }
+                if (!Array.isArray(classValues) && classValues) {
+                    Object.entries(classValues).forEach(([key, value]) => {
+                        if (typeof (value) === 'object') {
+                            delete classFormValues[key];
+                        }
+                    });
+
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
+                } else if (classProperty.value.includes('has')) {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
+                } else {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};
+                }
+
+                /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
+                const termProperties = termsList.find(termsListOption => termsListOption.label === classProperty.label);
+
+                termProperties?.options.forEach(termOption => {
+                    annotationFormFieldProperties[classProperty.label].properties?.push({
+                        key: termOption.key,
+                        name: termOption.label,
+                        jsonPath: termOption.value,
+                        type: 'string'
+                    });
                 });
-
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
             } else {
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
+                /* Treat upper parent as term and set annotation form value */
+                formValues.value = jp.value(superClass, termValue.value);
             }
-
-            /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
-            const termProperties = termsList.find(termsListOption => termsListOption.label === classProperty.label);
-
-            termProperties?.options.forEach(termOption => {
-                annotationFormFieldProperties[classProperty.label].properties?.push({
-                    key: termOption.key,
-                    name: termOption.label,
-                    jsonPath: termOption.value,
-                    type: 'string'
-                });
-            });
         });
     });
 

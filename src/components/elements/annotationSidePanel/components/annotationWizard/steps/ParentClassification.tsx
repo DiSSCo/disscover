@@ -158,7 +158,9 @@ const ParentClassification = (props: Props) => {
                     }}
                 />
 
-                {(parentClasses.filter(parentClass => formValues && parentClass.name in formValues.parentClassDropdownValues).length === parentClasses.length && (index + 1) === parentClasses.length) &&
+                {(parentClasses.filter(parentClass => formValues && parentClass.name in formValues.parentClassDropdownValues).length === parentClasses.length
+                    && (index + 1) === parentClasses.length
+                ) &&
                     <Button type="button"
                         variant="primary"
                         disabled={formValues?.parentClassDropdownValues[parentClass.name] <= 0 && selected}

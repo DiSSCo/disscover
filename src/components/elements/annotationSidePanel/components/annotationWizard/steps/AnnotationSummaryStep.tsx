@@ -17,6 +17,7 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict } from 'app/Types';
 
 /* Import Components */
+import SummaryValueBlock from './SummaryValueBlock';
 import SummaryValuesBlock from './SummaryValuesBlock';
 import { Button } from 'components/elements/customUI/CustomUI';
 
@@ -106,18 +107,24 @@ const AnnotationSummaryStep = (props: Props) => {
                     {annotationTarget?.type === 'class' ?
                         <>
                             {Object.entries(formValues?.annotationValues).sort().map(([className, classValue]: [string, any]) => (
-                                <>
+                                <div key={className}>
                                     {Array.isArray(classValue) ?
                                         <>
-                                            {classValue.map((childValue, index) => (
-                                                <div className="mb-3">
-                                                    <SummaryValuesBlock superClass={superClass}
-                                                        className={className}
-                                                        values={childValue}
-                                                        index={index}
-                                                    />
-                                                </div>
-                                            ))}
+                                            {classValue.map((childValue, index) => {
+                                                const key = `${className}_${index}`;
+
+                                                return (
+                                                    <div key={key}
+                                                        className="mb-3"
+                                                    >
+                                                        <SummaryValuesBlock superClass={superClass}
+                                                            className={className}
+                                                            values={childValue}
+                                                            index={index}
+                                                        />
+                                                    </div>
+                                                );
+                                            })}
                                         </>
                                         : <div className="mb-3">
                                             <SummaryValuesBlock superClass={superClass}
@@ -126,12 +133,12 @@ const AnnotationSummaryStep = (props: Props) => {
                                             />
                                         </div>
                                     }
-                                </>
+                                </div>
                             ))}
                         </>
-                        : <Card>
-
-                        </Card>
+                        : <SummaryValueBlock termName={MakeJsonPathReadableString(annotationTarget?.jsonPath ?? '')}
+                            value={formValues?.annotationValues.value}
+                        />
                     }
                 </Col>
             </Row>

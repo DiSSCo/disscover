@@ -76,7 +76,7 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
  * @param schemaName The name of the schema to extract from
  * @returns Dictionary of the requested schema
  */
-const ExtractFromSchema = async (schemaName: string) => {
+const ExtractFromSchema = async (schemaName: string): Promise<Dict> => {
     const strippedSchemaName = StripSchemaString(schemaName);
 
     return await import(`../../sources/dataModel/${strippedSchemaName}.json`);
@@ -87,9 +87,9 @@ const ExtractFromSchema = async (schemaName: string) => {
  * @param schemaName The name of the schema to extract from 
  * @returns Dictionary of the requested schema
  */
-const ExtractLowestLevelSchema = async (jsonPath: string) => {
+const ExtractLowestLevelSchema = async (jsonPath: string): Promise<Dict | undefined> => {
     /* Base variables */
-    let classSeparatedString: string = jsonPath.replaceAll(/\[(\d+)\]/g, '_').replaceAll('$', '').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '').replaceAll("'", '');
+    let classSeparatedString: string = jsonPath.replaceAll(/\[(\d+)\]/g, '_').replaceAll('$', '').replaceAll('][', '_').replaceAll(/\[|\]|'/g, '');
 
     if (classSeparatedString.at(-1) === '_') {
         classSeparatedString = classSeparatedString.slice(0, -1);
@@ -215,10 +215,11 @@ const MakeJsonPathReadableString = (jsonPath: string): string => {
 
     /* Remove schema prefixes */
     readableString = readableString.replaceAll('@', '');
+    readableString = readableString.replaceAll('has', '');
     readableString = readableString.replaceAll('ods:', '');
     readableString = readableString.replaceAll('dwc:', '');
     readableString = readableString.replaceAll('dcterms:', '');
-    readableString = readableString.replaceAll('has', '');
+    
 
     /* Remove JSON path indications */
     readableString = readableString.replaceAll('[', '');

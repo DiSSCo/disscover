@@ -139,6 +139,7 @@ const AnnotationSummaryStep = (props: Props) => {
                         : <SummaryValueBlock superClass={superClass}
                             termName={MakeJsonPathReadableString(formValues?.jsonPath ?? '')}
                             value={formValues?.annotationValues.value}
+                            jsonPath={formValues?.jsonPath}
                         />
                     }
                 </Col>

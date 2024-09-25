@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import classNames from 'classnames';
+import jp from 'jsonpath';
 import { Card } from 'react-bootstrap';
 
 /* Import Types */
@@ -12,7 +13,8 @@ import { Dict } from 'app/Types';
 type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     termName: string,
-    value: string | number | boolean
+    value: string | number | boolean,
+    jsonPath: string
 };
 
 
@@ -24,20 +26,18 @@ type Props = {
  * @returns JSX Component
  */
 const SummaryValueBlock = (props: Props) => {
-    const { superClass, termName, value } = props;
-
-    console.log(termName);
+    const { superClass, termName, value, jsonPath } = props;
 
     /* Class Name */
-    // const termTitleClass = classNames({
-    //     'tc-accent': 
-    // });
+    const termTitleClass = classNames({
+        'tc-accent': jp.value(superClass, jsonPath) !== value
+    });
     
     return (
         <div>
             <Card className="px-3 py-2">
                 <p>
-                    <span className="fw-lightBold">
+                    <span className={`${termTitleClass} fw-lightBold`}>
                         {`${termName}: `}
                     </span>
                     {value}

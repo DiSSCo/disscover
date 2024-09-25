@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { isEmpty } from 'lodash';
-import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 

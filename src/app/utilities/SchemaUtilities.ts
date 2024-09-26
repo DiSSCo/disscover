@@ -89,7 +89,7 @@ const ExtractFromSchema = async (schemaName: string): Promise<Dict> => {
  */
 const ExtractLowestLevelSchema = async (jsonPath: string): Promise<Dict | undefined> => {
     /* Base variables */
-    let classSeparatedString: string = jsonPath.replaceAll(/\[(\d+)\]/g, '_').replaceAll('$', '').replaceAll('][', '_').replaceAll(/[\]\[']/g, '');
+    let classSeparatedString: string = jsonPath.replaceAll(/\[(\d+)\]/g, '_').replaceAll('$', '').replaceAll('][', '_').replaceAll(/[\][']/g, '');
 
     if (classSeparatedString.at(-1) === '_') {
         classSeparatedString = classSeparatedString.slice(0, -1);

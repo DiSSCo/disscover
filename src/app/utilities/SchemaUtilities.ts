@@ -1,3 +1,6 @@
+/* Import Dependencies */
+import { lowerFirst } from "lodash";
+
 /* Import Utilities */
 import { MakeReadableString } from "app/Utilities";
 
@@ -11,27 +14,28 @@ import { Dict } from "app/Types";
  * @returns Dictionary containing the generated classes and terms list
  */
 const ExtractClassesAndTermsFromSchema = async (schema: Dict) => {
-    const classesList: { label: string, value: string }[] = [];
-    const termsList: { label: string, options: { label: string, value: string }[] }[] = [];
+    const classesList: { key: string, label: string, value: string }[] = [];
+    const termsList: { label: string, options: { key: string, label: string, value: string }[] }[] = [];
 
     /**
-     * 
+     * Function to push to the classes list
      * @param classOption 
      */
-    const PushToClassesList = (classOption: { label: string, value: string }) => {
+    const PushToClassesList = (classOption: { key: string, label: string, value: string }) => {
         classesList.push(classOption);
     };
 
     /**
-     * 
+     * Function to push to the terms list
      * @param termsOption 
      */
-    const PushToTermsList = (termsOption: { label: string, options: { label: string, value: string }[] }) => {
+    const PushToTermsList = (termsOption: { label: string, options: { key: string, label: string, value: string }[] }) => {
         termsList.push(termsOption);
     };
 
     /* Push super class to classes list */
     PushToClassesList({
+        key: schema.title,
         label: MakeReadableString(schema.title),
         value: '$'
     });
@@ -59,10 +63,68 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict) => {
  * @param schemaName The name of the schema to extract from 
  * @returns Dictionary of the requested schema
  */
-const ExtractFromSchema = async (schemaName: string) => {
-    const strippedSchemaName: string = schemaName.replace('ods:', '').replace('has', '')[0].toLowerCase() + schemaName.replace('ods:', '').replace('has', '').slice(1);
+const ExtractFromSchema = async (jsonPath: string) => {
+    /* Base variables */
+    let classSeparatedString: string = jsonPath.replaceAll(/\[(\d+)\]/g, '_').replaceAll('$', '').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '').replaceAll("'", '');
 
-    return await import(`../../sources/dataModel/${strippedSchemaName}.json`);
+    if (classSeparatedString.at(-1) === '_') {
+        classSeparatedString = classSeparatedString.slice(0, -1);
+    }
+
+    /**
+     * Function to strip a schema string to remove all schema specific string occurrences
+     * @param jsonPath The provided JSON path to strip
+     * @returns Stripped schema string
+     */
+    const StripSchemaString = (jsonPath: string) => {
+        const strippedSchemaName: string = lowerFirst(jsonPath.replaceAll('ods:', '').replaceAll('has', ''));
+
+        return strippedSchemaName;
+    };
+
+    const strippedSchemaName = lowerFirst(StripSchemaString(classSeparatedString).split('_').at(-1));
+
+    /* Try to import schema from data model sources, if it fails, try and search for the schema via its parents untill its found */
+    try {
+        return await import(`../../sources/dataModel/${strippedSchemaName}.json`);
+    } catch {
+        /* Try to iterate through the different schema levels and search for properties */
+        const schemaClasses: string[] = classSeparatedString.split('_');
+        const targetedSchemaName: string = schemaClasses.at(-1) as string;
+        let lowestLevelSchema: Dict | undefined;
+        let crashCheck: boolean = false;
+
+        /* Find lowest level schema */
+        while (!(lowestLevelSchema && targetedSchemaName in lowestLevelSchema.properties) && !crashCheck) {
+            try {
+                await ExtractFromSchema(schemaClasses[0]).then((schema: Dict) => {
+                    lowestLevelSchema = schema;
+                });
+            } catch {
+                crashCheck = true;
+            };
+
+            /* Remove index from array */
+            schemaClasses.shift();
+        };
+
+        /* For remaining parent levels, dig through the lowest schema's levels to uncover the targeted schema */
+        schemaClasses.forEach(schemaClass => {
+            lowestLevelSchema = lowestLevelSchema?.properties[schemaClass];
+
+            if (lowestLevelSchema?.items) {
+                lowestLevelSchema = { ...lowestLevelSchema,
+                    ...lowestLevelSchema.items,
+                };
+            }
+
+            if (lowestLevelSchema && !lowestLevelSchema.title) {
+                lowestLevelSchema.title = MakeJsonPathReadableString(schemaClass);
+            }
+        });
+
+        return lowestLevelSchema;
+    };
 };
 
 /**
@@ -81,7 +143,7 @@ const IterateOverSchemaLayer = async (params: {
 }) => {
     const { schema, jsonPath, schemaName, PushToClassesList, PushToTermsList } = params;
 
-    const localTermsList: { label: string, value: string }[] = [];
+    const localTermsList: { key: string, label: string, value: string }[] = [];
 
     /* Iterate over schema layer properties and determine if it is a class or term by checking the ods:has pattern */
     for (let i = 0; i < Object.keys(schema).length; i++) {
@@ -115,6 +177,7 @@ const IterateOverSchemaLayer = async (params: {
         } else {
             /* Treat as a stand alone term */
             localTermsList.push({
+                key,
                 label: MakeJsonPathReadableString(key),
                 value: `${jsonPath}['${key}']`
             });
@@ -156,5 +219,6 @@ const MakeJsonPathReadableString = (jsonPath: string): string => {
 
 export {
     ExtractClassesAndTermsFromSchema,
+    ExtractFromSchema,
     MakeJsonPathReadableString
 };

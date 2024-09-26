@@ -4,6 +4,7 @@ import Button from "./button/Button";
 import DataTable from "./dataTable/DataTable";
 import Dropdown from "./dropdown/Dropdown";
 import InputField from "./inputField/InputField";
+import InputTextArea from "./inputTextArea/InputTextArea";
 import LoadingScreen from "./loadingScreen/LoadingScreen";
 import OpenStreetMap from "./openStreetMap/OpenStreetMap";
 import MultiSelect from "./multiSelect/MultiSelect";
@@ -21,6 +22,7 @@ export {
     DataTable,
     Dropdown,
     InputField,
+    InputTextArea,
     LoadingScreen,
     MultiSelect,
     OpenStreetMap,

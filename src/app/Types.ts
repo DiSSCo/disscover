@@ -104,6 +104,16 @@ export type ParentClass = {
     dependent?: boolean
 };
 
+/* Annotation form property */
+export type AnnotationFormProperty = {
+    key: string,
+    name: string,
+    jsonPath: string,
+    type: string,
+    currentValue?: string | number | boolean | Dict,
+    properties?: AnnotationFormProperty[]
+};
+
 /* Dropdown item */
 export type DropdownItem = {
     label: string,

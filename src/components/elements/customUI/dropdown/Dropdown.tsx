@@ -120,13 +120,12 @@ const Dropdown = (props: Props) => {
                 }),
                 singleValue: provided => ({
                     ...provided,
-                    color: styles?.textColor ?? '#333333',
+                    color: styles?.textColor ?? '#333333'
                 }),
                 valueContainer: provided => ({
                     ...provided,
                     width: 'max-content',
-                    padding: '0px',
-
+                    padding: '0px'
                 }),
                 clearIndicator: provided => ({
                     ...provided,

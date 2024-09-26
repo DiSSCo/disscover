@@ -42,7 +42,7 @@ const AnnotationWizard = (props: Props) => {
         annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
             schemaTitle={schema.title}
         />,
-        annotationForm: <AnnotationFormStep />
+        annotationForm: <AnnotationFormStep superClass={superClass} />
     };
 
     /* Base variables */
@@ -70,12 +70,20 @@ const AnnotationWizard = (props: Props) => {
         jsonPath: string | undefined,
         parentClassDropdownValues: {
             [parentClass: string]: number
+        },
+        motivation: 'ods:adding' | 'ods:deleting' | 'oa:assessing' | 'oa:editing' | 'oa:commenting' | undefined,
+        annotationValues: {
+            [className: string]: {
+                [termName: string]: string
+            }
         }
     } = {
         class: undefined,
         term: undefined,
         jsonPath: undefined,
-        parentClassDropdownValues: {}
+        parentClassDropdownValues: {},
+        motivation: undefined,
+        annotationValues: {}
     };
 
     /**
@@ -165,7 +173,7 @@ const AnnotationWizard = (props: Props) => {
 
                         }}
                     >
-                        {({ values, setFieldValue }) => (
+                        {({ values, setFieldValue, setValues }) => (
                             <Form className="h-100 d-flex flex-column overflow-none">
                                 {/* Previous and next step buttons */}
                                 <Row>
@@ -205,6 +213,7 @@ const AnnotationWizard = (props: Props) => {
                                             tabProps={{
                                                 formValues: values,
                                                 SetFieldValue: setFieldValue,
+                                                SetFormValues: setValues,
                                                 SetAnnotationTarget,
                                                 GoToStep: GoToStep
                                             }}

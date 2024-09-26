@@ -72,7 +72,7 @@ const ExtractParentClasses = (params: {
  * @returns Formatted JSON path string replacing connections with lower dashes
  */
 const FormatFieldNameFromJsonPath = (jsonPath: string): string => {
-    return jsonPath.replaceAll('][', '_').replaceAll(/\[|\]/g, '');
+    return jsonPath.replaceAll('][', '_').replaceAll(/[\[\]]/g, '');
 };
 
 /**

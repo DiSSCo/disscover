@@ -35,8 +35,17 @@ const SummaryValuesBlock = (props: Props) => {
     const { superClass, className, values, index } = props;
 
     /* Base variables */
-    const title: string = `${MakeJsonPathReadableString(className)}${typeof (index) !== 'undefined' ? ` #${index + 1}` : ''}`;
-    const classFieldPath: string = `${className}${typeof (index) !== 'undefined' ? `_${index}` : ''}`;
+    // const indexTitle: string = typeof(index) !== 'undefined' ? ` #${index + 1}` : '';
+    let title: string = MakeJsonPathReadableString(className);
+    let classFieldPath: string = className;
+    
+
+    /* Add index to title and class field parh if present */
+    if (typeof(index) !== 'undefined') {
+        title = title.concat(` #${index + 1}`);
+        classFieldPath = classFieldPath.concat(`_${index}`);
+    }
+
     const classJsonPath: string = FormatJsonPathFromFieldName(classFieldPath);
 
     /* Class Names */
@@ -68,7 +77,7 @@ const SummaryValuesBlock = (props: Props) => {
                                 });
 
                                 return (
-                                    <Row>
+                                    <Row key={key}>
                                         <Col>
                                             <p>
                                                 <span className={`${termTitleClass} fw-lightBold`}>

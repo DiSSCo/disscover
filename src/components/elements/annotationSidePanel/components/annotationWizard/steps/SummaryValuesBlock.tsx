@@ -66,7 +66,9 @@ const SummaryValuesBlock = (props: Props) => {
                 <div className="mt-1">
                     {!isEmpty(values) ?
                         <>
-                            {Object.entries(values).map(([key, value]) => {
+                            {Object.entries(values).sort(
+                                (a, b) => a > b ? 1 : 0
+                            ).map(([key, value]) => {
                                 if (value) {
                                     const termFieldPath: string = `${classFieldPath}_'${key}'`;
                                     const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);

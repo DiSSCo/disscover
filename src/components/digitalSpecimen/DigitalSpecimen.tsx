@@ -93,7 +93,7 @@ const DigitalSpecimen = () => {
     return (
         <div className="h-100 d-flex flex-column">
             {/* Main container, acting as the body for the digital specimen page and additionally, the annotation side panel */}
-            <Container fluid className="h-100 overflow-y-hidden">
+            <Container fluid className="h-100 overflow-hidden">
                 <Row className="h-100">
                     <Col className={`${digitalSpecimenBodyClass} h-100 tr-smooth`}>
                         <div className={`${digitalSpecimenContentClass} h-100 d-flex flex-column tr-smooth`}>

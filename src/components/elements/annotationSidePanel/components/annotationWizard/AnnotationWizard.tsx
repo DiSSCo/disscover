@@ -4,8 +4,11 @@ import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Utilities */
+import { ConstructAnnotationObject, ProcessAnnotationValues } from 'app/utilities/AnnotateUtilities';
+
 /* Import Hooks */
-import { useAppDispatch } from 'app/Hooks';
+import { useAppDispatch, useNotification } from 'app/Hooks';
 
 /* Import Store */
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
@@ -14,6 +17,9 @@ import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Dict, ProgressDot } from 'app/Types';
+
+/* Import API */
+import InsertAnnotation from 'api/annotation/InsertAnnotation';
 
 /* Import Components */
 import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationSummaryStep, AnnotationTargetStep } from './AnnotationWizardComponents';
@@ -24,7 +30,8 @@ import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomU
 type Props = {
     schema: Dict,
     superClass: DigitalSpecimen | DigitalMedia | Dict,
-    StopAnnotationWizard: Function
+    StopAnnotationWizard: Function,
+    ToggleLoading: Function
 };
 
 
@@ -33,10 +40,11 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass, StopAnnotationWizard } = props;
+    const { schema, superClass, StopAnnotationWizard, ToggleLoading } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
+    const notification = useNotification();
 
     /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
@@ -176,10 +184,45 @@ const AnnotationWizard = (props: Props) => {
             <Row className="flex-grow-1 overflow-hidden">
                 <Col className="h-100">
                     <Formik initialValues={initialFormValues}
-                        onSubmit={async (_values) => {
+                        onSubmit={async (values) => {
                             await new Promise((resolve) => setTimeout(resolve, 100));
 
+                            /* Extract and format annotation values from form values */
+                            const annotationValues: (string | Dict)[] = [];
 
+                            if (!('value' in values.annotationValues)) {
+                                annotationValues.push(JSON.stringify(ProcessAnnotationValues(values.jsonPath as string, values.annotationValues)));
+                            } else {
+                                annotationValues.push(values.annotationValues.value);
+                            }
+
+                            /* Construct annotation object */
+                            const newAnnotation = ConstructAnnotationObject({
+                                digitalObjectId: superClass['@id'],
+                                digitalObjectType: superClass['@type'],
+                                motivation: values.motivation ?? 'oa:commenting',
+                                annotationTargetType: values.annotationValues.value ? 'term' : 'class',
+                                jsonPath: values.jsonPath as string,
+                                annotationValues
+                            });
+
+                            /* Try to post the new annotation */
+                            ToggleLoading();
+
+                            const annotation = await InsertAnnotation({
+                                newAnnotation
+                            });
+
+                            /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
+                            if (annotation) {
+                                StopAnnotationWizard();
+                            } else {
+                                notification.Push({
+                                    key: `${superClass['@id']}-${Math.random()}`,
+                                    message: `Failed to add the annotation. Please try saving it again.`,
+                                    template: 'error'
+                                });
+                            }
                         }}
                     >
                         {({ values, setFieldValue, setValues }) => (

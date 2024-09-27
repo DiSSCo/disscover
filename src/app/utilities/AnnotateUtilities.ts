@@ -37,7 +37,7 @@ const ConstructAnnotationObject = (params: {
     let localJsonPath: string = jsonPath;
 
     /* If motivation is adding, check for new index at end of JSON path and removeif it is there */
-    if (typeof(jp.parse(jsonPath).at(-1).expression.value) === 'number') {
+    if (typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
         localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
     }
 
@@ -224,10 +224,11 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
  * @param givenMotivation An already selected motivation that impacts the choice in motivation
  */
 const GetAnnotationMotivations = (givenMotivation?: string) => ({
-    ...(givenMotivation === 'ods:adding' && { 'ods:adding': 'Addition' }),
+    ...((givenMotivation === 'ods:adding' || givenMotivation === '*') && { 'ods:adding': 'Addition' }),
     'oa:assessing': 'Assessment',
     'oa:editing': "Modification",
-    'oa:commenting': "Comment"
+    'oa:commenting': "Comment",
+    ...(givenMotivation === '*' && { 'ods:deleting': "Deletion" })
 });
 
 /**

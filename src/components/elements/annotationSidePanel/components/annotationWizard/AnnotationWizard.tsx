@@ -31,7 +31,8 @@ type Props = {
     schema: Dict,
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     StopAnnotationWizard: Function,
-    ToggleLoading: Function
+    ToggleLoading: Function,
+    SetFilterSortValues: Function
 };
 
 
@@ -40,7 +41,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass, StopAnnotationWizard, ToggleLoading } = props;
+    const { schema, superClass, StopAnnotationWizard, ToggleLoading, SetFilterSortValues } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -216,6 +217,12 @@ const AnnotationWizard = (props: Props) => {
                             /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
                             if (annotation) {
                                 StopAnnotationWizard();
+
+                                /* Reset filter and sort values */
+                                SetFilterSortValues({
+                                    motivation: '',
+                                    sortBy: 'dateLatest'
+                                });
                             } else {
                                 notification.Push({
                                     key: `${superClass['@id']}-${Math.random()}`,

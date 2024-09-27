@@ -12,6 +12,7 @@ import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     HideAnnotationSidePanel: Function,
+    RefreshAnnotations: Function,
     ShowPolicyText: Function
 };
 
@@ -19,11 +20,12 @@ type Props = {
 /**
  * Component that renders the top bar of the annotation side panel
  * @param HideAnnotationSidePanel Function that hides the annotation side panel
+ * @param RefreshAnnotations Function to refresh the annotations in the side panel
  * @param ShowPolicyText Function that shows the annotation policy text
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { HideAnnotationSidePanel, ShowPolicyText } = props;
+    const { HideAnnotationSidePanel, RefreshAnnotations, ShowPolicyText } = props;
 
     return (
         <div>
@@ -56,6 +58,7 @@ const TopBar = (props: Props) => {
                     <Button type="button"
                         variant="primary"
                         className="py-1 px-3"
+                        OnClick={() => RefreshAnnotations()}
                     >
                         <p>
                             Refresh

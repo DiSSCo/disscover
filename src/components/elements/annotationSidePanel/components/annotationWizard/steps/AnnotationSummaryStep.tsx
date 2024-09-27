@@ -104,7 +104,7 @@ const AnnotationSummaryStep = (props: Props) => {
             </Row>
             <Row className="flex-grow-1 overflow-scroll mt-2">
                 <Col>
-                    {annotationTarget?.type === 'class' ?
+                    {(annotationTarget?.type === 'class' && ['ods:adding', 'oa:editing'].includes(formValues?.motivation)) ?
                         <>
                             {Object.entries(formValues?.annotationValues).filter(([_, classValue]) => !isEmpty(classValue)).sort(
                                 (a, b) => a > b ? 1 : 0

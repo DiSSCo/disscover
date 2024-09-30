@@ -72,8 +72,6 @@ const IdCard = () => {
             /* Dispatch digital specimen */
             dispatch(setDigitalSpecimen(results.digitalSpecimen));
 
-            console.log(results.digitalMedia);
-
             /* Set digital specimen digital media, if array is not empty */
             if (!isEmpty(results.digitalMedia) || digitalSpecimen?.['ods:isKnownToContainMedia']) {
                 setDigitalSpecimenDigitalMedia(results.digitalMedia);

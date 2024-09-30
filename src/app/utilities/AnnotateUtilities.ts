@@ -51,9 +51,16 @@ const ConstructAnnotationObject = (params: {
             "ods:ID": digitalObjectId,
             "ods:type": digitalObjectType,
             "oa:hasSelector": {
-                ...(annotationTargetType === 'term' && { "ods:field": localJsonPath }),
-                ...(annotationTargetType === 'class' && { "ods:class": localJsonPath }),
+                ...(annotationTargetType === 'term' && {
+                    "@type": 'ods:FieldSelector',
+                    "ods:field": localJsonPath
+                }),
+                ...(annotationTargetType === 'class' && {
+                    "@type": 'ods:ClassSelector',
+                    "ods:class": localJsonPath
+                }),
                 ...(annotationTargetType === 'ROI' && {
+                    "@type": 'oa:FragmentSelector',
                     "ac:hasROI": {
                         "ac:xFrac": 0,
                         "ac:yFrac": 0,

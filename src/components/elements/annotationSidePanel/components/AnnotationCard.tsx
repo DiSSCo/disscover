@@ -114,7 +114,9 @@ const AnnotationCard = (props: Props) => {
                                 {Object.entries(JSON.parse(annotation['oa:hasBody']['oa:value'][0])).map(([key, value], index) => {
                                     if (showAllValues || index < 3) {
                                         return (
-                                            <p className="fs-4">
+                                            <p key={key}
+                                                className="fs-4"
+                                            >
                                                 <span className="fw-lightBold">
                                                     {`${MakeJsonPathReadableString(key)}: `}
                                                 </span>

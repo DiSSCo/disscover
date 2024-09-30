@@ -44,7 +44,7 @@ const BooleanFilter = (props: Props) => {
                         className={`${BooleanFilterClass('true')} w-100 py-1 b-primary br-corner`}
                         OnClick={() => {
                             /* Set the field value to true */
-                            SetFieldValue?.(`${namePrefix ? `${namePrefix}.` : ''}${name}[0]`, fieldValues[0] !== 'true' ? 'true' : undefined);
+                            SetFieldValue?.(namePrefix ? `${namePrefix}.` : '' + `${name}[0]`, fieldValues[0] !== 'true' ? 'true' : undefined);
 
                             /* Submit form */
                             SubmitForm();
@@ -59,7 +59,7 @@ const BooleanFilter = (props: Props) => {
                         className={`${BooleanFilterClass('false')} w-100 b-primary py-1 br-corner`}
                         OnClick={() => {
                             /* Set the field value to false */
-                            SetFieldValue?.(`${namePrefix ? `${namePrefix}.` : ''}${name}[0]`, fieldValues[0] !== 'false' ? 'false' : undefined);
+                            SetFieldValue?.(namePrefix ? `${namePrefix}.` : '' + `${name}[0]`, fieldValues[0] !== 'false' ? 'false' : undefined);
 
                             /* Submit form */
                             SubmitForm();

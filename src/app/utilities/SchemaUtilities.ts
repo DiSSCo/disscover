@@ -214,12 +214,15 @@ const MakeJsonPathReadableString = (jsonPath: string): string => {
     readableString = readableString.replace('$', '');
 
     /* Remove schema prefixes */
-    readableString = readableString.replaceAll('@', '');
-    readableString = readableString.replaceAll('has', '');
-    readableString = readableString.replaceAll('ods:', '');
-    readableString = readableString.replaceAll('dwc:', '');
-    readableString = readableString.replaceAll('dcterms:', '');
-    
+    readableString = readableString.replaceAll('@', '')
+    .replaceAll('has', '')
+    .replaceAll('ods:', '')
+    .replaceAll('dwc:', '')
+    .replaceAll('dwciri:', '')
+    .replaceAll('chrono:', '')
+    .replaceAll('dcterms:', '')
+    .replaceAll('schema:', '')
+    .replaceAll('eco:', '');
 
     /* Remove JSON path indications */
     readableString = readableString.replaceAll('[', '');

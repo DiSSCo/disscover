@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import jp from 'jsonpath';
+import { isEmpty } from 'lodash';
 
 /* Import Utilities */
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
@@ -7,11 +8,69 @@ import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPat
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 import { DigitalMedia } from "app/types/DigitalMedia";
-import { AnnotationFormProperty, AnnotationTarget, ParentClass, Dict } from "app/Types";
+import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict } from "app/Types";
 
 
 /* Utilities associated with annotating */
 
+
+/**
+ * Function to construct an annotation object based on the provided information
+ * @param params Paramets to pass to the function, consisting of:
+ * - digitalObjectId: The idenfitier of the targeted digital object
+ * - digitalObjectType: The type of the targeted digital object
+ * - motivation: The motivation used for annotating
+ * - annotationTargetType: The type of the annotation target, being term, class or ROI
+ * - jsonPath: The JSON path towards the annotation target
+ * - annotationValues: An array of processed value from the annotation form
+ */
+const ConstructAnnotationObject = (params: {
+    digitalObjectId: string,
+    digitalObjectType: string,
+    motivation: 'ods:adding' | 'ods:deleting' | 'oa:assessing' | 'oa:editing' | 'oa:commenting',
+    annotationTargetType: 'term' | 'class' | 'ROI',
+    jsonPath: string,
+    annotationValues: (string | Dict)[]
+}): AnnotationTemplate => {
+    const { digitalObjectId, digitalObjectType, motivation, annotationTargetType, jsonPath, annotationValues } = params;
+
+    let localJsonPath: string = jsonPath;
+
+    /* If motivation is adding, check for new index at end of JSON path and removeif it is there */
+    if (typeof(jp.parse(jsonPath).at(-1).expression.value) === 'number') {
+        localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
+    }
+
+    /* Define target of annotation */
+    const annotation: AnnotationTemplate = {
+        "oa:motivation": motivation,
+        "oa:motivatedBy": '',
+        "oa:hasTarget": {
+            "@id": digitalObjectId,
+            "@type": digitalObjectType,
+            "ods:ID": digitalObjectId,
+            "ods:type": digitalObjectType,
+            "oa:hasSelector": {
+                ...(annotationTargetType === 'term' && { "ods:field": localJsonPath }),
+                ...(annotationTargetType === 'class' && { "ods:class": localJsonPath }),
+                ...(annotationTargetType === 'ROI' && {
+                    "ac:hasROI": {
+                        "ac:xFrac": 0,
+                        "ac:yFrac": 0,
+                        "ac:widthFrac": 0,
+                        "ac:heightFrac": 0
+                    },
+                    "dcterms:conformsTo": ''
+                })
+            }
+        },
+        "oa:hasBody": {
+            "oa:value": annotationValues
+        }
+    };
+
+    return annotation;
+};
 
 /**
  * Function to extract parent classes from a given super class and provide all their associated information
@@ -172,6 +231,45 @@ const GetAnnotationMotivations = (givenMotivation?: string) => ({
 });
 
 /**
+ * Function to process given annotation values into a fully fletched annotation object
+ * @param annotationValues The values provided via the annotation form
+ */
+const ProcessAnnotationValues = (baseJsonPath: string, annotationValues: {
+    [className: string]: {
+        [termName: string]: string
+    }
+}) => {
+    let annotationObject: Dict = {};
+
+    Object.entries(annotationValues).forEach(([fieldName, annotationValue]) => {
+        /* Format field name into JSON path */
+        const jsonPath = `${FormatJsonPathFromFieldName(fieldName).replaceAll('"', "'")}`;
+
+        const localAnnotationValue = { ...annotationValue };
+
+        /* Remove objects and arrays with objects from value */
+        Object.keys(annotationValue).forEach(key => {
+            if (key.includes('has')) {
+                delete localAnnotationValue[key];
+            }
+        });
+
+        /* If value is present and path is root, append directly to root object, otherwise use JSON path minus base JSON path if value is present */
+        if (!isEmpty(localAnnotationValue) && jsonPath === baseJsonPath) {
+            annotationObject = {
+                ...localAnnotationValue,
+                ...annotationObject
+            }
+        } else if (!isEmpty(localAnnotationValue)) {
+            /* Set provided value according to JSON path in object */
+            jp.value(annotationObject, `$${jsonPath.replace(baseJsonPath, '')}`, localAnnotationValue);
+        }
+    });
+
+    return annotationObject;
+};
+
+/**
  * Function to provide a readable motivation based on the motivation vocabulary
  * @param motivation The motivation to transcribe
  * @returns Readable motivation string
@@ -189,9 +287,11 @@ const ProvideReadableMotivation = (motivation: 'ods:adding' | 'ods:deleting' | '
 };
 
 export {
+    ConstructAnnotationObject,
     ExtractParentClasses,
     FormatJsonPathFromFieldName,
     GenerateAnnotationFormFieldProperties,
     GetAnnotationMotivations,
+    ProcessAnnotationValues,
     ProvideReadableMotivation
 };

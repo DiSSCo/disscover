@@ -94,6 +94,34 @@ export type AnnotationTarget = {
     jsonPath: string
 };
 
+/* Annotation template */
+export type AnnotationTemplate = {
+    "oa:motivation": "ods:adding" | "ods:deleting" | "oa:assessing" | "oa:editing" | "oa:commenting",
+    "oa:motivatedBy": string,
+    "oa:hasTarget": {
+        "@id": string,
+        "@type": string,
+        "ods:ID": string,
+        "ods:type": string,
+        "oa:hasSelector": {
+            "ods:field"?: string
+        } | {
+            "ods:class"?: string
+        } | {
+            "ac:hasROI"?: {
+                "ac:xFrac": number,
+                "ac:yFrac": number,
+                "ac:widthFrac": number,
+                "ac:heightFrac": number
+            },
+            "dcterms:conformsTo": "https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary"
+        }
+    },
+    "oa:hasBody": {
+        "oa:value": (string | Dict)[]
+    }
+};
+
 /* Parent class */
 export type ParentClass = {
     jsonPath: string,

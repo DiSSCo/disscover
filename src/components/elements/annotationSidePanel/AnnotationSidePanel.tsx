@@ -17,6 +17,7 @@ import styles from './annotationSidePanel.module.scss';
 
 /* Import Components */
 import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
+import { LoadingScreen } from '../customUI/CustomUI';
 
 
 /* Props Type */
@@ -46,13 +47,14 @@ const AnnotationSidePanel = (props: Props) => {
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
     const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     /* OnLoad: fetch annotations of super class with provided method */
     fetch.Fetch({
         params: {
             handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
         },
-        triggers: [superClass],
+        triggers: [superClass, annotationWizardToggle],
         Method: GetAnnotations,
         Handler: (annotations: Annotation[]) => {
             setAnnotations(annotations)
@@ -62,6 +64,10 @@ const AnnotationSidePanel = (props: Props) => {
     /* Class Names */
     const policyTextClass = classNames({
         'd-none': !policyTextToggle
+    });
+
+    const loadingScreenClass = classNames({
+        'z-2': loading
     });
 
     return (
@@ -80,7 +86,11 @@ const AnnotationSidePanel = (props: Props) => {
                     {(annotationWizardToggle && superClass) ?
                         <AnnotationWizard schema={schema}
                             superClass={superClass}
-                            StopAnnotationWizard={() => setAnnotationWizardToggle(false)}
+                            StopAnnotationWizard={() => {
+                                setAnnotationWizardToggle(false);
+                                setLoading(false);
+                            }}
+                            ToggleLoading={() => setLoading(!loading)}
                         />
                         : <AnnotationsOverview annotations={annotations}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
@@ -92,6 +102,11 @@ const AnnotationSidePanel = (props: Props) => {
             <div className={`${policyTextClass} position-absolute top-0 start-0 h-100 w-100 bgc-dark-opacity z-2`}>
                 <AnnotationPolicyText HidePolicyText={() => setPolicyTextToggle(false)} />
             </div>
+            {/* Loading screen */}
+            <LoadingScreen visible={loading}
+                displaySpinner={true}
+                className={`${loadingScreenClass} position-absolute top-0 start-0 h-100 w-100`}
+            />
         </div>
     );
 };

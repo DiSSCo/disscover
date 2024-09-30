@@ -38,10 +38,10 @@ const SummaryValuesBlock = (props: Props) => {
     // const indexTitle: string = typeof(index) !== 'undefined' ? ` #${index + 1}` : '';
     let title: string = MakeJsonPathReadableString(className);
     let classFieldPath: string = className;
-    
+
 
     /* Add index to title and class field parh if present */
-    if (typeof(index) !== 'undefined') {
+    if (typeof (index) !== 'undefined') {
         title = title.concat(` #${index + 1}`);
         classFieldPath = classFieldPath.concat(`_${index}`);
     }
@@ -66,28 +66,32 @@ const SummaryValuesBlock = (props: Props) => {
                 <div className="mt-1">
                     {!isEmpty(values) ?
                         <>
-                            {Object.entries(values).map(([key, value]) => {
-                                const termFieldPath: string = `${classFieldPath}_'${key}'`;
-                                const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);
-                                const existingValue: string | number | boolean = jp.value(superClass, termJsonPath);
+                            {Object.entries(values).sort(
+                                (a, b) => a > b ? 1 : 0
+                            ).map(([key, value]) => {
+                                if (value) {
+                                    const termFieldPath: string = `${classFieldPath}_'${key}'`;
+                                    const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);
+                                    const existingValue: string | number | boolean = jp.value(superClass, termJsonPath);
 
-                                /* Class Name */
-                                const termTitleClass = classNames({
-                                    'tc-accent': !existingValue || value !== existingValue
-                                });
+                                    /* Class Name */
+                                    const termTitleClass = classNames({
+                                        'tc-accent': !existingValue || value !== existingValue
+                                    });
 
-                                return (
-                                    <Row key={key}>
-                                        <Col>
-                                            <p>
-                                                <span className={`${termTitleClass} fw-lightBold`}>
-                                                    {`${MakeJsonPathReadableString(key)}: `}
-                                                </span>
-                                                {value}
-                                            </p>
-                                        </Col>
-                                    </Row>
-                                );
+                                    return (
+                                        <Row key={key}>
+                                            <Col>
+                                                <p>
+                                                    <span className={`${termTitleClass} fw-lightBold`}>
+                                                        {`${MakeJsonPathReadableString(key)}: `}
+                                                    </span>
+                                                    {value}
+                                                </p>
+                                            </Col>
+                                        </Row>
+                                    );
+                                }
                             })}
                         </>
                         : <p className="tc-grey fst-italic">

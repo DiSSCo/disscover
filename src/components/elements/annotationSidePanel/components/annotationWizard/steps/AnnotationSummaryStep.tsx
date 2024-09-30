@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { capitalize } from 'lodash';
+import { capitalize, isEmpty } from 'lodash';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
@@ -104,9 +104,11 @@ const AnnotationSummaryStep = (props: Props) => {
             </Row>
             <Row className="flex-grow-1 overflow-scroll mt-2">
                 <Col>
-                    {annotationTarget?.type === 'class' ?
+                    {(annotationTarget?.type === 'class' && ['ods:adding', 'oa:editing'].includes(formValues?.motivation)) ?
                         <>
-                            {Object.entries(formValues?.annotationValues).sort((a, b) => a > b ? 1 : 0).map(([className, classValue]: [string, any]) => (
+                            {Object.entries(formValues?.annotationValues).filter(([_, classValue]) => !isEmpty(classValue)).sort(
+                                (a, b) => a > b ? 1 : 0
+                            ).map(([className, classValue]: [string, any]) => (
                                 <div key={className}>
                                     {Array.isArray(classValue) ?
                                         <>
@@ -147,7 +149,7 @@ const AnnotationSummaryStep = (props: Props) => {
             {/* Save annotation button */}
             <Row className="flex-row-reverse mt-3">
                 <Col lg="auto">
-                    <Button type="button"
+                    <Button type="submit"
                         variant="primary"
                     >
                         <p>

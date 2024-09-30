@@ -106,7 +106,7 @@ const AnnotationSummaryStep = (props: Props) => {
                 <Col>
                     {annotationTarget?.type === 'class' ?
                         <>
-                            {Object.entries(formValues?.annotationValues).sort().map(([className, classValue]: [string, any]) => (
+                            {Object.entries(formValues?.annotationValues).sort((a, b) => a > b ? 1 : 0).map(([className, classValue]: [string, any]) => (
                                 <div key={className}>
                                     {Array.isArray(classValue) ?
                                         <>

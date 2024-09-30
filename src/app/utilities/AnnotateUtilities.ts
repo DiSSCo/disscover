@@ -81,7 +81,7 @@ const FormatFieldNameFromJsonPath = (jsonPath: string): string => {
  * @returns JSON path string
  */
 const FormatJsonPathFromFieldName = (fieldName: string): string => {
-    const splitArray: (string | number)[] = fieldName.replaceAll(/['\$]/g, '').split('_');
+    const splitArray: (string | number)[] = fieldName.replaceAll(/['$]/g, '').split('_');
 
     splitArray.forEach((value, index) => {
         if (!isNaN(value as number)) {

@@ -166,9 +166,10 @@ const AnnotationFormSegment = (props: Props) => {
                                 {formValues?.annotationValues?.[fieldName]?.map((_classObject: Dict, index: number) => {
                                     /* Set sub class as object and render form segment */
                                     const key = `${fieldName}_${index}`;
-                                    const annotationFormFieldSubProperty: AnnotationFormProperty = { ...annotationFormFieldProperty };
-
-                                    annotationFormFieldSubProperty.type = 'object';
+                                    const annotationFormFieldSubProperty: AnnotationFormProperty = {
+                                        ...annotationFormFieldProperty,
+                                        type: 'object'
+                                    };
 
                                     return (
                                         <div key={key}

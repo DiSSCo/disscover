@@ -124,7 +124,13 @@ const ExistingInstance = (props: Props) => {
                                 className="fs-5 py-1 px-3"
                                 disabled={selected}
                                 OnClick={() => {
+                                    /* Reset annotation values */
+                                    SetFieldValue?.('annotationValues', {});
+
+                                    /* Set motivation to editing */
                                     SetFieldValue?.('motivation', 'oa:editing');
+
+                                    /* Set JSON path */
                                     SetFieldValue?.('jsonPath', jsonPath);
                                 }}
                             >

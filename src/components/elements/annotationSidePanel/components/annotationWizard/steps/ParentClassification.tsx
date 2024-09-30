@@ -84,6 +84,7 @@ const ParentClassification = (props: Props) => {
                     OnClick={() => {
                         if (annotationTarget) {
                             /* Set field values in form to parent class */
+                            SetFieldValue?.('annotationValues', {});
                             SetFieldValue?.('motivation', 'ods:adding');
                             SetFieldValue?.('jsonPath', `${parentClass.jsonPath}[0]`);
                             SetFieldValue?.('class', {
@@ -157,22 +158,31 @@ const ParentClassification = (props: Props) => {
                     }}
                 />
 
-                {(parentClasses.filter(parentClass => formValues && parentClass.name in formValues.parentClassDropdownValues).length === parentClasses.length && (index + 1) === parentClasses.length) &&
+                {(parentClasses.filter(parentClass => formValues && parentClass.name in formValues.parentClassDropdownValues).length === parentClasses.length
+                    && (index + 1) === parentClasses.length
+                ) &&
                     <Button type="button"
                         variant="primary"
                         disabled={formValues?.parentClassDropdownValues[parentClass.name] <= 0 && selected}
                         className="fs-5 mt-3 py-1 px-3"
                         OnClick={() => {
                             /* Set field value in annotation form */
-                            let jsonPath: string = annotationTarget?.jsonPath.replace(parentClass.jsonPath, `${parentClass.jsonPath}[${formValues?.parentClassDropdownValues[parentClass.name]}]`) ?? '';
+                            let jsonPath: string = annotationTarget?.jsonPath ?? '';
+                
+                            /* For values in form values parent classes, add indexes to JSON path */
+                            parentClasses.forEach((parentClass) => {
+                                const index: number = formValues?.parentClassDropdownValues[parentClass.name];
 
-                            /* Add latest index to JSON path if adding a new class instance to an array */
+                                jsonPath = jsonPath.replace(parentClass.jsonPath, `${parentClass.jsonPath}[${index}]`);
+                            });
+
                             if (jp.parse(jsonPath).slice(-1)[0].expression.value.includes('has')) {
                                 const latestIndex: any = jp.query(superClass, jsonPath)[0].length;
 
                                 jsonPath = `${jsonPath}[${latestIndex}]`;
                             }
-
+                       
+                            SetFieldValue?.('annotationValues', {});
                             SetFieldValue?.('motivation', 'ods:adding');
                             SetFieldValue?.('jsonPath', jsonPath);
                         }}

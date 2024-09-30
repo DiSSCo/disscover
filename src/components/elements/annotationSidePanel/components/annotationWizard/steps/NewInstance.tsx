@@ -97,7 +97,13 @@ const NewInstance = (props: Props) => {
                                     OnClick={() => {
                                         const latestIndex: any = jp.query(superClass, annotationTarget.jsonPath)[0].length;
 
+                                        /* Reset annotation values */
+                                        SetFieldValue?.('annotationValues', {});
+
+                                        /* Set motivation */
                                         SetFieldValue?.('motivation', 'ods:adding');
+
+                                        /* Set JSON path */
                                         SetFieldValue?.('jsonPath', `${annotationTarget.jsonPath}[${latestIndex}]`);
                                     }}
                                 >
@@ -110,7 +116,7 @@ const NewInstance = (props: Props) => {
                                 {parentClasses.map((parentClass, index) => {
                                     /* Key of parent class component */
                                     const key = `parentClass-${index}`;
-
+                                    
                                     return (
                                         <ParentClassification key={key}
                                             index={index}

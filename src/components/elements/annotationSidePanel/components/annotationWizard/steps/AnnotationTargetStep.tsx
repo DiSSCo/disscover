@@ -7,7 +7,10 @@ import Select, { SingleValue } from 'react-select';
 import { ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
-import { useTrigger } from 'app/Hooks';
+import { useAppSelector, useTrigger } from 'app/Hooks';
+
+/* Import Store */
+import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { Dict } from 'app/Types';
@@ -39,6 +42,7 @@ const AnnotationTargetStep = (props: Props) => {
     const trigger = useTrigger();
 
     /* Base variables */
+    const annotationTarget = useAppSelector(getAnnotationTarget);
     const [classesList, setClassesList] = useState<{ label: string, value: string }[]>([]);
     const [termsList, setTermsList] = useState<{ label: string, options: { label: string, value: string }[] }[]>([]);
 
@@ -174,10 +178,18 @@ const AnnotationTargetStep = (props: Props) => {
                             <Col lg>
                                 <Button type="button"
                                     variant="accent"
-                                    OnClick={() => SetAnnotationTarget?.({
-                                        label: formValues.class?.label,
-                                        value: formValues.class.value
-                                    }, 'class')}
+                                    OnClick={() => {
+                                        /* Make sure JSON path in form values is reset if it differs from annotation target */
+                                        if (formValues.class?.value !== annotationTarget?.jsonPath) {
+                                            SetFieldValue?.('jsonPath', undefined);
+                                        }
+
+                                        /* Set annotation target */
+                                        SetAnnotationTarget?.({
+                                            label: formValues.class?.label,
+                                            value: formValues.class.value
+                                        }, 'class');
+                                    }}
                                 >
                                     <p>{`Target class: ${formValues.class?.label}`}</p>
                                 </Button>
@@ -189,10 +201,18 @@ const AnnotationTargetStep = (props: Props) => {
                             <Col lg>
                                 <Button type="button"
                                     variant="accent"
-                                    OnClick={() => SetAnnotationTarget?.({
-                                        label: formValues.term?.label,
-                                        value: formValues.term?.value
-                                    }, 'term')}
+                                    OnClick={() => {
+                                        /* Make sure JSON path in form values is reset if it differs from annotation target */
+                                        if (formValues.term?.value !== annotationTarget?.jsonPath) {
+                                            SetFieldValue?.('jsonPath', undefined);
+                                        }
+
+                                        /* Set annotation target */
+                                        SetAnnotationTarget?.({
+                                            label: formValues.term?.label,
+                                            value: formValues.term?.value
+                                        }, 'term');
+                                    }}
                                 >
                                     <p>{`Target term: ${formValues.term?.label}`}</p>
                                 </Button>

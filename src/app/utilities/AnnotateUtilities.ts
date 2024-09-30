@@ -2,7 +2,7 @@
 import jp from 'jsonpath';
 
 /* Import Utilities */
-import { ExtractFromSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
@@ -32,12 +32,12 @@ const ExtractParentClasses = (params: {
     /* For each parant, find and extract its class information */
     parents.forEach((parent, index) => {
         /* Filter path from schemas */
-        let parentName = parent.expression.value.replace('ods:', '').replace('dwc:', '').replace('dcterms:', '');
+        let parentName = parent.expression.value.replace(/^[^:]+:/g, '');
 
         /* Add to pathArray */
         pathArray.push(parent.expression.value);
 
-        if (parentName.includes('has') || parentName[0] === parentName[0].toUpperCase()) {
+        if (parentName.includes('has')) {
             /* If a parent class is empty, it needs to be targeted, if it is not completely empty, check for indexes */
             const parentNodes = jp.nodes(superClass, jp.stringify(pathArray).replaceAll('][', ']..[').replaceAll('"', "'"));
 
@@ -71,13 +71,31 @@ const ExtractParentClasses = (params: {
  * @param jsonPath The provided JSON path
  * @returns Formatted JSON path string replacing connections with lower dashes
  */
-const FormatFieldNameFromJsonPath = (jsonPath: string) => {
-    return jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '');
+const FormatFieldNameFromJsonPath = (jsonPath: string): string => {
+    return jsonPath.replaceAll('][', '_').replaceAll(/[\][]/g, '');
+};
+
+/**
+ * Function that formats a lower dash separated field name to a valid JSON path
+ * @param fieldName The provided field name
+ * @returns JSON path string
+ */
+const FormatJsonPathFromFieldName = (fieldName: string): string => {
+    const splitArray: (string | number)[] = fieldName.replaceAll(/['$]/g, '').split('_');
+
+    splitArray.forEach((value, index) => {
+        if (!isNaN(value as number)) {
+            splitArray[index] = Number(value);
+        }
+    });
+
+    return jp.stringify(splitArray);
 };
 
 /**
  * Function to generate and return a dictionary containing all classes and terms of the schema adhering to the provided schema name; and their values
  * @param jsonPath The JSON path that leads to the schema to be used
+ * @param superClass The provided super class
  * @returns The annotation form field properties and their associated form values
  */
 const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: DigitalSpecimen | DigitalMedia | Dict) => {
@@ -87,14 +105,12 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
     const formValues: Dict = {};
 
     /* Extract main schema */
-    const schema = await ExtractFromSchema(jsonPath);
+    const schema: Dict | undefined = await ExtractLowestLevelSchema(jsonPath);
+    const { classesList, termsList, termValue } = await ExtractClassesAndTermsFromSchema(schema ?? {}, jsonPath);
 
-    await ExtractClassesAndTermsFromSchema(schema).then(({
-        classesList,
-        termsList
-    }) => {
-        /* For each class, add it as a key property to the annotation form fields dictionary */
-        classesList.forEach(classProperty => {
+    /* For each class, add it as a key property to the annotation form fields dictionary */
+    classesList.forEach(classProperty => {
+        if (!termValue) {
             annotationFormFieldProperties[classProperty.label] = {
                 key: classProperty.key,
                 name: classProperty.label,
@@ -114,9 +130,11 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     }
                 });
 
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues;
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
+            } else if (classProperty.value.includes('has')) {
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
             } else {
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues;
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};
             }
 
             /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
@@ -130,7 +148,10 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     type: 'string'
                 });
             });
-        });
+        } else {
+            /* Treat upper parent as term and set annotation form value */
+            formValues.value = jp.value(superClass, termValue.value);
+        }
     });
 
     return {
@@ -169,6 +190,7 @@ const ProvideReadableMotivation = (motivation: 'ods:adding' | 'ods:deleting' | '
 
 export {
     ExtractParentClasses,
+    FormatJsonPathFromFieldName,
     GenerateAnnotationFormFieldProperties,
     GetAnnotationMotivations,
     ProvideReadableMotivation

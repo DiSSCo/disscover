@@ -52,18 +52,11 @@ const ProgressDots = (props: Props) => {
     return (
         <div>
             <Row>
-                <Col className="position-relative">
-                    <Row>
+                <Col className={`${styles.progressDots} position-relative`}>
+                    <Row className="justify-content-between">
                         {progressDots.map((progressDot, index) => {
                             /* Validation function setup */
                             const Validate = () => ValidationFunction?.(index > 0 ? (index - 1) : 0);
-
-                            /* Class Names */
-                            const progressDotColClass = classNames({
-                                'justify-content-center': index !== 0 && index + 1 !== progressDots.length,
-                                'justify-content-start': index === 0,
-                                'justify-content-end': index + 1 === progressDots.length
-                            });
 
                             const progressDotClass = classNames({
                                 'tc-grey': index > selectedIndex && index > completedTill,
@@ -73,8 +66,7 @@ const ProgressDots = (props: Props) => {
 
                             return (
                                 <Col key={progressDot.label}
-                                    lg
-                                    className={`${progressDotColClass} d-flex`}
+                                    lg="auto"
                                 >
                                     <Button type="button"
                                         variant="blank"

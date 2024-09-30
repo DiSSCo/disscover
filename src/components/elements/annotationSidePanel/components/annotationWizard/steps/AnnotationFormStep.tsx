@@ -7,7 +7,10 @@ import { Row, Col } from 'react-bootstrap';
 import { GenerateAnnotationFormFieldProperties, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
 
 /* Import Hooks */
-import { useTrigger } from "app/Hooks";
+import { useAppSelector, useTrigger } from "app/Hooks";
+
+/* Import Store */
+import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
@@ -43,7 +46,8 @@ const AnnotationFormStep = (props: Props) => {
     const trigger = useTrigger();
 
     /* Base variables */
-    const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>();
+    const annotationTarget = useAppSelector(getAnnotationTarget);
+    const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>({});
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: AnnotationFormProperty[] = [];
@@ -57,11 +61,15 @@ const AnnotationFormStep = (props: Props) => {
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
         if (formValues) {
+            /* For selected class, get annotation form field properties and their values */
             GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass).then(({ annotationFormFieldProperties, newFormValues }) => {
                 /* Set form values state with current values, based upon annotation form field properties */
                 const newSetFormValues = {
                     ...formValues,
-                    annotationValues: newFormValues
+                    annotationValues: {
+                        ...newFormValues,
+                        ...formValues.annotationValues,
+                    }
                 };
 
                 /* Set form values */
@@ -74,7 +82,7 @@ const AnnotationFormStep = (props: Props) => {
     }, []);
 
     /* From annotation form field properties, extract base object and its properties */
-    if (annotationFormFieldProperties && formValues) {
+    if (!isEmpty(annotationFormFieldProperties) && formValues) {
         baseObjectFormFieldProperty = Object.values(annotationFormFieldProperties).find(annotationFormFieldProperty => annotationFormFieldProperty.jsonPath === formValues.jsonPath);
 
         /* From annotation form field properties, extract sub class objects and their properties */
@@ -121,7 +129,7 @@ const AnnotationFormStep = (props: Props) => {
             <Row className="mt-3">
                 <Col>
                     <p>
-                        {['ods:adding', 'oa:editing'].includes(formValues?.motivation) ?
+                        {(['ods:adding', 'oa:editing'].includes(formValues?.motivation) && annotationTarget?.type === 'class') ?
                             'Specify which value(s) you want to annotate'
                             : 'Write your annotation value'
                         }
@@ -131,7 +139,7 @@ const AnnotationFormStep = (props: Props) => {
             <Row className="flex-grow-1 mt-3 overflow-scroll">
                 <Col>
                     {/* If motivation is either adding or editing, render the complete digital object as a form, else a generic text area */}
-                    {(annotationFormFieldProperties && formValues && ['ods:adding', 'oa:editing'].includes(formValues.motivation)) ?
+                    {(annotationFormFieldProperties && formValues && ['ods:adding', 'oa:editing'].includes(formValues.motivation) && annotationTarget?.type === 'class') ?
                         <>
                             {/* Render base class' form fields */}
                             {baseObjectFormFieldProperty &&

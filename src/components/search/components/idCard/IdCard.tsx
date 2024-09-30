@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +44,7 @@ const IdCard = () => {
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
-    const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[]>([]);
+    const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
 
     /* Fetch full digital specimen */
     fetch.FetchMultiple({
@@ -71,8 +72,12 @@ const IdCard = () => {
             /* Dispatch digital specimen */
             dispatch(setDigitalSpecimen(results.digitalSpecimen));
 
-            /* Set digital specimen digital media */
-            setDigitalSpecimenDigitalMedia(results.digitalMedia);
+            console.log(results.digitalMedia);
+
+            /* Set digital specimen digital media, if array is not empty */
+            if (!isEmpty(results.digitalMedia) || digitalSpecimen?.['ods:isKnownToContainMedia']) {
+                setDigitalSpecimenDigitalMedia(results.digitalMedia);
+            }
         }
     });
 
@@ -169,12 +174,12 @@ const IdCard = () => {
                         {/* Organisation */}
                         <p>
                             <span className="fw-lightBold">Organisation: </span>
-                            <a href={digitalSpecimen?.['dwc:institutionID']}
+                            <a href={digitalSpecimen?.['ods:organisationID']}
                                 target="_blank"
                                 rel="noreferer"
                                 className="tc-accent"
                             >
-                                {digitalSpecimen?.['ods:institutionName'] ?? digitalSpecimen?.['dwc:institutionID']}
+                                {digitalSpecimen?.['ods:organisationName'] ?? digitalSpecimen?.['ods:organisationID']}
                             </a>
                         </p>
                     </Col>
@@ -193,19 +198,35 @@ const IdCard = () => {
                             </Row>
                         }
                         {/* Display digital media items, if any present */}
-                        {!!digitalSpecimenDigitalMedia.length &&
-                            <Row className="h-50 flex-nowrap overflow-x-scroll pt-2">
-                                {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
-                                    <Col key={`${digitalMedia['ods:ID']}_${index}`}
-                                        lg={{ span: 4 }}
-                                        className="h-100 overflow-hidden"
-                                    >
-                                        <div className="h-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden">
-                                            <DigitalMediaItem digitalMedia={digitalMedia} />
-                                        </div>
-                                    </Col>
-                                ))}
-                            </Row>
+                        {digitalSpecimen?.['ods:isKnownToContainMedia'] &&
+                            <>
+                                {digitalSpecimenDigitalMedia?.length ?
+                                    <Row className="h-50 flex-nowrap overflow-x-scroll pt-2">
+                                        {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
+                                            <Col key={`${digitalMedia['ods:ID']}_${index}`}
+                                                lg={{ span: 4 }}
+                                                className="h-100 overflow-hidden"
+                                            >
+                                                <div className="h-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden">
+                                                    <DigitalMediaItem digitalMedia={digitalMedia} />
+                                                </div>
+                                            </Col>
+                                        ))}
+                                    </Row>
+                                    : <Row>
+                                        <Col>
+                                            <div className="bgc-accent-soft br-corner px-3 py-2">
+                                                <p className="fs-4">
+                                                    <FontAwesomeIcon icon={faInfoCircle}
+                                                        className="pe-2"
+                                                    />
+                                                    An issue occurred whilst loading the Digital Specimen's associated Digital Media
+                                                </p>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                }
+                            </>
                         }
                     </Col>
                 </Row>

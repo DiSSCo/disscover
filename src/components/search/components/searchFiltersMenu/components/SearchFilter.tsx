@@ -5,6 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import { SearchFilter as SearchFilterType, Dict } from 'app/Types';
 
 /* Import Local Components */
+import BooleanFilter from './BooleanFilter';
 import BlockFilter from './BlockFilter';
 import SelectFilter from './SelectFilter';
 import TaxonomyFilter from './TaxonomyFilter';
@@ -62,6 +63,15 @@ const SearchFilter = (props: Props) => {
                 fieldValues={fieldValue as string[]}
                 aggregations={aggregations?.[name] as { [aggregation: string]: number }}
                 text={text}
+                SubmitForm={SubmitForm}
+            />
+
+            break;
+        case 'boolean':
+            formField = <BooleanFilter name={name}
+                namePrefix={searchFilter.nestedIn ?? undefined}
+                fieldValues={fieldValue as string[]}
+                SetFieldValue={SetFieldValue}
                 SubmitForm={SubmitForm}
             />
 

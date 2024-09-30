@@ -7,41 +7,41 @@
 
 export interface Agent {
   /**
-   * The identifier for the Agent object.
+   * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the digital object, in this case a ods:Agent
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
    */
-  "@type": "ods:Agent";
-  /**
-   * Indicates the role of the agent
-   */
-  "ods:agentRole": string;
-  /**
-   * Indicates the type of agent
-   */
-  "ods:agentType": string;
-  /**
-   * Primary identifier of the agent, additional identifiers can go in the identifiers array
-   */
-  "ods:agentID"?: string;
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
   /**
    * Full name of the agent
    */
-  "ods:agentName": string;
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
   /**
    * Date the agent began the role
    */
-  "ods:agentRoleBegan"?: string;
+  "schema:startDate"?: string;
   /**
    * Date the agent ended the role
    */
-  "ods:agentRoleEnded"?: string;
+  "schema:endDate"?: string;
   /**
    * Order of the agent in the role. Can be used to indicate the order of importance
    */
-  "ods:agentRoleOrder"?: number;
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
   /**
    * Contains zero or more ods:Identifier objects
    */

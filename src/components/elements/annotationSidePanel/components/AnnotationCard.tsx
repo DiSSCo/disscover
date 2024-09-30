@@ -25,13 +25,15 @@ const AnnotationCard = (props: Props) => {
     const { annotation } = props;
 
     /* Base variables */
-    let userTag: string = annotation['dcterms:creator']['foaf:name'] ?? annotation['dcterms:creator']['@id'];
+    let userTag: string = annotation['dcterms:creator']['schema:name'] ?? annotation['dcterms:creator']['@id'];
 
     /* Class Names */
     const userTagClass = classNames({
         'tc-primary': annotation['dcterms:creator']['@id'] !== KeycloakService.GetSubject(),
         'tc-accent': annotation['dcterms:creator']['@id'] === KeycloakService.GetSubject()
     });
+
+    console.log(annotation);
 
     return (
         <div>

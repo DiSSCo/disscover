@@ -56,9 +56,9 @@ const AnnotationsOverview = (props: Props) => {
 
         /* Sort by */
         if (sortBy === 'dateLatest') {
-            filteredSortedAnnotations.sort((a, b) => a["dcterms:created"] < b["dcterms:created"] ? 1 : 0);
+            filteredSortedAnnotations.sort((a, b) => a["dcterms:modified"] < b["dcterms:modified"] ? 1 : 0);
         } else if (sortBy === 'dateOldest') {
-            filteredSortedAnnotations.sort((a, b) => a["dcterms:created"] > b["dcterms:created"] ? 1 : 0);
+            filteredSortedAnnotations.sort((a, b) => a["dcterms:modified"] > b["dcterms:modified"] ? 1 : 0);
         }
 
         return filteredSortedAnnotations;

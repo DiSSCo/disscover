@@ -13,6 +13,7 @@ import Boot from 'app/Boot';
 /* Import Components */
 import Loading from 'components/Loading';
 import Notifications from 'components/elements/notifications/Notifications';
+import Mobile from './Mobile';
 
 
 /**
@@ -21,10 +22,10 @@ import Notifications from 'components/elements/notifications/Notifications';
  */
 const App = () => {
   /* Boot application */
-  const booted: boolean = Boot();
+  const { booted, isMobile } = Boot();
 
   /* If booted: return routes for application, otherwise show loading screen */
-  if (booted) {
+  if (booted && !isMobile) {
     return (
       <div className="h-100 w-100">
         <Router>
@@ -35,6 +36,10 @@ const App = () => {
 
         <Notifications />
       </div>
+    );
+  } else if (isMobile) {
+    return (
+      <Mobile />
     );
   } else {
     return (

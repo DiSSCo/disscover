@@ -95,7 +95,8 @@ const AnnotationPolicyText = (props: Props) => {
 
                             <ul>
                                 <li>
-                                    Machine agents and machine annotation services must undergo review and verification before being added to the Machine Annotation Service.
+                                    Machine agents and machine annotation services must undergo review and verification before being added to 
+                                    the Machine Annotation Service Registry.
                                 </li>
                             </ul>
                         </Col>
@@ -114,10 +115,6 @@ const AnnotationPolicyText = (props: Props) => {
                                 <li>
                                     We do not delete annotations. Archived annotations are still accessible via the API;
                                     they are just not visible with the latest digital specimen version.
-                                </li>
-                                <li>
-                                    [add examples of archived annotation when we have one; we decided to use the term archive
-                                    instead of tombstone in this text as most people are familiar with term archive].
                                 </li>
                             </ul>
                         </Col>

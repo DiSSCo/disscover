@@ -7,8 +7,8 @@
                 "ods:ID": "https://hdl.handle.net/20.5000.1025/00N-N8E-B3L",
                 "rdf:type": "ods:Annotation",
                 "ods:version": 1,
-                "ods:motivation": "oa:commenting",
-                "ods:hasTarget": {
+                "oa:motivation": "oa:commenting",
+                "oa:hasTarget": {
                     "@id": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
                     "@type": "DigitalSpecimen",
                     "ods:ID": "https://hdl.handle.net/20.5000.1025/DW0-BNT-FM0",
@@ -23,8 +23,10 @@
                         "This is a comment"
                     ]
                 },
-                "preferenceScore": 0,
-                "dcterms:creator": "string",
+                "dcterms:creator": {
+                    "@id": "https://orcid.org/0000-0001-9790-9277",
+                    "schema:name": "Tom Dijkema"
+                },
                 "dcterms:created": "2023-02-23T12:43:58.511679Z",
                 "dcterms:modified": "2023-02-23T12:43:58.511679Z",
                 "as:generator": {

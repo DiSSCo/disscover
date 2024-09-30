@@ -50,7 +50,7 @@ const HarvestTypes = (typesDict: { [type: string]: string }) => {
             let result: Dict = results[index];
 
             /* Check for refs inside schema, if so, replace with local generated files */
-            Object.values(result.data.properties).filter((value: any) => (value.type === 'array' || value.type === 'object')).map((value: any) => {
+            Object.values(result.data.properties).filter((value: any) => (value.type === 'array' || value.type === 'object')).forEach((value: any) => {
                 if (value.items && '$ref' in value.items) {
                     /* Treat as array of references */
                     let refTypeName: string = value.items['$ref'].split('/').pop();

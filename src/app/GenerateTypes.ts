@@ -10,22 +10,22 @@ import { Dict } from './Types';
 
 /* Dict of types and their endpoints to fetch */
 const typesDict = {
-    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/identifier.json',
-    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/agent.json',
-    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/assertion.json',
-    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/chronometric-age.json',
-    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/citation.json',
-    tombstoneMetadata: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/tombstone-metadata.json',
-    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/entity-relationship.json',
-    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/identification.json',
-    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/location.json',
-    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/event.json',
-    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/latest/digital-media.json',
-    materialEntity: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/material-entity.json',
-    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/digital-specimen.json',
-    annotationTarget: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/latest/annotation-target.json',
-    annotationBody: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/latest/annotation-body.json',
-    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/latest/annotation.json'
+    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/identifier.json',
+    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/agent.json',
+    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/assertion.json',
+    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/chronometric-age.json',
+    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0citation.json',
+    tombstoneMetadata: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/tombstone-metadata.json',
+    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/entity-relationship.json',
+    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/identification.json',
+    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/location.json',
+    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/event.json',
+    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/0.3.0/digital-media.json',
+    materialEntity: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/material-entity.json',
+    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/digital-specimen.json',
+    annotationTarget: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-target.json',
+    annotationBody: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-body.json',
+    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation.json'
 };
 
 /**

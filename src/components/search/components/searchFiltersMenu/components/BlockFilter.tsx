@@ -16,9 +16,14 @@ type Props = {
 
 
 /**
- * 
- * @param props 
- * @returns 
+ * Component that renders a block filter that can be used in the search filters menu
+ * @param name The name of the search filter form field
+ * @param namePrefix A possible prefix under which the form field' name is stored in the form state
+ * @param fieldValues The selected field values in the form
+ * @param aggregations The aggregations as received from the API
+ * @param text The text to display as the block filter's title
+ * @param SubmitForm Function to submit the form
+ * @returns JSX Component
  */
 const BlockFilter = (props: Props) => {
     const { name, namePrefix, fieldValues, aggregations, text, SubmitForm } = props;

@@ -77,7 +77,12 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
  * @returns Dictionary of the requested schema
  */
 const ExtractFromSchema = async (schemaName: string): Promise<Dict> => {
-    const strippedSchemaName = StripSchemaString(schemaName);
+    let strippedSchemaName = StripSchemaString(schemaName);
+
+    /* Temporary solution to catch different agent naming conventions */
+    if (['creator', 'assertionByAgent', 'relationshipAccordingToAgent', 'tombstonedByAgent'].includes(strippedSchemaName)) {
+        strippedSchemaName = 'agent';
+    }
 
     return await import(`../../sources/dataModel/${strippedSchemaName}.json`);
 };
@@ -214,15 +219,7 @@ const MakeJsonPathReadableString = (jsonPath: string): string => {
     readableString = readableString.replace('$', '');
 
     /* Remove schema prefixes */
-    readableString = readableString.replaceAll('@', '')
-    .replaceAll('has', '')
-    .replaceAll('ods:', '')
-    .replaceAll('dwc:', '')
-    .replaceAll('dwciri:', '')
-    .replaceAll('chrono:', '')
-    .replaceAll('dcterms:', '')
-    .replaceAll('schema:', '')
-    .replaceAll('eco:', '');
+    readableString = RemoveSchemaPrefixes(readableString);
 
     /* Remove JSON path indications */
     readableString = readableString.replaceAll('[', '');
@@ -233,12 +230,28 @@ const MakeJsonPathReadableString = (jsonPath: string): string => {
 };
 
 /**
+ * Function to remove the schema prefixes from a JSON path
+ * @param jsonPath The provided JSON path
+ * @returns JSON path string without the schema prefixes
+ */
+const RemoveSchemaPrefixes = (jsonPath: string): string => {
+    return jsonPath.replaceAll('has', '')
+        .replaceAll('ods:', '')
+        .replaceAll('dwc:', '')
+        .replaceAll('dwciri:', '')
+        .replaceAll('chrono:', '')
+        .replaceAll('dcterms:', '')
+        .replaceAll('schema:', '')
+        .replaceAll('eco:', '');
+};
+
+/**
     * Function to strip a schema string to remove all schema specific string occurrences
     * @param jsonPath The provided JSON path to strip
     * @returns Stripped schema string
     */
 const StripSchemaString = (jsonPath: string) => {
-    const strippedSchemaName: string = lowerFirst(jsonPath.replaceAll('ods:', '').replaceAll('has', ''));
+    const strippedSchemaName: string = lowerFirst(RemoveSchemaPrefixes(jsonPath));
 
     return strippedSchemaName;
 };

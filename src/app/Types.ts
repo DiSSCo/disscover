@@ -104,17 +104,20 @@ export type AnnotationTemplate = {
         "ods:ID": string,
         "ods:type": string,
         "oa:hasSelector": {
+            "@type"?: 'ods:FieldSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
             "ods:field"?: string
         } | {
+            "@type"?: 'ods:FieldSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
             "ods:class"?: string
         } | {
+            "@type"?: 'ods:FieldSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
             "ac:hasROI"?: {
                 "ac:xFrac": number,
                 "ac:yFrac": number,
                 "ac:widthFrac": number,
                 "ac:heightFrac": number
             },
-            "dcterms:conformsTo": "https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary"
+            "dcterms:conformsTo"?: "https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary"
         }
     },
     "oa:hasBody": {

@@ -10,19 +10,22 @@ import { Dict } from './Types';
 
 /* Dict of types and their endpoints to fetch */
 const typesDict = {
-    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/assertion.json',
-    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/chronometric-age.json',
-    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/citation.json',
-    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/entity-relationship.json',
-    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/identification.json',
-    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/identifier.json',
-    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/location.json',
-    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/latest/agent.json',
-    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/event.json',
-    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/latest/digital-media.json',
-    materialEntity: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/material-entity.json',
-    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/latest/digital-specimen.json',
-    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/latest/annotation.json'
+    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/identifier.json',
+    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/agent.json',
+    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/assertion.json',
+    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/chronometric-age.json',
+    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/citation.json',
+    tombstoneMetadata: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/tombstone-metadata.json',
+    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/entity-relationship.json',
+    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/identification.json',
+    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/location.json',
+    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/event.json',
+    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/0.3.0/digital-media.json',
+    materialEntity: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/material-entity.json',
+    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/digital-specimen.json',
+    annotationTarget: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-target.json',
+    annotationBody: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-body.json',
+    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation.json'
 };
 
 /**
@@ -43,18 +46,28 @@ const HarvestTypes = (typesDict: { [type: string]: string }) => {
     Promise.all(promises).then(async results => {
         for (let index = 0; index < results.length; index++) {
             const type: string = Object.keys(typesDict)[index][0].toUpperCase() + Object.keys(typesDict)[index].slice(1);
+
             let result: Dict = results[index];
 
             /* Check for refs inside schema, if so, replace with local generated files */
-            Object.values(result.data.properties).filter((value: any) => (value.type === 'array')).map((value: any) => {
+            Object.values(result.data.properties).filter((value: any) => (value.type === 'array' || value.type === 'object')).forEach((value: any) => {
                 if (value.items && '$ref' in value.items) {
+                    /* Treat as array of references */
                     let refTypeName: string = value.items['$ref'].split('/').pop();
 
                     /* Check for - symbols and replace with camel case */
                     refTypeName = refTypeName.split('-', 2).map((string, index) => index === 1 ? `${string[0].toUpperCase() + string.slice(1)}` : string).toString().replace(',', '');
 
-                    value.items['$ref'] =  resolve(__dirname, '../sources/dataModel', `./${refTypeName}`);
-                };
+                    value.items['$ref'] = resolve(__dirname, '../sources/dataModel', `./${refTypeName}`);
+                } else if ('$ref' in value) {
+                    /* Treat as object reference */
+                    let refTypeName: string = value['$ref'].split('/').pop();
+
+                    /* Check for - symbols and replace with camel case */
+                    refTypeName = refTypeName.split('-', 2).map((string, index) => index === 1 ? `${string[0].toUpperCase() + string.slice(1)}` : string).toString().replace(',', '');
+
+                    value['$ref'] = resolve(__dirname, '../sources/dataModel', `./${refTypeName}`);
+                }
             });
 
             await compile(result.data, Object.keys(typesDict)[index]).then(ts => {

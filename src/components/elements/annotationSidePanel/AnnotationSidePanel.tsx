@@ -48,6 +48,13 @@ const AnnotationSidePanel = (props: Props) => {
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
     const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [filterSortValues, setFilterSortValues] = useState<{
+        motivation: string,
+        sortBy: string
+    }>({
+        motivation: '',
+        sortBy: 'dateLatest'
+    });
 
     /* OnLoad: fetch annotations of super class with provided method */
     fetch.Fetch({
@@ -60,6 +67,20 @@ const AnnotationSidePanel = (props: Props) => {
             setAnnotations(annotations)
         }
     });
+
+    /**
+     * Function for refreshing the annotations in the side panel by fetching fresh data from the API
+     */
+    const RefreshAnnotations = async () => {
+        setLoading(true);
+
+        const annotations = await GetAnnotations({
+            handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+        });
+
+        setAnnotations(annotations);
+        setLoading(false);
+    };
 
     /* Class Names */
     const policyTextClass = classNames({
@@ -76,6 +97,7 @@ const AnnotationSidePanel = (props: Props) => {
             <Row>
                 <Col>
                     <TopBar HideAnnotationSidePanel={HideAnnotationSidePanel}
+                        RefreshAnnotations={RefreshAnnotations}
                         ShowPolicyText={() => setPolicyTextToggle(true)}
                     />
                 </Col>
@@ -91,8 +113,11 @@ const AnnotationSidePanel = (props: Props) => {
                                 setLoading(false);
                             }}
                             ToggleLoading={() => setLoading(!loading)}
+                            SetFilterSortValues={setFilterSortValues}
                         />
                         : <AnnotationsOverview annotations={annotations}
+                            filterSortValues={filterSortValues}
+                            SetFilterSortValues={setFilterSortValues}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                         />
                     }

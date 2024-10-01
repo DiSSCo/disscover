@@ -95,8 +95,8 @@ const AnnotationPolicyText = (props: Props) => {
 
                             <ul>
                                 <li>
-                                    Machine agents and machine annotation services must undergo review and verification before being added to 
-                                    the Machine Annotation Service Registry.
+                                    Machine agents and machine annotation services must undergo review and verification before being 
+                                    added to the Machine Annotation Service Registry.
                                 </li>
                             </ul>
                         </Col>

@@ -37,7 +37,7 @@ const ConstructAnnotationObject = (params: {
     let localJsonPath: string = jsonPath;
 
     /* If motivation is adding, check for new index at end of JSON path and removeif it is there */
-    if (typeof(jp.parse(jsonPath).at(-1).expression.value) === 'number') {
+    if (typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
         localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
     }
 
@@ -51,9 +51,16 @@ const ConstructAnnotationObject = (params: {
             "ods:ID": digitalObjectId,
             "ods:type": digitalObjectType,
             "oa:hasSelector": {
-                ...(annotationTargetType === 'term' && { "ods:field": localJsonPath }),
-                ...(annotationTargetType === 'class' && { "ods:class": localJsonPath }),
+                ...(annotationTargetType === 'term' && {
+                    "@type": 'ods:FieldSelector',
+                    "ods:field": localJsonPath
+                }),
+                ...(annotationTargetType === 'class' && {
+                    "@type": 'ods:ClassSelector',
+                    "ods:class": localJsonPath
+                }),
                 ...(annotationTargetType === 'ROI' && {
+                    "@type": 'oa:FragmentSelector',
                     "ac:hasROI": {
                         "ac:xFrac": 0,
                         "ac:yFrac": 0,
@@ -224,10 +231,11 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
  * @param givenMotivation An already selected motivation that impacts the choice in motivation
  */
 const GetAnnotationMotivations = (givenMotivation?: string) => ({
-    ...(givenMotivation === 'ods:adding' && { 'ods:adding': 'Addition' }),
+    ...((givenMotivation === 'ods:adding' || givenMotivation === '*') && { 'ods:adding': 'Addition' }),
     'oa:assessing': 'Assessment',
     'oa:editing': "Modification",
-    'oa:commenting': "Comment"
+    'oa:commenting': "Comment",
+    ...(givenMotivation === '*' && { 'ods:deleting': "Deletion" })
 });
 
 /**

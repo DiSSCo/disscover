@@ -5,71 +5,40 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Assertion {
+/**
+ * Metadata contains information on why, when and by whom a digital object was tombstoned
+ */
+export interface TombstoneMetadata {
   /**
-   * The identifier for the Assertion object.
+   * The type of the record, in this case a ods:Tombstone
    */
-  "@id"?: string;
+  "@type": "ods:Tombstone";
   /**
-   * The type of the digital object, in this case a ods:Assertion
+   * Timestamp the Digital Object was tombstoned and no longer active.
    */
-  "@type": "ods:Assertion";
+  "ods:tombstoneDate": string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementID
+   * A reason why the Digital Object was tombstoned
    */
-  "dwc:measurementID"?: string;
+  "ods:tombstoneText": string;
+  "ods:TombstonedByAgent": Agent;
   /**
-   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   * The PIDs of the object the tombstoned object is related to
    */
-  "dwc:parentMeasurementID"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/measurementType
-   */
-  "dwc:measurementType"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/iri/measurementType
-   */
-  "dwciri:measurementType"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
-   */
-  "dwc:measurementDeterminedDate"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/measurementValue
-   */
-  "dwc:measurementValue"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/measurementValue
-   */
-  "dwciri:measurementValue"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
-   */
-  "dwc:measurementAccuracy"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/measurementUnit
-   */
-  "dwc:measurementUnit"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/iri/measurementUnit
-   */
-  "dwciri:measurementUnit"?: string;
-  "ods:AssertionByAgent"?: Agent;
-  /**
-   * The protocol used to make the assertion
-   */
-  "ods:assertionProtocol"?: string;
-  /**
-   * The ID of the protocol used to make the assertion
-   */
-  "ods:assertionProtocolID"?: string;
-  /**
-   * Remarks about the assertion
-   */
-  "ods:assertionRemarks"?: string;
+  "ods:hasRelatedPID"?: {
+    /**
+     * The PID of the related object
+     */
+    "ods:ID"?: string;
+    /**
+     * The type of relationship between the tombstoned object and the related object
+     */
+    "ods:relationshipType"?: string;
+    [k: string]: unknown;
+  }[];
 }
 /**
- * The agent who made the assertion, contains an ods:Agent object
+ * The agent who tombstoned the object, contains an ods:Agent object
  */
 export interface Agent {
   /**

@@ -23,9 +23,17 @@ export interface DigitalSpecimen {
    */
   "ods:version": number;
   /**
-   * The timestamp that the object version was created in DiSSCo
+   * The status of the Digital Object
    */
-  "ods:created": string;
+  "ods:status"?: "ods:Draft" | "ods:Active" | "ods:Tombstone";
+  /**
+   * The timestamp that the object was last changed, which resulted in a new version of the object
+   */
+  "dcterms:modified": string;
+  /**
+   * The timestamp that the object was created in DiSSCo
+   */
+  "dcterms:created": string;
   /**
    * The DOI to the FDO type of the object
    */
@@ -93,6 +101,10 @@ export interface DigitalSpecimen {
    */
   "ods:sourceSystemID": string;
   /**
+   * The name of the source system as provided to DiSSCo
+   */
+  "ods:sourceSystemName"?: string;
+  /**
    * Whether the specimen is living or preserved
    */
   "ods:livingOrPreserved"?: "Living" | "Preserved";
@@ -104,10 +116,6 @@ export interface DigitalSpecimen {
    * https://purl.org/dc/terms/license
    */
   "dcterms:license"?: string;
-  /**
-   * https://purl.org/dc/terms/modified
-   */
-  "dcterms:modified"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/basisOfRecord
    */
@@ -121,17 +129,17 @@ export interface DigitalSpecimen {
    */
   "dwc:disposition"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/institutionCode
+   * Code used by the organisation
    */
-  "dwc:institutionCode"?: string;
+  "ods:organisationCode"?: string;
   /**
-   * ROR or Wikidata identifier, based on https://rs.tdwg.org/dwc/terms/institutionID
+   * ROR or Wikidata identifier of the organisation
    */
-  "dwc:institutionID": string;
+  "ods:organisationID": string;
   /**
    * Full museum name according to ROR or Wikidata
    */
-  "ods:institutionName"?: string;
+  "ods:organisationName"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/collectionCode
    */
@@ -149,9 +157,9 @@ export interface DigitalSpecimen {
    */
   "dwc:dataGeneralizations"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/ownerInstitutionCode
+   * The name used by the organisation having ownership of the object
    */
-  "dwc:ownerInstitutionCode"?: string;
+  "ods:ownerOrganisationCode"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/recordedBy
    */
@@ -239,7 +247,8 @@ export interface DigitalSpecimen {
   /**
    * Contains zero or more ods:Agent objects
    */
-  "ods:hasAgent"?: Agent1[];
+  "ods:hasAgent"?: Agent4[];
+  "ods:TombstoneMetadata"?: TombstoneMetadata;
 }
 export interface MaterialEntity {
   /**
@@ -267,17 +276,17 @@ export interface MaterialEntity {
    */
   "dwc:disposition"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/institutionCode
+   * Code used by the organisation
    */
-  "dwc:institutionCode"?: string;
+  "ods:organisationCode"?: string;
   /**
-   * ROR or Wikidata identifier, based on https://rs.tdwg.org/dwc/terms/institutionID
+   * ROR or Wikidata identifier of the organisation
    */
-  "dwc:institutionID"?: string;
+  "ods:organisationID"?: string;
   /**
    * Full museum name according to ROR or Wikidata
    */
-  "ods:institutionName"?: string;
+  "ods:organisationName"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/collectionCode
    */
@@ -287,9 +296,9 @@ export interface MaterialEntity {
    */
   "dwc:collectionID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/ownerInstitutionCode
+   * The name used by the organisation having ownership of the object
    */
-  "dwc:ownerInstitutionCode"?: string;
+  "ods:ownerOrganisationCode"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/recordedBy
    */
@@ -321,7 +330,7 @@ export interface MaterialEntity {
   /**
    * Contains zero or more ods:Identifier objects
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifier"?: Identifier1[];
   /**
    * Contains zero or more ods:Event objects
    */
@@ -329,7 +338,7 @@ export interface MaterialEntity {
   /**
    * Contains zero or more ods:Agent objects
    */
-  "ods:hasAgent"?: Agent[];
+  "ods:hasAgent"?: Agent3[];
 }
 export interface Identification {
   /**
@@ -570,10 +579,7 @@ export interface Citation {
    * https://purl.org/dc/terms/title
    */
   "dcterms:title"?: string;
-  /**
-   * https://purl.org/dc/elements/1.1/creator
-   */
-  "dcterms:creator"?: string;
+  "dcterms:creator"?: Agent;
   /**
    * Page number of the citation
    */
@@ -602,6 +608,96 @@ export interface Citation {
    * Is the citation peer reviewed?
    */
   "ods:isPeerReviewed"?: boolean;
+}
+/**
+ * Contains an ods:Agent object
+ */
+export interface Agent {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   */
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
+  /**
+   * Date the agent began the role
+   */
+  "schema:startDate"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "schema:endDate"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier[];
+}
+/**
+ * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
+export interface Identifier {
+  /**
+   * The identifier for the Identifier object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identifier
+   */
+  "@type": "ods:Identifier";
+  /**
+   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   */
+  "dcterms:title": string;
+  /**
+   * The local title of the identifier
+   */
+  "ods:localTitle"?: string;
+  /**
+   * The value for the identifier, https://purl.org/dc/terms/identifier
+   */
+  "dcterms:identifier": string;
+  /**
+   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   */
+  "dcterms:format"?: string;
+  /**
+   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   */
+  "dcterms:subject"?: string;
+  /**
+   * Indicates whether the identifier is part of the physical label
+   */
+  "ods:isPartOfLabel"?: boolean;
+  /**
+   * Indicates whether the identifier is part of the barcode or nfc chip
+   */
+  "ods:isBarcodeOrNFC"?: boolean;
+  /**
+   * Indicates whether the identifier is a persistent identifier
+   */
+  "ods:isIDPersistent"?: boolean;
 }
 export interface Assertion {
   /**
@@ -652,14 +748,7 @@ export interface Assertion {
    * https://rs.tdwg.org/dwc/iri/measurementUnit
    */
   "dwciri:measurementUnit"?: string;
-  /**
-   * Name of the agent who made the assertion
-   */
-  "ods:assertionByAgentName"?: string;
-  /**
-   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
-   */
-  "ods:assertionByAgentID"?: string;
+  "ods:AssertionByAgent"?: Agent1;
   /**
    * The protocol used to make the assertion
    */
@@ -672,6 +761,51 @@ export interface Assertion {
    * Remarks about the assertion
    */
   "ods:assertionRemarks"?: string;
+}
+/**
+ * The agent who made the assertion, contains an ods:Agent object
+ */
+export interface Agent1 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   */
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
+  /**
+   * Date the agent began the role
+   */
+  "schema:startDate"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "schema:endDate"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier[];
 }
 /**
  * Based on https://rs.gbif.org/extension/resource_relationship_2024-02-19.xml but with ods specific terms
@@ -709,18 +843,60 @@ export interface EntityRelationship {
    * When multiple relationships are added an order can be defined
    */
   "ods:entityRelationshipOrder"?: number;
+  "ods:RelationshipAccordingToAgent"?: Agent2;
   /**
    * https://rs.tdwg.org/dwc/terms/relationshipAccordingTo
    */
   "dwc:relationshipAccordingTo"?: string;
   /**
-   * The PID of the creator, this could be a Orcid(user), PID(machine) or ROR(organisation)
-   */
-  "ods:relationshipAccordingToID"?: string;
-  /**
    * https://rs.tdwg.org/dwc/terms/relationshipRemarks
    */
   "dwc:relationshipRemarks"?: string;
+}
+/**
+ * The agent who created the entity relationship. Contains an ods:Agent object
+ */
+export interface Agent2 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   */
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
+  /**
+   * Date the agent began the role
+   */
+  "schema:startDate"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "schema:endDate"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier[];
 }
 /**
  * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
@@ -750,10 +926,7 @@ export interface Citation1 {
    * https://purl.org/dc/terms/title
    */
   "dcterms:title"?: string;
-  /**
-   * https://purl.org/dc/elements/1.1/creator
-   */
-  "dcterms:creator"?: string;
+  "dcterms:creator"?: Agent;
   /**
    * Page number of the citation
    */
@@ -786,7 +959,7 @@ export interface Citation1 {
 /**
  * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
  */
-export interface Identifier {
+export interface Identifier1 {
   /**
    * The identifier for the Identifier object.
    */
@@ -1036,14 +1209,7 @@ export interface Assertion1 {
    * https://rs.tdwg.org/dwc/iri/measurementUnit
    */
   "dwciri:measurementUnit"?: string;
-  /**
-   * Name of the agent who made the assertion
-   */
-  "ods:assertionByAgentName"?: string;
-  /**
-   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
-   */
-  "ods:assertionByAgentID"?: string;
+  "ods:AssertionByAgent"?: Agent1;
   /**
    * The protocol used to make the assertion
    */
@@ -1340,92 +1506,47 @@ export interface Location {
     "dwc:bed"?: string;
   };
 }
-export interface Agent {
+export interface Agent3 {
   /**
-   * The identifier for the Agent object.
+   * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the digital object, in this case a ods:Agent
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
    */
-  "@type": "ods:Agent";
-  /**
-   * Indicates the role of the agent
-   */
-  "ods:agentRole": string;
-  /**
-   * Indicates the type of agent
-   */
-  "ods:agentType": string;
-  /**
-   * Primary identifier of the agent, additional identifiers can go in the identifiers array
-   */
-  "ods:agentID"?: string;
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
   /**
    * Full name of the agent
    */
-  "ods:agentName": string;
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
   /**
    * Date the agent began the role
    */
-  "ods:agentRoleBegan"?: string;
+  "schema:startDate"?: string;
   /**
    * Date the agent ended the role
    */
-  "ods:agentRoleEnded"?: string;
+  "schema:endDate"?: string;
   /**
    * Order of the agent in the role. Can be used to indicate the order of importance
    */
-  "ods:agentRoleOrder"?: number;
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
   /**
    * Contains zero or more ods:Identifier objects
    */
-  "ods:hasIdentifier"?: Identifier1[];
-}
-/**
- * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
- */
-export interface Identifier1 {
-  /**
-   * The identifier for the Identifier object.
-   */
-  "@id"?: string;
-  /**
-   * The type of the digital object, in this case a ods:Identifier
-   */
-  "@type": "ods:Identifier";
-  /**
-   * The type of the identifier, https://purl.org/dc/elements/1.1/title
-   */
-  "dcterms:title": string;
-  /**
-   * The local title of the identifier
-   */
-  "ods:localTitle"?: string;
-  /**
-   * The value for the identifier, https://purl.org/dc/terms/identifier
-   */
-  "dcterms:identifier": string;
-  /**
-   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
-   */
-  "dcterms:format"?: string;
-  /**
-   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
-   */
-  "dcterms:subject"?: string;
-  /**
-   * Indicates whether the identifier is part of the physical label
-   */
-  "ods:isPartOfLabel"?: boolean;
-  /**
-   * Indicates whether the identifier is part of the barcode or nfc chip
-   */
-  "ods:isBarcodeOrNFC"?: boolean;
-  /**
-   * Indicates whether the identifier is a persistent identifier
-   */
-  "ods:isIDPersistent"?: boolean;
+  "ods:hasIdentifier"?: Identifier[];
 }
 export interface Identification1 {
   /**
@@ -1687,14 +1808,7 @@ export interface Assertion2 {
    * https://rs.tdwg.org/dwc/iri/measurementUnit
    */
   "dwciri:measurementUnit"?: string;
-  /**
-   * Name of the agent who made the assertion
-   */
-  "ods:assertionByAgentName"?: string;
-  /**
-   * ID of the agent who made the assertion, recommended to be a ORCID or Wikidata identifier
-   */
-  "ods:assertionByAgentID"?: string;
+  "ods:AssertionByAgent"?: Agent1;
   /**
    * The protocol used to make the assertion
    */
@@ -1903,14 +2017,11 @@ export interface EntityRelationship1 {
    * When multiple relationships are added an order can be defined
    */
   "ods:entityRelationshipOrder"?: number;
+  "ods:RelationshipAccordingToAgent"?: Agent2;
   /**
    * https://rs.tdwg.org/dwc/terms/relationshipAccordingTo
    */
   "dwc:relationshipAccordingTo"?: string;
-  /**
-   * The PID of the creator, this could be a Orcid(user), PID(machine) or ROR(organisation)
-   */
-  "ods:relationshipAccordingToID"?: string;
   /**
    * https://rs.tdwg.org/dwc/terms/relationshipRemarks
    */
@@ -1944,10 +2055,7 @@ export interface Citation2 {
    * https://purl.org/dc/terms/title
    */
   "dcterms:title"?: string;
-  /**
-   * https://purl.org/dc/elements/1.1/creator
-   */
-  "dcterms:creator"?: string;
+  "dcterms:creator"?: Agent;
   /**
    * Page number of the citation
    */
@@ -2104,45 +2212,122 @@ export interface ChronometricAge {
    */
   "chrono:chronometricAgeRemarks"?: string;
 }
-export interface Agent1 {
+export interface Agent4 {
   /**
-   * The identifier for the Agent object.
+   * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the digital object, in this case a ods:Agent
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
    */
-  "@type": "ods:Agent";
-  /**
-   * Indicates the role of the agent
-   */
-  "ods:agentRole": string;
-  /**
-   * Indicates the type of agent
-   */
-  "ods:agentType": string;
-  /**
-   * Primary identifier of the agent, additional identifiers can go in the identifiers array
-   */
-  "ods:agentID"?: string;
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
   /**
    * Full name of the agent
    */
-  "ods:agentName": string;
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
   /**
    * Date the agent began the role
    */
-  "ods:agentRoleBegan"?: string;
+  "schema:startDate"?: string;
   /**
    * Date the agent ended the role
    */
-  "ods:agentRoleEnded"?: string;
+  "schema:endDate"?: string;
   /**
    * Order of the agent in the role. Can be used to indicate the order of importance
    */
-  "ods:agentRoleOrder"?: number;
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
   /**
    * Contains zero or more ods:Identifier objects
    */
-  "ods:hasIdentifier"?: Identifier1[];
+  "ods:hasIdentifier"?: Identifier[];
+}
+/**
+ * Object containing the tombstone metadata of the object. Only present when ods:status is ods:Tombstone
+ */
+export interface TombstoneMetadata {
+  /**
+   * The type of the record, in this case a ods:Tombstone
+   */
+  "@type": "ods:Tombstone";
+  /**
+   * Timestamp the Digital Object was tombstoned and no longer active.
+   */
+  "ods:tombstoneDate": string;
+  /**
+   * A reason why the Digital Object was tombstoned
+   */
+  "ods:tombstoneText": string;
+  "ods:TombstonedByAgent": Agent5;
+  /**
+   * The PIDs of the object the tombstoned object is related to
+   */
+  "ods:hasRelatedPID"?: {
+    /**
+     * The PID of the related object
+     */
+    "ods:ID"?: string;
+    /**
+     * The type of relationship between the tombstoned object and the related object
+     */
+    "ods:relationshipType"?: string;
+    [k: string]: unknown;
+  }[];
+}
+/**
+ * The agent who tombstoned the object, contains an ods:Agent object
+ */
+export interface Agent5 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   */
+  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Indicates the role of the agent, https://schema.org/roleName
+   */
+  "schema:roleName"?: string;
+  /**
+   * Date the agent began the role
+   */
+  "schema:startDate"?: string;
+  /**
+   * Date the agent ended the role
+   */
+  "schema:endDate"?: string;
+  /**
+   * Order of the agent in the role. Can be used to indicate the order of importance
+   */
+  "ods:roleOrder"?: number;
+  /**
+   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:email"?: string;
+  /**
+   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   */
+  "schema:url"?: string;
+  /**
+   * Contains zero or more ods:Identifier objects
+   */
+  "ods:hasIdentifier"?: Identifier[];
 }

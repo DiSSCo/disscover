@@ -169,12 +169,12 @@ const IdCard = () => {
                         {/* Organisation */}
                         <p>
                             <span className="fw-lightBold">Organisation: </span>
-                            <a href={digitalSpecimen?.['dwc:institutionID']}
+                            <a href={digitalSpecimen?.['ods:organisationID']}
                                 target="_blank"
                                 rel="noreferer"
                                 className="tc-accent"
                             >
-                                {digitalSpecimen?.['ods:institutionName'] ?? digitalSpecimen?.['dwc:institutionID']}
+                                {digitalSpecimen?.['ods:organisationName'] ?? digitalSpecimen?.['ods:organisationID']}
                             </a>
                         </p>
                     </Col>

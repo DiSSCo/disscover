@@ -135,9 +135,9 @@ const SearchResults = (props: Props) => {
                 topicDiscipline: digitalSpecimen['ods:topicDiscipline'],
                 countryOfOrigin: digitalSpecimen['ods:hasEvent']?.[0]?.['ods:Location']?.['dwc:country'],
                 dateCollected: digitalSpecimen['ods:hasEvent']?.[0]?.['dwc:eventDate'],
-                organisation: digitalSpecimen['ods:institutionName'] ?
-                    [digitalSpecimen['ods:institutionName'], digitalSpecimen['dwc:institutionID']]
-                    : [digitalSpecimen['dwc:institutionID'], digitalSpecimen['dwc:institutionID']],
+                organisation: digitalSpecimen['ods:organisationName'] ?
+                    [digitalSpecimen['ods:organisationName'], digitalSpecimen['ods:organisationID']]
+                    : [digitalSpecimen['ods:organisationID'], digitalSpecimen['ods:organisationID']],
                 selected: compareDigitalSpecimen ? !!(compareDigitalSpecimen.find((compareDigitalSpecimen) => compareDigitalSpecimen['ods:ID'] === digitalSpecimen['ods:ID'])) : false
             });
         });

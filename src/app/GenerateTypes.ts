@@ -14,7 +14,7 @@ const typesDict = {
     agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/agent.json',
     assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/assertion.json',
     chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/chronometric-age.json',
-    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0citation.json',
+    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/citation.json',
     tombstoneMetadata: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/tombstone-metadata.json',
     entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/entity-relationship.json',
     identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/identification.json',

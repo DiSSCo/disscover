@@ -10,14 +10,12 @@ type BootState = {
             [aggregation: string]: number
         }
     },
-    phylopicBuild: number,
-    isMobile: boolean
+    phylopicBuild: number
 };
 
 const initialState: BootState = {
     aggregations: {},
-    phylopicBuild: 385,
-    isMobile: false
+    phylopicBuild: 385
 };
 
 export const BootSlice = createSlice({
@@ -27,7 +25,6 @@ export const BootSlice = createSlice({
         setBootState: (state, action: PayloadAction<BootState>) => {
             state.aggregations = action.payload.aggregations;
             state.phylopicBuild = action.payload.phylopicBuild;
-            state.isMobile = action.payload.isMobile;
         }
     },
 })
@@ -54,7 +51,6 @@ const SelectOrganisationNames = createSelector([SelectAggregations], (aggregatio
 export const getAggregations = (state: RootState) => state.boot.aggregations;
 export const getOrganisationNames = (state: RootState) => SelectOrganisationNames(state);
 export const getPhylopicBuild = (state: RootState) => state.boot.phylopicBuild;
-export const checkIfIsMobile = (state: RootState) => state.boot.isMobile;
 
 
 export default BootSlice.reducer;

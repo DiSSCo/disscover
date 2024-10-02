@@ -15,6 +15,10 @@ import GetDigitalSpecimenAggregations from "api/digitalSpecimen/GetDigitalSpecim
 import GetPhylopicBuild from "api/phylopic/GetPhylopicBuild";
 
 
+/**
+ * Function that runs the application's necessary processes before it can be booted
+ * @returns True or false depening on if is has booted
+ */
 const Boot = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -46,7 +50,7 @@ const Boot = () => {
             /* End loading */
             setBooted(true);
         }
-    })
+    });
 
     return booted;
 };

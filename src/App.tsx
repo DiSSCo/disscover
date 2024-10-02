@@ -1,8 +1,15 @@
 /* Import Dependencies */
 import { BrowserRouter as Router, Routes } from 'react-router-dom';
+import { useState } from 'react';
+
+/* Import Utilities */
+import { MobileCheck } from 'app/Utilities';
 
 /* Import Routes */
 import AppRoutes from 'app/Routes';
+
+/* Import Hooks */
+import { useTrigger } from 'app/Hooks';
 
 /* Import Styles */
 import './App.css';
@@ -13,6 +20,7 @@ import Boot from 'app/Boot';
 /* Import Components */
 import Loading from 'components/Loading';
 import Notifications from 'components/elements/notifications/Notifications';
+import Mobile from './Mobile';
 
 
 /**
@@ -20,11 +28,28 @@ import Notifications from 'components/elements/notifications/Notifications';
  * @returns JSX component
  */
 const App = () => {
+  /* Hooks */
+  const trigger = useTrigger();
+
+  /* Base variables */
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
   /* Boot application */
-  const booted: boolean = Boot();
+  const booted = Boot();
+
+  /* Check if device being used is mobile */
+  trigger.SetTrigger(() => {
+    const CheckForMobileDevice = () => {
+      setIsMobile(MobileCheck());
+    };
+
+    window.addEventListener("resize", CheckForMobileDevice);
+
+    return () => window.removeEventListener("resize", CheckForMobileDevice);
+  }, []);
 
   /* If booted: return routes for application, otherwise show loading screen */
-  if (booted) {
+  if (booted && !isMobile) {
     return (
       <div className="h-100 w-100">
         <Router>
@@ -35,6 +60,10 @@ const App = () => {
 
         <Notifications />
       </div>
+    );
+  } else if (isMobile) {
+    return (
+      <Mobile />
     );
   } else {
     return (

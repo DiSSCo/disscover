@@ -207,29 +207,31 @@ const AnnotationWizard = (props: Props) => {
                                 annotationValues
                             });
 
-                            /* Try to post the new annotation */
-                            ToggleLoading();
+                            console.log(newAnnotation);
 
-                            const annotation = await InsertAnnotation({
-                                newAnnotation
-                            });
+                            /* Try to post the new annotation */
+                            // ToggleLoading();
+
+                            // const annotation = await InsertAnnotation({
+                            //     newAnnotation
+                            // });
 
                             /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
-                            if (annotation) {
-                                StopAnnotationWizard();
+                            // if (annotation) {
+                            //     StopAnnotationWizard();
 
-                                /* Reset filter and sort values */
-                                SetFilterSortValues({
-                                    motivation: '',
-                                    sortBy: 'dateLatest'
-                                });
-                            } else {
-                                notification.Push({
-                                    key: `${superClass['@id']}-${Math.random()}`,
-                                    message: `Failed to add the annotation. Please try saving it again.`,
-                                    template: 'error'
-                                });
-                            }
+                            //     /* Reset filter and sort values */
+                            //     SetFilterSortValues({
+                            //         motivation: '',
+                            //         sortBy: 'dateLatest'
+                            //     });
+                            // } else {
+                            //     notification.Push({
+                            //         key: `${superClass['@id']}-${Math.random()}`,
+                            //         message: `Failed to add the annotation. Please try saving it again.`,
+                            //         template: 'error'
+                            //     });
+                            // }
                         }}
                     >
                         {({ values, setFieldValue, setValues }) => (

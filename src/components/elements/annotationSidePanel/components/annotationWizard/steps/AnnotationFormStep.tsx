@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { isEmpty } from 'lodash';
+import jp, { parent, paths } from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -50,7 +51,7 @@ const AnnotationFormStep = (props: Props) => {
     const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>({});
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
-    let subClassObjectFormFieldProperties: AnnotationFormProperty[] = [];
+    let subClassObjectFormFieldProperties: Dict = {};
 
     /* Construct annotation motivation dropdown items */
     const annotationMotivationDropdownItems: DropdownItem[] = Object.entries(annotationMotivations).map(([value, label]) => ({
@@ -75,6 +76,8 @@ const AnnotationFormStep = (props: Props) => {
                 /* Set form values */
                 SetFormValues?.(newSetFormValues);
 
+                console.log(annotationFormFieldProperties);
+
                 /* Set annotation form field properties */
                 setAnnotationFormFieldProperties(annotationFormFieldProperties);
             });
@@ -86,10 +89,90 @@ const AnnotationFormStep = (props: Props) => {
         baseObjectFormFieldProperty = Object.values(annotationFormFieldProperties).find(annotationFormFieldProperty => annotationFormFieldProperty.jsonPath === formValues.jsonPath);
 
         /* From annotation form field properties, extract sub class objects and their properties */
-        subClassObjectFormFieldProperties = Object.values(annotationFormFieldProperties).filter(
+        Object.values(annotationFormFieldProperties).filter(
             annotationFormFieldProperty => annotationFormFieldProperty.jsonPath !== formValues.jsonPath
-        );
+        ).forEach(annotationFormFieldProperty => {
+            const jsonPath = `$${annotationFormFieldProperty.jsonPath.replace(baseObjectFormFieldProperty?.jsonPath ?? '', '')}`;
+            // const parentPath: string = jp.stringify(jp.parse(jsonPath).slice(0, -1));
+
+            let parentPath: string = '$';
+            let localExtendedPath: string = '';
+           
+            jp.parse(jsonPath).slice(1, -1).forEach(pathSegment => {
+                parentPath = parentPath.concat(`['${pathSegment.expression.value}']['properties']`);
+
+                // const propertiesValueLength: number = jp.value(subClassObjectFormFieldProperties, parentPath).length ?? 0;
+
+                // parentPath = parentPath.concat(`[${propertiesValueLength}]`);
+            });
+
+            if (parentPath.split('properties').length >= 3) {
+                // console.log(parentPath);
+                let properties: boolean = false;
+
+                jp.parse(parentPath).forEach(pathSegment => {
+                    let path = pathSegment.expression.value;
+
+                    let index: number | undefined;
+
+                    if (path === 'properties') {
+                        properties = true;
+                    } else if (properties) {
+                        // console.log(localExtendedPath);
+                        // console.log(path)
+                        // console.log(subClassObjectFormFieldProperties);
+                        // console.log(jp.value(subClassObjectFormFieldProperties, localExtendedPath));
+
+                        /* Find index of sub class in parent properties array */
+                        index = jp.value(subClassObjectFormFieldProperties, localExtendedPath)?.findIndex((fieldProperty: AnnotationFormProperty) => 
+                            jp.parse(fieldProperty.jsonPath).pop().expression.value === path
+                        );
+
+                        properties = false;
+                    }
+
+                    if (typeof(index) !== 'undefined' && index >= 0) {
+                        localExtendedPath = localExtendedPath.concat(`[${index}]`);
+                    } else {
+                        localExtendedPath = localExtendedPath.concat(path === '$' ? '$' : `['${path}']`);
+                    }
+                });
+            }
+
+            if (parentPath !== '$') {
+                // console.log(annotationFormFieldProperty);
+                // console.log(subClassObjectFormFieldProperties);
+                // console.log(jp.parse(jsonPath).pop().expression.value);
+                // console.log(parentPath);
+                // console.log(annotationFormFieldProperty);
+                // console.log(jp.value(subClassObjectFormFieldProperties, parentPath));
+
+                /* Remove last properties part from parent path and treat as local path */
+                const localPath: string = localExtendedPath ? localExtendedPath.split('[').slice(0, -1).join('[') : parentPath.split('[').slice(0, -1).join('[');
+
+                console.log(localPath);
+                console.log(parentPath);
+
+                jp.value(subClassObjectFormFieldProperties, localPath, {
+                    ...jp.value(subClassObjectFormFieldProperties, localPath),
+                    properties: [
+                        ...(jp.value(subClassObjectFormFieldProperties, `${localPath}['properties']`) ?? []),
+                        annotationFormFieldProperty
+                    ]
+                });
+            } else {
+                /* Create local path for parent sub class */
+                const localPath: string = jp.parse(jsonPath).pop().expression.value;
+
+                subClassObjectFormFieldProperties = {
+                    ...subClassObjectFormFieldProperties,
+                    [localPath]: annotationFormFieldProperty
+                };
+            }
+        });
     }
+
+    console.log(subClassObjectFormFieldProperties);
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -147,13 +230,13 @@ const AnnotationFormStep = (props: Props) => {
                                     formValues={formValues}
                                 />
                             }
-                            {!isEmpty(subClassObjectFormFieldProperties) &&
+                            {/* {!isEmpty(subClassObjectFormFieldProperties) &&
                                 <>
                                     <p className="fs-4 fw-lightBold mb-2">
                                         {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
-                                    </p>
-                                    {/* Render optional, additional sub classes' form fields, if present */}
-                                    {subClassObjectFormFieldProperties.sort(
+                                    </p> */}
+                            {/* Render optional, additional sub classes' form fields, if present */}
+                            {/* {subClassObjectFormFieldProperties.sort(
                                         (a) => a.type !== 'object' ? 1 : 0
                                     ).map(
                                         annotationFormFieldProperty => (
@@ -163,6 +246,21 @@ const AnnotationFormStep = (props: Props) => {
                                             />
                                         )
                                     )}
+                                </>
+                            } */}
+                            {!isEmpty(subClassObjectFormFieldProperties) &&
+                                <>
+                                    <p className="fs-4 fw-lightBold mb-2">
+                                        {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
+                                    </p>
+                                    {Object.entries(subClassObjectFormFieldProperties).map(([key, annotationFormFieldProperty]) => {
+                                        return (
+                                            <AnnotationFormSegment key={key}
+                                                annotationFormFieldProperty={annotationFormFieldProperty}
+                                                formValues={formValues}
+                                            />
+                                        );
+                                    })}
                                 </>
                             }
                         </>

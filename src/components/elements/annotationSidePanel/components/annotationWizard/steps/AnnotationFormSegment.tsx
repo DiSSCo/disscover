@@ -43,6 +43,8 @@ const AnnotationFormSegment = (props: Props) => {
         'd-none': isHidden
     });
 
+    // console.log(annotationFormFieldProperty);
+
     /* Render form segment based on the type of the annotation form field property */
     switch (annotationFormFieldProperty.type) {
         case 'object': {
@@ -116,14 +118,22 @@ const AnnotationFormSegment = (props: Props) => {
                                 className={`${formFieldsDivClass} mb-2`}
                             >
                                 <Col>
-                                    <p className="fs-4">
-                                        {fieldProperty.name}
-                                    </p>
 
-                                    <Field name={`annotationValues.${fieldName}`}
-                                        value={fieldValue ?? ''}
-                                        className="w-100 b-grey br-corner mt-1 py-1 px-2"
-                                    />
+
+                                    {['object', 'array'].includes(fieldProperty.type) ?
+                                        <AnnotationFormSegment annotationFormFieldProperty={fieldProperty}
+                                            formValues={formValues}
+                                        />
+                                        : <>
+                                            <p className="fs-4">
+                                                {fieldProperty.name}
+                                            </p>
+                                            <Field name={`annotationValues.${fieldName}`}
+                                                value={fieldValue ?? ''}
+                                                className="w-100 b-grey br-corner mt-1 py-1 px-2"
+                                            />
+                                        </>
+                                    }
                                 </Col>
                             </Row>
                         );

@@ -177,11 +177,13 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
     /* For each class, add it as a key property to the annotation form fields dictionary */
     classesList.forEach(classProperty => {
         if (!termValue) {
+            const localPath: string = jp.parse(classProperty.value).pop().expression.value;
+
             annotationFormFieldProperties[classProperty.label] = {
                 key: classProperty.key,
                 name: classProperty.label,
                 jsonPath: classProperty.value.replace(`$`, jsonPath),
-                type: classProperty.value.includes('has') ? 'array' : 'object',
+                type: localPath.includes('has') ? 'array' : 'object',
                 properties: []
             };
 

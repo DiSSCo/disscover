@@ -118,8 +118,8 @@ const AnnotationsOverview = (props: Props) => {
                         >
                             <Button type="button"
                                 variant="accent"
-                                disabled={!KeycloakService.IsLoggedIn()}
-                                OnClick={() => KeycloakService.IsLoggedIn() && StartAnnotationWizard()}
+                                // disabled={!KeycloakService.IsLoggedIn()}
+                                OnClick={() => /*KeycloakService.IsLoggedIn() &&*/ StartAnnotationWizard()}
                             >
                                 <p>
                                     <FontAwesomeIcon icon={faPenToSquare}

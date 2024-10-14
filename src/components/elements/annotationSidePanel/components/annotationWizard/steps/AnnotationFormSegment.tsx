@@ -118,11 +118,10 @@ const AnnotationFormSegment = (props: Props) => {
                                 className={`${formFieldsDivClass} mb-2`}
                             >
                                 <Col>
-
-
                                     {['object', 'array'].includes(fieldProperty.type) ?
                                         <AnnotationFormSegment annotationFormFieldProperty={fieldProperty}
                                             formValues={formValues}
+                                            index={index}
                                         />
                                         : <>
                                             <p className="fs-4">
@@ -142,7 +141,15 @@ const AnnotationFormSegment = (props: Props) => {
             );
         } case 'array': {
             /* Format field name for field array sub class */
-            const fieldName = `${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`;
+            let fieldName = `${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`;
+
+            /* If index is present, add it in between of the latest property and its parent class which is the array */
+            if (typeof (index) !== 'undefined') {
+                const fieldNameSplitPrefix = fieldName.split('_').slice(0, -1);
+                const fieldNameSplitSuffix = fieldName.split('_').slice(-1);
+
+                fieldName = `${fieldNameSplitPrefix.join('_')}_${index}_${fieldNameSplitSuffix[0]}`;
+            }
 
             return (
                 <div>
@@ -173,11 +180,28 @@ const AnnotationFormSegment = (props: Props) => {
                                 </div>
 
                                 {/* For each sub class index, render an annotation form segment */}
-                                {formValues?.annotationValues?.[fieldName]?.map((_classObject: Dict, index: number) => {
+                                {formValues?.annotationValues?.[fieldName]?.map((_classObject: Dict, localIndex: number) => {
                                     /* Set sub class as object and render form segment */
-                                    const key = `${fieldName}_${index}`;
+                                    const key = `${fieldName}_${localIndex}`;
+                                    let propertyFieldName: string = '$';
+
+                                    fieldName.replace('$', '').split('_').forEach(path => {
+                                        propertyFieldName = propertyFieldName.concat(`[${path}]`);
+                                    });
+
+                                    /* If index is present, add it in between of the latest property and its parent class which is the array */
+                                    // if (typeof (index) !== 'undefined') {
+                                    //     const propertyFieldNameSplitPrefix = propertyFieldName.split('_').slice(0, -1);
+                                    //     const propertyFieldNameSplitSuffix = propertyFieldName.split('_').slice(-1);
+
+                                    //     propertyFieldName= `${propertyFieldNameSplitPrefix.join('_')}_${index}_${propertyFieldNameSplitSuffix[0]}`;
+                                    // }
+
+
+
                                     const annotationFormFieldSubProperty: AnnotationFormProperty = {
                                         ...annotationFormFieldProperty,
+                                        jsonPath: propertyFieldName,
                                         type: 'object'
                                     };
 
@@ -187,8 +211,8 @@ const AnnotationFormSegment = (props: Props) => {
                                         >
                                             <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                                 formValues={formValues}
-                                                index={index}
-                                                Remove={() => remove(index)}
+                                                index={localIndex}
+                                                Remove={() => remove(localIndex)}
                                             />
                                         </div>
                                     );

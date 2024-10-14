@@ -76,8 +76,6 @@ const AnnotationFormStep = (props: Props) => {
                 /* Set form values */
                 SetFormValues?.(newSetFormValues);
 
-                console.log(annotationFormFieldProperties);
-
                 /* Set annotation form field properties */
                 setAnnotationFormFieldProperties(annotationFormFieldProperties);
             });
@@ -100,10 +98,6 @@ const AnnotationFormStep = (props: Props) => {
            
             jp.parse(jsonPath).slice(1, -1).forEach(pathSegment => {
                 parentPath = parentPath.concat(`['${pathSegment.expression.value}']['properties']`);
-
-                // const propertiesValueLength: number = jp.value(subClassObjectFormFieldProperties, parentPath).length ?? 0;
-
-                // parentPath = parentPath.concat(`[${propertiesValueLength}]`);
             });
 
             if (parentPath.split('properties').length >= 3) {
@@ -118,11 +112,6 @@ const AnnotationFormStep = (props: Props) => {
                     if (path === 'properties') {
                         properties = true;
                     } else if (properties) {
-                        // console.log(localExtendedPath);
-                        // console.log(path)
-                        // console.log(subClassObjectFormFieldProperties);
-                        // console.log(jp.value(subClassObjectFormFieldProperties, localExtendedPath));
-
                         /* Find index of sub class in parent properties array */
                         index = jp.value(subClassObjectFormFieldProperties, localExtendedPath)?.findIndex((fieldProperty: AnnotationFormProperty) => 
                             jp.parse(fieldProperty.jsonPath).pop().expression.value === path
@@ -140,18 +129,8 @@ const AnnotationFormStep = (props: Props) => {
             }
 
             if (parentPath !== '$') {
-                // console.log(annotationFormFieldProperty);
-                // console.log(subClassObjectFormFieldProperties);
-                // console.log(jp.parse(jsonPath).pop().expression.value);
-                // console.log(parentPath);
-                // console.log(annotationFormFieldProperty);
-                // console.log(jp.value(subClassObjectFormFieldProperties, parentPath));
-
                 /* Remove last properties part from parent path and treat as local path */
                 const localPath: string = localExtendedPath ? localExtendedPath.split('[').slice(0, -1).join('[') : parentPath.split('[').slice(0, -1).join('[');
-
-                console.log(localPath);
-                console.log(parentPath);
 
                 jp.value(subClassObjectFormFieldProperties, localPath, {
                     ...jp.value(subClassObjectFormFieldProperties, localPath),
@@ -171,8 +150,6 @@ const AnnotationFormStep = (props: Props) => {
             }
         });
     }
-
-    console.log(subClassObjectFormFieldProperties);
 
     return (
         <div className="h-100 d-flex flex-column">

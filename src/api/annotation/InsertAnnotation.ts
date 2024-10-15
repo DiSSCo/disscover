@@ -49,7 +49,7 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
         /* Set Annotation */
         annotation = data.data.attributes as Annotation;
     } catch (error: any) {
-        throw (PostException('Annotation', error.request.responseURL));
+        throw PostException('Annotation', error.request.responseURL);
     };
 
     return annotation;

@@ -257,7 +257,6 @@ const ProcessAnnotationValues = (baseJsonPath: string, annotationValues: {
         if (!isEmpty(annotationValue)) {
             /* Format field name into JSON path */
             const jsonPath = `${FormatJsonPathFromFieldName(fieldName).replaceAll('"', "'")}`;
-
             const localAnnotationValue = cloneDeep(annotationValue);
 
             /* Remove objects and arrays with objects from value */

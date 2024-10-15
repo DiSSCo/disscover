@@ -91,7 +91,6 @@ const AnnotationFormStep = (props: Props) => {
             annotationFormFieldProperty => annotationFormFieldProperty.jsonPath !== formValues.jsonPath
         ).forEach(annotationFormFieldProperty => {
             const jsonPath = `$${annotationFormFieldProperty.jsonPath.replace(baseObjectFormFieldProperty?.jsonPath ?? '', '')}`;
-            // const parentPath: string = jp.stringify(jp.parse(jsonPath).slice(0, -1));
 
             let parentPath: string = '$';
             let localExtendedPath: string = '';
@@ -101,7 +100,6 @@ const AnnotationFormStep = (props: Props) => {
             });
 
             if (parentPath.split('properties').length >= 3) {
-                // console.log(parentPath);
                 let properties: boolean = false;
 
                 jp.parse(parentPath).forEach(pathSegment => {

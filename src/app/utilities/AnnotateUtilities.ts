@@ -162,16 +162,17 @@ const FormatJsonPathFromFieldName = (fieldName: string): string => {
  * Function to generate and return a dictionary containing all classes and terms of the schema adhering to the provided schema name; and their values
  * @param jsonPath The JSON path that leads to the schema to be used
  * @param superClass The provided super class
+ * @param schemaName The name of the base schema
  * @returns The annotation form field properties and their associated form values
  */
-const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: DigitalSpecimen | DigitalMedia | Dict) => {
+const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: DigitalSpecimen | DigitalMedia | Dict, schemaName: string) => {
     const annotationFormFieldProperties: {
         [propertyName: string]: AnnotationFormProperty
     } = {};
     const formValues: Dict = {};
 
     /* Extract main schema */
-    const schema: Dict | undefined = await ExtractLowestLevelSchema(jsonPath);
+    const schema: Dict | undefined = await ExtractLowestLevelSchema(jsonPath, schemaName);
     const { classesList, termsList, termValue } = await ExtractClassesAndTermsFromSchema(schema ?? {}, jsonPath);
 
     /* For each class, add it as a key property to the annotation form fields dictionary */
@@ -235,7 +236,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 const GetAnnotationMotivations = (givenMotivation?: string, targetType?: string) => ({
     ...((givenMotivation === 'ods:adding' || givenMotivation === '*') && { 'ods:adding': 'Addition' }),
     'oa:assessing': 'Assessment',
-    ...((targetType && targetType !== 'superClass') && { 'oa:editing': "Modification" }),
+    ...((targetType !== 'superClass') && { 'oa:editing': "Modification" }),
     'oa:commenting': "Comment",
     ...(givenMotivation === '*' && { 'ods:deleting': "Deletion" })
 });

@@ -86,7 +86,7 @@ const NewInstance = (props: Props) => {
                             </p>
                         </Col>
                     </Row>
-                    {/* Render content based upon parent class check or just the set json path button if there are not any and the target is a class with an array */}
+                    {/* Render content based upon parent class check or just the set JSON path button if there are not any and the target is a class with an array */}
                     {(!parentClasses.length && annotationTarget && (annotationTarget.type !== 'term' && jp.parse(annotationTarget.jsonPath).slice(-1)[0].expression.value.includes('has'))) ?
                         <Row>
                             <Col>
@@ -113,24 +113,45 @@ const NewInstance = (props: Props) => {
                         </Row>
                         : <Row>
                             <Col>
-                                {parentClasses.map((parentClass, index) => {
-                                    /* Key of parent class component */
-                                    const key = `parentClass-${index}`;
-                                    
-                                    return (
-                                        <ParentClassification key={key}
-                                            index={index}
-                                            parentClass={parentClass}
-                                            selected={selected}
-                                            parentClasses={parentClasses}
-                                            annotationTarget={annotationTarget}
-                                            formValues={formValues}
-                                            superClass={superClass}
-                                            SetFieldValue={SetFieldValue}
-                                            SetParentClasses={setParentClasses}
-                                        />
-                                    );
-                                })}
+                                {parentClasses.length ?
+                                    <>
+                                        {parentClasses.map((parentClass, index) => {
+                                            /* Key of parent class component */
+                                            const key = `parentClass-${index}`;
+
+                                            return (
+                                                <ParentClassification key={key}
+                                                    index={index}
+                                                    parentClass={parentClass}
+                                                    selected={selected}
+                                                    parentClasses={parentClasses}
+                                                    annotationTarget={annotationTarget}
+                                                    formValues={formValues}
+                                                    superClass={superClass}
+                                                    SetFieldValue={SetFieldValue}
+                                                    SetParentClasses={setParentClasses}
+                                                />
+                                            );
+                                        })}
+                                    </>
+                                    : <Button type="button"
+                                        variant="primary"
+                                        disabled={selected}
+                                        className="fs-5 mt-3 py-1 px-3"
+                                        OnClick={() => {
+                                            /* Reset annotation values */
+                                            SetFieldValue?.('annotationValues', {});
+
+                                            /* Set motivation */
+                                            SetFieldValue?.('motivation', 'ods:adding');
+
+                                            /* Set JSON path */
+                                            SetFieldValue?.('jsonPath', annotationTarget?.jsonPath);
+                                        }}
+                                    >
+                                        {!selected ? `Add instance of ${MakeJsonPathReadableString(annotationTarget?.jsonPath ?? '')}` : 'Currently selected'}
+                                    </Button>
+                                }
                             </Col>
                         </Row>
                     }

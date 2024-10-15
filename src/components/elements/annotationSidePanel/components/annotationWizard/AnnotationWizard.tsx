@@ -58,7 +58,9 @@ const AnnotationWizard = (props: Props) => {
         annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
             schemaTitle={schema.title}
         />,
-        annotationForm: <AnnotationFormStep superClass={superClass} />,
+        annotationForm: <AnnotationFormStep superClass={superClass}
+            schemaName={schema.title}
+        />,
         annotationSummary: <AnnotationSummaryStep superClass={superClass} />
     };
 

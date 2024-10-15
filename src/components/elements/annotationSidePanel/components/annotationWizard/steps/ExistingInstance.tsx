@@ -128,7 +128,7 @@ const ExistingInstance = (props: Props) => {
                                     SetFieldValue?.('annotationValues', {});
 
                                     /* Set motivation to editing */
-                                    SetFieldValue?.('motivation', 'oa:editing');
+                                    SetFieldValue?.('motivation', jsonPath === '$' ? 'oa:commenting' : 'oa:editing');
 
                                     /* Set JSON path */
                                     SetFieldValue?.('jsonPath', jsonPath);

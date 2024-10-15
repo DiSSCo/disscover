@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { isEmpty } from 'lodash';
-import jp, { parent, paths } from 'jsonpath';
+import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -61,7 +61,7 @@ const AnnotationFormStep = (props: Props) => {
 
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
-        if (formValues) {
+        if (formValues && annotationTarget?.type === 'class') {
             /* For selected class, get annotation form field properties and their values */
             GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass).then(({ annotationFormFieldProperties, newFormValues }) => {
                 /* Set form values state with current values, based upon annotation form field properties */
@@ -205,24 +205,6 @@ const AnnotationFormStep = (props: Props) => {
                                     formValues={formValues}
                                 />
                             }
-                            {/* {!isEmpty(subClassObjectFormFieldProperties) &&
-                                <>
-                                    <p className="fs-4 fw-lightBold mb-2">
-                                        {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
-                                    </p> */}
-                            {/* Render optional, additional sub classes' form fields, if present */}
-                            {/* {subClassObjectFormFieldProperties.sort(
-                                        (a) => a.type !== 'object' ? 1 : 0
-                                    ).map(
-                                        annotationFormFieldProperty => (
-                                            <AnnotationFormSegment key={annotationFormFieldProperty.jsonPath}
-                                                annotationFormFieldProperty={annotationFormFieldProperty}
-                                                formValues={formValues}
-                                            />
-                                        )
-                                    )}
-                                </>
-                            } */}
                             {!isEmpty(subClassObjectFormFieldProperties) &&
                                 <>
                                     <p className="fs-4 fw-lightBold mb-2">

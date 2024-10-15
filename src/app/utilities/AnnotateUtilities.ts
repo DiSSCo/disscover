@@ -232,10 +232,10 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
  * Function that returns all of the annotation motivations as options (excluding deletion as this is handled systematically)
  * @param givenMotivation An already selected motivation that impacts the choice in motivation
  */
-const GetAnnotationMotivations = (givenMotivation?: string) => ({
+const GetAnnotationMotivations = (givenMotivation?: string, targetType?: string) => ({
     ...((givenMotivation === 'ods:adding' || givenMotivation === '*') && { 'ods:adding': 'Addition' }),
     'oa:assessing': 'Assessment',
-    'oa:editing': "Modification",
+    ...((targetType && targetType !== 'superClass') && { 'oa:editing': "Modification" }),
     'oa:commenting': "Comment",
     ...(givenMotivation === '*' && { 'ods:deleting': "Deletion" })
 });

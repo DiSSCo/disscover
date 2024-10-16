@@ -112,7 +112,7 @@ const AnnotationSidePanel = (props: Props) => {
                                 setAnnotationWizardToggle(false);
                                 setLoading(false);
                             }}
-                            ToggleLoading={() => setLoading(!loading)}
+                            SetLoading={(loading: boolean) => setLoading(loading)}
                             SetFilterSortValues={setFilterSortValues}
                         />
                         : <AnnotationsOverview annotations={annotations}

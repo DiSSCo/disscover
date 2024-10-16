@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import jp from 'jsonpath';
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 
 /* Import Utilities */
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
@@ -177,11 +177,13 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
     /* For each class, add it as a key property to the annotation form fields dictionary */
     classesList.forEach(classProperty => {
         if (!termValue) {
+            const localPath: string = jp.parse(classProperty.value).pop().expression.value;
+
             annotationFormFieldProperties[classProperty.label] = {
                 key: classProperty.key,
                 name: classProperty.label,
                 jsonPath: classProperty.value.replace(`$`, jsonPath),
-                type: classProperty.value.includes('has') ? 'array' : 'object',
+                type: localPath.includes('has') ? 'array' : 'object',
                 properties: []
             };
 
@@ -249,28 +251,31 @@ const ProcessAnnotationValues = (baseJsonPath: string, annotationValues: {
 }) => {
     let annotationObject: Dict = {};
 
-    Object.entries(annotationValues).forEach(([fieldName, annotationValue]) => {
-        /* Format field name into JSON path */
-        const jsonPath = `${FormatJsonPathFromFieldName(fieldName).replaceAll('"', "'")}`;
+    Object.entries(annotationValues).sort((a, b) =>
+        a[0].replace(/[^_]/g, "").length > b[0].replace(/[^_]/g, "").length ? 1 : 0
+    ).forEach(([fieldName, annotationValue]) => {
+        if (!isEmpty(annotationValue)) {
+            /* Format field name into JSON path */
+            const jsonPath = `${FormatJsonPathFromFieldName(fieldName).replaceAll('"', "'")}`;
+            const localAnnotationValue = cloneDeep(annotationValue);
 
-        const localAnnotationValue = { ...annotationValue };
+            /* Remove objects and arrays with objects from value */
+            Object.keys(annotationValue).forEach(key => {
+                if (key.includes('has')) {
+                    delete localAnnotationValue[key];
+                }
+            });
 
-        /* Remove objects and arrays with objects from value */
-        Object.keys(annotationValue).forEach(key => {
-            if (key.includes('has')) {
-                delete localAnnotationValue[key];
+            /* If value is present and path is root, append directly to root object, otherwise use JSON path minus base JSON path if value is present */
+            if (!isEmpty({ ...localAnnotationValue }) && jsonPath === baseJsonPath) {
+                annotationObject = {
+                    ...annotationObject,
+                    ...localAnnotationValue
+                }
+            } else if (!isEmpty({ ...localAnnotationValue })) {
+                /* Set provided value according to JSON path in object */
+                jp.value(annotationObject, `$${jsonPath.replace(baseJsonPath, '')}`, localAnnotationValue);
             }
-        });
-
-        /* If value is present and path is root, append directly to root object, otherwise use JSON path minus base JSON path if value is present */
-        if (!isEmpty(localAnnotationValue) && jsonPath === baseJsonPath) {
-            annotationObject = {
-                ...localAnnotationValue,
-                ...annotationObject
-            }
-        } else if (!isEmpty(localAnnotationValue)) {
-            /* Set provided value according to JSON path in object */
-            jp.value(annotationObject, `$${jsonPath.replace(baseJsonPath, '')}`, localAnnotationValue);
         }
     });
 

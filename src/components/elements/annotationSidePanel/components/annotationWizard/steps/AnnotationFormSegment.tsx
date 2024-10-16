@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { Field, FieldArray } from 'formik';
+import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -99,31 +100,79 @@ const AnnotationFormSegment = (props: Props) => {
                     {annotationFormFieldProperty.properties?.map(fieldProperty => {
                         let fieldName: string = ``;
                         let fieldValue: string = '';
+                        let annotationFormFieldSubProperty: AnnotationFormProperty = fieldProperty;
 
+                        /* Concatenate the base path of parent to the field name */
                         fieldName = fieldName.concat(`${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`);
 
+                        /* Check if parent is array with index and index should be added to the field name */
                         if (typeof (index) !== 'undefined') {
-                            fieldValue = formValues?.annotationValues?.[fieldName]?.[index]?.[`${fieldProperty.key}`];
-                            fieldName = fieldName.concat(`[${index}]`);
+                            /* Check if child is object or of a simple data type */
+                            if (['object', 'array'].includes(fieldProperty.type)) {
+                                /* Add index and prefix of JSON path to field name */
+                                fieldName = fieldName.concat(`_${index}_'${jp.parse(fieldProperty.jsonPath).at(-1).expression.value}'`);
+
+                                /* Construct property field name for form reference as JSON path */
+                                let propertyFieldName: string = '$';
+
+                                fieldName.replace('$', '').split('_').forEach(path => {
+                                    propertyFieldName = propertyFieldName.concat(`[${path}]`);
+                                });
+
+                                /* Update form field sub property with updated path */
+                                annotationFormFieldSubProperty = {
+                                    ...fieldProperty,
+                                    jsonPath: propertyFieldName
+                                };
+                            } else {
+                                fieldValue = formValues?.annotationValues?.[fieldName]?.[index]?.[`${fieldProperty.key}`];
+                                fieldName = fieldName.concat(`[${index}]`);
+                            }
+                        } else if (['object', 'array'].includes(fieldProperty.type)) {
+                            /* Add prefix of JSON path to field name */
+                            fieldName = fieldName.concat(`_'${jp.parse(fieldProperty.jsonPath).at(-1).expression.value}'`);
+
+                            /* Construct property field name for form reference as JSON path */
+                            let propertyFieldName: string = '$';
+
+                            fieldName.replace('$', '').split('_').forEach(path => {
+                                propertyFieldName = propertyFieldName.concat(`[${path}]`);
+                            });
+
+                            /* Update form field sub property with updated path */
+                            annotationFormFieldSubProperty = {
+                                ...fieldProperty,
+                                jsonPath: propertyFieldName
+                            };
                         } else {
+                            /* Treat as singular object term and get field value from form */
                             fieldValue = formValues?.annotationValues?.[fieldName]?.[`${fieldProperty.key}`];
                         }
 
-                        fieldName = fieldName.concat(`[${fieldProperty.key}]`);
+                        /* If key is present in field property, add it to end of field name */
+                        if (fieldProperty.key) {
+                            fieldName = fieldName.concat(`[${fieldProperty.key}]`);
+                        }
 
                         return (
                             <Row key={fieldProperty.jsonPath}
                                 className={`${formFieldsDivClass} mb-2`}
                             >
                                 <Col>
-                                    <p className="fs-4">
-                                        {fieldProperty.name}
-                                    </p>
-
-                                    <Field name={`annotationValues.${fieldName}`}
-                                        value={fieldValue ?? ''}
-                                        className="w-100 b-grey br-corner mt-1 py-1 px-2"
-                                    />
+                                    {['object', 'array'].includes(fieldProperty.type) ?
+                                        <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
+                                            formValues={formValues}
+                                        />
+                                        : <>
+                                            <p className="fs-4">
+                                                {fieldProperty.name}
+                                            </p>
+                                            <Field name={`annotationValues.${fieldName}`}
+                                                value={fieldValue ?? ''}
+                                                className="w-100 b-grey br-corner mt-1 py-1 px-2"
+                                            />
+                                        </>
+                                    }
                                 </Col>
                             </Row>
                         );
@@ -132,7 +181,15 @@ const AnnotationFormSegment = (props: Props) => {
             );
         } case 'array': {
             /* Format field name for field array sub class */
-            const fieldName = `${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`;
+            let fieldName = `${annotationFormFieldProperty.jsonPath.replaceAll('.', '_').replaceAll('][', '_').replaceAll('[', '').replaceAll(']', '')}`;
+
+            /* If index is present, add it in between of the latest property and its parent class which is the array */
+            if (typeof (index) !== 'undefined') {
+                const fieldNameSplitPrefix = fieldName.split('_').slice(0, -1);
+                const fieldNameSplitSuffix = fieldName.split('_').slice(-1);
+
+                fieldName = `${fieldNameSplitPrefix.join('_')}_${index}_${fieldNameSplitSuffix[0]}`;
+            }
 
             return (
                 <div>
@@ -163,11 +220,18 @@ const AnnotationFormSegment = (props: Props) => {
                                 </div>
 
                                 {/* For each sub class index, render an annotation form segment */}
-                                {formValues?.annotationValues?.[fieldName]?.map((_classObject: Dict, index: number) => {
+                                {formValues?.annotationValues?.[fieldName]?.map((_classObject: Dict, localIndex: number) => {
                                     /* Set sub class as object and render form segment */
-                                    const key = `${fieldName}_${index}`;
+                                    const key = `${fieldName}_${localIndex}`;
+                                    let propertyFieldName: string = '$';
+
+                                    fieldName.replace('$', '').split('_').forEach(path => {
+                                        propertyFieldName = propertyFieldName.concat(`[${path}]`);
+                                    });
+
                                     const annotationFormFieldSubProperty: AnnotationFormProperty = {
                                         ...annotationFormFieldProperty,
+                                        jsonPath: propertyFieldName,
                                         type: 'object'
                                     };
 
@@ -177,8 +241,8 @@ const AnnotationFormSegment = (props: Props) => {
                                         >
                                             <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                                 formValues={formValues}
-                                                index={index}
-                                                Remove={() => remove(index)}
+                                                index={localIndex}
+                                                Remove={() => remove(localIndex)}
                                             />
                                         </div>
                                     );

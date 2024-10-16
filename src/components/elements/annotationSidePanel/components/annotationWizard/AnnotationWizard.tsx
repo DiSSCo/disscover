@@ -31,17 +31,22 @@ type Props = {
     schema: Dict,
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     StopAnnotationWizard: Function,
-    ToggleLoading: Function,
+    SetLoading: Function,
     SetFilterSortValues: Function
 };
 
 
 /**
  * Component that renders the annotation wizard for adding annotations
+ * @param schema The base schema to build upon
+ * @param superClass The super class on which the annotation wizard should act
+ * @param StopAnnotationWizard Function to stop and shut down the annotation wizard
+ * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param SetFilterSortValues Function to set the filter and sort values in the annotations overview
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass, StopAnnotationWizard, ToggleLoading, SetFilterSortValues } = props;
+    const { schema, superClass, StopAnnotationWizard, SetLoading, SetFilterSortValues } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -208,14 +213,14 @@ const AnnotationWizard = (props: Props) => {
                             });
 
                             /* Try to post the new annotation */
-                            ToggleLoading();
-
-                            const annotation = await InsertAnnotation({
-                                newAnnotation
-                            });
+                            SetLoading(true);
 
                             /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
-                            if (annotation) {
+                            try {
+                                await InsertAnnotation({
+                                    newAnnotation
+                                });
+
                                 StopAnnotationWizard();
 
                                 /* Reset filter and sort values */
@@ -223,13 +228,15 @@ const AnnotationWizard = (props: Props) => {
                                     motivation: '',
                                     sortBy: 'dateLatest'
                                 });
-                            } else {
+                            } catch {
                                 notification.Push({
                                     key: `${superClass['@id']}-${Math.random()}`,
                                     message: `Failed to add the annotation. Please try saving it again.`,
                                     template: 'error'
                                 });
-                            }
+
+                                SetLoading(false);
+                            };
                         }}
                     >
                         {({ values, setFieldValue, setValues }) => (

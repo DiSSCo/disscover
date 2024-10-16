@@ -37,7 +37,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, SetFilterSortValues, StartAnnotationWizard } = props;;
+    const { annotations, filterSortValues, SetFilterSortValues, StartAnnotationWizard } = props;
 
     /**
      * Function to sort and filter annotations by the selected values
@@ -118,8 +118,8 @@ const AnnotationsOverview = (props: Props) => {
                         >
                             <Button type="button"
                                 variant="accent"
-                                disabled={!KeycloakService.IsLoggedIn()}
-                                OnClick={() => KeycloakService.IsLoggedIn() && StartAnnotationWizard()}
+                                disabled={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
+                                OnClick={() => (KeycloakService.IsLoggedIn() && KeycloakService.GetParsedToken()?.orcid) && StartAnnotationWizard()}
                             >
                                 <p>
                                     <FontAwesomeIcon icon={faPenToSquare}

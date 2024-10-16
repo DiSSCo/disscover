@@ -26,6 +26,7 @@ import { Dropdown, InputTextArea } from "components/elements/customUI/CustomUI";
 /* Props Type */
 type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
+    schemaName: string,
     formValues?: Dict,
     SetFieldValue?: Function,
     SetFormValues?: Function
@@ -35,13 +36,14 @@ type Props = {
 /**
  * Component that renders the third and final step in the annotation wizard for defining the motivation and actual values
  * @param superClass The selected digital object
+ * @param schemaName The name of the 
  * @param formValues The values of the annotation form
  * @param SetFieldValue Funtion to set a value to a single field in the form
  * @param SetFormValues Function to set all of the values in the form
  * @returns JSX Component
  */
 const AnnotationFormStep = (props: Props) => {
-    const { superClass, formValues, SetFieldValue, SetFormValues } = props;
+    const { superClass, schemaName, formValues, SetFieldValue, SetFormValues } = props;
 
     /* Hooks */
     const trigger = useTrigger();
@@ -58,12 +60,12 @@ const AnnotationFormStep = (props: Props) => {
         label,
         value
     }));
-
+    
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
         if (formValues) {
             /* For selected class, get annotation form field properties and their values */
-            GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass).then(({ annotationFormFieldProperties, newFormValues }) => {
+            GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
                 /* Set form values state with current values, based upon annotation form field properties */
                 const newSetFormValues = {
                     ...formValues,
@@ -205,24 +207,6 @@ const AnnotationFormStep = (props: Props) => {
                                     formValues={formValues}
                                 />
                             }
-                            {/* {!isEmpty(subClassObjectFormFieldProperties) &&
-                                <>
-                                    <p className="fs-4 fw-lightBold mb-2">
-                                        {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
-                                    </p> */}
-                            {/* Render optional, additional sub classes' form fields, if present */}
-                            {/* {subClassObjectFormFieldProperties.sort(
-                                        (a) => a.type !== 'object' ? 1 : 0
-                                    ).map(
-                                        annotationFormFieldProperty => (
-                                            <AnnotationFormSegment key={annotationFormFieldProperty.jsonPath}
-                                                annotationFormFieldProperty={annotationFormFieldProperty}
-                                                formValues={formValues}
-                                            />
-                                        )
-                                    )}
-                                </>
-                            } */}
                             {!isEmpty(subClassObjectFormFieldProperties) &&
                                 <>
                                     <p className="fs-4 fw-lightBold mb-2">

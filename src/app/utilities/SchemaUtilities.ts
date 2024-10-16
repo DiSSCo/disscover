@@ -89,15 +89,21 @@ const ExtractFromSchema = async (schemaName: string): Promise<Dict> => {
 
 /**
  * Function to extract the data from a lowest level generated schema of the data model
- * @param schemaName The name of the schema to extract from 
+ * @param jsonPath The JSON path of the provided property
+ * @param schemaName The name of the base schema 
  * @returns Dictionary of the requested schema
  */
-const ExtractLowestLevelSchema = async (jsonPath: string): Promise<Dict | undefined> => {
+const ExtractLowestLevelSchema = async (jsonPath: string, schemaName: string): Promise<Dict | undefined> => {
     /* Base variables */
     let classSeparatedString: string = jsonPath.replaceAll(/\[(\d+)\]/g, '_').replaceAll('$', '').replaceAll('][', '_').replaceAll(/[\][']/g, '');
 
     if (classSeparatedString.at(-1) === '_') {
         classSeparatedString = classSeparatedString.slice(0, -1);
+    }
+
+    /* Check for top level term, if so add base schema name to class separated string */
+    if (!classSeparatedString.includes('has')) {
+        classSeparatedString = `${schemaName}_${classSeparatedString}`;
     }
 
     const strippedSchemaName = lowerFirst(StripSchemaString(classSeparatedString).split('_').at(-1));

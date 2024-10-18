@@ -41,6 +41,8 @@ const Boot = () => {
             }
         ],
         Handler: (results: Dict) => {
+            console.log(results.digitalSpecimenAggregations);
+
             /* Set boot state */
             dispatch(setBootState({
                 aggregations: results.digitalSpecimenAggregations ?? {},

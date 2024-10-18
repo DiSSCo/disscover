@@ -7,13 +7,13 @@ import { Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 /* Import Hooks */
-import { useAppSelector, useLoading, useNotification } from 'app/Hooks';
+import { useAppSelector, useFetch, useLoading, useNotification } from 'app/Hooks';
 
 /* Import Store */
 import { getOrganisationNames } from 'redux-store/BootSlice';
 
 /* Import Types */
-import { SearchFilters } from 'app/Types';
+import { SearchFilters, SourceSystem  } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -24,6 +24,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 /* Import API */
 import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
 import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
+import GetSourceSystems from 'api/sourceSystem/GetSourceSystems';
 
 /* Import Components */
 import {
@@ -42,15 +43,17 @@ import { Button, Spinner, Tabs } from 'components/elements/customUI/CustomUI';
 const AdvancedSearch = () => {
     /* Hooks */
     const navigate = useNavigate();
+    const fetch = useFetch();
     const loading = useLoading();
     const notification = useNotification();
 
     /* Base variables */
     const organisationNames = useAppSelector(getOrganisationNames);
+    const [sourceSystems, setSourceSystems] = useState<SourceSystem[]>([]);
     const [advancedSearchToggle, setAdvancedSearchToggle] = useState<boolean>(false);
     const tabs: { [name: string]: JSX.Element } = {
         digitalSpecimenID: <DOISearch />,
-        physicalSpecimenID: <PhysicalSpecimenIDSearch />,
+        physicalSpecimenID: <PhysicalSpecimenIDSearch sourceSystems={sourceSystems} />,
         collectionFacility: <CollectionFacilitySearch />,
         virtualCollection: <VirtualCollectionSearch />
     };
@@ -60,14 +63,24 @@ const AdvancedSearch = () => {
         physicalSpecimenIdType: 'global' | 'local' | 'resolvable',
         normalisedPhysicalSpecimenId: string,
         organisationName: string,
+        sourceSystemId: string,
         collectionFacilityIdType: 'local'
     } = {
         doi: '',
         physicalSpecimenIdType: 'global',
         normalisedPhysicalSpecimenId: '',
         organisationName: Object.values(organisationNames)[0],
+        sourceSystemId: sourceSystems[0]?.id ?? '',
         collectionFacilityIdType: 'local'
     };
+
+    /* OnLoad, fetch source systems */
+    fetch.Fetch({
+        Handler: (sourceSystems: SourceSystem[]) => {
+            setSourceSystems(sourceSystems);
+        },
+        Method: GetSourceSystems
+    });
 
     /**
      * Function to search for a digital specimen by DOI
@@ -97,17 +110,17 @@ const AdvancedSearch = () => {
      * Function to search for a digital specimen by physical specimen id
      * @param type The physical specimen id type
      * @param physicalSpecimenId The physical specimen id
-     * @param organisationName The name of the hosting organisation
+     * @param sourceSystemId The ID of the hosting source system
      */
-    const SearchByPhysicalSpecimenId = (type: 'global' | 'local' | 'resolvable', physicalSpecimenId: string, organisationName?: string) => {
+    const SearchByPhysicalSpecimenId = (type: 'global' | 'local' | 'resolvable', physicalSpecimenId: string, sourceSystemId?: string) => {
         /* Base search filters on physcial specimen id type */
         let searchFilters: SearchFilters = {
             physicalSpecimenId: [physicalSpecimenId]
         };
 
-        if (type === 'local' && organisationName) {
-            /* For local physical specimen id, add organisation name */
-            searchFilters.organisationName = [organisationName];
+        if (type === 'local' && sourceSystemId) {
+            /* For local physical specimen id, add source system ID */
+            searchFilters.physicalSpecimenId = searchFilters.physicalSpecimenId.concat(`:${sourceSystemId.split('/').at(-1)}`);
         };
 
         GetDigitalSpecimens({ searchFilters, pageSize: 1 }).then(({ digitalSpecimens }) => {
@@ -152,7 +165,7 @@ const AdvancedSearch = () => {
                             /* Start loading */
                             loading.Start();
 
-                            SearchByPhysicalSpecimenId(values.physicalSpecimenIdType, values.normalisedPhysicalSpecimenId, values.organisationName);
+                            SearchByPhysicalSpecimenId(values.physicalSpecimenIdType, values.normalisedPhysicalSpecimenId, values.sourceSystemId);
 
                             break;
                         case 2:

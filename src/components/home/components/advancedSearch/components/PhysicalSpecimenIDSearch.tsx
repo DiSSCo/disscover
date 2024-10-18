@@ -1,14 +1,8 @@
 /* Import Dependencies */
 import { Row, Col } from 'react-bootstrap';
 
-/* Import Hooks */
-import { useAppSelector } from 'app/Hooks';
-
-/* Import Store */
-import { getOrganisationNames } from 'redux-store/BootSlice';
-
 /* Import Types */
-import { Dict, DropdownItem } from 'app/Types';
+import { Dict, DropdownItem, SourceSystem } from 'app/Types';
 
 /* Import Components */
 import { Dropdown, InputField } from "components/elements/customUI/CustomUI";
@@ -16,6 +10,7 @@ import { Dropdown, InputField } from "components/elements/customUI/CustomUI";
 
 /* Props Type */
 type Props = {
+    sourceSystems: SourceSystem[],
     formValues?: Dict,
     SetFieldValue?: (field: string, value: string) => Function
 };
@@ -23,15 +18,15 @@ type Props = {
 
 /**
  * Component that renders the physical specimen ID search in the advanced search
+ * @param sourceSystems The found source systems from the orchestration API
  * @param formValues The values of the parent form
  * @param SetFieldValue Function for setting a field value in the parent form
  * @returns JSX Component
  */
 const PhysicalSpecimenIDSearch = (props: Props) => {
-    const { formValues, SetFieldValue } = props;
+    const { sourceSystems, formValues, SetFieldValue } = props;
 
     /* Base variables */
-    const organisationNames: string[] = useAppSelector(getOrganisationNames);
     const physicalSpecimenIDTypeDropdownItems: DropdownItem[] = [
         {
             label: "Global Unique Identifier",
@@ -82,24 +77,24 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                     </Row>
                 </Col>
             </Row>
-            {/* If physical specimen id type is local: show option to choose local organisation */}
+            {/* If physical specimen id type is local: show option to choose local source system */}
             {formValues?.physicalSpecimenIdType === 'local' &&
                 <Row className="mt-3">
                     <Col>
                         <Row>
                             <Col>
-                                <p className="fw-lightBold">Organisation hosting the specimen</p>
+                                <p className="fw-lightBold">Source System hosting the specimen</p>
                             </Col>
                         </Row>
                         <Row className="mt-1">
                             <Col>
-                                <Dropdown items={organisationNames.map(organisationName => ({
-                                    label: organisationName,
-                                    value: organisationName
+                                <Dropdown items={sourceSystems.map(sourceSystem => ({
+                                    label: sourceSystem.name,
+                                    value: sourceSystem.id
                                 }))}
                                     selectedItem={{
-                                        label: formValues?.organisationName,
-                                        value: formValues?.organisationName
+                                        label: sourceSystems.find(sourceSystem => sourceSystem.id === formValues?.sourceSystemId)?.name ?? formValues?.sourceSystemId,
+                                        value: formValues?.sourceSystemId
                                     }}
                                     styles={{
                                         background: '#ffffff',

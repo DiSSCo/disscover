@@ -22,7 +22,8 @@ type DataFragment = {
             digitalMediaObject: DigitalMediaType,
             annotations: Annotation[]
         }[],
-        annotations?: Annotation[]
+        annotations?: Annotation[],
+        sourceSystem?: SourceSystem
         [property: string]: any
     }
 }
@@ -58,6 +59,16 @@ export type User = {
     email?: string,
     organisation?: string
     orcid?: string,
+};
+
+/* Source System Type */
+export interface SourceSystem {
+    id: string,
+    created: Date,
+    name: string,
+    endpoint: string,
+    description: string,
+    mappingId: string
 };
 
 /* Search Filter Type (search filters) */

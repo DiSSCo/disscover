@@ -31,6 +31,8 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
         }
     };
 
+    const token = KeycloakService.GetToken();
+
     try {
         const result = await axios({
             method: 'post',
@@ -39,7 +41,7 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
             data: postAnnotation,
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${KeycloakService.GetToken()}`
+                'Authorization': `Bearer ${token}`
             }
         });
 

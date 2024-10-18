@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
@@ -51,7 +51,7 @@ const AnnotationFormStep = (props: Props) => {
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>({});
-    const annotationMotivations = GetAnnotationMotivations(formValues?.motivation);
+    const annotationMotivations = GetAnnotationMotivations(formValues?.motivation, annotationTarget?.type);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: Dict = {};
 
@@ -60,19 +60,51 @@ const AnnotationFormStep = (props: Props) => {
         label,
         value
     }));
-    
+
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
         if (formValues) {
+            /* Either take JSON path from form values or the annotation target (when editing an annotation) */
+            let jsonPath: string = formValues.jsonPath ?? annotationTarget?.jsonPath;
+            let localSuperClass: DigitalSpecimen | DigitalMedia | Dict = cloneDeep(superClass);
+
+            console.log(annotationTarget?.annotation?.values?.[0]);
+
+            if (annotationTarget?.annotation && jsonPath === '$') {
+
+            } else if (annotationTarget?.annotation) {
+                console.log(jp.value(superClass, jsonPath));
+
+                const currentValue = jp.value(superClass, jsonPath);
+                const count: number | undefined = Array.isArray(currentValue) ? currentValue.length : undefined;
+
+                console.log(count);
+
+                jsonPath = `${jsonPath}${count ? `[${count}]` : ''}`;
+
+                jp.value(localSuperClass, jsonPath, JSON.parse(annotationTarget.annotation.values[0]));
+            }
+
+            console.log(jsonPath);
+            console.log(localSuperClass);
+
             /* For selected class, get annotation form field properties and their values */
-            GenerateAnnotationFormFieldProperties(formValues.jsonPath, superClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
+            GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
+                console.log(newFormValues);
+                console.log(formValues.annotationValues);
+
                 /* Set form values state with current values, based upon annotation form field properties */
                 const newSetFormValues = {
                     ...formValues,
                     annotationValues: {
                         ...newFormValues,
-                        ...formValues.annotationValues,
-                    }
+                        ...formValues.annotationValues
+                    },
+                    /* Set JSON path from this checkpoint if editing an annotation */
+                    ...(annotationTarget?.annotation && {
+                        jsonPath: jsonPath,
+                        motivation: annotationTarget.annotation.motivation
+                    })
                 };
 
                 /* Set form values */
@@ -96,7 +128,7 @@ const AnnotationFormStep = (props: Props) => {
 
             let parentPath: string = '$';
             let localExtendedPath: string = '';
-           
+
             jp.parse(jsonPath).slice(1, -1).forEach(pathSegment => {
                 parentPath = parentPath.concat(`['${pathSegment.expression.value}']['properties']`);
             });
@@ -113,14 +145,14 @@ const AnnotationFormStep = (props: Props) => {
                         properties = true;
                     } else if (properties) {
                         /* Find index of sub class in parent properties array */
-                        index = jp.value(subClassObjectFormFieldProperties, localExtendedPath)?.findIndex((fieldProperty: AnnotationFormProperty) => 
+                        index = jp.value(subClassObjectFormFieldProperties, localExtendedPath)?.findIndex((fieldProperty: AnnotationFormProperty) =>
                             jp.parse(fieldProperty.jsonPath).pop().expression.value === path
                         );
 
                         properties = false;
                     }
 
-                    if (typeof(index) !== 'undefined' && index >= 0) {
+                    if (typeof (index) !== 'undefined' && index >= 0) {
                         localExtendedPath = localExtendedPath.concat(`[${index}]`);
                     } else {
                         localExtendedPath = localExtendedPath.concat(path === '$' ? '$' : `['${path}']`);
@@ -168,7 +200,7 @@ const AnnotationFormStep = (props: Props) => {
                                     value: formValues.motivation
                                 }}
                                 placeholder="Select a motivation"
-                                disabled={formValues?.motivation === 'ods:adding'}
+                                disabled={formValues?.motivation === 'ods:adding' || !!annotationTarget?.annotation}
                                 styles={{
                                     background: '#ffffff',
                                     border: true,

@@ -4,7 +4,10 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { useFetch } from 'app/Hooks';
+import { useAppDispatch, useAppSelector, useFetch } from 'app/Hooks';
+
+/* Import Store */
+import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
@@ -14,6 +17,8 @@ import { Dict } from 'app/Types';
 
 /* Import Styles */
 import styles from './annotationSidePanel.module.scss';
+
+import KeycloakService from 'app/Keycloak';
 
 /* Import Components */
 import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
@@ -41,9 +46,11 @@ const AnnotationSidePanel = (props: Props) => {
     const { superClass, schema, GetAnnotations, HideAnnotationSidePanel } = props;
 
     /* Hooks */
+    const dispatch = useAppDispatch();
     const fetch = useFetch();
 
     /* Base variables */
+    const annotationTarget = useAppSelector(getAnnotationTarget);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
     const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
@@ -91,6 +98,8 @@ const AnnotationSidePanel = (props: Props) => {
         'z-2': loading
     });
 
+    console.log(annotationTarget);
+
     return (
         <div className={`${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column bgc-default px-4 py-4`}>
             {/* Top bar */}
@@ -110,6 +119,10 @@ const AnnotationSidePanel = (props: Props) => {
                             superClass={superClass}
                             StopAnnotationWizard={() => {
                                 setAnnotationWizardToggle(false);
+                                dispatch(setAnnotationTarget(annotationTarget ? {
+                                    ...annotationTarget,
+                                    annotation: undefined
+                                } : undefined));
                                 setLoading(false);
                             }}
                             SetLoading={(loading: boolean) => setLoading(loading)}

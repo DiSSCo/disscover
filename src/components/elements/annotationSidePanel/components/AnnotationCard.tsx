@@ -14,7 +14,7 @@ import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 import { Annotation } from 'app/types/Annotation';
 
 /* Import Icons */
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import { Button } from 'components/elements/customUI/CustomUI';
@@ -22,16 +22,19 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    annotation: Annotation
+    annotation: Annotation,
+    EditAnnotation: Function
 };
 
 
 /**
- * Component that renders an annotation card in the 
+ * Component that renders an annotation card in the
+ * @param annotation The annotation to be displayed in the card
+ * @param EditAnnotation Function to start editing the annotation
  * @returns JSX Component
  */
 const AnnotationCard = (props: Props) => {
-    const { annotation } = props;
+    const { annotation, EditAnnotation } = props;
 
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
@@ -129,6 +132,34 @@ const AnnotationCard = (props: Props) => {
                         }
                     </Col>
                 </Row>
+                {/* Modify or delete (tombstone) the annotation actions, if the annotation was made by the logged in user */}
+                {annotation['dcterms:creator']['@id'] === KeycloakService.GetParsedToken()?.orcid &&
+                    <Row className="flex-row-reverse">
+                        <Col lg="auto"
+                            className="ps-0"
+                        >
+                            <Button type="button"
+                                variant="blank"
+                                className="px-0 py-0"
+                            >
+                                <FontAwesomeIcon icon={faTrashCan}
+                                    className="tc-primary"
+                                />
+                            </Button>
+                        </Col>
+                        <Col lg="auto">
+                            <Button type="button"
+                                variant="blank"
+                                className="px-0 py-0"
+                                OnClick={() => EditAnnotation(annotation)}
+                            >
+                                <FontAwesomeIcon icon={faPencil}
+                                    className="tc-primary"
+                                />
+                            </Button>
+                        </Col>
+                    </Row>
+                }
             </Card>
         </div>
     );

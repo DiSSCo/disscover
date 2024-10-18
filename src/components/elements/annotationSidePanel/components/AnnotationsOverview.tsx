@@ -4,6 +4,12 @@ import { Formik, Form } from "formik";
 import KeycloakService from "app/Keycloak";
 import { Row, Col, Card } from "react-bootstrap";
 
+/* Import Hooks */
+import { useAppDispatch } from "app/Hooks";
+
+/* Import Store */
+import { setAnnotationTarget } from "redux-store/AnnotateSlice";
+
 /* Import Types */
 import { Annotation } from "app/types/Annotation";
 
@@ -39,6 +45,9 @@ type Props = {
 const AnnotationsOverview = (props: Props) => {
     const { annotations, filterSortValues, SetFilterSortValues, StartAnnotationWizard } = props;
 
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
     /**
      * Function to sort and filter annotations by the selected values
      * @param motivation The annotation motivation to filter by
@@ -64,7 +73,46 @@ const AnnotationsOverview = (props: Props) => {
         return filteredSortedAnnotations;
     };
 
+    /* Set overview annotations */
     const overviewAnnotations = SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy);
+
+    /**
+     * Function to start editing an existing annotation
+     * @param annotation The annotation to be edited
+     */
+    const EditAnnotation = (annotation: Annotation) => {
+        /* Determine annotation target type */
+        let annotationTargetType: 'superClass' | 'class' | 'term' = 'superClass';
+        let jsonPath: string = '$';
+
+        if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
+            if (annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] === '$') {
+                annotationTargetType = 'superClass';
+            } else {
+                annotationTargetType = 'class';
+            }
+
+            jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"].replaceAll('"', "'");
+        } else if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:FieldSelector') {
+            annotationTargetType = 'term';
+
+            jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:field"].replaceAll('"', "'");
+        }
+
+        /* Set annotation target to this annotation */
+        dispatch(setAnnotationTarget({
+            type: annotationTargetType,
+            jsonPath,
+            annotation: {
+                id: annotation["ods:ID"],
+                motivation: annotation["oa:motivation"],
+                values: annotation["oa:hasBody"]["oa:value"]
+            }
+        }));
+
+        /* Start annotation wizard */
+        StartAnnotationWizard();
+    };
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -99,7 +147,9 @@ const AnnotationsOverview = (props: Props) => {
                         <div key={annotation['ods:ID']}
                             className="mb-2"
                         >
-                            <AnnotationCard annotation={annotation} />
+                            <AnnotationCard annotation={annotation}
+                                EditAnnotation={EditAnnotation}
+                            />
                         </div>
                     )) : <p className="fs-4 tc-grey fst-italic">
                         Currently, this digital object does not have any annotations

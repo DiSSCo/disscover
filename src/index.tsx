@@ -4,9 +4,6 @@ import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-/* Import Utilities */
-import KeycloakService from 'app/Keycloak';
-
 /* Import Store */
 import { setupStore } from './app/Store';
 

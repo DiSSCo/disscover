@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/Store';
-import { isEmpty } from 'lodash';
 
 
 /* Slice type */

@@ -16,6 +16,9 @@ import { Annotation } from 'app/types/Annotation';
 /* Import Icons */
 import { faChevronUp, faChevronDown, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
+/* Import API */
+import DeleteAnnotation from 'api/annotation/DeleteAnnotation';
+
 /* Import Components */
 import { Button } from 'components/elements/customUI/CustomUI';
 
@@ -141,6 +144,11 @@ const AnnotationCard = (props: Props) => {
                             <Button type="button"
                                 variant="blank"
                                 className="px-0 py-0"
+                                OnClick={() => {
+                                    if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['ods:ID']}?`)) {
+                                        DeleteAnnotation({ annotationId: annotation['ods:ID'] })
+                                    }
+                                }}
                             >
                                 <FontAwesomeIcon icon={faTrashCan}
                                     className="tc-primary"

@@ -12,12 +12,12 @@ import { SourceSystem, JSONResult } from "app/Types";
 const GetSourceSystems = async () => {
     const sourceSystems = <SourceSystem[]>[];
 
-    const endPoint = "/source-system"
+    const endPoint = "/source-system";
 
     try {
         const result = await axios({
             method: "get",
-            baseURL: 'https://orchestration.dissco.tech/api/v1',
+            baseURL: `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api/v1`.replace('dev', 'dev-orchestration').replace('sandbox', 'orchestration'),
             url: endPoint,
             params: {
                 pageSize: 50

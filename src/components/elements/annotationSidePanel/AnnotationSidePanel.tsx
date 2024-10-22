@@ -16,15 +16,17 @@ import { Dict } from 'app/Types';
 import styles from './annotationSidePanel.module.scss';
 
 /* Import Components */
-import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
+import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, MASMenu, TopBar } from './AnnotationSidePanelComponents';
 import { LoadingScreen } from '../customUI/CustomUI';
 
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | undefined,
+    superClass: DigitalSpecimen | DigitalMedia | Dict | undefined,
     schema: Dict,
     GetAnnotations: Function,
+    GetMASs: Function,
+    GetMASJobRecords: Function,
     HideAnnotationSidePanel: Function
 };
 
@@ -32,13 +34,15 @@ type Props = {
 /**
  * Component that renders the annotation side panel
  * @param annotationMode Boolean indicating if the annotation mode is on or not
- * @param superClass The super class reigning the annotation side panel, either Digital Specimen or Digital Media
+ * @param superClass The super class reigning the annotation side panel
  * @param GetAnnotations Function that fetches the annotations of the super class
+ * @param GetMASs Function that fetches the potential MASs to be run
+ * @param GetMASJobRecords Function that feetches the MAS job records of the super class
  * @param HideAnnotationSidePanel Function to hide the annotation side panel
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { superClass, schema, GetAnnotations, HideAnnotationSidePanel } = props;
+    const { superClass, schema, GetAnnotations, GetMASs, GetMASJobRecords, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -46,6 +50,7 @@ const AnnotationSidePanel = (props: Props) => {
     /* Base variables */
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
+    const [masMenuToggle, setMasMenuToggle] = useState<boolean>(false);
     const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [filterSortValues, setFilterSortValues] = useState<{
@@ -115,11 +120,17 @@ const AnnotationSidePanel = (props: Props) => {
                             SetLoading={(loading: boolean) => setLoading(loading)}
                             SetFilterSortValues={setFilterSortValues}
                         />
-                        : <AnnotationsOverview annotations={annotations}
-                            filterSortValues={filterSortValues}
-                            SetFilterSortValues={setFilterSortValues}
-                            StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                        : (masMenuToggle && superClass) ? <MASMenu superClass={superClass}
+                            CloseMASMenu={() => setMasMenuToggle(false)}
+                            GetMASs={GetMASs}
+                            GetMASJobRecords={GetMASJobRecords}
                         />
+                            : <AnnotationsOverview annotations={annotations}
+                                filterSortValues={filterSortValues}
+                                SetFilterSortValues={setFilterSortValues}
+                                StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                                OpenMASMenu={() => setMasMenuToggle(true)}
+                            />
                     }
                 </Col>
             </Row>

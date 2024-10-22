@@ -22,13 +22,13 @@ type DataFragment = {
             digitalMediaObject: DigitalMediaType,
             annotations: Annotation[]
         }[],
-        annotations?: Annotation[]
+        annotations?: Annotation[],
         [property: string]: any
     }
 }
 
 export type JSONResult = {
-    data: DataFragment,
+    data: DataFragment | any,
     links: {
         self: string
     },
@@ -38,7 +38,7 @@ export type JSONResult = {
 };
 
 export type JSONResultArray = {
-    data: DataFragment[],
+    data: DataFragment[] | Dict[],
     links: {
         self: string,
         first?: string,
@@ -86,7 +86,7 @@ export type PaginationObject = {
     Next?: Function,
     Previous?: Function,
     Last?: Function
-}
+};
 
 /* Annotation target */
 export type AnnotationTarget = {

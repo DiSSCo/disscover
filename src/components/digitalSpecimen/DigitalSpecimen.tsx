@@ -158,13 +158,15 @@ const DigitalSpecimen = () => {
                             <Footer />
                         </div>
                     </Col>
-                    <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
-                        <AnnotationSidePanel superClass={digitalSpecimen}
-                            schema={DigitalSpecimenSchema}
-                            GetAnnotations={GetDigitalSpecimenAnnotations}
-                            HideAnnotationSidePanel={() => setAnnotationMode(false)}
-                        />
-                    </div>
+                    {digitalSpecimen &&
+                        <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
+                            <AnnotationSidePanel superClass={digitalSpecimen}
+                                schema={DigitalSpecimenSchema}
+                                GetAnnotations={GetDigitalSpecimenAnnotations}
+                                HideAnnotationSidePanel={() => setAnnotationMode(false)}
+                            />
+                        </div>
+                    }
                 </Row>
             </Container>
         </div>

@@ -12,10 +12,6 @@ const DigitalSpecimenIdCardConfig = ({ digitalSpecimen }: { digitalSpecimen: Dig
 }[] => {
     return [
         {
-            label: 'Specimen name',
-            jsonPath: "$['ods:specimenName']"
-        },
-        {
             label: `Physical specimen ID (${digitalSpecimen["ods:physicalSpecimenIDType"]})`,
             jsonPath: "$['ods:normalisedPhysicalSpecimenID']",
             ...(digitalSpecimen["ods:physicalSpecimenIDType"] === 'Resolvable' && { link: "ods:normalisedPhysicalSpecimenID']" })

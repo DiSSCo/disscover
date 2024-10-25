@@ -11,6 +11,16 @@ const DefaultException = (objectName: string, requestUrl: string) => {
 };
 
 /**
+ * Function for returning a delete exception that is thrown when an error occurs during the delete request
+* @param objectType The type of the object that was requested
+ * @param requestUrl The url that was requested
+ * @returns Error message
+ */
+const DeleteException = (objectName: string, requestUrl: string) => {
+    return `Delete request for object type: ${objectName} failed. Request: ${requestUrl}`;
+};
+
+/**
  * Function for returning a not found exception, activated by response code 404
  * @param objectType The type of the object that was requested
  * @param requestUrl The url that was requested
@@ -53,6 +63,7 @@ const PostException = (objectName: string, requestUrl: string) => {
 
 export {
     DefaultException,
+    DeleteException,
     NotFoundException,
     NoSearchResults,
     PatchException,

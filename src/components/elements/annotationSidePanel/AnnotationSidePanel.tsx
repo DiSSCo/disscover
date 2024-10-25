@@ -131,6 +131,7 @@ const AnnotationSidePanel = (props: Props) => {
                             schemaTitle={schema.title}
                             SetFilterSortValues={setFilterSortValues}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                            RefreshAnnotations={RefreshAnnotations}
                         />
                     }
                 </Col>

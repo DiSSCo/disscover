@@ -11,8 +11,9 @@ import { PatchException } from 'app/Exceptions';
 
 
 /**
- * Function for posting a new annotation
- * @param newAnnotation The annotation to post
+ * Function for patching an annotation
+ * @param annotationId The identifier of the annotation to patch
+ * @param updatedAnnotation The updated annotation template to patch
  * @returns Object of Digital Specimen
  */
 const PatchAnnotation = async ({ annotationId, updatedAnnotation }: { annotationId: string, updatedAnnotation: AnnotationTemplate }): Promise<Annotation | undefined> => {

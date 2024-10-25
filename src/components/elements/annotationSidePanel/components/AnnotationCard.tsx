@@ -10,6 +10,9 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { ProvideReadableMotivation } from 'app/utilities/AnnotateUtilities';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
+/* Import Hooks */
+import { useNotification } from 'app/Hooks';
+
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
 
@@ -27,7 +30,8 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     annotation: Annotation,
     schemaTitle: string,
-    EditAnnotation: Function
+    EditAnnotation: Function,
+    RefreshAnnotations: Function
 };
 
 
@@ -36,10 +40,14 @@ type Props = {
  * @param annotation The annotation to be displayed in the card
  * @param schemaTitle The title of the super class schema
  * @param EditAnnotation Function to start editing the annotation
+ * @param RefreshAnnotation Function to refresh the annotations in the annotations overview
  * @returns JSX Component
  */
 const AnnotationCard = (props: Props) => {
-    const { annotation, schemaTitle, EditAnnotation } = props;
+    const { annotation, schemaTitle, EditAnnotation, RefreshAnnotations } = props;
+
+    /* Hooks */
+    const notification = useNotification();
 
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
@@ -151,9 +159,20 @@ const AnnotationCard = (props: Props) => {
                             <Button type="button"
                                 variant="blank"
                                 className="px-0 py-0"
-                                OnClick={() => {
+                                OnClick={async () => {
                                     if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['ods:ID']}?`)) {
-                                        DeleteAnnotation({ annotationId: annotation['ods:ID'] })
+                                        try {
+                                            await DeleteAnnotation({ annotationId: annotation['ods:ID'] });
+
+                                            /* Refresh annotations */
+                                            RefreshAnnotations();
+                                        } catch {
+                                            notification.Push({
+                                                key: `${annotation['ods:ID']}-${Math.random()}`,
+                                                message: `Failed to delete the annotation. Please try deleting it again.`,
+                                                template: 'error'
+                                            });
+                                        };
                                     }
                                 }}
                             >

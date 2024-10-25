@@ -31,7 +31,8 @@ type Props = {
     },
     schemaTitle: string,
     SetFilterSortValues: Function,
-    StartAnnotationWizard: Function
+    StartAnnotationWizard: Function,
+    RefreshAnnotations: Function
 };
 
 
@@ -42,10 +43,11 @@ type Props = {
  * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values
  * @param StartAnnotationWizard Function that starts the annotation wizard
+ * @param RefresAnnotations Function to refresh the annotations in the annotations overview
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard } = props;
+    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -152,6 +154,7 @@ const AnnotationsOverview = (props: Props) => {
                             <AnnotationCard annotation={annotation}
                                 schemaTitle={schemaTitle}
                                 EditAnnotation={EditAnnotation}
+                                RefreshAnnotations={RefreshAnnotations}
                             />
                         </div>
                     )) : <p className="fs-4 tc-grey fst-italic">

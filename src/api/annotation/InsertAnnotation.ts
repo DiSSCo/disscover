@@ -12,7 +12,7 @@ import { PostException } from 'app/Exceptions';
 
 /**
  * Function for posting a new annotation
- * @param newAnnotation The annotation to post
+ * @param newAnnotation The annotation template to post
  * @returns Object of Digital Specimen
  */
 const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTemplate }): Promise<Annotation | undefined> => {

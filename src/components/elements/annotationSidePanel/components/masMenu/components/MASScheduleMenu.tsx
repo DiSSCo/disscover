@@ -1,8 +1,11 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import { Row, Col, Card } from "react-bootstrap";
 import Select from 'react-select';
+
+/* Import Hooks */
+import { useNotification } from "app/Hooks";
 
 /* Import Types */
 import { MachineAnnotationService } from "app/types/MachineAnnotationService";
@@ -17,27 +20,34 @@ import { Button } from "components/elements/customUI/CustomUI";
 
 /* Props Type */
 type Props = {
-    mass: MachineAnnotationService[]
+    digitalObjectId: string,
+    mass: MachineAnnotationService[],
+    SetLoading: Function,
+    ScheduleMASs: Function,
+    ReturnToOverview: Function
 };
 
 
 /**
  * Component that renders the schedule part of the MAS menu
+ * @param digitalObjectId The identifier of the super class digital object
  * @param mass A list of potential MASs to be executed on the digital object
+ * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param ScheduleMASs Function to schedule MASs
+ * @param ReturnToOverview Function to return to the MAS overview
  * @returns JSX Component
  */
 const MASScheduleMenu = (props: Props) => {
-    const { mass } = props;
+    const { digitalObjectId, mass, SetLoading, ScheduleMASs, ReturnToOverview } = props;
+
+    /* Hooks */
+    const notification = useNotification();
 
     /* Base variables */
     const initialFormValues: {
-        scheduledMAS: DropdownItem[],
-        allowBatchingFor: {
-            [MASId: string]: boolean
-        }
+        scheduledMAS: DropdownItem[]
     } = {
-        scheduledMAS: [],
-        allowBatchingFor: {}
+        scheduledMAS: []
     };
 
     /* Construct dropdown items */
@@ -68,7 +78,31 @@ const MASScheduleMenu = (props: Props) => {
                         onSubmit={async (values) => {
                             await new Promise((resolve) => setTimeout(resolve, 100));
 
-                            console.log(values);
+                            /* Start loading */
+                            SetLoading(true);
+
+                            /* Construct MAS list */
+                            const masList = values.scheduledMAS.map(mas => ({
+                                masId: mas.value
+                            }));
+
+                            try {
+                                await ScheduleMASs({
+                                    digitalSpecimenId: digitalObjectId,
+                                    masList: masList
+                                });
+
+                                ReturnToOverview();
+                            } catch {
+                                notification.Push({
+                                    key: `mass-${Math.random()}`,
+                                    message: `Failed to schedule MASs. Please try again.`,
+                                    template: 'error'
+                                });
+                            } finally {
+                                /* Stop loading */
+                                SetLoading(false);
+                            };
                         }}
                     >
                         {({ values, setFieldValue }) => (
@@ -93,7 +127,7 @@ const MASScheduleMenu = (props: Props) => {
 
                                             if (mas) {
                                                 return (
-                                                    <Row>
+                                                    <Row key={mas["ods:ID"]}>
                                                         <Col>
                                                             <Card className="px-3 py-2">
                                                                 <Row>
@@ -106,39 +140,17 @@ const MASScheduleMenu = (props: Props) => {
                                                                         <p className="fs-5">
                                                                             {mas?.["schema:description"]}
                                                                         </p>
-                                                                        {/* Allow batch annotations checkbox */}
-                                                                        <Row className="mt-3">
-                                                                            <Col lg="auto"
-                                                                                className="pe-0"
-                                                                            >
-                                                                                <Field type="checkbox"
-                                                                                    name={`allowBatchingFor[${mas["ods:ID"].replace(import.meta.env.VITE_HANDLE_URL, '')}]`}
-                                                                                />
-                                                                            </Col>
-                                                                            <Col className="d-flex align-items-center">
-                                                                                <Button type="button"
-                                                                                    variant="blank"
-                                                                                    className="px-0 py-0"
-                                                                                    OnClick={() => {
-                                                                                        setFieldValue(
-                                                                                            `allowBatchingFor[${mas['ods:ID'].replace(import.meta.env.VITE_HANDLE_URL, '')}]`,
-                                                                                            !values.allowBatchingFor[mas['ods:ID'].replace(import.meta.env.VITE_HANDLE_URL, '')]
-                                                                                        )
-                                                                                    }}
-                                                                                >
-                                                                                    <p className="fs-4">
-                                                                                        Allow batching
-                                                                                    </p>
-                                                                                </Button>
-                                                                            </Col>
-                                                                        </Row>
                                                                     </Col>
                                                                     <Col lg="auto">
                                                                         <Button type="button"
                                                                             variant="blank"
                                                                             className="px-0 py-0"
                                                                             OnClick={() => {
-                                                                                // const localValues = values.allowBatchingFor)
+                                                                                values.scheduledMAS.splice(values.scheduledMAS.findIndex(
+                                                                                    masOption => masOption.value === mas["ods:ID"]
+                                                                                ), 1);
+
+                                                                                setFieldValue('scheduledMAS', values.scheduledMAS);
                                                                             }}
                                                                         >
                                                                             <FontAwesomeIcon icon={faX}

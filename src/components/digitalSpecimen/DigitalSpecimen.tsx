@@ -23,6 +23,7 @@ import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecim
 import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
 import GetDigitalSpecimenMASs from 'api/digitalSpecimen/GetDigitalSpecimenMAS';
 import GetDigitalSpecimenMASJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMASJobRecords';
+import ScheduleDigitalSpecimenMAS from "api/digitalSpecimen/ScheduleDigitalSpecimenMAS";
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
@@ -166,6 +167,7 @@ const DigitalSpecimen = () => {
                             GetAnnotations={GetDigitalSpecimenAnnotations}
                             GetMASs={GetDigitalSpecimenMASs}
                             GetMASJobRecords={GetDigitalSpecimenMASJobRecords}
+                            ScheduleMASs={ScheduleDigitalSpecimenMAS}
                             HideAnnotationSidePanel={() => setAnnotationMode(false)}
                         />
                     </div>

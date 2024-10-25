@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import KeycloakService from 'app/Keycloak';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -20,8 +21,10 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     CloseMASMenu: Function,
+    SetLoading: Function,
     GetMASs: Function,
     GetMASJobRecords: Function
+    ScheduleMASs: Function
 };
 
 
@@ -29,12 +32,14 @@ type Props = {
  * Component that renders the MAS Menu for in the annotation side panel
  * @param superClass The selected super class
  * @param CloseMASMenu Function to close the MAS menu
+ * @param SetLoading Function to set the loading state of the annotation side panel
  * @param GetMASs Function to fetch the potential MASs to be run
  * @param GetMASJobRecords Function that fetches the MAS job records
+ * @param ScheduleMASs Function to schedule MASs
  * @returns JSX Component
  */
 const MASMenu = (props: Props) => {
-    const { superClass, CloseMASMenu, GetMASs, GetMASJobRecords } = props;
+    const { superClass, CloseMASMenu, SetLoading, GetMASs, GetMASJobRecords, ScheduleMASs } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -94,6 +99,8 @@ const MASMenu = (props: Props) => {
                 <Col lg="auto">
                     <Button type="button"
                         variant="secondary"
+                        className="fs-5"
+                        disabled={!KeycloakService.IsLoggedIn()}
                         OnClick={() => setScheduleMASMenuToggle(!scheduleMASMenuToggle)}
                     >
                         <p>
@@ -106,7 +113,12 @@ const MASMenu = (props: Props) => {
                 <Col>
                     {/* MAS overview and schedule menu */}
                     {scheduleMASMenuToggle ?
-                        <MASScheduleMenu mass={mass} />
+                        <MASScheduleMenu digitalObjectId={superClass['@id']}
+                            mass={mass}
+                            SetLoading={SetLoading}
+                            ScheduleMASs={ScheduleMASs}
+                            ReturnToOverview={() => setScheduleMASMenuToggle(false)}
+                        />
                         : <MASOverview masJobRecords={masJobRecords} />
                     }
                 </Col>

@@ -27,6 +27,7 @@ type Props = {
     GetAnnotations: Function,
     GetMASs: Function,
     GetMASJobRecords: Function,
+    ScheduleMASs: Function,
     HideAnnotationSidePanel: Function
 };
 
@@ -37,12 +38,13 @@ type Props = {
  * @param superClass The super class reigning the annotation side panel
  * @param GetAnnotations Function that fetches the annotations of the super class
  * @param GetMASs Function that fetches the potential MASs to be run
- * @param GetMASJobRecords Function that feetches the MAS job records of the super class
+ * @param GetMASJobRecords Function that fetches the MAS job records of the super class
+ * @param ScheduleMASs Function to schedule MASs
  * @param HideAnnotationSidePanel Function to hide the annotation side panel
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { superClass, schema, GetAnnotations, GetMASs, GetMASJobRecords, HideAnnotationSidePanel } = props;
+    const { superClass, schema, GetAnnotations, GetMASs, GetMASJobRecords, ScheduleMASs, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -122,8 +124,10 @@ const AnnotationSidePanel = (props: Props) => {
                         />
                         : (masMenuToggle && superClass) ? <MASMenu superClass={superClass}
                             CloseMASMenu={() => setMasMenuToggle(false)}
+                            SetLoading={setLoading}
                             GetMASs={GetMASs}
                             GetMASJobRecords={GetMASJobRecords}
+                            ScheduleMASs={ScheduleMASs}
                         />
                             : <AnnotationsOverview annotations={annotations}
                                 filterSortValues={filterSortValues}

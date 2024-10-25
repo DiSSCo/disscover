@@ -4,14 +4,12 @@ import jp from 'jsonpath';
 import { Card } from 'react-bootstrap';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { Dict } from 'app/Types';
+import { SuperClass } from 'app/Types';
 
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass,
     termName: string,
     value: string | number | boolean,
     jsonPath: string,

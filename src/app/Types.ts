@@ -1,7 +1,7 @@
 /* Import Types */
 import { Annotation } from "./types/Annotation";
-import { DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
-import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
+import { DigitalMedia, DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
+import { DigitalSpecimen, DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
 
 
 /* General type for a dictionary */
@@ -87,6 +87,9 @@ export type PaginationObject = {
     Previous?: Function,
     Last?: Function
 }
+
+/* Super class (annotation target) */
+export type SuperClass = DigitalSpecimen | DigitalMedia | Dict;
 
 /* Annotation target */
 export type AnnotationTarget = {

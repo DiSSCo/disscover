@@ -14,9 +14,7 @@ import { useAppSelector, useTrigger } from "app/Hooks";
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from "app/types/DigitalSpecimen";
-import { DigitalMedia } from "app/types/DigitalMedia";
-import { AnnotationFormProperty, Dict, DropdownItem } from "app/Types";
+import { AnnotationFormProperty, Dict, DropdownItem, SuperClass } from "app/Types";
 
 /* Import Components */
 import AnnotationFormSegment from './AnnotationFormSegment';
@@ -25,7 +23,7 @@ import { Dropdown, InputTextArea } from "components/elements/customUI/CustomUI";
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass
     schemaName: string,
     formValues?: Dict,
     SetFieldValue?: Function,
@@ -65,7 +63,7 @@ const AnnotationFormStep = (props: Props) => {
     trigger.SetTrigger(() => {
         /* Either take JSON path from form values or the annotation target (when editing an annotation) */
         let jsonPath: string = formValues?.jsonPath ?? annotationTarget?.jsonPath;
-        let localSuperClass: DigitalSpecimen | DigitalMedia | Dict = cloneDeep(superClass);
+        let localSuperClass: SuperClass = cloneDeep(superClass);
 
         if (formValues && annotationTarget?.annotation) {
             const currentValue = jp.value(superClass, jsonPath);

@@ -18,8 +18,6 @@ import { Dict } from 'app/Types';
 /* Import Styles */
 import styles from './annotationSidePanel.module.scss';
 
-import KeycloakService from 'app/Keycloak';
-
 /* Import Components */
 import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
 import { LoadingScreen } from '../customUI/CustomUI';

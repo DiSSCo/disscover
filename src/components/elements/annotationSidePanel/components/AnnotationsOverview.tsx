@@ -90,9 +90,7 @@ const AnnotationsOverview = (props: Props) => {
         let jsonPath: string = '$';
 
         if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
-            if (annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] === '$') {
-                annotationTargetType = 'superClass';
-            } else {
+            if (annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] !== '$') {
                 annotationTargetType = 'class';
             }
 

@@ -63,48 +63,46 @@ const AnnotationFormStep = (props: Props) => {
 
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
-        if (formValues) {
-            /* Either take JSON path from form values or the annotation target (when editing an annotation) */
-            let jsonPath: string = formValues.jsonPath ?? annotationTarget?.jsonPath;
-            let localSuperClass: DigitalSpecimen | DigitalMedia | Dict = cloneDeep(superClass);
+        /* Either take JSON path from form values or the annotation target (when editing an annotation) */
+        let jsonPath: string = formValues?.jsonPath ?? annotationTarget?.jsonPath;
+        let localSuperClass: DigitalSpecimen | DigitalMedia | Dict = cloneDeep(superClass);
 
-            if (annotationTarget?.annotation) {
-                const currentValue = jp.value(superClass, jsonPath);
-                const count: number | undefined = Array.isArray(currentValue) ? currentValue.length : undefined;
+        if (formValues && annotationTarget?.annotation) {
+            const currentValue = jp.value(superClass, jsonPath);
+            const countIndication: string = Array.isArray(currentValue) ? `[${currentValue.length}]` : '';
 
-                jsonPath = `${jsonPath}${count ? `[${count}]` : ''}`;
-                const value = annotationTarget.annotation.values[0][0] === '{' ? JSON.parse(annotationTarget.annotation.values[0]) : annotationTarget.annotation.values[0];
+            jsonPath = `${jsonPath}${countIndication}`;
+            const value = annotationTarget.annotation.values[0].startsWith('{') ? JSON.parse(annotationTarget.annotation.values[0]) : annotationTarget.annotation.values[0];
 
-                if (jsonPath === '$' && !formValues.annotationValues.value) {
-                    formValues.annotationValues.value = value;
-                } else if (jsonPath !== '$') {
-                    jp.value(localSuperClass, jsonPath, value);
-                }
+            if (jsonPath === '$' && !formValues.annotationValues.value) {
+                formValues.annotationValues.value = value;
+            } else if (jsonPath !== '$') {
+                jp.value(localSuperClass, jsonPath, value);
             }
-
-            /* For selected class, get annotation form field properties and their values */
-            GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
-                /* Set form values state with current values, based upon annotation form field properties */
-                const newSetFormValues = {
-                    ...formValues,
-                    annotationValues: {
-                        ...newFormValues,
-                        ...formValues.annotationValues
-                    },
-                    /* Set JSON path from this checkpoint if editing an annotation */
-                    ...(annotationTarget?.annotation && {
-                        jsonPath: jsonPath,
-                        motivation: annotationTarget.annotation.motivation
-                    })
-                };
-
-                /* Set form values */
-                SetFormValues?.(newSetFormValues);
-
-                /* Set annotation form field properties */
-                setAnnotationFormFieldProperties(annotationFormFieldProperties);
-            });
         }
+
+        /* For selected class, get annotation form field properties and their values */
+        GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
+            /* Set form values state with current values, based upon annotation form field properties */
+            const newSetFormValues = {
+                ...formValues,
+                annotationValues: {
+                    ...newFormValues,
+                    ...formValues?.annotationValues
+                },
+                /* Set JSON path from this checkpoint if editing an annotation */
+                ...(annotationTarget?.annotation && {
+                    jsonPath: jsonPath,
+                    motivation: annotationTarget.annotation.motivation
+                })
+            };
+
+            /* Set form values */
+            SetFormValues?.(newSetFormValues);
+
+            /* Set annotation form field properties */
+            setAnnotationFormFieldProperties(annotationFormFieldProperties);
+        });
     }, []);
 
     /* From annotation form field properties, extract base object and its properties */

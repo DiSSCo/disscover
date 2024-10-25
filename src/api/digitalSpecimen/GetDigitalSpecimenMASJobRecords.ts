@@ -23,7 +23,7 @@ const GetDigitalSpecimenMASJobRecords = async ({ handle, pageSize, pageNumber, s
     };
 
     if (handle) {
-        const endPoint: string = `/digital-specimen/${handle}/mjr`;
+        const endPoint: string = `/digital-specimen/${handle.replace(import.meta.env.VITE_DOI_URL, '')}/mjr`;
 
         try {
             const result = await axios({
@@ -49,6 +49,6 @@ const GetDigitalSpecimenMASJobRecords = async ({ handle, pageSize, pageNumber, s
     };
 
     return returnData;
-}
+};
 
 export default GetDigitalSpecimenMASJobRecords;

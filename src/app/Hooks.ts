@@ -242,8 +242,8 @@ const useNotification = () => {
  * Paginator Hook for handling pagination with fetch requests and page numbers
  * @returns Instance of hook
  */
-const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method, Handler }:
-    { pageSize: number, resultKey?: string, allowSearchParams?: boolean, Method: Function, Handler?: Function }
+const usePagination = ({ pageSize, resultKey, params, allowSearchParams = false, triggers, Method, Handler }:
+    { pageSize: number, resultKey?: string, params?: Dict, allowSearchParams?: boolean, triggers?: any[], Method: Function, Handler?: Function }
 ) => {
     /* Hooks */
     const [searchParams] = useSearchParams();
@@ -322,7 +322,7 @@ const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method,
             /* Fetch data */
             (async () => {
                 try {
-                    const result = await Method({ pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
+                    const result = await Method({ ...params, pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
 
                     /* Set return data */
                     const records = resultKey ? result[resultKey] : result[Object.keys(result)[0]];
@@ -365,7 +365,7 @@ const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method,
         } else {
             setPageNumber(1);
         };
-    }, [pageNumber]);
+    }, [pageNumber, ...(triggers ? triggers : [])]);
 
     /* UseEffect to watch the search parameters if allowed, if so and on change, reset the page number to 1 */
     useEffect(() => {
@@ -383,8 +383,8 @@ const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method,
         lastPage,
         loading,
         GoToPage,
-        ...(('next' in returnData.links && pageNumber !== 399) && { Next }),
-        ...('prev' in returnData.links && { Previous }),
+        ...((returnData.links && 'next' in returnData.links && pageNumber !== 399) && { Next }),
+        ...(returnData.links && 'prev' in returnData.links && { Previous }),
         ...((lastPage !== pageNumber && lastPage <= 399) && { Last })
     };
 };

@@ -46,38 +46,16 @@ const MASMenu = (props: Props) => {
 
     /* Base variables */
     const [mass, setMASs] = useState<MachineAnnotationService[]>([]);
-    const [masJobRecords, setmasJobRecords] = useState<Dict[]>([]);
     const [scheduleMASMenuToggle, setScheduleMASMenuToggle] = useState<boolean>(false);
 
     /* OnLoad, fetch MAS job records */
-    fetch.FetchMultiple({
-        callMethods: [
-            {
-                alias: 'MASs',
-                params: {
-                    handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
-                },
-                Method: GetMASs
-            },
-            {
-                alias: 'MASJobRecords',
-                params: {
-                    handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, ''),
-                    pageSize: 10,
-                    pageNumber: 1
-                },
-                Method: GetMASJobRecords
-            }
-        ],
-        Handler: (results: {
-            MASs: MachineAnnotationService[],
-            MASJobRecords: {
-                MASJobRecords: Dict[],
-                links?: Dict
-            }
-        }) => {
-            setMASs(results.MASs);
-            setmasJobRecords(results.MASJobRecords.MASJobRecords);
+    fetch.Fetch({
+        params: {
+            handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+        },
+        Method: GetMASs,
+        Handler: (MASs: MachineAnnotationService[]) => {
+            setMASs(MASs);
         }
     });
 
@@ -119,7 +97,9 @@ const MASMenu = (props: Props) => {
                             ScheduleMASs={ScheduleMASs}
                             ReturnToOverview={() => setScheduleMASMenuToggle(false)}
                         />
-                        : <MASOverview masJobRecords={masJobRecords} />
+                        : <MASOverview digitalObjectId={superClass['@id']}
+                            GetMASJobRecords={GetMASJobRecords}
+                        />
                     }
                 </Col>
             </Row>

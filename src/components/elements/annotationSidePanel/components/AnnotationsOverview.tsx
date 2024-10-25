@@ -29,6 +29,7 @@ type Props = {
         motivation: string,
         sortBy: string
     },
+    schemaTitle: string,
     SetFilterSortValues: Function,
     StartAnnotationWizard: Function
 };
@@ -38,12 +39,13 @@ type Props = {
  * Component that renders the annotations overview in the annotation side panel
  * @param annotations The annotations to be rendered in the overview
  * @param filterSortValues The filter/sort values to refine the overview annotations
+ * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values
  * @param StartAnnotationWizard Function that starts the annotation wizard
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, SetFilterSortValues, StartAnnotationWizard } = props;
+    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -148,6 +150,7 @@ const AnnotationsOverview = (props: Props) => {
                             className="mb-2"
                         >
                             <AnnotationCard annotation={annotation}
+                                schemaTitle={schemaTitle}
                                 EditAnnotation={EditAnnotation}
                             />
                         </div>

@@ -31,6 +31,17 @@ const NoSearchResults = (objectName: string, requestUrl: string) => {
 };
 
 /**
+ * Function for returning a patch exception that is thrown when an error occurs during the patch request
+* @param objectType The type of the object that was requested
+ * @param requestUrl The url that was requested
+ * @returns Error message
+ */
+const PatchException = (objectName: string, requestUrl: string) => {
+    return `Patch request for object type: ${objectName} failed. Request: ${requestUrl}`;
+};
+
+
+/**
  * Function for returning a post exception that is thrown when an error occurs during the post request
 * @param objectType The type of the object that was requested
  * @param requestUrl The url that was requested
@@ -44,5 +55,6 @@ export {
     DefaultException,
     NotFoundException,
     NoSearchResults,
+    PatchException,
     PostException
 };

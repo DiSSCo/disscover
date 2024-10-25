@@ -20,6 +20,7 @@ import { Dict, ProgressDot } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
+import PatchAnnotation from 'api/annotation/PatchAnnotation';
 
 /* Import Components */
 import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationSummaryStep, AnnotationTargetStep } from './AnnotationWizardComponents';
@@ -64,7 +65,9 @@ const AnnotationWizard = (props: Props) => {
         annotationForm: <AnnotationFormStep superClass={superClass}
             schemaName={schema.title}
         />,
-        annotationSummary: <AnnotationSummaryStep superClass={superClass} />
+        annotationSummary: <AnnotationSummaryStep superClass={superClass}
+            schemaTitle={schema.title}
+        />
     };
 
     /* Base variables */
@@ -222,8 +225,12 @@ const AnnotationWizard = (props: Props) => {
 
                             /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
                             try {
+                                /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
                                 if (annotationTarget?.annotation) {
-
+                                    await PatchAnnotation({
+                                        annotationId: annotationTarget.annotation.id,
+                                        updatedAnnotation: newAnnotation
+                                    });
                                 } else {
                                     await InsertAnnotation({
                                         newAnnotation
@@ -240,7 +247,7 @@ const AnnotationWizard = (props: Props) => {
                             } catch {
                                 notification.Push({
                                     key: `${superClass['@id']}-${Math.random()}`,
-                                    message: `Failed to add the annotation. Please try saving it again.`,
+                                    message: `Failed to ${annotationTarget?.annotation ? 'update' : 'add'} the annotation. Please try saving it again.`,
                                     template: 'error'
                                 });
 

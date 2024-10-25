@@ -26,6 +26,7 @@ import { Button } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     annotation: Annotation,
+    schemaTitle: string,
     EditAnnotation: Function
 };
 
@@ -33,11 +34,12 @@ type Props = {
 /**
  * Component that renders an annotation card in the
  * @param annotation The annotation to be displayed in the card
+ * @param schemaTitle The title of the super class schema
  * @param EditAnnotation Function to start editing the annotation
  * @returns JSX Component
  */
 const AnnotationCard = (props: Props) => {
-    const { annotation, EditAnnotation } = props;
+    const { annotation, schemaTitle, EditAnnotation } = props;
 
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
@@ -85,9 +87,14 @@ const AnnotationCard = (props: Props) => {
                         </span>
                         <span className="fs-4">
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:FieldSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:field'])}
+                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:field'] !== '$' ?
+                                    annotation['oa:hasTarget']['oa:hasSelector']['ods:field']
+                                    : schemaTitle
+                                )
+                            }
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:class'])}
+                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:class'])
+                            }
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector' && 'Image'}
                         </span>
                     </Col>

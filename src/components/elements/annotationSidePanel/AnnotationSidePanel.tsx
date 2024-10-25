@@ -98,8 +98,6 @@ const AnnotationSidePanel = (props: Props) => {
         'z-2': loading
     });
 
-    console.log(annotationTarget);
-
     return (
         <div className={`${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column bgc-default px-4 py-4`}>
             {/* Top bar */}
@@ -130,6 +128,7 @@ const AnnotationSidePanel = (props: Props) => {
                         />
                         : <AnnotationsOverview annotations={annotations}
                             filterSortValues={filterSortValues}
+                            schemaTitle={schema.title}
                             SetFilterSortValues={setFilterSortValues}
                             StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                         />

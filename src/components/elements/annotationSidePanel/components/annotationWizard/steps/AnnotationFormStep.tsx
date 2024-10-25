@@ -68,31 +68,22 @@ const AnnotationFormStep = (props: Props) => {
             let jsonPath: string = formValues.jsonPath ?? annotationTarget?.jsonPath;
             let localSuperClass: DigitalSpecimen | DigitalMedia | Dict = cloneDeep(superClass);
 
-            console.log(annotationTarget?.annotation?.values?.[0]);
-
-            if (annotationTarget?.annotation && jsonPath === '$') {
-
-            } else if (annotationTarget?.annotation) {
-                console.log(jp.value(superClass, jsonPath));
-
+            if (annotationTarget?.annotation) {
                 const currentValue = jp.value(superClass, jsonPath);
                 const count: number | undefined = Array.isArray(currentValue) ? currentValue.length : undefined;
 
-                console.log(count);
-
                 jsonPath = `${jsonPath}${count ? `[${count}]` : ''}`;
+                const value = annotationTarget.annotation.values[0][0] === '{' ? JSON.parse(annotationTarget.annotation.values[0]) : annotationTarget.annotation.values[0];
 
-                jp.value(localSuperClass, jsonPath, JSON.parse(annotationTarget.annotation.values[0]));
+                if (jsonPath === '$' && !formValues.annotationValues.value) {
+                    formValues.annotationValues.value = value;
+                } else if (jsonPath !== '$') {
+                    jp.value(localSuperClass, jsonPath, value);
+                }
             }
-
-            console.log(jsonPath);
-            console.log(localSuperClass);
 
             /* For selected class, get annotation form field properties and their values */
             GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
-                console.log(newFormValues);
-                console.log(formValues.annotationValues);
-
                 /* Set form values state with current values, based upon annotation form field properties */
                 const newSetFormValues = {
                     ...formValues,

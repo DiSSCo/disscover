@@ -24,7 +24,8 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict
+    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    schemaTitle: string,
     formValues?: Dict
 };
 
@@ -32,11 +33,12 @@ type Props = {
 /**
  * Component that renders the fourth and final step of the annotation wizard, presenting a summary of the annotation to the user
  * @param superClass The selected super class
+ * @param schemaTitle The title of the super class schema
  * @param formValues The current form values of the annotation form
  * @returns JSX Component
  */
 const AnnotationSummaryStep = (props: Props) => {
-    const { superClass, formValues } = props;
+    const { superClass, schemaTitle, formValues } = props;
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
@@ -82,7 +84,7 @@ const AnnotationSummaryStep = (props: Props) => {
                             <span className="tc-primary fw-lightBold">
                                 {`${capitalize(annotationTarget?.type)}: `}
                             </span>
-                            {MakeJsonPathReadableString(annotationTarget?.jsonPath ?? '')}
+                            {MakeJsonPathReadableString(annotationTarget?.jsonPath !== '$' ? annotationTarget?.jsonPath ?? '' : schemaTitle)}
                         </p>
                     </Card>
                 </Col>
@@ -106,7 +108,7 @@ const AnnotationSummaryStep = (props: Props) => {
                 <Col>
                     {(annotationTarget?.type === 'class' && ['ods:adding', 'oa:editing'].includes(formValues?.motivation)) ?
                         <>
-                            {Object.entries(formValues?.annotationValues).filter(([_, classValue]) => !isEmpty(classValue)).sort(
+                            {Object.entries(formValues?.annotationValues).filter(([className, classValue]) => (!isEmpty(classValue) && className !== 'value')).sort(
                                 (a, b) => a > b ? 1 : 0
                             ).map(([className, classValue]: [string, any]) => (
                                 <div key={className}>
@@ -122,6 +124,7 @@ const AnnotationSummaryStep = (props: Props) => {
                                                         <SummaryValuesBlock superClass={superClass}
                                                             className={className}
                                                             values={childValue}
+                                                            motivation={formValues?.motivation}
                                                             index={index}
                                                         />
                                                     </div>
@@ -132,6 +135,7 @@ const AnnotationSummaryStep = (props: Props) => {
                                             <SummaryValuesBlock superClass={superClass}
                                                 className={className}
                                                 values={classValue}
+                                                motivation={formValues?.motivation}
                                             />
                                         </div>
                                     }
@@ -139,9 +143,10 @@ const AnnotationSummaryStep = (props: Props) => {
                             ))}
                         </>
                         : <SummaryValueBlock superClass={superClass}
-                            termName={MakeJsonPathReadableString(formValues?.jsonPath ?? '')}
+                            termName={MakeJsonPathReadableString(formValues?.jsonPath !== '$' ? formValues?.jsonPath ?? '' : schemaTitle)}
                             value={formValues?.annotationValues.value}
                             jsonPath={formValues?.jsonPath}
+                            motivation={formValues?.motivation}
                         />
                     }
                 </Col>

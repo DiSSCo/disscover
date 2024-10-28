@@ -45,7 +45,7 @@ const MASMenu = (props: Props) => {
     const fetch = useFetch();
 
     /* Base variables */
-    const [mass, setMASs] = useState<MachineAnnotationService[]>([]);
+    const [mass, setMass] = useState<MachineAnnotationService[]>([]);
     const [scheduleMASMenuToggle, setScheduleMASMenuToggle] = useState<boolean>(false);
 
     /* OnLoad, fetch MAS job records */
@@ -55,7 +55,7 @@ const MASMenu = (props: Props) => {
         },
         Method: GetMASs,
         Handler: (MASs: MachineAnnotationService[]) => {
-            setMASs(MASs);
+            setMass(MASs);
         }
     });
 

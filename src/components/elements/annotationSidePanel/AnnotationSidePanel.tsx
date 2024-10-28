@@ -122,19 +122,22 @@ const AnnotationSidePanel = (props: Props) => {
                             SetLoading={(loading: boolean) => setLoading(loading)}
                             SetFilterSortValues={setFilterSortValues}
                         />
-                        : (masMenuToggle && superClass) ? <MASMenu superClass={superClass}
-                            CloseMASMenu={() => setMasMenuToggle(false)}
-                            SetLoading={setLoading}
-                            GetMASs={GetMASs}
-                            GetMASJobRecords={GetMASJobRecords}
-                            ScheduleMASs={ScheduleMASs}
-                        />
-                            : <AnnotationsOverview annotations={annotations}
-                                filterSortValues={filterSortValues}
-                                SetFilterSortValues={setFilterSortValues}
-                                StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
-                                OpenMASMenu={() => setMasMenuToggle(true)}
+                        : <>
+                            {(masMenuToggle && superClass) ? <MASMenu superClass={superClass}
+                                CloseMASMenu={() => setMasMenuToggle(false)}
+                                SetLoading={setLoading}
+                                GetMASs={GetMASs}
+                                GetMASJobRecords={GetMASJobRecords}
+                                ScheduleMASs={ScheduleMASs}
                             />
+                                : <AnnotationsOverview annotations={annotations}
+                                    filterSortValues={filterSortValues}
+                                    SetFilterSortValues={setFilterSortValues}
+                                    StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                                    OpenMASMenu={() => setMasMenuToggle(true)}
+                                />
+                            }
+                        </>
                     }
                 </Col>
             </Row>

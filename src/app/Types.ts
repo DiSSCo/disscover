@@ -28,7 +28,7 @@ type DataFragment = {
 }
 
 export type JSONResult = {
-    data: DataFragment | any,
+    data: DataFragment,
     links: {
         self: string
     },

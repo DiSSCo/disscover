@@ -369,7 +369,7 @@ const usePagination = ({ pageSize, resultKey, params, allowSearchParams = false,
         } else {
             setPageNumber(1);
         };
-    }, [pageNumber, ...(triggers ? triggers : [])]);
+    }, [pageNumber, ...(triggers ?? [])]);
 
     /* UseEffect to watch the search parameters if allowed, if so and on change, reset the page number to 1 */
     useEffect(() => {

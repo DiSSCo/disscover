@@ -9,7 +9,7 @@ import { useNotification } from "app/Hooks";
 
 /* Import Types */
 import { MachineAnnotationService } from "app/types/MachineAnnotationService";
-import { DropdownItem } from "app/Types";
+import { DropdownItem, Dict } from "app/Types";
 
 /* Import Icons */
 import { faX } from "@fortawesome/free-solid-svg-icons";
@@ -48,6 +48,17 @@ const MASScheduleMenu = (props: Props) => {
         scheduledMAS: DropdownItem[]
     } = {
         scheduledMAS: []
+    };
+
+    /**
+     * 
+     */
+    const DeselectMAS = (mas: MachineAnnotationService, values: Dict, SetFieldValue: Function) => {
+        values.scheduledMAS.splice(values.scheduledMAS.findIndex(
+            (masOption: DropdownItem) => masOption.value === mas["ods:ID"]
+        ), 1);
+
+        SetFieldValue('scheduledMAS', values.scheduledMAS);
     };
 
     /* Construct dropdown items */
@@ -146,11 +157,7 @@ const MASScheduleMenu = (props: Props) => {
                                                                             variant="blank"
                                                                             className="px-0 py-0"
                                                                             OnClick={() => {
-                                                                                values.scheduledMAS.splice(values.scheduledMAS.findIndex(
-                                                                                    masOption => masOption.value === mas["ods:ID"]
-                                                                                ), 1);
-
-                                                                                setFieldValue('scheduledMAS', values.scheduledMAS);
+                                                                                DeselectMAS(mas, values, setFieldValue);
                                                                             }}
                                                                         >
                                                                             <FontAwesomeIcon icon={faX}

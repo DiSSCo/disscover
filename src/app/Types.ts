@@ -125,6 +125,21 @@ export type AnnotationTemplate = {
     }
 };
 
+/* Machine Job Record */
+export type MASJobRecord = {
+    annotations: Dict,
+    batchingRequested: boolean,
+    jobHandle: string,
+    masId: string,
+    orcid: string,
+    state: 'SCHEDULED' | 'RUNNING' | 'FAILED' | 'COMPLETED',
+    targetId: string,
+    targetType: string,
+    timeCompleted: string,
+    timeStarted: string,
+    timeToLive: number
+};
+
 /* Parent class */
 export type ParentClass = {
     jsonPath: string,

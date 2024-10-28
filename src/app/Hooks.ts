@@ -313,55 +313,59 @@ const usePagination = ({ pageSize, resultKey, params, allowSearchParams = false,
         setPageNumber(lastPage);
     };
 
+    const Fetch = () => {
+        /* Set Loading to true */
+        setLoading(true);
+
+        /* Fetch data */
+        (async () => {
+            try {
+                const result = await Method({ ...params, pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
+
+                /* Set return data */
+                const records = resultKey ? result[resultKey] : result[Object.keys(result)[0]];
+
+                setReturnData({
+                    records,
+                    links: result?.links,
+                    metadata: result?.metadata
+                });
+
+                /* Calculate last page*/
+                if (!isEmpty(result.metadata)) {
+                    let lastPage = result.metadata.totalRecords && Math.ceil(result.metadata.totalRecords / 25);
+
+                    /* If last page is greater than 400, set to 400 to prevent indexing errors */
+                    if (lastPage > 399) {
+                        lastPage = 399;
+                    };
+
+                    setLastPage(lastPage);
+                };
+
+                /* Return records to handler */
+                Handler?.(records);
+            } catch (error) {
+                /* Set return data */
+                setReturnData({
+                    records: [],
+                    links: {},
+                    metadata: {
+                        totalRecords: 0
+                    }
+                });
+
+                console.error(error);
+            } finally {
+                setLoading(false);
+            };
+        })();
+    };
+
     /* UseEffect to watch the page number, if changed, trigger the given method */
     useEffect(() => {
         if (pageNumber) {
-            /* Set Loading to true */
-            setLoading(true);
-
-            /* Fetch data */
-            (async () => {
-                try {
-                    const result = await Method({ ...params, pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
-
-                    /* Set return data */
-                    const records = resultKey ? result[resultKey] : result[Object.keys(result)[0]];
-
-                    setReturnData({
-                        records,
-                        links: result?.links,
-                        metadata: result?.metadata
-                    });
-
-                    /* Calculate last page*/
-                    if (!isEmpty(result.metadata)) {
-                        let lastPage = result.metadata.totalRecords && Math.ceil(result.metadata.totalRecords / 25);
-
-                        /* If last page is greater than 400, set to 400 to prevent indexing errors */
-                        if (lastPage > 399) {
-                            lastPage = 399;
-                        };
-
-                        setLastPage(lastPage);
-                    };
-
-                    /* Return records to handler */
-                    Handler?.(records);
-                } catch (error) {
-                    /* Set return data */
-                    setReturnData({
-                        records: [],
-                        links: {},
-                        metadata: {
-                            totalRecords: 0
-                        }
-                    });
-
-                    console.error(error);
-                } finally {
-                    setLoading(false);
-                };
-            })();
+            Fetch();
         } else {
             setPageNumber(1);
         };
@@ -382,6 +386,7 @@ const usePagination = ({ pageSize, resultKey, params, allowSearchParams = false,
         currentPage: pageNumber,
         lastPage,
         loading,
+        Refresh: Fetch,
         GoToPage,
         ...((returnData.links && 'next' in returnData.links && pageNumber !== 399) && { Next }),
         ...(returnData.links && 'prev' in returnData.links && { Previous }),

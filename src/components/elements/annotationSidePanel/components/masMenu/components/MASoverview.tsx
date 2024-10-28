@@ -1,12 +1,12 @@
 /* Import Dependencies */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Hooks */
 import { usePagination } from 'app/Hooks';
 
 /* Import Types */
-import { DropdownItem, Dict } from "app/Types";
+import { DropdownItem, Dict, MASJobRecord } from "app/Types";
 
 /* Import Components */
 import MASJobRecordCard from "./MASJobRecordCard";
@@ -32,6 +32,7 @@ const MASOverview = (props: Props) => {
 
     /* Base variables */
     const [masJobRecordStateFilter, setMASJobRecordStateFilter] = useState<string>('');
+    const [pollInterval, setPollInterval] = useState<NodeJS.Timeout>();
 
     /* Hooks */
     const pagination = usePagination({
@@ -44,6 +45,20 @@ const MASOverview = (props: Props) => {
         triggers: [masJobRecordStateFilter],
         Method: GetMASJobRecords
     });
+
+    /* Initiate polling for updating the API */
+    useEffect(() => {
+        return () => {
+            clearInterval(pollInterval);
+            // setPollInterval(undefined);
+        };
+    }, [masJobRecordStateFilter]);
+
+    if (!pollInterval) {
+        setPollInterval(setInterval(() => {
+            pagination.Refresh();
+        }, 3000));
+    }
 
     /* Construct dropdown items */
     const masJobRecordStateItems: DropdownItem[] = [
@@ -94,6 +109,8 @@ const MASOverview = (props: Props) => {
                                 }}
                                 OnChange={(item: DropdownItem) => {
                                     setMASJobRecordStateFilter(item.value);
+                                    clearInterval(pollInterval);
+                                    setPollInterval(undefined);
                                 }}
                             />
                         </Col>
@@ -104,11 +121,11 @@ const MASOverview = (props: Props) => {
             <Row className="flex-grow-1 overflow-scroll mt-4">
                 <Col>
                     {pagination.records.length ? pagination.records.map((masJobRecord: Dict, index: number) => (
-                        <Row key={masJobRecord['ods:ID']}
+                        <Row key={masJobRecord.jobHandle}
                             className={index >= 1 ? 'mt-3' : ''}
                         >
                             <Col>
-                                <MASJobRecordCard masJobRecord={masJobRecord} />
+                                <MASJobRecordCard masJobRecord={masJobRecord as MASJobRecord} />
                             </Col>
                         </Row>
                     ))

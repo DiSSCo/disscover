@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, Dict } from 'app/Types';
+import { JSONResultArray, Dict } from 'app/Types';
 
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';
@@ -38,10 +38,13 @@ const GetDigitalSpecimenMASJobRecords = async ({ handle, pageSize, pageNumber, s
             });
 
             /* Get result data from JSON */
-            const data: JSONResult = result.data;
+            const data: JSONResultArray = result.data;
+
+            data.data.forEach(dataFragment => {
+                returnData.MASJobRecords.push(dataFragment.attributes);
+            });
 
             /* Set return data */
-            returnData.MASJobRecords = data.data.attributes as Dict[];
             returnData.links = data.links;
         } catch (error: any) {
             console.error(NotFoundException('Digital Specimen MAS Job Records', error.request.responseURL));

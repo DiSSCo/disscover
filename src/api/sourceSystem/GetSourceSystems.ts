@@ -2,7 +2,8 @@
 import axios from "axios";
 
 /* Import Types */
-import { SourceSystem, JSONResult } from "app/Types";
+import { SourceSystem } from "app/types/SourceSystem";
+import { JSONResultArray } from "app/Types";
 
 
 /**
@@ -25,14 +26,12 @@ const GetSourceSystems = async () => {
             responseType: 'json'
         });
 
-        const data: JSONResult = result.data;
-
-        console.log(data);
+        const data: JSONResultArray = result.data;
 
         /* Push each source system record to the source systems array */
-        // Object.values(data).forEach((sourceSystem) => {
-        //     sourceSystems.push(sourceSystem);
-        // });
+        data.data.forEach((dataFragment) => {
+            sourceSystems.push(dataFragment.attributes as SourceSystem);
+        });
     } catch (error) {
         console.warn(error);
     }

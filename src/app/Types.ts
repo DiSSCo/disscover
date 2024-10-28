@@ -2,6 +2,7 @@
 import { Annotation } from "./types/Annotation";
 import { DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
 import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
+import { SourceSystem } from "./types/SourceSystem";
 
 
 /* General type for a dictionary */
@@ -59,16 +60,6 @@ export type User = {
     email?: string,
     organisation?: string
     orcid?: string,
-};
-
-/* Source System Type */
-export interface SourceSystem {
-    id: string,
-    created: Date,
-    name: string,
-    endpoint: string,
-    description: string,
-    mappingId: string
 };
 
 /* Search Filter Type (search filters) */

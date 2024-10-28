@@ -13,7 +13,8 @@ import { useAppSelector, useFetch, useLoading, useNotification } from 'app/Hooks
 import { getOrganisationNames } from 'redux-store/BootSlice';
 
 /* Import Types */
-import { SearchFilters, SourceSystem  } from 'app/Types';
+import { SourceSystem } from 'app/types/SourceSystem';
+import { SearchFilters  } from 'app/Types';
 
 /* Import Styles */
 import styles from 'components/home/home.module.scss';
@@ -70,16 +71,16 @@ const AdvancedSearch = () => {
         physicalSpecimenIdType: 'global',
         normalisedPhysicalSpecimenId: '',
         organisationName: Object.values(organisationNames)[0],
-        sourceSystemId: sourceSystems[0]?.id ?? '',
+        sourceSystemId: sourceSystems[0]?.['ods:ID'] ?? '',
         collectionFacilityIdType: 'local'
     };
 
     /* OnLoad, fetch source systems */
     fetch.Fetch({
+        Method: GetSourceSystems,
         Handler: (sourceSystems: SourceSystem[]) => {
             setSourceSystems(sourceSystems);
-        },
-        Method: GetSourceSystems
+        }
     });
 
     /**
@@ -120,8 +121,8 @@ const AdvancedSearch = () => {
 
         if (type === 'local' && sourceSystemId) {
             /* For local physical specimen id, add source system ID */
-            searchFilters.physicalSpecimenId = searchFilters.physicalSpecimenId.concat(`:${sourceSystemId.split('/').at(-1)}`);
-        };
+            searchFilters.physicalSpecimenId[0] = searchFilters.physicalSpecimenId[0].concat(`:${sourceSystemId.split('/').at(-1)}`);
+        }
 
         GetDigitalSpecimens({ searchFilters, pageSize: 1 }).then(({ digitalSpecimens }) => {
             /* If a hit is found, navigate to the digital specimen page */
@@ -148,6 +149,7 @@ const AdvancedSearch = () => {
     return (
         <div>
             <Formik initialValues={initialFormValues}
+                enableReinitialize={true}
                 onSubmit={async (values) => {
                     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -250,7 +252,6 @@ const AdvancedSearch = () => {
                                         </Row>
                                     </div>
                                 }
-
                             </div>
                         </div>
                     </Form>

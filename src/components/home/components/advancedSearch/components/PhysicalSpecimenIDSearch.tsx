@@ -2,7 +2,8 @@
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Types */
-import { Dict, DropdownItem, SourceSystem } from 'app/Types';
+import { SourceSystem } from 'app/types/SourceSystem';
+import { Dict, DropdownItem } from 'app/Types';
 
 /* Import Components */
 import { Dropdown, InputField } from "components/elements/customUI/CustomUI";
@@ -62,7 +63,7 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                         <Col>
                             <Dropdown items={physicalSpecimenIDTypeDropdownItems}
                                 selectedItem={{
-                                    label: formValues?.physicalSpecimenIdType ?? 'global',
+                                    label: physicalSpecimenIDTypeDropdownItems.find(item => item.value === formValues?.physicalSpecimenIdType)?.label ?? 'global',
                                     value: formValues?.physicalSpecimenIdType ?? 'global'
                                 }}
                                 styles={{
@@ -89,11 +90,12 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                         <Row className="mt-1">
                             <Col>
                                 <Dropdown items={sourceSystems.map(sourceSystem => ({
-                                    label: sourceSystem.name,
-                                    value: sourceSystem.id
+                                    label: sourceSystem['schema:name'] ?? sourceSystem['ods:ID'],
+                                    value: sourceSystem['ods:ID']
                                 }))}
                                     selectedItem={{
-                                        label: sourceSystems.find(sourceSystem => sourceSystem.id === formValues?.sourceSystemId)?.name ?? formValues?.sourceSystemId,
+                                        label: sourceSystems.find(sourceSystem => sourceSystem['ods:ID'] === formValues?.sourceSystemId)?.['schema:name']
+                                            ?? formValues?.sourceSystemId,
                                         value: formValues?.sourceSystemId
                                     }}
                                     styles={{
@@ -102,7 +104,7 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                                         border: true,
                                         borderRadius: "999px"
                                     }}
-                                    OnChange={(item: DropdownItem) => SetFieldValue?.('organisationName', item.value)}
+                                    OnChange={(item: DropdownItem) => SetFieldValue?.('sourceSystemId', item.value)}
                                 />
                             </Col>
                         </Row>

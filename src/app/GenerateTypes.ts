@@ -25,7 +25,8 @@ const typesDict = {
     digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/digital-specimen.json',
     annotationTarget: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-target.json',
     annotationBody: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-body.json',
-    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation.json'
+    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation.json',
+    sourceSystem: 'https://schemas.dissco.tech/schemas/fdo-type/source-system/0.3.0/source-system.json'
 };
 
 /**

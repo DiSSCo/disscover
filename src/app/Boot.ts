@@ -1,11 +1,5 @@
 /* Import Dependencies */
-import { useState } from "react";
-
-/* Import Hooks */
-import { useAppDispatch, useFetch } from "./Hooks";
-
-/* Import Store */
-import { setBootState } from "redux-store/BootSlice";
+import KeycloakService from "./Keycloak";
 
 /* Import Types */
 import { Dict } from "./Types";
@@ -15,40 +9,29 @@ import GetDigitalSpecimenAggregations from "api/digitalSpecimen/GetDigitalSpecim
 import GetPhylopicBuild from "api/phylopic/GetPhylopicBuild";
 
 
-const Boot = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
-    const fetch = useFetch();
+/* Callback type */
+type Callback = (bootState: {
+    aggregations: Dict,
+    phylopicBuild: number
+}) => Function | void;
 
-    /* Base variables */
-    const [booted, setBooted] = useState<boolean>(false);
 
-    /* Fetch digital specimen aggregations */
-    fetch.FetchMultiple({
-        callMethods: [
-            {
-                alias: 'digitalSpecimenAggregations',
-                params: {},
-                Method: GetDigitalSpecimenAggregations
-            },
-            {
-                alias: 'phylopicBuild',
-                Method: GetPhylopicBuild
-            }
-        ],
-        Handler: (results: Dict) => {
-            /* Set boot state */
-            dispatch(setBootState({
-                aggregations: results.digitalSpecimenAggregations ?? {},
-                phylopicBuild: results.phylopicBuild
-            }));
+/**
+ * Function that runs the application's necessary processes before it can be booted
+ * @returns True or false depening on if is has booted
+ */
+const Boot = (callback: Callback) => {
+    /* Initiate keycloak which will render the root after finishing setting up */
+    KeycloakService.InitKeyCloak(() => {
+        const promises = [GetDigitalSpecimenAggregations({}), GetPhylopicBuild()];
 
-            /* End loading */
-            setBooted(true);
-        }
-    })
-
-    return booted;
+        Promise.all(promises).then((results: Dict) => {
+            callback({
+                aggregations: results[0],
+                phylopicBuild: results[1]
+            });
+        });
+    });
 };
 
 export default Boot;

@@ -117,6 +117,10 @@ p {
   color: var(--accent);
 }
 
+.tc-black {
+  color: #333333;
+}
+
 .tc-white {
   color: #ffffff;
 }

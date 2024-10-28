@@ -22,16 +22,18 @@ const InitKeyCloak = (callback?: Callback, token?: string) => {
         token: token,
         refreshToken: token
     })
-        .then((authenticated) => { 
+        .then((authenticated) => {
             if (!authenticated) {
                 console.info("User is not authenticated");
             }
 
-            if (callback) {
-                callback();
-            }
+            callback?.();
         })
-        .catch(console.error);
+        .catch((error) => {
+            console.error(error);
+
+            callback?.();
+        });
 }
 
 const Login = keycloak.login;

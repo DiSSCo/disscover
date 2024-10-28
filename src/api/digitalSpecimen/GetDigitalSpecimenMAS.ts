@@ -3,7 +3,7 @@ import axios from 'axios';
 
 /* Import Types */
 import { MachineAnnotationService } from 'app/types/MachineAnnotationService';
-import { JSONResult, Dict } from 'app/Types';
+import { JSONResultArray, Dict } from 'app/Types';
 
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';
@@ -28,7 +28,7 @@ const GetDigitalSpecimenMASs = async ({ handle }: { handle: string }) => {
             });
 
             /* Get result data from JSON */
-            const data: JSONResult = result.data;
+            const data: JSONResultArray = result.data;
 
             /* Set MASs */
             data.data.forEach((dataRow: Dict) => {

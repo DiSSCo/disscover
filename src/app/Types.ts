@@ -22,7 +22,7 @@ type DataFragment = {
             digitalMediaObject: DigitalMediaType,
             annotations: Annotation[]
         }[],
-        annotations?: Annotation[]
+        annotations?: Annotation[],
         [property: string]: any
     }
 }
@@ -38,7 +38,7 @@ export type JSONResult = {
 };
 
 export type JSONResultArray = {
-    data: DataFragment[],
+    data: DataFragment[] | Dict[],
     links: {
         self: string,
         first?: string,
@@ -86,7 +86,7 @@ export type PaginationObject = {
     Next?: Function,
     Previous?: Function,
     Last?: Function
-}
+};
 
 /* Annotation target */
 export type AnnotationTarget = {
@@ -123,6 +123,21 @@ export type AnnotationTemplate = {
     "oa:hasBody": {
         "oa:value": (string | Dict)[]
     }
+};
+
+/* Machine Job Record */
+export type MASJobRecord = {
+    annotations: Dict,
+    batchingRequested: boolean,
+    jobHandle: string,
+    masId: string,
+    orcid: string,
+    state: 'SCHEDULED' | 'RUNNING' | 'FAILED' | 'COMPLETED',
+    targetId: string,
+    targetType: string,
+    timeCompleted: string,
+    timeStarted: string,
+    timeToLive: number
 };
 
 /* Parent class */

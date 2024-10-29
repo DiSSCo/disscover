@@ -45,6 +45,6 @@ const GetDigitalSpecimen = async({ handle, version } : { handle: string, version
     };
 
     return digitalSpecimen;
-}
+};
 
 export default GetDigitalSpecimen;

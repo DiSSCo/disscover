@@ -129,7 +129,6 @@ const AnnotationsOverview = (props: Props) => {
                             await new Promise((resolve) => setTimeout(resolve, 100));
 
                             /* Set filtered and sorted annotations */
-                            // setOverviewAnnotations(SortAndFilerAnnotations(values.motivation, values.sortBy));
                             SetFilterSortValues(values);
                         }}
                     >

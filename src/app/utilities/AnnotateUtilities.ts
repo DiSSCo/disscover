@@ -6,9 +6,7 @@ import { isEmpty, cloneDeep } from 'lodash';
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
-import { DigitalSpecimen } from "app/types/DigitalSpecimen";
-import { DigitalMedia } from "app/types/DigitalMedia";
-import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict } from "app/Types";
+import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass } from "app/Types";
 
 
 /* Utilities associated with annotating */
@@ -86,7 +84,7 @@ const ConstructAnnotationObject = (params: {
  */
 const ExtractParentClasses = (params: {
     annotationTarget: AnnotationTarget,
-    superClass: DigitalSpecimen | DigitalMedia | Dict
+    superClass: SuperClass
 }) => {
     const { annotationTarget, superClass } = params;
 
@@ -165,7 +163,7 @@ const FormatJsonPathFromFieldName = (fieldName: string): string => {
  * @param schemaName The name of the base schema
  * @returns The annotation form field properties and their associated form values
  */
-const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: DigitalSpecimen | DigitalMedia | Dict, schemaName: string) => {
+const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: SuperClass, schemaName: string) => {
     const annotationFormFieldProperties: {
         [propertyName: string]: AnnotationFormProperty
     } = {};

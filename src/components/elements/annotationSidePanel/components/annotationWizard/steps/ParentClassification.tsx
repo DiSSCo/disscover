@@ -12,9 +12,7 @@ import { useAppDispatch } from "app/Hooks";
 import { setAnnotationTarget } from "redux-store/AnnotateSlice";
 
 /* Import Types */
-import { DigitalSpecimen } from "app/types/DigitalSpecimen";
-import { DigitalMedia } from "app/types/DigitalMedia";
-import { AnnotationTarget, ParentClass, DropdownItem, Dict } from "app/Types";
+import { AnnotationTarget, ParentClass, DropdownItem, Dict, SuperClass } from "app/Types";
 
 /* Import Icons */
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
@@ -31,7 +29,7 @@ type Props = {
     parentClasses: ParentClass[],
     annotationTarget?: AnnotationTarget,
     formValues?: Dict,
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass,
     SetFieldValue?: Function,
     SetParentClasses: Function
 };

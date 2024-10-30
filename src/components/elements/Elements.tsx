@@ -6,6 +6,7 @@ import Footer from "./footer/Footer";
 import Header from "./header/Header";
 import ImageViewer from "./digitalMedia/ImageViewer";
 import Paginator from "./paginator/Paginator";
+import TopBarActions from "./topBarActions/TopBarActions";
 
 
 
@@ -17,5 +18,6 @@ export {
     Footer,
     Header,
     ImageViewer,
-    Paginator
+    Paginator,
+    TopBarActions
 };

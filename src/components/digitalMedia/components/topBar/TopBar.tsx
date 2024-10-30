@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 
@@ -10,14 +9,12 @@ import { useFetch } from "app/Hooks";
 import { DigitalMedia } from "app/types/DigitalMedia";
 import { DropdownItem } from "app/Types";
 
-/* Import Icons */
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-
 /* Import API */
 import GetDigitalMediaVersions from "api/digitalMedia/GetDigitalMediaVersions";
 
 /* Import Components */
-import { Button, Dropdown } from "components/elements/customUI/CustomUI";
+import { TopBarActions } from "components/elements/Elements";
+import { Dropdown } from "components/elements/customUI/CustomUI";
 
 
 /* Props type */
@@ -133,37 +130,10 @@ const TopBar = (props: Props) => {
                     </Row>
                 </Col>
                 <Col>
-                    <Row className="flex-row-reverse">
-                        <Col lg="auto">
-                            {/* Dropdown for actions upon digital media */}
-                            <Dropdown items={actionDropdownItems}
-                                hasDefault={true}
-                                placeholder="Actions"
-                                styles={{
-                                    color: '#f1f1f3',
-                                    textColor: '#ffffff',
-                                    background: '#4d59a2',
-                                    borderRadius: '999px'
-                                }}
-                            />
-                        </Col>
-                        <Col lg="auto"
-                            className="pe-1"
-                        >
-                            {/* Button to toggle the annotations side panel for this digital media item */}
-                            <Button type="button"
-                                variant="primary"
-                                OnClick={() => ToggleAnnotationSidePanel()}
-                            >
-                                <span>
-                                    {annotationMode ? 'Stop annotating' : 'Annotate'}
-                                    <FontAwesomeIcon icon={faPenToSquare}
-                                        className="ms-2"
-                                    />
-                                </span>
-                            </Button>
-                        </Col>
-                    </Row>
+                    <TopBarActions actionDropdownItems={actionDropdownItems}
+                        annotationMode={annotationMode}
+                        ToggleAnnotationSidePanel={ToggleAnnotationSidePanel}
+                    />
                 </Col>
             </Row>
         </div>

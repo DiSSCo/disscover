@@ -17,7 +17,7 @@ import { Dict, SuperClass } from 'app/Types';
 import styles from './annotationSidePanel.module.scss';
 
 /* Import Components */
-import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, TopBar } from './AnnotationSidePanelComponents';
+import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, MASMenu, TopBar } from './AnnotationSidePanelComponents';
 import { LoadingScreen } from '../customUI/CustomUI';
 
 
@@ -26,6 +26,9 @@ type Props = {
     superClass: SuperClass,
     schema: Dict,
     GetAnnotations: Function,
+    GetMASs: Function,
+    GetMASJobRecords: Function,
+    ScheduleMASs: Function,
     HideAnnotationSidePanel: Function
 };
 
@@ -33,13 +36,16 @@ type Props = {
 /**
  * Component that renders the annotation side panel
  * @param annotationMode Boolean indicating if the annotation mode is on or not
- * @param superClass The super class reigning the annotation side panel, either Digital Specimen or Digital Media
+ * @param superClass The super class reigning the annotation side panel
  * @param GetAnnotations Function that fetches the annotations of the super class
+ * @param GetMASs Function that fetches the potential MASs to be run
+ * @param GetMASJobRecords Function that fetches the MAS job records of the super class
+ * @param ScheduleMASs Function to schedule MASs
  * @param HideAnnotationSidePanel Function to hide the annotation side panel
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { superClass, schema, GetAnnotations, HideAnnotationSidePanel } = props;
+    const { superClass, schema, GetAnnotations, GetMASs, GetMASJobRecords, ScheduleMASs, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -49,6 +55,7 @@ const AnnotationSidePanel = (props: Props) => {
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
+    const [masMenuToggle, setMasMenuToggle] = useState<boolean>(false);
     const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [filterSortValues, setFilterSortValues] = useState<{
@@ -122,13 +129,24 @@ const AnnotationSidePanel = (props: Props) => {
                             SetLoading={(loading: boolean) => setLoading(loading)}
                             SetFilterSortValues={setFilterSortValues}
                         />
-                        : <AnnotationsOverview annotations={annotations}
-                            filterSortValues={filterSortValues}
-                            schemaTitle={schema.title}
-                            SetFilterSortValues={setFilterSortValues}
-                            StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
-                            RefreshAnnotations={RefreshAnnotations}
-                        />
+                        : <>
+                            {(masMenuToggle && superClass) ? <MASMenu superClass={superClass}
+                                CloseMASMenu={() => setMasMenuToggle(false)}
+                                SetLoading={setLoading}
+                                GetMASs={GetMASs}
+                                GetMASJobRecords={GetMASJobRecords}
+                                ScheduleMASs={ScheduleMASs}
+                            />
+                                : <AnnotationsOverview annotations={annotations}
+                                    filterSortValues={filterSortValues}
+                                    schemaTitle={schema.title}
+                                    SetFilterSortValues={setFilterSortValues}
+                                    StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                                    RefreshAnnotations={RefreshAnnotations}
+                                    OpenMASMenu={() => setMasMenuToggle(true)}
+                                />
+                            }
+                        </>
                     }
                 </Col>
             </Row>

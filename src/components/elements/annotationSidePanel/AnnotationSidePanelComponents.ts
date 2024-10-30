@@ -2,6 +2,7 @@
 import AnnotationsOverview from "./components/AnnotationsOverview";
 import AnnotationPolicyText from "./components/AnnotationPolicyText";
 import AnnotationWizard from "./components/annotationWizard/AnnotationWizard";
+import MASMenu from "./components/masMenu/MASMenu";
 import TopBar from "./components/TopBar";
 
 
@@ -10,5 +11,6 @@ export {
     AnnotationsOverview,
     AnnotationPolicyText,
     AnnotationWizard,
+    MASMenu,
     TopBar
 };

@@ -24,7 +24,7 @@ type DataFragment = {
             annotations: Annotation[]
         }[],
         annotations?: Annotation[],
-        sourceSystem?: SourceSystemmain
+        sourceSystem?: SourceSystem
         [property: string]: any
     }
 };

@@ -32,10 +32,13 @@ const UserMenu = () => {
         }
     ];
 
+    /* Create user tag */
+    const userTag: string = `${KeycloakService.GetParsedToken()?.given_name?.[0]}. ${KeycloakService.GetParsedToken()?.family_name}`;
+
     return (
         <div>
             <Dropdown items={items}
-                placeholder="T. Dijkema"
+                placeholder={userTag}
                 styles={{
                     border: false
                 }}

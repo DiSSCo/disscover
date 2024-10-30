@@ -242,8 +242,8 @@ const useNotification = () => {
  * Paginator Hook for handling pagination with fetch requests and page numbers
  * @returns Instance of hook
  */
-const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method, Handler }:
-    { pageSize: number, resultKey?: string, allowSearchParams?: boolean, Method: Function, Handler?: Function }
+const usePagination = ({ pageSize, resultKey, params, allowSearchParams = false, triggers, Method, Handler }:
+    { pageSize: number, resultKey?: string, params?: Dict, allowSearchParams?: boolean, triggers?: any[], Method: Function, Handler?: Function }
 ) => {
     /* Hooks */
     const [searchParams] = useSearchParams();
@@ -313,59 +313,63 @@ const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method,
         setPageNumber(lastPage);
     };
 
+    const Fetch = () => {
+        /* Set Loading to true */
+        setLoading(true);
+
+        /* Fetch data */
+        (async () => {
+            try {
+                const result = await Method({ ...params, pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
+
+                /* Set return data */
+                const records = resultKey ? result[resultKey] : result[Object.keys(result)[0]];
+
+                setReturnData({
+                    records,
+                    links: result?.links,
+                    metadata: result?.metadata
+                });
+
+                /* Calculate last page*/
+                if (!isEmpty(result.metadata)) {
+                    let lastPage = result.metadata.totalRecords && Math.ceil(result.metadata.totalRecords / 25);
+
+                    /* If last page is greater than 400, set to 400 to prevent indexing errors */
+                    if (lastPage > 399) {
+                        lastPage = 399;
+                    };
+
+                    setLastPage(lastPage);
+                };
+
+                /* Return records to handler */
+                Handler?.(records);
+            } catch (error) {
+                /* Set return data */
+                setReturnData({
+                    records: [],
+                    links: {},
+                    metadata: {
+                        totalRecords: 0
+                    }
+                });
+
+                console.error(error);
+            } finally {
+                setLoading(false);
+            };
+        })();
+    };
+
     /* UseEffect to watch the page number, if changed, trigger the given method */
     useEffect(() => {
         if (pageNumber) {
-            /* Set Loading to true */
-            setLoading(true);
-
-            /* Fetch data */
-            (async () => {
-                try {
-                    const result = await Method({ pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
-
-                    /* Set return data */
-                    const records = resultKey ? result[resultKey] : result[Object.keys(result)[0]];
-
-                    setReturnData({
-                        records,
-                        links: result?.links,
-                        metadata: result?.metadata
-                    });
-
-                    /* Calculate last page*/
-                    if (!isEmpty(result.metadata)) {
-                        let lastPage = result.metadata.totalRecords && Math.ceil(result.metadata.totalRecords / 25);
-
-                        /* If last page is greater than 400, set to 400 to prevent indexing errors */
-                        if (lastPage > 399) {
-                            lastPage = 399;
-                        };
-
-                        setLastPage(lastPage);
-                    };
-
-                    /* Return records to handler */
-                    Handler?.(records);
-                } catch (error) {
-                    /* Set return data */
-                    setReturnData({
-                        records: [],
-                        links: {},
-                        metadata: {
-                            totalRecords: 0
-                        }
-                    });
-
-                    console.error(error);
-                } finally {
-                    setLoading(false);
-                };
-            })();
+            Fetch();
         } else {
             setPageNumber(1);
         };
-    }, [pageNumber]);
+    }, [pageNumber, ...(triggers ?? [])]);
 
     /* UseEffect to watch the search parameters if allowed, if so and on change, reset the page number to 1 */
     useEffect(() => {
@@ -382,9 +386,10 @@ const usePagination = ({ pageSize, resultKey, allowSearchParams = false, Method,
         currentPage: pageNumber,
         lastPage,
         loading,
+        Refresh: Fetch,
         GoToPage,
-        ...(('next' in returnData.links && pageNumber !== 399) && { Next }),
-        ...('prev' in returnData.links && { Previous }),
+        ...((returnData.links && 'next' in returnData.links && pageNumber !== 399) && { Next }),
+        ...(returnData.links && 'prev' in returnData.links && { Previous }),
         ...((lastPage !== pageNumber && lastPage <= 399) && { Last })
     };
 };

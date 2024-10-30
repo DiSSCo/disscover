@@ -99,7 +99,7 @@ const MASScheduleMenu = (props: Props) => {
 
                             try {
                                 await ScheduleMASs({
-                                    digitalSpecimenId: digitalObjectId,
+                                    handle: digitalObjectId,
                                     masList: masList
                                 });
 

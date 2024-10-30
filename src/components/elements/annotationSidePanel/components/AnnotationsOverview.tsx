@@ -32,7 +32,7 @@ type Props = {
     schemaTitle: string,
     SetFilterSortValues: Function,
     StartAnnotationWizard: Function,
-    RefreshAnnotations: Function
+    RefreshAnnotations: Function,
     OpenMASMenu: Function
 };
 

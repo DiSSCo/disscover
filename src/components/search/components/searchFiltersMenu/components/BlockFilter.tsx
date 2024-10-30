@@ -36,7 +36,7 @@ const BlockFilter = (props: Props) => {
         Object.keys(aggregations).forEach(key => {
             blockFilterItems.push(key);
         })
-    };
+    }
 
     /* Construct from selected values by replacing the aggregation ones */
     fieldValues.forEach(fieldValue => {
@@ -44,7 +44,7 @@ const BlockFilter = (props: Props) => {
 
         if (index >= 0) {
             blockFilterItems.splice(index, 1, fieldValue);
-        };
+        }
     });
 
     /**
@@ -61,7 +61,7 @@ const BlockFilter = (props: Props) => {
             Remove(index);
         } else {
             Push(blockFilterItem);
-        };
+        }
 
         SubmitForm();
     };

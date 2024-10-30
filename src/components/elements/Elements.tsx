@@ -4,6 +4,7 @@ import BreadCrumbs from "./breadCrumbs/BreadCrumbs";
 import DigitalMediaItem from "./digitalMedia/DigitalMediaItem";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
+import ImageViewer from "./digitalMedia/ImageViewer";
 import Paginator from "./paginator/Paginator";
 
 
@@ -15,5 +16,6 @@ export {
     DigitalMediaItem,
     Footer,
     Header,
+    ImageViewer,
     Paginator
 };

@@ -43,7 +43,7 @@ const DigitalSpecimen = () => {
     const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
 
-    /* OnLoad: fetch digital specimen data */
+    /* OnLoad, fetch digital specimen data */
     fetch.FetchMultiple({
         callMethods: [
             {

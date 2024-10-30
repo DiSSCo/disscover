@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
 /* Import Utilities */
 import { DetermineScientificName } from 'app/utilities/NomenclaturalUtilities';
 
 /* Import Hooks */
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
@@ -205,9 +205,16 @@ const IdCard = () => {
                                                 lg={{ span: 4 }}
                                                 className="h-100 overflow-hidden"
                                             >
-                                                <div className="h-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden">
-                                                    <DigitalMediaItem digitalMedia={digitalMedia} />
-                                                </div>
+                                        
+                                                    <Button type="button"
+                                                        variant="blank"
+                                                        className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
+                                                        OnClick={() => navigate(`/dm/${digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                                                    >
+                                                        <DigitalMediaItem digitalMedia={digitalMedia} />
+                                                    </Button>
+
+                                             
                                             </Col>
                                         ))}
                                     </Row>

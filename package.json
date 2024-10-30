@@ -61,6 +61,7 @@
     "@types/cytoscape": "^3.21.5",
     "@types/jsonpath": "^0.2.4",
     "@types/leaflet": "^1.9.12",
+    "@types/openseadragon": "^3.0.10",
     "@types/react": "^18.2.66",
     "@types/react-cytoscapejs": "^1.2.5",
     "@types/react-dom": "^18.2.22",

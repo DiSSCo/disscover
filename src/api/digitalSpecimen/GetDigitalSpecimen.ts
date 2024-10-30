@@ -25,7 +25,7 @@ const GetDigitalSpecimen = async({ handle, version } : { handle: string, version
             endPoint = `digital-specimen/${handle}/${version}`;
         } else {
             endPoint = `digital-specimen/${handle}`;
-        };
+        }
 
         try {
             const result = await axios({
@@ -42,9 +42,9 @@ const GetDigitalSpecimen = async({ handle, version } : { handle: string, version
         } catch (error: any) {
             throw(NotFoundException('Digital Specimen', error.request.responseURL));
         };
-    };
+    }
 
     return digitalSpecimen;
-}
+};
 
 export default GetDigitalSpecimen;

@@ -8,6 +8,7 @@ import { useAppSelector } from 'app/Hooks';
 
 /* Import Store */
 import { getDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
+import { getDigitalMedia } from 'redux-store/DigitalMediaSlice';
 
 /* Import Icons */
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -26,12 +27,13 @@ const BreadCrumbs = () => {
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
+    const digitalMedia = useAppSelector(getDigitalMedia);
     const breadCrumbs: BreadCrumb[] = [];
 
     /* Construct bread crumbs based on location */
     location.pathname.slice(1).split('/').forEach((pathPart) => {
         switch (pathPart) {
-            case 'search':
+            case 'search': {
                 breadCrumbs.push({
                     crumb: 'Specimens',
                     path: '/search'
@@ -44,7 +46,7 @@ const BreadCrumbs = () => {
                 };
 
                 break;
-            case 'ds':
+            } case 'ds': {
                 breadCrumbs.push({
                     crumb: 'Specimens',
                     path: '/search'
@@ -54,6 +56,35 @@ const BreadCrumbs = () => {
                     crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`,
                     path: `/ds/${digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
                 });
+
+                break;
+            } case 'dm': {
+                breadCrumbs.push({
+                    crumb: 'Specimens',
+                    path: '/search'
+                });
+
+                const digitalMediaDigitalSpecimenId: string | undefined = digitalMedia?.['ods:hasEntityRelationship']?.find(
+                    entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
+                )?.['dwc:relatedResourceID'].replace(import.meta.env.VITE_DOI_URL, '');
+
+                if (digitalMediaDigitalSpecimenId) {
+                    breadCrumbs.push({
+                        crumb: digitalMediaDigitalSpecimenId,
+                        path: `/ds/${digitalMediaDigitalSpecimenId}`
+                    });
+                }
+
+                breadCrumbs.push({
+                    crumb: 'Digital Media'
+                });
+
+                breadCrumbs.push({
+                    crumb: `${digitalMedia?.['ods:ID']}`
+                });
+
+                break;
+            }
         };
     });
 

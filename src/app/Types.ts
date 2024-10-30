@@ -27,7 +27,7 @@ type DataFragment = {
         sourceSystem?: SourceSystem
         [property: string]: any
     }
-}
+};
 
 export type JSONResult = {
     data: DataFragment,

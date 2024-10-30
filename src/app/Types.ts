@@ -91,9 +91,6 @@ export type PaginationObject = {
 /* Super class (annotation target) */
 export type SuperClass = DigitalSpecimen | DigitalMedia | Dict;
 
-/* Super class (annotation target) */
-export type SuperClass = DigitalSpecimen | DigitalMedia | Dict;
-
 /* Annotation target */
 export type AnnotationTarget = {
     type: 'superClass' | 'class' | 'term',

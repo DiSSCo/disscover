@@ -4,11 +4,11 @@ import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-/* Import Utilities */
-import KeycloakService from 'app/Keycloak';
-
 /* Import Store */
 import { setupStore } from './app/Store';
+
+/* Import Types */
+import { Dict } from 'app/Types';
 
 /* Import Styles */
 import '@annotorious/react/annotorious-react.css';
@@ -18,28 +18,51 @@ import 'leaflet/dist/leaflet.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-tabs/style/react-tabs.css';
 
+/* Import Boot file */
+import Boot from 'app/Boot';
+
 /* Import Components */
 import App from './App';
+import Loading from 'components/Loading';
 
 
 /* Define axios base url */
 axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api/v1`;
 
 
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
 /**
  * Function for rendering the root of the application
  */
-const RenderRoot = () => {
-  const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-  );
+const RenderRoot = (bootState?: {
+  aggregations: Dict,
+  phylopicBuild: number
+}) => {
+  // const root = ReactDOM.createRoot(
+  //   document.getElementById('root') as HTMLElement
+  // );
 
-  root.render(
-    <Provider store={setupStore()}>
-      <App />
-    </Provider>
-  );
+  if (bootState) {
+    root.render(
+      <Provider store={setupStore()}>
+        <App bootState={bootState} />
+      </Provider>
+    );
+  } else {
+    root.render(
+      <Loading />
+    );
+  }
 };
 
-/* Initiate keycloak which will render the root after receiving the user token */
-KeycloakService.InitKeyCloak(RenderRoot);
+RenderRoot();
+
+/* Boot application */
+Boot(RenderRoot);
+
+
+/* Initiate keycloak which will render the root after finishing setting up */
+// KeycloakService.InitKeyCloak(RenderRoot);

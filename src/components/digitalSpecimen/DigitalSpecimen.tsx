@@ -21,6 +21,9 @@ import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
 import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
 import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecimenDigitalMedia';
 import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
+import GetDigitalSpecimenMASs from 'api/digitalSpecimen/GetDigitalSpecimenMAS';
+import GetDigitalSpecimenMASJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMASJobRecords';
+import ScheduleDigitalSpecimenMAS from "api/digitalSpecimen/ScheduleDigitalSpecimenMAS";
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
@@ -162,6 +165,9 @@ const DigitalSpecimen = () => {
                         <AnnotationSidePanel superClass={digitalSpecimen}
                             schema={DigitalSpecimenSchema}
                             GetAnnotations={GetDigitalSpecimenAnnotations}
+                            GetMASs={GetDigitalSpecimenMASs}
+                            GetMASJobRecords={GetDigitalSpecimenMASJobRecords}
+                            ScheduleMASs={ScheduleDigitalSpecimenMAS}
                             HideAnnotationSidePanel={() => setAnnotationMode(false)}
                         />
                     </div>

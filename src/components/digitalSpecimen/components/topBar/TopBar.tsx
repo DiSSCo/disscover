@@ -147,6 +147,7 @@ const TopBar = (props: Props) => {
                 <Col>
                     <Row className="flex-row-reverse">
                         <Col lg="auto">
+                            {/* Dropdown for actions upon digital specimen */}
                             <Dropdown items={actionDropdownItems}
                                 hasDefault={true}
                                 placeholder="Actions"
@@ -161,6 +162,7 @@ const TopBar = (props: Props) => {
                         <Col lg="auto"
                             className="pe-1"
                         >
+                            {/* Button to toggle the annotations side panel for this digital specimen */}
                             <Button type="button"
                                 variant="primary"
                                 OnClick={() => ToggleAnnotationSidePanel()}

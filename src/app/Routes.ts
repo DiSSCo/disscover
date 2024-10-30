@@ -8,7 +8,7 @@ import ProfileRoutes from 'components/profile/Routes';
 
 
 /* Routes for application */
-const AppRoutes = [
+const AppRoutes: JSX.Element[] = [
     ...DemoRoutes,
     ...HomeRoutes,
     ...SearchRoutes,

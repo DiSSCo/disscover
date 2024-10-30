@@ -82,8 +82,8 @@ const MASScheduleMenu = (props: Props) => {
                     </div>
                 </Col>
             </Row>
-            <Row className="flex-grow-1 mt-4">
-                <Col>
+            <Row className="flex-grow-1 mt-4 overflow-hidden">
+                <Col className="h-100">
                     {/* Schedule MAS form */}
                     <Formik initialValues={initialFormValues}
                         onSubmit={async (values) => {
@@ -133,12 +133,14 @@ const MASScheduleMenu = (props: Props) => {
                                 {/* Display selected MAS */}
                                 <Row className="flex-grow-1 py-3 overflow-scroll">
                                     <Col>
-                                        {values.scheduledMAS.map(masOption => {
+                                        {values.scheduledMAS.map((masOption, index) => {
                                             const mas = mass.find(mas => mas["ods:ID"] === masOption.value);
 
                                             if (mas) {
                                                 return (
-                                                    <Row key={mas["ods:ID"]}>
+                                                    <Row key={mas["ods:ID"]}
+                                                        className={index >= 1 ? 'mt-2' : ''}
+                                                    >
                                                         <Col>
                                                             <Card className="px-3 py-2">
                                                                 <Row>

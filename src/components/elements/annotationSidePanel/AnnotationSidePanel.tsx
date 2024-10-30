@@ -4,7 +4,10 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { useFetch } from 'app/Hooks';
+import { useAppDispatch, useAppSelector, useFetch } from 'app/Hooks';
+
+/* Import Store */
+import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
@@ -47,9 +50,11 @@ const AnnotationSidePanel = (props: Props) => {
     const { superClass, schema, GetAnnotations, GetMASs, GetMASJobRecords, ScheduleMASs, HideAnnotationSidePanel } = props;
 
     /* Hooks */
+    const dispatch = useAppDispatch();
     const fetch = useFetch();
 
     /* Base variables */
+    const annotationTarget = useAppSelector(getAnnotationTarget);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
     const [masMenuToggle, setMasMenuToggle] = useState<boolean>(false);
@@ -117,6 +122,10 @@ const AnnotationSidePanel = (props: Props) => {
                             superClass={superClass}
                             StopAnnotationWizard={() => {
                                 setAnnotationWizardToggle(false);
+                                dispatch(setAnnotationTarget(annotationTarget ? {
+                                    ...annotationTarget,
+                                    annotation: undefined
+                                } : undefined));
                                 setLoading(false);
                             }}
                             SetLoading={(loading: boolean) => setLoading(loading)}
@@ -132,8 +141,10 @@ const AnnotationSidePanel = (props: Props) => {
                             />
                                 : <AnnotationsOverview annotations={annotations}
                                     filterSortValues={filterSortValues}
+                                    schemaTitle={schema.title}
                                     SetFilterSortValues={setFilterSortValues}
                                     StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
+                                    RefreshAnnotations={RefreshAnnotations}
                                     OpenMASMenu={() => setMasMenuToggle(true)}
                                 />
                             }

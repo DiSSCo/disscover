@@ -4,6 +4,12 @@ import { Formik, Form } from "formik";
 import KeycloakService from "app/Keycloak";
 import { Row, Col, Card } from "react-bootstrap";
 
+/* Import Hooks */
+import { useAppDispatch } from "app/Hooks";
+
+/* Import Store */
+import { setAnnotationTarget } from "redux-store/AnnotateSlice";
+
 /* Import Types */
 import { Annotation } from "app/types/Annotation";
 
@@ -23,8 +29,10 @@ type Props = {
         motivation: string,
         sortBy: string
     },
+    schemaTitle: string,
     SetFilterSortValues: Function,
     StartAnnotationWizard: Function,
+    RefreshAnnotations: Function
     OpenMASMenu: Function
 };
 
@@ -33,13 +41,18 @@ type Props = {
  * Component that renders the annotations overview in the annotation side panel
  * @param annotations The annotations to be rendered in the overview
  * @param filterSortValues The filter/sort values to refine the overview annotations
+ * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values
  * @param StartAnnotationWizard Function that starts the annotation wizard
+ * @param RefresAnnotations Function to refresh the annotations in the annotations overview
  * @param OpenMASMenu Function to open the MAS menu
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, SetFilterSortValues, StartAnnotationWizard, OpenMASMenu } = props;
+    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMASMenu } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /**
      * Function to sort and filter annotations by the selected values
@@ -66,7 +79,44 @@ const AnnotationsOverview = (props: Props) => {
         return filteredSortedAnnotations;
     };
 
+    /* Set overview annotations */
     const overviewAnnotations = SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy);
+
+    /**
+     * Function to start editing an existing annotation
+     * @param annotation The annotation to be edited
+     */
+    const EditAnnotation = (annotation: Annotation) => {
+        /* Determine annotation target type */
+        let annotationTargetType: 'superClass' | 'class' | 'term' = 'superClass';
+        let jsonPath: string = '$';
+
+        if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
+            if (annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] !== '$') {
+                annotationTargetType = 'class';
+            }
+
+            jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"].replaceAll('"', "'");
+        } else if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:FieldSelector') {
+            annotationTargetType = 'term';
+
+            jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:field"].replaceAll('"', "'");
+        }
+
+        /* Set annotation target to this annotation */
+        dispatch(setAnnotationTarget({
+            type: annotationTargetType,
+            jsonPath,
+            annotation: {
+                id: annotation["ods:ID"],
+                motivation: annotation["oa:motivation"],
+                values: annotation["oa:hasBody"]["oa:value"]
+            }
+        }));
+
+        /* Start annotation wizard */
+        StartAnnotationWizard();
+    };
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -101,7 +151,11 @@ const AnnotationsOverview = (props: Props) => {
                         <div key={annotation['ods:ID']}
                             className="mb-2"
                         >
-                            <AnnotationCard annotation={annotation} />
+                            <AnnotationCard annotation={annotation}
+                                schemaTitle={schemaTitle}
+                                EditAnnotation={EditAnnotation}
+                                RefreshAnnotations={RefreshAnnotations}
+                            />
                         </div>
                     )) : <p className="fs-4 tc-grey fst-italic">
                         Currently, this digital object does not have any annotations

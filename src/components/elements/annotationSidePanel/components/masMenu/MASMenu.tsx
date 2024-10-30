@@ -87,8 +87,8 @@ const MASMenu = (props: Props) => {
                     </Button>
                 </Col>
             </Row>
-            <Row className="flex-grow-1">
-                <Col>
+            <Row className="flex-grow-1 overflow-hidden">
+                <Col className="h-100">
                     {/* MAS overview and schedule menu */}
                     {scheduleMASMenuToggle ?
                         <MASScheduleMenu digitalObjectId={superClass['@id']}

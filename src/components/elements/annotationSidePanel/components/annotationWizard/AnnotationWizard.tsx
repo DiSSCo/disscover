@@ -8,10 +8,10 @@ import { Row, Col } from 'react-bootstrap';
 import { ConstructAnnotationObject, ProcessAnnotationValues } from 'app/utilities/AnnotateUtilities';
 
 /* Import Hooks */
-import { useAppDispatch, useNotification } from 'app/Hooks';
+import { useAppSelector, useAppDispatch, useNotification } from 'app/Hooks';
 
 /* Import Store */
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
@@ -20,6 +20,7 @@ import { Dict, ProgressDot } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
+import PatchAnnotation from 'api/annotation/PatchAnnotation';
 
 /* Import Components */
 import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationSummaryStep, AnnotationTargetStep } from './AnnotationWizardComponents';
@@ -53,15 +54,20 @@ const AnnotationWizard = (props: Props) => {
     const notification = useNotification();
 
     /* Define wizard step components using tabs */
+    const annotationTarget = useAppSelector(getAnnotationTarget);
     const tabs: { [name: string]: JSX.Element } = {
-        annotationTarget: <AnnotationTargetStep schema={schema} />,
-        annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
-            schemaTitle={schema.title}
-        />,
+        ...(!annotationTarget?.annotation && { annotationTarget: <AnnotationTargetStep schema={schema} /> }),
+        ...(!annotationTarget?.annotation && {
+            annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
+                schemaTitle={schema.title}
+            />
+        }),
         annotationForm: <AnnotationFormStep superClass={superClass}
             schemaName={schema.title}
         />,
-        annotationSummary: <AnnotationSummaryStep superClass={superClass} />
+        annotationSummary: <AnnotationSummaryStep superClass={superClass}
+            schemaTitle={schema.title}
+        />
     };
 
     /* Base variables */
@@ -164,13 +170,13 @@ const AnnotationWizard = (props: Props) => {
 
         switch (stepIndex) {
             case 0:
-                if (formValues.class || formValues.term) {
+                if (formValues.class || formValues.term || annotationTarget?.annotation) {
                     forwardAllowed = true;
                 }
 
                 break;
             case 1:
-                if ((formValues.class || formValues.term) && formValues.jsonPath) {
+                if ((formValues.class || formValues.term) && formValues.jsonPath && !annotationTarget?.annotation) {
                     forwardAllowed = true;
                 }
 
@@ -219,9 +225,17 @@ const AnnotationWizard = (props: Props) => {
 
                             /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
                             try {
-                                await InsertAnnotation({
-                                    newAnnotation
-                                });
+                                /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
+                                if (annotationTarget?.annotation) {
+                                    await PatchAnnotation({
+                                        annotationId: annotationTarget.annotation.id,
+                                        updatedAnnotation: newAnnotation
+                                    });
+                                } else {
+                                    await InsertAnnotation({
+                                        newAnnotation
+                                    });
+                                }
 
                                 StopAnnotationWizard();
 
@@ -233,7 +247,7 @@ const AnnotationWizard = (props: Props) => {
                             } catch {
                                 notification.Push({
                                     key: `${superClass['@id']}-${Math.random()}`,
-                                    message: `Failed to add the annotation. Please try saving it again.`,
+                                    message: `Failed to ${annotationTarget?.annotation ? 'update' : 'add'} the annotation. Please try saving it again.`,
                                     template: 'error'
                                 });
 

@@ -91,7 +91,12 @@ export type PaginationObject = {
 /* Annotation target */
 export type AnnotationTarget = {
     type: 'superClass' | 'class' | 'term',
-    jsonPath: string
+    jsonPath: string,
+    annotation?: {
+        id: string,
+        motivation: string,
+        values: string[]
+    }
 };
 
 /* Annotation template */

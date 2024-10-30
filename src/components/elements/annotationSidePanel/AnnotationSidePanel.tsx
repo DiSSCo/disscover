@@ -23,7 +23,7 @@ import { LoadingScreen } from '../customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: SuperClass,
+    superClass: SuperClass | undefined,
     schema: Dict,
     GetAnnotations: Function,
     GetMASs: Function,

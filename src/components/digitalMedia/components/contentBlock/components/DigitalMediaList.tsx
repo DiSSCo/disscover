@@ -54,7 +54,9 @@ const DigitalMediaList = (props: Props) => {
         <div className="h-100">
             <div className="h-100 horizontalScroll">
                 {digitalSpecimenDigitalMedia.map(digitalSpecimenDigitalMedia => (
-                    <div className={`${styles.digitalMediaListItem} h-100 overflow-hidden position-relative d-inline-block px-2 bgc-grey-light`}>
+                    <div key={digitalSpecimenDigitalMedia["ods:ID"]}
+                        className={`${styles.digitalMediaListItem} h-100 overflow-hidden position-relative d-inline-block px-2 bgc-grey-light`}
+                    >
                         <Button type="button"
                             variant="blank"
                             className="h-100 w-100 px-0 py-0"

@@ -11,13 +11,13 @@ import { DigitalMedia } from "app/types/DigitalMedia";
 import { DropdownItem } from "app/Types";
 
 /* Import Icons */
-import { faInfoCircle, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 /* Import API */
 import GetDigitalMediaVersions from "api/digitalMedia/GetDigitalMediaVersions";
 
 /* Import Components */
-import { Button, Dropdown, Tooltip } from "components/elements/customUI/CustomUI";
+import { Button, Dropdown } from "components/elements/customUI/CustomUI";
 
 
 /* Props type */

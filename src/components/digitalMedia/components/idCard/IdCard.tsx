@@ -7,7 +7,6 @@ import digitalMediaIdCardConfig from 'app/config/idCard/DigitalMediaIdCardConfig
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
-import { Identification } from 'app/types/Identification';
 
 
 /* Props Type */

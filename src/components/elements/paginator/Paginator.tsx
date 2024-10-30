@@ -23,7 +23,7 @@ const Paginator = (props: Props) => {
     /* Generate Paginator Pages */
     for (let index = currentPage - 3; index <= currentPage + 1; index++) {
         /* Check if page is positive and not the last page */
-        if (index > 0 && index <= 399) {
+        if (index > 0 && index <= 399 && index <= lastPage) {
             const pageIndex = index;
 
             /* Craft page JSX */

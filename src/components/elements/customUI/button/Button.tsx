@@ -34,13 +34,14 @@ const Button = (props: Props) => {
         'fs-4': !className?.includes('fs'),
         'py-2': !className?.includes('py'),
         'px-4': !className?.includes('px'),
-        'br-round': !className?.includes('br')
+        'br-round': !className?.includes('br'),
+        'b-none': !className?.includes('b-')
     });
 
     return (
         <button type={type}
             disabled={disabled}
-            className={`${styles.button} ${styles[variant]} ${buttonClass} b-none`}
+            className={`${styles.button} ${styles[variant]} ${buttonClass}`}
             onClick={() => OnClick?.()}
         >
             {children}

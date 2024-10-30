@@ -29,7 +29,7 @@ const GetDigitalSpecimenAnnotations = async({ handle } : { handle: string }) => 
             const data: JSONResultArray = result.data;
 
             /* Set Digital Specimen Annotation items */
-            data.data.forEach((dataRow) => {
+            data.data.forEach(dataRow => {
                 digitalSpecimenAnnotations.push(dataRow.attributes as Annotation);
             });
         } catch (error: any) {

@@ -19,6 +19,7 @@ type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     className: string,
     values: Dict,
+    motivation: string,
     index?: number
 };
 
@@ -27,12 +28,13 @@ type Props = {
  * Component that renders a block for holding values of one class or term and are displayed in the annotation wizard summary step
  * @param superClass The selected super class
  * @param className The name of the class of whose values are shown in the summary block
- * @param values A dictionary of values which are assigned to the class
+ * @param values A dictionary of values which are assigned to the 
+ * @param motivation The motivation for making the annotation
  * @param index The index of the instance in the parent class array
  * @returns JSX Component
  */
 const SummaryValuesBlock = (props: Props) => {
-    const { superClass, className, values, index } = props;
+    const { superClass, className, values, motivation, index } = props;
 
     /* Base variables */
     // const indexTitle: string = typeof(index) !== 'undefined' ? ` #${index + 1}` : '';
@@ -50,7 +52,7 @@ const SummaryValuesBlock = (props: Props) => {
 
     /* Class Names */
     const classTitleClass = classNames({
-        'tc-accent': !jp.value(superClass, classJsonPath)
+        'tc-accent': !jp.value(superClass, classJsonPath) && ['ods:adding', 'oa:editing'].includes(motivation)
     });
 
     return (

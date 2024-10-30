@@ -7,19 +7,20 @@ import { Annotation } from 'app/types/Annotation';
 import { AnnotationTemplate, JSONResult } from 'app/Types';
 
 /* Import Exceptions */
-import { PostException } from 'app/Exceptions';
+import { PatchException } from 'app/Exceptions';
 
 
 /**
- * Function for posting a new annotation
- * @param newAnnotation The annotation template to post
+ * Function for patching an annotation
+ * @param annotationId The identifier of the annotation to patch
+ * @param updatedAnnotation The updated annotation template to patch
  * @returns Object of Digital Specimen
  */
-const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTemplate }): Promise<Annotation | undefined> => {
+const PatchAnnotation = async ({ annotationId, updatedAnnotation }: { annotationId: string, updatedAnnotation: AnnotationTemplate }): Promise<Annotation | undefined> => {
     let annotation: Annotation | undefined;
 
     /* Construct post structure for annotation */
-    const postAnnotation: {
+    const patchAnnotation: {
         data: {
             type: 'ods:Annotation',
             attributes: AnnotationTemplate
@@ -27,7 +28,7 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
     } = {
         data: {
             type: 'ods:Annotation',
-            attributes: newAnnotation
+            attributes: updatedAnnotation
         }
     };
 
@@ -35,10 +36,10 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
 
     try {
         const result = await axios({
-            method: 'post',
-            url: 'annotation',
+            method: 'patch',
+            url: `annotation/${annotationId.replace(import.meta.env.VITE_HANDLE_URL, '')}`,
             responseType: 'json',
-            data: postAnnotation,
+            data: patchAnnotation,
             headers: {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -51,10 +52,10 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
         /* Set Annotation */
         annotation = data.data.attributes as Annotation;
     } catch (error: any) {
-        throw PostException('Annotation', error.request.responseURL);
+        throw PatchException('Annotation', error.request.responseURL);
     };
 
     return annotation;
 };
 
-export default InsertAnnotation;
+export default PatchAnnotation;

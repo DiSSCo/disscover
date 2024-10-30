@@ -46,7 +46,7 @@ const AnnotationTargetStep = (props: Props) => {
     const [classesList, setClassesList] = useState<{ label: string, value: string }[]>([]);
     const [termsList, setTermsList] = useState<{ label: string, options: { label: string, value: string }[] }[]>([]);
 
-    /* OnLoad: create classes and terms lists from schema source */
+    /* OnLoad: create classes and terms lists from schema source and reset annotation values within form values */
     trigger.SetTrigger(() => {
         ExtractClassesAndTermsFromSchema(schema).then(({
             classesList,
@@ -55,6 +55,8 @@ const AnnotationTargetStep = (props: Props) => {
             setClassesList(classesList);
             setTermsList(termsList);
         });
+
+        SetFieldValue?.('annotationValues', {});
     }, []);
 
     return (

@@ -14,7 +14,8 @@ type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     termName: string,
     value: string | number | boolean,
-    jsonPath: string
+    jsonPath: string,
+    motivation: string
 };
 
 
@@ -23,14 +24,16 @@ type Props = {
  * @param superClass The provided super class
  * @param termName The name of the term being annotated
  * @param value The value of the term being annotated
+ * @param jsonPath The JSON path pointing towards the target
+ * @param motivation The motivation for making the annotation
  * @returns JSX Component
  */
 const SummaryValueBlock = (props: Props) => {
-    const { superClass, termName, value, jsonPath } = props;
+    const { superClass, termName, value, jsonPath, motivation } = props;
 
     /* Class Name */
     const termTitleClass = classNames({
-        'tc-accent': jp.value(superClass, jsonPath) !== value
+        'tc-accent': jp.value(superClass, jsonPath) !== value && ['ods:adding', 'oa:editing'].includes(motivation)
     });
     
     return (

@@ -7,6 +7,9 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 /* Import Icons */
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 
+/* Import Webroot */
+import IIIFLogo from 'webroot/logos/IIIFLogo.png';
+
 
 /* Props Type */
 type Props = {
@@ -35,14 +38,24 @@ const DigitalMediaItem = (props: Props) => {
                 </div>
             );
         default:
-            return (
-                <div className={`${className} h-100`}>
-                    <FontAwesomeIcon icon={faFile}
-                        className="tc-primary"
-                    />
-                    <p>{digitalMedia['dcterms:type']}</p>
-                </div>
-            );
+            if (digitalMedia['dcterms:format'] === 'application/json' || digitalMedia['dcterms:format'] === 'application/ld+json') {
+                return (
+                    <div className={`${className} h-100`}>
+                        <img src={IIIFLogo}
+                            alt="IIIF Logo"
+                        />
+                    </div>
+                );
+            } else {
+                return (
+                    <div className={`${className} h-100`}>
+                        <FontAwesomeIcon icon={faFile}
+                            className="tc-primary"
+                        />
+                        <p>{digitalMedia['dcterms:type']}</p>
+                    </div>
+                );
+            }
     };
 };
 

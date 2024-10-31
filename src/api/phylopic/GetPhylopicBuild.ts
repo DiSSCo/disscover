@@ -27,6 +27,6 @@ const GetPhylopicBuild = async () => {
         console.error(error);
     }
     return phylopicBuild;
-}
+};
 
 export default GetPhylopicBuild;

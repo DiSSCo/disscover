@@ -21,6 +21,10 @@ type BreadCrumb = {
 }
 
 
+/**
+ * Component that renders bread crumbs based upon the current location
+ * @returns JSX Component
+ */
 const BreadCrumbs = () => {
     /* Hooks */
     const location = useLocation();

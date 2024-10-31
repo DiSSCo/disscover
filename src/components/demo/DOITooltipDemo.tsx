@@ -247,6 +247,6 @@ const DOITooltipDemo = (props: Props) => {
             </div>
         </>
     );
-}
+};
 
 export default DOITooltipDemo;

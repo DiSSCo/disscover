@@ -38,6 +38,6 @@ const GetDigitalMediaAnnotations = async({ handle } : { handle: string }) => {
     };
 
     return digitalMediaAnnotations;
-}
+};
 
 export default GetDigitalMediaAnnotations;

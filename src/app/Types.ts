@@ -25,7 +25,7 @@ type DataFragment = {
         annotations?: Annotation[],
         [property: string]: any
     }
-}
+};
 
 export type JSONResult = {
     data: DataFragment,
@@ -48,7 +48,7 @@ export type JSONResultArray = {
     meta?: {
         totalRecords: number
     }
-}
+};
 
 /* User */
 export type User = {

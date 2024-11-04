@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 
@@ -7,23 +6,20 @@ import { Row, Col } from "react-bootstrap";
 import { useFetch } from "app/Hooks";
 
 /* Import Types */
-import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+import { DigitalMedia } from "app/types/DigitalMedia";
 import { DropdownItem } from "app/Types";
 
-/* Import Icons */
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-
 /* Import API */
-import GetDigitalSpecimenVersions from "api/digitalSpecimen/GetDigitalSpecimenVersions";
+import GetDigitalMediaVersions from "api/digitalMedia/GetDigitalMediaVersions";
 
 /* Import Components */
 import { TopBarActions } from "components/elements/Elements";
-import { Dropdown, Tooltip } from "components/elements/customUI/CustomUI";
+import { Dropdown } from "components/elements/customUI/CustomUI";
 
 
 /* Props type */
 type Props = {
-    digitalSpecimen: DigitalSpecimen,
+    digitalMedia: DigitalMedia,
     annotationMode: boolean,
     ToggleAnnotationSidePanel: Function
 };
@@ -37,78 +33,78 @@ type Props = {
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalSpecimen, annotationMode, ToggleAnnotationSidePanel } = props;
+    const { digitalMedia, annotationMode, ToggleAnnotationSidePanel } = props;
 
     /* Hooks */
     const fetch = useFetch();
 
     /* Base variables */
-    const [digitalSpecimenVersions, setDigitalSpecimenVersions] = useState<string[]>([]);
+    const [digitalMediaVersions, setDigitalMediaVersions] = useState<string[]>([]);
     const actionDropdownItems: DropdownItem[] = [
         {
             label: 'View JSON',
             value: 'viewJson',
-            action: () => ViewDigitalSpecimenJSON()
+            action: () => ViewDigitalMediaJSON()
         },
         {
             label: 'Download as JSON',
             value: 'downloadAsJson',
-            action: () => DownloadDigitalSpecimenAsJSON()
+            action: () => DownloadDigitalMediaAsJSON()
         }
     ];
 
     /* Construct version dropdown items */
-    const versionDropdownItems: DropdownItem[] = digitalSpecimenVersions?.map(digitalSpecimenVersion => ({
-        label: `Version ${digitalSpecimenVersion}`,
-        value: digitalSpecimenVersion
+    const versionDropdownItems: DropdownItem[] = digitalMediaVersions?.map(digitalMediaVersion => ({
+        label: `Version ${digitalMediaVersion}`,
+        value: digitalMediaVersion
     }));
 
-    /* OnLoad: fetch digital specimen versions */
+    /* OnLoad: fetch digital media versions */
     fetch.Fetch({
         params: {
-            handle: digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
         },
-        Method: GetDigitalSpecimenVersions,
+        Method: GetDigitalMediaVersions,
         Handler: (versions: string[]) => {
-            setDigitalSpecimenVersions(versions);
+            setDigitalMediaVersions(versions);
         }
     });
 
     /**
-     * Function to navigate to the digital specimen JSON view, in a new tab
+     * Function to navigate to the digital media JSON view, in a new tab
      */
-    const ViewDigitalSpecimenJSON = () => {
+    const ViewDigitalMediaJSON = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
-            `/api/v1/digital-specimen/${digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
+            `/api/v1/digital-media/${digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
         );
     };
 
     /**
-     * Function to download a digital specimen in JSON format
+     * Function to download a digital media item in JSON format
      */
-    const DownloadDigitalSpecimenAsJSON = () => {
+    const DownloadDigitalMediaAsJSON = () => {
         /* Parse Specimen object to JSON */
-        const jsonDigitalSpecimen = JSON.stringify(digitalSpecimen);
+        const jsonDigitalMedia = JSON.stringify(digitalMedia);
 
         /* Create JSON file */
-        const jsonFile = new Blob([jsonDigitalSpecimen], { type: "application/json" });
+        const jsonFile = new Blob([jsonDigitalMedia], { type: "application/json" });
 
         /* Create and click on link to download file */
         const link = document.createElement("a");
         link.href = URL.createObjectURL(jsonFile);
 
-        link.download = `${digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL as string, '')}_${digitalSpecimen['ods:version']}.json`;
+        link.download = `${digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL as string, '')}_${digitalMedia['ods:version']}.json`;
 
         link.click();
     };
 
     return (
         <div>
-            {/* Digital specimen name */}
+            {/* Digital media identifier */}
             <Row>
                 <Col>
                     <h2 className="fs-pageTitle">
-                        {digitalSpecimen["ods:specimenName"]}
+                        {digitalMedia["ods:ID"].replace(import.meta.env.VITE_DOI_URL, '')}
                     </h2>
                 </Col>
             </Row>
@@ -117,23 +113,11 @@ const TopBar = (props: Props) => {
                 {/* MIDS level and version select */}
                 <Col lg={{ span: 3 }}>
                     <Row>
-                        <Col className="d-flex align-items-center">
-                            <Tooltip text="Minimum Information about a Digital Specimen"
-                                placement="bottom"
-                            >
-                                <FontAwesomeIcon icon={faInfoCircle}
-                                    className="tc-accent"
-                                />
-                            </Tooltip>
-                            <span className="fs-3 tc-accent fw-bold ms-2">
-                                {`MIDS level ${digitalSpecimen["ods:midsLevel"]}`}
-                            </span>
-                        </Col>
                         <Col lg="auto">
                             <Dropdown items={versionDropdownItems}
                                 selectedItem={{
-                                    label: fetch.loading ? 'Loading..' : `Version ${digitalSpecimen['ods:version']}`,
-                                    value: fetch.loading ? 'loading' : digitalSpecimen['ods:version'].toString()
+                                    label: fetch.loading ? 'Loading..' : `Version ${digitalMedia['ods:version']}`,
+                                    value: fetch.loading ? 'loading' : digitalMedia['ods:version'].toString()
                                 }}
                                 hasDefault={true}
                                 styles={{

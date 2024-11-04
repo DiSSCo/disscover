@@ -37,7 +37,7 @@ const IdCard = (props: Props) => {
     /* Base variables */
     const [bannerImage, setBannerImage] = useState<DetailedReactHTMLElement<HTMLAttributes<HTMLElement>, HTMLElement> | undefined>();
 
-    /* OnLoad: Check image height and width, if height is bigger than width, rotate it */
+    /* OnLoad, check image height and width, if height is bigger than width, rotate it */
     trigger.SetTrigger(() => {
         let digitalSpecimenImage = new Image();
 

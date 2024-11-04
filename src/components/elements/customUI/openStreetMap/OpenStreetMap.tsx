@@ -39,6 +39,6 @@ const OpenStreetMap = (props: Props) => {
             }
         </div>
     );
-}
+};
 
 export default OpenStreetMap;

@@ -39,6 +39,6 @@ const GetPhylopicIcon = async (phylopicBuild: number, taxonomyIdentification?: s
     };
 
     return taxonomyIconUrl;
-}
+};
 
 export default GetPhylopicIcon;

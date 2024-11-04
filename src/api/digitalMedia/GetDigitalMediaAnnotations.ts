@@ -10,18 +10,18 @@ import { NotFoundException } from 'app/Exceptions';
 
 
 /**
- * Function for fetching a digital specimen's annotations
- * @param handle The identifier of the digital specimen
+ * Function for fetching a digital media item's annotations
+ * @param handle The identifier of the digital media item
  * @returns Array of Annotations
  */
-const GetDigitalSpecimenAnnotations = async({ handle } : { handle: string }) => {
-    let digitalSpecimenAnnotations: Annotation[] = [];
+const GetDigitalMediaAnnotations = async({ handle } : { handle: string }) => {
+    let digitalMediaAnnotations: Annotation[] = [];
 
     if (handle) {
         try {
             const result = await axios({
                 method: 'get',
-                url: `digital-specimen/${handle}/annotations`,
+                url: `digital-media/${handle}/annotations`,
                 responseType: 'json'
             });
 
@@ -29,15 +29,15 @@ const GetDigitalSpecimenAnnotations = async({ handle } : { handle: string }) => 
             const data: JSONResultArray = result.data;
 
             /* Set Digital Specimen Annotation items */
-            data.data.forEach(dataRow => {
-                digitalSpecimenAnnotations.push(dataRow.attributes as Annotation);
+            data.data.forEach((dataRow) => {
+                digitalMediaAnnotations.push(dataRow.attributes as Annotation);
             });
         } catch (error: any) {
-            throw(NotFoundException('Digital Specimen Annotations', error.request.responseURL));
+            throw(NotFoundException('Digital Media Annotations', error.request.responseURL));
         };
     };
 
-    return digitalSpecimenAnnotations;
+    return digitalMediaAnnotations;
 };
 
-export default GetDigitalSpecimenAnnotations;
+export default GetDigitalMediaAnnotations;

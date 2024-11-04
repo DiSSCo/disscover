@@ -29,7 +29,7 @@ const ContentBlock = (props: Props) => {
         <div className="h-100 d-flex flex-column">
             <Row className="flex-grow-1 overflow-hidden">
                 <Col>
-                    <DigitalMediaFrame mediaUrl={digitalMedia["ac:accessURI"]} />
+                    <DigitalMediaFrame digitalMedia={digitalMedia} />
                 </Col>
             </Row>
             <Row className={`${styles.digitalMediaList} mt-2`}>

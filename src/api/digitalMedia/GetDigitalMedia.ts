@@ -22,7 +22,7 @@ const GetDigitalMedia = async({ handle, version } : { handle: string, version?: 
         let endPoint: string;
 
         if (version) {
-            endPoint = `digital-media${handle}/${version}`;
+            endPoint = `digital-media/${handle}/${version}`;
         } else {
             endPoint = `digital-media/${handle}`;
         }

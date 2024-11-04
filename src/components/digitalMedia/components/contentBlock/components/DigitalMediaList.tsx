@@ -44,7 +44,7 @@ const DigitalMediaList = (props: Props) => {
         params: {
             handle: digitalMedia["ods:hasEntityRelationship"]?.find(
                 entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
-            )?.["dwc:relatedResourceID"]
+            )?.["dwc:relatedResourceID"].replace(import.meta.env.VITE_DOI_URL, '')
         },
         Method: GetDigitalSpecimenDigitalMedia,
         Handler: (digitalSpecimenDigitalMedia: DigitalMedia[]) => setDigitalSpecimenDigitalMedia(digitalSpecimenDigitalMedia)
@@ -55,7 +55,7 @@ const DigitalMediaList = (props: Props) => {
             <div className="h-100 horizontalScroll">
                 {digitalSpecimenDigitalMedia.map(digitalSpecimenDigitalMedia => (
                     <div key={digitalSpecimenDigitalMedia["ods:ID"]}
-                        className={`${styles.digitalMediaListItem} h-100 overflow-hidden position-relative d-inline-block px-2 bgc-grey-light`}
+                        className={`${styles.digitalMediaListItem} h-100 py-3 overflow-hidden position-relative d-inline-block px-2 bgc-grey-light`}
                     >
                         <Button type="button"
                             variant="blank"

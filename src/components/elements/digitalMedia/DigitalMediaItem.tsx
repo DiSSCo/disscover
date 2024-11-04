@@ -33,14 +33,14 @@ const DigitalMediaItem = (props: Props) => {
                 <div className={`${className} h-100 w-100 d-flex justify-content-center`}>
                     <img src={digitalMedia['ac:accessURI']}
                         alt={digitalMedia['ac:accessURI']}
-                        className="h-100"
+                        className="h-100 object-fit-contain"
                     />
                 </div>
             );
         default:
             if (digitalMedia['dcterms:format'] === 'application/json' || digitalMedia['dcterms:format'] === 'application/ld+json') {
                 return (
-                    <div className={`${className} h-100`}>
+                    <div className={`${className} h-100 d-flex justify-content-center align-items-center`}>
                         <img src={IIIFLogo}
                             alt="IIIF Logo"
                         />

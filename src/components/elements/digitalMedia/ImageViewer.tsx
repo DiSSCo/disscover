@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 /* Import Dependencies */
-import { Annotorious, OpenSeadragonAnnotator, OpenSeadragonViewer, Viewer } from '@annotorious/react';
+import { Annotorious, OpenSeadragonAnnotator, OpenSeadragonViewer } from '@annotorious/react';
 import { useState } from 'react';
 
 /* Import Hooks */

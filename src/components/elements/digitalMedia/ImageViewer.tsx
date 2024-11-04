@@ -1,41 +1,61 @@
 // @ts-nocheck
 
 /* Import Dependencies */
-import { Annotorious, OpenSeadragonAnnotator, OpenSeadragonViewer } from '@annotorious/react';
+import { OpenSeadragonAnnotator, OpenSeadragonPopup, OpenSeadragonViewer, W3CImageAnnotation, W3CImageFormat, useAnnotator, useSelection } from '@annotorious/react';
 import { useState } from 'react';
 
+/* Import Utilities */
+import { ConstructAnnotationObject } from 'app/utilities/AnnotateUtilities';
+
 /* Import Hooks */
-import { useTrigger } from 'app/Hooks';
+import { useFetch, useTrigger } from 'app/Hooks';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
+import { Annotation } from 'app/types/Annotation';
 import { Dict } from 'app/Types';
 
 /* Import Components */
+import ImagePopup from './ImagePopup';
 import { LoadingScreen } from '../customUI/CustomUI';
 
 
 /* Props Type */
 type Props = {
-    digitalMedia: DigitalMedia
+    digitalMedia: DigitalMedia,
+    annotoriousMode: string,
+    GetAnnotations: Function
 };
 
 
 /**
  * Component that renders a dynamic image viewer including the ability to make annotations
+ * @param digitalMedia The digital media item to represent
+ * @param annotoriousMode The selected Annotorious mode
+ * @param GetAnnotations Function to fetch the annotations of the digital object
  * @returns JSX Component
  */
 const ImageViewer = (props: Props) => {
-    const { digitalMedia } = props;
+    const { digitalMedia, annotoriousMode, GetAnnotations } = props;
 
     /* Hooks */
+    const fetchHook = useFetch();
     const trigger = useTrigger();
+    const annotorious = useAnnotator<AnnotoriousImageAnnotator<W3CImageAnnotation>>();
 
     /* Base variables */
+    const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [osdOptions, setOsdOptions] = useState<OpenSeadragon.Options | undefined>();
+
+    /* OnLoad: fetch digital object's annotations */
+    fetchHook.Fetch({
+        Method: GetAnnotations,
+        Handler: (annotations: Annotation[]) => setAnnotations(annotations)
+    });
 
     /* OnLoad, check for image format (image/jpeg for still images and application/json for IIIF) and set source url */
     trigger.SetTrigger(async () => {
+        /* Set OpenSeadragon options */
         if (digitalMedia['dcterms:format'] === 'application/json') {
             /* Get manifest */
             const manifest: Dict = await (await fetch(digitalMedia['ac:accessURI'])).json();
@@ -108,6 +128,62 @@ const ImageViewer = (props: Props) => {
         }
     }, [digitalMedia]);
 
+    trigger.SetTrigger(() => {
+        if (annotorious) {
+            /* Set Annotorious listeners */
+            annotorious.on('selectionChanged', (selectedAnnotations: W3CImageAnnotation[]) => {
+                const annotoriousAnnotations = annotorious.getAnnotations();
+                const annotoriousAnnotation = selectedAnnotations[0];
+
+                /* Check for unfinished annotations */
+                annotoriousAnnotations.forEach((annotation) => {
+                    if (!annotation.id.includes('/') && (!annotoriousAnnotation || annotoriousAnnotation.id !== annotation.id)) {
+                        annotorious.removeAnnotation(annotation);
+                    }
+                });
+            });
+        }
+    }, [annotorious]);
+
+    /**
+     * Function to submit a visual annotation
+     * 
+     */
+    const SubmitAnnotation = (annotationValue: string) => {
+        const annotoriousAnnotation = useSelection().selected[0].annotation;
+
+        /* Calculate W3C pixels to TDWG AC position */
+        const target = annotoriousAnnotation.target as W3CImageAnnotationTarget;
+        const selector = target.selector as W3CImageSelector;
+        const coordinates = selector?.value.split(',');
+
+        /* Calculate the relative fragments based upon the given coordinates and image dimensions */
+        const fragments: {
+            xFrac: number,
+            yFrac: number,
+            widthFrac: number,
+            heightFrac: number
+        } = {
+            xFrac = Number(coordinates[0].replace('xywh=pixel:', '')) / image.width,
+            yFrac = Number(coordinates[1]) / image.height,
+            widthFrac = Number(coordinates[2]) / image.width,
+            heightFrac = Number(coordinates[3]) / image.height
+        };
+
+        /* Prepare new Annotation object */
+        const newAnnotation = ConstructAnnotationObject({
+            digitalObjectId: digitalMedia['@id'],
+            digitalObjectType: digitalMedia['@type'],
+            motivation: 'oa:commenting',
+            annotationTargetType: 'ROI',
+            jsonPath: values.jsonPath as string,
+            annotationValues: [annotationValue],
+            fragments: fragments
+        });
+
+
+    };
+
     /* Style of Open Seadragon Annotator */
     const style = () => ({
 
@@ -116,13 +192,21 @@ const ImageViewer = (props: Props) => {
     return (
         <div className="h-100 position-relative">
             {osdOptions ?
-                <Annotorious>
-                    <OpenSeadragonAnnotator style={style}>
-                        <OpenSeadragonViewer options={osdOptions}
-                            className="h-100 bgc-grey-light"
-                        />
-                    </OpenSeadragonAnnotator>
-                </Annotorious>
+                <OpenSeadragonAnnotator style={style}
+                    drawingEnabled={annotoriousMode === 'draw'}
+                    drawingMode='click'
+                    adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
+                    tool="rectangle"
+                >
+                    <OpenSeadragonViewer options={osdOptions}
+                        className="h-100 bgc-grey-light"
+                    />
+
+                    <OpenSeadragonPopup popup={() => (
+                        <ImagePopup annotations={annotations} />
+                    )}
+                    />
+                </OpenSeadragonAnnotator>
                 : <LoadingScreen visible
                     text="Loading digital media"
                     displaySpinner

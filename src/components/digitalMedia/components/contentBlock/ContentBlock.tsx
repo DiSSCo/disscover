@@ -13,23 +13,27 @@ import { DigitalMediaFrame, DigitalMediaList } from "./ContentBlockComponents";
 
 /* Props Type */
 type Props = {
-    digitalMedia: DigitalMedia
+    digitalMedia: DigitalMedia,
+    annotoriousMode: string
 };
 
 
 /**
  * Component that renders the content block on the digital media page
  * @param digitalMedia The selected digital media
+ * @param annotoriousMode The currently selected Annotorious mode
  * @returns JSX Component
  */
 const ContentBlock = (props: Props) => {
-    const { digitalMedia } = props;
+    const { digitalMedia, annotoriousMode } = props;
 
     return (
         <div className="h-100 d-flex flex-column">
             <Row className="flex-grow-1 overflow-hidden">
                 <Col>
-                    <DigitalMediaFrame digitalMedia={digitalMedia} />
+                    <DigitalMediaFrame digitalMedia={digitalMedia}
+                        annotoriousMode={annotoriousMode}
+                    />
                 </Col>
             </Row>
             <Row className={`${styles.digitalMediaList} mt-2`}>

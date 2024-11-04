@@ -19,18 +19,10 @@ const GetDigitalMedia = async({ handle, version } : { handle: string, version?: 
     let digitalMedia: DigitalMedia | undefined;
 
     if (handle) {
-        let endPoint: string;
-
-        if (version) {
-            endPoint = `digital-media${handle}/${version}`;
-        } else {
-            endPoint = `digital-media/${handle}`;
-        }
-
         try {
             const result = await axios({
                 method: 'get',
-                url: endPoint,
+                url: `digital-media/${handle}${version ? '/' + version : ''}`,
                 responseType: 'json'
             });
 

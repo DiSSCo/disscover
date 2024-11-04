@@ -6,10 +6,10 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { usePagination } from 'app/Hooks';
 
 /* Import Types */
-import { DropdownItem, Dict, MASJobRecord } from "app/Types";
+import { DropdownItem, Dict, MasJobRecord } from "app/Types";
 
 /* Import Components */
-import MASJobRecordCard from "./MASJobRecordCard";
+import MasJobRecordCard from "./MasJobRecordCard";
 import { Paginator } from 'components/elements/Elements';
 import { Dropdown } from 'components/elements/customUI/CustomUI';
 
@@ -17,33 +17,33 @@ import { Dropdown } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     digitalObjectId: string,
-    GetMASJobRecords: Function
+    GetMasJobRecords: Function
 };
 
 
 /**
  * Component that renders the MAS overview in the MAS menu
  * @param digitalObjectId The identifier of the super class digital object
- * @param GetMASJobRecords Function to fetch the MAS job records of the super class digital object
+ * @param GetMasJobRecords Function to fetch the MAS job records of the super class digital object
  * @returns JSX Component
  */
-const MASOverview = (props: Props) => {
-    const { digitalObjectId, GetMASJobRecords } = props;
+const MasOverview = (props: Props) => {
+    const { digitalObjectId, GetMasJobRecords } = props;
 
     /* Base variables */
-    const [masJobRecordStateFilter, setMASJobRecordStateFilter] = useState<string>('');
+    const [masJobRecordStateFilter, setMasJobRecordStateFilter] = useState<string>('');
     const [pollInterval, setPollInterval] = useState<NodeJS.Timeout>();
 
     /* Hooks */
     const pagination = usePagination({
         pageSize: 25,
-        resultKey: 'MASJobRecords',
+        resultKey: 'MasJobRecords',
         params: {
             handle: digitalObjectId,
             state: masJobRecordStateFilter
         },
         triggers: [masJobRecordStateFilter],
-        Method: GetMASJobRecords
+        Method: GetMasJobRecords
     });
 
     /* Initiate polling for updating the API */
@@ -108,7 +108,7 @@ const MASOverview = (props: Props) => {
                                     background: '#ffffff'
                                 }}
                                 OnChange={(item: DropdownItem) => {
-                                    setMASJobRecordStateFilter(item.value);
+                                    setMasJobRecordStateFilter(item.value);
                                     clearInterval(pollInterval);
                                     setPollInterval(undefined);
                                 }}
@@ -125,7 +125,7 @@ const MASOverview = (props: Props) => {
                             className={index >= 1 ? 'mt-3' : ''}
                         >
                             <Col>
-                                <MASJobRecordCard masJobRecord={masJobRecord as MASJobRecord} />
+                                <MasJobRecordCard masJobRecord={masJobRecord as MasJobRecord} />
                             </Col>
                         </Row>
                     ))
@@ -156,4 +156,4 @@ const MASOverview = (props: Props) => {
     );
 };
 
-export default MASOverview;
+export default MasOverview;

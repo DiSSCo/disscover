@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { Row, Col, Card } from "react-bootstrap";
 
 /* Import Types */
-import { MASJobRecord } from "app/Types";
+import { MasJobRecord } from "app/Types";
 
 /* Import Icons */
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ import { Spinner } from "components/elements/customUI/CustomUI";
 
 /* Props Type */
 type Props = {
-    masJobRecord: MASJobRecord
+    masJobRecord: MasJobRecord
 };
 
 

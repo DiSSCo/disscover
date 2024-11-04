@@ -17,7 +17,7 @@ import { Dict, SuperClass } from 'app/Types';
 import styles from './annotationSidePanel.module.scss';
 
 /* Import Components */
-import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, MASMenu, TopBar } from './AnnotationSidePanelComponents';
+import { AnnotationsOverview, AnnotationPolicyText, AnnotationWizard, MasMenu, TopBar } from './AnnotationSidePanelComponents';
 import { LoadingScreen } from '../customUI/CustomUI';
 
 
@@ -26,9 +26,9 @@ type Props = {
     superClass: SuperClass,
     schema: Dict,
     GetAnnotations: Function,
-    GetMASs: Function,
-    GetMASJobRecords: Function,
-    ScheduleMASs: Function,
+    GetMas: Function,
+    GetMasJobRecords: Function,
+    ScheduleMas: Function,
     HideAnnotationSidePanel: Function
 };
 
@@ -38,14 +38,14 @@ type Props = {
  * @param annotationMode Boolean indicating if the annotation mode is on or not
  * @param superClass The super class reigning the annotation side panel
  * @param GetAnnotations Function that fetches the annotations of the super class
- * @param GetMASs Function that fetches the potential MASs to be run
- * @param GetMASJobRecords Function that fetches the MAS job records of the super class
- * @param ScheduleMASs Function to schedule MASs
+ * @param GetMas Function that fetches the potential MASs to be run
+ * @param GetMasJobRecords Function that fetches the MAS job records of the super class
+ * @param ScheduleMas Function to schedule MASs
  * @param HideAnnotationSidePanel Function to hide the annotation side panel
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { superClass, schema, GetAnnotations, GetMASs, GetMASJobRecords, ScheduleMASs, HideAnnotationSidePanel } = props;
+    const { superClass, schema, GetAnnotations, GetMas, GetMasJobRecords, ScheduleMas, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -130,12 +130,12 @@ const AnnotationSidePanel = (props: Props) => {
                             SetFilterSortValues={setFilterSortValues}
                         />
                         : <>
-                            {(masMenuToggle && superClass) ? <MASMenu superClass={superClass}
-                                CloseMASMenu={() => setMasMenuToggle(false)}
+                            {(masMenuToggle && superClass) ? <MasMenu superClass={superClass}
+                                CloseMasMenu={() => setMasMenuToggle(false)}
                                 SetLoading={setLoading}
-                                GetMASs={GetMASs}
-                                GetMASJobRecords={GetMASJobRecords}
-                                ScheduleMASs={ScheduleMASs}
+                                GetMas={GetMas}
+                                GetMasJobRecords={GetMasJobRecords}
+                                ScheduleMas={ScheduleMas}
                             />
                                 : <AnnotationsOverview annotations={annotations}
                                     filterSortValues={filterSortValues}
@@ -143,7 +143,7 @@ const AnnotationSidePanel = (props: Props) => {
                                     SetFilterSortValues={setFilterSortValues}
                                     StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                                     RefreshAnnotations={RefreshAnnotations}
-                                    OpenMASMenu={() => setMasMenuToggle(true)}
+                                    OpenMasMenu={() => setMasMenuToggle(true)}
                                 />
                             }
                         </>

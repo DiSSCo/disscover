@@ -10,15 +10,15 @@ import { NotFoundException } from 'app/Exceptions';
 
 
 /**
- * Function for fetching a digital specimen's potential MASs to be run
- * @param handle The identifier of the digital specimen
+ * Function for fetching a digital media item's potential MASs to be run
+ * @param handle The identifier of the digital media item
  * @returns List of 
  */
-const GetDigitalSpecimenMASs = async ({ handle }: { handle: string }) => {
-    const digitalSpecimenMASs: MachineAnnotationService[] = [];
+const GetDigitalMediaMas = async ({ handle }: { handle: string }) => {
+    const digitalMediaMas: MachineAnnotationService[] = [];
 
     if (handle) {
-        const endPoint: string = `/digital-specimen/${handle}/mas`;
+        const endPoint: string = `/digital-media/${handle}/mas`;
 
         try {
             const result = await axios({
@@ -32,14 +32,14 @@ const GetDigitalSpecimenMASs = async ({ handle }: { handle: string }) => {
 
             /* Set MASs */
             data.data.forEach((dataRow: Dict) => {
-                digitalSpecimenMASs.push(dataRow.attributes);
+                digitalMediaMas.push(dataRow.attributes);
             });
         } catch (error: any) {
-            throw (NotFoundException('Digital Specimen MASs', error.request.responseURL));
+            throw (NotFoundException('Digital Media MASs', error.request.responseURL));
         };
     };
 
-    return digitalSpecimenMASs;
+    return digitalMediaMas;
 };
 
-export default GetDigitalSpecimenMASs;
+export default GetDigitalMediaMas;

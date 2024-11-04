@@ -23,7 +23,7 @@ type Props = {
     digitalObjectId: string,
     mass: MachineAnnotationService[],
     SetLoading: Function,
-    ScheduleMASs: Function,
+    ScheduleMas: Function,
     ReturnToOverview: Function
 };
 
@@ -33,32 +33,32 @@ type Props = {
  * @param digitalObjectId The identifier of the super class digital object
  * @param mass A list of potential MASs to be executed on the digital object
  * @param SetLoading Function to set the loading state of the annotation side panel
- * @param ScheduleMASs Function to schedule MASs
+ * @param ScheduleMas Function to schedule MASs
  * @param ReturnToOverview Function to return to the MAS overview
  * @returns JSX Component
  */
 const MASScheduleMenu = (props: Props) => {
-    const { digitalObjectId, mass, SetLoading, ScheduleMASs, ReturnToOverview } = props;
+    const { digitalObjectId, mass, SetLoading, ScheduleMas, ReturnToOverview } = props;
 
     /* Hooks */
     const notification = useNotification();
 
     /* Base variables */
     const initialFormValues: {
-        scheduledMAS: DropdownItem[]
+        scheduledMas: DropdownItem[]
     } = {
-        scheduledMAS: []
+        scheduledMas: []
     };
 
     /**
      * 
      */
-    const DeselectMAS = (mas: MachineAnnotationService, values: Dict, SetFieldValue: Function) => {
-        values.scheduledMAS.splice(values.scheduledMAS.findIndex(
+    const DeselectMas = (mas: MachineAnnotationService, values: Dict, SetFieldValue: Function) => {
+        values.scheduledMas.splice(values.scheduledMas.findIndex(
             (masOption: DropdownItem) => masOption.value === mas["ods:ID"]
         ), 1);
 
-        SetFieldValue('scheduledMAS', values.scheduledMAS);
+        SetFieldValue('scheduledMas', values.scheduledMas);
     };
 
     /* Construct dropdown items */
@@ -93,12 +93,12 @@ const MASScheduleMenu = (props: Props) => {
                             SetLoading(true);
 
                             /* Construct MAS list */
-                            const masList = values.scheduledMAS.map(mas => ({
+                            const masList = values.scheduledMas.map(mas => ({
                                 masId: mas.value
                             }));
 
                             try {
-                                await ScheduleMASs({
+                                await ScheduleMas({
                                     handle: digitalObjectId,
                                     masList: masList
                                 });
@@ -126,14 +126,14 @@ const MASScheduleMenu = (props: Props) => {
                                         </p>
                                         <Select options={dropdownItems}
                                             isMulti={true}
-                                            onChange={(options) => setFieldValue(`scheduledMAS`, options)}
+                                            onChange={(options) => setFieldValue(`scheduledMas`, options)}
                                         />
                                     </Col>
                                 </Row>
                                 {/* Display selected MAS */}
                                 <Row className="flex-grow-1 py-3 overflow-scroll">
                                     <Col>
-                                        {values.scheduledMAS.map((masOption, index) => {
+                                        {values.scheduledMas.map((masOption, index) => {
                                             const mas = mass.find(mas => mas["ods:ID"] === masOption.value);
 
                                             if (mas) {
@@ -159,7 +159,7 @@ const MASScheduleMenu = (props: Props) => {
                                                                             variant="blank"
                                                                             className="px-0 py-0"
                                                                             OnClick={() => {
-                                                                                DeselectMAS(mas, values, setFieldValue);
+                                                                                DeselectMas(mas, values, setFieldValue);
                                                                             }}
                                                                         >
                                                                             <FontAwesomeIcon icon={faX}
@@ -180,7 +180,7 @@ const MASScheduleMenu = (props: Props) => {
                                     <Col className="d-flex justify-content-end">
                                         <Button type="submit"
                                             variant="primary"
-                                            disabled={!values.scheduledMAS.length}
+                                            disabled={!values.scheduledMas.length}
                                         >
                                             <p>
                                                 Schedule

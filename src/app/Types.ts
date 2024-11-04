@@ -134,7 +134,7 @@ export type AnnotationTemplate = {
 };
 
 /* Machine Job Record */
-export type MASJobRecord = {
+export type MasJobRecord = {
     annotations: Dict,
     batchingRequested: boolean,
     jobHandle: string,

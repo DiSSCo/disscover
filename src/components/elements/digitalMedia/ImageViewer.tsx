@@ -1,19 +1,22 @@
 // @ts-nocheck
 
 /* Import Dependencies */
-import { OpenSeadragonAnnotator, OpenSeadragonPopup, OpenSeadragonViewer, W3CImageAnnotation, W3CImageFormat, useAnnotator, useSelection } from '@annotorious/react';
+import { OpenSeadragonAnnotator, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, W3CImageAnnotation, W3CImageFormat, useAnnotator } from '@annotorious/react';
 import { useState } from 'react';
 
 /* Import Utilities */
-import { ConstructAnnotationObject } from 'app/utilities/AnnotateUtilities';
+import { ConstructAnnotationObject, ReformatToAnnotoriousAnnotation } from 'app/utilities/AnnotateUtilities';
 
 /* Import Hooks */
-import { useFetch, useTrigger } from 'app/Hooks';
+import { useFetch, useLoading, useNotification, useTrigger } from 'app/Hooks';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Annotation } from 'app/types/Annotation';
 import { Dict } from 'app/Types';
+
+/* Import API */
+import InsertAnnotation from 'api/annotation/InsertAnnotation';
 
 /* Import Components */
 import ImagePopup from './ImagePopup';
@@ -24,7 +27,8 @@ import { LoadingScreen } from '../customUI/CustomUI';
 type Props = {
     digitalMedia: DigitalMedia,
     annotoriousMode: string,
-    GetAnnotations: Function
+    GetAnnotations: Function,
+    SetAnnotoriousMode: Function
 };
 
 
@@ -33,13 +37,16 @@ type Props = {
  * @param digitalMedia The digital media item to represent
  * @param annotoriousMode The selected Annotorious mode
  * @param GetAnnotations Function to fetch the annotations of the digital object
+ * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @returns JSX Component
  */
 const ImageViewer = (props: Props) => {
-    const { digitalMedia, annotoriousMode, GetAnnotations } = props;
+    const { digitalMedia, annotoriousMode, GetAnnotations, SetAnnotoriousMode } = props;
 
     /* Hooks */
     const fetchHook = useFetch();
+    const loading = useLoading();
+    const notification = useNotification();
     const trigger = useTrigger();
     const annotorious = useAnnotator<AnnotoriousImageAnnotator<W3CImageAnnotation>>();
 
@@ -128,6 +135,7 @@ const ImageViewer = (props: Props) => {
         }
     }, [digitalMedia]);
 
+    /* On Annotorious boot, set the Annotorious listeners and events */
     trigger.SetTrigger(() => {
         if (annotorious) {
             /* Set Annotorious listeners */
@@ -147,10 +155,18 @@ const ImageViewer = (props: Props) => {
 
     /**
      * Function to submit a visual annotation
-     * 
+     * @param annotationValue The string value of the annotation
      */
-    const SubmitAnnotation = (annotationValue: string) => {
-        const annotoriousAnnotation = useSelection().selected[0].annotation;
+    const SubmitAnnotation = async (annotationValue: string) => {
+        /* Start loading */
+        loading.Start();
+
+        /* Get selected Annotorious annotation and content size of digital media item */
+        const annotoriousAnnotation = annotorious.getAnnotations().at(-1);
+        const annotoriousContentSize: {
+            x: number,
+            y: number
+        } = annotorious?.viewer.world['_contentSize'];
 
         /* Calculate W3C pixels to TDWG AC position */
         const target = annotoriousAnnotation.target as W3CImageAnnotationTarget;
@@ -164,10 +180,10 @@ const ImageViewer = (props: Props) => {
             widthFrac: number,
             heightFrac: number
         } = {
-            xFrac = Number(coordinates[0].replace('xywh=pixel:', '')) / image.width,
-            yFrac = Number(coordinates[1]) / image.height,
-            widthFrac = Number(coordinates[2]) / image.width,
-            heightFrac = Number(coordinates[3]) / image.height
+            xFrac: Number(coordinates[0].replace('xywh=pixel:', '')) / annotoriousContentSize.x,
+            yFrac: Number(coordinates[1]) / annotoriousContentSize.y,
+            widthFrac: Number(coordinates[2]) / annotoriousContentSize.x,
+            heightFrac: Number(coordinates[3]) / annotoriousContentSize.y
         };
 
         /* Prepare new Annotation object */
@@ -176,34 +192,71 @@ const ImageViewer = (props: Props) => {
             digitalObjectType: digitalMedia['@type'],
             motivation: 'oa:commenting',
             annotationTargetType: 'ROI',
-            jsonPath: values.jsonPath as string,
             annotationValues: [annotationValue],
             fragments: fragments
         });
 
+        /* Try to post annotation to the API, if succeeds disable draw mode and update Annotorious annotation with DiSSCo identifier, otherwise return and show message */
+        try {
+            const annotation = await InsertAnnotation({ newAnnotation });
 
+            /* Update Annotorious annotation source on canvas */
+            UpdateAnnotoriousAnnotation(
+                ReformatToAnnotoriousAnnotation(annotation, digitalMedia['ac:accessURI'], annotorious?.viewer.world['_contentSize']),
+                annotoriousAnnotation.id
+            );
+
+            SetAnnotoriousMode('move');
+        } catch {
+            notification.Push({
+                key: `${annotoriousAnnotation.id}-${Math.random()}`,
+                message: `Failed to save the annotation. Please try saving it again.`,
+                template: 'error'
+            });
+        } finally {
+            loading.End();
+        };
     };
 
-    /* Style of Open Seadragon Annotator */
-    const style = () => ({
+    /**
+     * Function to update an Annotorious annotation on the canvas
+     * @param annotoriousAnnotation The updated Annotorious annotation
+     * @param originalId The original identifier of the Annotorious annotation (present when inserting it for the first time)
+     */
+    const UpdateAnnotoriousAnnotation = (annotoriousAnnotation: W3CImageAnnotation, originalId?: string) => {
+        /* If original identifier is present, and thus is added for the first time, remove this instance and update with DiSSCo identifier, otherwise just update */
+        if (originalId) {
+            /* Remove old Annotorious annotation */
+            annotorious.removeAnnotation(originalId);
 
-    });
+            /* Replace with new version of annotation */
+            annotorious.addAnnotation(annotoriousAnnotation);
+        } else {
+            /* Update Annotorious annotation */
+            annotorious.updateAnnotation(annotoriousAnnotation);
+        }
+
+        /* Set selected annotation */
+        annotorious.setSelected(annotoriousAnnotation.id);
+    };
 
     return (
         <div className="h-100 position-relative">
             {osdOptions ?
-                <OpenSeadragonAnnotator style={style}
+                <OpenSeadragonAnnotator adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
                     drawingEnabled={annotoriousMode === 'draw'}
                     drawingMode='click'
-                    adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
                     tool="rectangle"
                 >
                     <OpenSeadragonViewer options={osdOptions}
                         className="h-100 bgc-grey-light"
                     />
 
-                    <OpenSeadragonPopup popup={() => (
-                        <ImagePopup annotations={annotations} />
+                    <OpenSeadragonAnnotationPopup popup={() => (
+                        <ImagePopup annotations={annotations}
+                            loading={loading.loading}
+                            SubmitAnnotation={SubmitAnnotation}
+                        />
                     )}
                     />
                 </OpenSeadragonAnnotator>

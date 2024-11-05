@@ -120,6 +120,7 @@ const DigitalMedia = () => {
                                                     >
                                                         <ContentBlock digitalMedia={digitalMedia}
                                                             annotoriousMode={annotoriousMode}
+                                                            SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                         />
                                                     </Col>
                                                 </Row>

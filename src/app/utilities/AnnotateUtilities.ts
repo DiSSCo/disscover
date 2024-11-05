@@ -30,7 +30,7 @@ const ConstructAnnotationObject = (params: {
     digitalObjectType: string,
     motivation: 'ods:adding' | 'ods:deleting' | 'oa:assessing' | 'oa:editing' | 'oa:commenting',
     annotationTargetType: 'term' | 'class' | 'ROI',
-    jsonPath: string,
+    jsonPath?: string,
     annotationValues: (string | Dict)[],
     fragments?: {
         xFrac: number,
@@ -39,12 +39,12 @@ const ConstructAnnotationObject = (params: {
         heightFrac: number
     }
 }): AnnotationTemplate => {
-    const { digitalObjectId, digitalObjectType, motivation, annotationTargetType, jsonPath, annotationValues } = params;
+    const { digitalObjectId, digitalObjectType, motivation, annotationTargetType, jsonPath, annotationValues, fragments } = params;
 
-    let localJsonPath: string = jsonPath;
+    let localJsonPath: string = jsonPath ?? '';
 
-    /* If motivation is adding, check for new index at end of JSON path and removeif it is there */
-    if (typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
+    /* If motivation is adding, check for new index at end of JSON path and remove if it is there */
+    if (jsonPath && typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
         localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
     }
 
@@ -56,9 +56,6 @@ const ConstructAnnotationObject = (params: {
     } else if (digitalObjectType === 'ods:DigitalMedia') {
         targetTypeDoi = 'https://doi.org/21.T11148/bbad8c4e101e8af01115';
     }
-
-    /* If coordinates are present, calculate relative fragments */
-
 
     /* Define target of annotation */
     const annotation: AnnotationTemplate = {
@@ -78,13 +75,13 @@ const ConstructAnnotationObject = (params: {
                     "@type": 'ods:ClassSelector',
                     "ods:class": localJsonPath
                 }),
-                ...(annotationTargetType === 'ROI' && {
+                ...((annotationTargetType === 'ROI' && fragments) && {
                     "@type": 'oa:FragmentSelector',
                     "ac:hasROI": {
-                        "ac:xFrac": 0,
-                        "ac:yFrac": 0,
-                        "ac:widthFrac": 0,
-                        "ac:heightFrac": 0
+                        "ac:xFrac": fragments.xFrac,
+                        "ac:yFrac": fragments.yFrac,
+                        "ac:widthFrac": fragments.widthFrac,
+                        "ac:heightFrac": fragments.heightFrac
                     },
                     "dcterms:conformsTo": ''
                 })

@@ -1,5 +1,6 @@
 /* Custom styling for digital media elements */
 
 .imagePopup {
-    width: 400px;
+    min-width: 400px;
+    max-height: 150px;
 }

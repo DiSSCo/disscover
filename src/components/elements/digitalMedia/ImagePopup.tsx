@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useSelection } from "@annotorious/react";
+import { format } from 'date-fns';
 import { Formik, Form, Field } from "formik";
 import { useRef } from "react";
 import { Row, Col } from "react-bootstrap";
@@ -19,7 +20,7 @@ import { Button, LoadingScreen } from "../customUI/CustomUI";
 
 /* Props Type */
 type Props = {
-    annotations: Annotation[],
+    annotation?: Annotation,
     loading: boolean,
     SubmitAnnotation: Function
 };
@@ -27,13 +28,13 @@ type Props = {
 
 /**
  * Component that renders the image popup that appears when clicking on a visual annotation in the image viewer
- * @param annotations The annotations of the digital media item
+ * @param annotation The annotation to be represented in the popup
  * @param loading Boolean indicating if the loading state is active
  * @param SubmitAnnotation Function to submit the visual annotation
  * @returns JSX Component
  */
 const ImagePopup = (props: Props) => {
-    const { annotations, loading, SubmitAnnotation } = props;
+    const { annotation, loading, SubmitAnnotation } = props;
 
     /* Hooks */
     const annotationValueFieldRef = useRef<HTMLInputElement>(null);
@@ -47,6 +48,7 @@ const ImagePopup = (props: Props) => {
     } = {
         annotationValue: ''
     };
+    let userTag: string = annotation?.['dcterms:creator']['schema:name'] ?? annotation?.['dcterms:creator']['@id'] ?? '';
 
     /* OnChange of annotation value field ref, set focus on field if adding or editing the annotation */
     trigger.SetTrigger(() => {
@@ -56,7 +58,7 @@ const ImagePopup = (props: Props) => {
     }, [annotationValueFieldRef]);
 
     return (
-        <div className={`${styles.imagePopup} position-relative px-4 pt-2 pb-3 bgc-white b-grey br-corner box-shadow`}>
+        <div className={`${styles.imagePopup} position-relative px-4 pt-2 pb-3 bgc-white b-grey br-corner box-shadow overflow-hidden`}>
             {/* If annotation does not exist or is being edited, show form */}
             {!isExistingAnnotation ?
                 <Formik initialValues={initialFormValues}
@@ -105,16 +107,42 @@ const ImagePopup = (props: Props) => {
                         </Row>
                     </Form>
                 </Formik>
-                : <div>
-                    {/* Creator and date */}
-                    <Row>
-                        <Col>
-
-                        </Col>
-                    </Row>
-                </div>
+                : <>
+                    {annotation &&
+                        <div className="h-100 d-flex flex-column">
+                            {/* Creator and identifier; modificiation date and version */}
+                            <Row>
+                                <Col>
+                                    <p className="fs-4 tc-primary fw-lightBold">
+                                        {userTag}
+                                    </p>
+                                    <p className="fs-5 tc-grey">
+                                        {annotation["ods:ID"].replace(import.meta.env.VITE_HANDLE_URL, '')}
+                                    </p>
+                                </Col>
+                                <Col lg="auto">
+                                    <p className="fs-4 tc-primary fw-lightBold">
+                                        {format(annotation['dcterms:modified'], 'MMMM dd - yyyy')}
+                                    </p>
+                                    <p className="fs-5 tc-grey d-flex justify-content-end">
+                                        {`Version ${annotation["ods:version"]}`}
+                                    </p>
+                                </Col>
+                            </Row>
+                            {/* Annotation value */}
+                            <Row className="flex-grow-1 overflow-scroll mt-3">
+                                <Col>
+                                    <p className="fs-4">
+                                        <span className="fw-bold">Value: </span>
+                                        {annotation["oa:hasBody"]["oa:value"][0]}
+                                    </p>
+                                </Col>
+                            </Row>
+                        </div>
+                    }
+                </>
             }
-            
+
             <LoadingScreen visible={loading}
                 text="Saving annotation"
                 displaySpinner

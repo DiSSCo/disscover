@@ -54,11 +54,31 @@ const ImageViewer = (props: Props) => {
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [osdOptions, setOsdOptions] = useState<OpenSeadragon.Options | undefined>();
 
-    /* OnLoad: fetch digital object's annotations */
-    fetchHook.Fetch({
-        Method: GetAnnotations,
-        Handler: (annotations: Annotation[]) => setAnnotations(annotations)
-    });
+    /**
+     * Function to refresh the visual annotations on the canvas
+     */
+    const RefreshAnnotations = async () => {
+        /* Fetch annotations */
+        const annotations: Annotation[] = await GetAnnotations();
+        const visualAnnotations: Annotation[] = annotations.filter(annotation => annotation['oa:hasTarget']['oa:hasSelector']['@type'] === 'oa:FragmentSelector');
+        const annotoriousAnnotations: W3CImageAnnotation[] = annotorious.getAnnotations();
+
+        if (visualAnnotations.length !== annotoriousAnnotations.length) {
+            const refreshedAnnotoriousAnnotations: W3CImageAnnotation[] = [];
+            if (visualAnnotations.length) {
+                visualAnnotations.forEach(annotation => {
+                    refreshedAnnotoriousAnnotations.push(
+                        ReformatToAnnotoriousAnnotation(annotation, digitalMedia['ac:accessURI'], annotorious?.viewer.world['_contentSize'])
+                    );
+                });
+            }
+
+            annotorious.setAnnotations(refreshedAnnotoriousAnnotations, true);
+        }
+
+        /* Update annotations state */
+        setAnnotations(visualAnnotations);
+    };
 
     /* OnLoad, check for image format (image/jpeg for still images and application/json for IIIF) and set source url */
     trigger.SetTrigger(async () => {
@@ -151,6 +171,11 @@ const ImageViewer = (props: Props) => {
                 });
             });
         }
+
+        /* If Annotorious and OpenSeadragon are ready, apply annotations to canvas */
+        if (annotorious && osdOptions) {
+            annotorious.viewer.addHandler('open', () => RefreshAnnotations());
+        }
     }, [annotorious]);
 
     /**
@@ -240,6 +265,11 @@ const ImageViewer = (props: Props) => {
         annotorious.setSelected(annotoriousAnnotation.id);
     };
 
+    /* Styling for OpenSeadragon annotator */
+    const openSeadragonAnnotatorStyle = () => ({
+        fill: '#a1d8ca'
+    });
+
     return (
         <div className="h-100 position-relative">
             {osdOptions ?
@@ -247,13 +277,14 @@ const ImageViewer = (props: Props) => {
                     drawingEnabled={annotoriousMode === 'draw'}
                     drawingMode='click'
                     tool="rectangle"
+                    style={openSeadragonAnnotatorStyle}
                 >
                     <OpenSeadragonViewer options={osdOptions}
                         className="h-100 bgc-grey-light"
                     />
 
                     <OpenSeadragonAnnotationPopup popup={() => (
-                        <ImagePopup annotations={annotations}
+                        <ImagePopup annotation={annotations.find(annotation => annotation['ods:ID'] === annotorious.getSelected()?.[0].id)}
                             loading={loading.loading}
                             SubmitAnnotation={SubmitAnnotation}
                         />

@@ -347,7 +347,7 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
             type: 'Annotation',
             body: [{
                 type: 'TextualBody',
-                value: annotation['oa:hasBody']['oa:value'][0] as string ?? '',
+                value: annotation['oa:hasBody']['oa:value'][0] ?? '',
                 purpose: 'commenting',
                 creator: {
                     id: annotation['dcterms:creator']['@id'] ?? ''

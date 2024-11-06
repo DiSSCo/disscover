@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { ConstructAnnotationObject, ReformatToAnnotoriousAnnotation } from 'app/utilities/AnnotateUtilities';
 
 /* Import Hooks */
-import { useFetch, useLoading, useNotification, useTrigger } from 'app/Hooks';
+import { useLoading, useNotification, useTrigger } from 'app/Hooks';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
@@ -45,7 +45,6 @@ const ImageViewer = (props: Props) => {
     const { digitalMedia, annotoriousMode, GetAnnotations, SetAnnotoriousMode } = props;
 
     /* Hooks */
-    const fetchHook = useFetch();
     const loading = useLoading();
     const notification = useNotification();
     const trigger = useTrigger();
@@ -290,13 +289,6 @@ const ImageViewer = (props: Props) => {
     const openSeadragonAnnotatorStyle = () => ({
         fill: '#a1d8ca'
     });
-
-    /**
-     * Function for defining the select action of the OpenSeadragon annotator 
-     */
-    const SelectAction = () => {
-
-    };
 
     return (
         <div className="h-100 position-relative">

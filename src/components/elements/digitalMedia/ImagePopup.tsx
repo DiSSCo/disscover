@@ -1,7 +1,9 @@
 /* Import Dependencies */
-import { useSelection } from "@annotorious/react";
+import { useAnnotator, useSelection, UserSelectAction } from "@annotorious/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format } from 'date-fns';
 import { Formik, Form, Field } from "formik";
+import KeycloakService from "app/Keycloak";
 import { useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 
@@ -14,6 +16,9 @@ import { Annotation } from "app/types/Annotation";
 /* Import Styles */
 import styles from './DigitalMedia.module.scss';
 
+/* Import Icons */
+import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
 /* Import Components */
 import { Button, LoadingScreen } from "../customUI/CustomUI";
 
@@ -21,7 +26,10 @@ import { Button, LoadingScreen } from "../customUI/CustomUI";
 /* Props Type */
 type Props = {
     annotation?: Annotation,
+    editAnnotationWithId?: string,
     loading: boolean,
+    SetAnnotoriousMode: Function,
+    SetEditAnnotationWithId: Function,
     SubmitAnnotation: Function
 };
 
@@ -29,14 +37,18 @@ type Props = {
 /**
  * Component that renders the image popup that appears when clicking on a visual annotation in the image viewer
  * @param annotation The annotation to be represented in the popup
+ * @param editAnnotationWithId String holding the identifier of the annotation being annotated
  * @param loading Boolean indicating if the loading state is active
+ * @param SetAnnotoriousMode Function to set the Annotorious mode
+ * @param SetEditAnnotationWithId Function to set the edit annotation with ID state
  * @param SubmitAnnotation Function to submit the visual annotation
  * @returns JSX Component
  */
 const ImagePopup = (props: Props) => {
-    const { annotation, loading, SubmitAnnotation } = props;
+    const { annotation, editAnnotationWithId, loading, SetAnnotoriousMode, SetEditAnnotationWithId, SubmitAnnotation } = props;
 
     /* Hooks */
+    const annotorious = useAnnotator();
     const annotationValueFieldRef = useRef<HTMLInputElement>(null);
     const trigger = useTrigger();
 
@@ -46,7 +58,7 @@ const ImagePopup = (props: Props) => {
     const initialFormValues: {
         annotationValue: string
     } = {
-        annotationValue: ''
+        annotationValue: annotation ? annotation["oa:hasBody"]["oa:value"][0] : ''
     };
     let userTag: string = annotation?.['dcterms:creator']['schema:name'] ?? annotation?.['dcterms:creator']['@id'] ?? '';
 
@@ -60,7 +72,7 @@ const ImagePopup = (props: Props) => {
     return (
         <div className={`${styles.imagePopup} position-relative px-4 pt-2 pb-3 bgc-white b-grey br-corner box-shadow overflow-hidden`}>
             {/* If annotation does not exist or is being edited, show form */}
-            {!isExistingAnnotation ?
+            {(!isExistingAnnotation || editAnnotationWithId) ?
                 <Formik initialValues={initialFormValues}
                     onSubmit={async (values) => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
@@ -73,7 +85,7 @@ const ImagePopup = (props: Props) => {
                         <Row>
                             <Col>
                                 <p className="tc-primary fw-bold">
-                                    New annotation
+                                    {`${!editAnnotationWithId ? 'New' : 'Edit'} annotation`}
                                 </p>
                             </Col>
                         </Row>
@@ -93,6 +105,14 @@ const ImagePopup = (props: Props) => {
                             <Col>
                                 <Button type="button"
                                     variant="grey"
+                                    OnClick={() => {
+                                        if (editAnnotationWithId) {
+                                            SetEditAnnotationWithId(undefined);
+                                        } else {
+                                            annotorious.cancelSelected();
+                                            SetAnnotoriousMode('move');
+                                        }
+                                    }}
                                 >
                                     <p>Cancel</p>
                                 </Button>
@@ -136,6 +156,35 @@ const ImagePopup = (props: Props) => {
                                         <span className="fw-bold">Value: </span>
                                         {annotation["oa:hasBody"]["oa:value"][0]}
                                     </p>
+                                </Col>
+                            </Row>
+                            {/* If annotation belongs to user, show options to edit or delete the annotation */}
+                            {KeycloakService.GetParsedToken()?.orcid === annotation["dcterms:creator"]["@id"]}
+                            <Row className="flex-row-reverse">
+                                <Col lg="auto"
+                                    className="ps-0"
+                                >
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="px-0 py-0"
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan}
+                                            className="tc-primary"
+                                        />
+                                    </Button>
+                                </Col>
+                                <Col lg="auto">
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="px-0 py-0"
+                                        OnClick={() => {
+                                            SetEditAnnotationWithId(annotation["ods:ID"]);                                            
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faPencil}
+                                            className="tc-primary"
+                                        />
+                                    </Button>
                                 </Col>
                             </Row>
                         </div>

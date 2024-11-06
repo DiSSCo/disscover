@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 /* Import Dependencies */
-import { OpenSeadragonAnnotator, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, W3CImageAnnotation, W3CImageFormat, useAnnotator } from '@annotorious/react';
+import { OpenSeadragonAnnotator, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, UserSelectAction, W3CImageAnnotation, W3CImageFormat, useAnnotator } from '@annotorious/react';
 import { useState } from 'react';
 
 /* Import Utilities */
@@ -17,6 +17,7 @@ import { Dict } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
+import PatchAnnotation from 'api/annotation/PatchAnnotation';
 
 /* Import Components */
 import ImagePopup from './ImagePopup';
@@ -53,6 +54,7 @@ const ImageViewer = (props: Props) => {
     /* Base variables */
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [osdOptions, setOsdOptions] = useState<OpenSeadragon.Options | undefined>();
+    const [editAnnotationWithId, setEditAnnotationWithId] = useState<string | undefined>();
 
     /**
      * Function to refresh the visual annotations on the canvas
@@ -169,6 +171,16 @@ const ImageViewer = (props: Props) => {
                         annotorious.removeAnnotation(annotation);
                     }
                 });
+
+                /* If Annotorious mode is draw, set to move and set user select action to SELECT */
+                if (annotorious.isDrawingEnabled()) {
+                    SetAnnotoriousMode('move');
+                }
+
+                /* Disable edit mode */
+                if (!selectedAnnotations.length || (editAnnotationWithId && annotorious.getSelected()?.[0].id !== editAnnotationWithId)) {
+                    setEditAnnotationWithId(undefined);
+                }
             });
         }
 
@@ -176,7 +188,7 @@ const ImageViewer = (props: Props) => {
         if (annotorious && osdOptions) {
             annotorious.viewer.addHandler('open', () => RefreshAnnotations());
         }
-    }, [annotorious]);
+    }, [annotorious, editAnnotationWithId]);
 
     /**
      * Function to submit a visual annotation
@@ -223,7 +235,13 @@ const ImageViewer = (props: Props) => {
 
         /* Try to post annotation to the API, if succeeds disable draw mode and update Annotorious annotation with DiSSCo identifier, otherwise return and show message */
         try {
-            const annotation = await InsertAnnotation({ newAnnotation });
+            const annotation = !editAnnotationWithId ? await InsertAnnotation({ newAnnotation }) : await PatchAnnotation({
+                annotationId: editAnnotationWithId,
+                updatedAnnotation: newAnnotation
+            });
+
+            /* Refresh annotations state */
+            await RefreshAnnotations();
 
             /* Update Annotorious annotation source on canvas */
             UpdateAnnotoriousAnnotation(
@@ -270,6 +288,13 @@ const ImageViewer = (props: Props) => {
         fill: '#a1d8ca'
     });
 
+    /**
+     * Function for defining the select action of the OpenSeadragon annotator 
+     */
+    const SelectAction = () => {
+
+    };
+
     return (
         <div className="h-100 position-relative">
             {osdOptions ?
@@ -277,6 +302,7 @@ const ImageViewer = (props: Props) => {
                     drawingEnabled={annotoriousMode === 'draw'}
                     drawingMode='click'
                     tool="rectangle"
+                    userSelectAction={UserSelectAction.SELECT}
                     style={openSeadragonAnnotatorStyle}
                 >
                     <OpenSeadragonViewer options={osdOptions}
@@ -285,7 +311,10 @@ const ImageViewer = (props: Props) => {
 
                     <OpenSeadragonAnnotationPopup popup={() => (
                         <ImagePopup annotation={annotations.find(annotation => annotation['ods:ID'] === annotorious.getSelected()?.[0].id)}
+                            editAnnotationWithId={editAnnotationWithId}
                             loading={loading.loading}
+                            SetAnnotoriousMode={SetAnnotoriousMode}
+                            SetEditAnnotationWithId={setEditAnnotationWithId}
                             SubmitAnnotation={SubmitAnnotation}
                         />
                     )}

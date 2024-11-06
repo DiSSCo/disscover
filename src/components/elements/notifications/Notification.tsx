@@ -58,6 +58,6 @@ const Notification = (props: Props) => {
             </Toast.Body>
         </Toast>
     );
-}
+};
 
 export default Notification;

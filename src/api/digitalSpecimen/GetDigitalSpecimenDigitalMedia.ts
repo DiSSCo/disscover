@@ -38,6 +38,6 @@ const GetDigitalSpecimenDigitalMedia = async({ handle } : { handle: string }) =>
     };
 
     return digitalSpecimenDigitalMedia;
-}
+};
 
 export default GetDigitalSpecimenDigitalMedia;

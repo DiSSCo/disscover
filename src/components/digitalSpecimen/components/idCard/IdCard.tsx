@@ -12,6 +12,7 @@ import { useTrigger } from 'app/Hooks';
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { Identification } from 'app/types/Identification';
 
 
 /* Props Type */
@@ -36,7 +37,7 @@ const IdCard = (props: Props) => {
     /* Base variables */
     const [bannerImage, setBannerImage] = useState<DetailedReactHTMLElement<HTMLAttributes<HTMLElement>, HTMLElement> | undefined>();
 
-    /* OnLoad: Check image height and width, if height is bigger than width, rotate it */
+    /* OnLoad, check image height and width, if height is bigger than width, rotate it */
     trigger.SetTrigger(() => {
         let digitalSpecimenImage = new Image();
 
@@ -61,6 +62,20 @@ const IdCard = (props: Props) => {
         };
     }, []);
 
+    /**
+     * Function to get the HTML label of the first accepted identification within the specimen, if not present, provide generic specimen name
+     * @returns HTML label or specimen name string
+     */
+    const GetSpecimenNameHTMLLabel = () => {
+        const acceptedIdentification: Identification | undefined = digitalSpecimen['ods:hasIdentification']?.find(identification => identification['ods:isVerifiedIdentification']);
+
+        if (acceptedIdentification) {
+            return acceptedIdentification['ods:hasTaxonIdentification']?.[0]['ods:scientificNameHtmlLabel'] ?? digitalSpecimen['ods:specimenName'] ?? '';
+        } else {
+            return digitalSpecimen['ods:specimenName'] ?? '';
+        }
+    };
+
     return (
         <div className="h-100 d-flex flex-column">
             {/* First digital media image of digital specimen, if present */}
@@ -78,6 +93,16 @@ const IdCard = (props: Props) => {
                 <Col>
                     <Card className="h-100 bgc-white px-3 py-3">
                         <div className="h-100 d-flex flex-column justify-content-between">
+                            {/* Nomenclatural name (HTML label) */}
+                            <Row>
+                                <Col className="fs-4">
+                                    <p className="fw-lightBold">Specimen Name</p>
+                                    <p className="textOverflow"
+                                        dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel() }}
+                                    />
+                                </Col>
+                            </Row>
+                            {/* ID card properties */}
                             {DigitalSpecimenIdCardConfig({ digitalSpecimen }).map(idCardField => {
                                 return (
                                     <Row key={idCardField.label}>

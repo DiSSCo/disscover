@@ -27,6 +27,6 @@ const Notifications = () => {
             ))}
         </ToastContainer>
     );
-}
+};
 
 export default Notifications;

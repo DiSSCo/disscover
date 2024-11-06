@@ -13,6 +13,6 @@ const VirtualCollectionSearch = () => {
             </Row>
         </div>
     );
-}
+};
 
 export default VirtualCollectionSearch;

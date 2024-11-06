@@ -65,6 +65,6 @@ const TopicOriginFilter = (props: Props) => {
             </Row>
         </button>
     );
-}
+};
 
 export default TopicOriginFilter;

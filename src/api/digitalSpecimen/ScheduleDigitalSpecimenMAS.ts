@@ -11,14 +11,14 @@ import { JSONResultArray, Dict } from 'app/Types';
 
 /**
  * Function for posting a scheduling job for scheduling MASs for the digital specimen
- * @param digitalSpecimenId The identifier of the digital specimen to schedule MASs for
+ * @param handle The identifier of the digital specimen to schedule MASs for
  * @param masList A list of MASs to be scheduled
  * @returns Array of scheduled MASs
  */
-const ScheduleDigitalSpecimenMAS = async ({ digitalSpecimenId, masList }: { digitalSpecimenId: string, masList: { masId: string }[] }) => {
+const ScheduleDigitalSpecimenMAS = async ({ handle, masList }: { handle: string, masList: { masId: string }[] }) => {
     let digitalSpecimenMAS: Dict = {};
 
-    if (digitalSpecimenId) {
+    if (handle) {
         const token = KeycloakService.GetToken();
 
         const masRecord: {
@@ -42,7 +42,7 @@ const ScheduleDigitalSpecimenMAS = async ({ digitalSpecimenId, masList }: { digi
         try {
             const result = await axios({
                 method: 'post',
-                url: `digital-specimen/${digitalSpecimenId.replace(import.meta.env.VITE_DOI_URL, '')}/mas`,
+                url: `digital-specimen/${handle.replace(import.meta.env.VITE_DOI_URL, '')}/mas`,
                 responseType: 'json',
                 data: masRecord,
                 headers: {

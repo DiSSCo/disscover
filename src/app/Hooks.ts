@@ -420,7 +420,7 @@ const useSearchFilters = () => {
      * Function to set the search filters based upon a search filters object
      * @param searchFilters An object containing search filter names as keys and values
      */
-    const SetSearchFilters = (searchFilters: { [name: string]: string | string[] | boolean }) => {
+    const SetSearchFilters = (searchFilters: { [name: string]: string | string[] | boolean }) => {        
         Object.entries(searchFilters).forEach(([name, searchFilter]) => {
             /* Remove all params from this name */
             searchParams.delete(name);

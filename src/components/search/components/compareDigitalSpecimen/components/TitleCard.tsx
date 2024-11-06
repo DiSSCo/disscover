@@ -49,6 +49,6 @@ const TitleCard = (props: Props) => {
             </Row>
         </div>
     );
-}
+};
 
 export default TitleCard;

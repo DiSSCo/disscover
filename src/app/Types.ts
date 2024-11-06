@@ -50,7 +50,7 @@ export type JSONResultArray = {
     meta?: {
         totalRecords: number
     }
-}
+};
 
 /* User */
 export type User = {
@@ -89,6 +89,9 @@ export type PaginationObject = {
     Previous?: Function,
     Last?: Function
 };
+
+/* Super class (annotation target) */
+export type SuperClass = DigitalSpecimen | DigitalMedia | Dict;
 
 /* Annotation target */
 export type AnnotationTarget = {

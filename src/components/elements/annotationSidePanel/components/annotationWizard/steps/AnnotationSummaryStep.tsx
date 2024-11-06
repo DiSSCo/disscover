@@ -12,9 +12,7 @@ import { useAppSelector } from 'app/Hooks';
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { Dict } from 'app/Types';
+import { Dict, SuperClass } from 'app/Types';
 
 /* Import Components */
 import SummaryValueBlock from './SummaryValueBlock';
@@ -24,7 +22,7 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass,
     schemaTitle: string,
     formValues?: Dict
 };

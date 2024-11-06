@@ -14,9 +14,7 @@ import { useAppSelector, useAppDispatch, useNotification } from 'app/Hooks';
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { Dict, ProgressDot } from 'app/Types';
+import { Dict, ProgressDot, SuperClass } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
@@ -30,7 +28,7 @@ import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomU
 /* Props Type */
 type Props = {
     schema: Dict,
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass,
     StopAnnotationWizard: Function,
     SetLoading: Function,
     SetFilterSortValues: Function

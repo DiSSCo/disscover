@@ -38,6 +38,6 @@ const GetDigitalSpecimenAnnotations = async({ handle } : { handle: string }) => 
     };
 
     return digitalSpecimenAnnotations;
-}
+};
 
 export default GetDigitalSpecimenAnnotations;

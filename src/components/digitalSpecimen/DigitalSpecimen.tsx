@@ -46,7 +46,7 @@ const DigitalSpecimen = () => {
     const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
 
-    /* OnLoad: fetch digital specimen data */
+    /* OnLoad, fetch digital specimen data */
     fetch.FetchMultiple({
         callMethods: [
             {
@@ -161,6 +161,7 @@ const DigitalSpecimen = () => {
                             <Footer />
                         </div>
                     </Col>
+                {digitalSpecimen &&
                     <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
                         <AnnotationSidePanel superClass={digitalSpecimen}
                             schema={DigitalSpecimenSchema}
@@ -171,6 +172,7 @@ const DigitalSpecimen = () => {
                             HideAnnotationSidePanel={() => setAnnotationMode(false)}
                         />
                     </div>
+                }
                 </Row>
             </Container>
         </div>

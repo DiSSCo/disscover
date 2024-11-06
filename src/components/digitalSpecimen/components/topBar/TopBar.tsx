@@ -11,13 +11,14 @@ import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 import { DropdownItem } from "app/Types";
 
 /* Import Icons */
-import { faInfoCircle, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 /* Import API */
 import GetDigitalSpecimenVersions from "api/digitalSpecimen/GetDigitalSpecimenVersions";
 
 /* Import Components */
-import { Button, Dropdown, Tooltip } from "components/elements/customUI/CustomUI";
+import { TopBarActions } from "components/elements/Elements";
+import { Dropdown, Tooltip } from "components/elements/customUI/CustomUI";
 
 
 /* Props type */
@@ -47,12 +48,12 @@ const TopBar = (props: Props) => {
         {
             label: 'View JSON',
             value: 'viewJson',
-            action: () => ViewDigitalSpecimenJson()
+            action: () => ViewDigitalSpecimenJSON()
         },
         {
             label: 'Download as JSON',
             value: 'downloadAsJson',
-            action: () => DownloadDigitalSpecimenAsJson()
+            action: () => DownloadDigitalSpecimenAsJSON()
         }
     ];
 
@@ -76,7 +77,7 @@ const TopBar = (props: Props) => {
     /**
      * Function to navigate to the digital specimen JSON view, in a new tab
      */
-    const ViewDigitalSpecimenJson = () => {
+    const ViewDigitalSpecimenJSON = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
             `/api/v1/digital-specimen/${digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
         );
@@ -85,7 +86,7 @@ const TopBar = (props: Props) => {
     /**
      * Function to download a digital specimen in JSON format
      */
-    const DownloadDigitalSpecimenAsJson = () => {
+    const DownloadDigitalSpecimenAsJSON = () => {
         /* Parse Specimen object to JSON */
         const jsonDigitalSpecimen = JSON.stringify(digitalSpecimen);
 
@@ -105,7 +106,6 @@ const TopBar = (props: Props) => {
         <div>
             {/* Digital specimen name */}
             <Row>
-                {/* Digital specimen name */}
                 <Col>
                     <h2 className="fs-pageTitle">
                         {digitalSpecimen["ods:specimenName"]}
@@ -146,35 +146,10 @@ const TopBar = (props: Props) => {
                     </Row>
                 </Col>
                 <Col>
-                    <Row className="flex-row-reverse">
-                        <Col lg="auto">
-                            <Dropdown items={actionDropdownItems}
-                                hasDefault={true}
-                                placeholder="Actions"
-                                styles={{
-                                    color: '#f1f1f3',
-                                    textColor: '#ffffff',
-                                    background: '#4d59a2',
-                                    borderRadius: '999px'
-                                }}
-                            />
-                        </Col>
-                        <Col lg="auto"
-                            className="pe-1"
-                        >
-                            <Button type="button"
-                                variant="primary"
-                                OnClick={() => ToggleAnnotationSidePanel()}
-                            >
-                                <span>
-                                    {annotationMode ? 'Stop annotating' : 'Annotate'}
-                                    <FontAwesomeIcon icon={faPenToSquare}
-                                        className="ms-2"
-                                    />
-                                </span>
-                            </Button>
-                        </Col>
-                    </Row>
+                    <TopBarActions actionDropdownItems={actionDropdownItems}
+                        annotationMode={annotationMode}
+                        ToggleAnnotationSidePanel={ToggleAnnotationSidePanel}
+                    />
                 </Col>
             </Row>
         </div>

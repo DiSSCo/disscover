@@ -9,14 +9,12 @@ import { FormatJsonPathFromFieldName } from 'app/utilities/AnnotateUtilities';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { Dict } from 'app/Types';
+import { Dict, SuperClass } from 'app/Types';
 
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass,
     className: string,
     values: Dict,
     motivation: string,

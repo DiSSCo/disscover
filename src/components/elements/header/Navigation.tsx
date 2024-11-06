@@ -44,6 +44,6 @@ const Navigation = () => {
             </Row>
         </div>
     );
-}
+};
 
 export default Navigation;

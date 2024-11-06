@@ -19,13 +19,13 @@ const GetDigitalSpecimenVersions = async ({ handle }: { handle: string }) => {
             responseType: 'json'
         });
 
-        /* Set Specimen Versions */
+        /* Set digital specimen versions */
         const data = result.data;
 
         digitalSpecimenVersions = data.data.attributes.versions.sort((a: number, b: number) => (a - b));
     } catch (error) {
         console.warn(error);
-    }
+    };
 
     return digitalSpecimenVersions;
 };

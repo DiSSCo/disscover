@@ -13,9 +13,7 @@ import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 import { useTrigger } from 'app/Hooks';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { AnnotationTarget, Dict, ParentClass } from 'app/Types';
+import { AnnotationTarget, Dict, ParentClass, SuperClass } from 'app/Types';
 
 /* Import Components */
 import ParentClassification from './ParentClassification';
@@ -24,7 +22,7 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict,
+    superClass: SuperClass,
     selected: boolean,
     annotationTarget?: AnnotationTarget,
     formValues?: Dict,

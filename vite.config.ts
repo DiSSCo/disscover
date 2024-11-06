@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '',
+  base: '/',
   resolve: {
     alias: {
       api: '/src/api',
@@ -20,7 +20,6 @@ export default defineConfig({
     outDir: './build',
     emptyOutDir: true
   },
- 
   test: {
     globals: true,
     environment: 'jsdom',

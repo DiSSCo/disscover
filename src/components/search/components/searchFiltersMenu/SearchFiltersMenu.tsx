@@ -92,7 +92,7 @@ const SearchFiltersMenu = () => {
         /* Add to inital form search query if allowed for this filter */
         if (searchFilter.searchable) {
             initialFormValues.search[key] = '';
-        };
+        }
     });
 
     return (

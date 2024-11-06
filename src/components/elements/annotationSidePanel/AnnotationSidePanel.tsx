@@ -10,10 +10,8 @@ import { useAppDispatch, useAppSelector, useFetch } from 'app/Hooks';
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Annotation } from 'app/types/Annotation';
-import { Dict } from 'app/Types';
+import { Dict, SuperClass } from 'app/Types';
 
 /* Import Styles */
 import styles from './annotationSidePanel.module.scss';
@@ -25,7 +23,7 @@ import { LoadingScreen } from '../customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    superClass: DigitalSpecimen | DigitalMedia | Dict | undefined,
+    superClass: SuperClass,
     schema: Dict,
     GetAnnotations: Function,
     GetMASs: Function,

@@ -61,6 +61,6 @@ const Loading = () => {
             </Row>
         </Container>
     );
-}
+};
 
 export default Loading;

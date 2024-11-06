@@ -12,7 +12,7 @@ import { NotFoundException } from 'app/Exceptions';
  * Function for fetching a digital specimen's machine annotation service (MAS) job records
  * @param handle The identifier of the digital specimen
  * @param version The version of the digital specimen
- * @returns Object of Digital Specimen
+ * @returns Array of Machine Job Records
  */
 const GetDigitalSpecimenMASJobRecords = async ({ handle, pageSize, pageNumber, state }: { handle: string, pageSize?: number, pageNumber: number, state?: string }) => {
     let returnData: {

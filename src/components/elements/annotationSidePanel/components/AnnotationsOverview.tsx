@@ -33,7 +33,7 @@ type Props = {
     SetFilterSortValues: Function,
     StartAnnotationWizard: Function,
     RefreshAnnotations: Function,
-    OpenMASMenu: Function
+    OpenMasMenu: Function
 };
 
 
@@ -45,11 +45,11 @@ type Props = {
  * @param SetFilterSortValues Function to set the filter/sort values
  * @param StartAnnotationWizard Function that starts the annotation wizard
  * @param RefresAnnotations Function to refresh the annotations in the annotations overview
- * @param OpenMASMenu Function to open the MAS menu
+ * @param OpenMasMenu Function to open the MAS menu
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMASMenu } = props;
+    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -188,7 +188,7 @@ const AnnotationsOverview = (props: Props) => {
                         <Col lg="auto">
                             <Button type="button"
                                 variant="accent"
-                                OnClick={() => OpenMASMenu()}
+                                OnClick={() => OpenMasMenu()}
                             >
                                 <p>
                                     <FontAwesomeIcon icon={faGears}

@@ -9,21 +9,21 @@ import { NotFoundException } from 'app/Exceptions';
 
 
 /**
- * Function for fetching a digital media item's machine annotation service (MAS) job records
- * @param handle The identifier of the digital media item
- * @param version The version of the digital media item
+ * Function for fetching a digital specimen's machine annotation service (MAS) job records
+ * @param handle The identifier of the digital specimen
+ * @param version The version of the digital specimen
  * @returns Array of Machine Job Records
  */
-const GetDigitalMediaMASJobRecords = async ({ handle, pageSize, pageNumber, state }: { handle: string, pageSize?: number, pageNumber: number, state?: string }) => {
+const GetDigitalSpecimenMasJobRecords = async ({ handle, pageSize, pageNumber, state }: { handle: string, pageSize?: number, pageNumber: number, state?: string }) => {
     let returnData: {
-        MASJobRecords: Dict[],
+        masJobRecords: Dict[],
         links?: Dict
     } = {
-        MASJobRecords: []
+        masJobRecords: []
     };
 
     if (handle) {
-        const endPoint: string = `/digital-media/${handle.replace(import.meta.env.VITE_DOI_URL, '')}/mjr`;
+        const endPoint: string = `/digital-specimen/${handle.replace(import.meta.env.VITE_DOI_URL, '')}/mjr`;
 
         try {
             const result = await axios({
@@ -41,17 +41,17 @@ const GetDigitalMediaMASJobRecords = async ({ handle, pageSize, pageNumber, stat
             const data: JSONResultArray = result.data;
 
             data.data.forEach(dataFragment => {
-                returnData.MASJobRecords.push(dataFragment.attributes);
+                returnData.masJobRecords.push(dataFragment.attributes);
             });
 
             /* Set return data */
             returnData.links = data.links;
         } catch (error: any) {
-            console.error(NotFoundException('Digital Media MAS Job Records', error.request.responseURL));
+            console.error(NotFoundException('Digital Specimen MAS Job Records', error.request.responseURL));
         };
     };
 
     return returnData;
 };
 
-export default GetDigitalMediaMASJobRecords;
+export default GetDigitalSpecimenMasJobRecords;

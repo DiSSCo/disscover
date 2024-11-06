@@ -39,6 +39,14 @@ const ConstructAnnotationObject = (params: {
         localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
     }
 
+    let targetTypeDoi: string = '';
+
+    if (digitalObjectType === 'ods:DigitalSpecimen') {
+        targetTypeDoi = 'https://doi.org/21.T11148/894b1e6cad57e921764e';
+    } else if (digitalObjectType === 'ods:DigitalMedia') {
+        targetTypeDoi = 'https://doi.org/21.T11148/bbad8c4e101e8af01115';
+    }
+
     /* Define target of annotation */
     const annotation: AnnotationTemplate = {
         "oa:motivation": motivation,
@@ -47,7 +55,7 @@ const ConstructAnnotationObject = (params: {
             "@id": digitalObjectId,
             "@type": digitalObjectType,
             "ods:ID": digitalObjectId,
-            "ods:type": digitalObjectType,
+            "ods:type": targetTypeDoi,
             "oa:hasSelector": {
                 ...(annotationTargetType === 'term' && {
                     "@type": 'ods:FieldSelector',

@@ -19,9 +19,9 @@ import DigitalMediaSchema from 'sources/dataModel/digitalMedia.json';
 /* Import API */
 import GetDigitalMedia from "api/digitalMedia/GetDigitalMedia";
 import GetDigitalMediaAnnotations from "api/digitalMedia/GetDigitalMediaAnnotations";
-import GetDigitalMediaMASs from "api/digitalMedia/GetDigitalMediaMAS";
-import GetDigitalMediaMASJobRecords from "api/digitalMedia/GetDigitalMediaMASJobRecords";
-import ScheduleDigitalMediaMAS from "api/digitalMedia/ScheduleDigitalMediaMAS";
+import GetDigitalMediaMas from "api/digitalMedia/GetDigitalMediaMas";
+import GetDigitalMediaMasJobRecords from "api/digitalMedia/GetDigitalMediaMasJobRecords";
+import ScheduleDigitalMediaMas from "api/digitalMedia/ScheduleDigitalMediaMas";
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from "./components/DigitalMediaComponents";
@@ -139,9 +139,9 @@ const DigitalMedia = () => {
                             <AnnotationSidePanel superClass={digitalMedia}
                                 schema={DigitalMediaSchema}
                                 GetAnnotations={GetDigitalMediaAnnotations}
-                                GetMASs={GetDigitalMediaMASs}
-                                GetMASJobRecords={GetDigitalMediaMASJobRecords}
-                                ScheduleMASs={ScheduleDigitalMediaMAS}
+                                GetMas={GetDigitalMediaMas}
+                                GetMasJobRecords={GetDigitalMediaMasJobRecords}
+                                ScheduleMas={ScheduleDigitalMediaMas}
                                 HideAnnotationSidePanel={() => setAnnotationMode(false)}
                             />
                         </div>

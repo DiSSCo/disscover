@@ -14,7 +14,8 @@ const AppRoutes: JSX.Element[] = [
     ...SearchRoutes,
     ...DigitalSpecimenRoutes,
     ...DigitalMediaRoutes,
-    ...ProfileRoutes
+    ...ProfileRoutes,
+    
 ];
 
 export default AppRoutes;

@@ -91,7 +91,7 @@ export type PaginationObject = {
 };
 
 /* Super class (annotation target) */
-export type SuperClass = DigitalSpecimen | DigitalMedia | Dict;
+export type SuperClass = DigitalSpecimenType | DigitalMediaType | Dict;
 
 /* Annotation target */
 export type AnnotationTarget = {

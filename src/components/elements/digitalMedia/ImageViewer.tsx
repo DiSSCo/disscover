@@ -80,6 +80,9 @@ const ImageViewer = (props: Props) => {
 
         /* Update annotations state */
         setAnnotations(visualAnnotations);
+
+        /* Deactivate loading state */
+        loading.End();
     };
 
     /* OnLoad, check for image format (image/jpeg for still images and application/json for IIIF) and set source url */
@@ -316,6 +319,8 @@ const ImageViewer = (props: Props) => {
                             SetAnnotoriousMode={SetAnnotoriousMode}
                             SetEditAnnotationWithId={setEditAnnotationWithId}
                             SubmitAnnotation={SubmitAnnotation}
+                            RefreshAnnotations={RefreshAnnotations}
+                            ToggleLoading={() => loading.loading ? loading.End() : loading.Start()}
                         />
                     )}
                     />

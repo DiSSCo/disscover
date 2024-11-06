@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { useAnnotator, useSelection, UserSelectAction } from "@annotorious/react";
+import { useAnnotator, useSelection } from "@annotorious/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format } from 'date-fns';
 import { Formik, Form, Field } from "formik";
@@ -8,7 +8,7 @@ import { useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 
 /* Import Hooks */
-import { useTrigger } from "app/Hooks";
+import { useNotification, useTrigger } from "app/Hooks";
 
 /* Import Types */
 import { Annotation } from "app/types/Annotation";
@@ -18,6 +18,9 @@ import styles from './DigitalMedia.module.scss';
 
 /* Import Icons */
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
+/* Import API */
+import DeleteAnnotation from "api/annotation/DeleteAnnotation";
 
 /* Import Components */
 import { Button, LoadingScreen } from "../customUI/CustomUI";
@@ -30,7 +33,9 @@ type Props = {
     loading: boolean,
     SetAnnotoriousMode: Function,
     SetEditAnnotationWithId: Function,
-    SubmitAnnotation: Function
+    SubmitAnnotation: Function,
+    RefreshAnnotations: Function,
+    ToggleLoading: Function
 };
 
 
@@ -42,14 +47,17 @@ type Props = {
  * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @param SetEditAnnotationWithId Function to set the edit annotation with ID state
  * @param SubmitAnnotation Function to submit the visual annotation
+ * @param RefreshAnnotations Function to refresh the visual annotations on the canvas
+ * @param ToggleLoading Function to the loading state
  * @returns JSX Component
  */
 const ImagePopup = (props: Props) => {
-    const { annotation, editAnnotationWithId, loading, SetAnnotoriousMode, SetEditAnnotationWithId, SubmitAnnotation } = props;
+    const { annotation, editAnnotationWithId, loading, SetAnnotoriousMode, SetEditAnnotationWithId, SubmitAnnotation, RefreshAnnotations, ToggleLoading } = props;
 
     /* Hooks */
     const annotorious = useAnnotator();
     const annotationValueFieldRef = useRef<HTMLInputElement>(null);
+    const notification = useNotification();
     const trigger = useTrigger();
 
     /* Base variables */
@@ -167,6 +175,26 @@ const ImagePopup = (props: Props) => {
                                     <Button type="button"
                                         variant="blank"
                                         className="px-0 py-0"
+                                        OnClick={async () => {
+                                            if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['ods:ID']}?`)) {
+                                                ToggleLoading();
+
+                                                try {
+                                                    await DeleteAnnotation({ annotationId: annotation['ods:ID'] });
+        
+                                                    /* Refresh annotations */
+                                                    RefreshAnnotations();
+                                                } catch {
+                                                    notification.Push({
+                                                        key: `${annotation['ods:ID']}-${Math.random()}`,
+                                                        message: `Failed to delete the annotation. Please try deleting it again.`,
+                                                        template: 'error'
+                                                    });
+                                                } finally {
+                                                    ToggleLoading();
+                                                };
+                                            }
+                                        }}
                                     >
                                         <FontAwesomeIcon icon={faTrashCan}
                                             className="tc-primary"

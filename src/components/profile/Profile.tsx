@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import KeycloakService from "app/Keycloak";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 /* Import Hooks */
@@ -36,20 +36,27 @@ const Profile = () => {
 
             <Container fluid className="flex-grow-1 overflow-hidden">
                 <Row className="h-100">
-                    <Col lg={{ span: 10, offset: 1 }}>
-                        My ORCID: {KeycloakService.GetParsedToken()?.orcid ?? 'is not here'}
+                    <Col lg={{ span: 4, offset: 4 }}
+                        className="py-5"
+                    >
+                        <Card className="h-100">
+                            {/* Top bar */}
+                            
 
-                        {!KeycloakService.GetParsedToken()?.orcid &&
-                            <Button type="button"
-                                variant="blank"
-                                className="tc-white fw-bold bgc-orcid"
-                                OnClick={() => KeycloakService.Login({ idpHint: 'orcid', prompt: 'login' })}
-                            >
-                                <span>
-                                    Link to ORCID
-                                </span>
-                            </Button>
-                        }
+                            My ORCID: {KeycloakService.GetParsedToken()?.orcid ?? 'is not here'}
+
+                            {!KeycloakService.GetParsedToken()?.orcid &&
+                                <Button type="button"
+                                    variant="blank"
+                                    className="tc-white fw-bold bgc-orcid"
+                                    OnClick={() => KeycloakService.Login({ idpHint: 'orcid', prompt: 'login' })}
+                                >
+                                    <span>
+                                        Link to ORCID
+                                    </span>
+                                </Button>
+                            }
+                        </Card>
                     </Col>
                 </Row>
             </Container>

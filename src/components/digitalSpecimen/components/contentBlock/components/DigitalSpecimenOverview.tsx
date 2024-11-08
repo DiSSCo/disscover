@@ -131,7 +131,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                         {/* Title */}
                         <Row>
                             <Col>
-                                <p className="tc-accent fw-lightBold">Geological Reference</p>
+                                <p className="tc-accent fw-lightBold">Geographical Map</p>
                             </Col>
                         </Row>
                         {/* Geological reference map */}

@@ -33,7 +33,8 @@ type Props = {
     SetFilterSortValues: Function,
     StartAnnotationWizard: Function,
     RefreshAnnotations: Function,
-    OpenMasMenu: Function
+    OpenMasMenu: Function,
+    ShowPolicyText: Functon
 };
 
 
@@ -46,10 +47,11 @@ type Props = {
  * @param StartAnnotationWizard Function that starts the annotation wizard
  * @param RefresAnnotations Function to refresh the annotations in the annotations overview
  * @param OpenMasMenu Function to open the MAS menu
+ * @param ShowPolicyText Function to show the annotation policy text in the side panel
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu } = props;
+    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -166,7 +168,22 @@ const AnnotationsOverview = (props: Props) => {
                 <Col className="px-0">
                     <Card />
 
-                    <Row className="flex-row-reverse mt-3">
+                    <p className="fs-5 tc-grey mt-2 text-end">
+                        {`To make an annotation you must agree with our `}
+                        <span className="tc-accent">
+                            <Button type="button"
+                                variant="blank"
+                                className="py-0 px-0"
+                                OnClick={() => ShowPolicyText()}
+                            >
+                                <p className="fs-5">
+                                    annotation policy
+                                </p>
+                            </Button>
+                        </span>
+                    </p>
+
+                    <Row className="flex-row-reverse mt-2">
                         {/* Add annotation button */}
                         <Col lg="auto"
                             className="ps-1"

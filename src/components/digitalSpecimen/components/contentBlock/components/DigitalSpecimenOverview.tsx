@@ -10,6 +10,9 @@ import { Event } from 'app/types/Event';
 /* Import Icons */
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
+/* Import Styles */
+import styles from './digitalSpecimenOverviewContent/digitalSpecimenOverview.module.scss';
+
 /* Import Components */
 import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIdentification';
 import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
@@ -56,7 +59,7 @@ const DigitalSpecimenOverview = (props: Props) => {
      * @returns Citation string
      */
     const CraftCitation = () => {
-        return `Distributed System of Scientific Collections (${new Date().getFullYear()}). {${digitalSpecimen['ods:specimenName']} [Dataset]. ${digitalSpecimen['ods:ID']}`;
+        return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']} [Dataset]. ${digitalSpecimen['ods:ID']}`;
     };
 
     return (
@@ -70,6 +73,14 @@ const DigitalSpecimenOverview = (props: Props) => {
                             <Col>
                                 <p className="tc-accent fw-lightBold">Origin</p>
                             </Col>
+                            {collectionEvent?.['ods:Location']?.['dwc:countryCode'] &&
+                                <Col lg="auto">
+                                    <img src={`https://flagsapi.com/${collectionEvent['ods:Location']['dwc:countryCode']}/shiny/64.png`}
+                                        alt="Flag icon of country"
+                                        className={styles.countryFlag}
+                                    />
+                                </Col>
+                            }
                         </Row>
                         {/* Fields */}
                         <Row className="mt-2">
@@ -135,7 +146,9 @@ const DigitalSpecimenOverview = (props: Props) => {
             {/* */}
             <Row className="h-50 pt-2">
                 {(topicDisciplinesWithIdentifications.includes(digitalSpecimen['ods:topicDiscipline'] ?? '') && acceptedIdentification) &&
-                    <Col lg={{ span: 4 }}>
+                    <Col lg={{ span: 4 }}
+                        className="h-100"
+                    >
                         <Card className="h-100 d-flex flex-column pt-2 pb-3 px-3">
                             {/* Title */}
                             <Row>
@@ -154,7 +167,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                         </Card>
                     </Col>
                 }
-                <Col>
+                <Col className="h-100">
                     <Card className="h-100 pt-2 pb-3 px-3">
                         {/* Title */}
                         <Row>
@@ -193,8 +206,8 @@ const DigitalSpecimenOverview = (props: Props) => {
                         </Row>
                     </Card>
                 </Col>
-                <Col>
-                    <Card className="h-100 pt-2 pb-3 px-3">
+                <Col className="h-100 overflow-hidden">
+                    <Card className="h-100 d-flex flex-column pt-2 pb-3 px-3">
                         {/* Title */}
                         <Row>
                             <Col>
@@ -202,11 +215,11 @@ const DigitalSpecimenOverview = (props: Props) => {
                             </Col>
                         </Row>
                         {/* Citation */}
-                        <Row className="mt-2">
-                            <Col>
+                        <Row className="flex-grow-1 overflow-hidden mt-2">
+                            <Col className="h-100">
                                 <div className="bgc-grey-light px-3 py-2 br-corner">
                                     <Row>
-                                        <Col>
+                                        <Col className="overflow-scroll">
                                             <p className="fs-4">
                                                 {CraftCitation()}
                                             </p>

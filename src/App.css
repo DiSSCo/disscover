@@ -230,6 +230,10 @@ p {
   border-left: 1px solid var(--primary);
 }
 
+.b-accent {
+  border: 1px solid var(--accent);
+}
+
 .bl-grey {
   border-left: 1px solid var(--grey);
 }

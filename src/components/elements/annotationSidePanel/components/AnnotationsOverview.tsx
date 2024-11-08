@@ -34,7 +34,7 @@ type Props = {
     StartAnnotationWizard: Function,
     RefreshAnnotations: Function,
     OpenMasMenu: Function,
-    ShowPolicyText: Functon
+    ShowPolicyText: Function
 };
 
 

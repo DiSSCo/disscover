@@ -52,7 +52,8 @@ const DigitalSpecimen = () => {
             {
                 alias: 'digitalSpecimen',
                 params: {
-                    handle: `${params.prefix}/${params.suffix}`
+                    handle: `${params.prefix}/${params.suffix}`,
+                    version: params.version
                 },
                 Method: GetDigitalSpecimen
 
@@ -65,6 +66,7 @@ const DigitalSpecimen = () => {
                 Method: GetDigitalSpecimenDigitalMedia
             }
         ],
+        triggers: [params.version],
         Handler: (results: {
             digitalSpecimen: DigitalSpecimenType | undefined,
             digitalMedia: DigitalMedia[]
@@ -161,18 +163,18 @@ const DigitalSpecimen = () => {
                             <Footer />
                         </div>
                     </Col>
-                {digitalSpecimen &&
-                    <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
-                        <AnnotationSidePanel superClass={digitalSpecimen}
-                            schema={DigitalSpecimenSchema}
-                            GetAnnotations={GetDigitalSpecimenAnnotations}
-                            GetMas={GetDigitalSpecimenMas}
-                            GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
-                            ScheduleMas={ScheduleDigitalSpecimenMas}
-                            HideAnnotationSidePanel={() => setAnnotationMode(false)}
-                        />
-                    </div>
-                }
+                    {digitalSpecimen &&
+                        <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
+                            <AnnotationSidePanel superClass={digitalSpecimen}
+                                schema={DigitalSpecimenSchema}
+                                GetAnnotations={GetDigitalSpecimenAnnotations}
+                                GetMas={GetDigitalSpecimenMas}
+                                GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
+                                ScheduleMas={ScheduleDigitalSpecimenMas}
+                                HideAnnotationSidePanel={() => setAnnotationMode(false)}
+                            />
+                        </div>
+                    }
                 </Row>
             </Container>
         </div>

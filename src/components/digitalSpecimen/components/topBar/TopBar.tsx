@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 /* Import Hooks */
 import { useFetch } from "app/Hooks";
@@ -40,10 +41,11 @@ const TopBar = (props: Props) => {
     const { digitalSpecimen, annotationMode, ToggleAnnotationSidePanel } = props;
 
     /* Hooks */
+    const navigate = useNavigate();
     const fetch = useFetch();
 
     /* Base variables */
-    const [digitalSpecimenVersions, setDigitalSpecimenVersions] = useState<string[]>([]);
+    const [digitalSpecimenVersions, setDigitalSpecimenVersions] = useState<number[] | undefined>();
     const actionDropdownItems: DropdownItem[] = [
         {
             label: 'View JSON',
@@ -58,9 +60,9 @@ const TopBar = (props: Props) => {
     ];
 
     /* Construct version dropdown items */
-    const versionDropdownItems: DropdownItem[] = digitalSpecimenVersions?.map(digitalSpecimenVersion => ({
+    const versionDropdownItems: DropdownItem[] | undefined = digitalSpecimenVersions?.map(digitalSpecimenVersion => ({
         label: `Version ${digitalSpecimenVersion}`,
-        value: digitalSpecimenVersion
+        value: `${digitalSpecimenVersion}`
     }));
 
     /* OnLoad: fetch digital specimen versions */
@@ -69,7 +71,7 @@ const TopBar = (props: Props) => {
             handle: digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
         },
         Method: GetDigitalSpecimenVersions,
-        Handler: (versions: string[]) => {
+        Handler: (versions: number[]) => {
             setDigitalSpecimenVersions(versions);
         }
     });
@@ -129,20 +131,24 @@ const TopBar = (props: Props) => {
                                 {`MIDS level ${digitalSpecimen["ods:midsLevel"]}`}
                             </span>
                         </Col>
-                        <Col lg="auto">
-                            <Dropdown items={versionDropdownItems}
-                                selectedItem={{
-                                    label: fetch.loading ? 'Loading..' : `Version ${digitalSpecimen['ods:version']}`,
-                                    value: fetch.loading ? 'loading' : digitalSpecimen['ods:version'].toString()
-                                }}
-                                hasDefault={true}
-                                styles={{
-                                    color: '#f1f1f3',
-                                    background: '#a1d8ca',
-                                    borderRadius: '999px'
-                                }}
-                            />
-                        </Col>
+                        {versionDropdownItems &&
+                            <Col lg="auto">
+                                <Dropdown items={versionDropdownItems}
+                                    selectedItem={{
+                                        label: fetch.loading ? 'Loading..' : `Version ${digitalSpecimen['ods:version']}`,
+                                        value: fetch.loading ? 'loading' : digitalSpecimen['ods:version'].toString()
+                                    }}
+                                    hasDefault={true}
+                                    styles={{
+                                        color: '#f1f1f3',
+                                        background: '#a1d8ca',
+                                        borderRadius: '999px'
+                                    }}
+                                    OnChange={(dropdownItem: DropdownItem) => 
+                                        navigate(`/ds/${digitalSpecimen["ods:ID"].replace(import.meta.env.VITE_DOI_URL, '')}/${dropdownItem.value}`)}
+                                />
+                            </Col>
+                        }
                     </Row>
                 </Col>
                 <Col>

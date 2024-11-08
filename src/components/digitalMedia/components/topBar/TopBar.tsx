@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 /* Import Hooks */
 import { useFetch } from "app/Hooks";
@@ -40,10 +41,11 @@ const TopBar = (props: Props) => {
     const { digitalMedia, annotationMode, annotoriousMode, ToggleAnnotationSidePanel, SetAnnotoriousMode } = props;
 
     /* Hooks */
+    const navigate = useNavigate();
     const fetch = useFetch();
 
     /* Base variables */
-    const [digitalMediaVersions, setDigitalMediaVersions] = useState<string[]>([]);
+    const [digitalMediaVersions, setDigitalMediaVersions] = useState<number[] | undefined>();
     const actionDropdownItems: DropdownItem[] = [
         {
             label: 'View JSON',
@@ -58,9 +60,9 @@ const TopBar = (props: Props) => {
     ];
 
     /* Construct version dropdown items */
-    const versionDropdownItems: DropdownItem[] = digitalMediaVersions?.map(digitalMediaVersion => ({
+    const versionDropdownItems: DropdownItem[] | undefined = digitalMediaVersions?.map(digitalMediaVersion => ({
         label: `Version ${digitalMediaVersion}`,
-        value: digitalMediaVersion
+        value: `${digitalMediaVersion}`
     }));
 
     /* OnLoad: fetch digital media versions */
@@ -69,7 +71,7 @@ const TopBar = (props: Props) => {
             handle: digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
         },
         Method: GetDigitalMediaVersions,
-        Handler: (versions: string[]) => {
+        Handler: (versions: number[]) => {
             setDigitalMediaVersions(versions);
         }
     });
@@ -117,20 +119,24 @@ const TopBar = (props: Props) => {
                 {/* MIDS level and version select */}
                 <Col lg={{ span: 3 }}>
                     <Row>
-                        <Col lg="auto">
-                            <Dropdown items={versionDropdownItems}
-                                selectedItem={{
-                                    label: fetch.loading ? 'Loading..' : `Version ${digitalMedia['ods:version']}`,
-                                    value: fetch.loading ? 'loading' : digitalMedia['ods:version'].toString()
-                                }}
-                                hasDefault={true}
-                                styles={{
-                                    color: '#f1f1f3',
-                                    background: '#a1d8ca',
-                                    borderRadius: '999px'
-                                }}
-                            />
-                        </Col>
+                        {versionDropdownItems &&
+                            <Col lg="auto">
+                                <Dropdown items={versionDropdownItems}
+                                    selectedItem={{
+                                        label: fetch.loading ? 'Loading..' : `Version ${digitalMedia['ods:version']}`,
+                                        value: fetch.loading ? 'loading' : digitalMedia['ods:version'].toString()
+                                    }}
+                                    hasDefault={true}
+                                    styles={{
+                                        color: '#f1f1f3',
+                                        background: '#a1d8ca',
+                                        borderRadius: '999px'
+                                    }}
+                                    OnChange={(dropdownItem: DropdownItem) =>
+                                        navigate(`/dm/${digitalMedia["ods:ID"].replace(import.meta.env.VITE_DOI_URL, '')}/${dropdownItem.value}`)}
+                                />
+                            </Col>
+                        }
                     </Row>
                 </Col>
                 <Col lg="auto">

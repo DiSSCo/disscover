@@ -6,12 +6,6 @@ import { useNavigate } from "react-router-dom";
 /* Import Hooks */
 import { useTrigger } from "app/Hooks";
 
-/* Import Webroot */
-import ORCIDLogo from 'webroot/logos/ORCIDLogo.png';
-
-/* Import Styles */
-import styles from './profile.module.scss';
-
 /* Import Components */
 import { Header, Footer } from "components/elements/Elements";
 import { Button } from "components/elements/customUI/CustomUI";

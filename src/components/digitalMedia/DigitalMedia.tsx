@@ -48,9 +48,9 @@ const DigitalMedia = () => {
     fetch.Fetch({
         params: {
             handle: `${params.prefix}/${params.suffix}`,
-            version: ''
+            version: params.version
         },
-        triggers: [params.suffix],
+        triggers: [params.suffix, params.version],
         Method: GetDigitalMedia,
         Handler: (digitalMedia: DigitalMediaType) => dispatch(setDigitalMedia(digitalMedia))
     });

@@ -11,9 +11,6 @@ import { getTourTopic, setTourTopic } from 'redux-store/GlobalSlice';
 /* Import Sources */
 import HomeIntro from 'sources/tourText/home.json';
 
-/* Import Styles */
-import styles from '../home.module.scss';
-
 
 /* Props Type */
 type Props = {
@@ -52,29 +49,6 @@ const TourSteps = (props: Props) => {
             element: `#tourHome${index + 1}`
         });
     });
-
-    // const steps = {
-    //     home: [
-    //         {
-    //             intro: homeSteps[0]
-    //         },
-    //         {
-    //             intro: homeSteps[1]
-    //         },
-    //         {
-    //             element: `.specimenTypeFilters`,
-    //             intro: homeSteps[2]
-    //         },
-    //         {
-    //             element: ".globalSearchBar",
-    //             intro: homeSteps[3]
-    //         },
-    //         {
-    //             element: ".advancedSearch",
-    //             intro: homeSteps[4]
-    //         }
-    //     ]
-    // };
 
     return (
         <Steps enabled={tourTopic === 'home'}

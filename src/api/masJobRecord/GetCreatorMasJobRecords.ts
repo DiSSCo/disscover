@@ -3,8 +3,7 @@ import axios from 'axios';
 import KeycloakService from 'app/Keycloak';
 
 /* Import Types */
-import { MasJobRecord } from 'app/Types';
-import { JSONResultArray } from 'app/Types';
+import { MasJobRecord, JSONResultArray } from 'app/Types';
 
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';

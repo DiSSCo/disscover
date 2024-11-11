@@ -91,11 +91,17 @@ const DigitalSpecimenDigitalMedia = (props: Props) => {
                             <Row className="flex-grow-1 overflow-hidden mt-1">
                                 <Col className="h-100">
                                     <div className="h-100 horizontalScroll">
-                                        {digitalMediaComponents.map(digitalMediaComponent => (
-                                            <div className="w-25 h-100 d-inline-block bgc-grey-light mx-3">
-                                                {digitalMediaComponent}
-                                            </div>
-                                        ))}
+                                        {digitalMediaComponents.map((digitalMediaComponent, index) => {
+                                            const key = `digitalMediaComponent-${index}`;
+
+                                            return (
+                                                <div key={key}
+                                                    className="w-25 h-100 d-inline-block bgc-grey-light mx-3"
+                                                >
+                                                    {digitalMediaComponent}
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </Col>
                             </Row>

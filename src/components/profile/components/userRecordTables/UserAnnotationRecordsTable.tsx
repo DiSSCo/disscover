@@ -39,7 +39,7 @@ const UserAnnotationRecordsTable = () => {
     });
 
     pagination.records.forEach(userAnnotation => {
-        let jsonPath: string = '$';
+        let jsonPath: string;
 
         if (userAnnotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
             jsonPath = userAnnotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"];

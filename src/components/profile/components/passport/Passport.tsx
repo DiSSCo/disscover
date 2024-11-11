@@ -70,6 +70,7 @@ const Passport = () => {
                                 className=" d-flex align-items-center"
                             >
                                 <img src={ORCIDIcon}
+                                    alt="ORCID Logo"
                                     className="w-100"
                                 />
                             </Col>

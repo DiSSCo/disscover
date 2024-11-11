@@ -2,9 +2,6 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { format } from 'date-fns';
 
-/* Import Utilities */
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
-
 
 /**
  * Config function that sets up the basic table column template for the user MAS job records table on the profile page

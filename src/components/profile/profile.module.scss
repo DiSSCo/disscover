@@ -1,0 +1,14 @@
+/* Custom styling for the profile page */
+
+.profileCardHead {
+    height: 75px;
+}
+
+.profileCardPicture {
+    width: 75px;
+    height: 75px;
+    line-height: 45px;
+    font-size: 26px;
+    border: 2px solid white;
+    margin-top: Calc(75px / 2);
+}

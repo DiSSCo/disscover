@@ -1,11 +1,16 @@
 /* Import Dependencies */
 import { Row, Col, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
+/* Import Utilities */
+import { MakeReadableString } from 'app/Utilities';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 
 /* Import Components */
 import { Audio, File, Image, Video } from 'components/elements/media/MediaComponents';
+import { Button } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
@@ -22,6 +27,9 @@ type Props = {
 const DigitalSpecimenDigitalMedia = (props: Props) => {
     const { digitalSpecimenDigitalMedia } = props;
 
+    /* Hooks */
+    const navigate = useNavigate();
+
     /* Base variables */
     const digitalMediaComponentsDict: {
         [mediaType: string]: JSX.Element[]
@@ -33,10 +41,16 @@ const DigitalSpecimenDigitalMedia = (props: Props) => {
             case 'Image':
             case 'StillImage':
                 (digitalMediaComponentsDict.images || (digitalMediaComponentsDict.images = [])).push(
-                    <Image accessURI={digitalMedia['ac:accessURI']}
-                        sizeOrientation="height"
-                        hoverText={digitalMedia['ods:ID']}
-                    />);
+                    <Button type="button"
+                        variant="blank"
+                        className="h-100 w-100 px-0 py-0 object-fit-contain"
+                        OnClick={() => navigate(`/dm/${digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                    >
+                        <Image accessURI={digitalMedia['ac:accessURI']}
+                            sizeOrientation="height"
+                        />
+                    </Button>
+                );
 
                 break;
             case 'Sound':
@@ -62,10 +76,29 @@ const DigitalSpecimenDigitalMedia = (props: Props) => {
         <div className="h-100">
             {/* Render dedicated media components per type */}
             {Object.entries(digitalMediaComponentsDict).map(([mediaType, digitalMediaComponents]) => (
-                <Row key={mediaType}>
-                    <Col>
-                        <Card>
-                            {digitalMediaComponents}
+                <Row key={mediaType}
+                    className="h-25"
+                >
+                    <Col className="h-100">
+                        <Card className="h-100 d-flex flex-column py-2">
+                            <Row>
+                                <Col className="mx-3">
+                                    <p className="fs-4 tc-primary fw-lightBold">
+                                        {MakeReadableString(mediaType)}
+                                    </p>
+                                </Col>
+                            </Row>
+                            <Row className="flex-grow-1 overflow-hidden mt-1">
+                                <Col className="h-100">
+                                    <div className="h-100 horizontalScroll">
+                                        {digitalMediaComponents.map(digitalMediaComponent => (
+                                            <div className="w-25 h-100 d-inline-block bgc-grey-light mx-3">
+                                                {digitalMediaComponent}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </Col>
+                            </Row>
                         </Card>
                     </Col>
                 </Row>

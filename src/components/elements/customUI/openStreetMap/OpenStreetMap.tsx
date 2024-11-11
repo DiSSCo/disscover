@@ -35,7 +35,7 @@ const OpenStreetMap = (props: Props) => {
 
                     <OpenStreetMapMarker georeference={georeference} />
                 </MapContainer>
-                : <p className="fs-5">Geological map could not be created due to a lack of coordinates</p>
+                : <p className="fs-5">Geographical map could not be created due to a lack of coordinates</p>
             }
         </div>
     );

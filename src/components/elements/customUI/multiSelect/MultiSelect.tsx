@@ -124,8 +124,7 @@ const MultiSelect = (props: Props) => {
 
         return classNames({
             "hover-grey": !selected,
-            "bgc-grey": selected,
-            // 'd-none': !multiSelectTrigger && !selected
+            "bgc-grey": selected
         });
     };
 
@@ -156,15 +155,18 @@ const MultiSelect = (props: Props) => {
                                             }}
                                             onClick={() => {
                                                 setMultiSelectTrigger(true);
-                                                OnClick?.();
+                                                OnClick?.(true);
                                             }}
                                         />
 
-                                        {/* Absolute chevron down */}
+                                        {/* Absolute chevron up or down */}
                                         <Button type="button"
                                             variant="blank"
                                             className="position-absolute end-0 me-1"
-                                            OnClick={() => setMultiSelectTrigger(!multiSelectTrigger)}
+                                            OnClick={() => {
+                                                setMultiSelectTrigger(!multiSelectTrigger);
+                                                OnClick?.();
+                                            }}
                                         >
                                             <FontAwesomeIcon icon={multiSelectTrigger ? faChevronUp : faChevronDown}
                                                 className="tc-primary"

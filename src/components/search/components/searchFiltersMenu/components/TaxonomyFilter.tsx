@@ -71,7 +71,7 @@ const TaxonomyFilter = (props: Props) => {
                     <TaxonomySelect fieldValues={fieldValues.species}
                         SetFieldValue={(field: string, value: string | string[]) => SetFieldValue(field, value)}
                         SubmitForm={SubmitForm}
-                        ToggleTaxonomyFilter={(foo: boolean) => setTaxonomicFilterTrigger(foo)}
+                        ToggleTaxonomyFilter={(foo: boolean) => setTaxonomicFilterTrigger(foo ?? !taxonomicFilterTrigger)}
                     />
                 </Col>
             </Row>

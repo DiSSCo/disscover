@@ -16,6 +16,8 @@ type Props = {
 
 /**
  * Component that renders the application's footer
+ * @param span The width in Bootstrap span (grid based on 12 columns)
+ * @param offset the offset width in Bootstrap span (grid based on 12 columns)
  * @returns JSX Component
  */
 const Footer = (props: Props) => {

@@ -35,11 +35,22 @@ import {
 import { Button, Spinner, Tabs } from 'components/elements/customUI/CustomUI';
 
 
+/* Props Type */
+type Props = {
+    advancedSearchToggle: boolean,
+    SetAdvancedSearchToggle: Function
+};
+
+
 /**
  * Component that renders the advanced search on the homepage
+ * @param advancedSearchToggle Boolean indicating if the advanced search should be displayed
+ * @param SetAdvancedSearchToggle Function to set the advanced search toggle
  * @returns JSX Component
  */
-const AdvancedSearch = () => {
+const AdvancedSearch = (props: Props) => {
+    const { advancedSearchToggle, SetAdvancedSearchToggle } = props;
+
     /* Hooks */
     const navigate = useNavigate();
     const loading = useLoading();
@@ -47,7 +58,6 @@ const AdvancedSearch = () => {
 
     /* Base variables */
     const organisationNames = useAppSelector(getOrganisationNames);
-    const [advancedSearchToggle, setAdvancedSearchToggle] = useState<boolean>(false);
     const tabs: { [name: string]: JSX.Element } = {
         digitalSpecimenID: <DOISearch />,
         physicalSpecimenID: <PhysicalSpecimenIDSearch />,
@@ -170,14 +180,16 @@ const AdvancedSearch = () => {
                                 <Button type="button"
                                     variant="blank"
                                     className="tc-accent py-0"
-                                    OnClick={() => setAdvancedSearchToggle(true)}
+                                    OnClick={() => SetAdvancedSearchToggle(true)}
                                 >
                                     Search by ID or collection
                                 </Button>
                             </Col>
                         </Row>
                         {/* Advanced search window, absolute to relative column in Home.tsx */}
-                        <div className={`${styles.advancedSearch} ${advancedSearchClass} position-absolute h-100 w-50 pe-5 ps-5 end-0 bottom-0 pt-5 bgc-default`}>
+                        <div id="tourHome5"
+                            className={`${styles.advancedSearch} ${advancedSearchClass} position-absolute h-100 w-50 pe-5 ps-5 end-0 bottom-0 pt-5 bgc-default`}
+                        >
                             {/* Title and close icon */}
                             <Row>
                                 <Col>
@@ -187,7 +199,7 @@ const AdvancedSearch = () => {
                                     <Button type="button"
                                         variant="blank"
                                         OnClick={() => {
-                                            setAdvancedSearchToggle(false);
+                                            SetAdvancedSearchToggle(false);
                                             setSelectedTabIndex(0);
                                             loading.End();
                                         }}

@@ -16,6 +16,7 @@ import { Dict } from 'app/Types';
 import GetDigitalSpecimenDisciplines from 'api/digitalSpecimen/GetDigitalSpecimenDisciplines';
 
 /* Import Components */
+import TourSteps from './TourSteps';
 import { Header, Footer } from 'components/elements/Elements';
 import { AdvancedSearch, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
@@ -35,6 +36,7 @@ const Home = () => {
         disciplines: { topicDiscipline: { [topicDiscipline: string]: number } },
         metadata?: Dict
     } | undefined>();
+    const [advancedSearchToggle, setAdvancedSearchToggle] = useState<boolean>(false);
     const initialFormValues: {
         query: string,
         topicDisciplines: string[],
@@ -45,6 +47,7 @@ const Home = () => {
         query: '',
         topicDisciplines: []
     };
+    const tourTopics: string[] = ['home'];
 
     /* OnLoad: fetch digital specimen disciplines */
     fetch.Fetch({
@@ -60,6 +63,7 @@ const Home = () => {
             {/* Render header*/}
             <Header span={10}
                 offset={1}
+                tourTopics={tourTopics}
             />
 
             {/* Home page body */}
@@ -102,6 +106,7 @@ const Home = () => {
                                             <Row className="align-items-center overflow-y-hidden overflow-x-hidden">
                                                 {/* Left side containing: total count and topic discipline filters */}
                                                 <Col lg={{ span: 6 }}
+                                                    id="tourHome3"
                                                     className="pe-5"
                                                 >
                                                     {/* Total count */}
@@ -133,7 +138,7 @@ const Home = () => {
                                                         </Col>
                                                     </Row>
                                                     {/* Query bar */}
-                                                    <Row className="mt-5">
+                                                    <Row id="tourHome4" className="mt-5">
                                                         <Col>
                                                             <SearchBar />
                                                         </Col>
@@ -158,7 +163,9 @@ const Home = () => {
                                 {/* Advanced search */}
                                 <Row className="flex-row-reverse">
                                     <Col lg="auto">
-                                        <AdvancedSearch />
+                                        <AdvancedSearch advancedSearchToggle={advancedSearchToggle}
+                                            SetAdvancedSearchToggle={setAdvancedSearchToggle}
+                                        />
                                     </Col>
                                 </Row>
                             </div>
@@ -171,6 +178,9 @@ const Home = () => {
             <Footer span={10}
                 offset={1}
             />
+
+            {/* Home tour steps */}
+            <TourSteps SetAdvancedSearchToggle={setAdvancedSearchToggle} />
         </div>
     );
 };

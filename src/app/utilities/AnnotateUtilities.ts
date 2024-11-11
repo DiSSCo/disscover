@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import { W3CImageAnnotation } from '@annotorious/annotorious';
 import jp from 'jsonpath';
 import { isEmpty, cloneDeep } from 'lodash';
 
@@ -6,6 +7,7 @@ import { isEmpty, cloneDeep } from 'lodash';
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
+import { Annotation } from 'app/types/Annotation';
 import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass } from "app/Types";
 
 
@@ -21,24 +23,32 @@ import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentCla
  * - annotationTargetType: The type of the annotation target, being term, class or ROI
  * - jsonPath: The JSON path towards the annotation target
  * - annotationValues: An array of processed value from the annotation form
+ * - coordinates: Potential coordinates supplied for a visual annotation
  */
 const ConstructAnnotationObject = (params: {
     digitalObjectId: string,
     digitalObjectType: string,
     motivation: 'ods:adding' | 'ods:deleting' | 'oa:assessing' | 'oa:editing' | 'oa:commenting',
     annotationTargetType: 'term' | 'class' | 'ROI',
-    jsonPath: string,
-    annotationValues: (string | Dict)[]
+    jsonPath?: string,
+    annotationValues: (string | Dict)[],
+    fragments?: {
+        xFrac: number,
+        yFrac: number,
+        widthFrac: number,
+        heightFrac: number
+    }
 }): AnnotationTemplate => {
-    const { digitalObjectId, digitalObjectType, motivation, annotationTargetType, jsonPath, annotationValues } = params;
+    const { digitalObjectId, digitalObjectType, motivation, annotationTargetType, jsonPath, annotationValues, fragments } = params;
 
-    let localJsonPath: string = jsonPath;
+    let localJsonPath: string = jsonPath ?? '';
 
-    /* If motivation is adding, check for new index at end of JSON path and removeif it is there */
-    if (typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
+    /* If motivation is adding, check for new index at end of JSON path and remove if it is there */
+    if (jsonPath && typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
         localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
     }
 
+    /* Define target type DOI */
     let targetTypeDoi: string = '';
 
     if (digitalObjectType === 'ods:DigitalSpecimen') {
@@ -65,13 +75,13 @@ const ConstructAnnotationObject = (params: {
                     "@type": 'ods:ClassSelector',
                     "ods:class": localJsonPath
                 }),
-                ...(annotationTargetType === 'ROI' && {
+                ...((annotationTargetType === 'ROI' && fragments) && {
                     "@type": 'oa:FragmentSelector',
                     "ac:hasROI": {
-                        "ac:xFrac": 0,
-                        "ac:yFrac": 0,
-                        "ac:widthFrac": 0,
-                        "ac:heightFrac": 0
+                        "ac:xFrac": fragments.xFrac,
+                        "ac:yFrac": fragments.yFrac,
+                        "ac:widthFrac": fragments.widthFrac,
+                        "ac:heightFrac": fragments.heightFrac
                     },
                     "dcterms:conformsTo": ''
                 })
@@ -306,6 +316,57 @@ const ProvideReadableMotivation = (motivation: 'ods:adding' | 'ods:deleting' | '
     return annotationMotivations[motivation];
 };
 
+/**
+ * Function to reformat an annotation to the Annotorious format
+ * @param annotation The annotation to reformat
+ * @param mediaUrl The URL pointing to the source of the media
+ * @param imageDimenstions An object containg the x and y dimensions of the image
+ * @returns Annotation according to Annotorious format
+ */
+const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: string, imageDimenstions: { x: number, y: number }) => {
+    let annotoriousAnnotation: W3CImageAnnotation = {} as W3CImageAnnotation;
+
+    /* Check if the annotation is a visual one and */
+    if (annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector') {
+        /* Calculate the W3C pixels relative to the TDWG AC position */
+        const ROI = annotation['oa:hasTarget']['oa:hasSelector']['ac:hasROI'] as {
+            "ac:xFrac": number,
+            "ac:yFrac": number,
+            "ac:widthFrac": number,
+            "ac:heightFrac": number
+        };
+
+        const x = ROI["ac:xFrac"] * imageDimenstions.x;
+        const y = ROI["ac:yFrac"] * imageDimenstions.y;
+        const w = ROI["ac:widthFrac"] * imageDimenstions.x;
+        const h = ROI["ac:heightFrac"] * imageDimenstions.y;
+
+        annotoriousAnnotation = {
+            id: annotation['ods:ID'],
+            "@context": 'http://www.w3.org/ns/anno.jsonld',
+            type: 'Annotation',
+            body: [{
+                type: 'TextualBody',
+                value: annotation['oa:hasBody']['oa:value'][0] ?? '',
+                purpose: 'commenting',
+                creator: {
+                    id: annotation['dcterms:creator']['@id'] ?? ''
+                }
+            }],
+            target: {
+                selector: {
+                    conformsTo: 'http://www.w3.org/TR/media-frags/',
+                    type: 'FragmentSelector',
+                    value: `xywh=pixel:${x},${y},${w},${h}`
+                },
+                source: mediaUrl
+            }
+        };
+    }
+
+    return annotoriousAnnotation;
+};
+
 export {
     ConstructAnnotationObject,
     ExtractParentClasses,
@@ -313,5 +374,6 @@ export {
     GenerateAnnotationFormFieldProperties,
     GetAnnotationMotivations,
     ProcessAnnotationValues,
-    ProvideReadableMotivation
+    ProvideReadableMotivation,
+    ReformatToAnnotoriousAnnotation
 };

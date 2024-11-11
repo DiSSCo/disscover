@@ -14,14 +14,16 @@ import GetDigitalMediaVersions from "api/digitalMedia/GetDigitalMediaVersions";
 
 /* Import Components */
 import { TopBarActions } from "components/elements/Elements";
-import { Dropdown } from "components/elements/customUI/CustomUI";
+import { Button, Dropdown } from "components/elements/customUI/CustomUI";
 
 
 /* Props type */
 type Props = {
     digitalMedia: DigitalMedia,
     annotationMode: boolean,
-    ToggleAnnotationSidePanel: Function
+    annotoriousMode: string,
+    ToggleAnnotationSidePanel: Function,
+    SetAnnotoriousMode: Function
 };
 
 
@@ -29,11 +31,13 @@ type Props = {
  * Component that renders the top bar on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
  * @param annotationMode Boolean that indicates if the annotation mode is toggled
+ * @param annotoriousMode String indicating the Annotorious mode
  * @param ToggleAnnotationSidePanel Function to toggle the annotation side panel
+ * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalMedia, annotationMode, ToggleAnnotationSidePanel } = props;
+    const { digitalMedia, annotationMode, annotoriousMode, ToggleAnnotationSidePanel, SetAnnotoriousMode } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -128,6 +132,16 @@ const TopBar = (props: Props) => {
                             />
                         </Col>
                     </Row>
+                </Col>
+                <Col lg="auto">
+                    <Button type="button"
+                        variant="primary"
+                        OnClick={() => SetAnnotoriousMode(annotoriousMode === 'move' ? 'draw' : 'move')}
+                    >
+                        <p>
+                            {annotoriousMode === 'move' ? 'Visual Annotation' : 'Cancel visual annotation'}
+                        </p>
+                    </Button>
                 </Col>
                 <Col>
                     <TopBarActions actionDropdownItems={actionDropdownItems}

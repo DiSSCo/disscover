@@ -319,6 +319,13 @@ p {
   transition: 0.15s;
 }
 
+/* Box shadow */
+.box-shadow {
+  -webkit-box-shadow: 9px 7px 24px -8px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 9px 7px 24px -8px rgba(0, 0, 0, 0.75);
+  box-shadow: 9px 7px 24px -8px rgba(0, 0, 0, 0.75);
+}
+
 /* Hover */
 .hover-primary:hover {
   background-color: var(--primary);

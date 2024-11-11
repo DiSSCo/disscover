@@ -42,6 +42,7 @@ const DigitalMedia = () => {
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
+    const [annotoriousMode, setAnnotoriousMode] = useState<string>('move');
 
     /* OnLoad, fetch digital media data */
     fetch.Fetch({
@@ -99,7 +100,9 @@ const DigitalMedia = () => {
                                                     <Col>
                                                         <TopBar digitalMedia={digitalMedia}
                                                             annotationMode={annotationMode}
+                                                            annotoriousMode={annotoriousMode}
                                                             ToggleAnnotationSidePanel={() => setAnnotationMode(!annotationMode)}
+                                                            SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -115,7 +118,10 @@ const DigitalMedia = () => {
                                                     <Col lg={{ span: 9 }}
                                                         className="h-100"
                                                     >
-                                                        <ContentBlock digitalMedia={digitalMedia} />
+                                                        <ContentBlock digitalMedia={digitalMedia}
+                                                            annotoriousMode={annotoriousMode}
+                                                            SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
+                                                        />
                                                     </Col>
                                                 </Row>
                                             </>

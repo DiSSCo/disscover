@@ -82,8 +82,7 @@ const Demo = () => {
                                     </Col>
                                 </Row>
 
-                                <Formik
-                                    initialValues={{
+                                <Formik initialValues={{
                                         DOI: ''
                                     }}
                                     onSubmit={async (form) => {

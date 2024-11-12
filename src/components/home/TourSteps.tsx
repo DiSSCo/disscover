@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch } from 'app/Hooks';
 import { getTourTopic, setTourTopic } from 'redux-store/GlobalSlice';
 
 /* Import Sources */
-import HomeIntro from 'sources/tourText/home.json';
+import HomeTourStepsText from 'sources/tourText/home.json';
 
 
 /* Props Type */
@@ -31,20 +31,16 @@ const TourSteps = (props: Props) => {
 
     /* Base variables */
     const tourTopic = useAppSelector(getTourTopic);
-    const homeSteps = HomeIntro.home;
+    const homeSteps = HomeTourStepsText.home;
     const { options } = StepsConfig();
     let steps: {
-        [tourSection: string]: {
-            intro: string,
-            element?: string
-        }[]
-    } = {
-        home: []
-    };
+        intro: string,
+        element?: string
+    }[] = [];
 
     /* Construct Intro.js steps for Homepage */
     homeSteps.forEach((step, index) => {
-        steps.home.push({
+        steps.push({
             intro: step,
             element: `#tourHome${index + 1}`
         });
@@ -52,7 +48,7 @@ const TourSteps = (props: Props) => {
 
     return (
         <Steps enabled={tourTopic === 'home'}
-            steps={steps.home}
+            steps={steps}
             initialStep={0}
             onBeforeChange={(nextIndex) => {
                 return new Promise((resolve) => {

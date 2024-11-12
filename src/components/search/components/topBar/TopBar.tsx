@@ -33,6 +33,7 @@ const TopBar = () => {
     return (
         <div>
             <Formik initialValues={initialFormValues}
+                enableReinitialize
                 onSubmit={async (values) => {
                     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -50,7 +51,9 @@ const TopBar = () => {
                 <Form>
                     <Row>
                         {/* Search bar */}
-                        <Col lg={{ span: 3 }}>
+                        <Col lg={{ span: 3 }}
+                            className="tourSearch2"
+                        >
                             <Row>
                                 <Col className="pe-0">
                                     <InputField name="query"
@@ -74,7 +77,8 @@ const TopBar = () => {
                                 variant="secondary"
                                 OnClick={() => {
                                     dispatch(setSearchDigitalSpecimen(undefined));
-                                    dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))}
+                                    dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))
+                                }
                                 }
                             >
                                 {!compareDigitalSpecimen ? 'Compare' : 'Cancel Compare'}

@@ -71,35 +71,37 @@ const Header = (props: Props) => {
                             <Navigation />
                         </Col>
                         {/* Take a tour button */}
-                        <Col lg="auto"
-                            className="position-relative tc-primary d-flex align-items-center"
-                        >
-                            <Button type="button"
-                                variant="blank"
-                                className="fw-lightBold"
-                                OnClick={() => {
-                                    if (tourTopics?.length === 1) {
-                                        dispatch(setTourTopic('home'))
-                                    } else if (tourTopics && tourTopics.length > 1) {
-                                        setTourTopicMenuToggle(!tourTopicMenuToggle)
-                                    }
-                                }}
+                        {tourTopics?.length &&
+                            <Col lg="auto"
+                                className="position-relative tc-primary d-flex align-items-center"
                             >
-                                Take a tour
-                            </Button>
+                                <Button type="button"
+                                    variant="blank"
+                                    className="fw-lightBold"
+                                    OnClick={() => {
+                                        if (tourTopics && tourTopics.length > 1) {
+                                            setTourTopicMenuToggle(!tourTopicMenuToggle);
+                                        } else {
+                                            dispatch(setTourTopic(tourTopics[0]));
+                                        }
+                                    }}
+                                >
+                                    Take a tour
+                                </Button>
 
-                            <div className={`${tourTopicMenuClass} position-absolute bottom-0`}>
-                                {tourTopics?.map(tourTopic => (
-                                    <Row key={tourTopic}>
-                                        <Col>
-                                            <p className="fs-4">
-                                                {tourTopic}
-                                            </p>
-                                        </Col>
-                                    </Row>
-                                ))}
-                            </div>
-                        </Col>
+                                <div className={`${tourTopicMenuClass} position-absolute bottom-0`}>
+                                    {tourTopics?.map(tourTopic => (
+                                        <Row key={tourTopic}>
+                                            <Col>
+                                                <p className="fs-4">
+                                                    {tourTopic}
+                                                </p>
+                                            </Col>
+                                        </Row>
+                                    ))}
+                                </div>
+                            </Col>
+                        }
                         <Col lg="auto"
                             className="d-flex align-items-center"
                         >

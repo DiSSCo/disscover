@@ -15,6 +15,7 @@ import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
 import styles from './Search.module.scss';
 
 /* Import Components */
+import SearchTourSteps from './tourSteps/SearchTourSteps';
 import { CompareDigitalSpecimenMenu, IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
 import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
 
@@ -27,6 +28,7 @@ const Search = () => {
     /* Base variables */
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
     const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
+    const tourTopics: string[] = ['search'];
 
     /* OnLoad: setup pagination */
     const pagination = usePagination({
@@ -51,6 +53,7 @@ const Search = () => {
             {/* Render header*/}
             <Header span={10}
                 offset={1}
+                tourTopics={tourTopics}
             />
 
             {/* Search page body */}
@@ -75,17 +78,17 @@ const Search = () => {
                         <Row className="flex-grow-1 position-relative overflow-y-hidden mt-3">
                             {/* Search filters menu */}
                             <Col lg={{ span: 3 }}
-                                className="h-100 position-absolute"
+                                className="tourSearch5 tourSearch6 h-100 position-absolute"
                             >
                                 <SearchFiltersMenu />
                             </Col>
                             {/* Search results table */}
-                            <Col className={`${searchResultsClass} h-100 tr-smooth z-1 bgc-default`}>
+                            <Col className={`tourSearch3 ${searchResultsClass} h-100 tr-smooth z-1 bgc-default`}>
                                 <SearchResults pagination={pagination} />
                             </Col>
                             {/* ID card */}
                             <Col lg={{ span: 6, offset: 6 }}
-                                className={`${styles.idCard} h-100 position-absolute`}
+                                className={`tourSearch4 ${styles.idCard} h-100 position-absolute`}
                             >
                                 <IdCard />
                             </Col>
@@ -109,6 +112,9 @@ const Search = () => {
             <Footer span={10}
                 offset={1}
             />
+
+            {/* Tour steps */}
+            <SearchTourSteps pagination={pagination} />
         </div>
     );
 };

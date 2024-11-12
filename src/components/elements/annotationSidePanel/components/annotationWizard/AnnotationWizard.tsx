@@ -29,6 +29,12 @@ import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomU
 type Props = {
     schema: Dict,
     superClass: SuperClass,
+    annotationCases: {
+        name: string;
+        type: string;
+        jsonPath: string;
+        icon: string;
+    }[],
     StopAnnotationWizard: Function,
     SetLoading: Function,
     SetFilterSortValues: Function
@@ -39,13 +45,14 @@ type Props = {
  * Component that renders the annotation wizard for adding annotations
  * @param schema The base schema to build upon
  * @param superClass The super class on which the annotation wizard should act
+ * @param annotationCases Default annotation cases that can be selected as the annotation target
  * @param StopAnnotationWizard Function to stop and shut down the annotation wizard
  * @param SetLoading Function to set the loading state of the annotation side panel
  * @param SetFilterSortValues Function to set the filter and sort values in the annotations overview
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass, StopAnnotationWizard, SetLoading, SetFilterSortValues } = props;
+    const { schema, superClass, annotationCases, StopAnnotationWizard, SetLoading, SetFilterSortValues } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -54,7 +61,11 @@ const AnnotationWizard = (props: Props) => {
     /* Define wizard step components using tabs */
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const tabs: { [name: string]: JSX.Element } = {
-        ...(!annotationTarget?.annotation && { annotationTarget: <AnnotationTargetStep schema={schema} /> }),
+        ...(!annotationTarget?.annotation && {
+            annotationTarget: <AnnotationTargetStep schema={schema}
+                annotationCases={annotationCases}
+            />
+        }),
         ...(!annotationTarget?.annotation && {
             annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
                 schemaTitle={schema.title}

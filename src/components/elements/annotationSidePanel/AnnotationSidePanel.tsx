@@ -25,6 +25,12 @@ import { LoadingScreen } from '../customUI/CustomUI';
 type Props = {
     superClass: SuperClass,
     schema: Dict,
+    annotationCases: {
+        name: string;
+        type: string;
+        jsonPath: string;
+        icon: string;
+    }[],
     GetAnnotations: Function,
     GetMas: Function,
     GetMasJobRecords: Function,
@@ -35,8 +41,9 @@ type Props = {
 
 /**
  * Component that renders the annotation side panel
- * @param annotationMode Boolean indicating if the annotation mode is on or not
  * @param superClass The super class reigning the annotation side panel
+ * @param schema The base schema of the selected super class
+ * @param annotationCases Default annotation cases that can be selected as the annotation target
  * @param GetAnnotations Function that fetches the annotations of the super class
  * @param GetMas Function that fetches the potential MASs to be run
  * @param GetMasJobRecords Function that fetches the MAS job records of the super class
@@ -45,7 +52,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationSidePanel = (props: Props) => {
-    const { superClass, schema, GetAnnotations, GetMas, GetMasJobRecords, ScheduleMas, HideAnnotationSidePanel } = props;
+    const { superClass, schema, annotationCases, GetAnnotations, GetMas, GetMasJobRecords, ScheduleMas, HideAnnotationSidePanel } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -118,6 +125,7 @@ const AnnotationSidePanel = (props: Props) => {
                     {(annotationWizardToggle && superClass) ?
                         <AnnotationWizard schema={schema}
                             superClass={superClass}
+                            annotationCases={annotationCases}
                             StopAnnotationWizard={() => {
                                 setAnnotationWizardToggle(false);
                                 dispatch(setAnnotationTarget(annotationTarget ? {

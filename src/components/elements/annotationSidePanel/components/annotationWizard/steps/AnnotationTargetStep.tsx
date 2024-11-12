@@ -15,9 +15,6 @@ import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 /* Import Types */
 import { Dict } from 'app/Types';
 
-/* Import Sources */
-import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
-
 /* Import Components */
 import { Button } from 'components/elements/customUI/CustomUI';
 
@@ -25,6 +22,12 @@ import { Button } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     schema: Dict,
+    annotationCases: {
+        name: string;
+        type: string;
+        jsonPath: string;
+        icon: string;
+    }[],
     formValues?: Dict,
     SetFieldValue?: Function,
     SetAnnotationTarget?: Function
@@ -33,10 +36,15 @@ type Props = {
 
 /**
  * Component that renders the cases target selection of the annotation wizard
+ * @param schema The base schema to build upon
+ * @param annotationCases Default annotation cases that can be selected as the annotation target
+ * @param formValues The values of the annotation wizard form state
+ * @param SetFieldValue Function to set the value of form field in the annotation wizard form
+ * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const AnnotationTargetStep = (props: Props) => {
-    const { schema, formValues, SetFieldValue, SetAnnotationTarget } = props;
+    const { schema, annotationCases, formValues, SetFieldValue, SetAnnotationTarget } = props;
 
     /* Hooks */
     const trigger = useTrigger();
@@ -78,7 +86,7 @@ const AnnotationTargetStep = (props: Props) => {
                     </Row>
                     {/* Case blocks */}
                     <Row className="mt-1">
-                        {DigitalSpecimenAnnotationCases.annotationCases.map(annotationCase => {
+                        {annotationCases.map(annotationCase => {
                             return (
                                 <Col key={annotationCase.name}
                                     lg={{ span: 6 }}

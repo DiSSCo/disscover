@@ -15,6 +15,7 @@ import { DigitalMedia as DigitalMediaType } from "app/types/DigitalMedia";
 
 /* Import Sources */
 import DigitalMediaSchema from 'sources/dataModel/digitalMedia.json';
+import DigitalMediaAnnotationCases from 'sources/annotationCases/DigitalMediaAnnotationCases.json';
 
 /* Import API */
 import GetDigitalMedia from "api/digitalMedia/GetDigitalMedia";
@@ -144,6 +145,7 @@ const DigitalMedia = () => {
                         <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
                             <AnnotationSidePanel superClass={digitalMedia}
                                 schema={DigitalMediaSchema}
+                                annotationCases={DigitalMediaAnnotationCases.annotationCases}
                                 GetAnnotations={GetDigitalMediaAnnotations}
                                 GetMas={GetDigitalMediaMas}
                                 GetMasJobRecords={GetDigitalMediaMasJobRecords}

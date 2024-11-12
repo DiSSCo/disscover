@@ -75,6 +75,7 @@ const TopBar = () => {
                         <Col className="d-flex justify-content-end">
                             <Button type="button"
                                 variant="secondary"
+                                className="tourCompare2"
                                 OnClick={() => {
                                     dispatch(setSearchDigitalSpecimen(undefined));
                                     dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))

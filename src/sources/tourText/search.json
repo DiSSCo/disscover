@@ -12,6 +12,7 @@
         "To start comparing, first click on the ‘compare’ button on the top right of the results table.",
         "Pressing this button will trigger ‘compare mode’. Note the checkboxes added to the table rows? You can select them to include those specific specimens in the comparison.",
         "Selecting the checkbox of a specimen will add it to the compare list, which can be found in the window in the right bottom corner. This also mentions how many specimens you still need or are able to select to use compare mode.",
+        "Select at least two specimen to be able to compare.",
         "When selecting the specimens is done, click on ‘compare’ to initiate the comparison."
     ]
 }

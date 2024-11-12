@@ -8,6 +8,9 @@ import { useAppSelector, usePagination } from 'app/Hooks';
 /* Import Store */
 import { getSearchDigitalSpecimen, getCompareDigitalSpecimen } from 'redux-store/SearchSlice';
 
+/* Import Types */
+import { TourTopic } from 'app/Types';
+
 /* Import API */
 import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
 
@@ -16,6 +19,7 @@ import styles from './Search.module.scss';
 
 /* Import Components */
 import SearchTourSteps from './tourSteps/SearchTourSteps';
+import CompareTourSteps from './tourSteps/CompareTourSteps';
 import { CompareDigitalSpecimenMenu, IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
 import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
 
@@ -28,7 +32,13 @@ const Search = () => {
     /* Base variables */
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
     const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
-    const tourTopics: string[] = ['search'];
+    const tourTopics: TourTopic[] = [{
+        name: 'search',
+        title: 'About this page'
+    }, {
+        name: 'compare',
+        title: 'Comparing specimens'
+    }];
 
     /* OnLoad: setup pagination */
     const pagination = usePagination({
@@ -83,7 +93,7 @@ const Search = () => {
                                 <SearchFiltersMenu />
                             </Col>
                             {/* Search results table */}
-                            <Col className={`tourSearch3 ${searchResultsClass} h-100 tr-smooth z-1 bgc-default`}>
+                            <Col className={`tourSearch3 tourCompare3 tourCompare4 tourCompare5 ${searchResultsClass} h-100 tr-smooth z-1 bgc-default`}>
                                 <SearchResults pagination={pagination} />
                             </Col>
                             {/* ID card */}
@@ -96,9 +106,7 @@ const Search = () => {
                     </Col>
 
                     {/* Compare digital specimens menu */}
-                    <div 
-                        className={`${compareDigitalSpecimenMenuClass} position-absolute w-25 end-0 bottom-0 z-1`}
-                    >
+                    <div className={`tourCompare6 ${compareDigitalSpecimenMenuClass} position-absolute w-25 end-0 bottom-0 z-1`}>
                         <Row>
                             <Col lg={{ span: 10 }}>
                                 <CompareDigitalSpecimenMenu />
@@ -115,6 +123,7 @@ const Search = () => {
 
             {/* Tour steps */}
             <SearchTourSteps pagination={pagination} />
+            <CompareTourSteps pagination={pagination} />
         </div>
     );
 };

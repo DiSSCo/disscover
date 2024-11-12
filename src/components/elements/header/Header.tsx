@@ -1,20 +1,17 @@
 /* Import Components */
 import classNames from 'classnames';
-import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 /* Import Utilities */
 import KeycloakService from 'app/Keycloak';
 
-/* Import Hooks */
-import { useAppDispatch } from 'app/Hooks';
-
-/* Import Store */
-import { setTourTopic } from 'redux-store/GlobalSlice';
+/* Import Types */
+import { TourTopic } from 'app/Types';
 
 /* Import Components */
 import Navigation from './Navigation';
+import TourTopicMenu from './TourTopicMenu';
 import UserMenu from './UserMenu';
 import { Button } from 'components/elements/customUI/CustomUI';
 
@@ -24,7 +21,7 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     span?: number,
     offset?: number,
-    tourTopics?: string[]
+    tourTopics?: TourTopic[]
 };
 
 
@@ -38,19 +35,9 @@ type Props = {
 const Header = (props: Props) => {
     const { span, offset, tourTopics } = props;
 
-    /* Hooks */
-    const dispatch = useAppDispatch();
-
-    /* Base variables */
-    const [tourTopicMenuToggle, setTourTopicMenuToggle] = useState<boolean>(false);
-
     /* Class Names */
     const headerClass = classNames({
         'p-0': !span
-    });
-
-    const tourTopicMenuClass = classNames({
-        'd-none': !tourTopicMenuToggle
     });
 
     return (
@@ -75,31 +62,7 @@ const Header = (props: Props) => {
                             <Col lg="auto"
                                 className="position-relative tc-primary d-flex align-items-center"
                             >
-                                <Button type="button"
-                                    variant="blank"
-                                    className="fw-lightBold"
-                                    OnClick={() => {
-                                        if (tourTopics && tourTopics.length > 1) {
-                                            setTourTopicMenuToggle(!tourTopicMenuToggle);
-                                        } else {
-                                            dispatch(setTourTopic(tourTopics[0]));
-                                        }
-                                    }}
-                                >
-                                    Take a tour
-                                </Button>
-
-                                <div className={`${tourTopicMenuClass} position-absolute bottom-0`}>
-                                    {tourTopics?.map(tourTopic => (
-                                        <Row key={tourTopic}>
-                                            <Col>
-                                                <p className="fs-4">
-                                                    {tourTopic}
-                                                </p>
-                                            </Col>
-                                        </Row>
-                                    ))}
-                                </div>
+                                <TourTopicMenu tourTopics={tourTopics} />
                             </Col>
                         }
                         <Col lg="auto"

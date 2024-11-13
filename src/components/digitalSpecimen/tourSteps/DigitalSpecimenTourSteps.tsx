@@ -48,45 +48,38 @@ const DigitalSpecimenTourSteps = (props: Props) => {
         });
     });
 
+    /**
+     * Function that checks what to do on a step change
+     * @param nextIndex The next (selected) index in the step chain
+     * @param resolve Function to resolve the step promise 
+     */
+    const OnStepChange = (nextIndex: number, resolve: Function) => {
+        const nextIndexToTabIndexMap = {
+            6: 0,
+            7: 1,
+            8: 2,
+            9: 3,
+            10: 4,
+            11: 5
+        };
+
+        if (Object.keys(nextIndexToTabIndexMap).includes(`${nextIndex}`)) {
+            /* On step 7: set tab to digital specimen */
+            SetSelectedTabIndex(0);
+
+            resolve();
+        } else {
+            resolve();
+        }
+    };
+
     return (
         <Steps enabled={tourTopic === 'digitalSpecimen'}
             steps={steps}
             initialStep={0}
             onBeforeChange={(nextIndex) => {
                 return new Promise((resolve) => {
-                    if (nextIndex === 6) {
-                        /* On step 7: set tab to digital specimen */
-                        SetSelectedTabIndex(0);
-
-                        resolve();
-                    } else if (nextIndex === 7) {
-                        /* On step 8: set tab to digital media */
-                        SetSelectedTabIndex(1);
-
-                        resolve();
-                    } else if (nextIndex === 8) {
-                        /* On step 9: set tab to events */
-                        SetSelectedTabIndex(2);
-
-                        resolve();
-                    } else if (nextIndex === 9) {
-                        /* On step 10: set tab to identifications */
-                        SetSelectedTabIndex(3);
-
-                        resolve();
-                    } else if (nextIndex === 10) {
-                        /* On step 11: set tab to entity relationships */
-                        SetSelectedTabIndex(4);
-
-                        resolve();
-                    } else if (nextIndex === 11) {
-                        /* On step 12: set tab to assertions */
-                        SetSelectedTabIndex(5);
-
-                        resolve();
-                    } else {
-                        resolve();
-                    }
+                    OnStepChange(nextIndex, resolve);
                 });
             }}
             onStart={() => SetSelectedTabIndex(0)}

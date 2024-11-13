@@ -91,6 +91,7 @@ const DigitalSpecimenTourSteps = (props: Props) => {
             }}
             onStart={() => SetSelectedTabIndex(0)}
             onExit={() => {
+                SetSelectedTabIndex(0);
                 dispatch(setTourTopic(undefined));
             }}
             options={options}

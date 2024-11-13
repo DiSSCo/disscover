@@ -76,7 +76,7 @@ const TaxonomySelect = (props: Props) => {
                 listPosition="absolute"
                 enableInputField={true}
                 SetFieldValue={(field: string, value: string | string[]) => SetFieldValue(field, value)}
-                OnClick={() => ToggleTaxonomyFilter(true)}
+                OnClick={(foo: boolean) => ToggleTaxonomyFilter(foo)}
                 OnSelect={() => {
                     SubmitForm();
                     setFilterAggregations({});

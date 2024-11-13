@@ -44,15 +44,12 @@ const PropertiesTable = (props: Props) => {
 
     /* Set Table data */
     const tableData: DataRow[] = [];
-    let counter: number = 0;
 
     for (const property in properties) {
         tableData.push({
             key: property,
             value: properties[property]
         });
-
-        counter++;
     };
 
     return (

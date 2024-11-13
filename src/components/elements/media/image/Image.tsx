@@ -1,15 +1,11 @@
 /* Import Dependencies */
 import classNames from "classnames";
 
-/* Import Styling */
-import styles from './image.module.scss';
-
 
 /* Props Typing */
 type Props = {
     accessURI: string,
     sizeOrientation: 'width' | 'height',
-    hoverText?: string
 };
 
 
@@ -19,7 +15,7 @@ type Props = {
  * @returns JSX Component
  */
 const Image = (props: Props) => {
-    const { accessURI, sizeOrientation, hoverText } = props;
+    const { accessURI, sizeOrientation } = props;
 
     /* Class Names */
     const classSizeOrientation = classNames({
@@ -33,14 +29,6 @@ const Image = (props: Props) => {
                 alt={accessURI}
                 className={`${classSizeOrientation} rounded`}
             />
-
-            {hoverText &&
-                <div className={`${styles.image} opacity-0 position-absolute transition 
-                        h-100 w-100 top-0 d-flex justify-content-center align-items-center c-pointer px-3`
-                }>
-                    <p className="fw-bold"> {hoverText} </p>
-                </div>
-            }
         </div>
     );
 };

@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import KeycloakService from "app/Keycloak";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -139,16 +140,18 @@ const TopBar = (props: Props) => {
                         }
                     </Row>
                 </Col>
-                <Col lg="auto">
-                    <Button type="button"
-                        variant="primary"
-                        OnClick={() => SetAnnotoriousMode(annotoriousMode === 'move' ? 'draw' : 'move')}
-                    >
-                        <p>
-                            {annotoriousMode === 'move' ? 'Visual Annotation' : 'Cancel visual annotation'}
-                        </p>
-                    </Button>
-                </Col>
+                {KeycloakService.IsLoggedIn() &&
+                    <Col lg="auto">
+                        <Button type="button"
+                            variant="primary"
+                            OnClick={() => SetAnnotoriousMode(annotoriousMode === 'move' ? 'draw' : 'move')}
+                        >
+                            <p>
+                                {annotoriousMode === 'move' ? 'Visual Annotation' : 'Cancel visual annotation'}
+                            </p>
+                        </Button>
+                    </Col>
+                }
                 <Col>
                     <TopBarActions actionDropdownItems={actionDropdownItems}
                         annotationMode={annotationMode}

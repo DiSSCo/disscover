@@ -1,7 +1,8 @@
 /* Import Types */
 import { Annotation } from "./types/Annotation";
-import { DigitalMedia, DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
-import { DigitalSpecimen, DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
+import { DigitalMedia as DigitalMediaType } from "./types/DigitalMedia";
+import { DigitalSpecimen as DigitalSpecimenType } from "./types/DigitalSpecimen";
+import { SourceSystem } from "./types/SourceSystem";
 
 
 /* General type for a dictionary */
@@ -23,6 +24,7 @@ type DataFragment = {
             annotations: Annotation[]
         }[],
         annotations?: Annotation[],
+        sourceSystem?: SourceSystem
         [property: string]: any
     }
 };
@@ -89,7 +91,7 @@ export type PaginationObject = {
 };
 
 /* Super class (annotation target) */
-export type SuperClass = DigitalSpecimen | DigitalMedia | Dict;
+export type SuperClass = DigitalSpecimenType | DigitalMediaType | Dict;
 
 /* Annotation target */
 export type AnnotationTarget = {

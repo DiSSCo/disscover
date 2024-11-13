@@ -42,7 +42,7 @@ const DigitalMediaList = (props: Props) => {
     /* OnLoad, fetch associated digital media based upon digital specimen identifier */
     fetch.Fetch({
         params: {
-            handle: digitalMedia["ods:hasEntityRelationship"]?.find(
+            handle: digitalMedia["ods:hasEntityRelationships"]?.find(
                 entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
             )?.["dwc:relatedResourceID"].replace(import.meta.env.VITE_DOI_URL, '')
         },
@@ -54,19 +54,19 @@ const DigitalMediaList = (props: Props) => {
         <div className="h-100">
             <div className="h-100 horizontalScroll">
                 {digitalSpecimenDigitalMedia.map(digitalSpecimenDigitalMedia => (
-                    <div key={digitalSpecimenDigitalMedia["ods:ID"]}
+                    <div key={digitalSpecimenDigitalMedia["@id"]}
                         className={`${styles.digitalMediaListItem} h-100 py-3 overflow-hidden position-relative d-inline-block px-2 bgc-grey-light`}
                     >
                         <Button type="button"
                             variant="blank"
                             className="h-100 w-100 px-0 py-0"
-                            OnClick={() => navigate(`/dm/${digitalSpecimenDigitalMedia["ods:ID"].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                            OnClick={() => navigate(`/dm/${digitalSpecimenDigitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}`)}
                         >
                             <DigitalMediaItem digitalMedia={digitalSpecimenDigitalMedia} />
                         </Button>
 
                         {/* Show overlay if this digital media item is selected */}
-                        {digitalSpecimenDigitalMedia["ods:ID"] === digitalMedia["ods:ID"] &&
+                        {digitalSpecimenDigitalMedia["@id"] === digitalMedia["@id"] &&
                             <div className="position-absolute w-100 h-100 start-0 top-0 bgc-dark-opacity d-flex justify-content-center align-items-center">
                                 <p className="tc-white fw-bold">Selected</p>
                             </div>

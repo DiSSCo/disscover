@@ -44,7 +44,7 @@ const DigitalSpecimenDigitalMedia = (props: Props) => {
                     <Button type="button"
                         variant="blank"
                         className="h-100 w-100 px-0 py-0 object-fit-contain"
-                        OnClick={() => navigate(`/dm/${digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                        OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
                     >
                         <Image accessURI={digitalMedia['ac:accessURI']}
                             sizeOrientation="height"

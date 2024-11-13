@@ -85,7 +85,11 @@ const NewInstance = (props: Props) => {
                         </Col>
                     </Row>
                     {/* Render content based upon parent class check or just the set JSON path button if there are not any and the target is a class with an array */}
-                    {(!parentClasses.length && annotationTarget && (annotationTarget.type !== 'term' && jp.parse(annotationTarget.jsonPath).slice(-1)[0].expression.value.includes('has'))) ?
+                    {(!parentClasses.length && annotationTarget && (annotationTarget.type !== 'term' &&
+                        (jp.parse(annotationTarget.jsonPath).slice(-1)[0].expression.value.includes('has') &&
+                            jp.parse(annotationTarget.jsonPath).slice(-1)[0].expression.value.at(-1) === 's'
+                        )
+                    )) ?
                         <Row>
                             <Col>
                                 <Button type="button"

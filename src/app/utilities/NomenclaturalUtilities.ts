@@ -13,12 +13,12 @@ import { Dict } from "app/Types"
 const DetermineScientificName = (digitalSpecimen: DigitalSpecimen) => {
     let scientificName: string = '';
 
-    if (digitalSpecimen["ods:hasIdentification"]?.find((identification) => identification["ods:isVerifiedIdentification"])) {
-        scientificName = digitalSpecimen["ods:hasIdentification"]?.find((identification) =>
-            identification["ods:isVerifiedIdentification"])?.["ods:hasTaxonIdentification"]?.[0]['dwc:scientificName'] ??
-            digitalSpecimen["ods:hasIdentification"]?.[0]?.["ods:hasTaxonIdentification"]?.[0]['dwc:scientificName'] ?? '';
+    if (digitalSpecimen["ods:hasIdentifications"]?.find((identification) => identification["ods:isVerifiedIdentification"])) {
+        scientificName = digitalSpecimen["ods:hasIdentifications"]?.find((identification) =>
+            identification["ods:isVerifiedIdentification"])?.["ods:hasTaxonIdentifications"]?.[0]['dwc:scientificName'] ??
+            digitalSpecimen["ods:hasIdentifications"]?.[0]?.["ods:hasTaxonIdentifications"]?.[0]['dwc:scientificName'] ?? '';
     } else {
-        scientificName = digitalSpecimen["ods:hasIdentification"]?.[0]?.["ods:hasTaxonIdentification"]?.[0]['dwc:scientificName'] ?? '';
+        scientificName = digitalSpecimen["ods:hasIdentifications"]?.[0]?.["ods:hasTaxonIdentifications"]?.[0]['dwc:scientificName'] ?? '';
     };
 
     return scientificName;

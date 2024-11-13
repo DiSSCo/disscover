@@ -30,7 +30,7 @@ const AcceptedIdentification = (props: Props) => {
                 <Col>
                     {/* Scientific Name */}
                     <p className="fs-4 fw-lightBold textOverflow"
-                        dangerouslySetInnerHTML={{ __html: acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["ods:scientificNameHtmlLabel"] ?? digitalSpecimenName} }
+                        dangerouslySetInnerHTML={{ __html: acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["ods:scientificNameHTMLLabel"] ?? digitalSpecimenName} }
                     />
                 </Col>
             </Row>
@@ -61,7 +61,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Kingdom: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["dwc:kingdom"]}
+                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:kingdom"]}
                                 </p>
                             </Col>
                         </Row>
@@ -70,7 +70,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Phylum: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["dwc:phylum"]}
+                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:phylum"]}
                                 </p>
                             </Col>
                         </Row>
@@ -79,7 +79,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Class: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["dwc:class"]}
+                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:class"]}
                                 </p>
                             </Col>
                         </Row>
@@ -88,7 +88,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Order: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["dwc:order"]}
+                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:order"]}
                                 </p>
                             </Col>
                         </Row>
@@ -97,7 +97,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Family: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["dwc:family"]}
+                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:family"]}
                                 </p>
                             </Col>
                         </Row>
@@ -106,7 +106,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Genus: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentification"]?.[0]["dwc:genus"]}
+                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:genus"]}
                                 </p>
                             </Col>
                         </Row>

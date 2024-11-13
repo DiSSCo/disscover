@@ -174,7 +174,7 @@ const ParentClassification = (props: Props) => {
                                 jsonPath = jsonPath.replace(parentClass.jsonPath, `${parentClass.jsonPath}[${index}]`);
                             });
 
-                            if (jp.parse(jsonPath).slice(-1)[0].expression.value.includes('has')) {
+                            if (jp.parse(jsonPath).slice(-1)[0].expression.value.includes('has') && jp.parse(jsonPath).slice(-1)[0].expression.value.at(-1) === 's') {
                                 const latestIndex: any = jp.query(superClass, jsonPath)[0].length;
 
                                 jsonPath = `${jsonPath}[${latestIndex}]`;

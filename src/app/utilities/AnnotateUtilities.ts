@@ -64,12 +64,12 @@ const ConstructAnnotationObject = (params: {
         "oa:hasTarget": {
             "@id": digitalObjectId,
             "@type": digitalObjectType,
-            "ods:ID": digitalObjectId,
-            "ods:type": targetTypeDoi,
+            "dcterms:identifier": digitalObjectId,
+            "ods:fdoType": targetTypeDoi,
             "oa:hasSelector": {
                 ...(annotationTargetType === 'term' && {
-                    "@type": 'ods:FieldSelector',
-                    "ods:field": localJsonPath
+                    "@type": 'ods:TermSelector',
+                    "ods:term": localJsonPath
                 }),
                 ...(annotationTargetType === 'class' && {
                     "@type": 'ods:ClassSelector',
@@ -119,7 +119,7 @@ const ExtractParentClasses = (params: {
         /* Add to pathArray */
         pathArray.push(parent.expression.value);
 
-        if (parentName.includes('has')) {
+        if (parentName.includes('has') && parentName.at(-1) === 's') {
             /* If a parent class is empty, it needs to be targeted, if it is not completely empty, check for indexes */
             const parentNodes = jp.nodes(superClass, jp.stringify(pathArray).replaceAll('][', ']..[').replaceAll('"', "'"));
 
@@ -200,7 +200,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 key: classProperty.key,
                 name: classProperty.label,
                 jsonPath: classProperty.value.replace(`$`, jsonPath),
-                type: localPath.includes('has') ? 'array' : 'object',
+                type: (localPath.includes('has') && localPath.at(-1) === 's') ? 'array' : 'object',
                 properties: []
             };
 
@@ -216,7 +216,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 });
 
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
-            } else if (classProperty.value.includes('has')) {
+            } else if (classProperty.value.includes('has') && classProperty.value.at(-1) === 's') {
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
             } else {
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};
@@ -278,7 +278,7 @@ const ProcessAnnotationValues = (baseJsonPath: string, annotationValues: {
 
             /* Remove objects and arrays with objects from value */
             Object.keys(annotationValue).forEach(key => {
-                if (key.includes('has')) {
+                if (key.includes('has') && key.at(-1) === 's') {
                     delete localAnnotationValue[key];
                 }
             });
@@ -342,7 +342,7 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
         const h = ROI["ac:heightFrac"] * imageDimenstions.y;
 
         annotoriousAnnotation = {
-            id: annotation['ods:ID'],
+            id: annotation['@id'],
             "@context": 'http://www.w3.org/ns/anno.jsonld',
             type: 'Annotation',
             body: [{

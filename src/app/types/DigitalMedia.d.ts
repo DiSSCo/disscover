@@ -7,7 +7,7 @@
 
 export interface DigitalMedia {
   /**
-   * The unique identifier of the object
+   * The unique identifier (DOI) of the Digital Media
    */
   "@id": string;
   /**
@@ -15,31 +15,31 @@ export interface DigitalMedia {
    */
   "@type": "ods:DigitalMedia";
   /**
-   * The unique digital identifier of the object
+   * The unique identifier (DOI) of the Digital Media
    */
-  "ods:ID": string;
-  /**
-   * The version of the object, each change generates a new version
-   */
-  "ods:version": number;
-  /**
-   * The status of the Digital Object
-   */
-  "ods:status"?: "ods:Draft" | "ods:Active" | "ods:Tombstone";
-  /**
-   * The timestamp that the object was last changed, which resulted in a new version of the object
-   */
-  "dcterms:modified": string;
-  /**
-   * The timestamp that the object was created in DiSSCo
-   */
-  "dcterms:created": string;
+  "dcterms:identifier": string;
   /**
    * The DOI to the FDO type of the object
    */
-  "ods:type"?: string;
+  "ods:fdoType": string;
   /**
-   * https://purl.org/dc/terms/type
+   * The version of the object, each change generates a new version. The version starts at 1 and each change will increment the version number with 1
+   */
+  "ods:version": number;
+  /**
+   * The status of the Digital Object. A digital object can be in Draft, when it is not published yet. Active when it is published and the object is active and Tombstone which means the object has been archived.
+   */
+  "ods:status"?: "Draft" | "Active" | "Tombstone";
+  /**
+   * The timestamp that the object was last changed, which resulted in a new version of the object. Following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+   */
+  "dcterms:modified": string;
+  /**
+   * The timestamp that the object was created in DiSSCo, Following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+   */
+  "dcterms:created": string;
+  /**
+   * Describing the nature or type of the Digital Media, restricted to the controlled vocabulary of https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#DCMIType
    */
   "dcterms:type"?:
     | "Collection"
@@ -55,11 +55,11 @@ export interface DigitalMedia {
     | "StillImage"
     | "Text";
   /**
-   * https://rs.tdwg.org/ac/terms/accessURI
+   * This is the URI through which DiSSCo will retrieve the media item and serves as the main identifier for the media item before a DOI is available
    */
   "ac:accessURI": string;
   /**
-   * The handle to the source system object which retrieved the data from the CMS
+   * The handle to the source system object which is used to retrieve the data from the CMS
    */
   "ods:sourceSystemID": string;
   /**
@@ -67,71 +67,167 @@ export interface DigitalMedia {
    */
   "ods:sourceSystemName"?: string;
   /**
-   * ROR or Wikidata identifie of the organisation
+   * ROR or Wikidata identifier of the organisation
    */
   "ods:organisationID"?: string;
   /**
-   * Full museum name according to ROR or Wikidata
+   * Primary organisation name according to ROR or Wikidata
    */
   "ods:organisationName"?: string;
   /**
-   * https://purl.org/dc/terms/format
+   * The file format, physical medium, or dimensions of the resource. Best practise to use Mime types
    */
   "dcterms:format"?: string;
   /**
-   * https://purl.org/dc/terms/license
+   * The URI of the language of description and other metadata (but not necessarily of the image itself), from the ISO639-2 list of URIs for ISO 3-letter language codes, http://id.loc.gov/vocabulary/iso639-2
    */
-  "dcterms:license"?: string;
+  "ac:metadataLanguage"?: string;
   /**
-   * https://purl.org/dc/terms/description
+   * The URI of the language of description and other metadata (but not necessarily of the image itself), from the ISO639-2 list of URIs for ISO 3-letter language codes, http://id.loc.gov/vocabulary/iso639-2
+   */
+  "ac:metadataLanguageLiteral"?: string;
+  /**
+   * A class, represented by an IRI, that provides for more specialization of the media item type than dcterms:type
+   */
+  "ac:subtype"?: string;
+  /**
+   * A class, represented by a controlled value string, that provides for more specialization of the media item type than dc:type
+   */
+  "ac:subtypeLiteral"?: string;
+  /**
+   * A name given to the resource. Concise title, name, or brief descriptive label of institution, resource collection, or individual resource. This field SHOULD include the complete title with all the subtitles, if any
+   */
+  "dcterms:title"?: string;
+  /**
+   * Language(s) of resource itself represented in the ISO639-2 three-letter language code. ISO639-1 two-letter codes are permitted but deprecated
+   */
+  "dcterms:language"?: string;
+  /**
+   * A free-text account of the content of the resource
    */
   "dcterms:description"?: string;
   /**
-   * https://purl.org/dc/terms/rights
+   * Information about rights held in and over the resource. Recommended best practise is to use a URI for the rights
    */
   "dcterms:rights"?: string;
   /**
-   * https://purl.org/dc/terms/accessRights
+   * A collection of text instructions on how a resource can be legally used, given in a variety of languages
    */
-  "dcterms:accessRights"?: string;
+  "xmpRights:UsageTerms"?: string;
   /**
-   * https://purl.org/dc/terms/rightsHolder
+   * A Web URL for a statement of the ownership and usage rights for this resource
    */
-  "dcterms:rightsHolder"?: string;
+  "xmpRights:WebStatement"?: string;
   /**
-   * https://purl.org/dc/terms/source
+   * Date (often a range) that the resource became or will become available
+   */
+  "dcterms:available"?: string;
+  /**
+   * Any comment provided on the media resource, as free-form text
+   */
+  "ac:comments"?: string;
+  /**
+   * A related resource from which the described resource is derived
    */
   "dcterms:source"?: string;
   /**
-   * https://purl.org/dc/elements/1.1/creator
+   * A term to describe the content of the image by a value from a Controlled Vocabulary
    */
-  "dcterms:creator"?: string;
+  "Iptc4xmpExt:CVterm"?: string;
+  /**
+   * Any vocabulary or formal classification from which terms in the Subject Category have been drawn
+   */
+  "ac:subjectCategoryVocabulary"?: string;
+  /**
+   * The category describing this Service Access Point variant, denoted by an IRI
+   */
+  "ac:variant"?: string;
+  /**
+   * The category describing this Service Access Point variant, denoted by a controlled value string
+   */
+  "ac:variantLiteral"?: string;
+  /**
+   * Text that describes this Service Access Point variant. Most variants (thumb, low-res, high-res) are self-explanatory and it is best practice to leave this property empty if no special description is needed
+   */
+  "ac:variantDescription"?: string;
+  /**
+   * Information specific to compressed data. When a compressed file is recorded, the valid height of the meaningful image shall be recorded in this tag, whether or not there is padding data or a restart marker. This tag shall not exist in an uncompressed file
+   */
+  "exif:PixelYDimension"?: number;
+  /**
+   * Information specific to compressed data. When a compressed file is recorded, the valid width of the meaningful image shall be recorded in this tag, whether or not there is padding data or a restart marker. This tag shall not exist in an uncompressed file
+   */
+  "exif:PixelXDimension"?: number;
+  /**
+   * A list of tags or keywords that describe the media item
+   */
+  "ac:tag"?: string[];
+  /**
+   * The date and time the resource was created. For a digital file, this need not match a file-system creation time. For a freshly created resource, it should be close to that time, modulo the time taken to write the file. Later file transfer, copying, and so on, can make the file-system time arbitrarily different.
+   */
+  "xmp:CreateDate"?: string;
+  /**
+   * Free text information beyond exact clock times
+   */
+  "ac:timeOfDay"?: string;
+  /**
+   * Specific orientation (= direction, view angle) of the subject represented in the media resource with respect to the acquisition device, denoted by an IRI
+   */
+  "ac:subjectOrientation"?: string;
+  /**
+   * Specific orientation (= direction, view angle) of the subject represented in the media resource with respect to the acquisition device, denoted by a controlled value string
+   */
+  "ac:subjectOrientationLiteral"?: string;
+  /**
+   * The portion or product of organism morphology, behaviour, environment, etc. that is either predominantly shown or particularly well exemplified by the media resource, denoted by an IRI
+   */
+  "ac:subjectPart"?: string;
+  /**
+   * The portion or product of organism morphology, behaviour, environment, etc. that is either predominantly shown or particularly well exemplified by the media resource, denoted by a controlled value string
+   */
+  "ac:subjectPartLiteral"?: string;
+  /**
+   * Free form text describing the device or devices used to create the resource
+   */
+  "ac:captureDevice"?: string;
+  /**
+   * Date the first digital version was created
+   */
+  "ac:digitizationDate"?: string;
+  /**
+   * The decimal fraction representing the frequency (rate) at which consecutive images (frames) were captured in real time for a moving image, expressed as the number of frames per second
+   */
+  "ac:frameRate"?: number;
+  /**
+   * Information about technical aspects of the creation and digitization process of the resource. This includes modification steps ("retouching") after the initial resource capture.
+   */
+  "ac:resourceCreationTechnique"?: string;
   /**
    * Contains zero or more ods:Assertion objects
    */
-  "ods:hasAssertion"?: Assertion[];
+  "ods:hasAssertions"?: Assertion[];
   /**
    * Contains zero or more ods:Citation objects
    */
-  "ods:hasCitation"?: Citation[];
+  "ods:hasCitations"?: Citation1[];
   /**
    * Contains zero or more ods:Identifier objects
    */
-  "ods:hasIdentifier"?: Identifier1[];
+  "ods:hasIdentifiers"?: Identifier1[];
   /**
    * Contains zero or more ods:EntityRelationship objects
    */
-  "ods:hasEntityRelationship"?: EntityRelationship[];
+  "ods:hasEntityRelationships"?: EntityRelationship[];
   /**
    * Contains zero or more ods:Agent objects
    */
-  "ods:hasAgent"?: Agent3[];
-  "ods:TombstoneMetadata"?: TombstoneMetadata;
+  "ods:hasAgents"?: Agent3[];
+  "ods:hasTombstoneMetadata"?: TombstoneMetadata;
   [k: string]: unknown;
 }
 export interface Assertion {
   /**
-   * The identifier for the Assertion object.
+   * Identical to the `dwc:measurementID`. An identifier for the dwc:MeasurementOrFact (information pertaining to measurements, facts, characteristics, or assertions). May be a global unique identifier or an identifier specific to the data set
    */
   "@id"?: string;
   /**
@@ -139,106 +235,162 @@ export interface Assertion {
    */
   "@type": "ods:Assertion";
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementID
+   * An identifier for the dwc:MeasurementOrFact (information pertaining to measurements, facts, characteristics, or assertions). May be a global unique identifier or an identifier specific to the data set
    */
   "dwc:measurementID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   * An identifier for a broader dwc:MeasurementOrFact that groups this and potentially other ods:Assertions
    */
   "dwc:parentMeasurementID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementType
+   * The nature of the assertion
    */
   "dwc:measurementType"?: string;
   /**
-   * https://rs.tdwg.org/dwc/iri/measurementType
+   * The nature of the assertion
    */
   "dwciri:measurementType"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   * The date on which the dwc:MeasurementOrFact was made
    */
   "dwc:measurementDeterminedDate"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementValue
+   * The value of the assertion
    */
   "dwc:measurementValue"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementValue
+   * The value of the assertion
    */
   "dwciri:measurementValue"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   * The description of the potential error associated with the dwc:measurementValue
    */
   "dwc:measurementAccuracy"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   * The units associated with the dwc:measurementValue
    */
   "dwc:measurementUnit"?: string;
   /**
-   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   * The units associated with the dwc:measurementValue
    */
   "dwciri:measurementUnit"?: string;
-  "ods:AssertionByAgent"?: Agent;
   /**
-   * The protocol used to make the assertion
+   * A description of or reference to (publication, URI) the method or protocol used to determine the measurement, fact, characteristic, or assertion
    */
-  "ods:assertionProtocol"?: string;
+  "dwc:measurementMethod"?: string;
   /**
-   * The ID of the protocol used to make the assertion
+   * A description of or reference to (publication, URI) the method or protocol used to determine the measurement, fact, characteristic, or assertion
    */
-  "ods:assertionProtocolID"?: string;
+  "dwciri:measurementMethod"?: string;
   /**
-   * Remarks about the assertion
+   * Comments or notes accompanying the dwc:MeasurementOrFact
    */
-  "ods:assertionRemarks"?: string;
+  "dwc:measurementRemarks"?: string;
+  /**
+   * The agent(s) who made the assertion, contains an ods:Agent object
+   */
+  "ods:hasAgents"?: Agent[];
+  /**
+   * Contains the publication citation(s) that support the assertion
+   */
+  "ods:hasCitations"?: Citation[];
 }
-/**
- * The agent who made the assertion, contains an ods:Agent object
- */
 export interface Agent {
   /**
    * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
- * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ * Object used to describe identifiers of a Digital Object, based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
  */
 export interface Identifier {
   /**
@@ -250,44 +402,71 @@ export interface Identifier {
    */
   "@type": "ods:Identifier";
   /**
-   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   * A name for the identifier
    */
   "dcterms:title": string;
   /**
-   * The local title of the identifier
+   * The type of the value in the `dcterms:identifier` field
    */
-  "ods:localTitle"?: string;
+  "dcterms:type"?:
+    | "ARK"
+    | "arXiv"
+    | "bibcode"
+    | "DOI"
+    | "EAN13"
+    | "EISSN"
+    | "Handle"
+    | "IGSN"
+    | "ISBN"
+    | "ISSN"
+    | "ISTC"
+    | "LISSN"
+    | "LSID"
+    | "PMID"
+    | "PURL"
+    | "UPC"
+    | "URL"
+    | "URN"
+    | "w3id"
+    | "UUID"
+    | "Other"
+    | "Locally unique identifier";
   /**
-   * The value for the identifier, https://purl.org/dc/terms/identifier
+   * The value for the identifier
    */
   "dcterms:identifier": string;
   /**
-   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   * All possible mime types of content that can be returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json
    */
-  "dcterms:format"?: string;
+  "dcterms:format"?: string[];
   /**
-   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   * Additional keywords that the publisher may prefer to be attached to the identifier
    */
-  "dcterms:subject"?: string;
+  "dcterms:subject"?: string[];
   /**
    * Indicates whether the identifier is part of the physical label
    */
   "ods:isPartOfLabel"?: boolean;
   /**
-   * Indicates whether the identifier is part of the barcode or nfc chip
-   */
-  "ods:isBarcodeOrNFC"?: boolean;
-  /**
    * Indicates whether the identifier is a persistent identifier
    */
-  "ods:isIDPersistent"?: boolean;
+  "ods:gupriLevel"?:
+    | "LocallyUniqueStable"
+    | "GloballyUniqueStable"
+    | "GloballyUniqueStableResolvable"
+    | "GloballyUniqueStablePersistentResolvable"
+    | "GloballyUniqueStablePersistentResolvableFDOCompliant";
+  /**
+   * Indicates the status of the identifier
+   */
+  "ods:identifierStatus"?: "Preferred" | "Alternative" | "Superseded";
 }
 /**
  * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
  */
 export interface Citation {
   /**
-   * The identifier for the Citation object.
+   * The main identifier of the citation, preferably a DOI, ISBN, URI, etc referring to the reference
    */
   "@id"?: string;
   /**
@@ -295,98 +474,187 @@ export interface Citation {
    */
   "@type": "ods:Citation";
   /**
-   * https://purl.org/dc/terms/identifier
+   * The main identifier of the citation, preferably a DOI, ISBN, URI, etc referring to the reference
    */
   "dcterms:identifier"?: string;
   /**
-   * https://purl.org/dc/terms/type
+   * The category that best matches the nature of a reference
    */
   "dcterms:type"?: string;
   /**
-   * https://purl.org/dc/terms/date
+   * Date of publication
    */
   "dcterms:date"?: string;
   /**
-   * https://purl.org/dc/terms/title
+   * Title of publication
    */
   "dcterms:title"?: string;
-  "dcterms:creator"?: Agent1;
   /**
    * Page number of the citation
    */
-  "ods:citationPageNumber"?: string;
+  "ods:pageNumber"?: string;
   /**
-   * Any further remarks about the citation
+   * Abstracts, remarks, notes
    */
-  "ods:citationRemarks"?: string;
+  "dcterms:description"?: string;
   /**
-   * The type of reference
+   * A bibliographic reference for the resource
    */
-  "ods:referenceType"?: string;
-  /**
-   * https://dublincore.org/usage/terms/history/#bibliographicCitation-002
-   */
-  "dcterms:bibliographicCitation"?: string;
-  /**
-   * The year the reference was published
-   */
-  "ods:referenceYear"?: number;
-  /**
-   * Reference to the web source of this citation
-   */
-  "ods:referenceIRI"?: string;
+  "dcterms:bibliographicCitation": string;
   /**
    * Is the citation peer reviewed?
    */
   "ods:isPeerReviewed"?: boolean;
+  /**
+   * The agent(s) who made the publication, contains an ods:Agent object
+   */
+  "ods:hasAgents"?: Agent1[];
 }
-/**
- * Contains an ods:Agent object
- */
 export interface Agent1 {
   /**
    * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
- * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
+export interface Citation1 {
+  /**
+   * The main identifier of the citation, preferably a DOI, ISBN, URI, etc referring to the reference
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * The main identifier of the citation, preferably a DOI, ISBN, URI, etc referring to the reference
+   */
+  "dcterms:identifier"?: string;
+  /**
+   * The category that best matches the nature of a reference
+   */
+  "dcterms:type"?: string;
+  /**
+   * Date of publication
+   */
+  "dcterms:date"?: string;
+  /**
+   * Title of publication
+   */
+  "dcterms:title"?: string;
+  /**
+   * Page number of the citation
+   */
+  "ods:pageNumber"?: string;
+  /**
+   * Abstracts, remarks, notes
+   */
+  "dcterms:description"?: string;
+  /**
+   * A bibliographic reference for the resource
+   */
+  "dcterms:bibliographicCitation": string;
+  /**
+   * Is the citation peer reviewed?
+   */
+  "ods:isPeerReviewed"?: boolean;
+  /**
+   * The agent(s) who made the publication, contains an ods:Agent object
+   */
+  "ods:hasAgents"?: Agent1[];
+}
+/**
+ * Object used to describe identifiers of a Digital Object, based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
  */
 export interface Identifier1 {
   /**
@@ -398,37 +666,64 @@ export interface Identifier1 {
    */
   "@type": "ods:Identifier";
   /**
-   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   * A name for the identifier
    */
   "dcterms:title": string;
   /**
-   * The local title of the identifier
+   * The type of the value in the `dcterms:identifier` field
    */
-  "ods:localTitle"?: string;
+  "dcterms:type"?:
+    | "ARK"
+    | "arXiv"
+    | "bibcode"
+    | "DOI"
+    | "EAN13"
+    | "EISSN"
+    | "Handle"
+    | "IGSN"
+    | "ISBN"
+    | "ISSN"
+    | "ISTC"
+    | "LISSN"
+    | "LSID"
+    | "PMID"
+    | "PURL"
+    | "UPC"
+    | "URL"
+    | "URN"
+    | "w3id"
+    | "UUID"
+    | "Other"
+    | "Locally unique identifier";
   /**
-   * The value for the identifier, https://purl.org/dc/terms/identifier
+   * The value for the identifier
    */
   "dcterms:identifier": string;
   /**
-   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   * All possible mime types of content that can be returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json
    */
-  "dcterms:format"?: string;
+  "dcterms:format"?: string[];
   /**
-   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   * Additional keywords that the publisher may prefer to be attached to the identifier
    */
-  "dcterms:subject"?: string;
+  "dcterms:subject"?: string[];
   /**
    * Indicates whether the identifier is part of the physical label
    */
   "ods:isPartOfLabel"?: boolean;
   /**
-   * Indicates whether the identifier is part of the barcode or nfc chip
-   */
-  "ods:isBarcodeOrNFC"?: boolean;
-  /**
    * Indicates whether the identifier is a persistent identifier
    */
-  "ods:isIDPersistent"?: boolean;
+  "ods:gupriLevel"?:
+    | "LocallyUniqueStable"
+    | "GloballyUniqueStable"
+    | "GloballyUniqueStableResolvable"
+    | "GloballyUniqueStablePersistentResolvable"
+    | "GloballyUniqueStablePersistentResolvableFDOCompliant";
+  /**
+   * Indicates the status of the identifier
+   */
+  "ods:identifierStatus"?: "Preferred" | "Alternative" | "Superseded";
 }
 /**
  * Based on https://rs.gbif.org/extension/resource_relationship_2024-02-19.xml but with ods specific terms
@@ -443,83 +738,127 @@ export interface EntityRelationship {
    */
   "@type": "ods:EntityRelationship";
   /**
-   * https://rs.tdwg.org/dwc/terms/relationshipOfResource
+   * The relationship of the subject (identified by dwc:resourceID) to the object (identified by dwc:relatedResourceID)
    */
   "dwc:relationshipOfResource": string;
   /**
-   * https://rs.tdwg.org/dwc/terms/relationshipOfResourceID
+   * An identifier for the relationship type (predicate) that connects the subject identified by dwc:resourceID to its object identified by dwc:relatedResourceID
    */
   "dwc:relationshipOfResourceID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/relatedResourceID
+   * An identifier for a related resource (the object, rather than the subject of the relationship)
    */
   "dwc:relatedResourceID": string;
   /**
-   * The URI of the related resource
+   * The full resolvable URI to the related resource
    */
   "ods:relatedResourceURI"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/relationshipEstablishedDate
+   * The date-time on which the relationship between the two resources was established, following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
    */
   "dwc:relationshipEstablishedDate"?: string;
   /**
-   * When multiple relationships are added an order can be defined
-   */
-  "ods:entityRelationshipOrder"?: number;
-  "ods:RelationshipAccordingToAgent"?: Agent2;
-  /**
-   * https://rs.tdwg.org/dwc/terms/relationshipAccordingTo
-   */
-  "dwc:relationshipAccordingTo"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/relationshipRemarks
+   * Comments or notes about the relationship between the two resources
    */
   "dwc:relationshipRemarks"?: string;
+  /**
+   * The agent(s) who created the entityRelationship, contains an ods:Agent object
+   */
+  "ods:hasAgents"?: Agent2[];
 }
-/**
- * The agent who created the entity relationship. Contains an ods:Agent object
- */
 export interface Agent2 {
   /**
    * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 export interface Agent3 {
   /**
@@ -527,41 +866,93 @@ export interface Agent3 {
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
  * Object containing the tombstone metadata of the object. Only present when ods:status is ods:Tombstone
@@ -572,71 +963,132 @@ export interface TombstoneMetadata {
    */
   "@type": "ods:Tombstone";
   /**
-   * Timestamp the Digital Object was tombstoned and no longer active.
+   * Timestamp the Digital Object was tombstoned and no longer active. Following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
    */
   "ods:tombstoneDate": string;
   /**
    * A reason why the Digital Object was tombstoned
    */
   "ods:tombstoneText": string;
-  "ods:TombstonedByAgent": Agent4;
+  /**
+   * The agent(s) who tombstoned the Digital Object, contains an ods:Agent object
+   *
+   * @minItems 1
+   */
+  "ods:hasAgents": [Agent4, ...Agent4[]];
   /**
    * The PIDs of the object the tombstoned object is related to
    */
-  "ods:hasRelatedPID"?: {
+  "ods:hasRelatedPIDs"?: {
     /**
-     * The PID of the related object
+     * The type of the object, in this case a ods:RelatedPID
      */
-    "ods:ID"?: string;
+    "@type": "ods:RelatedPID";
+    /**
+     * The PID of the related object, used in cases of `ods:Annotation`, `ods:DigitalMedia` and `ods:DigitalSpecimen`
+     */
+    "dcterms:identifier"?: string;
+    /**
+     * The PID of the related object, used in cases of `ods:DataMapping`, `ods:SourceSystem` and `ods:MachineAnnotationService`
+     */
+    "schema:identifier"?: string;
     /**
      * The type of relationship between the tombstoned object and the related object
      */
-    "ods:relationshipType"?: string;
-    [k: string]: unknown;
+    "ods:relationshipType": string;
   }[];
 }
-/**
- * The agent who tombstoned the object, contains an ods:Agent object
- */
 export interface Agent4 {
   /**
    * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }

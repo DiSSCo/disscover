@@ -10,25 +10,28 @@ import { Dict } from './Types';
 
 /* Dict of types and their endpoints to fetch */
 const typesDict = {
-    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/identifier.json',
-    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/agent.json',
-    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/assertion.json',
-    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/chronometric-age.json',
-    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/citation.json',
-    tombstoneMetadata: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/tombstone-metadata.json',
-    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/entity-relationship.json',
-    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/identification.json',
-    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/location.json',
-    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/event.json',
-    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/0.3.0/digital-media.json',
-    materialEntity: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/material-entity.json',
-    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.3.0/digital-specimen.json',
-    annotationTarget: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-target.json',
-    annotationBody: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation-body.json',
-    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.3.0/annotation.json',
-    environmentalVariable: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/environmental-variable.json',
-    secretVariable: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.3.0/secret-variable.json',
-    machineAnnotationService: 'https://schemas.dissco.tech/schemas/fdo-type/machine-annotation-service/0.3.0/machine-annotation-service.json'
+    identifier: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/identifier.json',
+    agent: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/agent.json',
+    assertion: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/assertion.json',
+    chronometricAge: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/chronometric-age.json',
+    citation: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/citation.json',
+    tombstoneMetadata: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/tombstone-metadata.json',
+    entityRelationship: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/entity-relationship.json',
+    taxonIdentification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/taxon-identification.json',
+    identification: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/identification.json',
+    georeference: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/georeference.json',
+    geologicalContext: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/geological-context.json',
+    location: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/location.json',
+    event: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/event.json',
+    digitalMedia: 'https://schemas.dissco.tech/schemas/fdo-type/digital-media/0.4.0/digital-media.json',
+    specimenPart: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/specimen-part.json',
+    digitalSpecimen: 'https://schemas.dissco.tech/schemas/fdo-type/digital-specimen/0.4.0/digital-specimen.json',
+    annotationTarget: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.4.0/annotation-target.json',
+    annotationBody: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.4.0/annotation-body.json',
+    annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.4.0/annotation.json',
+    environmentalVariable: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/environmental-variable.json',
+    secretVariable: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/secret-variable.json',
+    machineAnnotationService: 'https://schemas.dissco.tech/schemas/fdo-type/machine-annotation-service/0.4.0/machine-annotation-service.json'
 };
 
 /**

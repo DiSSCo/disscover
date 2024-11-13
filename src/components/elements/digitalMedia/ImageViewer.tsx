@@ -305,7 +305,7 @@ const ImageViewer = (props: Props) => {
                     />
 
                     <OpenSeadragonAnnotationPopup popup={() => (
-                        <ImagePopup annotation={annotations.find(annotation => annotation['ods:ID'] === annotorious.getSelected()?.[0].id)}
+                        <ImagePopup annotation={annotations.find(annotation => annotation['@id'] === annotorious.getSelected()?.[0].id)}
                             editAnnotationWithId={editAnnotationWithId}
                             loading={loading.loading}
                             SetAnnotoriousMode={SetAnnotoriousMode}

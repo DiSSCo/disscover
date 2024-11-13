@@ -52,14 +52,14 @@ const IdCard = () => {
             {
                 alias: 'digitalSpecimen',
                 params: {
-                    handle: searchDigitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+                    handle: searchDigitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
                 },
                 Method: GetDigitalSpecimen,
             },
             {
                 alias: 'digitalMedia',
                 params: {
-                    handle: searchDigitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+                    handle: searchDigitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
                 },
                 Method: GetDigitalSpecimenDigitalMedia
             }
@@ -139,7 +139,7 @@ const IdCard = () => {
                     <Col lg="auto"
                         className="d-flex align-items-center"
                     >
-                        <p className="fs-4 tc-grey">{digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}</p>
+                        <p className="fs-4 tc-grey">{digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}</p>
                     </Col>
                 </Row>
                 {/* Primary details of digital specimen */}
@@ -186,12 +186,12 @@ const IdCard = () => {
                 <Row className="flex-grow-1 overflow-hidden my-4">
                     <Col className="h-100">
                         {/* Display map, if coordinates are present */}
-                        {(digitalSpecimen?.['ods:hasEvent']?.[0]?.['ods:Location']?.['ods:GeoReference']?.['dwc:decimalLatitude'] &&
-                            digitalSpecimen?.['ods:hasEvent']?.[0]?.['ods:Location']?.['ods:GeoReference']['dwc:decimalLongitude']
+                        {(digitalSpecimen?.['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']?.['dwc:decimalLatitude'] &&
+                            digitalSpecimen?.['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']['dwc:decimalLongitude']
                         ) &&
                             <Row className="h-50 pb-2">
                                 <Col>
-                                    <OpenStreetMap georeference={digitalSpecimen?.['ods:hasEvent']?.[0]['ods:Location']?.['ods:GeoReference']} />
+                                    <OpenStreetMap georeference={digitalSpecimen?.['ods:hasEvents']?.[0]['ods:hasLocation']?.['ods:hasGeoreference']} />
                                 </Col>
                             </Row>
                         }
@@ -201,7 +201,7 @@ const IdCard = () => {
                                 {digitalSpecimenDigitalMedia?.length ?
                                     <Row className="h-50 flex-nowrap overflow-x-scroll pt-2">
                                         {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
-                                            <Col key={`${digitalMedia['ods:ID']}_${index}`}
+                                            <Col key={`${digitalMedia['@id']}_${index}`}
                                                 lg={{ span: 4 }}
                                                 className="h-100 overflow-hidden"
                                             >
@@ -209,7 +209,7 @@ const IdCard = () => {
                                                     <Button type="button"
                                                         variant="blank"
                                                         className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
-                                                        OnClick={() => navigate(`/dm/${digitalMedia['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                                                        OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
                                                     >
                                                         <DigitalMediaItem digitalMedia={digitalMedia} />
                                                     </Button>
@@ -240,7 +240,7 @@ const IdCard = () => {
                     <Col lg="auto">
                         <Button type="button"
                             variant="primary"
-                            OnClick={() => navigate(`/ds/${digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                            OnClick={() => navigate(`/ds/${digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
                         >
                             <Row>
                                 <Col className="pe-0">

@@ -78,7 +78,7 @@ const AnnotationCard = (props: Props) => {
                 <Row>
                     <Col>
                         <p className="fs-5 tc-grey">
-                            {annotation['ods:ID'].replace(import.meta.env.VITE_HANDLE_URL, '')}
+                            {annotation['@id'].replace(import.meta.env.VITE_HANDLE_URL, '')}
                         </p>
                     </Col>
                     <Col lg="auto">
@@ -94,9 +94,9 @@ const AnnotationCard = (props: Props) => {
                             {`${ProvideReadableMotivation(annotation['oa:motivation'])} on: `}
                         </span>
                         <span className="fs-4">
-                            {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:FieldSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:field'] !== '$' ?
-                                    annotation['oa:hasTarget']['oa:hasSelector']['ods:field']
+                            {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
+                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'] !== '$' ?
+                                    annotation['oa:hasTarget']['oa:hasSelector']['ods:term']
                                     : schemaTitle
                                 )
                             }
@@ -125,7 +125,7 @@ const AnnotationCard = (props: Props) => {
                 <Row className="mt-1">
                     <Col>
                         {/* Render annotation content based on target type */}
-                        {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:FieldSelector' &&
+                        {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
                             <p>
                                 {annotation['oa:hasBody']['oa:value']}
                             </p>
@@ -160,15 +160,15 @@ const AnnotationCard = (props: Props) => {
                                 variant="blank"
                                 className="px-0 py-0"
                                 OnClick={async () => {
-                                    if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['ods:ID']}?`)) {
+                                    if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['@id']}?`)) {
                                         try {
-                                            await DeleteAnnotation({ annotationId: annotation['ods:ID'] });
+                                            await DeleteAnnotation({ annotationId: annotation['@id'] });
 
                                             /* Refresh annotations */
                                             RefreshAnnotations();
                                         } catch {
                                             notification.Push({
-                                                key: `${annotation['ods:ID']}-${Math.random()}`,
+                                                key: `${annotation['@id']}-${Math.random()}`,
                                                 message: `Failed to delete the annotation. Please try deleting it again.`,
                                                 template: 'error'
                                             });

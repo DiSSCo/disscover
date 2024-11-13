@@ -34,7 +34,7 @@ const DigitalMediaFrame = (props: Props) => {
             <Annotorious>
                 <ImageViewer digitalMedia={digitalMedia}
                     annotoriousMode={annotoriousMode}
-                    GetAnnotations={() => GetDigitalMediaAnnotations({ handle: digitalMedia["ods:ID"].replace(import.meta.env.VITE_DOI_URL, '') })}
+                    GetAnnotations={() => GetDigitalMediaAnnotations({ handle: digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '') })}
                     SetAnnotoriousMode={SetAnnotoriousMode}
                 />
             </Annotorious>

@@ -40,12 +40,12 @@ const EntityRelationships = (props: Props) => {
         id: string,
         label: string
     } = {
-        id: digitalSpecimen["ods:ID"],
-        label: digitalSpecimen["ods:specimenName"] ?? digitalSpecimen["ods:ID"]
+        id: digitalSpecimen["@id"],
+        label: digitalSpecimen["ods:specimenName"] ?? digitalSpecimen["@id"]
     };
 
     /* Craft entity relationships dictionary to iterate over */
-    digitalSpecimen["ods:hasEntityRelationship"]?.forEach((entityRelationship) => {
+    digitalSpecimen["ods:hasEntityRelationships"]?.forEach((entityRelationship) => {
         entityRelationships.push({
             id: entityRelationship["ods:relatedResourceURI"] ?? entityRelationship["dwc:relationshipOfResource"],
             name: entityRelationship["dwc:relationshipOfResource"] ?? entityRelationship["ods:relatedResourceURI"]

@@ -67,10 +67,10 @@ const IdCard = (props: Props) => {
      * @returns HTML label or specimen name string
      */
     const GetSpecimenNameHTMLLabel = () => {
-        const acceptedIdentification: Identification | undefined = digitalSpecimen['ods:hasIdentification']?.find(identification => identification['ods:isVerifiedIdentification']);
+        const acceptedIdentification: Identification | undefined = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
 
         if (acceptedIdentification) {
-            return acceptedIdentification['ods:hasTaxonIdentification']?.[0]['ods:scientificNameHtmlLabel'] ?? digitalSpecimen['ods:specimenName'] ?? '';
+            return acceptedIdentification['ods:hasTaxonIdentifications']?.[0]['ods:scientificNameHTMLLabel'] ?? digitalSpecimen['ods:specimenName'] ?? '';
         } else {
             return digitalSpecimen['ods:specimenName'] ?? '';
         }

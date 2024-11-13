@@ -123,7 +123,7 @@ const CompareDigitalSpecimen = () => {
         /* If only one digital specimen reamins after removal, instead reroute to search with the remaining digital specimen active in the ID card */
         if (compareDigitalSpecimenIds.length <= 2) {
             /* Set search digital specimen to remaining compare digital specimen */
-            dispatch(setSearchDigitalSpecimen(digitalSpecimen?.find(digitalSpecimen => digitalSpecimen['ods:ID'] !== digitalSpecimenId)));
+            dispatch(setSearchDigitalSpecimen(digitalSpecimen?.find(digitalSpecimen => digitalSpecimen['@id'] !== digitalSpecimenId)));
 
             navigate('/search');
         } else {

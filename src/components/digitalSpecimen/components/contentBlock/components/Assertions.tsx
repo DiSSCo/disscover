@@ -20,7 +20,7 @@ const Assertions = (props: Props) => {
 
     return (
         <div className="h-100">
-            {digitalSpecimen["ods:hasAssertion"]?.map((assertion, index) => (
+            {digitalSpecimen["ods:hasAssertions"]?.map((assertion, index) => (
                 <ClassProperties key={assertion["@id"]}
                     index={index}
                     title="assertion"

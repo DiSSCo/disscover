@@ -104,7 +104,7 @@ const ExtractLowestLevelSchema = async (jsonPath: string, schemaName: string): P
     /* Check for super class or top level term, if so add base schema name to class separated string */
     if (!classSeparatedString) {
         classSeparatedString = schemaName;
-    } else if (!classSeparatedString.includes('has')) {
+    } else if (!(classSeparatedString.includes('has') && classSeparatedString.at(-1) === 's')) {
         classSeparatedString = `${schemaName}_${classSeparatedString}`;
     }
 

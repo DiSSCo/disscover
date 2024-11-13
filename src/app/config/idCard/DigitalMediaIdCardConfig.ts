@@ -10,14 +10,14 @@ const DigitalMediaIdCardConfig = ({ digitalMedia }: { digitalMedia: DigitalMedia
     jsonPath: string,
     link?: string
 }[] => {
-    const digitalSpecimenEntityRelationshipIndex: number | undefined = digitalMedia["ods:hasEntityRelationship"]?.findIndex(
+    const digitalSpecimenEntityRelationshipIndex: number | undefined = digitalMedia["ods:hasEntityRelationships"]?.findIndex(
         entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
     );
 
     return [
         {
             label: 'Digital Specimen Identifier',
-            jsonPath: digitalSpecimenEntityRelationshipIndex ? `$['ods:hasEntityRelationship'][${digitalSpecimenEntityRelationshipIndex}]['dwc:relatedResourceID']` : "$['ods:ID']"
+            jsonPath: digitalSpecimenEntityRelationshipIndex ? `$['ods:hasEntityRelationship'][${digitalSpecimenEntityRelationshipIndex}]['dwc:relatedResourceID']` : "$['@id']"
         },
         {
             label: 'Media URL',
@@ -44,11 +44,11 @@ const DigitalMediaIdCardConfig = ({ digitalMedia }: { digitalMedia: DigitalMedia
         },
         {
             label: 'Creator',
-            jsonPath: "$['dcterms:creator']"
+            jsonPath: "$['hasAgents']"
         },
         {
-            label: 'Licence',
-            jsonPath: "$['dcterms:license']"
+            label: 'Rights',
+            jsonPath: "$['dcterms:rights']"
         }
     ];
 };

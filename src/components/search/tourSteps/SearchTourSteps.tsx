@@ -54,47 +54,56 @@ const SearchTourSteps = (props: Props) => {
         });
     });
 
+    /**
+     * Function that checks what to do on a step change
+     * @param nextIndex The next (selected) index in the step chain
+     * @param resolve Function to resolve the step promise 
+     */
+    const OnStepChange = (nextIndex: number, resolve: Function) => {
+        if (nextIndex === 2) {
+            /* On step 2: Set search query to: 'bellis perennis' */
+            searchFilters.SetSearchFilters({
+                q: 'bellis perennis'
+            });
+
+            dispatch(setSearchDigitalSpecimen(undefined));
+
+            resolve();
+        } else if (nextIndex === 3) {
+            /* On step 3: Set search result to second index of search results of 'bellis perennis' query */
+            dispatch(setSearchDigitalSpecimen(pagination.records[1] as DigitalSpecimen));
+
+            setTimeout(() => {
+                resolve();
+            }, 500);
+        } else if (nextIndex === 4) {
+            /* On step 4: Remove search result and reopen filters */
+            dispatch(setSearchDigitalSpecimen(undefined));
+
+            searchFilters.SetSearchFilters({
+                topicDiscipline: ''
+            });
+
+            resolve();
+        } else if (nextIndex === 5) {
+            /* On step 5: Set Topic Discipline filter to 'Botany' */
+            searchFilters.SetSearchFilters({
+                topicDiscipline: 'Botany'
+            });
+
+            resolve();
+        } else {
+            resolve();
+        }
+    };
+
     return (
         <Steps enabled={tourTopic === 'search'}
             steps={steps}
             initialStep={0}
             onBeforeChange={(nextIndex) => {
                 return new Promise((resolve) => {
-                    if (nextIndex === 2) {
-                        /* On step 2: Set search query to: 'bellis perennis' */
-                        searchFilters.SetSearchFilters({
-                            q: 'bellis perennis'
-                        });
-
-                        dispatch(setSearchDigitalSpecimen(undefined));
-
-                        resolve();
-                    } else if (nextIndex === 3) {
-                        /* On step 3: Set search result to second index of search results of 'bellis perennis' query */
-                        dispatch(setSearchDigitalSpecimen(pagination.records[1] as DigitalSpecimen));
-
-                        setTimeout(() => {
-                            resolve();
-                        }, 500);
-                    } else if (nextIndex === 4) {
-                        /* On step 4: Remove search result and reopen filters */
-                        dispatch(setSearchDigitalSpecimen(undefined));
-
-                        searchFilters.SetSearchFilters({
-                            topicDiscipline: ''
-                        });
-
-                        resolve();
-                    } else if (nextIndex === 5) {
-                        /* On step 5: Set Topic Discipline filter to 'Botany' */
-                        searchFilters.SetSearchFilters({
-                            topicDiscipline: 'Botany'
-                        });
-
-                        resolve();
-                    } else {
-                        resolve();
-                    }
+                    OnStepChange(nextIndex, resolve);
                 });
             }}
             onExit={() => {

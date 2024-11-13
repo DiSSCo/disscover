@@ -13,6 +13,7 @@ import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpeci
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen as DigitalSpecimenType } from 'app/types/DigitalSpecimen';
+import { TourTopic } from 'app/Types';
 
 /* Import Sources */
 import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
@@ -27,6 +28,7 @@ import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpeci
 import ScheduleDigitalSpecimenMas from "api/digitalSpecimen/ScheduleDigitalSpecimenMas";
 
 /* Import Components */
+import DigitalSpecimenTourSteps from './tourSteps/DigitalSpecimenTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
 import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
@@ -46,6 +48,11 @@ const DigitalSpecimen = () => {
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
+    const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+    const tourTopics: TourTopic[] = [{
+        name: 'digitalSpecimen',
+        title: 'About this page'
+    }];
 
     /* OnLoad, fetch digital specimen data */
     fetch.FetchMultiple({
@@ -104,7 +111,7 @@ const DigitalSpecimen = () => {
                     <Col className={`${digitalSpecimenBodyClass} h-100 tr-smooth`}>
                         <div className={`${digitalSpecimenContentClass} h-100 d-flex flex-column tr-smooth`}>
                             {/* Render header*/}
-                            <Header />
+                            <Header tourTopics={tourTopics} />
 
                             {/* Digital specimen page body */}
                             <Container fluid className="flex-grow-1 overflow-hidden my-5">
@@ -121,7 +128,7 @@ const DigitalSpecimen = () => {
                                                     </Col>
                                                 </Row>
                                                 {/* Top bar */}
-                                                <Row className="mt-2">
+                                                <Row className="tourDigitalSpecimen2 mt-2">
                                                     <Col>
                                                         <TopBar digitalSpecimen={digitalSpecimen}
                                                             annotationMode={annotationMode}
@@ -133,7 +140,7 @@ const DigitalSpecimen = () => {
                                                 <Row className="flex-grow-1 overflow-hidden mt-4">
                                                     {/* ID card */}
                                                     <Col lg={{ span: 3 }}
-                                                        className="h-100"
+                                                        className="tourDigitalSpecimen5 h-100"
                                                     >
                                                         <IdCard digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
@@ -141,10 +148,13 @@ const DigitalSpecimen = () => {
                                                     </Col>
                                                     {/* Content block */}
                                                     <Col lg={{ span: 9 }}
-                                                        className="h-100"
+                                                        className="tourDigitalSpecimen6 tourDigitalSpecimen7 tourDigitalSpecimen8 tourDigitalSpecimen9 tourDigitalSpecimen10
+                                                        tourDigitalSpecimen11 tourDigitalSpecimen12 h-100"
                                                     >
                                                         <ContentBlock digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
+                                                            selectedTabIndex={selectedTabIndex}
+                                                            SetSelectedTabIndex={setSelectedTabIndex}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -179,6 +189,8 @@ const DigitalSpecimen = () => {
                     }
                 </Row>
             </Container>
+
+            <DigitalSpecimenTourSteps SetSelectedTabIndex={setSelectedTabIndex} />
         </div>
     );
 };

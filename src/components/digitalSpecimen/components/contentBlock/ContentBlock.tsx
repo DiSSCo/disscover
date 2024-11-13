@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { isEmpty } from 'lodash';
-import { useState } from 'react';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
@@ -14,7 +13,9 @@ import { Tabs } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
-    digitalSpecimenDigitalMedia: DigitalMedia[] | undefined
+    digitalSpecimenDigitalMedia: DigitalMedia[] | undefined,
+    selectedTabIndex: number,
+    SetSelectedTabIndex: Function
 };
 
 
@@ -22,13 +23,14 @@ type Props = {
  * Component that renders the content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
  * @param digitalSpecimenDigitalMedia The digital media attached to the digital specimen
+ * @param selectedTabIndex The selected index for the digital specimen tabs
+ * @param SetSelectedTabIndex Function to set the selected tab index
  * @returns JSX Component
  */
 const ContentBlock = (props: Props) => {
-    const { digitalSpecimen, digitalSpecimenDigitalMedia } = props;
+    const { digitalSpecimen, digitalSpecimenDigitalMedia, selectedTabIndex, SetSelectedTabIndex } = props;
 
     /* Base variables */
-    const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tabs = {
         'digitalSpecimen': <DigitalSpecimenOverview digitalSpecimen={digitalSpecimen} />,
         ...(digitalSpecimenDigitalMedia && !isEmpty(digitalSpecimenDigitalMedia) && {
@@ -51,7 +53,7 @@ const ContentBlock = (props: Props) => {
                 }}
                 tabClassName="fs-5 px-3"
                 tabPanelClassName="h-100 overflow-y-scroll overflow-x-hidden"
-                SetSelectedIndex={(index: number) => setSelectedTabIndex(index)}
+                SetSelectedIndex={(index: number) => SetSelectedTabIndex(index)}
             />
         </div>
     );

@@ -26,7 +26,7 @@ type Props = {
 
 
 /**
- * Component that renders the tour steps for the homepage
+ * Component that renders the tour steps for the compare functionality on the search page
  * @param pagination The pagination object used to index the digital specimen results
  * @returns JSX Component
  */
@@ -47,7 +47,7 @@ const CompareTourSteps = (props: Props) => {
         element?: string
     }[] = [];
 
-    /* Construct Intro.js steps for Homepage */
+    /* Construct Intro.js steps for compare functionality on search page */
     compareSteps.forEach((step, index) => {
         steps.push({
             intro: step,

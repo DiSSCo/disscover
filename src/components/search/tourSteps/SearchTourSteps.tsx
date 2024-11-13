@@ -46,7 +46,7 @@ const SearchTourSteps = (props: Props) => {
         element?: string
     }[] = [];
 
-    /* Construct Intro.js steps for Homepage */
+    /* Construct Intro.js steps for Search page */
     searchSteps.forEach((step, index) => {
         steps.push({
             intro: step,

@@ -196,3 +196,9 @@ export type ProgressDot = {
     label: string,
     OnClick: Function
 };
+
+/* Tour topic */
+export type TourTopic = {
+    name: string,
+    title: string
+};

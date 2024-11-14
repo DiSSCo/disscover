@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useFetch } from 'app/Hooks';
 
 /* Import Types */
-import { Dict } from 'app/Types';
+import { TourTopic, Dict } from 'app/Types';
 
 /* Import API */
 import GetDigitalSpecimenDisciplines from 'api/digitalSpecimen/GetDigitalSpecimenDisciplines';
@@ -47,7 +47,10 @@ const Home = () => {
         query: '',
         topicDisciplines: []
     };
-    const tourTopics: string[] = ['home'];
+    const tourTopics: TourTopic[] = [{
+        name: 'home',
+        title: 'About this page'
+    }];
 
     /* OnLoad: fetch digital specimen disciplines */
     fetch.Fetch({

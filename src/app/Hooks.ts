@@ -446,10 +446,24 @@ const useSearchFilters = () => {
         return searchParams.getAll(name).includes(value);
     };
 
+    /**
+     * Function to reset and remove all search filters
+     */
+    const ResetSearchFilters = () => {
+        [...searchParams.entries()].forEach(searchParam => {
+            console.log(searchParam);
+
+            searchParams.delete(searchParam[0]);
+        });
+
+        setSearchParams(searchParams);
+    };
+
     return {
         GetSearchFilters,
         SetSearchFilters,
-        CheckSearchFilter
+        CheckSearchFilter,
+        ResetSearchFilters
     };
 };
 

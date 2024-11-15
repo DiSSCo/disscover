@@ -216,7 +216,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 });
 
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
-            } else if (classProperty.value.includes('has') && classProperty.value.at(-1) === 's') {
+            } else if (classProperty.value.includes('has') && classProperty.value.at(-3) === 's') {
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
             } else {
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};

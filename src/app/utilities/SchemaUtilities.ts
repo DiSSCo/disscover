@@ -259,7 +259,11 @@ const RemoveSchemaPrefixes = (jsonPath: string): string => {
     * @returns Stripped schema string
     */
 const StripSchemaString = (jsonPath: string) => {
-    const strippedSchemaName: string = lowerFirst(RemoveSchemaPrefixes(jsonPath));
+    let strippedSchemaName: string = lowerFirst(RemoveSchemaPrefixes(jsonPath));
+
+    if (strippedSchemaName.at(-1) === 's') {
+        strippedSchemaName = strippedSchemaName.slice(0, -1);
+    }
 
     return strippedSchemaName;
 };

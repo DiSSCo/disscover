@@ -200,7 +200,7 @@ const AnnotationFormSegment = (props: Props) => {
                                     <Row className="py-1">
                                         <Col className="d-flex align-items-center">
                                             <p className="fw-bold">
-                                                {`${annotationFormFieldProperty.name}s`}
+                                                {`${annotationFormFieldProperty.name}`}
                                             </p>
                                         </Col>
                                         <Col lg="auto"

@@ -23,7 +23,7 @@ const NextTaxonomyLevel = (taxonomicLevel?: string) => {
         case 'order': return 'family';
         case 'family': return 'genus';
         case 'genus': return 'species';
-        case 'species': return 'species'
+        case 'species': return 'species';
         default: return 'kingdom';
     };
 };
@@ -72,7 +72,7 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
             values.forEach(taxonomicClass => {
                 if (!taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicClass]) {
                     taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicClass] = {};
-                };
+                }
             });
         } else if (taxonomicTreeLevels.phylum) {
             taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicTreeLevels.phylum][taxonomicHarvest.class[0] ?? 'Unknown class'] = {};
@@ -85,7 +85,7 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
             values.forEach(order => {
                 if (!taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][order]) {
                     taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][order] = {};
-                };
+                }
             });
         } else if (taxonomicTreeLevels.class) {
             taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicTreeLevels.phylum][taxonomicTreeLevels.class][taxonomicHarvest.order[0] ?? 'Unknown order'] = {};
@@ -98,7 +98,7 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
             values.forEach(family => {
                 if (!taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][taxonomicHarvest.order[0]][family]) {
                     taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][taxonomicHarvest.order[0]][family] = {};
-                };
+                }
             });
         } else if (taxonomicTreeLevels.order) {
             taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicTreeLevels.phylum][taxonomicTreeLevels.class][taxonomicTreeLevels.order][taxonomicHarvest.family[0] ?? 'Unknown family'] = {};
@@ -111,7 +111,7 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
             values.forEach(genus => {
                 if (!taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][taxonomicHarvest.order[0]][taxonomicHarvest.family[0]][genus]) {
                     taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][taxonomicHarvest.order[0]][taxonomicHarvest.family[0]][genus] = {};
-                };
+                }
             });
         } else if (taxonomicTreeLevels.family) {
             taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicTreeLevels.phylum][taxonomicTreeLevels.class][taxonomicTreeLevels.order][taxonomicTreeLevels.family][taxonomicHarvest.genus[0] ?? 'Unknown genus'] = {};
@@ -124,7 +124,7 @@ const HarvestTaxonomicAggregations = async (taxonomicAggregations: { [taxonomicL
             values.forEach(species => {
                 if (!taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][taxonomicHarvest.order[0]][taxonomicHarvest.family[0]][taxonomicHarvest.genus[0]][species]) {
                     taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicHarvest.phylum[0]][taxonomicHarvest.class[0]][taxonomicHarvest.order[0]][taxonomicHarvest.family[0]][taxonomicHarvest.genus[0]][species] = {};
-                };
+                }
             });
         } else if (taxonomicTreeLevels.genus) {
             taxonomicTree[taxonomicHarvest.kingdom[0]][taxonomicTreeLevels.phylum][taxonomicTreeLevels.class][taxonomicTreeLevels.order][taxonomicTreeLevels.family][taxonomicTreeLevels.genus][taxonomicHarvest.species[0] ?? 'Unknown species'] = {};

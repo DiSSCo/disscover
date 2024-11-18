@@ -27,7 +27,7 @@ type DataRow = {
 type Props = {
     title: string,
     properties: Dict
-}
+};
 
 
 /**

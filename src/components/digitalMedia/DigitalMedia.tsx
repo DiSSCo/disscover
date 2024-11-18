@@ -44,6 +44,7 @@ const DigitalMedia = () => {
     const digitalMedia = useAppSelector(getDigitalMedia);
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [annotoriousMode, setAnnotoriousMode] = useState<string>('move');
+    const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 
     /* OnLoad, fetch digital media data */
     fetch.Fetch({
@@ -121,7 +122,9 @@ const DigitalMedia = () => {
                                                     >
                                                         <ContentBlock digitalMedia={digitalMedia}
                                                             annotoriousMode={annotoriousMode}
+                                                            selectedTabIndex={selectedTabIndex}
                                                             SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
+                                                            SetSelectedTabIndex={setSelectedTabIndex}
                                                         />
                                                     </Col>
                                                 </Row>

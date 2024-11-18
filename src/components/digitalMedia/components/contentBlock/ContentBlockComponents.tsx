@@ -1,10 +1,10 @@
 /* Import Components */
-import DigitalMediaFrame from "./components/DigitalMediaFrame";
-import DigitalMediaList from "./components/DigitalMediaList";
+import DigitalMediaMetadata from "./components/DigitalMediaMetadata";
+import DigitalMediaOverview from "./components/DigitalMediaOverview";
 
 
 /* Export components as part of the digital specimen content block */
 export {
-    DigitalMediaFrame,
-    DigitalMediaList
+    DigitalMediaMetadata,
+    DigitalMediaOverview
 };

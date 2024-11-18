@@ -1,21 +1,18 @@
-/* Import Dependencies */
-import { Row, Col } from "react-bootstrap";
-
 /* Import Types */
 import { DigitalMedia } from "app/types/DigitalMedia";
 
-/* Import Styles */
-import styles from './contentBlock.module.scss';
-
 /* Import Components */
-import { DigitalMediaFrame, DigitalMediaList } from "./ContentBlockComponents";
+import { DigitalMediaMetadata, DigitalMediaOverview } from "./ContentBlockComponents";
+import { Tabs } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
 type Props = {
     digitalMedia: DigitalMedia,
     annotoriousMode: string,
-    SetAnnotoriousMode: Function
+    selectedTabIndex: number,
+    SetAnnotoriousMode: Function,
+    SetSelectedTabIndex: Function
 };
 
 
@@ -23,27 +20,31 @@ type Props = {
  * Component that renders the content block on the digital media page
  * @param digitalMedia The selected digital media
  * @param annotoriousMode The currently selected Annotorious mode
+ * @param selectedTabIndex The selected index for the digital specime
  * @param SetAnnotoriousMode Function to set the Annotorious mode
+ * @param SetSelectedTabIndex Function to set the selected tab index
  * @returns JSX Component
  */
 const ContentBlock = (props: Props) => {
-    const { digitalMedia, annotoriousMode, SetAnnotoriousMode } = props;
+    const { digitalMedia, annotoriousMode, selectedTabIndex, SetAnnotoriousMode, SetSelectedTabIndex } = props;
+
+    /* Base variables */
+    const tabs = {
+        'digitalMedia': <DigitalMediaOverview digitalMedia={digitalMedia}
+            annotoriousMode={annotoriousMode}
+            SetAnnotoriousMode={SetAnnotoriousMode}
+        />,
+        'metadata': <DigitalMediaMetadata digitalMedia={digitalMedia} />
+    };
 
     return (
         <div className="h-100 d-flex flex-column">
-            <Row className="flex-grow-1 overflow-hidden">
-                <Col>
-                    <DigitalMediaFrame digitalMedia={digitalMedia}
-                        annotoriousMode={annotoriousMode}
-                        SetAnnotoriousMode={SetAnnotoriousMode}
-                    />
-                </Col>
-            </Row>
-            <Row className={`${styles.digitalMediaList} mt-2`}>
-                <Col className="h-100">
-                    <DigitalMediaList digitalMedia={digitalMedia} />
-                </Col>
-            </Row>
+            <Tabs tabs={tabs}
+                selectedIndex={selectedTabIndex}
+                tabClassName="fs-5 px-3"
+                tabPanelClassName="h-100 overflow-y-scroll overflow-x-hidden"
+                SetSelectedIndex={(index: number) => SetSelectedTabIndex(index)}
+            />
         </div>
     );
 };

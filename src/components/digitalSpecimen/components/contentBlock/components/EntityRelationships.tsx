@@ -11,7 +11,7 @@ import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 import { faDiagramProject, faTable } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
-import ClassProperties from "./classProperties/ClassProperties";
+import { ClassProperties } from "components/elements/Elements";
 import { Button, RelationalGraph } from "components/elements/customUI/CustomUI";
 
 

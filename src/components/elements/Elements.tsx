@@ -1,6 +1,7 @@
 /* Import Components */
 import AnnotationSidePanel from "./annotationSidePanel/AnnotationSidePanel";
 import BreadCrumbs from "./breadCrumbs/BreadCrumbs";
+import ClassProperties from "./classProperties/ClassProperties";
 import DigitalMediaItem from "./digitalMedia/DigitalMediaItem";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
@@ -14,6 +15,7 @@ import TopBarActions from "./topBarActions/TopBarActions";
 export {
     AnnotationSidePanel,
     BreadCrumbs,
+    ClassProperties,
     DigitalMediaItem,
     Footer,
     Header,

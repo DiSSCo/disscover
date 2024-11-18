@@ -132,7 +132,9 @@ const TopBar = (props: Props) => {
                             </span>
                         </Col>
                         {versionDropdownItems &&
-                            <Col lg="auto">
+                            <Col lg="auto"
+                                className="tourDigitalSpecimen3"
+                            >
                                 <Dropdown items={versionDropdownItems}
                                     selectedItem={{
                                         label: fetch.loading ? 'Loading..' : `Version ${digitalSpecimen['ods:version']}`,
@@ -151,7 +153,7 @@ const TopBar = (props: Props) => {
                         }
                     </Row>
                 </Col>
-                <Col>
+                <Col className="tourDigitalSpecimen4">
                     <TopBarActions actionDropdownItems={actionDropdownItems}
                         annotationMode={annotationMode}
                         ToggleAnnotationSidePanel={ToggleAnnotationSidePanel}

@@ -35,7 +35,6 @@ const SummaryValuesBlock = (props: Props) => {
     const { superClass, className, values, motivation, index } = props;
 
     /* Base variables */
-    // const indexTitle: string = typeof(index) !== 'undefined' ? ` #${index + 1}` : '';
     let title: string = MakeJsonPathReadableString(className);
     let classFieldPath: string = className;
 
@@ -66,7 +65,9 @@ const SummaryValuesBlock = (props: Props) => {
                 <div className="mt-1">
                     {!isEmpty(values) ?
                         <>
-                            {Object.entries(values).sort(
+                            {Object.entries(values).filter(
+                                ([_key, value]) => typeof(value) !== 'object'
+                            ).sort(
                                 (a, b) => a > b ? 1 : 0
                             ).map(([key, value]) => {
                                 if (value) {

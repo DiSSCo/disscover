@@ -206,7 +206,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 
             /* Add class values to form values */
             const classValues: Dict | Dict[] = jp.value(superClass, classProperty.value.replace(`$`, jsonPath));
-            const classFormValues: Dict = { ...classValues };
+            const classFormValues: Dict = { ...classValues };      
 
             if (!Array.isArray(classValues) && classValues) {
                 Object.entries(classValues).forEach(([key, value]) => {
@@ -217,7 +217,21 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
             } else if (classProperty.value.includes('has') && classProperty.value.at(-3) === 's') {
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? [];
+                const localClassValues: Dict[] | undefined = classValues ?? [];
+
+                if (!classValues) {
+                    const parentFieldName: string = classProperty.value.replace(`$`, jsonPath).split('[').slice(0, -1).join('[');
+
+                    const parentValues: Dict | undefined = jp.value(superClass, parentFieldName);
+
+                    const childFieldName: string = classProperty.value.split('[').pop()?.replace(']', '').replaceAll("'", '') ?? '';
+
+                    parentValues?.filter((parentValue: Dict) => parentValue[childFieldName]).forEach((parentValue: Dict) => {
+                        localClassValues.push(parentValue[childFieldName]);
+                    });
+                }
+
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? localClassValues ?? [];
             } else {
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};
             }

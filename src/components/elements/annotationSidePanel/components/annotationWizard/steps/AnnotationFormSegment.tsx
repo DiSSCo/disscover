@@ -98,7 +98,7 @@ const AnnotationFormSegment = (props: Props) => {
                     </Row>
 
                     {annotationFormFieldProperty.properties?.map(fieldProperty => {
-                        let fieldName: string = ``;
+                        let fieldName: string = '';
                         let fieldValue: string = '';
                         let annotationFormFieldSubProperty: AnnotationFormProperty = fieldProperty;
 
@@ -190,6 +190,21 @@ const AnnotationFormSegment = (props: Props) => {
 
                 fieldName = `${fieldNameSplitPrefix.join('_')}_${index}_${fieldNameSplitSuffix[0]}`;
             }
+
+            const RemoveExtraUnderscoreNumbers = (str: string) => {
+                let firstUnderscoreNumber = str.match(/_\d+_/) as Dict;
+
+                if (!firstUnderscoreNumber) {
+                    return str;
+                }
+
+                let remainingString = str.slice(firstUnderscoreNumber.index + firstUnderscoreNumber[0].length);
+                remainingString = remainingString.replace(/_\d+_/g, '_');
+
+                return str.slice(0, firstUnderscoreNumber.index + firstUnderscoreNumber[0].length) + remainingString;
+            };
+
+            fieldName = RemoveExtraUnderscoreNumbers(fieldName);
 
             return (
                 <div>

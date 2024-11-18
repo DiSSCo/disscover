@@ -451,8 +451,6 @@ const useSearchFilters = () => {
      */
     const ResetSearchFilters = () => {
         [...searchParams.entries()].forEach(searchParam => {
-            console.log(searchParam);
-
             searchParams.delete(searchParam[0]);
         });
 

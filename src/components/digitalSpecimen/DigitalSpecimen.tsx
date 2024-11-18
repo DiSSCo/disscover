@@ -16,6 +16,7 @@ import { DigitalSpecimen as DigitalSpecimenType } from 'app/types/DigitalSpecime
 
 /* Import Sources */
 import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
+import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
 /* Import API */
 import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
@@ -167,6 +168,7 @@ const DigitalSpecimen = () => {
                         <div className={`${annotationSidePanelClass} h-100 tr-smooth`}>
                             <AnnotationSidePanel superClass={digitalSpecimen}
                                 schema={DigitalSpecimenSchema}
+                                annotationCases={DigitalSpecimenAnnotationCases.annotationCases}
                                 GetAnnotations={GetDigitalSpecimenAnnotations}
                                 GetMas={GetDigitalSpecimenMas}
                                 GetMasJobRecords={GetDigitalSpecimenMasJobRecords}

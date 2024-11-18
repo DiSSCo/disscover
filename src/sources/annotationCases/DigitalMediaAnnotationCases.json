@@ -1,0 +1,10 @@
+{
+    "annotationCases": [
+        {
+            "name": "The whole media item",
+            "type": "superClass",
+            "jsonPath": "$",
+            "icon": ""
+        }
+    ]
+}

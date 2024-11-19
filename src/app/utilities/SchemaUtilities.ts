@@ -42,7 +42,7 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
         value: '$'
     });
 
-    if (jsonPath && schema.type !== 'object') {
+    if (jsonPath && (schema.type !== 'object' || !schema.type)) {
         const key: string = jsonPath.split("['").at(-1)?.replace("']", '') as string;
 
         termValue = {

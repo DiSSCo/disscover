@@ -191,17 +191,17 @@ const AnnotationFormSegment = (props: Props) => {
                 fieldName = `${fieldNameSplitPrefix.join('_')}_${index}_${fieldNameSplitSuffix[0]}`;
             }
 
-            const RemoveExtraUnderscoreNumbers = (str: string) => {
-                let firstUnderscoreNumber = str.match(/_\d+_/) as Dict;
+            const RemoveExtraUnderscoreNumbers = (string: string) => {
+                let firstUnderscoreNumber = /_\d+_/.exec(string);
 
                 if (!firstUnderscoreNumber) {
-                    return str;
+                    return string;
                 }
 
-                let remainingString = str.slice(firstUnderscoreNumber.index + firstUnderscoreNumber[0].length);
+                let remainingString = string.slice(firstUnderscoreNumber.index + firstUnderscoreNumber[0].length);
                 remainingString = remainingString.replace(/_\d+_/g, '_');
 
-                return str.slice(0, firstUnderscoreNumber.index + firstUnderscoreNumber[0].length) + remainingString;
+                return string.slice(0, firstUnderscoreNumber.index + firstUnderscoreNumber[0].length) + remainingString;
             };
 
             fieldName = RemoveExtraUnderscoreNumbers(fieldName);

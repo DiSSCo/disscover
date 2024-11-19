@@ -167,54 +167,55 @@ const ImagePopup = (props: Props) => {
                                 </Col>
                             </Row>
                             {/* If annotation belongs to user, show options to edit or delete the annotation */}
-                            {KeycloakService.GetParsedToken()?.orcid === annotation["dcterms:creator"]["@id"]}
-                            <Row className="flex-row-reverse">
-                                <Col lg="auto"
-                                    className="ps-0"
-                                >
-                                    <Button type="button"
-                                        variant="blank"
-                                        className="px-0 py-0"
-                                        OnClick={async () => {
-                                            if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['@id']}?`)) {
-                                                ToggleLoading();
-
-                                                try {
-                                                    await DeleteAnnotation({ annotationId: annotation['@id'] });
-        
-                                                    /* Refresh annotations */
-                                                    RefreshAnnotations();
-                                                } catch {
-                                                    notification.Push({
-                                                        key: `${annotation['@id']}-${Math.random()}`,
-                                                        message: `Failed to delete the annotation. Please try deleting it again.`,
-                                                        template: 'error'
-                                                    });
-                                                } finally {
+                            {KeycloakService.GetParsedToken()?.orcid === annotation["dcterms:creator"]["@id"] &&
+                                <Row className="flex-row-reverse">
+                                    <Col lg="auto"
+                                        className="ps-0"
+                                    >
+                                        <Button type="button"
+                                            variant="blank"
+                                            className="px-0 py-0"
+                                            OnClick={async () => {
+                                                if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation["@id"]}?`)) {
                                                     ToggleLoading();
-                                                };
-                                            }
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faTrashCan}
-                                            className="tc-primary"
-                                        />
-                                    </Button>
-                                </Col>
-                                <Col lg="auto">
-                                    <Button type="button"
-                                        variant="blank"
-                                        className="px-0 py-0"
-                                        OnClick={() => {
-                                            SetEditAnnotationWithId(annotation['@id']);                                            
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faPencil}
-                                            className="tc-primary"
-                                        />
-                                    </Button>
-                                </Col>
-                            </Row>
+
+                                                    try {
+                                                        await DeleteAnnotation({ annotationId: annotation["@id"] });
+
+                                                        /* Refresh annotations */
+                                                        RefreshAnnotations();
+                                                    } catch {
+                                                        notification.Push({
+                                                            key: `${annotation["@id"]}-${Math.random()}`,
+                                                            message: `Failed to delete the annotation. Please try deleting it again.`,
+                                                            template: 'error'
+                                                        });
+                                                    } finally {
+                                                        ToggleLoading();
+                                                    };
+                                                }
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faTrashCan}
+                                                className="tc-primary"
+                                            />
+                                        </Button>
+                                    </Col>
+                                    <Col lg="auto">
+                                        <Button type="button"
+                                            variant="blank"
+                                            className="px-0 py-0"
+                                            OnClick={() => {
+                                                SetEditAnnotationWithId(annotation["@id"]);
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faPencil}
+                                                className="tc-primary"
+                                            />
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            }
                         </div>
                     }
                 </>

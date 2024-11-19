@@ -152,6 +152,7 @@ const AnnotationSidePanel = (props: Props) => {
                                     StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                                     RefreshAnnotations={RefreshAnnotations}
                                     OpenMasMenu={() => setMasMenuToggle(true)}
+                                    ShowPolicyText={() => setPolicyTextToggle(true)}
                                 />
                             }
                         </>

@@ -55,56 +55,63 @@ const CompareTourSteps = (props: Props) => {
         });
     });
 
+    /**
+     * Function that checks what to do on a step change
+     * @param nextIndex The next (selected) index in the step chain
+     * @param resolve Function to resolve the step promise 
+     */
+    const OnStepChange = (nextIndex: number, resolve: Function) => {
+        if ([0, 1].includes(nextIndex)) {
+            dispatch(setCompareDigitalSpecimen(undefined));
+
+            resolve();
+        } else if (nextIndex === 2) {
+            /* On step 3: set search query to 'bellis perennis' and enable comparison mode */
+            searchFilters.SetSearchFilters({
+                q: 'bellis perennis'
+            });
+
+            dispatch(setCompareDigitalSpecimen([]));
+
+            resolve();
+        } else if (nextIndex === 3) {
+            /* On step 4: simulate selecting specimen for comparison */
+            if (!compareDigitalSpecimen?.length) {
+                dispatch(setCompareDigitalSpecimen([pagination?.records[0] as DigitalSpecimen]));
+
+                resolve();
+            } else if (compareDigitalSpecimen.length) {
+                const localCompareDigitalSpecimen = [...compareDigitalSpecimen];
+                localCompareDigitalSpecimen.pop();
+
+                dispatch(setCompareDigitalSpecimen([...localCompareDigitalSpecimen]));
+
+                resolve();
+            } else {
+                resolve();
+            }
+        } else if ([4, 5].includes(nextIndex)) {
+            /* On step 5: simulate selecting of second specimen for comparison */
+            const compareDigitalSpecimen: DigitalSpecimen[] = [];
+
+            compareDigitalSpecimen.push(pagination?.records[0] as DigitalSpecimen);
+            compareDigitalSpecimen.push(pagination?.records[1] as DigitalSpecimen);
+
+            dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen));
+
+            resolve();
+        } else {
+            resolve();
+        }
+    };
+
     return (
         <Steps enabled={tourTopic === 'compare'}
             steps={steps}
             initialStep={0}
             onBeforeChange={(nextIndex) => {
                 return new Promise((resolve) => {
-                    if ([0, 1].includes(nextIndex)) {
-                        dispatch(setCompareDigitalSpecimen(undefined));
-
-                        resolve();
-                    } else if (nextIndex === 2) {
-                        /* On step 3: set search query to 'bellis perennis' and enable comparison mode */
-                        searchFilters.SetSearchFilters({
-                            q: 'bellis perennis'
-                        });
-
-                        dispatch(setCompareDigitalSpecimen([]));
-
-                        resolve();
-                    } else if (nextIndex === 3) {
-                        /* On step 4: simulate selecting specimen for comparison */
-                        if (!compareDigitalSpecimen?.length) {
-                            dispatch(setCompareDigitalSpecimen([pagination.records[0] as DigitalSpecimen]));
-
-                            resolve();
-                        } else if (compareDigitalSpecimen.length) {
-                            const localCompareDigitalSpecimen = [...compareDigitalSpecimen];
-                            localCompareDigitalSpecimen.pop();
-
-                            dispatch(setCompareDigitalSpecimen([...localCompareDigitalSpecimen]));
-
-                            resolve();
-                        } else {
-                            resolve();
-                        }
-                    } else if ([4, 5].includes(nextIndex)) {
-                        /* On step 5: simulate selecting of second specimen for comparison */
-                        const compareDigitalSpecimen: DigitalSpecimen[] = [];
-
-                        compareDigitalSpecimen.push(pagination.records[0] as DigitalSpecimen);
-                        compareDigitalSpecimen.push(pagination.records[1] as DigitalSpecimen);
-
-                        dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen));
-
-
-
-                        resolve();
-                    } else {
-                        resolve();
-                    }
+                    OnStepChange(nextIndex, resolve)
                 });
             }}
             onStart={() => {

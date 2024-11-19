@@ -46,23 +46,32 @@ const TourSteps = (props: Props) => {
         });
     });
 
+    /**
+     * Function that checks what to do on a step change
+     * @param nextIndex The next (selected) index in the step chain
+     * @param resolve Function to resolve the step promise 
+     */
+    const OnStepChange = (nextIndex: number, resolve: Function) => {
+        if (nextIndex >= 4) {
+            SetAdvancedSearchToggle(true);
+
+            setTimeout(() => {
+                resolve();
+            }, 500);
+        } else {
+            SetAdvancedSearchToggle(false);
+
+            resolve();
+        }
+    };
+
     return (
         <Steps enabled={tourTopic === 'home'}
             steps={steps}
             initialStep={0}
             onBeforeChange={(nextIndex) => {
                 return new Promise((resolve) => {
-                    if (nextIndex >= 4) {
-                        SetAdvancedSearchToggle(true);
-
-                        setTimeout(() => {
-                            resolve();
-                        }, 500);
-                    } else {
-                        SetAdvancedSearchToggle(false);
-
-                        resolve();
-                    }
+                    OnStepChange(nextIndex, resolve);
                 });
             }}
             onExit={() => {

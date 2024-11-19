@@ -90,11 +90,11 @@ const PhysicalSpecimenIDSearch = (props: Props) => {
                         <Row className="mt-1">
                             <Col>
                                 <Dropdown items={sourceSystems.map(sourceSystem => ({
-                                    label: sourceSystem['schema:name'] ?? sourceSystem['ods:ID'],
-                                    value: sourceSystem['ods:ID']
+                                    label: sourceSystem['schema:name'] ?? sourceSystem['@id'] ?? '',
+                                    value: sourceSystem['@id'] ?? ''
                                 }))}
                                     selectedItem={{
-                                        label: sourceSystems.find(sourceSystem => sourceSystem['ods:ID'] === formValues?.sourceSystemId)?.['schema:name']
+                                        label: sourceSystems.find(sourceSystem => sourceSystem['@id'] === formValues?.sourceSystemId)?.['schema:name']
                                             ?? formValues?.sourceSystemId,
                                         value: formValues?.sourceSystemId
                                     }}

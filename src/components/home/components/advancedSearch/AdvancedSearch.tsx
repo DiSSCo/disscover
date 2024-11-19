@@ -81,7 +81,7 @@ const AdvancedSearch = (props: Props) => {
         physicalSpecimenIdType: 'global',
         normalisedPhysicalSpecimenId: '',
         organisationName: Object.values(organisationNames)[0],
-        sourceSystemId: sourceSystems[0]?.['ods:ID'] ?? '',
+        sourceSystemId: sourceSystems[0]?.['@id'] ?? '',
         collectionFacilityIdType: 'local'
     };
 

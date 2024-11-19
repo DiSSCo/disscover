@@ -200,7 +200,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 key: classProperty.key,
                 name: classProperty.label,
                 jsonPath: classProperty.value.replace(`$`, jsonPath),
-                type: (localPath.includes('has') && localPath.at(-1) === 's') ? 'array' : 'object',
+                type: (localPath.at(-1) === 's') ? 'array' : 'object',
                 properties: []
             };
 

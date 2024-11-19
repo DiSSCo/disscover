@@ -232,38 +232,36 @@ const AnnotationWizard = (props: Props) => {
                             /* Try to post the new annotation */
                             SetLoading(true);
 
-                            console.log(newAnnotation);
-
                             /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
-                            // try {
-                            //     /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
-                            //     if (annotationTarget?.annotation) {
-                            //         await PatchAnnotation({
-                            //             annotationId: annotationTarget.annotation.id,
-                            //             updatedAnnotation: newAnnotation
-                            //         });
-                            //     } else {
-                            //         await InsertAnnotation({
-                            //             newAnnotation
-                            //         });
-                            //     }
+                            try {
+                                /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
+                                if (annotationTarget?.annotation) {
+                                    await PatchAnnotation({
+                                        annotationId: annotationTarget.annotation.id,
+                                        updatedAnnotation: newAnnotation
+                                    });
+                                } else {
+                                    await InsertAnnotation({
+                                        newAnnotation
+                                    });
+                                }
 
-                            //     StopAnnotationWizard();
+                                StopAnnotationWizard();
 
-                            //     /* Reset filter and sort values */
-                            //     SetFilterSortValues({
-                            //         motivation: '',
-                            //         sortBy: 'dateLatest'
-                            //     });
-                            // } catch {
-                            //     notification.Push({
-                            //         key: `${superClass['@id']}-${Math.random()}`,
-                            //         message: `Failed to ${annotationTarget?.annotation ? 'update' : 'add'} the annotation. Please try saving it again.`,
-                            //         template: 'error'
-                            //     });
+                                /* Reset filter and sort values */
+                                SetFilterSortValues({
+                                    motivation: '',
+                                    sortBy: 'dateLatest'
+                                });
+                            } catch {
+                                notification.Push({
+                                    key: `${superClass['@id']}-${Math.random()}`,
+                                    message: `Failed to ${annotationTarget?.annotation ? 'update' : 'add'} the annotation. Please try saving it again.`,
+                                    template: 'error'
+                                });
 
-                            //     SetLoading(false);
-                            // };
+                                SetLoading(false);
+                            };
                         }}
                     >
                         {({ values, setFieldValue, setValues }) => (

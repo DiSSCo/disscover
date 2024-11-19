@@ -3,6 +3,7 @@ import { DigitalMedia } from "app/types/DigitalMedia";
 
 /* Import Components */
 import { DigitalMediaMetadata, DigitalMediaOverview } from "./ContentBlockComponents";
+import { EntityRelationships } from "components/elements/Elements";
 import { Tabs } from 'components/elements/customUI/CustomUI';
 
 
@@ -34,7 +35,11 @@ const ContentBlock = (props: Props) => {
             annotoriousMode={annotoriousMode}
             SetAnnotoriousMode={SetAnnotoriousMode}
         />,
-        'metadata': <DigitalMediaMetadata digitalMedia={digitalMedia} />
+        'metadata': <DigitalMediaMetadata digitalMedia={digitalMedia} />,
+        'entityRelationships': <EntityRelationships digitalObjectId={digitalMedia["@id"]}
+            digitalObjectName={digitalMedia["dcterms:title"]}
+            digitalObjectEntityRelationships={digitalMedia["ods:hasEntityRelationships"]}
+        />
     };
 
     return (

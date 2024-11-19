@@ -14,8 +14,6 @@ const DigitalMediaIdCardConfig = ({ digitalMedia }: { digitalMedia: DigitalMedia
         entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
     );
 
-    console.log(digitalMedia);
-
     return [
         {
             label: 'Digital Specimen Identifier',

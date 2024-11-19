@@ -6,7 +6,8 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
 /* Import Components */
-import { Assertions, DigitalSpecimenDigitalMedia, DigitalSpecimenOverview, EntityRelationships, Events, Identifications } from './ContentBlockComponents';
+import { Assertions, DigitalSpecimenDigitalMedia, DigitalSpecimenOverview, Events, Identifications } from './ContentBlockComponents';
+import { EntityRelationships } from 'components/elements/Elements';
 import { Tabs } from 'components/elements/customUI/CustomUI';
 
 
@@ -38,7 +39,10 @@ const ContentBlock = (props: Props) => {
         }),
         'events': <Events digitalSpecimen={digitalSpecimen} />,
         'identifications': <Identifications digitalSpecimen={digitalSpecimen} />,
-        'entityRelationships': <EntityRelationships digitalSpecimen={digitalSpecimen} />,
+        'entityRelationships': <EntityRelationships digitalObjectId={digitalSpecimen['@id']}
+            digitalObjectName={digitalSpecimen['ods:specimenName']}
+            digitalObjectEntityRelationships={digitalSpecimen['ods:hasEntityRelationships']}
+        />,
         ...(!isEmpty(digitalSpecimen['ods:hasAssertions']) && {
             'assertions': <Assertions digitalSpecimen={digitalSpecimen} />
         })

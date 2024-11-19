@@ -110,7 +110,7 @@ const TopBar = (props: Props) => {
             <Row>
                 <Col>
                     <h2 className="fs-pageTitle">
-                        {digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}
+                        {digitalMedia["dcterms:title"] ?? digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}
                     </h2>
                 </Col>
             </Row>

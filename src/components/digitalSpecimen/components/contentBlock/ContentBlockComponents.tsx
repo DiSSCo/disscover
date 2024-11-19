@@ -2,7 +2,6 @@
 import Assertions from "./components/Assertions";
 import DigitalSpecimenDigitalMedia from "./components/DigitalSpecimenDigitalMedia";
 import DigitalSpecimenOverview from "./components/DigitalSpecimenOverview";
-import EntityRelationships from "./components/EntityRelationships";
 import Events from "./components/Events";
 import Identifications from "./components/Identifications";
 
@@ -12,7 +11,6 @@ export {
     Assertions,
     DigitalSpecimenDigitalMedia,
     DigitalSpecimenOverview,
-    EntityRelationships,
     Events,
     Identifications
 };

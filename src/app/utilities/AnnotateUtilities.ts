@@ -83,7 +83,7 @@ const ConstructAnnotationObject = (params: {
                         "ac:widthFrac": fragments.widthFrac,
                         "ac:heightFrac": fragments.heightFrac
                     },
-                    "dcterms:conformsTo": ''
+                    "dcterms:conformsTo": 'https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary'
                 })
             }
         },

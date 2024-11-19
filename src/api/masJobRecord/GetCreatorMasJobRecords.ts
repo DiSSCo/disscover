@@ -22,7 +22,7 @@ const GetCreatorMasJobRecords = async () => {
         try {
             const result = await axios({
                 method: 'get',
-                url: `mjr/creator/${KeycloakService.GetSubject()}`,
+                url: `mjr/creator/${KeycloakService.GetParsedToken()?.orcid}`,
                 responseType: 'json',
                 headers: {
                     'Content-type': 'application/json',

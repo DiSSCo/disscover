@@ -106,7 +106,7 @@ const AcceptedIdentification = (props: Props) => {
                             <Col>
                                 <p className="fs-4 textOverflow">
                                     <span className="fw-lightBold">Genus: </span>
-                                    {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:genus"]}
+                                    <span className="fst-italic">{acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:genus"]}</span>
                                 </p>
                             </Col>
                         </Row>

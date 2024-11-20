@@ -33,7 +33,7 @@ const CompareDigitalSpecimenMenu = () => {
 
             {/* Selected compare digital specimen */}
             {compareDigitalSpecimen?.map((digitalSpecimen, index) => (
-                <Row key={digitalSpecimen['ods:ID']}
+                <Row key={digitalSpecimen['@id']}
                     className="mt-2"
                 >
                     <Col lg="auto"
@@ -47,7 +47,7 @@ const CompareDigitalSpecimenMenu = () => {
                                 const compareDigitalSpecimenArray = [...compareDigitalSpecimen];
 
                                 compareDigitalSpecimenArray.splice(compareDigitalSpecimen.findIndex(
-                                    compareDigitalSpecimen => compareDigitalSpecimen['ods:ID'] === digitalSpecimen['ods:ID']
+                                    compareDigitalSpecimen => compareDigitalSpecimen['@id'] === digitalSpecimen['@id']
                                 ), 1);
 
                                 dispatch(setCompareDigitalSpecimen(compareDigitalSpecimenArray));
@@ -84,7 +84,7 @@ const CompareDigitalSpecimenMenu = () => {
                             let route = '/search/compare?';
 
                             compareDigitalSpecimen?.forEach((digitalSpecimen, index) => {
-                                route = route.concat(`${index > 0 ? '&' : ''}ds=${digitalSpecimen['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`)
+                                route = route.concat(`${index > 0 ? '&' : ''}ds=${digitalSpecimen['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)
                             });
 
                             navigate(route)

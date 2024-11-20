@@ -34,9 +34,9 @@ const DigitalSpecimenOverview = (props: Props) => {
 
     /* Base variables */
     const [copyMessage, setCopyMessage] = useState<string>('Copy');
-    const acceptedIdentification = digitalSpecimen['ods:hasIdentification']?.find(identification => identification['ods:isVerifiedIdentification']);
+    const acceptedIdentification = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
     const collectors: string[] = [];
-    const collectionEvent: Event | undefined = digitalSpecimen['ods:hasEvent']?.find(event => event['dwc:eventType'] === 'Collection');
+    const collectionEvent: Event | undefined = digitalSpecimen['ods:hasEvents']?.find(event => event['dwc:eventType'] === 'Collection');
     const topicDisciplinesWithIdentifications: string[] = [
         'Anthropology',
         'Botany',
@@ -48,7 +48,7 @@ const DigitalSpecimenOverview = (props: Props) => {
     ];
 
     /* Construct collectors array */
-    digitalSpecimen['ods:hasAgent']?.filter(agent => agent['schema:roleName'] === 'collector').forEach(agent => {
+    digitalSpecimen['ods:hasAgents']?.filter(agent => agent['ods:hasRoles']?.find(role => role['schema:roleName'] === 'collector')).forEach(agent => {
         if (agent['schema:name']) {
             collectors.push(agent['schema:name']);
         }
@@ -59,7 +59,7 @@ const DigitalSpecimenOverview = (props: Props) => {
      * @returns Citation string
      */
     const CraftCitation = () => {
-        return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']} [Dataset]. ${digitalSpecimen['ods:ID']}`;
+        return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']} [Dataset]. ${digitalSpecimen['@id']}`;
     };
 
     return (
@@ -73,9 +73,9 @@ const DigitalSpecimenOverview = (props: Props) => {
                             <Col>
                                 <p className="tc-accent fw-lightBold">Origin</p>
                             </Col>
-                            {collectionEvent?.['ods:Location']?.['dwc:countryCode'] &&
+                            {collectionEvent?.['ods:hasLocation']?.['dwc:countryCode'] &&
                                 <Col lg="auto">
-                                    <img src={`https://flagsapi.com/${collectionEvent['ods:Location']['dwc:countryCode']}/shiny/64.png`}
+                                    <img src={`https://flagsapi.com/${collectionEvent['ods:hasLocation']['dwc:countryCode']}/shiny/64.png`}
                                         alt="Flag icon of country"
                                         className={styles.countryFlag}
                                     />
@@ -108,7 +108,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <Col>
                                         <p className="fs-4 textOverflow">
                                             <span className="fw-lightBold">Country:</span>
-                                            {collectionEvent?.['ods:Location']?.['dwc:country']}
+                                            {collectionEvent?.['ods:hasLocation']?.['dwc:country']}
                                         </p>
                                     </Col>
                                 </Row>
@@ -117,7 +117,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <Col>
                                         <p className="fs-4 textOverflow">
                                             <span className="fw-lightBold">Locality:</span>
-                                            {collectionEvent?.['ods:Location']?.['dwc:locality']}
+                                            {collectionEvent?.['ods:hasLocation']?.['dwc:locality']}
                                         </p>
                                     </Col>
                                 </Row>
@@ -137,7 +137,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                         {/* Geological reference map */}
                         <Row className="py-2 h-100">
                             <Col>
-                                <OpenStreetMap georeference={digitalSpecimen['ods:hasEvent']?.[0]?.['ods:Location']?.['ods:GeoReference']} />
+                                <OpenStreetMap georeference={digitalSpecimen['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']} />
                             </Col>
                         </Row>
                     </Card>

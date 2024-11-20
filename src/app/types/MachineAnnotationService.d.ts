@@ -20,17 +20,17 @@ export interface MachineAnnotationService {
   /**
    * Handle of the Machine Annotation Service
    */
-  "ods:ID": string;
+  "schema:identifier": string;
   /**
    * The DOI to the FDO type of the object
    */
-  "ods:type": string;
+  "ods:fdoType": string;
   /**
-   * The status of the Digital Object
+   * The status of the Digital Object. A digital object can be in Draft, when it is not published yet. Active when it is published and the object is active and Tombstone which means the object has been archived.
    */
-  "ods:status"?: "ods:Draft" | "ods:Active" | "ods:Tombstone";
+  "ods:status"?: "Draft" | "Active" | "Tombstone";
   /**
-   * Version of the Machine Annotation Service, https://schema.org/version
+   * The version of the object, each change generates a new version. The version starts at 1 and each change will increment the version number with 1
    */
   "schema:version"?: number;
   /**
@@ -42,81 +42,77 @@ export interface MachineAnnotationService {
    */
   "schema:description"?: string;
   /**
-   * Timestamp of creation. Internally generated, https://schema.org/dateCreated
+   * Timestamp of creation. Internally generated, following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
    */
   "schema:dateCreated": string;
   /**
-   * Timestamp of last modification. Internally generated, https://schema.org/dateModified
+   * Timestamp of last modification. Internally generated, following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
    */
   "schema:dateModified": string;
-  "schema:creator"?: Agent;
+  "schema:creator": Agent;
   /**
-   * URI of the image of the containerized application
+   * The URI to the location of the image in a public container repository. Should only contain the image name and not the tag
    */
   "ods:containerImage": string;
   /**
-   * Tag of the image
+   * The image tag of the container image. This should not be `latest` but point to a specific version. On an update of the application a new image tag should be generated and the Digital Object should be updated
    */
   "ods:containerTag": string;
   /**
-   * Filters describing the criteria that must be met in order to apply the MAS. No filters implies the MAS may run on *any* digital object. Field names are given in JSON paths, and accepted values for that field are provided as an arrays
+   * Filters describing the criteria that a Digital Object must meet in order to apply the MAS. No filters implies the MAS may run on *any* digital object. Field names are given in JSON paths, and accepted values for that field are provided as an arrays. An `*` can be used as a wildcard, indicating any value is seen as valid
    */
-  "ods:TargetDigitalObjectFilter"?: {
+  "ods:hasTargetDigitalObjectFilter"?: {
     [k: string]: unknown;
   };
   /**
-   * The current status of the service, https://schema.org/creativeWorkStatus
+   * The current status of the service in terms of its service lifecycle
    */
   "schema:creativeWorkStatus"?: string;
   /**
-   * Link to code base of MAS, https://schema.org/codeRepository
+   * Link to the repository where the un-compiled, human readable code and related code is located (SVN, GitHub, CodePlex)
    */
   "schema:codeRepository"?: string;
   /**
-   * The programming language of the MAS, https://schema.org/programmingLanguage
+   * The primary programming language used by the MAS
    */
   "schema:programmingLanguage"?: string;
   /**
-   * Availability commitment of the service provider as described in the SLA
+   * Availability commitment in uptime percentage of the service provider as described in the SLA
    */
   "ods:serviceAvailability"?: string;
   "schema:maintainer"?: Agent1;
   /**
-   * License of the service, https://schema.org/license
+   * A license document which applies to this Machine Annotation Service
    */
   "schema:license"?: string;
   /**
-   * Handles from other MAS that this MAS depends on
-   */
-  "ods:dependency"?: string[];
-  /**
-   * The contact point for support and information for the MAS, https://schema.org/ContactPoint
+   * The contact point for support and information for the Machine Annotation Service
    */
   "schema:ContactPoint"?: {
     /**
-     * Description of the contact point, https://schema.org/description
+     * General description of the contact point
      */
     "schema:description"?: string;
     /**
-     * Email of the contact point, https://schema.org/email
+     * Email of the contact point
      */
     "schema:email"?: string;
     /**
-     * Email of the contact point, https://schema.org/email
+     * URL of the contact point, this could be a link to a contact form or a link to a github issues page
      */
     "schema:url"?: string;
     /**
-     * Telephone number of the contact point, https://schema.org/telephone
+     * Telephone number of the contact point
      */
     "schema:telephone"?: string;
     [k: string]: unknown;
   };
   /**
-   * Link to SLA documentation
+   * Link to SLA documentation of the Machine Annotation Service
    */
   "ods:slaDocumentation"?: string;
   /**
-   * Kafka topic through which the MAS receives messages. Defaults to PID of MAS
+   * Kafka topic through which the MAS receives messages. Defaults to PID of the Machine Annotation Service
    */
   "ods:topicName"?: string;
   /**
@@ -124,25 +120,25 @@ export interface MachineAnnotationService {
    */
   "ods:maxReplicas"?: number;
   /**
-   * Whether or not this MAS can create Batch Annotations. MAS outputs must then comply with batchMetadata, see https://schemas.dissco.tech/schemas/annotations/0.1.0/annotation-event.json
+   * Whether or not this Machine Annotation Service can create Batch Annotations. Machine Annotations Service outputs must then comply with batchMetadata, see https://schemas.dissco.tech/schemas/annotations/0.1.0/annotation-event.json
    */
   "ods:batchingPermitted": boolean;
   /**
    * Time in milliseconds the MAS message may remain in the Kafka Queue before being marked as timed out. Min 1 hour.
    */
   "ods:timeToLive": number;
-  "ods:TombstoneMetadata"?: TombstoneMetadata;
+  "ods:hasTombstoneMetadata"?: TombstoneMetadata;
   /**
-   * Environmental variables to supply to the MAS, non-sensitive
+   * Environmental variables to supply to the Machine Annotation Service, non-sensitive
    */
-  "ods:hasEnvironmentalVariable"?: EnvironmentalVariable[];
+  "ods:hasEnvironmentalVariables"?: EnvironmentalVariable[];
   /**
-   * Secret variables to supply to the MAS
+   * Secret variables to supply to the Machine Annotation Service, sensitive
    */
-  "ods:hasSecretVariable"?: SecretVariable[];
+  "ods:hasSecretVariables"?: SecretVariable[];
 }
 /**
- * Contains an ods:Agent object
+ * Contains information about the creator of this MachineAnnotationService Digital Object, the agent creating this record in DiSSCo's system
  */
 export interface Agent {
   /**
@@ -150,44 +146,96 @@ export interface Agent {
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
- * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ * Object used to describe identifiers of a Digital Object, based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
  */
 export interface Identifier {
   /**
@@ -199,37 +247,64 @@ export interface Identifier {
    */
   "@type": "ods:Identifier";
   /**
-   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   * A name for the identifier
    */
   "dcterms:title": string;
   /**
-   * The local title of the identifier
+   * The type of the value in the `dcterms:identifier` field
    */
-  "ods:localTitle"?: string;
+  "dcterms:type"?:
+    | "ARK"
+    | "arXiv"
+    | "bibcode"
+    | "DOI"
+    | "EAN13"
+    | "EISSN"
+    | "Handle"
+    | "IGSN"
+    | "ISBN"
+    | "ISSN"
+    | "ISTC"
+    | "LISSN"
+    | "LSID"
+    | "PMID"
+    | "PURL"
+    | "UPC"
+    | "URL"
+    | "URN"
+    | "w3id"
+    | "UUID"
+    | "Other"
+    | "Locally unique identifier";
   /**
-   * The value for the identifier, https://purl.org/dc/terms/identifier
+   * The value for the identifier
    */
   "dcterms:identifier": string;
   /**
-   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   * All possible mime types of content that can be returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json
    */
-  "dcterms:format"?: string;
+  "dcterms:format"?: string[];
   /**
-   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   * Additional keywords that the publisher may prefer to be attached to the identifier
    */
-  "dcterms:subject"?: string;
+  "dcterms:subject"?: string[];
   /**
    * Indicates whether the identifier is part of the physical label
    */
   "ods:isPartOfLabel"?: boolean;
   /**
-   * Indicates whether the identifier is part of the barcode or nfc chip
-   */
-  "ods:isBarcodeOrNFC"?: boolean;
-  /**
    * Indicates whether the identifier is a persistent identifier
    */
-  "ods:isIDPersistent"?: boolean;
+  "ods:gupriLevel"?:
+    | "LocallyUniqueStable"
+    | "GloballyUniqueStable"
+    | "GloballyUniqueStableResolvable"
+    | "GloballyUniqueStablePersistentResolvable"
+    | "GloballyUniqueStablePersistentResolvableFDOCompliant";
+  /**
+   * Indicates the status of the identifier
+   */
+  "ods:identifierStatus"?: "Preferred" | "Alternative" | "Superseded";
 }
 /**
  * Party maintaining the code, could be an schema:Organisation or a schema:Person
@@ -240,41 +315,93 @@ export interface Agent1 {
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
  * Object containing the tombstone metadata of the object
@@ -285,73 +412,134 @@ export interface TombstoneMetadata {
    */
   "@type": "ods:Tombstone";
   /**
-   * Timestamp the Digital Object was tombstoned and no longer active.
+   * Timestamp the Digital Object was tombstoned and no longer active. Following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX
    */
   "ods:tombstoneDate": string;
   /**
    * A reason why the Digital Object was tombstoned
    */
   "ods:tombstoneText": string;
-  "ods:TombstonedByAgent": Agent2;
+  /**
+   * The agent(s) who tombstoned the Digital Object, contains an ods:Agent object
+   *
+   * @minItems 1
+   */
+  "ods:hasAgents": [Agent2, ...Agent2[]];
   /**
    * The PIDs of the object the tombstoned object is related to
    */
-  "ods:hasRelatedPID"?: {
+  "ods:hasRelatedPIDs"?: {
     /**
-     * The PID of the related object
+     * The type of the object, in this case a ods:RelatedPID
      */
-    "ods:ID"?: string;
+    "@type": "ods:RelatedPID";
+    /**
+     * The PID of the related object, used in cases of `ods:Annotation`, `ods:DigitalMedia` and `ods:DigitalSpecimen`
+     */
+    "dcterms:identifier"?: string;
+    /**
+     * The PID of the related object, used in cases of `ods:DataMapping`, `ods:SourceSystem` and `ods:MachineAnnotationService`
+     */
+    "schema:identifier"?: string;
     /**
      * The type of relationship between the tombstoned object and the related object
      */
-    "ods:relationshipType"?: string;
-    [k: string]: unknown;
+    "ods:relationshipType": string;
   }[];
 }
-/**
- * The agent who tombstoned the object, contains an ods:Agent object
- */
 export interface Agent2 {
   /**
    * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
  * Environmental variables to supply to the a Digital Object, non-sensitive

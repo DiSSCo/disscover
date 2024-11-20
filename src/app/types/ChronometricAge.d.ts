@@ -15,75 +15,67 @@ export interface ChronometricAge {
    */
   "@type": "ods:ChronometricAge";
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeID
+   * An identifier for the set of information associated with a ChronometricAge
    */
   "chrono:chronometricAgeID"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/verbatimChronometricAge
+   * The verbatim age for a specimen, whether reported by a dating assay, associated references, or legacy information
    */
   "chrono:verbatimChronometricAge"?: string;
   /**
-   * The verbatim name of the protocol used to determine the chronometric age.
-   */
-  "ods:verbatimChronometricAgeProtocol"?: string;
-  /**
-   * https://rs.tdwg.org/chrono/terms/uncalibratedChronometricAge
+   * The output of a dating assay before it is calibrated into an age using a specific conversion protocol.
    */
   "chrono:uncalibratedChronometricAge"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeConversionProtocol
+   * The method used for converting the uncalibratedChronometricAge into a chronometric age in years, as captured in the earliestChronometricAge, earliestChronometricAgeReferenceSystem, latestChronometricAge, and latestChronometricAgeReferenceSystem fields.
    */
   "chrono:chronometricAgeConversionProtocol"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/earliestChronometricAge
+   * The maximum/earliest/oldest possible age of a specimen as determined by a dating method
    */
   "chrono:earliestChronometricAge"?: number;
   /**
-   * https://rs.tdwg.org/chrono/terms/earliestChronometricAgeReferenceSystem
+   * The reference system associated with the earliestChronometricAge
    */
   "chrono:earliestChronometricAgeReferenceSystem"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/latestChronometricAge
+   * The minimum/latest/youngest possible age of a specimen as determined by a dating method
    */
   "chrono:latestChronometricAge"?: number;
   /**
-   * https://rs.tdwg.org/chrono/terms/latestChronometricAgeReferenceSystem
+   * The reference system associated with the latestChronometricAge
    */
   "chrono:latestChronometricAgeReferenceSystem"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeUncertaintyInYears
+   * The temporal uncertainty of the earliestChronometricAge and latestChronometicAge in years
    */
   "chrono:chronometricAgeUncertaintyInYears"?: number;
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeUncertaintyMethod
+   * The method used to generate the value of chronometricAgeUncertaintyInYears
    */
   "chrono:chronometricAgeUncertaintyMethod"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/materialDated
+   * A description of the material on which the chronometricAgeProtocol was actually performed, if known.
    */
   "chrono:materialDated"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/materialDatedID
+   * An identifier for the MaterialSample on which the chronometricAgeProtocol was performed, if applicable
    */
   "chrono:materialDatedID"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/materialDatedRelationship
+   * The relationship of the materialDated to the subject of the ChronometricAge record, from which the ChronometricAge of the subject is inferred
    */
   "chrono:materialDatedRelationship"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeDeterminedBy
-   */
-  "chrono:chronometricAgeDeterminedBy"?: string;
-  /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeDeterminedDate
+   * The date on which the ChronometricAge was determined
    */
   "chrono:chronometricAgeDeterminedDate"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeReferences
+   * A list (concatenated and separated) of identifiers (publication, bibliographic reference, global unique identifier, URI) of literature associated with the ChronometricAge.
    */
   "chrono:chronometricAgeReferences"?: string;
   /**
-   * https://rs.tdwg.org/chrono/terms/chronometricAgeRemarks
+   * Notes or comments about the ChronometricAge
    */
   "chrono:chronometricAgeRemarks"?: string;
 }

@@ -87,7 +87,7 @@ const SearchFiltersMenu = () => {
             };
         } else {
             initialFormValues[key] = [...searchParams.getAll(key)];
-        };
+        }
 
         /* Add to inital form search query if allowed for this filter */
         if (searchFilter.searchable) {
@@ -184,7 +184,7 @@ const SearchFiltersMenu = () => {
                                                         } = {};
 
                                                         if (searchFilter.type === 'taxonomy') {
-                                                            aggregations[key] = {}
+                                                            aggregations[key] = {};
 
                                                             Object.keys(searchFilter.contains ?? {}).forEach(taxonomyKey => {
                                                                 aggregations[key][taxonomyKey] = digitalSpecimenAggregations[taxonomyKey];

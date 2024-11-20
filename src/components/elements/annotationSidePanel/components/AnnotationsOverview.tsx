@@ -99,10 +99,10 @@ const AnnotationsOverview = (props: Props) => {
             }
 
             jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"].replaceAll('"', "'");
-        } else if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:FieldSelector') {
+        } else if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:TermSelector') {
             annotationTargetType = 'term';
 
-            jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:field"].replaceAll('"', "'");
+            jsonPath = annotation["oa:hasTarget"]["oa:hasSelector"]["ods:term"].replaceAll('"', "'");
         }
 
         /* Set annotation target to this annotation */
@@ -110,7 +110,7 @@ const AnnotationsOverview = (props: Props) => {
             type: annotationTargetType,
             jsonPath,
             annotation: {
-                id: annotation["ods:ID"],
+                id: annotation["@id"],
                 motivation: annotation["oa:motivation"],
                 values: annotation["oa:hasBody"]["oa:value"]
             }
@@ -149,7 +149,7 @@ const AnnotationsOverview = (props: Props) => {
             <Row className="flex-grow-1 overflow-scroll mt-4">
                 <Col>
                     {overviewAnnotations.length ? overviewAnnotations.map(annotation => (
-                        <div key={annotation['ods:ID']}
+                        <div key={annotation['@id']}
                             className="mb-2"
                         >
                             <AnnotationCard annotation={annotation}

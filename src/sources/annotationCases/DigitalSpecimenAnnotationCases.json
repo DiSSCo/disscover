@@ -9,25 +9,25 @@
         {
             "name": "Georeference",
             "type": "class",
-            "jsonPath": "$['ods:hasEvent']['ods:Location']['ods:GeoReference']",
+            "jsonPath": "$['ods:hasEvent']['ods:hasLocation']['ods:hasGeoreference']",
             "icon": "faLocationDot"
         },
         {
             "name": "Identification",
             "type": "class",
-            "jsonPath": "$['ods:hasIdentification']",
+            "jsonPath": "$['ods:hasIdentifications']",
             "icon": "faMagnifyingGlass"
         },
         {
             "name": "Entity Relationship",
             "type": "class",
-            "jsonPath": "$['ods:hasEntityRelationship']",
+            "jsonPath": "$['ods:hasEntityRelationships']",
             "icon": "faLink"
         },
         {
             "name": "Assertion",
             "type": "class",
-            "jsonPath": "$['ods:hasAssertion']",
+            "jsonPath": "$['ods:hasAssertions']",
             "icon": "faCommentDots"
         }
     ]

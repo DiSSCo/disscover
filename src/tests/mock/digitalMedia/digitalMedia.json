@@ -1,7 +1,6 @@
 {
     "@id": "string",
     "@type": "ods:DigitalMedia",
-    "ods:ID": "string",
     "ods:version": 0,
     "dcterms:created": "2023-02-27T12:42:22.135Z",
     "dcterms:modified": "2023-02-27T12:42:22.135Z",

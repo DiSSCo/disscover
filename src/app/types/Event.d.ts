@@ -5,6 +5,9 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * Contains all information about a particular Event, which is an activity at a moment in time, at a specific location made by an agent
+ */
 export interface Event {
   /**
    * The identifier for the Event object.
@@ -15,158 +18,130 @@ export interface Event {
    */
   "@type": "ods:Event";
   /**
-   * https://rs.tdwg.org/dwc/terms/organismQuantity
-   */
-  "dwc:organismQuantity"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/organismQuantityType
-   */
-  "dwc:organismQuantityType"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/sex
-   */
-  "dwc:sex"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/lifeStage
-   */
-  "dwc:lifeStage"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/reproductiveCondition
-   */
-  "dwc:reproductiveCondition"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/behavior
+   * The behavior shown by the subject at the time the event was recorded
    */
   "dwc:behavior"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/caste
-   */
-  "dwc:caste"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/vitality
-   */
-  "dwc:vitality"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/establishmentMeans
-   */
-  "dwc:establishmentMeans"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/occurrenceStatus
-   */
-  "dwc:occurrenceStatus"?: "present" | "absent";
-  /**
-   * https://rs.tdwg.org/dwc/terms/pathway
-   */
-  "dwc:pathway"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/degreeOfEstablishment
-   */
-  "dwc:degreeOfEstablishment"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/georeferenceVerificationStatus
-   */
-  "dwc:georeferenceVerificationStatus"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/occurrenceRemarks
-   */
-  "dwc:occurrenceRemarks"?: string;
-  /**
-   * The name of the event
-   */
-  "ods:eventName"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/fieldNumber
-   */
-  "dwc:fieldNumber"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/recordNumber
-   */
-  "dwc:recordNumber"?: string;
-  /**
-   * https://rs.tdwg.org/dwc/terms/eventType
+   * The nature of the ods:Event. There can always be only one collecting event
    */
   "dwc:eventType"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/eventDate
+   * The sex of the biological individual(s) represented in the dwc:Event
+   */
+  "dwc:sex"?: string;
+  /**
+   * The age class or life stage at the time the ods:Event was recorded
+   */
+  "dwc:lifeStage"?: string;
+  /**
+   * The reproductive condition of the biological individual(s) represented in the ods:Event.
+   */
+  "dwc:reproductiveCondition"?: string;
+  /**
+   * Categorisation of individuals for eusocial species (including some mammals and arthropods)
+   */
+  "dwc:caste"?: string;
+  /**
+   * An indication of whether the specimen was alive or dead at the time of collection or observation
+   */
+  "dwc:vitality"?: string;
+  /**
+   * Statement about whether a organism has been introduced to a given place and time through the direct or indirect activity of modern humans
+   */
+  "dwc:establishmentMeans"?: string;
+  /**
+   * The process by which an organism came to be in a given place at a given time
+   */
+  "dwc:pathway"?: string;
+  /**
+   * The degree to which an organism survives, reproduces, and expands its range at the given place and time
+   */
+  "dwc:degreeOfEstablishment"?: string;
+  /**
+   * A categorical description of the extent to which the georeference has been verified to represent the best possible spatial description for the ods:Location of the ods:Event
+   */
+  "dwc:georeferenceVerificationStatus"?: string;
+  /**
+   * An identifier given to the ods:Event in the field. Often serves as a link between field notes and the ods:Event
+   */
+  "dwc:fieldNumber"?: string;
+  /**
+   * The date-time or interval during which a ods:Event occurred. For occurrences, this is the date-time when the ods:Event was recorded. Not suitable for a time in a geological context
    */
   "dwc:eventDate"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/eventTime
+   * The time or interval during which a ods:Event occurred
    */
   "dwc:eventTime"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/endDayOfYear
+   * The latest integer day of the year on which the ods:Event occurred (1 for January 1, 365 for December 31, except in a leap year, in which case it is 366)
    */
   "dwc:endDayOfYear"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/startDayOfYear
+   * The earliest integer day of the year on which the ods:Event occurred (1 for January 1, 365 for December 31, except in a leap year, in which case it is 366)
    */
   "dwc:startDayOfYear"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/verbatimEventDate
+   * The verbatim original representation of the date and time information for a ods:Event
    */
   "dwc:verbatimEventDate"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/year
+   * The four-digit year in which the ods:Event occurred, according to the Common Era Calendar
    */
   "dwc:year"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/month
+   * The integer month in which the ods:Event occurred
    */
   "dwc:month"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/day
+   * The integer day of the month on which the ods:Event occurred
    */
   "dwc:day"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/habitat
+   * A category or description of the habitat in which the ods:Event occurred
    */
   "dwc:habitat"?: string;
   /**
-   * https://rs.tdwg.org/eco/terms/protocolDescriptions
+   * A detailed description of the methods used during the ods:Event
    */
   "eco:protocolDescriptions"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/sampleSizeValue
+   * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling ods:Event
    */
   "dwc:sampleSizeValue"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/sampleSizeUnit
+   * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling ods:Event
    */
   "dwc:sampleSizeUnit"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/samplingProtocol
+   * The names of, references to, or descriptions of the methods or protocols used during a ods:Event
    */
   "dwc:samplingProtocol"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/samplingEffort
+   * The amount of effort expended during a ods:Event
    */
   "dwc:samplingEffort"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/fieldNotes
+   * One of a) an indicator of the existence of, b) a reference to (publication, URI), or c) the text of notes taken in the field about the ods:Event
    */
   "dwc:fieldNotes"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/eventRemarks
+   * Comments or notes about the ods:Event
    */
   "dwc:eventRemarks"?: string;
   /**
-   * The full name of the collector
+   * Contains additional information about the ods:Event in the form of assertions
    */
-  "ods:collectorName"?: string;
+  "ods:hasAssertions"?: Assertion[];
   /**
-   * The identifier of the collector, recommended would be a ORCID or Wikidata ID
+   * Contains all agents that are connected to the specific event
    */
-  "ods:collectorID"?: string;
-  /**
-   * Contains zero or more ods:Assertion objects
-   */
-  "ods:hasAssertion"?: Assertion[];
-  "ods:Location"?: Location;
+  "ods:hasAgents"?: Agent2[];
+  "ods:hasLocation"?: Location;
 }
 export interface Assertion {
   /**
-   * The identifier for the Assertion object.
+   * Identical to the `dwc:measurementID`. An identifier for the dwc:MeasurementOrFact (information pertaining to measurements, facts, characteristics, or assertions). May be a global unique identifier or an identifier specific to the data set
    */
   "@id"?: string;
   /**
@@ -174,106 +149,162 @@ export interface Assertion {
    */
   "@type": "ods:Assertion";
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementID
+   * An identifier for the dwc:MeasurementOrFact (information pertaining to measurements, facts, characteristics, or assertions). May be a global unique identifier or an identifier specific to the data set
    */
   "dwc:measurementID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/parentMeasurementID
+   * An identifier for a broader dwc:MeasurementOrFact that groups this and potentially other ods:Assertions
    */
   "dwc:parentMeasurementID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementType
+   * The nature of the assertion
    */
   "dwc:measurementType"?: string;
   /**
-   * https://rs.tdwg.org/dwc/iri/measurementType
+   * The nature of the assertion
    */
   "dwciri:measurementType"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementDeterminedDate
+   * The date on which the dwc:MeasurementOrFact was made
    */
   "dwc:measurementDeterminedDate"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementValue
+   * The value of the assertion
    */
   "dwc:measurementValue"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementValue
+   * The value of the assertion
    */
   "dwciri:measurementValue"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementAccuracy
+   * The description of the potential error associated with the dwc:measurementValue
    */
   "dwc:measurementAccuracy"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/measurementUnit
+   * The units associated with the dwc:measurementValue
    */
   "dwc:measurementUnit"?: string;
   /**
-   * https://rs.tdwg.org/dwc/iri/measurementUnit
+   * The units associated with the dwc:measurementValue
    */
   "dwciri:measurementUnit"?: string;
-  "ods:AssertionByAgent"?: Agent;
   /**
-   * The protocol used to make the assertion
+   * A description of or reference to (publication, URI) the method or protocol used to determine the measurement, fact, characteristic, or assertion
    */
-  "ods:assertionProtocol"?: string;
+  "dwc:measurementMethod"?: string;
   /**
-   * The ID of the protocol used to make the assertion
+   * A description of or reference to (publication, URI) the method or protocol used to determine the measurement, fact, characteristic, or assertion
    */
-  "ods:assertionProtocolID"?: string;
+  "dwciri:measurementMethod"?: string;
   /**
-   * Remarks about the assertion
+   * Comments or notes accompanying the dwc:MeasurementOrFact
    */
-  "ods:assertionRemarks"?: string;
+  "dwc:measurementRemarks"?: string;
+  /**
+   * The agent(s) who made the assertion, contains an ods:Agent object
+   */
+  "ods:hasAgents"?: Agent[];
+  /**
+   * Contains the publication citation(s) that support the assertion
+   */
+  "ods:hasCitations"?: Citation[];
 }
-/**
- * The agent who made the assertion, contains an ods:Agent object
- */
 export interface Agent {
   /**
    * The identifier for the Agent object
    */
   "@id"?: string;
   /**
-   * The type of the agent, the prov ontology is only used in the prov-o createUpdateTombstoneEvent
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
    */
-  "@type": "schema:Person" | "schema:Organisation" | "as:Application" | "prov:Person" | "prov:SoftwareAgent";
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
   /**
    * Full name of the agent
    */
   "schema:name"?: string;
   /**
-   * Indicates the role of the agent, https://schema.org/roleName
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
    */
-  "schema:roleName"?: string;
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
   /**
-   * Date the agent began the role
-   */
-  "schema:startDate"?: string;
-  /**
-   * Date the agent ended the role
-   */
-  "schema:endDate"?: string;
-  /**
-   * Order of the agent in the role. Can be used to indicate the order of importance
-   */
-  "ods:roleOrder"?: number;
-  /**
-   * Email of the agent, can be present in case the agent is a maintainer of a MAS
+   * Email of the agent
    */
   "schema:email"?: string;
   /**
-   * URL of the agent, can be present in case the agent is a maintainer of a MAS
+   * URL to a website of the agent
    */
   "schema:url"?: string;
   /**
-   * Contains zero or more ods:Identifier objects
+   * Contains all identifiers associated with the agent
    */
-  "ods:hasIdentifier"?: Identifier[];
+  "ods:hasIdentifiers"?: Identifier[];
 }
 /**
- * Based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ * Object used to describe identifiers of a Digital Object, based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
  */
 export interface Identifier {
   /**
@@ -285,44 +316,308 @@ export interface Identifier {
    */
   "@type": "ods:Identifier";
   /**
-   * The type of the identifier, https://purl.org/dc/elements/1.1/title
+   * A name for the identifier
    */
   "dcterms:title": string;
   /**
-   * The local title of the identifier
+   * The type of the value in the `dcterms:identifier` field
    */
-  "ods:localTitle"?: string;
+  "dcterms:type"?:
+    | "ARK"
+    | "arXiv"
+    | "bibcode"
+    | "DOI"
+    | "EAN13"
+    | "EISSN"
+    | "Handle"
+    | "IGSN"
+    | "ISBN"
+    | "ISSN"
+    | "ISTC"
+    | "LISSN"
+    | "LSID"
+    | "PMID"
+    | "PURL"
+    | "UPC"
+    | "URL"
+    | "URN"
+    | "w3id"
+    | "UUID"
+    | "Other"
+    | "Locally unique identifier";
   /**
-   * The value for the identifier, https://purl.org/dc/terms/identifier
+   * The value for the identifier
    */
   "dcterms:identifier": string;
   /**
-   * Mime type of content returned by identifier in case the identifier is resolvable. https://purl.org/dc/terms/format
+   * All possible mime types of content that can be returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json
    */
-  "dcterms:format"?: string;
+  "dcterms:format"?: string[];
   /**
-   * Keywords qualifying the identifier https://purl.org/dc/terms/subject
+   * Additional keywords that the publisher may prefer to be attached to the identifier
    */
-  "dcterms:subject"?: string;
+  "dcterms:subject"?: string[];
   /**
    * Indicates whether the identifier is part of the physical label
    */
   "ods:isPartOfLabel"?: boolean;
   /**
-   * Indicates whether the identifier is part of the barcode or nfc chip
-   */
-  "ods:isBarcodeOrNFC"?: boolean;
-  /**
    * Indicates whether the identifier is a persistent identifier
    */
-  "ods:isIDPersistent"?: boolean;
+  "ods:gupriLevel"?:
+    | "LocallyUniqueStable"
+    | "GloballyUniqueStable"
+    | "GloballyUniqueStableResolvable"
+    | "GloballyUniqueStablePersistentResolvable"
+    | "GloballyUniqueStablePersistentResolvableFDOCompliant";
+  /**
+   * Indicates the status of the identifier
+   */
+  "ods:identifierStatus"?: "Preferred" | "Alternative" | "Superseded";
 }
 /**
- * Contains an object of type ods:Location
+ * Based on https://rs.gbif.org/extension/gbif/1.0/references.xml but includes ods specific terms
+ */
+export interface Citation {
+  /**
+   * The main identifier of the citation, preferably a DOI, ISBN, URI, etc referring to the reference
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Citation
+   */
+  "@type": "ods:Citation";
+  /**
+   * The main identifier of the citation, preferably a DOI, ISBN, URI, etc referring to the reference
+   */
+  "dcterms:identifier"?: string;
+  /**
+   * The category that best matches the nature of a reference
+   */
+  "dcterms:type"?: string;
+  /**
+   * Date of publication
+   */
+  "dcterms:date"?: string;
+  /**
+   * Title of publication
+   */
+  "dcterms:title"?: string;
+  /**
+   * Page number of the citation
+   */
+  "ods:pageNumber"?: string;
+  /**
+   * Abstracts, remarks, notes
+   */
+  "dcterms:description"?: string;
+  /**
+   * A bibliographic reference for the resource
+   */
+  "dcterms:bibliographicCitation": string;
+  /**
+   * Is the citation peer reviewed?
+   */
+  "ods:isPeerReviewed"?: boolean;
+  /**
+   * The agent(s) who made the publication, contains an ods:Agent object
+   */
+  "ods:hasAgents"?: Agent1[];
+}
+export interface Agent1 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
+   */
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
+   */
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
+  /**
+   * Email of the agent
+   */
+  "schema:email"?: string;
+  /**
+   * URL to a website of the agent
+   */
+  "schema:url"?: string;
+  /**
+   * Contains all identifiers associated with the agent
+   */
+  "ods:hasIdentifiers"?: Identifier[];
+}
+export interface Agent2 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
+   */
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
+   */
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
+  /**
+   * Email of the agent
+   */
+  "schema:email"?: string;
+  /**
+   * URL to a website of the agent
+   */
+  "schema:url"?: string;
+  /**
+   * Contains all identifiers associated with the agent
+   */
+  "ods:hasIdentifiers"?: Identifier[];
+}
+/**
+ * Contains the spatial region or named place of where the ods:Event took place
  */
 export interface Location {
   /**
-   * The identifier for the Location object.
+   * The identifier for the Location object. Contains the same information as the dwc:locationID
    */
   "@id"?: string;
   /**
@@ -330,273 +625,369 @@ export interface Location {
    */
   "@type": "ods:Location";
   /**
-   * https://rs.tdwg.org/dwc/terms/locationID
+   * An identifier for the set of ods:Location information. May be a global unique identifier or an identifier specific to the data set
    */
   "dwc:locationID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/continent
+   * The name of the continent in which the ods:Location occurs
    */
   "dwc:continent"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/waterBody
+   * The name of the water body in which the ods:Location occurs
    */
   "dwc:waterBody"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/islandGroup
+   * The name of the island group in which the ods:Location occurs
    */
   "dwc:islandGroup"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/island
+   * The name of the island on or near which the ods:Location occurs
    */
   "dwc:island"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/country
+   * The name of the country or major administrative unit in which the ods:Location occurs
    */
   "dwc:country"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/countryCode
+   * The standard code for the country in which the ods:Location occurs
    */
   "dwc:countryCode"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/stateProvince
+   * The name of the next smaller administrative region than country (state, province, canton, department, region, etc.) in which the ods:Location occurs
    */
   "dwc:stateProvince"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/county
+   * The full, unabbreviated name of the next smaller administrative region than stateProvince (county, shire, department, etc.) in which the ods:Location occurs
    */
   "dwc:county"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/municipality
+   * The full, unabbreviated name of the next smaller administrative region than county (city, municipality, etc.) in which the ods:Location occurs. Do not use this term for a nearby named place that does not contain the actual ods:Location
    */
   "dwc:municipality"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/locality
+   * The specific description of the place
    */
   "dwc:locality"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/verbatimLocality
+   * The original textual description of the place
    */
   "dwc:verbatimLocality"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/minimumElevationInMeters
+   * The lower limit of the range of elevation (altitude, usually above sea level), in meters
    */
   "dwc:minimumElevationInMeters"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/higherGeographyID
+   * An identifier for the geographic region within which the ods:Location occurred
    */
   "dwc:higherGeographyID"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/higherGeography
+   * A list (concatenated and separated) of geographic names less specific than the information captured in the dwc:locality term
    */
   "dwc:higherGeography"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/maximumElevationInMeters
+   * The upper limit of the range of elevation (altitude, usually above sea level), in meters
    */
   "dwc:maximumElevationInMeters"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/verbatimElevation
+   * The original description of the elevation (altitude, usually above sea level) of the ods:Location
    */
   "dwc:verbatimElevation"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters
+   * The lesser distance in a range of distance from a reference surface in the vertical direction, in meters. Use positive values for locations above the surface, negative values for locations below. If depth measures are given, the reference surface is the location given by the depth, otherwise the reference surface is the location given by the elevation
    */
   "dwc:minimumDistanceAboveSurfaceInMeters"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/maximumDistanceAboveSurfaceInMeters
+   * The greater distance in a range of distance from a reference surface in the vertical direction, in meters. Use positive values for locations above the surface, negative values for locations below. If depth measures are given, the reference surface is the location given by the depth, otherwise the reference surface is the location given by the elevation
    */
   "dwc:maximumDistanceAboveSurfaceInMeters"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/minimumDepthInMeters
+   * The lesser depth of a range of depth below the local surface, in meters
    */
   "dwc:minimumDepthInMeters"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/maximumDepthInMeters
+   * The greater depth of a range of depth below the local surface, in meters
    */
   "dwc:maximumDepthInMeters"?: number;
   /**
-   * https://rs.tdwg.org/dwc/terms/verbatimDepth
+   * The original description of the depth below the local surface
    */
   "dwc:verbatimDepth"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/verticalDatum
+   * The vertical datum used as the reference upon which the values in the elevation terms are based
    */
   "dwc:verticalDatum"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/locationAccordingTo
+   * Information about the source of this ods:Location information. Could be a publication (gazetteer), institution, or team of individuals
    */
   "dwc:locationAccordingTo"?: string;
   /**
-   * https://rs.tdwg.org/dwc/terms/locationRemarks
+   * Comments or notes about the ods:Location
    */
   "dwc:locationRemarks"?: string;
+  "ods:hasGeoreference"?: Georeference;
+  "ods:hasGeologicalContext"?: GeologicalContext;
+}
+/**
+ * An object which describes the geographical reference of the location of the specimen
+ */
+export interface Georeference {
   /**
-   * An object which describes the geographical reference of the location of the specimen.
+   * The identifier for the Geo Reference object.
    */
-  "ods:GeoReference"?: {
-    /**
-     * The identifier for the Geo Reference object.
-     */
-    "@id"?: string;
-    /**
-     * The type of the object, in this case ods:GeoReference
-     */
-    "@type": "ods:GeoReference";
-    /**
-     * https://rs.tdwg.org/dwc/terms/verbatimCoordinates
-     */
-    "dwc:verbatimCoordinates"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/decimalLatitude
-     */
-    "dwc:decimalLatitude"?: number;
-    /**
-     * https://rs.tdwg.org/dwc/terms/verbatimLatitude
-     */
-    "dwc:verbatimLatitude"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/decimalLongitude
-     */
-    "dwc:decimalLongitude"?: number;
-    /**
-     * https://rs.tdwg.org/dwc/terms/verbatimLongitude
-     */
-    "dwc:verbatimLongitude"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem
-     */
-    "dwc:verbatimCoordinateSystem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/geodeticDatum
-     */
-    "dwc:geodeticDatum"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters
-     */
-    "dwc:coordinateUncertaintyInMeters"?: number;
-    /**
-     * https://rs.tdwg.org/dwc/terms/coordinatePrecision
-     */
-    "dwc:coordinatePrecision"?: number;
-    /**
-     * https://rs.tdwg.org/dwc/terms/pointRadiusSpatialFit
-     */
-    "dwc:pointRadiusSpatialFit"?: number;
-    /**
-     * https://rs.tdwg.org/dwc/terms/footprintWKT
-     */
-    "dwc:footprintWKT"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/footprintSRS
-     */
-    "dwc:footprintSRS"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/verbatimSRS
-     */
-    "dwc:verbatimSRS"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/footprintSpatialFit
-     */
-    "dwc:footprintSpatialFit"?: number;
-    /**
-     * https://rs.tdwg.org/dwc/terms/georeferencedBy
-     */
-    "dwc:georeferencedBy"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/georeferencedDate
-     */
-    "dwc:georeferencedDate"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/georeferenceProtocol
-     */
-    "dwc:georeferenceProtocol"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/georeferenceSources
-     */
-    "dwc:georeferenceSources"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/georeferenceRemarks
-     */
-    "dwc:georeferenceRemarks"?: string;
-  };
+  "@id"?: string;
   /**
-   * An object which describes the geological context of th location of the specimen.
+   * The type of the object, in this case ods:Georeference
    */
-  "ods:GeologicalContext"?: {
-    /**
-     * The identifier for the Geological Context object.
-     */
-    "@id"?: string;
-    /**
-     * The type of the object, in this case ods:GeologicalContext
-     */
-    "@type": "ods:GeologicalContext";
-    /**
-     * https://rs.tdwg.org/dwc/terms/earliestEonOrLowestEonothem
-     */
-    "dwc:earliestEonOrLowestEonothem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/latestEonOrHighestEonothem
-     */
-    "dwc:latestEonOrHighestEonothem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/earliestEraOrLowestErathem
-     */
-    "dwc:earliestEraOrLowestErathem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/latestEraOrHighestErathem
-     */
-    "dwc:latestEraOrHighestErathem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/earliestPeriodOrLowestSystem
-     */
-    "dwc:earliestPeriodOrLowestSystem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/latestPeriodOrHighestSystem
-     */
-    "dwc:latestPeriodOrHighestSystem"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/earliestEpochOrLowestSeries
-     */
-    "dwc:earliestEpochOrLowestSeries"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/latestEpochOrHighestSeries
-     */
-    "dwc:latestEpochOrHighestSeries"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/earliestAgeOrLowestStage
-     */
-    "dwc:earliestAgeOrLowestStage"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/latestAgeOrHighestStage
-     */
-    "dwc:latestAgeOrHighestStage"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/lowestBiostratigraphicZone
-     */
-    "dwc:lowestBiostratigraphicZone"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/highestBiostratigraphicZone
-     */
-    "dwc:highestBiostratigraphicZone"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/lithostratigraphicTerms
-     */
-    "dwc:lithostratigraphicTerms"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/group
-     */
-    "dwc:group"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/formation
-     */
-    "dwc:formation"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/member
-     */
-    "dwc:member"?: string;
-    /**
-     * https://rs.tdwg.org/dwc/terms/bed
-     */
-    "dwc:bed"?: string;
-  };
+  "@type": "ods:Georeference";
+  /**
+   * The verbatim original spatial coordinates of the ods:Location. The coordinate ellipsoid, geodeticDatum, or full Spatial Reference System (SRS) for these coordinates should be stored in dwc:verbatimSRS and the coordinate system should be stored in dwc:verbatimCoordinateSystem
+   */
+  "dwc:verbatimCoordinates"?: string;
+  /**
+   * The geographic latitude (in decimal degrees, using the spatial reference system given in dwc:geodeticDatum) of the geographic center of a ods:Location. Positive values are north of the Equator, negative values are south of it. Legal values lie between -90 and 90, inclusive
+   */
+  "dwc:decimalLatitude"?: number;
+  /**
+   * The verbatim original latitude of the ods:Location. The coordinate ellipsoid, geodeticDatum, or full Spatial Reference System (SRS) for these coordinates should be stored in dwc:verbatimSRS and the coordinate system should be stored in dwc:verbatimCoordinateSystem
+   */
+  "dwc:verbatimLatitude"?: string;
+  /**
+   * The geographic longitude (in decimal degrees, using the spatial reference system given in dwc:geodeticDatum) of the geographic center of a ods:Location. Positive values are east of the Greenwich Meridian, negative values are west of it. Legal values lie between -180 and 180, inclusive
+   */
+  "dwc:decimalLongitude"?: number;
+  /**
+   * The verbatim original longitude of the ods:Location. The coordinate ellipsoid, geodeticDatum, or full Spatial Reference System (SRS) for these coordinates should be stored in dwc:verbatimSRS and the coordinate system should be stored in dwc:verbatimCoordinateSystem
+   */
+  "dwc:verbatimLongitude"?: string;
+  /**
+   * The coordinate format for the dwc:verbatimLatitude and dwc:verbatimLongitude or the dwc:verbatimCoordinates of the ods:Location
+   */
+  "dwc:verbatimCoordinateSystem"?: string;
+  /**
+   * The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which the geographic coordinates given in dwc:decimalLatitude and dwc:decimalLongitude are based
+   */
+  "dwc:geodeticDatum"?: string;
+  /**
+   * The horizontal distance (in meters) from the given dwc:decimalLatitude and dwc:decimalLongitude describing the smallest circle containing the whole of the ods:Location. Leave the value empty if the uncertainty is unknown, cannot be estimated, or is not applicable (because there are no coordinates). Zero is not a valid value for this term
+   */
+  "dwc:coordinateUncertaintyInMeters"?: number;
+  /**
+   * A decimal representation of the precision of the coordinates given in the dwc:decimalLatitude and dwc:decimalLongitude
+   */
+  "dwc:coordinatePrecision"?: number;
+  /**
+   * The ratio of the area of the point-radius (dwc:decimalLatitude, dwc:decimalLongitude, dwc:coordinateUncertaintyInMeters) to the area of the true (original, or most specific) spatial representation of the ods:Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given point-radius does not completely contain the original representation. The dwc:pointRadiusSpatialFit is undefined (and should be left empty) if the original representation is any geometry without area (e.g., a point or polyline) and without uncertainty and the given georeference is not that same geometry (without uncertainty). If both the original and the given georeference are the same point, the dwc:pointRadiusSpatialFit is 1
+   */
+  "dwc:pointRadiusSpatialFit"?: number;
+  /**
+   * A Well-Known Text (WKT) representation of the shape (footprint, geometry) that defines the ods:Location. A ods:Location may have both a point-radius representation (see dwc:decimalLatitude) and a footprint representation, and they may differ from each other
+   */
+  "dwc:footprintWKT"?: string;
+  /**
+   * https://rs.tdwg.org/dwc/terms/footprintSRS
+   */
+  "dwc:footprintSRS"?: string;
+  /**
+   * The ellipsoid, geodetic datum, or spatial reference system (SRS) upon which the geometry given in dwc:footprintWKT is based
+   */
+  "dwc:verbatimSRS"?: string;
+  /**
+   * The ratio of the area of the dwc:footprintWKT to the area of the true (original, or most specific) spatial representation of the ods:Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given dwc:footprintWKT does not completely contain the original representation. The dwc:footprintSpatialFit is undefined (and should be left empty) if the original representation is any geometry without area (e.g., a point or polyline) and without uncertainty and the given georeference is not that same geometry (without uncertainty). If both the original and the given georeference are the same point, the dwc:footprintSpatialFit is 1
+   */
+  "dwc:footprintSpatialFit"?: number;
+  /**
+   * The date on which the ods:Location was georeferenced
+   */
+  "dwc:georeferencedDate"?: string;
+  /**
+   * A description or reference to the methods used to determine the spatial footprint, coordinates, and uncertainties
+   */
+  "dwc:georeferenceProtocol"?: string;
+  /**
+   * A list (concatenated and separated) of maps, gazetteers, or other resources used to georeference the ods:Location, described specifically enough to allow anyone in the future to use the same resources
+   */
+  "dwc:georeferenceSources"?: string;
+  /**
+   * Notes or comments about the spatial description determination, explaining assumptions made in addition or opposition to the those formalized in the method referred to in dwc:georeferenceProtocol
+   */
+  "dwc:georeferenceRemarks"?: string;
+  /**
+   * The agent(s) involved in the georeferencing of this location, uses `ods:Agent`
+   */
+  "ods:hasAgents"?: Agent3[];
+}
+export interface Agent3 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
+   */
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
+   */
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
+  /**
+   * Email of the agent
+   */
+  "schema:email"?: string;
+  /**
+   * URL to a website of the agent
+   */
+  "schema:url"?: string;
+  /**
+   * Contains all identifiers associated with the agent
+   */
+  "ods:hasIdentifiers"?: Identifier[];
+}
+/**
+ * An object which describes the geological context of th location of the specimen.
+ */
+export interface GeologicalContext {
+  /**
+   * The identifier for the Geological Context object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the object, in this case ods:GeologicalContext
+   */
+  "@type": "ods:GeologicalContext";
+  /**
+   * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal name ("Precambrian") attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:earliestEonOrLowestEonothem"?: string;
+  /**
+   * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal name ("Precambrian") attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:latestEonOrHighestEonothem"?: string;
+  /**
+   * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:earliestEraOrLowestErathem"?: string;
+  /**
+   * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:latestEraOrHighestErathem"?: string;
+  /**
+   * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:earliestPeriodOrLowestSystem"?: string;
+  /**
+   * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:latestPeriodOrHighestSystem"?: string;
+  /**
+   * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:earliestEpochOrLowestSeries"?: string;
+  /**
+   * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:latestEpochOrHighestSeries"?: string;
+  /**
+   * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:earliestAgeOrLowestStage"?: string;
+  /**
+   * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:latestAgeOrHighestStage"?: string;
+  /**
+   * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:lowestBiostratigraphicZone"?: string;
+  /**
+   * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the specimen was collected
+   */
+  "dwc:highestBiostratigraphicZone"?: string;
+  /**
+   * The combination of all litho-stratigraphic names for the rock from which the specimen was collected
+   */
+  "dwc:lithostratigraphicTerms"?: string;
+  /**
+   * The full name of the lithostratigraphic group from which the specimen was collected
+   */
+  "dwc:group"?: string;
+  /**
+   * The full name of the lithostratigraphic formation from which the specimen was collected
+   */
+  "dwc:formation"?: string;
+  /**
+   * The full name of the lithostratigraphic member from which the specimen was collected
+   */
+  "dwc:member"?: string;
+  /**
+   * The full name of the lithostratigraphic bed from which the specimen was collected
+   */
+  "dwc:bed"?: string;
 }

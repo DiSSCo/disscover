@@ -57,8 +57,8 @@ const BreadCrumbs = () => {
                 });
 
                 breadCrumbs.push({
-                    crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`,
-                    path: `/ds/${digitalSpecimen?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')}`
+                    crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`,
+                    path: `/ds/${digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`
                 });
 
                 break;
@@ -68,7 +68,7 @@ const BreadCrumbs = () => {
                     path: '/search'
                 });
 
-                const digitalMediaDigitalSpecimenId: string | undefined = digitalMedia?.['ods:hasEntityRelationship']?.find(
+                const digitalMediaDigitalSpecimenId: string | undefined = digitalMedia?.['ods:hasEntityRelationships']?.find(
                     entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
                 )?.['dwc:relatedResourceID'].replace(import.meta.env.VITE_DOI_URL, '');
 
@@ -84,7 +84,7 @@ const BreadCrumbs = () => {
                 });
 
                 breadCrumbs.push({
-                    crumb: `${digitalMedia?.['ods:ID']}`
+                    crumb: `${digitalMedia?.['@id']}`
                 });
 
                 break;

@@ -55,7 +55,7 @@ const MASScheduleMenu = (props: Props) => {
      */
     const DeselectMas = (mas: MachineAnnotationService, values: Dict, SetFieldValue: Function) => {
         values.scheduledMas.splice(values.scheduledMas.findIndex(
-            (masOption: DropdownItem) => masOption.value === mas["ods:ID"]
+            (masOption: DropdownItem) => masOption.value === mas['@id']
         ), 1);
 
         SetFieldValue('scheduledMas', values.scheduledMas);
@@ -64,7 +64,7 @@ const MASScheduleMenu = (props: Props) => {
     /* Construct dropdown items */
     const dropdownItems: DropdownItem[] = mass.map(mass => ({
         label: mass['schema:name'],
-        value: mass['ods:ID']
+        value: mass["schema:identifier"]
     }));
 
     return (
@@ -134,11 +134,11 @@ const MASScheduleMenu = (props: Props) => {
                                 <Row className="flex-grow-1 py-3 overflow-scroll">
                                     <Col>
                                         {values.scheduledMas.map((masOption, index) => {
-                                            const mas = mass.find(mas => mas["ods:ID"] === masOption.value);
+                                            const mas = mass.find(mas => mas["schema:identifier"] === masOption.value);
 
                                             if (mas) {
                                                 return (
-                                                    <Row key={mas["ods:ID"]}
+                                                    <Row key={mas["schema:identifier"]}
                                                         className={index >= 1 ? 'mt-2' : ''}
                                                     >
                                                         <Col>

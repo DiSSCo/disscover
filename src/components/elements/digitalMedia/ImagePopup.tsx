@@ -145,7 +145,7 @@ const ImagePopup = (props: Props) => {
                                         {userTag}
                                     </p>
                                     <p className="fs-5 tc-grey">
-                                        {annotation["ods:ID"].replace(import.meta.env.VITE_HANDLE_URL, '')}
+                                        {annotation["@id"].replace(import.meta.env.VITE_HANDLE_URL, '')}
                                     </p>
                                 </Col>
                                 <Col lg="auto">
@@ -176,17 +176,17 @@ const ImagePopup = (props: Props) => {
                                             variant="blank"
                                             className="px-0 py-0"
                                             OnClick={async () => {
-                                                if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation['ods:ID']}?`)) {
+                                                if (window.confirm(`Are you sure, you want to delete this annotation with ID: ${annotation["@id"]}?`)) {
                                                     ToggleLoading();
 
                                                     try {
-                                                        await DeleteAnnotation({ annotationId: annotation['ods:ID'] });
+                                                        await DeleteAnnotation({ annotationId: annotation["@id"] });
 
                                                         /* Refresh annotations */
                                                         RefreshAnnotations();
                                                     } catch {
                                                         notification.Push({
-                                                            key: `${annotation['ods:ID']}-${Math.random()}`,
+                                                            key: `${annotation["@id"]}-${Math.random()}`,
                                                             message: `Failed to delete the annotation. Please try deleting it again.`,
                                                             template: 'error'
                                                         });
@@ -206,7 +206,7 @@ const ImagePopup = (props: Props) => {
                                             variant="blank"
                                             className="px-0 py-0"
                                             OnClick={() => {
-                                                SetEditAnnotationWithId(annotation["ods:ID"]);
+                                                SetEditAnnotationWithId(annotation["@id"]);
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faPencil}

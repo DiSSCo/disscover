@@ -30,7 +30,7 @@ const Identifications = (props: Props) => {
     }[] = [];
 
     /* Craft identifications dictionary to iterate over */
-    digitalSpecimen["ods:hasIdentification"]?.forEach((identification, index) => {
+    digitalSpecimen["ods:hasIdentifications"]?.forEach((identification, index) => {
         const copyIdentification = cloneDeep(identification);
 
         /* Push new craft occurrence to array */
@@ -40,8 +40,8 @@ const Identifications = (props: Props) => {
         });
 
         /* Check for Taxon Identifications */
-        if (!isEmpty(identification["ods:hasTaxonIdentification"])) {
-            identification["ods:hasTaxonIdentification"]?.forEach((taxonIdentification, taxonIdentificationIndex) => {
+        if (!isEmpty(identification["ods:hasTaxonIdentifications"])) {
+            identification["ods:hasTaxonIdentifications"]?.forEach((taxonIdentification, taxonIdentificationIndex) => {
                 /* Add Taxon Identification to craft identification */
                 identifications[index].taxonIdentifications[taxonIdentificationIndex] = taxonIdentification;
             });

@@ -87,20 +87,20 @@ const SearchResults = (props: Props) => {
             icon = DetermineTopicDisciplineIcon(digitalSpecimen['ods:topicDiscipline']);
         } else {
             /* Determine accepted identification and most relevant taxonomic level to base icon on */
-            const acceptedIdentification = digitalSpecimen?.['ods:hasIdentification']?.find((identification) =>
+            const acceptedIdentification = digitalSpecimen?.['ods:hasIdentifications']?.find((identification) =>
                 identification['ods:isVerifiedIdentification']
             );
             let taxonomyIdentification: string | undefined = digitalSpecimen['ods:specimenName']?.split(' ')[0];
 
-            if (acceptedIdentification?.['ods:hasTaxonIdentification']?.[0]['dwc:order']) {
+            if (acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]['dwc:order']) {
                 /* Search icon by order */
-                taxonomyIdentification = acceptedIdentification['ods:hasTaxonIdentification'][0]['dwc:order'];
-            } else if (acceptedIdentification?.['ods:hasTaxonIdentification']?.[0]['dwc:family']) {
+                taxonomyIdentification = acceptedIdentification['ods:hasTaxonIdentifications'][0]['dwc:order'];
+            } else if (acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]['dwc:family']) {
                 /* Search icon by family */
-                taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentification'][0]['dwc:family'];
-            } else if (acceptedIdentification?.['ods:hasTaxonIdentification']?.[0]['dwc:genus']) {
+                taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentifications'][0]['dwc:family'];
+            } else if (acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]['dwc:genus']) {
                 /* Search icon by genus */
-                taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentification'][0]['dwc:genus'];
+                taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentifications'][0]['dwc:genus'];
             }
 
             /* Try to fetch a taxonomy based icon from Phylopic if not already present in the taxonomy icon url array and add it to the table record */
@@ -128,17 +128,17 @@ const SearchResults = (props: Props) => {
 
             tableDataArray.push({
                 index,
-                DOI: digitalSpecimen['ods:ID'],
-                taxonomyIconUrl: !isEmpty(tableData) && tableData[index] && tableData[index].DOI === digitalSpecimen['ods:ID'] ? tableData[index].taxonomyIconUrl : DetermineTableRowIcon(digitalSpecimen),
+                DOI: digitalSpecimen['@id'],
+                taxonomyIconUrl: !isEmpty(tableData) && tableData[index] && tableData[index].DOI === digitalSpecimen['@id'] ? tableData[index].taxonomyIconUrl : DetermineTableRowIcon(digitalSpecimen),
                 specimenName: digitalSpecimen['ods:specimenName'],
                 physicalSpecimenID: digitalSpecimen['ods:normalisedPhysicalSpecimenID'],
                 topicDiscipline: digitalSpecimen['ods:topicDiscipline'],
-                countryOfOrigin: digitalSpecimen['ods:hasEvent']?.[0]?.['ods:Location']?.['dwc:country'],
-                dateCollected: digitalSpecimen['ods:hasEvent']?.[0]?.['dwc:eventDate'],
+                countryOfOrigin: digitalSpecimen['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['dwc:country'],
+                dateCollected: digitalSpecimen['ods:hasEvents']?.[0]?.['dwc:eventDate'],
                 organisation: digitalSpecimen['ods:organisationName'] ?
                     [digitalSpecimen['ods:organisationName'], digitalSpecimen['ods:organisationID']]
                     : [digitalSpecimen['ods:organisationID'], digitalSpecimen['ods:organisationID']],
-                selected: compareDigitalSpecimen ? !!(compareDigitalSpecimen.find((compareDigitalSpecimen) => compareDigitalSpecimen['ods:ID'] === digitalSpecimen['ods:ID'])) : false
+                selected: compareDigitalSpecimen ? !!(compareDigitalSpecimen.find((compareDigitalSpecimen) => compareDigitalSpecimen['@id'] === digitalSpecimen['@id'])) : false
             });
         });
 
@@ -148,7 +148,7 @@ const SearchResults = (props: Props) => {
     /* OnChange of selected digital specimen, set active table row */
     trigger.SetTrigger(() => {
         tableData.forEach(tableRow => {
-            tableRow.selected = compareDigitalSpecimen ? !!(compareDigitalSpecimen?.find(digitalSpecimen => digitalSpecimen['ods:ID'] === tableRow.DOI)) : false;
+            tableRow.selected = compareDigitalSpecimen ? !!(compareDigitalSpecimen?.find(digitalSpecimen => digitalSpecimen['@id'] === tableRow.DOI)) : false;
         });
 
         setTableData([...tableData]);
@@ -163,11 +163,11 @@ const SearchResults = (props: Props) => {
                         {/* Data table */}
                         <DataTable columns={columns}
                             data={tableData}
-                            selectedRowIndex={tableData.findIndex(tableRow => tableRow.DOI === searchDigitalSpecimen?.['ods:ID'])}
+                            selectedRowIndex={tableData.findIndex(tableRow => tableRow.DOI === searchDigitalSpecimen?.['@id'])}
                             SelectAction={(row: DataRow) => {
                                 /* If compare is active, handle compare selection, otherwise open specimen in id card */
                                 if (compareDigitalSpecimen) {
-                                    const index = compareDigitalSpecimen.findIndex(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI);
+                                    const index = compareDigitalSpecimen.findIndex(digitalSpecimen => digitalSpecimen['@id'] === row.DOI);
 
                                     /* If row is already checked, remove from compare digital specimen array, other wise add */
                                     if (index >= 0) {
@@ -177,7 +177,7 @@ const SearchResults = (props: Props) => {
 
                                         dispatch(setCompareDigitalSpecimen(updatedCompareDigitalSpecimen));
                                     } else if (compareDigitalSpecimen.length < 10) {
-                                        const digitalSpecimen: DigitalSpecimen | undefined = pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
+                                        const digitalSpecimen: DigitalSpecimen | undefined = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
 
                                         dispatch(setCompareDigitalSpecimen([
                                             ...(compareDigitalSpecimen),
@@ -185,7 +185,7 @@ const SearchResults = (props: Props) => {
                                         ]));
                                     }
                                 } else {
-                                    const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['ods:ID'] === row.DOI) as DigitalSpecimen | undefined;
+                                    const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
 
                                     dispatch(setSearchDigitalSpecimen(digitalSpecimen));
                                 }

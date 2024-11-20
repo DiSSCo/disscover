@@ -42,7 +42,7 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
         value: '$'
     });
 
-    if (jsonPath && schema.type !== 'object') {
+    if (jsonPath && (schema.type !== 'object' || !schema.type)) {
         const key: string = jsonPath.split("['").at(-1)?.replace("']", '') as string;
 
         termValue = {
@@ -104,7 +104,7 @@ const ExtractLowestLevelSchema = async (jsonPath: string, schemaName: string): P
     /* Check for super class or top level term, if so add base schema name to class separated string */
     if (!classSeparatedString) {
         classSeparatedString = schemaName;
-    } else if (!classSeparatedString.includes('has')) {
+    } else if (!(classSeparatedString.includes('has') && classSeparatedString.at(-1) === 's')) {
         classSeparatedString = `${schemaName}_${classSeparatedString}`;
     }
 
@@ -259,7 +259,11 @@ const RemoveSchemaPrefixes = (jsonPath: string): string => {
     * @returns Stripped schema string
     */
 const StripSchemaString = (jsonPath: string) => {
-    const strippedSchemaName: string = lowerFirst(RemoveSchemaPrefixes(jsonPath));
+    let strippedSchemaName: string = lowerFirst(RemoveSchemaPrefixes(jsonPath));
+
+    if (strippedSchemaName.at(-1) === 's') {
+        strippedSchemaName = strippedSchemaName.slice(0, -1);
+    }
 
     return strippedSchemaName;
 };

@@ -67,10 +67,13 @@ const AnnotationSelectInstanceStep = (props: Props) => {
 
     /* Conditions for checking if a new or existing instances may be selected */
     const allowForNewInstance: boolean = (!nodes.length && annotationTarget?.type === 'term') ||
-    (annotationTarget?.type !== 'term' && !nodes.length) || jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has');
+    (annotationTarget?.type !== 'term' && !nodes.length) || (
+        jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has') &&
+        jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.at(-1) === 's'
+    );
 
     const allowForExistingInstances: boolean = !!(nodes.length && ((Array.isArray(nodes[0].value) && nodes[0].value.length)
-        || !isEmpty(nodes[0].value))
+        || !isEmpty(nodes[0].value) || (typeof(nodes[0].value) === 'boolean' && nodes[0].value))
     );
 
     if (allowForNewInstance && !allowForExistingInstances) {

@@ -18,30 +18,30 @@ export interface AnnotationTarget {
    */
   "@type": string;
   /**
-   * This is the PID of the target object. Valid targets are the Digital Specimen, Digital Media Object or another annotation.
+   * This is the PID of the target object. Valid targets are the Digital Specimen, Digital Media Object or another Annotation.
    */
-  "ods:ID": string;
+  "dcterms:identifier": string;
   /**
    * This is the handle to the type of the target object.
    */
-  "ods:type": string;
+  "ods:fdoType": string;
   /**
    * Optional field to indicate the part of the target object that is being annotated. It can be a field, a class or a region of interest.
    */
   "oa:hasSelector"?:
     | {
         /**
-         * A selector for an individual field.
+         * A selector for an individual term
          */
-        "@type": "ods:FieldSelector";
+        "@type": "ods:TermSelector";
         /**
          * The full jsonPath in block notation of the field being annotated. Following: https://goessner.net/articles/JsonPath/index.html#e2
          */
-        "ods:field": string;
+        "ods:term": string;
       }
     | {
         /**
-         * A selector for an individual class.
+         * A selector for an individual class
          */
         "@type": "ods:ClassSelector";
         /**
@@ -55,29 +55,29 @@ export interface AnnotationTarget {
          */
         "@type": "oa:FragmentSelector";
         /**
-         * https://ac.tdwg.org/termlist/2023-02-24#ac_hasROI
+         * A region of interest located within the subject media item
          */
         "ac:hasROI": {
           /**
-           * https://ac.tdwg.org/termlist/2023-02-24#ac_xFrac
+           * The horizontal position of a reference point, measured from the left side of the media item and expressed as a decimal fraction of the width of the media item
            */
           "ac:xFrac": number;
           /**
-           * https://ac.tdwg.org/termlist/2023-02-24#ac_yFrac
+           * The vertical position of a reference point, measured from the top of the media item and expressed as a decimal fraction of the height of the media item
            */
           "ac:yFrac": number;
           /**
-           * https://ac.tdwg.org/termlist/2023-02-24#ac_widthFrac
+           * The width of the bounding rectangle, expressed as a decimal fraction of the width of the media item
            */
           "ac:widthFrac": number;
           /**
-           * https://ac.tdwg.org/termlist/2023-02-24#ac_heightFrac
+           * The height of the bounding rectangle, expressed as a decimal fraction of the height of the media item
            */
           "ac:heightFrac": number;
         };
         /**
-         * https://purl.org/dc/terms/conformsTo
+         * Indicates the vocabulary that the ROI conforms to
          */
-        "dcterms:conformsTo": string;
+        "dcterms:conformsTo": "https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary";
       };
 }

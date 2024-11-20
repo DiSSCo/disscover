@@ -1,11 +1,11 @@
 {
     "compareFields": {
         "overview": {
-            "DOI": "$['ods:ID']",
+            "DOI": "$['@id']",
             "specimenName": "$['ods:specimenName']",
             "physicalSpecimenID": "$['ods:physicalSpecimenID']",
             "topicDiscipline": "$['ods:topicDiscipline']",
-            "countryOfOrigin": "$['ods:hasEvent'][*]['ods:Location']['dwc:country']",
+            "countryOfOrigin": "$['ods:hasEvent'][*]['ods:hasLocation']['dwc:country']",
             "dateCollected": "$['ods:hasEvent'][*]['dwc:eventData']",
             "organisation": "$['ods:organisationName']"
         }

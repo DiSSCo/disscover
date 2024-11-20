@@ -33,37 +33,37 @@ const Events = (props: Props) => {
     }[] = [];
 
     /* Craft events dictionary to iterate over */
-    digitalSpecimen['ods:hasEvent']?.forEach((event, index) => {
+    digitalSpecimen['ods:hasEvents']?.forEach((event, index) => {
         const copyEvent = cloneDeep(event);
 
         /* Push new craft occurrence to array */
         events.push({ mainProperties: {} });
 
         /* Check for Location */
-        if (!isEmpty(event['ods:Location'])) {
+        if (!isEmpty(event['ods:hasLocation'])) {
             /* Check for Georeference */
-            if (!isEmpty(event['ods:Location']['ods:GeoReference'])) {
+            if (!isEmpty(event['ods:hasLocation']['ods:hasGeoreference'])) {
                 /* Add Georeference to craft occurrence */
-                events[index].georeference = event['ods:Location']['ods:GeoReference'];
+                events[index].georeference = event['ods:hasLocation']['ods:hasGeoreference'];
             }
 
             /* Check for Geological Context */
-            if (!isEmpty(event['ods:Location']['ods:GeologicalContext'])) {
+            if (!isEmpty(event['ods:hasLocation']['ods:hasGeologicalContext'])) {
                 /* Add Geological Context to craft occurrence */
-                events[index].geologicalContext = event['ods:Location']['ods:GeologicalContext'];
+                events[index].geologicalContext = event['ods:hasLocation']['ods:hasGeologicalContext'];
             }
 
             /* Remove extenstions from location object */
-            ['georeference', 'geologicalContext'].forEach((key) => copyEvent['ods:Location'] && delete copyEvent['ods:Location'][key as keyof typeof copyEvent['ods:Location']]);
+            ['georeference', 'geologicalContext'].forEach((key) => copyEvent['ods:hasLocation'] && delete copyEvent['ods:hasLocation'][key as keyof typeof copyEvent['ods:hasLocation']]);
 
             /* Add Location to craft occurrence */
-            events[index].location = copyEvent['ods:Location'];
+            events[index].location = copyEvent['ods:hasLocation'];
         }
 
         /* Check for Assertions */
-        if (!isEmpty(event['ods:hasAssertion'])) {
+        if (!isEmpty(event['ods:hasAssertions'])) {
             /* Add Assertions to craft occurrence */
-            events[index].assertions = copyEvent['ods:hasAssertion'];
+            events[index].assertions = copyEvent['ods:hasAssertions'];
         }
 
         /* Remove extensions from core occurrence object */

@@ -111,16 +111,16 @@ export type AnnotationTemplate = {
     "oa:hasTarget": {
         "@id": string,
         "@type": string,
-        "ods:ID": string,
-        "ods:type": string,
+        "dcterms:identifier": string,
+        "ods:fdoType": string,
         "oa:hasSelector": {
-            "@type"?: 'ods:FieldSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
-            "ods:field"?: string
+            "@type"?: 'ods:TermSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
+            "ods:term"?: string
         } | {
-            "@type"?: 'ods:FieldSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
+            "@type"?: 'ods:TermSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
             "ods:class"?: string
         } | {
-            "@type"?: 'ods:FieldSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
+            "@type"?: 'ods:TermSelector' | 'ods:ClassSelector' | 'oa:FragmentSelector',
             "ac:hasROI"?: {
                 "ac:xFrac": number,
                 "ac:yFrac": number,

@@ -39,7 +39,7 @@ const ContentBlock = (props: Props) => {
         'events': <Events digitalSpecimen={digitalSpecimen} />,
         'identifications': <Identifications digitalSpecimen={digitalSpecimen} />,
         'entityRelationships': <EntityRelationships digitalSpecimen={digitalSpecimen} />,
-        ...(!isEmpty(digitalSpecimen['ods:hasAssertion']) && {
+        ...(!isEmpty(digitalSpecimen['ods:hasAssertions']) && {
             'assertions': <Assertions digitalSpecimen={digitalSpecimen} />
         })
     };

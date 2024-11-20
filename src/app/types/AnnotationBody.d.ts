@@ -6,19 +6,19 @@
  */
 
 /**
- * Body of an annotation
+ * Body of an annotation, contains the annotation as an array of text values in `oa:value`
  */
 export interface AnnotationBody {
   /**
-   * https://www.w3.org/TR/annotation-vocab/#textualbody
+   * The type of the object, in this case oa:TextualBody
    */
-  "@type": string;
+  "@type": "oa:TextualBody";
   /**
-   * An array of multiple values in string representation specific for the particular selector
+   * An array of multiple values in string representation specific for the particular selector. This value could contain a string representation of a json value.
    */
   "oa:value": string[];
   /**
-   * Indicates how the value came to be. https://purl.org/dc/terms/references
+   * Provides information on how the value was derived. This could be a link to a service that provided the value or a link to the source of the value.
    */
   "dcterms:references"?: string;
   /**

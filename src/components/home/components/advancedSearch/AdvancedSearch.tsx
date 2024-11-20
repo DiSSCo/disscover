@@ -81,7 +81,7 @@ const AdvancedSearch = (props: Props) => {
         physicalSpecimenIdType: 'global',
         normalisedPhysicalSpecimenId: '',
         organisationName: Object.values(organisationNames)[0],
-        sourceSystemId: sourceSystems[0]?.['ods:ID'] ?? '',
+        sourceSystemId: sourceSystems[0]?.['@id'] ?? '',
         collectionFacilityIdType: 'local'
     };
 
@@ -136,7 +136,7 @@ const AdvancedSearch = (props: Props) => {
 
         GetDigitalSpecimens({ searchFilters, pageSize: 1 }).then(({ digitalSpecimens }) => {
             /* If a hit is found, navigate to the digital specimen page */
-            navigate(`/ds/${digitalSpecimens[0]['ods:ID'].replace(import.meta.env.VITE_DOI_URL as string, '')}`);
+            navigate(`/ds/${digitalSpecimens[0]['@id'].replace(import.meta.env.VITE_DOI_URL as string, '')}`);
         }).catch(error => {
             console.error(error);
 

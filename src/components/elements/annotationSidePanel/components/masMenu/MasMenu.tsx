@@ -51,7 +51,7 @@ const MASMenu = (props: Props) => {
     /* OnLoad, fetch MAS job records */
     fetch.Fetch({
         params: {
-            handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: superClass?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
         },
         Method: GetMas,
         Handler: (mass: MachineAnnotationService[]) => {

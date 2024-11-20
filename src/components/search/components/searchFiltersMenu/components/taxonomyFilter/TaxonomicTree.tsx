@@ -195,7 +195,7 @@ const TaxonomicTree = (props: Props) => {
 
             if (!isEmpty(taxonomicTree)) {
                 setTaxonomicTreeData(taxonomicTree);
-            };
+            }
         });
     }, [searchParams]);
 

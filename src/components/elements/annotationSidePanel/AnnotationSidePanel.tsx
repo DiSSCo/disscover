@@ -76,7 +76,7 @@ const AnnotationSidePanel = (props: Props) => {
     /* OnLoad: fetch annotations of super class with provided method */
     fetch.Fetch({
         params: {
-            handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: superClass?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
         },
         triggers: [superClass, annotationWizardToggle],
         Method: GetAnnotations,
@@ -92,7 +92,7 @@ const AnnotationSidePanel = (props: Props) => {
         setLoading(true);
 
         const annotations = await GetAnnotations({
-            handle: superClass?.['ods:ID'].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: superClass?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
         });
 
         setAnnotations(annotations);

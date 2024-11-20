@@ -8,10 +8,11 @@ import { Row, Col } from 'react-bootstrap';
 import { ConstructAnnotationObject, ProcessAnnotationValues } from 'app/utilities/AnnotateUtilities';
 
 /* Import Hooks */
-import { useAppSelector, useAppDispatch, useNotification } from 'app/Hooks';
+import { useAppSelector, useAppDispatch, useNotification, useTrigger } from 'app/Hooks';
 
 /* Import Store */
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { Dict, ProgressDot, SuperClass } from 'app/Types';
@@ -57,9 +58,11 @@ const AnnotationWizard = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const notification = useNotification();
+    const trigger = useTrigger();
 
     /* Define wizard step components using tabs */
     const annotationTarget = useAppSelector(getAnnotationTarget);
+    const tourAnnotationWizardSelectedIndex = useAppSelector(getAnnotationWizardSelectedIndex);
     const tabs: { [name: string]: JSX.Element } = {
         ...(!annotationTarget?.annotation && {
             annotationTarget: <AnnotationTargetStep schema={schema}
@@ -89,6 +92,7 @@ const AnnotationWizard = (props: Props) => {
             active: !index
         }))
     );
+
     const progressDots: ProgressDot[] = [];
     const selectedIndex: number = tabStates.findIndex(tabState => tabState.active);
     const completedTill: number = tabStates.findLastIndex(tabState => tabState.checked);
@@ -119,6 +123,26 @@ const AnnotationWizard = (props: Props) => {
         motivation: undefined,
         annotationValues: {}
     };
+
+    /* Onchange of tour annotation wizard selected index, update local state */
+    trigger.SetTrigger(() => {
+        if (typeof(tourAnnotationWizardSelectedIndex) !== 'undefined') {
+            setTabStates([
+                {
+                    checked: true, active: tourAnnotationWizardSelectedIndex === 0
+                },
+                {
+                    checked: tourAnnotationWizardSelectedIndex > 0, active: tourAnnotationWizardSelectedIndex === 1
+                },
+                {
+                    checked: tourAnnotationWizardSelectedIndex > 1, active: tourAnnotationWizardSelectedIndex === 2,
+                },
+                {
+                    checked: tourAnnotationWizardSelectedIndex > 2, active: tourAnnotationWizardSelectedIndex === 3,
+                }
+            ]);
+        }
+    }, [tourAnnotationWizardSelectedIndex]);
 
     /**
      * Function to go to the provided step in the wizard
@@ -296,7 +320,7 @@ const AnnotationWizard = (props: Props) => {
                                         >
                                             <Button type="button"
                                                 variant="blank"
-                                                className="px-0 py-0 tc-primary fw-lightBold"
+                                                className="tourAnnotate12 tourAnnotate16 px-0 py-0 tc-primary fw-lightBold"
                                                 OnClick={() => GoToStep(selectedIndex + 1)}
                                             >
                                                 {`Next step >`}

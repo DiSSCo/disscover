@@ -6,10 +6,11 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
-import { useAppSelector } from 'app/Hooks';
+import { useAppSelector, useTrigger } from 'app/Hooks';
 
 /* Import Store */
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { Dict, SuperClass } from 'app/Types';
@@ -24,7 +25,8 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     superClass: SuperClass,
     schemaTitle: string,
-    formValues?: Dict
+    formValues?: Dict,
+    SetFieldValue?: Function
 };
 
 
@@ -33,14 +35,36 @@ type Props = {
  * @param superClass The selected super class
  * @param schemaTitle The title of the super class schema
  * @param formValues The current form values of the annotation form
+ * @param SetFieldValue Function to set the value of a field in the annotation wizard form
  * @returns JSX Component
  */
 const AnnotationSummaryStep = (props: Props) => {
-    const { superClass, schemaTitle, formValues } = props;
+    const { superClass, schemaTitle, formValues, SetFieldValue } = props;
+
+    /* Hooks */
+    const trigger = useTrigger();
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
+    const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     let motivationDescription: string;
+
+    /* Trigger for tour annotation wizard form values */
+    trigger.SetTrigger(() => {
+        if (tourAnnotationWizardFormValues) {
+            /* Set tour class */
+            SetFieldValue?.('class', tourAnnotationWizardFormValues.class);
+
+            /* Set motivation */
+            SetFieldValue?.('motivation', 'ods:adding');
+
+            /* Set JSON path */
+            SetFieldValue?.('jsonPath', tourAnnotationWizardFormValues.jsonPath);
+
+            /* Reset annotation values */
+            SetFieldValue?.('annotationValues', tourAnnotationWizardFormValues.annotationValues);
+        }
+    }, [tourAnnotationWizardFormValues]);
 
     /* Define motivation description based upon selected motivation, deleting is not part of this */
     switch (formValues?.motivation) {
@@ -60,6 +84,8 @@ const AnnotationSummaryStep = (props: Props) => {
             motivationDescription = 'Annotation which comments on this instance of:';
         }
     };
+
+    console.log(formValues);
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -103,55 +129,59 @@ const AnnotationSummaryStep = (props: Props) => {
                 </Col>
             </Row>
             <Row className="flex-grow-1 overflow-scroll mt-2">
-                <Col>
-                    {(annotationTarget?.type === 'class' && ['ods:adding', 'oa:editing'].includes(formValues?.motivation)) ?
-                        <>
-                            {Object.entries(formValues?.annotationValues).filter(([className, classValue]) => (!isEmpty(classValue) && className !== 'value')).sort(
-                                (a, b) => a > b ? 1 : 0
-                            ).map(([className, classValue]: [string, any]) => (
-                                <div key={className}>
-                                    {Array.isArray(classValue) ?
-                                        <>
-                                            {classValue.map((childValue, index) => {
-                                                const key = `${className}_${index}`;
+                {formValues?.jsonPath &&
+                    <Col>
+                        {(annotationTarget?.type === 'class' && ['ods:adding', 'oa:editing'].includes(formValues?.motivation)) ?
+                            <>
+                                {Object.entries(formValues?.annotationValues).filter(([className, classValue]) => (!isEmpty(classValue) && className !== 'value')).sort(
+                                    (a, b) => a > b ? 1 : 0
+                                ).map(([className, classValue]: [string, any]) => (
+                                    <div key={className}>
+                                        {Array.isArray(classValue) ?
+                                            <>
+                                                {classValue.map((childValue, index) => {
+                                                    const key = `${className}_${index}`;
 
-                                                return (
-                                                    <div key={key}
-                                                        className="mb-3"
-                                                    >
-                                                        <SummaryValuesBlock superClass={superClass}
-                                                            className={className}
-                                                            values={childValue}
-                                                            motivation={formValues?.motivation}
-                                                            index={index}
-                                                        />
-                                                    </div>
-                                                );
-                                            })}
-                                        </>
-                                        : <div className="mb-3">
-                                            <SummaryValuesBlock superClass={superClass}
-                                                className={className}
-                                                values={classValue}
-                                                motivation={formValues?.motivation}
-                                            />
-                                        </div>
-                                    }
-                                </div>
-                            ))}
-                        </>
-                        : <SummaryValueBlock superClass={superClass}
-                            termName={MakeJsonPathReadableString(formValues?.jsonPath !== '$' ? formValues?.jsonPath ?? '' : schemaTitle)}
-                            value={formValues?.annotationValues.value}
-                            jsonPath={formValues?.jsonPath}
-                            motivation={formValues?.motivation}
-                        />
-                    }
-                </Col>
+                                                    return (
+                                                        <div key={key}
+                                                            className="mb-3"
+                                                        >
+                                                            <SummaryValuesBlock superClass={superClass}
+                                                                className={className}
+                                                                values={childValue}
+                                                                motivation={formValues?.motivation}
+                                                                index={index}
+                                                            />
+                                                        </div>
+                                                    );
+                                                })}
+                                            </>
+                                            : <div className="mb-3">
+                                                <SummaryValuesBlock superClass={superClass}
+                                                    className={className}
+                                                    values={classValue}
+                                                    motivation={formValues?.motivation}
+                                                />
+                                            </div>
+                                        }
+                                    </div>
+                                ))}
+                            </>
+                            : <SummaryValueBlock superClass={superClass}
+                                termName={MakeJsonPathReadableString(formValues?.jsonPath !== '$' ? formValues?.jsonPath ?? '' : schemaTitle)}
+                                value={formValues?.annotationValues.value}
+                                jsonPath={formValues?.jsonPath}
+                                motivation={formValues?.motivation}
+                            />
+                        }
+                    </Col>
+                }
             </Row>
             {/* Save annotation button */}
             <Row className="flex-row-reverse mt-3">
-                <Col lg="auto">
+                <Col lg="auto"
+                    className="tourAnnotate18"
+                >
                     <Button type="submit"
                         variant="primary"
                     >

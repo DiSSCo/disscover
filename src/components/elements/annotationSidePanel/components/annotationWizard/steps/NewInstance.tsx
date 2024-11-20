@@ -10,7 +10,10 @@ import { ExtractParentClasses } from 'app/utilities/AnnotateUtilities';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
-import { useTrigger } from 'app/Hooks';
+import { useAppSelector, useTrigger } from 'app/Hooks';
+
+/* Import Store */
+import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { AnnotationTarget, Dict, ParentClass, SuperClass } from 'app/Types';
@@ -46,7 +49,25 @@ const NewInstance = (props: Props) => {
     const trigger = useTrigger();
 
     /* Base variables */
+    const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     const [parentClasses, setParentClasses] = useState<ParentClass[]>([]);
+
+    /* Tour trigger for when new instance needs to become selected */
+    trigger.SetTrigger(() => {
+        if (tourAnnotationWizardFormValues) {
+            /* Set tour class */
+            SetFieldValue?.('class', tourAnnotationWizardFormValues.class);
+
+            /* Reset annotation values */
+            SetFieldValue?.('annotationValues', {});
+
+            /* Set motivation */
+            SetFieldValue?.('motivation', 'ods:adding');
+
+            /* Set JSON path */
+            SetFieldValue?.('jsonPath', tourAnnotationWizardFormValues.jsonPath);
+        }
+    }, [tourAnnotationWizardFormValues]);
 
     /* Check for parent classes, they either contain the term 'has' or start with a capital */
     trigger.SetTrigger(() => {
@@ -69,7 +90,7 @@ const NewInstance = (props: Props) => {
 
     return (
         <div>
-            <Card className="bgc-primary mt-3 b-grey br-corner">
+            <Card className="tourAnnotate11 bgc-primary mt-3 b-grey br-corner">
                 <div className={`${selectedDivClass} bgc-white pt-1 pb-2 px-3 tr-fast`}>
                     {/* Instance title and target type */}
                     <Row>

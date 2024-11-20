@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector, useFetch } from 'app/Hooks';
 
 /* Import Store */
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationWizardToggle } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
@@ -60,6 +61,7 @@ const AnnotationSidePanel = (props: Props) => {
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
+    const tourAnnotationWizardToggle = useAppSelector(getAnnotationWizardToggle);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
     const [annotationWizardToggle, setAnnotationWizardToggle] = useState<boolean>(false);
     const [masMenuToggle, setMasMenuToggle] = useState<boolean>(false);
@@ -81,7 +83,7 @@ const AnnotationSidePanel = (props: Props) => {
         triggers: [superClass, annotationWizardToggle],
         Method: GetAnnotations,
         Handler: (annotations: Annotation[]) => {
-            setAnnotations(annotations)
+            setAnnotations(annotations);
         }
     });
 
@@ -109,7 +111,9 @@ const AnnotationSidePanel = (props: Props) => {
     });
 
     return (
-        <div className={`${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column bgc-default px-4 py-4`}>
+        <div className={`tourAnnotate4 tourAnnotate7 tourAnnotate8 tourAnnotate10 tourAnnotate13 tourAnnotate17
+            ${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column bgc-default px-4 py-4`}
+        >
             {/* Top bar */}
             <Row>
                 <Col>
@@ -122,7 +126,7 @@ const AnnotationSidePanel = (props: Props) => {
             {/* Annotations overview or wizard depending on state */}
             <Row className="flex-grow-1 overflow-hidden mt-4">
                 <Col className="h-100">
-                    {(annotationWizardToggle && superClass) ?
+                    {((annotationWizardToggle || tourAnnotationWizardToggle) && superClass) ?
                         <AnnotationWizard schema={schema}
                             superClass={superClass}
                             annotationCases={annotationCases}

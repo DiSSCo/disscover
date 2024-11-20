@@ -28,6 +28,7 @@ import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpeci
 import ScheduleDigitalSpecimenMas from "api/digitalSpecimen/ScheduleDigitalSpecimenMas";
 
 /* Import Components */
+import AnnotateTourSteps from './tourSteps/AnnotateTourSteps';
 import DigitalSpecimenTourSteps from './tourSteps/DigitalSpecimenTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
 import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/elements/Elements';
@@ -49,10 +50,16 @@ const DigitalSpecimen = () => {
     const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
-    const tourTopics: TourTopic[] = [{
-        name: 'digitalSpecimen',
-        title: 'About this page'
-    }];
+    const tourTopics: TourTopic[] = [
+        {
+            name: 'digitalSpecimen',
+            title: 'About this page'
+        },
+        {
+            name: 'annotate',
+            title: 'Using annotations'
+        }
+    ];
 
     /* OnLoad, fetch digital specimen data */
     fetch.FetchMultiple({
@@ -191,6 +198,9 @@ const DigitalSpecimen = () => {
             </Container>
 
             <DigitalSpecimenTourSteps SetSelectedTabIndex={setSelectedTabIndex} />
+            <AnnotateTourSteps annotationMode={annotationMode}
+                SetAnnotationMode={setAnnotationMode}
+            />
         </div>
     );
 };

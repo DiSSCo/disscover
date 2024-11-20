@@ -32,7 +32,7 @@ type Props = {
 
 
 /**
- * Component that renders the tour steps for the digital specimen page
+ * Component that renders the tour steps for the annotation tour on the digital specimen page
  * @param annotationMode Boolean that indicates if the annotation mode is on or not
  * @param SetAnnotationMode Function to set the annotation mode
  * @returns JSX Component
@@ -48,22 +48,22 @@ const AnnotateTourSteps = (props: Props) => {
     /* Base variables */
     const tourTopic = useAppSelector(getTourTopic);
     const annotationWizardToggle = useAppSelector(getAnnotationWizardToggle);
-    const digitalSpecimenSteps = DigitalSpecimenTourStepsText.annotate;
+    const annotateSteps = DigitalSpecimenTourStepsText.annotate;
     const { options } = StepsConfig();
     const [steps, setSteps] = useState<{
         intro: string,
         element?: string
     }[]>([]);
 
-    /* Construct Intro.js steps for digital specimen page */
+    /* Construct Intro.js steps for annotation functionality on digital specimen page */
     trigger.SetTrigger(() => {
         const steps: {
             intro: string,
             element?: string
         }[] = [];
 
-        digitalSpecimenSteps.forEach((step, index) => {
-            if ([0, 1, 2, 3, 4, 5].includes(index) || (KeycloakService.IsLoggedIn() && KeycloakService.GetParsedToken()?.orcid)) {
+        annotateSteps.forEach((step, index) => {
+            if ([0, 1, 2, 3, 4, 5, 20].includes(index) || (KeycloakService.IsLoggedIn() && KeycloakService.GetParsedToken()?.orcid)) {
                 steps.push({
                     intro: step,
                     element: `.tourAnnotate${index + 1}`

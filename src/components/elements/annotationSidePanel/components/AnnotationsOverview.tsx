@@ -209,7 +209,9 @@ const AnnotationsOverview = (props: Props) => {
                             </Button>
                         </Col>
                         {/* Machine annotation services button */}
-                        <Col lg="auto">
+                        <Col lg="auto"
+                            className="tourMas4"
+                        >
                             <Button type="button"
                                 variant="accent"
                                 OnClick={() => OpenMasMenu()}

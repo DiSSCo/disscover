@@ -30,6 +30,7 @@ import ScheduleDigitalSpecimenMas from "api/digitalSpecimen/ScheduleDigitalSpeci
 /* Import Components */
 import AnnotateTourSteps from './tourSteps/AnnotateTourSteps';
 import DigitalSpecimenTourSteps from './tourSteps/DigitalSpecimenTourSteps';
+import MasTourSteps from './tourSteps/masTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
 import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
@@ -58,6 +59,10 @@ const DigitalSpecimen = () => {
         {
             name: 'annotate',
             title: 'Using annotations'
+        },
+        {
+            name: 'mas',
+            title: 'Machine annotation services'
         }
     ];
 
@@ -199,6 +204,9 @@ const DigitalSpecimen = () => {
 
             <DigitalSpecimenTourSteps SetSelectedTabIndex={setSelectedTabIndex} />
             <AnnotateTourSteps annotationMode={annotationMode}
+                SetAnnotationMode={setAnnotationMode}
+            />
+            <MasTourSteps annotationMode={annotationMode}
                 SetAnnotationMode={setAnnotationMode}
             />
         </div>

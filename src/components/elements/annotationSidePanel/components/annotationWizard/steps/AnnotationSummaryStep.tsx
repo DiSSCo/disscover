@@ -85,8 +85,6 @@ const AnnotationSummaryStep = (props: Props) => {
         }
     };
 
-    console.log(formValues);
-
     return (
         <div className="h-100 d-flex flex-column">
             {/* Title text */}

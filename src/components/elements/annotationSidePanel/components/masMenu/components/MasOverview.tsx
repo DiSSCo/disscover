@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Hooks */
-import { usePagination } from 'app/Hooks';
+import { useAppSelector, usePagination } from 'app/Hooks';
+
+/* Import Store */
+import { getMasMachineJobRecordDummy } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { DropdownItem, Dict, MasJobRecord } from "app/Types";
@@ -31,6 +34,7 @@ const MasOverview = (props: Props) => {
     const { digitalObjectId, GetMasJobRecords } = props;
 
     /* Base variables */
+    const tourMasMachineJobRecordDummy = useAppSelector(getMasMachineJobRecordDummy);
     const [masJobRecordStateFilter, setMasJobRecordStateFilter] = useState<string>('');
     const [pollInterval, setPollInterval] = useState<NodeJS.Timeout>();
 
@@ -50,7 +54,6 @@ const MasOverview = (props: Props) => {
     useEffect(() => {
         return () => {
             clearInterval(pollInterval);
-            // setPollInterval(undefined);
         };
     }, [masJobRecordStateFilter]);
 
@@ -88,7 +91,9 @@ const MasOverview = (props: Props) => {
         <div className="h-100 d-flex flex-column">
             {/* State filter */}
             <Row>
-                <Col lg={{ span: 6 }}>
+                <Col lg={{ span: 6 }}
+                    className="tourMas6"
+                >
                     <Row>
                         <Col lg="auto"
                             className="pe-0"
@@ -120,11 +125,12 @@ const MasOverview = (props: Props) => {
             {/* MAS job record cards */}
             <Row className="flex-grow-1 overflow-scroll mt-4">
                 <Col>
-                    {pagination.records.length ? pagination.records.map((masJobRecord: Dict, index: number) => (
+                    {(pagination.records.length || tourMasMachineJobRecordDummy) ? [...pagination.records,
+                    ...(tourMasMachineJobRecordDummy ? [tourMasMachineJobRecordDummy] : [])].map((masJobRecord: Dict, index: number) => (
                         <Row key={masJobRecord.jobHandle}
                             className={index >= 1 ? 'mt-3' : ''}
                         >
-                            <Col>
+                            <Col className={!index ? 'tourMas11 tourMas12 tourMas13' : ''}>
                                 <MasJobRecordCard masJobRecord={masJobRecord as MasJobRecord} />
                             </Col>
                         </Row>

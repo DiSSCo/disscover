@@ -35,16 +35,19 @@
         "This will add the new annotation to the annotation overview.",
         "To exit annotation mode and close the side panel, click on the arrow pointing in the top left corner."
     ],
-    "MAS": [
+    "mas": [
         "Annotations are the key to enriching the data within the DiSSCo digital infrastructure. Aside from human annotation, machine learning is also being used to detect certain properties of specimen data and assert those as annotations to the digital object. These machine annotations are part of the services provided by DiSSCo and its partners to reach the goal of high data quality.",
-        "As a DiSSCo user, you are able to run Machine Annotation Services over digital objects like specimens or digital media. This tutorial will show you how to schedule Machine Annotation Services for a specimen.",
-        "First, make sure you are logged into your DiSSCo account. Then select ‘trigger automated annotations’ from the actions dropdown.",
-        "This will trigger a new window called ‘Automated Annotation Services’. It provides a description and the tools to schedule services. We explicitly say ‘schedule’, since services that are fired up by users will first get into a queue system. This means the Machine Annotation Service you chose to run might not run immediately (currently we do not provide any updates on the background progress).",
-        "First select the 'Schedule a new Service tab'",
-        "From the dropdown, select one of the available Machine Annotation Services. This will add it to a list below. Select as many as you want, as they will be run individually from each other. Note that not all Machine Annotation Services will show up for every specimen. That is because some have certain rulesets, like for example: the specimen must belong to the Palaeontology domain or the specimen must have 2D images attached to it. Depending on if the specimen complies to these rules, will make the options for the services pop up in the dropdown.",
-        "Finally, when you are done selecting, click on ‘schedule’ to schedule the chosen Machine Annotation Services. This also closes this window.",
-        "To see the annotations made by the Machine Annotation Service, open the annotations side panel from the actions dropdown.",
-        "Great chance the annotations do not show up yet. This is because the Machine Annotation Service is in a queue and we do not exactly know when to expect results.",
-        "To see if the Machine Annotation Service has completed running and generated annotations, click on the refresh button. This will refetch the annotations from the database. The time needed for annotations to pop up may depend on the type of Machine Annotation Service."
+        "As a DiSSCo user, you are able to run Machine Annotation Services over digital objects like digital specimens or media. This tutorial will show you how to schedule Machine Annotation Services for a digital specimen.",
+        "First off, click on ‘Annotate’. This will trigger the annotation mode and its dedicated side panel in which the machine annotation services are located.",
+        "Then click on this button saying ‘machine annotation services’.",
+        "This will show an overview of all the machine annotation services that were run or are scheduled for the digital specimen.",
+        "You can filter on the state for more specific overview results.",
+        "In order to schedule new machine annotation services, you will need to be logged in to your DiSSCo account and have an ORCID linked to it. If so, this button will become clickable and lead you towards the scheduling menu.",
+        "From the dropdown, select one of the available Machine Annotation Services. This will add it to a list below. Select as many as you want, as they will be run individually from each other. Note that not all machine annotation services will show up for every digital specimen. That is because some have certain rulesets, like for example: the specimen must belong to the Palaeontology topic discipline or the specimen must have 2D images attached to it. Depending on if the specimen complies to these rules, will make the options for the services pop up in the dropdown.",
+        "We will run a dummy machine annotation service, just to show off.",
+        "When you are done selecting, click on ‘schedule’ to schedule the chosen machine annotation service",
+        "Our dummy machine annotation service will pop up in the overview. The spinner indicates it is still being processed by the infrastructure and no results are yet to be seen.",
+        "When a green check appears, the machine annotation service finished running. This means it will have added annotations to the digital specimen. You can check them out in the annotations overview.",
+        "If a red x appears, it means the machine annotation service has somehow failed running."
     ]
 }

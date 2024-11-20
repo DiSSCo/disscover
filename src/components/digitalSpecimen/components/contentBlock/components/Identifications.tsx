@@ -6,7 +6,7 @@ import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 import { Dict } from "app/Types";
 
 /* Import Components */
-import ClassProperties from "./classProperties/ClassProperties";
+import { ClassProperties } from "components/elements/Elements";
 
 
 /* Props Type */

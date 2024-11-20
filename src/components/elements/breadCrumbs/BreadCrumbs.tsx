@@ -84,7 +84,7 @@ const BreadCrumbs = () => {
                 });
 
                 breadCrumbs.push({
-                    crumb: `${digitalMedia?.['@id']}`
+                    crumb: `${digitalMedia?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`
                 });
 
                 break;

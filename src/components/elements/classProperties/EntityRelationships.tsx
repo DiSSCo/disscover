@@ -5,19 +5,21 @@ import { useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 
 /* Import Types */
-import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+import { EntityRelationship } from "app/types/EntityRelationship";
 
 /* Import Icons */
 import { faDiagramProject, faTable } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
-import ClassProperties from "./classProperties/ClassProperties";
+import ClassProperties from "./ClassProperties";
 import { Button, RelationalGraph } from "components/elements/customUI/CustomUI";
 
 
 /* Props Type */
 type Props = {
-    digitalSpecimen: DigitalSpecimen
+    digitalObjectId: string,
+    digitalObjectName?: string,
+    digitalObjectEntityRelationships?: EntityRelationship[]
 };
 
 
@@ -27,7 +29,7 @@ type Props = {
  * @returns JSX Component
  */
 const EntityRelationships = (props: Props) => {
-    const { digitalSpecimen } = props;
+    const { digitalObjectId, digitalObjectName, digitalObjectEntityRelationships } = props;
 
     /* Base variables */
     const [displayMode, setDisplayMode] = useState<'graph' | 'table'>('graph');
@@ -40,15 +42,15 @@ const EntityRelationships = (props: Props) => {
         id: string,
         label: string
     } = {
-        id: digitalSpecimen["@id"],
-        label: digitalSpecimen["ods:specimenName"] ?? digitalSpecimen["@id"]
+        id: digitalObjectId,
+        label: digitalObjectName ?? digitalObjectId
     };
 
     /* Craft entity relationships dictionary to iterate over */
-    digitalSpecimen["ods:hasEntityRelationships"]?.forEach((entityRelationship) => {
+    digitalObjectEntityRelationships?.forEach((entityRelationship) => {
         entityRelationships.push({
-            id: entityRelationship["ods:relatedResourceURI"] ?? entityRelationship["dwc:relationshipOfResource"],
-            name: entityRelationship["dwc:relationshipOfResource"] ?? entityRelationship["ods:relatedResourceURI"]
+            id: entityRelationship["ods:relatedResourceURI"] ?? entityRelationship["dwc:relatedResourceID"] ?? entityRelationship["dwc:relationshipOfResource"],
+            name: entityRelationship["dwc:relationshipOfResource"] ?? entityRelationship["ods:relatedResourceURI"] ?? entityRelationship["dwc:relatedResourceID"]
         });
     });
 

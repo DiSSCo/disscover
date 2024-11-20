@@ -17,30 +17,15 @@ const DigitalMediaIdCardConfig = ({ digitalMedia }: { digitalMedia: DigitalMedia
     return [
         {
             label: 'Digital Specimen Identifier',
-            jsonPath: digitalSpecimenEntityRelationshipIndex ? `$['ods:hasEntityRelationship'][${digitalSpecimenEntityRelationshipIndex}]['dwc:relatedResourceID']` : "$['@id']"
+            jsonPath: digitalSpecimenEntityRelationshipIndex ? `$['ods:hasEntityRelationships'][${digitalSpecimenEntityRelationshipIndex}]['dwc:relatedResourceID']` : "$['@id']"
         },
         {
-            label: 'Media URL',
-            jsonPath: "$['ac:accessURI']",
-            link: "$['ac:accessURI']"
+            label: 'Title',
+            jsonPath: "$['dcterms:title']"
         },
         {
-            label: 'Format',
-            jsonPath: "$['dcterms:format']"
-        },
-        {
-            label: 'Type',
-            jsonPath: "$['dcterms:type']"
-        },
-        {
-            label: 'Source System',
-            jsonPath: "$['ods:sourceSystemName']",
-            link: "$['ods:sourceSystemID']"
-        },
-        {
-            label: 'Organisation',
-            jsonPath: "$['ods:organisationName']",
-            link: "$['ods:organisationID']"
+            label: 'Description',
+            jsonPath: "$['dcterms:description']"
         },
         {
             label: 'Creator',

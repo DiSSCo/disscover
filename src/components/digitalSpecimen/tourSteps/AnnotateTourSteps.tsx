@@ -3,14 +3,11 @@ import { Steps } from 'intro.js-react';
 import KeycloakService from 'app/Keycloak';
 import { useRef, useState } from 'react';
 
-/* Import Hooks */
-import { useTrigger } from 'app/Hooks';
-
 /* Import Config */
 import StepsConfig from 'app/config/StepsConfig';
 
 /* Import Hooks */
-import { useAppSelector, useAppDispatch } from 'app/Hooks';
+import { useAppSelector, useAppDispatch, useTrigger } from 'app/Hooks';
 
 /* Import Store */
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
@@ -107,17 +104,7 @@ const AnnotateTourSteps = (props: Props) => {
             dispatch(setAnnotationTarget(undefined));
         }
 
-        if (nextIndex === 9) {
-            dispatch(setAnnotationWizardFormValues({
-                class: {
-                    label: 'Entity Relationships',
-                    value: "$['ods:hasEntityRelationships']"
-                },
-                annotationValues: {},
-                motivation: '',
-                jsonPath: ''
-            }));
-        } else if ([10, 11].includes(nextIndex)) {
+        if ([9, 10, 11].includes(nextIndex)) {
             dispatch(setAnnotationWizardFormValues({
                 class: {
                     label: 'Entity Relationships',

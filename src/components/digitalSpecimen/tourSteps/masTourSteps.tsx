@@ -3,14 +3,11 @@ import { Steps } from 'intro.js-react';
 import KeycloakService from 'app/Keycloak';
 import { useRef, useState } from 'react';
 
-/* Import Hooks */
-import { useTrigger } from 'app/Hooks';
-
 /* Import Config */
 import StepsConfig from 'app/config/StepsConfig';
 
 /* Import Hooks */
-import { useAppSelector, useAppDispatch } from 'app/Hooks';
+import { useAppSelector, useAppDispatch, useTrigger } from 'app/Hooks';
 
 /* Import Store */
 import { setAnnotationWizardToggle, setMasMenuToggle, setMasScheduleMenuToggle, setMasDummy, setMasMachineJobRecordDummy } from 'redux-store/TourSlice';

@@ -36,7 +36,7 @@ const DigitalSpecimenOverview = (props: Props) => {
     const [copyMessage, setCopyMessage] = useState<string>('Copy');
     const acceptedIdentification = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
     const collectors: string[] = [];
-    const collectionEvent: Event | undefined = digitalSpecimen['ods:hasEvents']?.find(event => event['dwc:eventType'] === 'Collection');
+    const collectionEvent: Event | undefined = digitalSpecimen['ods:hasEvents']?.find(event => event['dwc:eventType'] === 'Collecting Event');
     const topicDisciplinesWithIdentifications: string[] = [
         'Anthropology',
         'Botany',
@@ -48,11 +48,16 @@ const DigitalSpecimenOverview = (props: Props) => {
     ];
 
     /* Construct collectors array */
-    digitalSpecimen['ods:hasAgents']?.filter(agent => agent['ods:hasRoles']?.find(role => role['schema:roleName'] === 'collector')).forEach(agent => {
-        if (agent['schema:name']) {
-            collectors.push(agent['schema:name']);
-        }
-    });
+    digitalSpecimen['ods:hasEvents']?.filter(
+        event => event['ods:hasAgents']?.filter(
+            agent => agent['ods:hasRoles']?.find(
+                role => role['schema:roleName'] === 'collector')
+        ).forEach(agent => {
+            if (agent['schema:name']) {
+                collectors.push(agent['schema:name']);
+            }
+        })
+    );
 
     /**
      * Function to craft a citation string for this digital specimen
@@ -98,7 +103,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 <Row className="mt-1">
                                     <Col>
                                         <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Collection date:</span>
+                                            <span className="fw-lightBold">Collection date: </span>
                                             {collectionEvent?.['dwc:eventDate']}
                                         </p>
                                     </Col>
@@ -107,7 +112,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 <Row className="mt-1">
                                     <Col>
                                         <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Country:</span>
+                                            <span className="fw-lightBold">Country: </span>
                                             {collectionEvent?.['ods:hasLocation']?.['dwc:country']}
                                         </p>
                                     </Col>
@@ -116,7 +121,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 <Row className="mt-1">
                                     <Col>
                                         <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Locality:</span>
+                                            <span className="fw-lightBold">Locality: </span>
                                             {collectionEvent?.['ods:hasLocation']?.['dwc:locality']}
                                         </p>
                                     </Col>

@@ -144,23 +144,50 @@ const MASScheduleMenu = (props: Props) => {
                                             const mas = masOption.value === 'machineAnnotationServiceDummy' ? tourMasDummy :
                                                 mass.find(mas => mas["schema:identifier"] === masOption.value);
 
+                                            let linkToOrchestration: string;
+
+                                            if (window.location.hostname.includes('dev') || window.location.hostname.includes('localhost')) {
+                                                linkToOrchestration = `https://dev-orchestration.dissco.tech/MAS/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                            } else {
+                                                linkToOrchestration = `https://orchestration.dissco.tech/MAS/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                            }
+
                                             if (mas) {
                                                 return (
-                                                    <Row key={mas["schema:identifier"]}
+                                                    <Row key={mas['schema:identifier']}
                                                         className={index >= 1 ? 'mt-2' : ''}
                                                     >
                                                         <Col className={!index ? 'tourMas9' : ''}>
                                                             <Card className="px-3 py-2">
                                                                 <Row>
                                                                     <Col>
-                                                                        {/* MAS title */}
-                                                                        <p className="fs-4 fw-lightBold">
-                                                                            {mas?.["schema:name"]}
-                                                                        </p>
+                                                                        {/* MAS title and link */}
+                                                                        <Row>
+                                                                            <Col>
+                                                                                <p className="fs-4 fw-lightBold">
+                                                                                    {mas?.['schema:name']}
+                                                                                </p>
+
+                                                                            </Col>
+                                                                            <Col lg="auto">
+                                                                                <a href={linkToOrchestration}
+                                                                                    target="_blank"
+                                                                                    rel="noreferer"
+                                                                                >
+                                                                                    <p className="fs-4 tc-secondary">
+                                                                                        View details of MAS
+                                                                                    </p>
+                                                                                </a>
+                                                                            </Col>
+                                                                        </Row>
                                                                         {/* MAS description */}
-                                                                        <p className="fs-5">
-                                                                            {mas?.["schema:description"]}
-                                                                        </p>
+                                                                        <Row className="mt-1">
+                                                                            <Col>
+                                                                                <p className="fs-5">
+                                                                                    {mas?.['schema:description']}
+                                                                                </p>
+                                                                            </Col>
+                                                                        </Row>
                                                                     </Col>
                                                                     <Col lg="auto">
                                                                         <Button type="button"

@@ -24,6 +24,7 @@ type Props = {
     digitalMedia: DigitalMedia,
     annotationMode: boolean,
     annotoriousMode: string,
+    selectedTabIndex: number,
     ToggleAnnotationSidePanel: Function,
     SetAnnotoriousMode: Function
 };
@@ -34,12 +35,13 @@ type Props = {
  * @param digitalSpecimen The selected digital specimen
  * @param annotationMode Boolean that indicates if the annotation mode is toggled
  * @param annotoriousMode String indicating the Annotorious mode
+ * @param selectedTabIndex The index of the selected content block tab
  * @param ToggleAnnotationSidePanel Function to toggle the annotation side panel
  * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalMedia, annotationMode, annotoriousMode, ToggleAnnotationSidePanel, SetAnnotoriousMode } = props;
+    const { digitalMedia, annotationMode, annotoriousMode, selectedTabIndex, ToggleAnnotationSidePanel, SetAnnotoriousMode } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -140,8 +142,8 @@ const TopBar = (props: Props) => {
                         }
                     </Row>
                 </Col>
-                {KeycloakService.IsLoggedIn() &&
-                    <Col lg="auto">
+                {(KeycloakService.IsLoggedIn() && !selectedTabIndex) &&
+                    <Col className="d-flex justify-content-end pe-1">
                         <Button type="button"
                             variant="primary"
                             OnClick={() => SetAnnotoriousMode(annotoriousMode === 'move' ? 'draw' : 'move')}
@@ -152,7 +154,7 @@ const TopBar = (props: Props) => {
                         </Button>
                     </Col>
                 }
-                <Col>
+                <Col lg={(KeycloakService.IsLoggedIn() && !selectedTabIndex) && 'auto'}>
                     <TopBarActions actionDropdownItems={actionDropdownItems}
                         annotationMode={annotationMode}
                         ToggleAnnotationSidePanel={ToggleAnnotationSidePanel}

@@ -147,9 +147,9 @@ const MASScheduleMenu = (props: Props) => {
                                             let linkToOrchestration: string;
 
                                             if (window.location.hostname.includes('dev') || window.location.hostname.includes('localhost')) {
-                                                linkToOrchestration = `https://dev-orchestration.dissco.tech/MAS/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                                linkToOrchestration = `https://dev-orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
                                             } else {
-                                                linkToOrchestration = `https://orchestration.dissco.tech/MAS/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                                linkToOrchestration = `https://orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
                                             }
 
                                             if (mas) {

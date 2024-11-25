@@ -28,7 +28,7 @@
         "With it being selected, continue to the next step by clicking on ‘Next step’.",
         "The third step allows you to add the desired values to the entity relationship we are proposing. Because we selected a class, it displays all the terms that are present within it. It is even possible to add sub classes of an entity relationship which hold their own terms.",
         "Notice that the selected motivation is: ‘Addition’. When annotating an existing instance, you can change the motivation which impacts the displayed form. For example, when the motivation is set to commenting, it will only display a text area as comments simply consist of text.",
-        "se the input fields to define values. In this case, we will add a relationship towards a record in GeoCASe we think might be linked to this digital specimen. We give it the indication of GeoCASe and a link that points towards its own portal.",
+        "Use the input fields to define values. In this case, we will add a relationship towards a record in GeoCASe we think might be linked to this digital specimen. We give it the indication of GeoCASe and a link that points towards its own portal.",
         "After inserting some values, we will again click on ‘Next Step’.",
         "The fourth and last step shows you a summary of the annotation that is going to be made, including the target, instance, motivation and values. This should make it easier to review the annotation action you are about to make.",
         "Finally, save the annotation by clicking on the ‘Save Annotation’ button.",

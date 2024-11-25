@@ -204,9 +204,7 @@ const DigitalSpecimen = () => {
 
             <DigitalSpecimenTourSteps SetSelectedTabIndex={setSelectedTabIndex} />
             <AnnotateTourSteps SetAnnotationMode={setAnnotationMode} />
-            <MasTourSteps annotationMode={annotationMode}
-                SetAnnotationMode={setAnnotationMode}
-            />
+            <MasTourSteps SetAnnotationMode={setAnnotationMode} />
         </div>
     );
 };

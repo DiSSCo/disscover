@@ -54,15 +54,15 @@ const DigitalSpecimen = () => {
     const tourTopics: TourTopic[] = [
         {
             name: 'digitalSpecimen',
-            title: 'About this page'
+            title: 'About This Page'
         },
         {
             name: 'annotate',
-            title: 'Using annotations'
+            title: 'Using Annotations'
         },
         {
             name: 'mas',
-            title: 'Machine annotation services'
+            title: 'Machine Annotation Services'
         }
     ];
 
@@ -203,9 +203,7 @@ const DigitalSpecimen = () => {
             </Container>
 
             <DigitalSpecimenTourSteps SetSelectedTabIndex={setSelectedTabIndex} />
-            <AnnotateTourSteps annotationMode={annotationMode}
-                SetAnnotationMode={setAnnotationMode}
-            />
+            <AnnotateTourSteps SetAnnotationMode={setAnnotationMode} />
             <MasTourSteps annotationMode={annotationMode}
                 SetAnnotationMode={setAnnotationMode}
             />

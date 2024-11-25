@@ -49,7 +49,7 @@ const Home = () => {
     };
     const tourTopics: TourTopic[] = [{
         name: 'home',
-        title: 'About This Page'
+        title: 'About this page'
     }];
 
     /* OnLoad: fetch digital specimen disciplines */

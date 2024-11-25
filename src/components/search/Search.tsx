@@ -34,10 +34,10 @@ const Search = () => {
     const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
     const tourTopics: TourTopic[] = [{
         name: 'search',
-        title: 'About This Page'
+        title: 'About this page'
     }, {
         name: 'compare',
-        title: 'Comparing Specimens'
+        title: 'Comparing specimens'
     }];
 
     /* OnLoad: setup pagination */

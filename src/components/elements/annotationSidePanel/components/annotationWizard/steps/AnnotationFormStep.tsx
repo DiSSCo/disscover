@@ -6,6 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
 import { GenerateAnnotationFormFieldProperties, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
+import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
 import { useAppSelector, useTrigger } from "app/Hooks";
@@ -64,17 +65,7 @@ const AnnotationFormStep = (props: Props) => {
     /* Trigger for tour annotation wizard form values */
     trigger.SetTrigger(() => {
         if (tourAnnotationWizardFormValues) {
-            /* Set tour class */
-            SetFieldValue?.('class', tourAnnotationWizardFormValues.class);
-
-            /* Set motivation */
-            SetFieldValue?.('motivation', 'ods:adding');
-
-            /* Set JSON path */
-            SetFieldValue?.('jsonPath', tourAnnotationWizardFormValues.jsonPath);
-
-            /* Reset annotation values */
-            SetFieldValue?.('annotationValues', tourAnnotationWizardFormValues.annotationValues);
+            AnnotationWizardTourTrigger(tourAnnotationWizardFormValues, SetFieldValue);
         }
     }, [tourAnnotationWizardFormValues]);
 

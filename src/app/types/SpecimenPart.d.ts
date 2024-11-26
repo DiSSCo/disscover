@@ -506,6 +506,10 @@ export interface TaxonIdentification {
    */
   "ods:scientificNameHTMLLabel"?: string;
   /**
+   * A Hyper Text Markup Language (HTML) representation of the genus name. Includes correct formatting of the name.
+   */
+  "ods:genusHTMLLabel"?: string;
+  /**
    * The authorship information for the dwc:scientificName formatted according to the conventions of the applicable dwc:nomenclaturalCode
    */
   "dwc:scientificNameAuthorship"?: string;
@@ -1716,6 +1720,10 @@ export interface ChronometricAge {
    */
   "chrono:latestChronometricAgeReferenceSystem"?: string;
   /**
+   * A description of or reference to the methods used to determine the chronometric age.
+   */
+  "chrono:chronometricAgeProtocol"?: string;
+  /**
    * The temporal uncertainty of the earliestChronometricAge and latestChronometicAge in years
    */
   "chrono:chronometricAgeUncertaintyInYears"?: number;
@@ -1747,4 +1755,102 @@ export interface ChronometricAge {
    * Notes or comments about the ChronometricAge
    */
   "chrono:chronometricAgeRemarks"?: string;
+  /**
+   * The agent(s) involved in the determination of the chronometric age, uses `ods:Agent`
+   */
+  "ods:hasAgents"?: Agent6[];
+}
+export interface Agent6 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
+   */
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
+   */
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
+  /**
+   * Email of the agent
+   */
+  "schema:email"?: string;
+  /**
+   * URL to a website of the agent
+   */
+  "schema:url"?: string;
+  /**
+   * Contains all identifiers associated with the agent
+   */
+  "ods:hasIdentifiers"?: Identifier[];
 }

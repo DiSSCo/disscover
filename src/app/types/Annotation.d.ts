@@ -20,7 +20,7 @@ export interface Annotation {
   /**
    * The handle of the annotation. It is a unique identifier for the annotation. It is composed of the handle of the document followed by a slash and a unique identifier for the annotation.
    */
-  "dcterms:identifier"?: string;
+  "dcterms:identifier": string;
   /**
    * The DOI to the FDO type of the object
    */

@@ -47,6 +47,10 @@ export interface ChronometricAge {
    */
   "chrono:latestChronometricAgeReferenceSystem"?: string;
   /**
+   * A description of or reference to the methods used to determine the chronometric age.
+   */
+  "chrono:chronometricAgeProtocol"?: string;
+  /**
    * The temporal uncertainty of the earliestChronometricAge and latestChronometicAge in years
    */
   "chrono:chronometricAgeUncertaintyInYears"?: number;
@@ -78,4 +82,174 @@ export interface ChronometricAge {
    * Notes or comments about the ChronometricAge
    */
   "chrono:chronometricAgeRemarks"?: string;
+  /**
+   * The agent(s) involved in the determination of the chronometric age, uses `ods:Agent`
+   */
+  "ods:hasAgents"?: Agent[];
+}
+export interface Agent {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
+   */
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
+   */
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
+  /**
+   * Email of the agent
+   */
+  "schema:email"?: string;
+  /**
+   * URL to a website of the agent
+   */
+  "schema:url"?: string;
+  /**
+   * Contains all identifiers associated with the agent
+   */
+  "ods:hasIdentifiers"?: Identifier[];
+}
+/**
+ * Object used to describe identifiers of a Digital Object, based on https://rs.gbif.org/extension/gbif/1.0/identifier.xml but includes ods specific terms
+ */
+export interface Identifier {
+  /**
+   * The identifier for the Identifier object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case a ods:Identifier
+   */
+  "@type": "ods:Identifier";
+  /**
+   * A name for the identifier
+   */
+  "dcterms:title": string;
+  /**
+   * The type of the value in the `dcterms:identifier` field
+   */
+  "dcterms:type"?:
+    | "ARK"
+    | "arXiv"
+    | "bibcode"
+    | "DOI"
+    | "EAN13"
+    | "EISSN"
+    | "Handle"
+    | "IGSN"
+    | "ISBN"
+    | "ISSN"
+    | "ISTC"
+    | "LISSN"
+    | "LSID"
+    | "PMID"
+    | "PURL"
+    | "UPC"
+    | "URL"
+    | "URN"
+    | "w3id"
+    | "UUID"
+    | "Other"
+    | "Locally unique identifier";
+  /**
+   * The value for the identifier
+   */
+  "dcterms:identifier": string;
+  /**
+   * All possible mime types of content that can be returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json
+   */
+  "dcterms:format"?: string[];
+  /**
+   * Additional keywords that the publisher may prefer to be attached to the identifier
+   */
+  "dcterms:subject"?: string[];
+  /**
+   * Indicates whether the identifier is part of the physical label
+   */
+  "ods:isPartOfLabel"?: boolean;
+  /**
+   * Indicates whether the identifier is a persistent identifier
+   */
+  "ods:gupriLevel"?:
+    | "LocallyUniqueStable"
+    | "GloballyUniqueStable"
+    | "GloballyUniqueStableResolvable"
+    | "GloballyUniqueStablePersistentResolvable"
+    | "GloballyUniqueStablePersistentResolvableFDOCompliant";
+  /**
+   * Indicates the status of the identifier
+   */
+  "ods:identifierStatus"?: "Preferred" | "Alternative" | "Superseded";
 }

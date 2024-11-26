@@ -32,7 +32,7 @@ const TopBar = (props: Props) => {
             <Row>
                 {/* Return icon */}
                 <Col lg="auto"
-                    className="d-flex align-items-center"
+                    className="tourAnnotate20 d-flex align-items-center"
                 >
                     <Button type="button"
                         variant="blank"

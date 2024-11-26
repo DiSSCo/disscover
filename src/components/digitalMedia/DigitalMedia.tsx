@@ -103,6 +103,7 @@ const DigitalMedia = () => {
                                                         <TopBar digitalMedia={digitalMedia}
                                                             annotationMode={annotationMode}
                                                             annotoriousMode={annotoriousMode}
+                                                            selectedTabIndex={selectedTabIndex}
                                                             ToggleAnnotationSidePanel={() => setAnnotationMode(!annotationMode)}
                                                             SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                         />

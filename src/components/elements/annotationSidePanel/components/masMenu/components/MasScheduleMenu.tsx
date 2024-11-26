@@ -5,7 +5,10 @@ import { Row, Col, Card } from "react-bootstrap";
 import Select from 'react-select';
 
 /* Import Hooks */
-import { useNotification } from "app/Hooks";
+import { useAppSelector, useNotification } from "app/Hooks";
+
+/* Import Store */
+import { getMasDummy } from "redux-store/TourSlice";
 
 /* Import Types */
 import { MachineAnnotationService } from "app/types/MachineAnnotationService";
@@ -44,6 +47,7 @@ const MASScheduleMenu = (props: Props) => {
     const notification = useNotification();
 
     /* Base variables */
+    const tourMasDummy = useAppSelector(getMasDummy);
     const initialFormValues: {
         scheduledMas: DropdownItem[]
     } = {
@@ -62,7 +66,7 @@ const MASScheduleMenu = (props: Props) => {
     };
 
     /* Construct dropdown items */
-    const dropdownItems: DropdownItem[] = mass.map(mass => ({
+    const dropdownItems: DropdownItem[] = [...mass, ...(tourMasDummy ? [tourMasDummy] : [])].map(mass => ({
         label: mass['schema:name'],
         value: mass["schema:identifier"]
     }));
@@ -120,7 +124,7 @@ const MASScheduleMenu = (props: Props) => {
                             <Form className="h-100 d-flex flex-column">
                                 {/* Select MAS to schedule */}
                                 <Row>
-                                    <Col>
+                                    <Col className="tourMas8">
                                         <p className="mb-1 fs-4">
                                             Select one or multiple Machine Annotation Services to schedule
                                         </p>
@@ -133,26 +137,57 @@ const MASScheduleMenu = (props: Props) => {
                                 {/* Display selected MAS */}
                                 <Row className="flex-grow-1 py-3 overflow-scroll">
                                     <Col>
-                                        {values.scheduledMas.map((masOption, index) => {
-                                            const mas = mass.find(mas => mas["schema:identifier"] === masOption.value);
+                                        {[...values.scheduledMas, ...(tourMasDummy ? [{
+                                            label: 'MachineAnnotationServiceDummy',
+                                            value: 'machineAnnotationServiceDummy'
+                                        }] : [])].map((masOption, index) => {
+                                            const mas = masOption.value === 'machineAnnotationServiceDummy' ? tourMasDummy :
+                                                mass.find(mas => mas["schema:identifier"] === masOption.value);
+
+                                            let linkToOrchestration: string;
+
+                                            if (window.location.hostname.includes('dev') || window.location.hostname.includes('localhost')) {
+                                                linkToOrchestration = `https://dev-orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                            } else {
+                                                linkToOrchestration = `https://orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                            }
 
                                             if (mas) {
                                                 return (
-                                                    <Row key={mas["schema:identifier"]}
+                                                    <Row key={mas['schema:identifier']}
                                                         className={index >= 1 ? 'mt-2' : ''}
                                                     >
-                                                        <Col>
+                                                        <Col className={!index ? 'tourMas9' : ''}>
                                                             <Card className="px-3 py-2">
                                                                 <Row>
                                                                     <Col>
-                                                                        {/* MAS title */}
-                                                                        <p className="fs-4 fw-lightBold">
-                                                                            {mas?.["schema:name"]}
-                                                                        </p>
+                                                                        {/* MAS title and link */}
+                                                                        <Row>
+                                                                            <Col>
+                                                                                <p className="fs-4 fw-lightBold">
+                                                                                    {mas?.['schema:name']}
+                                                                                </p>
+
+                                                                            </Col>
+                                                                            <Col lg="auto">
+                                                                                <a href={linkToOrchestration}
+                                                                                    target="_blank"
+                                                                                    rel="noreferer"
+                                                                                >
+                                                                                    <p className="fs-4 tc-secondary">
+                                                                                        View details of MAS
+                                                                                    </p>
+                                                                                </a>
+                                                                            </Col>
+                                                                        </Row>
                                                                         {/* MAS description */}
-                                                                        <p className="fs-5">
-                                                                            {mas?.["schema:description"]}
-                                                                        </p>
+                                                                        <Row className="mt-1">
+                                                                            <Col>
+                                                                                <p className="fs-5">
+                                                                                    {mas?.['schema:description']}
+                                                                                </p>
+                                                                            </Col>
+                                                                        </Row>
                                                                     </Col>
                                                                     <Col lg="auto">
                                                                         <Button type="button"
@@ -181,6 +216,7 @@ const MASScheduleMenu = (props: Props) => {
                                         <Button type="submit"
                                             variant="primary"
                                             disabled={!values.scheduledMas.length}
+                                            className="tourMas10"
                                         >
                                             <p>
                                                 Schedule

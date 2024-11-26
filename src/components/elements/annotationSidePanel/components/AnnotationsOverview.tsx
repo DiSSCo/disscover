@@ -5,10 +5,11 @@ import KeycloakService from "app/Keycloak";
 import { Row, Col, Card } from "react-bootstrap";
 
 /* Import Hooks */
-import { useAppDispatch } from "app/Hooks";
+import { useAppSelector, useAppDispatch } from "app/Hooks";
 
 /* Import Store */
 import { setAnnotationTarget } from "redux-store/AnnotateSlice";
+import { getAnnotationWizardDummyAnnotation } from "redux-store/TourSlice";
 
 /* Import Types */
 import { Annotation } from "app/types/Annotation";
@@ -56,6 +57,9 @@ const AnnotationsOverview = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
 
+    /* Base variables */
+    const tourAnnotationWizardDummyAnnotation = useAppSelector(getAnnotationWizardDummyAnnotation);
+
     /**
      * Function to sort and filter annotations by the selected values
      * @param motivation The annotation motivation to filter by
@@ -82,7 +86,10 @@ const AnnotationsOverview = (props: Props) => {
     };
 
     /* Set overview annotations */
-    const overviewAnnotations = SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy);
+    const overviewAnnotations = [
+        ...(tourAnnotationWizardDummyAnnotation ? [tourAnnotationWizardDummyAnnotation] : []),
+        ...SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy)
+    ];
 
     /**
      * Function to start editing an existing annotation
@@ -148,9 +155,9 @@ const AnnotationsOverview = (props: Props) => {
             {/* Annotations */}
             <Row className="flex-grow-1 overflow-scroll mt-4">
                 <Col>
-                    {overviewAnnotations.length ? overviewAnnotations.map(annotation => (
+                    {overviewAnnotations.length ? overviewAnnotations.map((annotation, index) => (
                         <div key={annotation['@id']}
-                            className="mb-2"
+                            className={`${!index ? 'tourAnnotate19' : ''} mb-2`}
                         >
                             <AnnotationCard annotation={annotation}
                                 schemaTitle={schemaTitle}
@@ -186,7 +193,7 @@ const AnnotationsOverview = (props: Props) => {
                     <Row className="flex-row-reverse mt-2">
                         {/* Add annotation button */}
                         <Col lg="auto"
-                            className="ps-1"
+                            className="tourAnnotate6 ps-1"
                         >
                             <Button type="button"
                                 variant="accent"
@@ -202,7 +209,9 @@ const AnnotationsOverview = (props: Props) => {
                             </Button>
                         </Col>
                         {/* Machine annotation services button */}
-                        <Col lg="auto">
+                        <Col lg="auto"
+                            className="tourMas4"
+                        >
                             <Button type="button"
                                 variant="accent"
                                 OnClick={() => OpenMasMenu()}

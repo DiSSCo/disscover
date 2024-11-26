@@ -6,12 +6,14 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
 import { GenerateAnnotationFormFieldProperties, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
+import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
 import { useAppSelector, useTrigger } from "app/Hooks";
 
 /* Import Store */
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { AnnotationFormProperty, Dict, DropdownItem, SuperClass } from "app/Types";
@@ -48,6 +50,7 @@ const AnnotationFormStep = (props: Props) => {
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
+    const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>({});
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation, annotationTarget?.type);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
@@ -58,6 +61,13 @@ const AnnotationFormStep = (props: Props) => {
         label,
         value
     }));
+
+    /* Trigger for tour annotation wizard form values */
+    trigger.SetTrigger(() => {
+        if (tourAnnotationWizardFormValues) {
+            AnnotationWizardTourTrigger(tourAnnotationWizardFormValues, SetFieldValue);
+        }
+    }, [tourAnnotationWizardFormValues]);
 
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
@@ -101,10 +111,10 @@ const AnnotationFormStep = (props: Props) => {
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);
         });
-    }, []);
+    }, [formValues?.jsonPath]);
 
     /* From annotation form field properties, extract base object and its properties */
-    if (!isEmpty(annotationFormFieldProperties) && formValues) {
+    if (!isEmpty(annotationFormFieldProperties) && formValues?.jsonPath) {
         baseObjectFormFieldProperty = Object.values(annotationFormFieldProperties).find(annotationFormFieldProperty => annotationFormFieldProperty.jsonPath === formValues.jsonPath);
 
         /* From annotation form field properties, extract sub class objects and their properties */
@@ -174,7 +184,7 @@ const AnnotationFormStep = (props: Props) => {
         <div className="h-100 d-flex flex-column">
             {/* Annotation motivation, will be disabled if pre defined by instance selection */}
             <Row>
-                <Col>
+                <Col className="tourAnnotate14">
                     <p>
                         What motivates you to make this annotation?
                     </p>
@@ -215,7 +225,7 @@ const AnnotationFormStep = (props: Props) => {
                     </p>
                 </Col>
             </Row>
-            <Row className="flex-grow-1 mt-3 overflow-scroll">
+            <Row className="tourAnnotate15 flex-grow-1 mt-3 overflow-scroll">
                 <Col>
                     {/* If motivation is either adding or editing, render the complete digital object as a form, else a generic text area */}
                     {(annotationFormFieldProperties && formValues && ['ods:adding', 'oa:editing'].includes(formValues.motivation) && annotationTarget?.type === 'class') ?

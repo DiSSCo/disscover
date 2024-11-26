@@ -5,10 +5,11 @@ import type { PreloadedStateShapeFromReducersMapObject } from '@reduxjs/toolkit'
 /* Import Redux Slices */
 import AnnotateReducer from 'redux-store/AnnotateSlice';
 import BootReducder from 'redux-store/BootSlice';
-import GlobalReducer from 'redux-store/GlobalSlice';
-import SearchReducer from 'redux-store/SearchSlice';
 import DigitalMediaReducer from 'redux-store/DigitalMediaSlice';
 import DigitalSpecimenReducer from 'redux-store/DigitalSpecimenSlice';
+import GlobalReducer from 'redux-store/GlobalSlice';
+import SearchReducer from 'redux-store/SearchSlice';
+import TourReducer from 'redux-store/TourSlice';
 
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   digitalSpecimen: DigitalSpecimenReducer,
   global: GlobalReducer,
   search: SearchReducer,
+  tour: TourReducer
 });
 
 export const setupStore = (preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>) => {

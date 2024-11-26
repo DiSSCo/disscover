@@ -41,10 +41,6 @@ const RenderRoot = (bootState?: {
   aggregations: Dict,
   phylopicBuild: number
 }) => {
-  // const root = ReactDOM.createRoot(
-  //   document.getElementById('root') as HTMLElement
-  // );
-
   if (bootState) {
     root.render(
       <Provider store={setupStore()}>
@@ -62,7 +58,3 @@ RenderRoot();
 
 /* Boot application */
 Boot(RenderRoot);
-
-
-/* Initiate keycloak which will render the root after finishing setting up */
-// KeycloakService.InitKeyCloak(RenderRoot);

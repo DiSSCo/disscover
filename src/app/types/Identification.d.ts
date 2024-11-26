@@ -394,6 +394,10 @@ export interface TaxonIdentification {
    */
   "ods:scientificNameHTMLLabel"?: string;
   /**
+   * A Hyper Text Markup Language (HTML) representation of the genus name. Includes correct formatting of the name.
+   */
+  "ods:genusHTMLLabel"?: string;
+  /**
    * The authorship information for the dwc:scientificName formatted according to the conventions of the applicable dwc:nomenclaturalCode
    */
   "dwc:scientificNameAuthorship"?: string;

@@ -241,11 +241,15 @@ export interface DigitalSpecimen {
   /**
    * Contains all agents that are connected to the specimen. Agents that are part of a specific part of the specimen should be added there. For example a Collector is connected to the CollectingEvent so is add in the event
    */
-  "ods:hasAgents"?: Agent7[];
+  "ods:hasAgents"?: Agent8[];
   /**
    * Contains information about any events that occurred specifically on the specimen part, for example a sampling event
    */
   "ods:hasEvents"?: Event1[];
+  /**
+   * Contains information about the chronometric age of the specimen part
+   */
+  "ods:hasChronometricAges"?: ChronometricAge1[];
   "ods:hasTombstoneMetadata"?: TombstoneMetadata;
 }
 export interface SpecimenPart {
@@ -748,6 +752,10 @@ export interface TaxonIdentification {
    * A Hyper Text Markup Language (HTML) representation of the scientific name. Includes correct formatting of the name.
    */
   "ods:scientificNameHTMLLabel"?: string;
+  /**
+   * A Hyper Text Markup Language (HTML) representation of the genus name. Includes correct formatting of the name.
+   */
+  "ods:genusHTMLLabel"?: string;
   /**
    * The authorship information for the dwc:scientificName formatted according to the conventions of the applicable dwc:nomenclaturalCode
    */
@@ -1959,6 +1967,10 @@ export interface ChronometricAge {
    */
   "chrono:latestChronometricAgeReferenceSystem"?: string;
   /**
+   * A description of or reference to the methods used to determine the chronometric age.
+   */
+  "chrono:chronometricAgeProtocol"?: string;
+  /**
    * The temporal uncertainty of the earliestChronometricAge and latestChronometicAge in years
    */
   "chrono:chronometricAgeUncertaintyInYears"?: number;
@@ -1990,6 +2002,104 @@ export interface ChronometricAge {
    * Notes or comments about the ChronometricAge
    */
   "chrono:chronometricAgeRemarks"?: string;
+  /**
+   * The agent(s) involved in the determination of the chronometric age, uses `ods:Agent`
+   */
+  "ods:hasAgents"?: Agent6[];
+}
+export interface Agent6 {
+  /**
+   * The identifier for the Agent object
+   */
+  "@id"?: string;
+  /**
+   * The type of the agent, the prov ontology is only used in the prov-o ods:CreateUpdateTombstoneEvent
+   */
+  "@type":
+    | "schema:Person"
+    | "schema:Organization"
+    | "schema:SoftwareApplication"
+    | "prov:Person"
+    | "prov:SoftwareAgent";
+  /**
+   * The primary unique identifier of the Agent object. All identifiers will also be added to the ods:hasIdentifiers array
+   */
+  "schema:identifier"?: string;
+  /**
+   * Full name of the agent
+   */
+  "schema:name"?: string;
+  /**
+   * Contains all roles associated with the agent in the context of the Digital Object. Should always contain at least one role
+   *
+   * @minItems 1
+   */
+  "ods:hasRoles"?: [
+    {
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    },
+    ...{
+      /**
+       * The identifier for the agent role, preferably a URL to a controlled vocabulary
+       */
+      "@id"?: string;
+      /**
+       * The type of the object, in this case schema:Role
+       */
+      "@type": "schema:Role";
+      /**
+       * The category that best matches the nature of a role of an Agent
+       */
+      "schema:roleName": string;
+      /**
+       * Date the agent began the role
+       */
+      "schema:startDate"?: string;
+      /**
+       * Date the agent ended the role
+       */
+      "schema:endDate"?: string;
+      /**
+       * Can be used to indicate the order of importance when there are multiple agents with the same role. Lower order means higher importance.
+       */
+      "schema:position"?: number;
+    }[]
+  ];
+  /**
+   * Email of the agent
+   */
+  "schema:email"?: string;
+  /**
+   * URL to a website of the agent
+   */
+  "schema:url"?: string;
+  /**
+   * Contains all identifiers associated with the agent
+   */
+  "ods:hasIdentifiers"?: Identifier[];
 }
 export interface Assertion2 {
   /**
@@ -2100,9 +2210,9 @@ export interface EntityRelationship {
   /**
    * The agent(s) who created the entityRelationship, contains an ods:Agent object
    */
-  "ods:hasAgents"?: Agent6[];
+  "ods:hasAgents"?: Agent7[];
 }
-export interface Agent6 {
+export interface Agent7 {
   /**
    * The identifier for the Agent object
    */
@@ -2371,7 +2481,7 @@ export interface Citation2 {
    */
   "ods:hasAgents"?: Agent1[];
 }
-export interface Agent7 {
+export interface Agent8 {
   /**
    * The identifier for the Agent object
    */
@@ -2599,6 +2709,88 @@ export interface Event1 {
   "ods:hasAgents"?: Agent3[];
   "ods:hasLocation"?: Location;
 }
+export interface ChronometricAge1 {
+  /**
+   * The identifier for the Chronometric Age object.
+   */
+  "@id"?: string;
+  /**
+   * The type of the digital object, in this case ods:ChronometricAge
+   */
+  "@type": "ods:ChronometricAge";
+  /**
+   * An identifier for the set of information associated with a ChronometricAge
+   */
+  "chrono:chronometricAgeID"?: string;
+  /**
+   * The verbatim age for a specimen, whether reported by a dating assay, associated references, or legacy information
+   */
+  "chrono:verbatimChronometricAge"?: string;
+  /**
+   * The output of a dating assay before it is calibrated into an age using a specific conversion protocol.
+   */
+  "chrono:uncalibratedChronometricAge"?: string;
+  /**
+   * The method used for converting the uncalibratedChronometricAge into a chronometric age in years, as captured in the earliestChronometricAge, earliestChronometricAgeReferenceSystem, latestChronometricAge, and latestChronometricAgeReferenceSystem fields.
+   */
+  "chrono:chronometricAgeConversionProtocol"?: string;
+  /**
+   * The maximum/earliest/oldest possible age of a specimen as determined by a dating method
+   */
+  "chrono:earliestChronometricAge"?: number;
+  /**
+   * The reference system associated with the earliestChronometricAge
+   */
+  "chrono:earliestChronometricAgeReferenceSystem"?: string;
+  /**
+   * The minimum/latest/youngest possible age of a specimen as determined by a dating method
+   */
+  "chrono:latestChronometricAge"?: number;
+  /**
+   * The reference system associated with the latestChronometricAge
+   */
+  "chrono:latestChronometricAgeReferenceSystem"?: string;
+  /**
+   * A description of or reference to the methods used to determine the chronometric age.
+   */
+  "chrono:chronometricAgeProtocol"?: string;
+  /**
+   * The temporal uncertainty of the earliestChronometricAge and latestChronometicAge in years
+   */
+  "chrono:chronometricAgeUncertaintyInYears"?: number;
+  /**
+   * The method used to generate the value of chronometricAgeUncertaintyInYears
+   */
+  "chrono:chronometricAgeUncertaintyMethod"?: string;
+  /**
+   * A description of the material on which the chronometricAgeProtocol was actually performed, if known.
+   */
+  "chrono:materialDated"?: string;
+  /**
+   * An identifier for the MaterialSample on which the chronometricAgeProtocol was performed, if applicable
+   */
+  "chrono:materialDatedID"?: string;
+  /**
+   * The relationship of the materialDated to the subject of the ChronometricAge record, from which the ChronometricAge of the subject is inferred
+   */
+  "chrono:materialDatedRelationship"?: string;
+  /**
+   * The date on which the ChronometricAge was determined
+   */
+  "chrono:chronometricAgeDeterminedDate"?: string;
+  /**
+   * A list (concatenated and separated) of identifiers (publication, bibliographic reference, global unique identifier, URI) of literature associated with the ChronometricAge.
+   */
+  "chrono:chronometricAgeReferences"?: string;
+  /**
+   * Notes or comments about the ChronometricAge
+   */
+  "chrono:chronometricAgeRemarks"?: string;
+  /**
+   * The agent(s) involved in the determination of the chronometric age, uses `ods:Agent`
+   */
+  "ods:hasAgents"?: Agent6[];
+}
 /**
  * Object containing the tombstone metadata of the object. Only present when ods:status is ods:Tombstone
  */
@@ -2620,7 +2812,7 @@ export interface TombstoneMetadata {
    *
    * @minItems 1
    */
-  "ods:hasAgents": [Agent8, ...Agent8[]];
+  "ods:hasAgents": [Agent9, ...Agent9[]];
   /**
    * The PIDs of the object the tombstoned object is related to
    */
@@ -2643,7 +2835,7 @@ export interface TombstoneMetadata {
     "ods:relationshipType": string;
   }[];
 }
-export interface Agent8 {
+export interface Agent9 {
   /**
    * The identifier for the Agent object
    */

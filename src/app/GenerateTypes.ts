@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import axios from 'axios';
-import { writeFileSync } from 'fs'
+import { writeFileSync } from 'fs';
 import { compile } from "json-schema-to-typescript";
 import { resolve } from 'path';
 

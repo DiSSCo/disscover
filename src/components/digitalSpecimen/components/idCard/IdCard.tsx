@@ -1,4 +1,5 @@
 /* Import Dependencies */
+import classNames from 'classnames';
 import jp from 'jsonpath';
 import { useState, createElement, DetailedReactHTMLElement, HTMLAttributes } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
@@ -18,7 +19,9 @@ import { Identification } from 'app/types/Identification';
 /* Props Type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
-    digitalSpecimenDigitalMedia: DigitalMedia[] | undefined
+    digitalSpecimenDigitalMedia: DigitalMedia[] | undefined,
+    annotationMode: boolean,
+    SetAnnotationTarget: Function
 };
 
 
@@ -26,10 +29,12 @@ type Props = {
  * Component that renders the ID card on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
  * @param digitalSpecimenDigitalMedia The digital media belonging to the digital specimen
+ * @param annotationMode Boolean indicating if the annotation mode is enabled
+ * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const IdCard = (props: Props) => {
-    const { digitalSpecimen, digitalSpecimenDigitalMedia } = props;
+    const { digitalSpecimen, digitalSpecimenDigitalMedia, annotationMode, SetAnnotationTarget } = props;
 
     /* Hooks */
     const trigger = useTrigger();
@@ -76,6 +81,11 @@ const IdCard = (props: Props) => {
         }
     };
 
+    /* Class Names */
+    const idCardItemClass = classNames({
+        'hover-grey mc-pointer': annotationMode
+    });
+
     return (
         <div className="h-100 d-flex flex-column">
             {/* First digital media image of digital specimen, if present */}
@@ -90,16 +100,21 @@ const IdCard = (props: Props) => {
             }
             {/* ID card items*/}
             <Row className="flex-grow-1 overflow-hidden">
-                <Col>
+                <Col className="h-100">
                     <Card className="h-100 bgc-white px-3 py-3">
                         <div className="h-100 d-flex flex-column justify-content-between">
                             {/* Nomenclatural name (HTML label) */}
                             <Row>
-                                <Col className="fs-4">
-                                    <p className="fw-lightBold">Specimen Name</p>
-                                    <p className="textOverflow"
-                                        dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel() }}
-                                    />
+                                <Col className={`${idCardItemClass} fs-4 tr-fast`}>
+                                    <button type="button"
+                                        className="button-no-style textOverflow px-0 py-0 overflow-hidden"
+                                        onClick={() => SetAnnotationTarget('term', "$['ods:specimenName']")}
+                                    >
+                                        <p className="fw-lightBold">Specimen Name</p>
+                                        <p className="textOverflow"
+                                            dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel() }}
+                                        />
+                                    </button>
                                 </Col>
                             </Row>
                             {/* ID card properties */}
@@ -107,10 +122,15 @@ const IdCard = (props: Props) => {
                                 return (
                                     <Row key={idCardField.label}>
                                         {/* ID card item */}
-                                        <Col className="fs-4">
-                                            {/* Item label */}
-                                            <p className="fw-lightBold">{idCardField.label}</p>
-                                            <p className="textOverflow">{jp.query(digitalSpecimen, idCardField.jsonPath)}</p>
+                                        <Col className={`${idCardItemClass} fs-4 tr-fast overflow-hidden`}>
+                                            <button type="button"
+                                                className="button-no-style textOverflow px-0 py-0 overflow-hidden"
+                                                onClick={() => SetAnnotationTarget('term', idCardField.jsonPath)}
+                                            >
+                                                {/* Item label */}
+                                                <p className="fw-lightBold">{idCardField.label}</p>
+                                                <p className="textOverflow">{jp.query(digitalSpecimen, idCardField.jsonPath)}</p>
+                                            </button>
                                         </Col>
                                     </Row>
                                 );

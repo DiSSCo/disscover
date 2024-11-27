@@ -133,10 +133,7 @@ const AnnotationSidePanel = (props: Props) => {
                             annotationCases={annotationCases}
                             StopAnnotationWizard={() => {
                                 setAnnotationWizardToggle(false);
-                                dispatch(setAnnotationTarget(annotationTarget ? {
-                                    ...annotationTarget,
-                                    annotation: undefined
-                                } : undefined));
+                                dispatch(setAnnotationTarget(undefined));
                                 setLoading(false);
                             }}
                             SetLoading={(loading: boolean) => setLoading(loading)}
@@ -151,6 +148,7 @@ const AnnotationSidePanel = (props: Props) => {
                                 ScheduleMas={ScheduleMas}
                             />
                                 : <AnnotationsOverview annotations={annotations}
+                                    annotationTarget={annotationTarget}
                                     filterSortValues={filterSortValues}
                                     schemaTitle={schema.title}
                                     SetFilterSortValues={setFilterSortValues}

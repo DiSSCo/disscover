@@ -9,6 +9,7 @@ import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
 import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
+import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
@@ -99,6 +100,18 @@ const DigitalSpecimen = () => {
         }
     });
 
+    /**
+     * Function to set the annotation target state
+     * @param annotationTargetType The type of the annotation target, either class or term
+     * @param jsonPath The JSON path that targets the class or term
+     */
+    const SetAnnotationTarget = (annotationTargetType: 'class' | 'term', jsonPath: string) => {
+       dispatch(setAnnotationTarget({
+            type: annotationTargetType,
+            jsonPath
+       }));
+    };
+
     /* Class Names */
     const digitalSpecimenBodyClass = classNames({
         'col-lg-12': !annotationMode,
@@ -144,7 +157,7 @@ const DigitalSpecimen = () => {
                                                     <Col>
                                                         <TopBar digitalSpecimen={digitalSpecimen}
                                                             annotationMode={annotationMode}
-                                                            ToggleAnnotationSidePanel={() => setAnnotationMode(!annotationMode)}
+                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -156,6 +169,8 @@ const DigitalSpecimen = () => {
                                                     >
                                                         <IdCard digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
+                                                            annotationMode={annotationMode}
+                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                         />
                                                     </Col>
                                                     {/* Content block */}

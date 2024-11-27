@@ -206,7 +206,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 
             /* Add class values to form values */
             const classValues: Dict | Dict[] = jp.value(superClass, classProperty.value.replace(`$`, jsonPath));
-            const classFormValues: Dict = { ...classValues };      
+            const classFormValues: Dict = { ...classValues };
 
             if (!Array.isArray(classValues) && classValues) {
                 Object.entries(classValues).forEach(([key, value]) => {

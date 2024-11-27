@@ -4,6 +4,9 @@ import { Formik, Form } from "formik";
 import KeycloakService from "app/Keycloak";
 import { Row, Col, Card } from "react-bootstrap";
 
+/* Import Utilities */
+import { MakeJsonPathReadableString } from "app/utilities/SchemaUtilities";
+
 /* Import Hooks */
 import { useAppSelector, useAppDispatch } from "app/Hooks";
 
@@ -13,9 +16,10 @@ import { getAnnotationWizardDummyAnnotation } from "redux-store/TourSlice";
 
 /* Import Types */
 import { Annotation } from "app/types/Annotation";
+import { AnnotationTarget } from "app/Types";
 
 /* Import Icons */
-import { faGears, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faGears, faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
 import AnnotationCard from "./AnnotationCard";
@@ -26,6 +30,7 @@ import { Button } from "components/elements/customUI/CustomUI";
 /* Props Type */
 type Props = {
     annotations: Annotation[],
+    annotationTarget?: AnnotationTarget,
     filterSortValues: {
         motivation: string,
         sortBy: string
@@ -42,6 +47,7 @@ type Props = {
 /**
  * Component that renders the annotations overview in the annotation side panel
  * @param annotations The annotations to be rendered in the overview
+ * @param annotationTarget The annotation target that specifies the targetted part of the digital object
  * @param filterSortValues The filter/sort values to refine the overview annotations
  * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values
@@ -52,7 +58,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
+    const { annotations, annotationTarget, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -65,7 +71,7 @@ const AnnotationsOverview = (props: Props) => {
      * @param motivation The annotation motivation to filter by
      * @param sortBy The type of field to sort by
      */
-    const SortAndFilerAnnotations = (motivation: string, sortBy: string) => {
+    const SortAndFilerAnnotations = (motivation: string, sortBy: string, jsonPath?: string) => {
         let filteredSortedAnnotations: Annotation[] = [];
 
         /* Filter by motivation */
@@ -82,13 +88,24 @@ const AnnotationsOverview = (props: Props) => {
             filteredSortedAnnotations.sort((a, b) => a["dcterms:modified"] > b["dcterms:modified"] ? 1 : 0);
         }
 
+        /* Filter by json Path if present */
+        if (jsonPath) {
+            filteredSortedAnnotations = filteredSortedAnnotations.filter(annotation => {
+                if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
+                    return annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] === jsonPath;
+                } else if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:TermSelector') {
+                    return annotation["oa:hasTarget"]["oa:hasSelector"]["ods:term"] === jsonPath;
+                }
+            });
+        }
+
         return filteredSortedAnnotations;
     };
 
     /* Set overview annotations */
     const overviewAnnotations = [
         ...(tourAnnotationWizardDummyAnnotation ? [tourAnnotationWizardDummyAnnotation] : []),
-        ...SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy)
+        ...SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy, annotationTarget?.jsonPath)
     ];
 
     /**
@@ -152,6 +169,32 @@ const AnnotationsOverview = (props: Props) => {
                     </Formik>
                 </Col>
             </Row>
+            {/* Annotation target if defined */}
+            {annotationTarget &&
+                <Row className="mt-3">
+                    <Col lg="auto"
+                        className="pe-0"
+                    >
+                        <Button type="button"
+                            variant="blank"
+                            className="px-0 py-0"
+                            OnClick={() => dispatch(setAnnotationTarget(undefined))}
+                        >
+                            <FontAwesomeIcon icon={faX}
+                                className="tc-primary"
+                            />
+                        </Button>
+                    </Col>
+                    <Col className="d-flex align-items-center">
+                        <p className="fs-4">
+                            <span className="fw-lightBold">
+                                {`Annotation target: `}
+                            </span>
+                            {MakeJsonPathReadableString(annotationTarget.jsonPath)}
+                        </p>
+                    </Col>
+                </Row>
+            }
             {/* Annotations */}
             <Row className="flex-grow-1 overflow-scroll mt-4">
                 <Col>

@@ -16,7 +16,7 @@ import { Button, Dropdown } from "../customUI/CustomUI";
 type Props = {
     actionDropdownItems: DropdownItem[],
     annotationMode: boolean,
-    ToggleAnnotationSidePanel: Function
+    ToggleAnnotationMode: Function
 };
 
 
@@ -24,11 +24,11 @@ type Props = {
  * Component that renders the actions of the top bar on the digital specimen and media pages
  * @param actionDropdownItems A list of action items to appear in the actions dropdown
  * @param annotationMode Boolean indicating if annotation mode is on
- * @param ToggleAnnotationSidePanel Function to toggle the annotation side panel
+ * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @returns JSX Component
  */
 const TopBarActions = (props: Props) => {
-    const { actionDropdownItems, annotationMode, ToggleAnnotationSidePanel } = props;
+    const { actionDropdownItems, annotationMode, ToggleAnnotationMode } = props;
 
     return (
         <div>
@@ -50,7 +50,7 @@ const TopBarActions = (props: Props) => {
                 >
                     <Button type="button"
                         variant="primary"
-                        OnClick={() => ToggleAnnotationSidePanel()}
+                        OnClick={() => ToggleAnnotationMode()}
                     >
                         <span>
                             {annotationMode ? 'Stop annotating' : 'Annotate'}

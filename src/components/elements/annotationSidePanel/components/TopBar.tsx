@@ -2,6 +2,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Hooks */
+import { useAppDispatch } from 'app/Hooks';
+
+/* Import Store */
+import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+
 /* Import Icons */
 import { faChevronLeft, faClosedCaptioning, faFileContract, faRotate } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,6 +33,9 @@ type Props = {
 const TopBar = (props: Props) => {
     const { HideAnnotationSidePanel, RefreshAnnotations, ShowPolicyText } = props;
 
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
     return (
         <div>
             <Row>
@@ -37,7 +46,10 @@ const TopBar = (props: Props) => {
                     <Button type="button"
                         variant="blank"
                         className="px-0 py-0"
-                        OnClick={() => HideAnnotationSidePanel()}
+                        OnClick={() => {
+                            HideAnnotationSidePanel();
+                            dispatch(setAnnotationTarget(undefined));
+                        }}
                     >
                         <FontAwesomeIcon icon={faChevronLeft}
                             className="tc-primary"

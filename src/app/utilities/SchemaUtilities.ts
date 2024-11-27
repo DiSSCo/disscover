@@ -216,10 +216,10 @@ const IterateOverSchemaLayer = async (params: {
 };
 
 /**
-* Function to transform a JSON path to a human readable string
-* @param jsonPath The provided JSON path to transform
-* @returns String
-*/
+ * Function to transform a JSON path to a human readable string
+ * @param jsonPath The provided JSON path to transform
+ * @returns String
+ */
 const MakeJsonPathReadableString = (jsonPath: string): string => {
     let readableString: string = jsonPath;
 

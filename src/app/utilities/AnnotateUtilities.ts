@@ -165,6 +165,8 @@ const FormatFieldNameFromJsonPath = (jsonPath: string): string => {
 const FormatJsonPathFromFieldName = (fieldName: string): string => {
     const splitArray: (string | number)[] = fieldName.replaceAll(/['$]/g, '').split('_');
 
+    console.log(fieldName);
+
     splitArray.forEach((value, index) => {
         if (!isNaN(value as number)) {
             splitArray[index] = Number(value);
@@ -249,7 +251,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
             });
         } else {
             /* Treat upper parent as term and set annotation form value */
-            formValues.value = jp.value(superClass, termValue.value);
+            formValues.value = jp.value(superClass, termValue.value) ?? '';
         }
     });
 
@@ -384,6 +386,7 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
 export {
     ConstructAnnotationObject,
     ExtractParentClasses,
+    FormatFieldNameFromJsonPath,
     FormatJsonPathFromFieldName,
     GenerateAnnotationFormFieldProperties,
     GetAnnotationMotivations,

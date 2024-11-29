@@ -86,6 +86,10 @@ const IdCard = (props: Props) => {
         'hover-grey mc-pointer': annotationMode
     });
 
+    const idCardItemButtonClass = classNames({
+        'mc-default': !annotationMode
+    });
+
     return (
         <div className="h-100 d-flex flex-column">
             {/* First digital media image of digital specimen, if present */}
@@ -107,8 +111,8 @@ const IdCard = (props: Props) => {
                             <Row>
                                 <Col className={`${idCardItemClass} fs-4 tr-fast`}>
                                     <button type="button"
-                                        className="button-no-style textOverflow px-0 py-0 overflow-hidden"
-                                        onClick={() => SetAnnotationTarget('term', "$['ods:specimenName']")}
+                                        className={`${idCardItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                        onClick={() => annotationMode && SetAnnotationTarget('term', "$['ods:specimenName']")}
                                     >
                                         <p className="fw-lightBold">Specimen Name</p>
                                         <p className="textOverflow"
@@ -124,8 +128,8 @@ const IdCard = (props: Props) => {
                                         {/* ID card item */}
                                         <Col className={`${idCardItemClass} fs-4 tr-fast overflow-hidden`}>
                                             <button type="button"
-                                                className="button-no-style textOverflow px-0 py-0 overflow-hidden"
-                                                onClick={() => SetAnnotationTarget('term', idCardField.jsonPath)}
+                                                className={`${idCardItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                                onClick={() => annotationMode && SetAnnotationTarget('term', idCardField.jsonPath)}
                                             >
                                                 {/* Item label */}
                                                 <p className="fw-lightBold">{idCardField.label}</p>

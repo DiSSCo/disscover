@@ -7,16 +7,17 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Utilities */
 import { ConstructAnnotationObject, ProcessAnnotationValues } from 'app/utilities/AnnotateUtilities';
+import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
 import { useAppSelector, useAppDispatch, useNotification, useTrigger } from 'app/Hooks';
 
 /* Import Store */
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
-import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
+import { getAnnotationWizardSelectedIndex, setAnnotationWizardToggle } from 'redux-store/TourSlice';
 
 /* Import Types */
-import { Dict, ProgressDot, SuperClass } from 'app/Types';
+import { AnnotationTarget, Dict, ProgressDot, SuperClass } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
@@ -65,7 +66,7 @@ const AnnotationWizard = (props: Props) => {
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const tourAnnotationWizardSelectedIndex = useAppSelector(getAnnotationWizardSelectedIndex);
     const progressDots: ProgressDot[] = [];
-    const [localAnnotationTargetJsonPath, setLocalAnnotationTargetJsonpath] = useState<string | undefined>();
+    const [localAnnotationTarget, setLocalAnnotationTarget] = useState<AnnotationTarget | undefined>();
     const [initialFormValues, setInitialFormValues] = useState<{
         class: {
             label: string,
@@ -87,7 +88,7 @@ const AnnotationWizard = (props: Props) => {
         }
     } | undefined>(undefined);
 
-    /* OnLoad: define initial form values */
+    /* OnLoad: define initial form values and local annotation target JSON path */
     trigger.SetTrigger(() => {
         setInitialFormValues({
             class: undefined,
@@ -100,22 +101,67 @@ const AnnotationWizard = (props: Props) => {
         });
     }, []);
 
+    trigger.SetTrigger(() => {
+        if (localAnnotationTarget?.annotation) {
+            /* When changing the annotation target when editing an annotation, disable the annotation wizard */
+            StopAnnotationWizard();
+
+            // setLocalAnnotationTarget(annotationTarget);
+        } else if (annotationTarget?.directPath) {
+            GoToStep(2);
+            // console.log(annotationTarget);
+
+            // let parentJsonPath: string = '$';
+
+            // if (FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {
+            //     parentJsonPath = FormatJsonPathFromFieldName(FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').slice(0, -1).join('_'));
+            // }
+
+            // // console.log(parentJsonPath);
+
+            // setInitialFormValues({
+            //     class: annotationTarget?.type === 'class' ? {
+            //         label: MakeJsonPathReadableString(annotationTarget.jsonPath),
+            //         value: annotationTarget?.jsonPath
+            //     } : {
+            //         label: parentJsonPath === '$' ? schema.title : MakeJsonPathReadableString(parentJsonPath),
+            //         value: parentJsonPath
+            //     },
+            //     term: annotationTarget?.type === 'term' ? {
+            //         label: MakeJsonPathReadableString(annotationTarget.jsonPath ?? ''),
+            //         value: annotationTarget?.jsonPath
+            //     } : undefined,
+            //     jsonPath: undefined,
+            //     motivation: ((annotationTarget?.jsonPath && jp.value(superClass, annotationTarget?.jsonPath)) && 'oa:editing')
+            //         ?? (annotationTarget?.jsonPath && 'ods:adding') ?? undefined,
+            //     parentClassDropdownValues: initialFormValues?.parentClassDropdownValues ?? {},
+            //     annotationValues: {}
+            // });
+
+            // console.log(initialFormValues);
+        }
+
+        
+    }, [annotationTarget]);
+
     /* Define wizard step components using tabs */
     const tabs: { [name: string]: JSX.Element } = {
         /* Do not render the target step if editing an annotation or if the annotation target is predefined */
-        ...((!annotationTarget?.annotation && !initialFormValues?.jsonPath) && {
+        ...((!annotationTarget?.annotation) && {
             annotationTarget: <AnnotationTargetStep schema={schema}
                 annotationCases={annotationCases}
             />
         }),
         /* Do not render the select instance step if editing an annotation or if the annotation target is predefined */
-        ...((!annotationTarget?.annotation && !initialFormValues?.jsonPath) && {
+        ...((!annotationTarget?.annotation) && {
             annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
                 schemaTitle={schema.title}
             />
         }),
         annotationForm: <AnnotationFormStep superClass={superClass}
             schemaName={schema.title}
+            localAnnotationTarget={localAnnotationTarget}
+            SetLocalAnnotationTarget={setLocalAnnotationTarget}
         />,
         annotationSummary: <AnnotationSummaryStep superClass={superClass}
             schemaTitle={schema.title}
@@ -186,7 +232,7 @@ const AnnotationWizard = (props: Props) => {
     /**
      * Function to set the annotation target based on the user's selection (wizard step one)
      */
-    const SetAnnotationTarget = (selectedOption: { label: string, value: string }, targetType: string) => {
+    const SetAnnotationTarget = (selectedOption: { label: string, value: string }, targetType: string, doNotContinue?: boolean) => {
         /* Check if class is the super class */
         let classType: 'class' | 'superClass' = 'class';
 
@@ -201,7 +247,9 @@ const AnnotationWizard = (props: Props) => {
         }));
 
         /* Go to next step in wizard */
-        GoToStep(tabStates.findIndex(tabState => tabState.active) + 1);
+        if (!doNotContinue) {
+            GoToStep(tabStates.findIndex(tabState => tabState.active) + 1);
+        }
     };
 
     /**

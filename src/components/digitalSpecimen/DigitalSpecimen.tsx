@@ -106,10 +106,11 @@ const DigitalSpecimen = () => {
      * @param jsonPath The JSON path that targets the class or term
      */
     const SetAnnotationTarget = (annotationTargetType: 'class' | 'term', jsonPath: string) => {
-       dispatch(setAnnotationTarget({
+        dispatch(setAnnotationTarget({
             type: annotationTargetType,
-            jsonPath
-       }));
+            jsonPath,
+            directPath: true
+        }));
     };
 
     /* Class Names */

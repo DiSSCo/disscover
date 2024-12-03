@@ -105,43 +105,9 @@ const AnnotationWizard = (props: Props) => {
         if (localAnnotationTarget?.annotation) {
             /* When changing the annotation target when editing an annotation, disable the annotation wizard */
             StopAnnotationWizard();
-
-            // setLocalAnnotationTarget(annotationTarget);
         } else if (annotationTarget?.directPath) {
             GoToStep(2);
-            // console.log(annotationTarget);
-
-            // let parentJsonPath: string = '$';
-
-            // if (FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {
-            //     parentJsonPath = FormatJsonPathFromFieldName(FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').slice(0, -1).join('_'));
-            // }
-
-            // // console.log(parentJsonPath);
-
-            // setInitialFormValues({
-            //     class: annotationTarget?.type === 'class' ? {
-            //         label: MakeJsonPathReadableString(annotationTarget.jsonPath),
-            //         value: annotationTarget?.jsonPath
-            //     } : {
-            //         label: parentJsonPath === '$' ? schema.title : MakeJsonPathReadableString(parentJsonPath),
-            //         value: parentJsonPath
-            //     },
-            //     term: annotationTarget?.type === 'term' ? {
-            //         label: MakeJsonPathReadableString(annotationTarget.jsonPath ?? ''),
-            //         value: annotationTarget?.jsonPath
-            //     } : undefined,
-            //     jsonPath: undefined,
-            //     motivation: ((annotationTarget?.jsonPath && jp.value(superClass, annotationTarget?.jsonPath)) && 'oa:editing')
-            //         ?? (annotationTarget?.jsonPath && 'ods:adding') ?? undefined,
-            //     parentClassDropdownValues: initialFormValues?.parentClassDropdownValues ?? {},
-            //     annotationValues: {}
-            // });
-
-            // console.log(initialFormValues);
         }
-
-        
     }, [annotationTarget]);
 
     /* Define wizard step components using tabs */
@@ -318,16 +284,14 @@ const AnnotationWizard = (props: Props) => {
                                 try {
                                     /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
                                     if (annotationTarget?.annotation) {
-                                        // await PatchAnnotation({
-                                        //     annotationId: annotationTarget.annotation.id,
-                                        //     updatedAnnotation: newAnnotation
-                                        // });
-                                        console.log('edit', newAnnotation);
+                                        await PatchAnnotation({
+                                            annotationId: annotationTarget.annotation.id,
+                                            updatedAnnotation: newAnnotation
+                                        });
                                     } else {
-                                        // await InsertAnnotation({
-                                        //     newAnnotation
-                                        // });
-                                        console.log('new', newAnnotation);
+                                        await InsertAnnotation({
+                                            newAnnotation
+                                        });
                                     }
 
                                     StopAnnotationWizard();

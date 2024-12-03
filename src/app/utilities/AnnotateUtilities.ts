@@ -165,8 +165,6 @@ const FormatFieldNameFromJsonPath = (jsonPath: string): string => {
 const FormatJsonPathFromFieldName = (fieldName: string): string => {
     const splitArray: (string | number)[] = fieldName.replaceAll(/['$]/g, '').split('_');
 
-    console.log(fieldName);
-
     splitArray.forEach((value, index) => {
         if (!isNaN(value as number)) {
             splitArray[index] = Number(value);
@@ -223,14 +221,16 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 
                 if (!classValues) {
                     const parentFieldName: string = classProperty.value.replace(`$`, jsonPath).split('[').slice(0, -1).join('[');
-
                     const parentValues: Dict | undefined = jp.value(superClass, parentFieldName);
-
                     const childFieldName: string = classProperty.value.split('[').pop()?.replace(']', '').replaceAll("'", '') ?? '';
 
-                    parentValues?.filter((parentValue: Dict) => parentValue[childFieldName]).forEach((parentValue: Dict) => {
-                        localClassValues.push(parentValue[childFieldName]);
-                    });
+                    if (Array.isArray(parentValues)) {
+                        parentValues?.filter((parentValue: Dict) => parentValue[childFieldName]).forEach((parentValue: Dict) => {
+                            localClassValues.push(parentValue[childFieldName]);
+                        });
+                    } else if (parentValues?.[childFieldName]) {
+                        localClassValues.push(parentValues[childFieldName]);
+                    }
                 }
 
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? localClassValues ?? [];

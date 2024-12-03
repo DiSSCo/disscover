@@ -75,7 +75,10 @@ const NewInstance = (props: Props) => {
 
         if (annotationTarget) {
             parentClasses = ExtractParentClasses({
-                annotationTarget,
+                annotationTarget: {
+                    ...annotationTarget,
+                    jsonPath: annotationTarget.jsonPath.replace(/\[\d+\]/g, '')
+                },
                 superClass
             });
         }
@@ -118,7 +121,7 @@ const NewInstance = (props: Props) => {
                                     disabled={selected}
                                     className="fs-5 mt-3 py-1 px-3"
                                     OnClick={() => {
-                                        const latestIndex: any = jp.query(superClass, annotationTarget.jsonPath)[0].length;
+                                        const latestIndex: any = jp.query(superClass, annotationTarget.jsonPath)?.[0]?.length ?? 0;
 
                                         /* Reset annotation values */
                                         SetFieldValue?.('annotationValues', {});

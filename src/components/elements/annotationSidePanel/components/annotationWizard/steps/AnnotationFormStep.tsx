@@ -21,6 +21,7 @@ import { AnnotationFormProperty, AnnotationTarget, Dict, DropdownItem, SuperClas
 /* Import Components */
 import AnnotationFormSegment from './AnnotationFormSegment';
 import { Dropdown, InputTextArea } from "components/elements/customUI/CustomUI";
+import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 
 /* Props Type */
@@ -93,11 +94,11 @@ const AnnotationFormStep = (props: Props) => {
 
         /* For selected class, get annotation form field properties and their values */
         GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
-            // let parentJsonPath: string = '$';
+            let parentJsonPath: string = '$';
 
-            // if (FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {
-            //     parentJsonPath = FormatJsonPathFromFieldName(FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').slice(0, -1).join('_'));
-            // }
+            if (annotationTarget?.jsonPath && FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {
+                parentJsonPath = FormatJsonPathFromFieldName(FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').slice(0, -1).join('_'));
+            }
 
             /* Set form values state with current values, based upon annotation form field properties */
             const newSetFormValues = {
@@ -105,7 +106,7 @@ const AnnotationFormStep = (props: Props) => {
                 annotationValues: {
                     ...newFormValues,
                     ...formValues?.annotationValues,
-                    value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value
+                    value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value ?? newFormValues.value
                 },
                 /* Set JSON path and motivation from this checkpoint if editing an annotation */
                 ...(annotationTarget?.annotation && {
@@ -114,6 +115,22 @@ const AnnotationFormStep = (props: Props) => {
                 }),
                 /* Set JSON path from this checkpoint if annotation target is a direct target */
                 ...(annotationTarget?.directPath && {
+                    ...(annotationTarget.type === 'term' ? {
+                        class: {
+                            label: MakeJsonPathReadableString((parentJsonPath !== '$' ? parentJsonPath : schemaName).replace(/\[\d+\]/g, ' ')),
+                            value: parentJsonPath.replace(/\[\d+\]/g, '')
+                        },
+                        value: {
+                            label: MakeJsonPathReadableString(annotationTarget.jsonPath.replace(/\[\d+\]/g, ' ')),
+                            value: annotationTarget.jsonPath.replace(/\[\d+\]/g, '')
+                        }
+                    } : {
+                        class: {
+                            label: MakeJsonPathReadableString(annotationTarget.jsonPath.replace(/\[\d+\]/g, ' ')),
+                            value: annotationTarget.jsonPath.replace(/\[\d+\]/g, '')
+                        },
+                        term: undefined
+                    }),
                     jsonPath,
                     motivation: jp.value(superClass, annotationTarget.jsonPath) ? 'oa:editing' : 'ods:adding'
                 })

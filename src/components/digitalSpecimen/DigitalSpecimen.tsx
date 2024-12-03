@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import classNames from 'classnames';
+import jp from 'jsonpath';
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
@@ -26,7 +27,7 @@ import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecim
 import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
 import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
 import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
-import ScheduleDigitalSpecimenMas from "api/digitalSpecimen/ScheduleDigitalSpecimenMas";
+import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
 
 /* Import Components */
 import AnnotateTourSteps from './tourSteps/AnnotateTourSteps';
@@ -182,6 +183,8 @@ const DigitalSpecimen = () => {
                                                         <ContentBlock digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
                                                             selectedTabIndex={selectedTabIndex}
+                                                            annotationMode={annotationMode}
+                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                             SetSelectedTabIndex={setSelectedTabIndex}
                                                         />
                                                     </Col>

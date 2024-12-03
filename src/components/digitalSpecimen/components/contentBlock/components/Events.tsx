@@ -11,17 +11,21 @@ import { ClassProperties } from 'components/elements/Elements';
 
 /* Props Type */
 type Props = {
-    digitalSpecimen: DigitalSpecimen
+    digitalSpecimen: DigitalSpecimen,
+    annotationMode: boolean,
+    SetAnnotationTarget: Function
 };
 
 
 /**
  * Component that renders the events content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
+ * @param annotationMode Boolean indicating ig the annotation mode is on
+ * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const Events = (props: Props) => {
-    const { digitalSpecimen } = props;
+    const { digitalSpecimen, annotationMode, SetAnnotationTarget } = props;
 
     /* Base variables */
     const events: {
@@ -31,6 +35,15 @@ const Events = (props: Props) => {
         geologicalContext?: Dict,
         assertions?: Dict
     }[] = [];
+    const jsonPaths: {
+       [propertySection: string]: string
+    } = {
+        mainProperties: "$['ods:hasEvents'][index]",
+        location: "$['ods:hasEvents'][index]['ods:hasLocation']",
+        georeference: "$['ods:hasEvents'][index]['ods:hasLocation']['ods:hasGeoreference']",
+        geologicalContext: "$['ods:hasEvents'][index]['ods:hasLocation']['ods:hasGeologicalContext']",
+        assertions: "$['ods:hasEvents'][index]['ods:hasAssertions']"
+    };
 
     /* Craft events dictionary to iterate over */
     digitalSpecimen['ods:hasEvents']?.forEach((event, index) => {
@@ -79,6 +92,9 @@ const Events = (props: Props) => {
                     index={index}
                     title="event"
                     properties={event}
+                    jsonPaths={jsonPaths}
+                    annotationMode={annotationMode}
+                    SetAnnotationTarget={SetAnnotationTarget}
                 />
             ))}
         </div>

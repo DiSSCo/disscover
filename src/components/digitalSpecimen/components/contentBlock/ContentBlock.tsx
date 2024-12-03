@@ -16,6 +16,8 @@ type Props = {
     digitalSpecimen: DigitalSpecimen,
     digitalSpecimenDigitalMedia: DigitalMedia[] | undefined,
     selectedTabIndex: number,
+    annotationMode: boolean,
+    SetAnnotationTarget: Function,
     SetSelectedTabIndex: Function
 };
 
@@ -25,26 +27,42 @@ type Props = {
  * @param digitalSpecimen The selected digital specimen
  * @param digitalSpecimenDigitalMedia The digital media attached to the digital specimen
  * @param selectedTabIndex The selected index for the digital specimen tabs
+ * @param annotationMode Boolean indicating if the annotation mode is on
+ * @param SetAnnotationTarget Function to set the annotation target
  * @param SetSelectedTabIndex Function to set the selected tab index
  * @returns JSX Component
  */
 const ContentBlock = (props: Props) => {
-    const { digitalSpecimen, digitalSpecimenDigitalMedia, selectedTabIndex, SetSelectedTabIndex } = props;
+    const { digitalSpecimen, digitalSpecimenDigitalMedia, selectedTabIndex, annotationMode, SetAnnotationTarget, SetSelectedTabIndex } = props;
 
     /* Base variables */
     const tabs = {
-        'digitalSpecimen': <DigitalSpecimenOverview digitalSpecimen={digitalSpecimen} />,
+        'digitalSpecimen': <DigitalSpecimenOverview digitalSpecimen={digitalSpecimen}
+            annotationMode={annotationMode}
+            SetAnnotationTarget={SetAnnotationTarget}
+        />,
         ...(digitalSpecimenDigitalMedia && !isEmpty(digitalSpecimenDigitalMedia) && {
             'digitalMedia': <DigitalSpecimenDigitalMedia digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia} />
         }),
-        'events': <Events digitalSpecimen={digitalSpecimen} />,
-        'identifications': <Identifications digitalSpecimen={digitalSpecimen} />,
+        'events': <Events digitalSpecimen={digitalSpecimen}
+            annotationMode={annotationMode}
+            SetAnnotationTarget={SetAnnotationTarget}
+        />,
+        'identifications': <Identifications digitalSpecimen={digitalSpecimen}
+            annotationMode={annotationMode}
+            SetAnnotationTarget={SetAnnotationTarget}
+        />,
         'entityRelationships': <EntityRelationships digitalObjectId={digitalSpecimen['@id']}
             digitalObjectName={digitalSpecimen['ods:specimenName']}
             digitalObjectEntityRelationships={digitalSpecimen['ods:hasEntityRelationships']}
+            annotationMode={annotationMode}
+            SetAnnotationTarget={SetAnnotationTarget}
         />,
         ...(!isEmpty(digitalSpecimen['ods:hasAssertions']) && {
-            'assertions': <Assertions digitalSpecimen={digitalSpecimen} />
+            'assertions': <Assertions digitalSpecimen={digitalSpecimen}
+                annotationMode={annotationMode}
+                SetAnnotationTarget={SetAnnotationTarget}
+            />
         })
     };
 

@@ -6,6 +6,7 @@ import { Row, Col, Card } from "react-bootstrap";
 
 /* Import Types */
 import { EntityRelationship } from "app/types/EntityRelationship";
+import { Dict } from "app/Types";
 
 /* Import Icons */
 import { faDiagramProject, faTable } from "@fortawesome/free-solid-svg-icons";
@@ -19,25 +20,37 @@ import { Button, RelationalGraph } from "components/elements/customUI/CustomUI";
 type Props = {
     digitalObjectId: string,
     digitalObjectName?: string,
-    digitalObjectEntityRelationships?: EntityRelationship[]
+    digitalObjectEntityRelationships?: EntityRelationship[],
+    annotationMode: boolean,
+    SetAnnotationTarget: Function
 };
 
 
 /**
  * Component that renders the entity relationships content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
+ * @param annotationMode Boolean indicating ig the annotation mode is on
+ * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const EntityRelationships = (props: Props) => {
-    const { digitalObjectId, digitalObjectName, digitalObjectEntityRelationships } = props;
+    const { digitalObjectId, digitalObjectName, digitalObjectEntityRelationships, annotationMode, SetAnnotationTarget } = props;
 
     /* Base variables */
     const [displayMode, setDisplayMode] = useState<'graph' | 'table'>('graph');
-    const entityRelationships: {
+    const visualEntityRelationships: {
         id: string,
         name: string,
         annotation?: boolean
     }[] = [];
+    const entityRelationships: {
+        mainProperties: Dict
+    }[] = [];
+    const jsonPaths: {
+        [propertySection: string]: string
+    } = {
+        mainProperties: "$['ods:hasEntityRelationships'][index]"
+    };
     const centerPiece: {
         id: string,
         label: string
@@ -49,6 +62,10 @@ const EntityRelationships = (props: Props) => {
     /* Craft entity relationships dictionary to iterate over */
     digitalObjectEntityRelationships?.forEach((entityRelationship) => {
         entityRelationships.push({
+            mainProperties: entityRelationship
+        });
+
+        visualEntityRelationships.push({
             id: entityRelationship["ods:relatedResourceURI"] ?? entityRelationship["dwc:relatedResourceID"] ?? entityRelationship["dwc:relationshipOfResource"],
             name: entityRelationship["dwc:relationshipOfResource"] ?? entityRelationship["ods:relatedResourceURI"] ?? entityRelationship["dwc:relatedResourceID"]
         });
@@ -69,15 +86,18 @@ const EntityRelationships = (props: Props) => {
             {displayMode === 'graph' ?
                 <Card className="h-100">
                     <RelationalGraph centerPiece={centerPiece}
-                        relations={entityRelationships}
+                        relations={visualEntityRelationships}
                     />
                 </Card>
                 : <>
                     {entityRelationships.map((entityRelationship, index) => (
-                        <ClassProperties key={entityRelationship.id}
+                        <ClassProperties key={entityRelationship.mainProperties['@id']}
                             index={index}
                             title="entityRelationship"
                             properties={entityRelationship}
+                            jsonPaths={jsonPaths}
+                            annotationMode={annotationMode}
+                            SetAnnotationTarget={SetAnnotationTarget}
                         />
                     ))}
                 </>

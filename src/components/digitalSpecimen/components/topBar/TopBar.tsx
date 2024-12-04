@@ -4,6 +4,9 @@ import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+/* Import Utilities */
+import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
+
 /* Import Hooks */
 import { useFetch } from "app/Hooks";
 
@@ -109,9 +112,9 @@ const TopBar = (props: Props) => {
             {/* Digital specimen name */}
             <Row>
                 <Col>
-                    <h2 className="fs-pageTitle">
-                        {digitalSpecimen["ods:specimenName"]}
-                    </h2>
+                    <h2 className="fs-pageTitle"
+                        dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }}
+                    />
                 </Col>
             </Row>
             {/* MIDS level, version select, annotations button and actions dropdown */}
@@ -146,7 +149,7 @@ const TopBar = (props: Props) => {
                                         background: '#a1d8ca',
                                         borderRadius: '999px'
                                     }}
-                                    OnChange={(dropdownItem: DropdownItem) => 
+                                    OnChange={(dropdownItem: DropdownItem) =>
                                         navigate(`/ds/${digitalSpecimen["@id"].replace(import.meta.env.VITE_DOI_URL, '')}/${dropdownItem.value}`)}
                                 />
                             </Col>

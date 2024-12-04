@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
 /* Import Utilities */
-import { DetermineScientificName } from 'app/utilities/NomenclaturalUtilities';
+import { DetermineScientificName, GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
 
 /* Import Hooks */
 import { useNavigate } from 'react-router-dom';
@@ -86,9 +86,9 @@ const IdCard = () => {
                 <Row>
                     {/* Specimen name */}
                     <Col className="text-overflow">
-                        <p className="fs-3 fw-bold textOverflow">{
-                            digitalSpecimen?.['ods:specimenName']}
-                        </p>
+                        <p className="fs-3 fw-bold textOverflow"
+                            dangerouslySetInnerHTML={{ __html: digitalSpecimen ? GetSpecimenNameHTMLLabel(digitalSpecimen) : '' }}
+                        />
                     </Col>
                     {/* Close icon */}
                     <Col lg="auto"
@@ -205,16 +205,16 @@ const IdCard = () => {
                                                 lg={{ span: 4 }}
                                                 className="h-100 overflow-hidden"
                                             >
-                                        
-                                                    <Button type="button"
-                                                        variant="blank"
-                                                        className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
-                                                        OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
-                                                    >
-                                                        <DigitalMediaItem digitalMedia={digitalMedia} />
-                                                    </Button>
 
-                                             
+                                                <Button type="button"
+                                                    variant="blank"
+                                                    className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
+                                                    OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                                                >
+                                                    <DigitalMediaItem digitalMedia={digitalMedia} />
+                                                </Button>
+
+
                                             </Col>
                                         ))}
                                     </Row>

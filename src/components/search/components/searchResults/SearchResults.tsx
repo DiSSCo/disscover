@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 
 /* Import Utilities */
-import { DetermineTopicDisciplineIcon } from 'app/utilities/NomenclaturalUtilities';
+import { DetermineTopicDisciplineIcon, GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
 
 /* Import Config */
 import SearchResultsTableConfig from 'app/config/table/SearchResultsTableConfig';
@@ -130,7 +130,7 @@ const SearchResults = (props: Props) => {
                 index,
                 DOI: digitalSpecimen['@id'],
                 taxonomyIconUrl: !isEmpty(tableData) && tableData[index] && tableData[index].DOI === digitalSpecimen['@id'] ? tableData[index].taxonomyIconUrl : DetermineTableRowIcon(digitalSpecimen),
-                specimenName: digitalSpecimen['ods:specimenName'],
+                specimenName: GetSpecimenNameHTMLLabel(digitalSpecimen),
                 physicalSpecimenID: digitalSpecimen['ods:normalisedPhysicalSpecimenID'],
                 topicDiscipline: digitalSpecimen['ods:topicDiscipline'],
                 countryOfOrigin: digitalSpecimen['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['dwc:country'],

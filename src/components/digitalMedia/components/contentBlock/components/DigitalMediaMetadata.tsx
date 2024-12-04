@@ -8,22 +8,32 @@ import { ClassProperties } from "components/elements/Elements";
 
 /* Props Type */
 type Props = {
-    digitalMedia: DigitalMedia
+    digitalMedia: DigitalMedia,
+    annotationMode: boolean,
+    SetAnnotationTarget: Function
 };
 
 
 /**
  * Component that renders the digital media metadata content block on the digital media page
+ * @param digitalMedia The selected digital media item
+ * @param annotationMode Boolean indicating if the annotation mode is on
+ * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const DigitalMediaMetadata = (props: Props) => {
-    const { digitalMedia } = props;
+    const { digitalMedia, annotationMode, SetAnnotationTarget } = props;
 
     /* Base variables */
     const metadata: {
         mainProperties: Dict
     } = {
         mainProperties: {}
+    };
+    const jsonPaths: {
+        [propertySection: string]: string
+    } = {
+        mainProperties: "$"
     };
 
     /* Construct table properties */
@@ -36,6 +46,9 @@ const DigitalMediaMetadata = (props: Props) => {
             <ClassProperties key={metadata.mainProperties['@id']}
                 title="Metadata"
                 properties={metadata}
+                jsonPaths={jsonPaths}
+                annotationMode={annotationMode}
+                SetAnnotationTarget={SetAnnotationTarget}
             />
         </div>
     );

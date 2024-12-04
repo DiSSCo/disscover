@@ -25,7 +25,7 @@ type Props = {
     annotationMode: boolean,
     annotoriousMode: string,
     selectedTabIndex: number,
-    ToggleAnnotationSidePanel: Function,
+    ToggleAnnotationMode: Function,
     SetAnnotoriousMode: Function
 };
 
@@ -36,12 +36,12 @@ type Props = {
  * @param annotationMode Boolean that indicates if the annotation mode is toggled
  * @param annotoriousMode String indicating the Annotorious mode
  * @param selectedTabIndex The index of the selected content block tab
- * @param ToggleAnnotationSidePanel Function to toggle the annotation side panel
+ * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalMedia, annotationMode, annotoriousMode, selectedTabIndex, ToggleAnnotationSidePanel, SetAnnotoriousMode } = props;
+    const { digitalMedia, annotationMode, annotoriousMode, selectedTabIndex, ToggleAnnotationMode, SetAnnotoriousMode } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -157,7 +157,7 @@ const TopBar = (props: Props) => {
                 <Col lg={(KeycloakService.IsLoggedIn() && !selectedTabIndex) && 'auto'}>
                     <TopBarActions actionDropdownItems={actionDropdownItems}
                         annotationMode={annotationMode}
-                        ToggleAnnotationSidePanel={ToggleAnnotationSidePanel}
+                        ToggleAnnotationMode={ToggleAnnotationMode}
                     />
                 </Col>
             </Row>

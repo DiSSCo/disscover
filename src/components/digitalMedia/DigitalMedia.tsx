@@ -9,6 +9,7 @@ import { useAppSelector, useAppDispatch, useFetch } from "app/Hooks";
 
 /* Import Store */
 import { getDigitalMedia, setDigitalMedia } from "redux-store/DigitalMediaSlice";
+import { setAnnotationTarget } from "redux-store/AnnotateSlice";
 
 /* Import Types */
 import { DigitalMedia as DigitalMediaType } from "app/types/DigitalMedia";
@@ -57,6 +58,19 @@ const DigitalMedia = () => {
         Handler: (digitalMedia: DigitalMediaType) => dispatch(setDigitalMedia(digitalMedia))
     });
 
+    /**
+     * Function to set the annotation target state
+     * @param annotationTargetType The type of the annotation target, either class or term
+     * @param jsonPath The JSON path that targets the class or term
+     */
+    const SetAnnotationTarget = (annotationTargetType: 'class' | 'term', jsonPath: string) => {
+        dispatch(setAnnotationTarget({
+            type: annotationTargetType,
+            jsonPath,
+            directPath: true
+        }));
+    };
+
     /* Class Names */
     const digitalMediaBodyClass = classNames({
         'col-lg-12': !annotationMode,
@@ -104,7 +118,7 @@ const DigitalMedia = () => {
                                                             annotationMode={annotationMode}
                                                             annotoriousMode={annotoriousMode}
                                                             selectedTabIndex={selectedTabIndex}
-                                                            ToggleAnnotationSidePanel={() => setAnnotationMode(!annotationMode)}
+                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                             SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                         />
                                                     </Col>
@@ -124,6 +138,8 @@ const DigitalMedia = () => {
                                                         <ContentBlock digitalMedia={digitalMedia}
                                                             annotoriousMode={annotoriousMode}
                                                             selectedTabIndex={selectedTabIndex}
+                                                            annotationMode={annotationMode}
+                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                             SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                             SetSelectedTabIndex={setSelectedTabIndex}
                                                         />

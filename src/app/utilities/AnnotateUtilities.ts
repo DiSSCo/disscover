@@ -191,6 +191,20 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
     const schema: Dict | undefined = await ExtractLowestLevelSchema(jsonPath, schemaName);
     const { classesList, termsList, termValue } = await ExtractClassesAndTermsFromSchema(schema ?? {}, jsonPath);
 
+    /**
+     * Function to push to the local class values in the nested levels of the upcoming loop below
+     * @param Push Function to push to the local class values array
+     */
+    const PushToLocalClassValues = (parentValues: Dict | undefined, childFieldName: string, Push: Function) => {
+        if (Array.isArray(parentValues)) {
+            parentValues?.filter((parentValue: Dict) => parentValue[childFieldName]).forEach((parentValue: Dict) => {
+                Push(parentValue[childFieldName]);
+            });
+        } else if (parentValues?.[childFieldName]) {
+            Push(parentValues[childFieldName]);
+        }
+    };
+
     /* For each class, add it as a key property to the annotation form fields dictionary */
     classesList.forEach(classProperty => {
         if (!termValue) {
@@ -224,13 +238,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     const parentValues: Dict | undefined = jp.value(superClass, parentFieldName);
                     const childFieldName: string = classProperty.value.split('[').pop()?.replace(']', '').replaceAll("'", '') ?? '';
 
-                    if (Array.isArray(parentValues)) {
-                        parentValues?.filter((parentValue: Dict) => parentValue[childFieldName]).forEach((parentValue: Dict) => {
-                            localClassValues.push(parentValue[childFieldName]);
-                        });
-                    } else if (parentValues?.[childFieldName]) {
-                        localClassValues.push(parentValues[childFieldName]);
-                    }
+                    PushToLocalClassValues(parentValues, childFieldName, (value: Dict) => localClassValues.push(value));
                 }
 
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? localClassValues ?? [];

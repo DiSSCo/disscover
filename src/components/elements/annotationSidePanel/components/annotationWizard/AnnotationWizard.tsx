@@ -7,14 +7,13 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Utilities */
 import { ConstructAnnotationObject, ProcessAnnotationValues } from 'app/utilities/AnnotateUtilities';
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
 import { useAppSelector, useAppDispatch, useNotification, useTrigger } from 'app/Hooks';
 
 /* Import Store */
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
-import { getAnnotationWizardSelectedIndex, setAnnotationWizardToggle } from 'redux-store/TourSlice';
+import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { AnnotationTarget, Dict, ProgressDot, SuperClass } from 'app/Types';

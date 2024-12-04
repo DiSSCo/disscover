@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import { useState } from 'react';
 import classNames from 'classnames';
-import { upperFirst } from 'lodash';
 import { Card, Row, Col } from 'react-bootstrap';
 
 /* Import Utilities */
@@ -121,7 +120,7 @@ const ClassProperties = (props: Props) => {
                                     </>
                                     : <PropertiesTable title="Properties"
                                         properties={properties}
-                                        baseJsonPath={`${jsonPaths.mainProperties.replace('index', `${index}`)}`}
+                                        baseJsonPath={jsonPaths.mainProperties.replace('index', `${index}`)}
                                         annotationMode={annotationMode}
                                         SetAnnotationTarget={SetAnnotationTarget}
                                     />

@@ -41,8 +41,6 @@ const AcceptedIdentification = (props: Props) => {
         'mc-default': !annotationMode
     });
 
-    console.log(GetSpecimenGenusLabel(acceptedIdentification));
-
     return (
         <div className="h-100 d-flex flex-column">
             <Row>

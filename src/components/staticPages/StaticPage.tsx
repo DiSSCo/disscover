@@ -12,11 +12,17 @@ import { Header, Footer } from "components/elements/Elements";
 type SourceMaterial = {
     title: string,
     paragraphs: {
-        text: string,
+        title?: string,
+        text?: string,
         links?: {
             [textFragment: string]: string | undefined
         }
         bullets?: string[],
+        bulletsLinks?: {
+            [bulletIndex: number]: {
+                [textFragment: string]: string | undefined
+            }
+        }
         logo?: string
     }[]
 };
@@ -54,6 +60,16 @@ const StaticPage = (props: Props) => {
                         {sourceMaterial.paragraphs.map(paragraph => (
                             <Row className="mt-4">
                                 <Col>
+                                    {/* Paragraph title */}
+                                    {paragraph.title &&
+                                        <Row className="mb-2">
+                                            <Col>
+                                                <h3 className="fs-3">
+                                                    {paragraph.title}
+                                                </h3>
+                                            </Col>
+                                        </Row>
+                                    }
                                     {/* Logo and paragraph text */}
                                     <Row>
                                         {paragraph.logo &&
@@ -65,33 +81,48 @@ const StaticPage = (props: Props) => {
                                             </Col>
                                         }
                                         <Col>
-                                            <p>
-                                                {paragraph.text.split(' ').map(textSegment => {
-                                                    if (paragraph.links && textSegment in paragraph.links) {
-                                                        console.log(paragraph.links);
-
-
-                                                        return <a href={paragraph.links[textSegment]}
-                                                            target="_blank"
-                                                            rel="noreferer"
-                                                            className="tc-accent"
-                                                        >
-                                                            {`${textSegment} `}
-                                                        </a>;
-                                                    } else {
-                                                        return `${textSegment} `;
-                                                    }
-                                                })}
-                                            </p>
+                                            {paragraph.text &&
+                                                <p className="fs-4">
+                                                    {paragraph.text.split(' ').map(textSegment => {
+                                                        if (textSegment === '<br') {
+                                                            return <br />;
+                                                        } else if (paragraph.links && textSegment in paragraph.links) {
+                                                            return <a href={paragraph.links[textSegment]}
+                                                                target="_blank"
+                                                                rel="noreferer"
+                                                                className="tc-accent"
+                                                            >
+                                                                {`${textSegment} `}
+                                                            </a>;
+                                                        } else if (textSegment !== '/>') {
+                                                            return `${textSegment} `;
+                                                        }
+                                                    })}
+                                                </p>
+                                            }
                                         </Col>
                                     </Row>
                                     {/* Paragraph bullets */}
                                     {paragraph.bullets &&
-                                        <Row>
+                                        <Row className="mt-3">
                                             <Col>
                                                 <ul className="fs-4">
-                                                    {paragraph.bullets.map(bullet => (
-                                                        <li>{bullet}</li>
+                                                    {paragraph.bullets.map((bullet, index) => (
+                                                        <li>
+                                                            {bullet.split(' ').map(bulletSegment => {
+                                                                if (paragraph.bulletsLinks && bulletSegment in paragraph.bulletsLinks[index]) {
+                                                                    return <a href={paragraph.bulletsLinks[index][bulletSegment]}
+                                                                        target="_blank"
+                                                                        rel="noreferer"
+                                                                        className="tc-accent"
+                                                                    >
+                                                                        {`${bulletSegment} `}
+                                                                    </a>;
+                                                                } else {
+                                                                    return `${bulletSegment} `;
+                                                                }
+                                                            })}
+                                                        </li>
                                                     ))}
                                                 </ul>
                                             </Col>

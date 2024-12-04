@@ -51,7 +51,7 @@ const Footer = (props: Props) => {
                         </Col>
                         {/* Support link */}
                         <Col>
-                            <a href="mailto: info@dissco.eu"
+                            <a href="mailto: support@dissco.jitbit.com"
                                 rel="noreferer"
                             >
                                 <p className="fs-5">Get support</p>

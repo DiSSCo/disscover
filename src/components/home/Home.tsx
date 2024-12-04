@@ -18,7 +18,7 @@ import GetDigitalSpecimenDisciplines from 'api/digitalSpecimen/GetDigitalSpecime
 /* Import Components */
 import TourSteps from './TourSteps';
 import { Header, Footer } from 'components/elements/Elements';
-import { AdvancedSearch, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
+import { AdvancedSearch, DatasetDisclaimer, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
 
 
@@ -155,6 +155,12 @@ const Home = () => {
                                                             >
                                                                 Search
                                                             </Button>
+                                                        </Col>
+                                                    </Row>
+                                                    {/* Dataset disclaimer */}
+                                                    <Row className="mt-3">
+                                                        <Col>
+                                                            <DatasetDisclaimer />
                                                         </Col>
                                                     </Row>
                                                 </Col>

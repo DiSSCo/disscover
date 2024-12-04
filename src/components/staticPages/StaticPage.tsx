@@ -1,6 +1,8 @@
 /* Import Dependencies */
 import { Container, Row, Col } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+
+/* Import Styles */
+import styles from './staticPage.module.scss';
 
 /* Import Components */
 import { Header, Footer } from "components/elements/Elements";
@@ -14,7 +16,8 @@ type SourceMaterial = {
         links?: {
             [textFragment: string]: string | undefined
         }
-        bullets?: string[]
+        bullets?: string[],
+        logo?: string
     }[]
 };
 
@@ -42,7 +45,7 @@ const StaticPage = (props: Props) => {
             <Container fluid className="flex-grow-1 overflow-hidden">
                 <Row className="h-100">
                     <Col lg={{ span: 6, offset: 3 }}
-                        className="h-100 my-5 overflow-scroll"
+                        className="h-100 py-5 overflow-scroll"
                     >
                         {/* Based upon source material, render this static page's contents */}
                         <h2>
@@ -51,14 +54,22 @@ const StaticPage = (props: Props) => {
                         {sourceMaterial.paragraphs.map(paragraph => (
                             <Row className="mt-4">
                                 <Col>
-                                    {/* Paragraph text */}
+                                    {/* Logo and paragraph text */}
                                     <Row>
+                                        {paragraph.logo &&
+                                            <Col lg="auto">
+                                                <img src={`/src/webroot/logos/${paragraph.logo}`}
+                                                    alt={paragraph.logo}
+                                                    className={styles.logo}
+                                                />
+                                            </Col>
+                                        }
                                         <Col>
                                             <p>
-                                                {paragraph.text.split(' ').map(textSegment => { 
+                                                {paragraph.text.split(' ').map(textSegment => {
                                                     if (paragraph.links && textSegment in paragraph.links) {
                                                         console.log(paragraph.links);
-                                                   
+
 
                                                         return <a href={paragraph.links[textSegment]}
                                                             target="_blank"

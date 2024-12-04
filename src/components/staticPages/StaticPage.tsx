@@ -57,12 +57,14 @@ const StaticPage = (props: Props) => {
                         <h2>
                             {sourceMaterial.title}
                         </h2>
-                        {sourceMaterial.paragraphs.map(paragraph => (
+                        {sourceMaterial.paragraphs.map((paragraph, index) => (
                             <Row className="mt-4">
                                 <Col>
                                     {/* Paragraph title */}
                                     {paragraph.title &&
-                                        <Row className="mb-2">
+                                        <Row key={paragraph.title}
+                                            className="mb-2"
+                                        >
                                             <Col>
                                                 <h3 className="fs-3">
                                                     {paragraph.title}
@@ -83,11 +85,14 @@ const StaticPage = (props: Props) => {
                                         <Col>
                                             {paragraph.text &&
                                                 <p className="fs-4">
-                                                    {paragraph.text.split(' ').map(textSegment => {
+                                                    {paragraph.text.split(' ').map((textSegment, subIndex) => {
+                                                        const key = `${textSegment}_${index}_${subIndex}`;
+
                                                         if (textSegment === '<br') {
-                                                            return <br />;
+                                                            return <br key={key} />;
                                                         } else if (paragraph.links && textSegment in paragraph.links) {
-                                                            return <a href={paragraph.links[textSegment]}
+                                                            return <a key={key}
+                                                                href={paragraph.links[textSegment]}
                                                                 target="_blank"
                                                                 rel="noreferer"
                                                                 className="tc-accent"
@@ -107,23 +112,30 @@ const StaticPage = (props: Props) => {
                                         <Row className="mt-3">
                                             <Col>
                                                 <ul className="fs-4">
-                                                    {paragraph.bullets.map((bullet, index) => (
-                                                        <li>
-                                                            {bullet.split(' ').map(bulletSegment => {
-                                                                if (paragraph.bulletsLinks && bulletSegment in paragraph.bulletsLinks[index]) {
-                                                                    return <a href={paragraph.bulletsLinks[index][bulletSegment]}
-                                                                        target="_blank"
-                                                                        rel="noreferer"
-                                                                        className="tc-accent"
-                                                                    >
-                                                                        {`${bulletSegment} `}
-                                                                    </a>;
-                                                                } else {
-                                                                    return `${bulletSegment} `;
-                                                                }
-                                                            })}
-                                                        </li>
-                                                    ))}
+                                                    {paragraph.bullets.map((bullet, subIndex) => {
+                                                        const key = `bullet_${index}_${subIndex}`;
+
+                                                        return (
+                                                            <li key={key}>
+                                                                {bullet.split(' ').map(bulletSegment => {
+                                                                    const key = `${bulletSegment}_${index}_${subIndex}`;
+
+                                                                    if (paragraph.bulletsLinks && bulletSegment in paragraph.bulletsLinks[subIndex]) {
+                                                                        return <a key={key}
+                                                                            href={paragraph.bulletsLinks[subIndex][bulletSegment]}
+                                                                            target="_blank"
+                                                                            rel="noreferer"
+                                                                            className="tc-accent"
+                                                                        >
+                                                                            {`${bulletSegment} `}
+                                                                        </a>;
+                                                                    } else {
+                                                                        return `${bulletSegment} `;
+                                                                    }
+                                                                })}
+                                                            </li>
+                                                        );
+                                                    })}
                                                 </ul>
                                             </Col>
                                         </Row>

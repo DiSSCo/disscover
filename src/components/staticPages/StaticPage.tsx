@@ -58,13 +58,13 @@ const StaticPage = (props: Props) => {
                             {sourceMaterial.title}
                         </h2>
                         {sourceMaterial.paragraphs.map((paragraph, index) => (
-                            <Row className="mt-4">
+                            <Row key={paragraph.title}
+                                className="mt-4"
+                            >
                                 <Col>
                                     {/* Paragraph title */}
                                     {paragraph.title &&
-                                        <Row key={paragraph.title}
-                                            className="mb-2"
-                                        >
+                                        <Row className="mb-2">
                                             <Col>
                                                 <h3 className="fs-3">
                                                     {paragraph.title}

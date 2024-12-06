@@ -1,4 +1,5 @@
 /* Import Routes */
+import DataExportRoutes from 'components/dataExport/Routes';
 import DemoRoutes from 'components/demo/Routes';
 import HomeRoutes from 'components/home/Routes';
 import SearchRoutes from 'components/search/Routes';
@@ -10,6 +11,7 @@ import StaticPagesRoutes from 'components/staticPages/Routes';
 
 /* Routes for application */
 const AppRoutes: JSX.Element[] = [
+    ...DataExportRoutes,
     ...DemoRoutes,
     ...HomeRoutes,
     ...SearchRoutes,

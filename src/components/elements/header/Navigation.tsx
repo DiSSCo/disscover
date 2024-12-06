@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import classNames from 'classnames';
+import KeycloakService from 'app/Keycloak';
 import { Row, Col } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -53,14 +54,16 @@ const Navigation = () => {
                         <p className={NavItemClass('about')}>About</p>
                     </Link>
                 </Col>
-                {/* Link to Acknowledgements */}
-                <Col lg="auto"
-                    className="d-flex align-items-center"
-                >
-                    <Link to="/acknowledgements">
-                        <p className={NavItemClass('acknowledgements')}>Acknowledgements</p>
-                    </Link>
-                </Col>
+                {/* Link to Data Export if logged in */}
+                {KeycloakService.IsLoggedIn() &&
+                    <Col lg="auto"
+                        className="d-flex align-items-center"
+                    >
+                        <Link to="/dataExport">
+                            <p className={NavItemClass('dataExport')}>Data Export</p>
+                        </Link>
+                    </Col>
+                }
             </Row>
         </div>
     );

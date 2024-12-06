@@ -1,4 +1,8 @@
 /* Custom styling for the notification component */
+.success {
+    background-color: var(--secondary);
+}
+
 .error {
     background-color: var(--error);
 }

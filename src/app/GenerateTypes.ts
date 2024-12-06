@@ -31,7 +31,8 @@ const typesDict = {
     annotation: 'https://schemas.dissco.tech/schemas/fdo-type/annotation/0.4.0/annotation.json',
     environmentalVariable: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/environmental-variable.json',
     secretVariable: 'https://schemas.dissco.tech/schemas/fdo-type/shared-model/0.4.0/secret-variable.json',
-    machineAnnotationService: 'https://schemas.dissco.tech/schemas/fdo-type/machine-annotation-service/0.4.0/machine-annotation-service.json'
+    machineAnnotationService: 'https://schemas.dissco.tech/schemas/fdo-type/machine-annotation-service/0.4.0/machine-annotation-service.json',
+    sourceSystem: "https://schemas.dissco.tech/schemas/fdo-type/source-system/0.4.0/source-system.json"
 };
 
 /**

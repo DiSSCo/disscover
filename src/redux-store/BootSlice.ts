@@ -35,6 +35,9 @@ export const { setBootState } = BootSlice.actions;
 /* Selector actions */
 const SelectAggregations = (state: RootState) => state.boot.aggregations;
 
+/**
+ * Selector function for selecting the organisation names from the aggregations
+ */
 const SelectOrganisationNames = createSelector([SelectAggregations], (aggregations: { [searchFilterName: string]: { [aggregation: string]: number } }) => {
     const organisationNames: string[] = [];
 

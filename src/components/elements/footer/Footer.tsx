@@ -57,6 +57,18 @@ const Footer = (props: Props) => {
                                 <p className="fs-5">Get support</p>
                             </a>
                         </Col>
+                        {/* Link to acknowledgements */}
+                        <Col lg="auto"
+                            className="d-flex flex-column align-items-start"
+                        >
+                            <Button type="button"
+                                variant="blank"
+                                className="fs-5"
+                                OnClick={() => navigate('/acknowledgements')}
+                            >
+                                Acknowledgements
+                            </Button>
+                        </Col>
                         {/* Link to privacy policy */}
                         <Col lg="auto"
                             className="d-flex flex-column align-items-start"

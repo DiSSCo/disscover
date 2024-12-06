@@ -168,7 +168,7 @@ const AnnotationCard = (props: Props) => {
                                             RefreshAnnotations();
                                         } catch {
                                             notification.Push({
-                                                key: `${annotation['@id']}-${Math.random()}`,
+                                                key: `${annotation['@id']}_${Math.random()}`,
                                                 message: `Failed to delete the annotation. Please try deleting it again.`,
                                                 template: 'error'
                                             });

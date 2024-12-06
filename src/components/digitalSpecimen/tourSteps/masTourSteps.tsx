@@ -23,19 +23,17 @@ import DigitalSpecimenTourStepsText from 'sources/tourText/digitalSpecimen.json'
 
 /* Props Type */
 type Props = {
-    annotationMode: boolean,
     SetAnnotationMode: Function
 };
 
 
 /**
  * Component that renders the tour steps for the machine annotation services on the digital specimen page
- * @param annotationMode Boolean that indicates if the annotation mode is on or not
  * @param SetAnnotationMode Function to set the annotation mode
  * @returns JSX Component
  */
 const MasTourSteps = (props: Props) => {
-    const { annotationMode, SetAnnotationMode } = props;
+    const { SetAnnotationMode } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();

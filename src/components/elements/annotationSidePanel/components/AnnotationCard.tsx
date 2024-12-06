@@ -126,7 +126,7 @@ const AnnotationCard = (props: Props) => {
                     <Col>
                         {/* Render annotation content based on target type */}
                         {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
-                            <p>
+                            <p className="fs-4">
                                 {annotation['oa:hasBody']['oa:value']}
                             </p>
                         }

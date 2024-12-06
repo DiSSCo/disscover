@@ -50,7 +50,7 @@ const AnnotationSelectInstanceStep = (props: Props) => {
         let jsonTargetPath: string = '';
 
         /* Insert the json path library double dots before every square bracket in order to select everything linked to the path */
-        annotationTarget.jsonPath.split('[').forEach((pathSegment, index) => {
+        annotationTarget.jsonPath.replace(/\[\d+\]/g, '').split('[').forEach((pathSegment, index) => {
             if (index) {
                 jsonTargetPath = jsonTargetPath.concat(`..[${pathSegment}`);
             } else {
@@ -68,8 +68,8 @@ const AnnotationSelectInstanceStep = (props: Props) => {
     /* Conditions for checking if a new or existing instances may be selected */
     const allowForNewInstance: boolean = (!nodes.length && annotationTarget?.type === 'term') ||
     (annotationTarget?.type !== 'term' && !nodes.length) || (
-        jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.includes('has') &&
-        jp.parse(annotationTarget?.jsonPath ?? '').slice(-1)[0].expression.value.at(-1) === 's'
+        jp.parse(annotationTarget?.jsonPath.replace(/\[\d+\]/g, '') ?? '').slice(-1)[0].expression.value.includes('has') &&
+        jp.parse(annotationTarget?.jsonPath.replace(/\[\d+\]/g, '') ?? '').slice(-1)[0].expression.value.at(-1) === 's'
     );
 
     const allowForExistingInstances: boolean = !!(nodes.length && ((Array.isArray(nodes[0].value) && nodes[0].value.length)

@@ -9,6 +9,7 @@ import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
 import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
+import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
@@ -25,7 +26,7 @@ import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecim
 import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
 import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
 import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
-import ScheduleDigitalSpecimenMas from "api/digitalSpecimen/ScheduleDigitalSpecimenMas";
+import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
 
 /* Import Components */
 import AnnotateTourSteps from './tourSteps/AnnotateTourSteps';
@@ -99,6 +100,19 @@ const DigitalSpecimen = () => {
         }
     });
 
+    /**
+     * Function to set the annotation target state
+     * @param annotationTargetType The type of the annotation target, either class or term
+     * @param jsonPath The JSON path that targets the class or term
+     */
+    const SetAnnotationTarget = (annotationTargetType: 'class' | 'term', jsonPath: string) => {
+        dispatch(setAnnotationTarget({
+            type: annotationTargetType,
+            jsonPath,
+            directPath: true
+        }));
+    };
+
     /* Class Names */
     const digitalSpecimenBodyClass = classNames({
         'col-lg-12': !annotationMode,
@@ -144,7 +158,7 @@ const DigitalSpecimen = () => {
                                                     <Col>
                                                         <TopBar digitalSpecimen={digitalSpecimen}
                                                             annotationMode={annotationMode}
-                                                            ToggleAnnotationSidePanel={() => setAnnotationMode(!annotationMode)}
+                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -156,6 +170,8 @@ const DigitalSpecimen = () => {
                                                     >
                                                         <IdCard digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
+                                                            annotationMode={annotationMode}
+                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                         />
                                                     </Col>
                                                     {/* Content block */}
@@ -166,6 +182,8 @@ const DigitalSpecimen = () => {
                                                         <ContentBlock digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
                                                             selectedTabIndex={selectedTabIndex}
+                                                            annotationMode={annotationMode}
+                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                             SetSelectedTabIndex={setSelectedTabIndex}
                                                         />
                                                     </Col>

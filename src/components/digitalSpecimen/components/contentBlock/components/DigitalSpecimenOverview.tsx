@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
@@ -20,23 +21,29 @@ import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/Cus
 
 /* Props Type */
 type Props = {
-    digitalSpecimen: DigitalSpecimen
+    digitalSpecimen: DigitalSpecimen,
+    annotationMode: boolean,
+    SetAnnotationTarget: Function
 };
 
 
 /**
  * Component that renders the digital specimen overview content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
+ * @param annotationMode Boolean indicating if the annotation mode is enabled
+ * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const DigitalSpecimenOverview = (props: Props) => {
-    const { digitalSpecimen } = props;
+    const { digitalSpecimen, annotationMode, SetAnnotationTarget } = props;
 
     /* Base variables */
     const [copyMessage, setCopyMessage] = useState<string>('Copy');
     const acceptedIdentification = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
+    const acceptedIdentificationIndex: number | undefined = digitalSpecimen['ods:hasIdentifications']?.findIndex(identification => identification['ods:isVerifiedIdentification']);
     const collectors: string[] = [];
     const collectionEvent: Event | undefined = digitalSpecimen['ods:hasEvents']?.find(event => event['dwc:eventType'] === 'Collecting Event');
+    const collectionEventIndex: number | undefined = digitalSpecimen['ods:hasEvents']?.findIndex(event => event['dwc:eventType'] === 'Collecting Event');
     const topicDisciplinesWithIdentifications: string[] = [
         'Anthropology',
         'Botany',
@@ -66,6 +73,13 @@ const DigitalSpecimenOverview = (props: Props) => {
     const CraftCitation = () => {
         return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']} [Dataset]. ${digitalSpecimen['@id']}`;
     };
+
+    /* Class Names */
+    const overviewItemButtonClass = classNames({
+        'tr-fast': true,
+        'hover-grey mc-pointer': annotationMode,
+        'mc-default': !annotationMode
+    });
 
     return (
         <div className="h-100">
@@ -102,28 +116,49 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Collection date */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Collection date: </span>
-                                            {collectionEvent?.['dwc:eventDate']}
-                                        </p>
+                                        <button type="button"
+                                            className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                            onClick={() => (annotationMode && collectionEvent) &&
+                                                SetAnnotationTarget('term', `$['ods:hasEvents'][${collectionEventIndex}]['dwc:eventDate']`)
+                                            }
+                                        >
+                                            <p className="fs-4 textOverflow">
+                                                <span className="fw-lightBold">Collection date: </span>
+                                                {collectionEvent?.['dwc:eventDate']}
+                                            </p>
+                                        </button>
                                     </Col>
                                 </Row>
                                 {/* Country */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Country: </span>
-                                            {collectionEvent?.['ods:hasLocation']?.['dwc:country']}
-                                        </p>
+                                        <button type="button"
+                                            className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                            onClick={() => (annotationMode && collectionEvent) &&
+                                                SetAnnotationTarget('term', `$['ods:hasEvents'][${collectionEventIndex}]['ods:hasLocation']['dwc:country']`)
+                                            }
+                                        >
+                                            <p className="fs-4 textOverflow">
+                                                <span className="fw-lightBold">Country: </span>
+                                                {collectionEvent?.['ods:hasLocation']?.['dwc:country']}
+                                            </p>
+                                        </button>
                                     </Col>
                                 </Row>
                                 {/* Locality */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Locality: </span>
-                                            {collectionEvent?.['ods:hasLocation']?.['dwc:locality']}
-                                        </p>
+                                        <button type="button"
+                                            className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                            onClick={() => (annotationMode && collectionEvent) &&
+                                                SetAnnotationTarget('term', `$['ods:hasEvents'][${collectionEventIndex}]['ods:hasLocation']['dwc:locality']`)
+                                            }
+                                        >
+                                            <p className="fs-4 textOverflow">
+                                                <span className="fw-lightBold">Locality: </span>
+                                                {collectionEvent?.['ods:hasLocation']?.['dwc:locality']}
+                                            </p>
+                                        </button>
                                     </Col>
                                 </Row>
                             </Col>
@@ -165,7 +200,10 @@ const DigitalSpecimenOverview = (props: Props) => {
                             <Row className="flex-grow-1 overflow-hidden mt-2">
                                 <Col>
                                     <AcceptedIdentification acceptedIdentification={acceptedIdentification}
+                                        acceptedIdentificationIndex={acceptedIdentificationIndex}
                                         digitalSpecimenName={digitalSpecimen['ods:specimenName'] ?? ''}
+                                        annotationMode={annotationMode}
+                                        SetAnnotationTarget={SetAnnotationTarget}
                                     />
                                 </Col>
                             </Row>
@@ -186,25 +224,39 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Name */}
                                 <Row>
                                     <Col>
-                                        <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Name: </span>
-                                            <a href={digitalSpecimen['ods:organisationID']}
-                                                target="_blank"
-                                                rel="noreferer"
-                                                className="tc-accent"
-                                            >
-                                                {digitalSpecimen['ods:organisationName']}
-                                            </a>
-                                        </p>
+                                        <button type="button"
+                                            className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                            onClick={() => annotationMode &&
+                                                SetAnnotationTarget('term', `$['ods:organisationName']`)
+                                            }
+                                        >
+                                            <p className="fs-4 textOverflow">
+                                                <span className="fw-lightBold">Name: </span>
+                                                <a href={digitalSpecimen['ods:organisationID']}
+                                                    target="_blank"
+                                                    rel="noreferer"
+                                                    className="tc-accent"
+                                                >
+                                                    {digitalSpecimen['ods:organisationName']}
+                                                </a>
+                                            </p>
+                                        </button>
                                     </Col>
                                 </Row>
                                 {/* Collection */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
-                                            <span className="fw-lightBold">Collection: </span>
-                                            {digitalSpecimen['dwc:collectionCode']}
-                                        </p>
+                                        <button type="button"
+                                            className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                            onClick={() => annotationMode &&
+                                                SetAnnotationTarget('term', `$['dwc:collectionCode']`)
+                                            }
+                                        >
+                                            <p className="fs-4 textOverflow">
+                                                <span className="fw-lightBold">Collection: </span>
+                                                {digitalSpecimen['dwc:collectionCode']}
+                                            </p>
+                                        </button>
                                     </Col>
                                 </Row>
                             </Col>

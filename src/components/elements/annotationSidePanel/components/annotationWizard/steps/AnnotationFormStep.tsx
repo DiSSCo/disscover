@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
-import { GenerateAnnotationFormFieldProperties, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
+import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
 import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
@@ -16,18 +16,21 @@ import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 
 /* Import Types */
-import { AnnotationFormProperty, Dict, DropdownItem, SuperClass } from "app/Types";
+import { AnnotationFormProperty, AnnotationTarget, Dict, DropdownItem, SuperClass } from "app/Types";
 
 /* Import Components */
 import AnnotationFormSegment from './AnnotationFormSegment';
 import { Dropdown, InputTextArea } from "components/elements/customUI/CustomUI";
+import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 
 /* Props Type */
 type Props = {
     superClass: SuperClass
     schemaName: string,
+    localAnnotationTarget?: AnnotationTarget,
     formValues?: Dict,
+    SetLocalAnnotationTarget: Function,
     SetFieldValue?: Function,
     SetFormValues?: Function
 };
@@ -37,13 +40,13 @@ type Props = {
  * Component that renders the third and final step in the annotation wizard for defining the motivation and actual values
  * @param superClass The selected digital object
  * @param schemaName The name of the 
- * @param formValues The values of the annotation form
+ * @param formValues The values of the annotation 
  * @param SetFieldValue Funtion to set a value to a single field in the form
  * @param SetFormValues Function to set all of the values in the form
  * @returns JSX Component
  */
 const AnnotationFormStep = (props: Props) => {
-    const { superClass, schemaName, formValues, SetFieldValue, SetFormValues } = props;
+    const { superClass, schemaName, localAnnotationTarget, formValues, SetLocalAnnotationTarget, SetFieldValue, SetFormValues } = props;
 
     /* Hooks */
     const trigger = useTrigger();
@@ -72,7 +75,7 @@ const AnnotationFormStep = (props: Props) => {
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
         /* Either take JSON path from form values or the annotation target (when editing an annotation) */
-        let jsonPath: string = formValues?.jsonPath ?? annotationTarget?.jsonPath;
+        let jsonPath: string = annotationTarget?.directPath ? annotationTarget.jsonPath : formValues?.jsonPath;
         let localSuperClass: SuperClass = cloneDeep(superClass);
 
         if (formValues && annotationTarget?.annotation) {
@@ -91,27 +94,57 @@ const AnnotationFormStep = (props: Props) => {
 
         /* For selected class, get annotation form field properties and their values */
         GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
+            let parentJsonPath: string = '$';
+
+            if (annotationTarget?.jsonPath && FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {
+                parentJsonPath = FormatJsonPathFromFieldName(FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').slice(0, -1).join('_'));
+            }
+
             /* Set form values state with current values, based upon annotation form field properties */
             const newSetFormValues = {
                 ...formValues,
                 annotationValues: {
                     ...newFormValues,
-                    ...formValues?.annotationValues
+                    ...formValues?.annotationValues,
+                    value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value ?? newFormValues.value
                 },
-                /* Set JSON path from this checkpoint if editing an annotation */
+                /* Set JSON path and motivation from this checkpoint if editing an annotation */
                 ...(annotationTarget?.annotation && {
-                    jsonPath: jsonPath,
+                    jsonPath,
                     motivation: annotationTarget.annotation.motivation
+                }),
+                /* Set JSON path from this checkpoint if annotation target is a direct target */
+                ...(annotationTarget?.directPath && {
+                    ...(annotationTarget.type === 'term' ? {
+                        class: {
+                            label: MakeJsonPathReadableString((parentJsonPath !== '$' ? parentJsonPath : schemaName).replace(/\[\d+\]/g, ' ')),
+                            value: parentJsonPath.replace(/\[\d+\]/g, '')
+                        },
+                        value: {
+                            label: MakeJsonPathReadableString(annotationTarget.jsonPath.replace(/\[\d+\]/g, ' ')),
+                            value: annotationTarget.jsonPath.replace(/\[\d+\]/g, '')
+                        }
+                    } : {
+                        class: {
+                            label: MakeJsonPathReadableString(annotationTarget.jsonPath.replace(/\[\d+\]/g, ' ')),
+                            value: annotationTarget.jsonPath.replace(/\[\d+\]/g, '')
+                        },
+                        term: undefined
+                    }),
+                    jsonPath,
+                    motivation: jp.value(superClass, annotationTarget.jsonPath) ? 'oa:editing' : 'ods:adding'
                 })
             };
 
             /* Set form values */
             SetFormValues?.(newSetFormValues);
 
+            SetLocalAnnotationTarget(annotationTarget);
+
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);
         });
-    }, [formValues?.jsonPath]);
+    }, [annotationTarget]);
 
     /* From annotation form field properties, extract base object and its properties */
     if (!isEmpty(annotationFormFieldProperties) && formValues?.jsonPath) {

@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import { Formik, Form } from 'formik';
 import { isEmpty } from 'lodash';
+import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -15,7 +16,7 @@ import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSl
 import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
 
 /* Import Types */
-import { Dict, ProgressDot, SuperClass } from 'app/Types';
+import { AnnotationTarget, Dict, ProgressDot, SuperClass } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
@@ -60,43 +61,12 @@ const AnnotationWizard = (props: Props) => {
     const notification = useNotification();
     const trigger = useTrigger();
 
-    /* Define wizard step components using tabs */
+    /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const tourAnnotationWizardSelectedIndex = useAppSelector(getAnnotationWizardSelectedIndex);
-    const tabs: { [name: string]: JSX.Element } = {
-        ...(!annotationTarget?.annotation && {
-            annotationTarget: <AnnotationTargetStep schema={schema}
-                annotationCases={annotationCases}
-            />
-        }),
-        ...(!annotationTarget?.annotation && {
-            annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
-                schemaTitle={schema.title}
-            />
-        }),
-        annotationForm: <AnnotationFormStep superClass={superClass}
-            schemaName={schema.title}
-        />,
-        annotationSummary: <AnnotationSummaryStep superClass={superClass}
-            schemaTitle={schema.title}
-        />
-    };
-
-    /* Base variables */
-    const [tabStates, setTabStates] = useState<{
-        checked: boolean,
-        active: boolean
-    }[]>(
-        Object.keys(tabs).map((_key, index) => ({
-            checked: !index,
-            active: !index
-        }))
-    );
-
     const progressDots: ProgressDot[] = [];
-    const selectedIndex: number = tabStates.findIndex(tabState => tabState.active);
-    const completedTill: number = tabStates.findLastIndex(tabState => tabState.checked);
-    const initialFormValues: {
+    const [localAnnotationTarget, setLocalAnnotationTarget] = useState<AnnotationTarget | undefined>();
+    const [initialFormValues, setInitialFormValues] = useState<{
         class: {
             label: string,
             value: string
@@ -115,18 +85,68 @@ const AnnotationWizard = (props: Props) => {
                 [termName: string]: string
             } | { value: string }
         }
-    } = {
-        class: undefined,
-        term: undefined,
-        jsonPath: undefined,
-        parentClassDropdownValues: {},
-        motivation: undefined,
-        annotationValues: {}
+    } | undefined>(undefined);
+
+    /* OnLoad: define initial form values and local annotation target JSON path */
+    trigger.SetTrigger(() => {
+        setInitialFormValues({
+            class: undefined,
+            term: undefined,
+            jsonPath: annotationTarget?.jsonPath ?? undefined,
+            parentClassDropdownValues: {},
+            motivation: ((annotationTarget?.jsonPath && jp.value(superClass, annotationTarget?.jsonPath)) && 'oa:editing')
+                ?? (annotationTarget?.jsonPath && 'ods:adding') ?? undefined,
+            annotationValues: {}
+        });
+    }, []);
+
+    trigger.SetTrigger(() => {
+        if (localAnnotationTarget?.annotation) {
+            /* When changing the annotation target when editing an annotation, disable the annotation wizard */
+            StopAnnotationWizard();
+        } else if (annotationTarget?.directPath) {
+            GoToStep(2);
+        }
+    }, [annotationTarget]);
+
+    /* Define wizard step components using tabs */
+    const tabs: { [name: string]: JSX.Element } = {
+        /* Do not render the target step if editing an annotation or if the annotation target is predefined */
+        ...((!annotationTarget?.annotation) && {
+            annotationTarget: <AnnotationTargetStep schema={schema}
+                annotationCases={annotationCases}
+            />
+        }),
+        /* Do not render the select instance step if editing an annotation or if the annotation target is predefined */
+        ...((!annotationTarget?.annotation) && {
+            annotationSelectInstance: <AnnotationSelectInstanceStep superClass={superClass}
+                schemaTitle={schema.title}
+            />
+        }),
+        annotationForm: <AnnotationFormStep superClass={superClass}
+            schemaName={schema.title}
+            localAnnotationTarget={localAnnotationTarget}
+            SetLocalAnnotationTarget={setLocalAnnotationTarget}
+        />,
+        annotationSummary: <AnnotationSummaryStep superClass={superClass}
+            schemaTitle={schema.title}
+        />
     };
+    const [tabStates, setTabStates] = useState<{
+        checked: boolean,
+        active: boolean
+    }[]>(
+        Object.keys(tabs).map((_key, index) => ({
+            checked: !index,
+            active: !index
+        }))
+    );
+    const selectedIndex: number = tabStates.findIndex(tabState => tabState.active);
+    const completedTill: number = tabStates.findLastIndex(tabState => tabState.checked);
 
     /* Onchange of tour annotation wizard selected index, update local state */
     trigger.SetTrigger(() => {
-        if (typeof(tourAnnotationWizardSelectedIndex) !== 'undefined') {
+        if (typeof (tourAnnotationWizardSelectedIndex) !== 'undefined') {
             setTabStates([
                 {
                     checked: true, active: tourAnnotationWizardSelectedIndex === 0
@@ -177,7 +197,7 @@ const AnnotationWizard = (props: Props) => {
     /**
      * Function to set the annotation target based on the user's selection (wizard step one)
      */
-    const SetAnnotationTarget = (selectedOption: { label: string, value: string }, targetType: string) => {
+    const SetAnnotationTarget = (selectedOption: { label: string, value: string }, targetType: string, doNotContinue?: boolean) => {
         /* Check if class is the super class */
         let classType: 'class' | 'superClass' = 'class';
 
@@ -192,7 +212,9 @@ const AnnotationWizard = (props: Props) => {
         }));
 
         /* Go to next step in wizard */
-        GoToStep(tabStates.findIndex(tabState => tabState.active) + 1);
+        if (!doNotContinue) {
+            GoToStep(tabStates.findIndex(tabState => tabState.active) + 1);
+        }
     };
 
     /**
@@ -203,7 +225,7 @@ const AnnotationWizard = (props: Props) => {
 
         switch (stepIndex) {
             case 0:
-                if (formValues.class || formValues.term || annotationTarget?.annotation) {
+                if (formValues.class || formValues.term || annotationTarget?.annotation || initialFormValues?.jsonPath) {
                     forwardAllowed = true;
                 }
 
@@ -230,138 +252,143 @@ const AnnotationWizard = (props: Props) => {
             {/* Annotation wizard main body */}
             <Row className="flex-grow-1 overflow-hidden">
                 <Col className="h-100">
-                    <Formik initialValues={initialFormValues}
-                        onSubmit={async (values) => {
-                            await new Promise((resolve) => setTimeout(resolve, 100));
+                    {initialFormValues &&
+                        <Formik initialValues={initialFormValues}
+                            onSubmit={async (values) => {
+                                await new Promise((resolve) => setTimeout(resolve, 100));
 
-                            /* Extract and format annotation values from form values */
-                            const annotationValues: (string | Dict)[] = [];
+                                /* Extract and format annotation values from form values */
+                                const annotationValues: (string | Dict)[] = [];
 
-                            if (!('value' in values.annotationValues)) {
-                                annotationValues.push(JSON.stringify(ProcessAnnotationValues(values.jsonPath as string, values.annotationValues)));
-                            } else {
-                                annotationValues.push(values.annotationValues.value);
-                            }
-
-                            /* Construct annotation object */
-                            const newAnnotation = ConstructAnnotationObject({
-                                digitalObjectId: superClass['@id'],
-                                digitalObjectType: superClass['@type'],
-                                motivation: values.motivation ?? 'oa:commenting',
-                                annotationTargetType: values.annotationValues.value ? 'term' : 'class',
-                                jsonPath: values.jsonPath as string,
-                                annotationValues
-                            });
-
-                            /* Try to post the new annotation */
-                            SetLoading(true);
-
-                            /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
-                            try {
-                                /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
-                                if (annotationTarget?.annotation) {
-                                    await PatchAnnotation({
-                                        annotationId: annotationTarget.annotation.id,
-                                        updatedAnnotation: newAnnotation
-                                    });
+                                if (!('value' in values.annotationValues)) {
+                                    annotationValues.push(JSON.stringify(ProcessAnnotationValues(values.jsonPath as string, values.annotationValues)));
                                 } else {
-                                    await InsertAnnotation({
-                                        newAnnotation
-                                    });
+                                    annotationValues.push(values.annotationValues.value);
                                 }
 
-                                StopAnnotationWizard();
-
-                                /* Reset filter and sort values */
-                                SetFilterSortValues({
-                                    motivation: '',
-                                    sortBy: 'dateLatest'
-                                });
-                            } catch {
-                                notification.Push({
-                                    key: `${superClass['@id']}-${Math.random()}`,
-                                    message: `Failed to ${annotationTarget?.annotation ? 'update' : 'add'} the annotation. Please try saving it again.`,
-                                    template: 'error'
+                                /* Construct annotation object */
+                                const newAnnotation = ConstructAnnotationObject({
+                                    digitalObjectId: superClass['@id'],
+                                    digitalObjectType: superClass['@type'],
+                                    motivation: values.motivation ?? 'oa:commenting',
+                                    annotationTargetType: values.annotationValues.value ? 'term' : 'class',
+                                    jsonPath: values.jsonPath as string,
+                                    annotationValues
                                 });
 
-                                SetLoading(false);
-                            };
-                        }}
-                    >
-                        {({ values, setFieldValue, setValues }) => (
-                            <Form className="h-100 d-flex flex-column overflow-none">
-                                {/* Previous and next step buttons */}
-                                <Row>
-                                    <Col lg="auto">
-                                        <Button type="button"
-                                            variant="blank"
-                                            className="px-0 py-0 tc-primary fw-lightBold"
-                                            OnClick={() => StopAnnotationWizard()}
-                                        >
-                                            <p>
-                                                Exit
-                                            </p>
-                                        </Button>
-                                    </Col>
-                                    {!!selectedIndex &&
-                                        <Col lg>
+                                /* Try to post the new annotation */
+                                SetLoading(true);
+
+                                /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
+                                try {
+                                    /* If annotation record is present in annotation target, patch annotation, otherwise insert annotation */
+                                    if (annotationTarget?.annotation) {
+                                        await PatchAnnotation({
+                                            annotationId: annotationTarget.annotation.id,
+                                            updatedAnnotation: newAnnotation
+                                        });
+                                    } else {
+                                        await InsertAnnotation({
+                                            newAnnotation
+                                        });
+                                    }
+
+                                    StopAnnotationWizard();
+
+                                    /* Reset filter and sort values */
+                                    SetFilterSortValues({
+                                        motivation: '',
+                                        sortBy: 'dateLatest'
+                                    });
+                                } catch {
+                                    notification.Push({
+                                        key: `${superClass['@id']}-${Math.random()}`,
+                                        message: `Failed to ${annotationTarget?.annotation ? 'update' : 'add'} the annotation. Please try saving it again.`,
+                                        template: 'error'
+                                    });
+
+                                    SetLoading(false);
+                                };
+                            }}
+                        >
+                            {({ values, setFieldValue, setValues }) => (
+                                <Form className="h-100 d-flex flex-column overflow-none">
+                                    {/* Previous and next step buttons */}
+                                    <Row>
+                                        <Col lg="auto">
                                             <Button type="button"
                                                 variant="blank"
                                                 className="px-0 py-0 tc-primary fw-lightBold"
-                                                OnClick={() => GoToStep(selectedIndex - 1)}
+                                                OnClick={() => {
+                                                    StopAnnotationWizard();
+                                                    dispatch(setAnnotationTarget(undefined));
+                                                }}
                                             >
-                                                {`< Previous step`}
+                                                <p>
+                                                    Exit
+                                                </p>
                                             </Button>
                                         </Col>
-                                    }
-                                    {CheckForwardCriteria(selectedIndex, values) &&
-                                        <Col lg
-                                            className="d-flex justify-content-end"
-                                        >
-                                            <Button type="button"
-                                                variant="blank"
-                                                className="tourAnnotate12 tourAnnotate16 px-0 py-0 tc-primary fw-lightBold"
-                                                OnClick={() => GoToStep(selectedIndex + 1)}
+                                        {!!selectedIndex &&
+                                            <Col lg>
+                                                <Button type="button"
+                                                    variant="blank"
+                                                    className="px-0 py-0 tc-primary fw-lightBold"
+                                                    OnClick={() => GoToStep(selectedIndex - 1)}
+                                                >
+                                                    {`< Previous step`}
+                                                </Button>
+                                            </Col>
+                                        }
+                                        {CheckForwardCriteria(selectedIndex, values) &&
+                                            <Col lg
+                                                className="d-flex justify-content-end"
                                             >
-                                                {`Next step >`}
-                                            </Button>
+                                                <Button type="button"
+                                                    variant="blank"
+                                                    className="tourAnnotate12 tourAnnotate16 px-0 py-0 tc-primary fw-lightBold"
+                                                    OnClick={() => GoToStep(selectedIndex + 1)}
+                                                >
+                                                    {`Next step >`}
+                                                </Button>
+                                            </Col>
+                                        }
+                                    </Row>
+
+                                    {/* Wizard steps display */}
+                                    <Row className="flex-grow-1 overflow-hidden">
+                                        <Col className="h-100">
+                                            <Tabs tabs={tabs}
+                                                selectedIndex={selectedIndex}
+                                                tabClassName='d-none'
+                                                tabPanelClassName="flex-grow-1 overflow-hidden"
+                                                tabProps={{
+                                                    formValues: values,
+                                                    SetFieldValue: setFieldValue,
+                                                    SetFormValues: setValues,
+                                                    SetAnnotationTarget,
+                                                    GoToStep: GoToStep
+                                                }}
+                                                SetSelectedIndex={GoToStep}
+                                            />
                                         </Col>
-                                    }
-                                </Row>
-
-                                {/* Wizard steps display */}
-                                <Row className="flex-grow-1 overflow-hidden">
-                                    <Col className="h-100">
-                                        <Tabs tabs={tabs}
-                                            selectedIndex={selectedIndex}
-                                            tabClassName='d-none'
-                                            tabPanelClassName="flex-grow-1 overflow-hidden"
-                                            tabProps={{
-                                                formValues: values,
-                                                SetFieldValue: setFieldValue,
-                                                SetFormValues: setValues,
-                                                SetAnnotationTarget,
-                                                GoToStep: GoToStep
-                                            }}
-                                            SetSelectedIndex={GoToStep}
-                                        />
-                                    </Col>
-                                </Row>
+                                    </Row>
 
 
-                                {/* Progress dots adhering to the wizard */}
-                                <Row className="mt-3">
-                                    <Col>
-                                        <ProgressDots progressDots={progressDots}
-                                            selectedIndex={selectedIndex}
-                                            completedTill={completedTill}
-                                            ValidationFunction={(index: number) => CheckForwardCriteria(index, values)}
-                                        />
-                                    </Col>
-                                </Row>
-                            </Form>
-                        )}
-                    </Formik>
+                                    {/* Progress dots adhering to the wizard */}
+                                    <Row className="mt-3">
+                                        <Col>
+                                            <ProgressDots progressDots={progressDots}
+                                                selectedIndex={selectedIndex}
+                                                completedTill={completedTill}
+                                                ValidationFunction={(index: number) => CheckForwardCriteria(index, values)}
+                                            />
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            )}
+                        </Formik>
+                    }
                 </Col>
             </Row>
         </div>

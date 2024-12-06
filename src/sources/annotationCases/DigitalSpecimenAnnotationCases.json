@@ -9,7 +9,7 @@
         {
             "name": "Georeference",
             "type": "class",
-            "jsonPath": "$['ods:hasEvent']['ods:hasLocation']['ods:hasGeoreference']",
+            "jsonPath": "$['ods:hasEvents']['ods:hasLocation']['ods:hasGeoreference']",
             "icon": "faLocationDot"
         },
         {

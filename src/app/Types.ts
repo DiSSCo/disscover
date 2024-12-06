@@ -97,6 +97,7 @@ export type SuperClass = DigitalSpecimenType | DigitalMediaType | Dict;
 export type AnnotationTarget = {
     type: 'superClass' | 'class' | 'term',
     jsonPath: string,
+    directPath?: boolean,
     annotation?: {
         id: string,
         motivation: string,

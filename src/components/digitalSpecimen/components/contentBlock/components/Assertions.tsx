@@ -7,16 +7,28 @@ import { ClassProperties } from "components/elements/Elements";
 
 /* Props Type */
 type Props = {
-    digitalSpecimen: DigitalSpecimen
+    digitalSpecimen: DigitalSpecimen,
+    annotationMode: boolean,
+    SetAnnotationTarget: Function
 };
 
 
 /**
- * Component that renders 
- * @returns 
+ * Component that renders
+ * @param digitalSpecimen The selected digital specimen
+ * @param annotationMode Boolean indicating ig the annotation mode is on
+ * @param SetAnnotationTarget Function to set the annotation target
+ * @returns JSX Component
  */
 const Assertions = (props: Props) => {
-    const { digitalSpecimen } = props;
+    const { digitalSpecimen, annotationMode, SetAnnotationTarget } = props;
+
+    /* Base variables */
+    const jsonPaths: {
+        [propertySection: string]: string
+    } = {
+        mainProperties: "$['ods:hasAssertions'][index]",
+    };
 
     return (
         <div className="h-100">
@@ -25,6 +37,9 @@ const Assertions = (props: Props) => {
                     index={index}
                     title="assertion"
                     properties={assertion}
+                    jsonPaths={jsonPaths}
+                    annotationMode={annotationMode}
+                    SetAnnotationTarget={SetAnnotationTarget}
                 />
             ))}
         </div>

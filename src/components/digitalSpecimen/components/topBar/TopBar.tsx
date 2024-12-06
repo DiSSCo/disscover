@@ -26,7 +26,7 @@ import { Dropdown, Tooltip } from "components/elements/customUI/CustomUI";
 type Props = {
     digitalSpecimen: DigitalSpecimen,
     annotationMode: boolean,
-    ToggleAnnotationSidePanel: Function
+    ToggleAnnotationMode: Function
 };
 
 
@@ -34,11 +34,11 @@ type Props = {
  * Component that renders the top bar on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
  * @param annotationMode Boolean that indicates if the annotation mode is toggled
- * @param ToggleAnnotationSidePanel Function to toggle the annotation side panel
+ * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalSpecimen, annotationMode, ToggleAnnotationSidePanel } = props;
+    const { digitalSpecimen, annotationMode, ToggleAnnotationMode } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -156,7 +156,7 @@ const TopBar = (props: Props) => {
                 <Col className="tourDigitalSpecimen4">
                     <TopBarActions actionDropdownItems={actionDropdownItems}
                         annotationMode={annotationMode}
-                        ToggleAnnotationSidePanel={ToggleAnnotationSidePanel}
+                        ToggleAnnotationMode={ToggleAnnotationMode}
                     />
                 </Col>
             </Row>

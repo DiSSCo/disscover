@@ -4,6 +4,9 @@ import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from "app/Utilities";
+
 /* Import Hooks */
 import { useFetch } from "app/Hooks";
 
@@ -71,7 +74,7 @@ const TopBar = (props: Props) => {
     /* OnLoad: fetch digital media versions */
     fetch.Fetch({
         params: {
-            handle: digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')
         },
         Method: GetDigitalMediaVersions,
         Handler: (versions: number[]) => {
@@ -84,7 +87,7 @@ const TopBar = (props: Props) => {
      */
     const ViewDigitalMediaJSON = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
-            `/api/v1/digital-media/${digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}`
+            `/api/v1/digital-media/${digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}`
         );
     };
 
@@ -102,7 +105,7 @@ const TopBar = (props: Props) => {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(jsonFile);
 
-        link.download = `${digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL as string, '')}_${digitalMedia['ods:version']}.json`;
+        link.download = `${digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL') as string, '')}_${digitalMedia['ods:version']}.json`;
 
         link.click();
     };
@@ -113,7 +116,7 @@ const TopBar = (props: Props) => {
             <Row>
                 <Col>
                     <h2 className="fs-pageTitle">
-                        {digitalMedia["dcterms:title"] ?? digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}
+                        {digitalMedia["dcterms:title"] ?? digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}
                     </h2>
                 </Col>
             </Row>
@@ -136,7 +139,7 @@ const TopBar = (props: Props) => {
                                         borderRadius: '999px'
                                     }}
                                     OnChange={(dropdownItem: DropdownItem) =>
-                                        navigate(`/dm/${digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}/${dropdownItem.value}`)}
+                                        navigate(`/dm/${digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}/${dropdownItem.value}`)}
                                 />
                             </Col>
                         }

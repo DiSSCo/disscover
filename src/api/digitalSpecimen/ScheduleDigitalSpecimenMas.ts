@@ -2,6 +2,9 @@
 import axios from 'axios';
 import KeycloakService from 'app/Keycloak';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Exceptions */
 import { PostException } from 'app/Exceptions';
 
@@ -42,7 +45,7 @@ const ScheduleDigitalSpecimenMas = async ({ handle, masList }: { handle: string,
         try {
             const result = await axios({
                 method: 'post',
-                url: `digital-specimen/${handle.replace(import.meta.env.VITE_DOI_URL, '')}/mas`,
+                url: `digital-specimen/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mas`,
                 responseType: 'json',
                 data: masRecord,
                 headers: {

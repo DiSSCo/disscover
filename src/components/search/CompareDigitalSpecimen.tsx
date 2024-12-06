@@ -5,6 +5,9 @@ import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppDispatch, useFetch, useSearchFilters } from "app/Hooks";
 
@@ -131,7 +134,7 @@ const CompareDigitalSpecimen = () => {
                 ds: []
             };
 
-            compareDigitalSpecimenIds.filter(id => id !== digitalSpecimenId.replace(import.meta.env.VITE_DOI_URL, '')).forEach(digitalSpecimenId => {
+            compareDigitalSpecimenIds.filter(id => id !== digitalSpecimenId.replace(RetrieveEnvVariable('DOI_URL'), '')).forEach(digitalSpecimenId => {
                 searchFiltersObject.ds.push(digitalSpecimenId);
             });
 

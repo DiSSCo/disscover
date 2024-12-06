@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col } from 'react-bootstrap';
 import { useLocation, Link } from "react-router-dom";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector } from 'app/Hooks';
 
@@ -57,8 +60,8 @@ const BreadCrumbs = () => {
                 });
 
                 breadCrumbs.push({
-                    crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`,
-                    path: `/ds/${digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`
+                    crumb: `${digitalSpecimen?.['ods:specimenName'] ?? digitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`,
+                    path: `/ds/${digitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`
                 });
 
                 break;
@@ -70,7 +73,7 @@ const BreadCrumbs = () => {
 
                 const digitalMediaDigitalSpecimenId: string | undefined = digitalMedia?.['ods:hasEntityRelationships']?.find(
                     entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
-                )?.['dwc:relatedResourceID'].replace(import.meta.env.VITE_DOI_URL, '');
+                )?.['dwc:relatedResourceID'].replace(RetrieveEnvVariable('DOI_URL'), '');
 
                 if (digitalMediaDigitalSpecimenId) {
                     breadCrumbs.push({
@@ -84,7 +87,7 @@ const BreadCrumbs = () => {
                 });
 
                 breadCrumbs.push({
-                    crumb: `${digitalMedia?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`
+                    crumb: `${digitalMedia?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`
                 });
 
                 break;

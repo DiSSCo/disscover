@@ -4,6 +4,9 @@ import { Formik, Form } from "formik";
 import { Row, Col, Card } from "react-bootstrap";
 import Select from 'react-select';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector, useNotification } from "app/Hooks";
 
@@ -147,9 +150,9 @@ const MASScheduleMenu = (props: Props) => {
                                             let linkToOrchestration: string;
 
                                             if (window.location.hostname.includes('dev') || window.location.hostname.includes('localhost')) {
-                                                linkToOrchestration = `https://dev-orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                                linkToOrchestration = `https://dev-orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`;
                                             } else {
-                                                linkToOrchestration = `https://orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(import.meta.env.VITE_HANDLE_URL, '')}`;
+                                                linkToOrchestration = `https://orchestration.dissco.tech/mas/${mas?.["@id"]?.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`;
                                             }
 
                                             if (mas) {

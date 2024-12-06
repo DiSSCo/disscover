@@ -1,6 +1,9 @@
 /* Import Dependencies */
 import { useState, useEffect, useRef } from "react";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Styles */
 import './DOITooltip.css';
 
@@ -105,14 +108,14 @@ const DOITooltipDemo = (props: Props) => {
             if (doi.includes('TEST') || doi.includes('SANDBOX')) {
                 let environment: string = doi.includes('SANDBOX') ? 'sandbox' : 'dev';
 
-                const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/v1/pids/${doi.replace(import.meta.env.VITE_DOI_URL as string, '')}`);
+                const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/v1/pids/${doi.replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
                 const record = await response.json();
 
                 if (record.data) {
                     setRecord(record);
                 }
             } else if (doi.includes('20.5000.1025')) {
-                const respone = await fetch(`https://hdl.handle.net/api/handles/${doi.replace(import.meta.env.VITE_DOI_URL as string, '')}`);
+                const respone = await fetch(`https://hdl.handle.net/api/handles/${doi.replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
                 const responseRecord = await respone.json();
 
                 if (responseRecord.values.length) {
@@ -121,7 +124,7 @@ const DOITooltipDemo = (props: Props) => {
                     setRecord(record);
                 }
             } else if (doi.includes('10.3535')) {
-                const response = await fetch(`https://doi.org/api/handles/${doi.replace(import.meta.env.VITE_DOI_URL as string, '')}`);
+                const response = await fetch(`https://doi.org/api/handles/${doi.replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
                 const responseRecord = await response.json();
 
                 if (responseRecord.values.length) {

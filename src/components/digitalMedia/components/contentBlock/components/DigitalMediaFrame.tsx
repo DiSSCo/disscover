@@ -1,6 +1,9 @@
 /* Import Dependencies */
 import { Annotorious } from "@annotorious/react";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from "app/Utilities";
+
 /* Import Components */
 import { ImageViewer } from "components/elements/Elements";
 
@@ -34,7 +37,7 @@ const DigitalMediaFrame = (props: Props) => {
             <Annotorious>
                 <ImageViewer digitalMedia={digitalMedia}
                     annotoriousMode={annotoriousMode}
-                    GetAnnotations={() => GetDigitalMediaAnnotations({ handle: digitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '') })}
+                    GetAnnotations={() => GetDigitalMediaAnnotations({ handle: digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '') })}
                     SetAnnotoriousMode={SetAnnotoriousMode}
                 />
             </Annotorious>

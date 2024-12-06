@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { startCase } from "lodash";
+import { startCase, toUpper } from "lodash";
 
 
 /**
@@ -40,7 +40,16 @@ const MobileCheck = (): boolean => {
     return isMobile;
 };
 
+/**
+ * Function for retieving an environment variable by name
+ * @param name The name of the environment variable
+ */
+const RetrieveEnvVariable = (name: string) => {
+    return import.meta.env[`VITE_${toUpper(name)}`];
+};
+
 export {
     MobileCheck,
-    MakeReadableString
+    MakeReadableString,
+    RetrieveEnvVariable
 };

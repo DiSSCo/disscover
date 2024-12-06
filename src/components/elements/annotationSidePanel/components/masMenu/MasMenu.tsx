@@ -3,6 +3,9 @@ import KeycloakService from 'app/Keycloak';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector, useFetch } from 'app/Hooks';
 
@@ -55,7 +58,7 @@ const MASMenu = (props: Props) => {
     /* OnLoad, fetch MAS job records */
     fetch.Fetch({
         params: {
-            handle: superClass?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: superClass?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
         },
         Method: GetMas,
         Handler: (mass: MachineAnnotationService[]) => {

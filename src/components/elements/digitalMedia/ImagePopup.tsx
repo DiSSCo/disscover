@@ -7,6 +7,9 @@ import KeycloakService from "app/Keycloak";
 import { useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useNotification, useTrigger } from "app/Hooks";
 
@@ -145,7 +148,7 @@ const ImagePopup = (props: Props) => {
                                         {userTag}
                                     </p>
                                     <p className="fs-5 tc-grey">
-                                        {annotation["@id"].replace(import.meta.env.VITE_HANDLE_URL, '')}
+                                        {annotation["@id"].replace(RetrieveEnvVariable('HANDLE_URL'), '')}
                                     </p>
                                 </Col>
                                 <Col lg="auto">

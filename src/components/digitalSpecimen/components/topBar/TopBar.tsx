@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 /* Import Utilities */
+import { RetrieveEnvVariable } from "app/Utilities";
 import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
 
 /* Import Hooks */
@@ -71,7 +72,7 @@ const TopBar = (props: Props) => {
     /* OnLoad: fetch digital specimen versions */
     fetch.Fetch({
         params: {
-            handle: digitalSpecimen['@id'].replace(import.meta.env.VITE_DOI_URL, '')
+            handle: digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
         },
         Method: GetDigitalSpecimenVersions,
         Handler: (versions: number[]) => {
@@ -84,7 +85,7 @@ const TopBar = (props: Props) => {
      */
     const ViewDigitalSpecimenJSON = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
-            `/api/v1/digital-specimen/${digitalSpecimen['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`
+            `/api/v1/digital-specimen/${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`
         );
     };
 
@@ -102,7 +103,7 @@ const TopBar = (props: Props) => {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(jsonFile);
 
-        link.download = `${digitalSpecimen['@id'].replace(import.meta.env.VITE_DOI_URL as string, '')}_${digitalSpecimen['ods:version']}.json`;
+        link.download = `${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL') as string, '')}_${digitalSpecimen['ods:version']}.json`;
 
         link.click();
     };
@@ -150,7 +151,7 @@ const TopBar = (props: Props) => {
                                         borderRadius: '999px'
                                     }}
                                     OnChange={(dropdownItem: DropdownItem) =>
-                                        navigate(`/ds/${digitalSpecimen["@id"].replace(import.meta.env.VITE_DOI_URL, '')}/${dropdownItem.value}`)}
+                                        navigate(`/ds/${digitalSpecimen["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}/${dropdownItem.value}`)}
                                 />
                             </Col>
                         }

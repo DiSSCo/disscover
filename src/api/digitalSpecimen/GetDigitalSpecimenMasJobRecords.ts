@@ -1,6 +1,9 @@
 /* Import Dependencies */
 import axios from 'axios';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Types */
 import { MasJobRecord, JSONResultArray, Dict } from 'app/Types';
 
@@ -23,7 +26,7 @@ const GetDigitalSpecimenMasJobRecords = async ({ handle, pageSize, pageNumber, s
     };
 
     if (handle) {
-        const endPoint: string = `/digital-specimen/${handle.replace(import.meta.env.VITE_DOI_URL, '')}/mjr`;
+        const endPoint: string = `/digital-specimen/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mjr`;
 
         try {
             const result = await axios({

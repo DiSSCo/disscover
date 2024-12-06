@@ -2,6 +2,9 @@
 import axios from 'axios';
 import KeycloakService from 'app/Keycloak';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
 import { AnnotationTemplate, JSONResult } from 'app/Types';
@@ -37,7 +40,7 @@ const PatchAnnotation = async ({ annotationId, updatedAnnotation }: { annotation
     try {
         const result = await axios({
             method: 'patch',
-            url: `annotation/${annotationId.replace(import.meta.env.VITE_HANDLE_URL, '')}`,
+            url: `annotation/${annotationId.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`,
             responseType: 'json',
             data: patchAnnotation,
             headers: {

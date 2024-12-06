@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
 import { ProvideReadableMotivation } from 'app/utilities/AnnotateUtilities';
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
@@ -78,7 +79,7 @@ const AnnotationCard = (props: Props) => {
                 <Row>
                     <Col>
                         <p className="fs-5 tc-grey">
-                            {annotation['@id'].replace(import.meta.env.VITE_HANDLE_URL, '')}
+                            {annotation['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '')}
                         </p>
                     </Col>
                     <Col lg="auto">

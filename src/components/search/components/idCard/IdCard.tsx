@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
 /* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
 import { DetermineScientificName, GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
 
 /* Import Hooks */
@@ -52,14 +53,14 @@ const IdCard = () => {
             {
                 alias: 'digitalSpecimen',
                 params: {
-                    handle: searchDigitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
+                    handle: searchDigitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
                 },
                 Method: GetDigitalSpecimen,
             },
             {
                 alias: 'digitalMedia',
                 params: {
-                    handle: searchDigitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')
+                    handle: searchDigitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
                 },
                 Method: GetDigitalSpecimenDigitalMedia
             }
@@ -139,7 +140,7 @@ const IdCard = () => {
                     <Col lg="auto"
                         className="d-flex align-items-center"
                     >
-                        <p className="fs-4 tc-grey">{digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}</p>
+                        <p className="fs-4 tc-grey">{digitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}</p>
                     </Col>
                 </Row>
                 {/* Primary details of digital specimen */}
@@ -209,7 +210,7 @@ const IdCard = () => {
                                                 <Button type="button"
                                                     variant="blank"
                                                     className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
-                                                    OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                                                    OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
                                                 >
                                                     <DigitalMediaItem digitalMedia={digitalMedia} />
                                                 </Button>
@@ -240,7 +241,7 @@ const IdCard = () => {
                     <Col lg="auto">
                         <Button type="button"
                             variant="primary"
-                            OnClick={() => navigate(`/ds/${digitalSpecimen?.['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                            OnClick={() => navigate(`/ds/${digitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
                         >
                             <Row>
                                 <Col className="pe-0">

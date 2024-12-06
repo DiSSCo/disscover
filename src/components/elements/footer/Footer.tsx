@@ -3,6 +3,12 @@ import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+/* Import Webroot */
+import EUFundedLogo from 'webroot/logos/euFundedLogo.png';
+
+/* Import Styles */
+import styles from './Footer.module.scss';
+
 /* Import Components */
 import { Button } from '../customUI/CustomUI';
 
@@ -40,8 +46,17 @@ const Footer = (props: Props) => {
                     className={footerClass}
                 >
                     <Row>
-                        {/* DiSSCo contribution */}
+                        {/* EU funded logo */}
                         <Col lg="auto">
+                            <img src={EUFundedLogo}
+                                alt="Funded by the European Union"
+                                className={styles.euFundedLogo}
+                            />
+                        </Col>
+                        {/* DiSSCo contribution */}
+                        <Col lg="auto"
+                            className="d-flex align-items-center"
+                        >
                             <a href="https://dissco.eu"
                                 target="_blank"
                                 rel="noreferer"
@@ -50,7 +65,7 @@ const Footer = (props: Props) => {
                             </a>
                         </Col>
                         {/* Support link */}
-                        <Col>
+                        <Col className="d-flex align-items-center">
                             <a href="mailto: support@dissco.jitbit.com"
                                 rel="noreferer"
                             >
@@ -59,7 +74,7 @@ const Footer = (props: Props) => {
                         </Col>
                         {/* Link to acknowledgements */}
                         <Col lg="auto"
-                            className="d-flex flex-column align-items-start"
+                            className="d-flex flex-column align-items-center"
                         >
                             <Button type="button"
                                 variant="blank"
@@ -71,7 +86,7 @@ const Footer = (props: Props) => {
                         </Col>
                         {/* Link to privacy policy */}
                         <Col lg="auto"
-                            className="d-flex flex-column align-items-start"
+                            className="d-flex flex-column align-items-center"
                         >
                             <Button type="button"
                                 variant="blank"
@@ -83,7 +98,7 @@ const Footer = (props: Props) => {
                         </Col>
                         {/* Terms of service link */}
                         <Col lg="auto"
-                            className="d-flex flex-column align-items-start"
+                            className="d-flex flex-column align-items-center"
                         >
                             <Button type="button"
                                 variant="blank"

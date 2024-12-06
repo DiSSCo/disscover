@@ -32,14 +32,22 @@ const DataExport = () => {
 
     /* Base variables */
     const [sourceSystemDropdownItems, setSourceSystemDropdownItems] = useState<DropdownItem[]>([]);
+    const exportTypeDropdownItems: DropdownItem[] = [
+        {
+            label: 'List DOI',
+            value: 'DOI_LIST'
+        }
+    ];
     const initialValues: {
+        exportType: string | undefined,
         sourceSystemID: string | undefined
     } = {
+        exportType: undefined,
         sourceSystemID: undefined
     };
 
-    /* OnLoad, redirect to home if user is not logged in yet */
-    trigger.SetTrigger(() => {
+    /* OnLoad, redirect to home if user is not logged in yet, otherwise extract digital specimen schema */
+    trigger.SetTrigger(async () => {
         if (!KeycloakService.IsLoggedIn()) {
             navigate('/');
         }
@@ -84,6 +92,8 @@ const DataExport = () => {
                                 /* Post data export request */
                                 try {
                                     await ScheduleDataExport({
+                                        targetType: 'https://doi.org/21.T11148/894b1e6cad57e921764e',
+                                        exportType: values.exportType,
                                         dataExportKey: "$[ods:sourceSystemID]",
                                         dataExportValue: values.sourceSystemID
                                     });
@@ -120,6 +130,17 @@ const DataExport = () => {
                                                 </p>
                                             </Col>
                                         </Row>
+                                        {/* Eport type dropdown */}
+                                        <Row className="mt-3">
+                                            <Col>
+                                                <p className="fs-4 mb-1">
+                                                    Select an export type:
+                                                </p>
+                                                <Dropdown items={exportTypeDropdownItems}
+                                                    OnChange={(exportTypeOption: DropdownItem) => setFieldValue('exportType', exportTypeOption.value)}
+                                                />
+                                            </Col>
+                                        </Row>
                                         {/* Source system dropdown */}
                                         <Row className="mt-3">
                                             <Col>
@@ -138,7 +159,7 @@ const DataExport = () => {
                                             <Col lg="auto">
                                                 <Button type="submit"
                                                     variant="primary"
-                                                    disabled={!values.sourceSystemID}
+                                                    disabled={!values.exportType || !values.sourceSystemID}
                                                 >
                                                     <p>
                                                         Submit

@@ -8,14 +8,18 @@ import { PostException } from 'app/Exceptions';
 
 /**
  * Function for posting a scheduling job for a data export based upon the provided key and value
+ * @param targetType Type of the digital object targeted for data export
+ * @param exportType The type of the export job
  * @param dataExportKey The key of the property to execute the data export for
  * @param dataExportValue The value which should be used together with the key to create the data export
  * @returns Boolean indicating if the download request was succesfull
  */
-const ScheduleDataExport = async ({ dataExportKey, dataExportValue }: { dataExportKey?: string, dataExportValue?: string }) => {
+const ScheduleDataExport = async ({ targetType, exportType, dataExportKey, dataExportValue }:
+    { targetType: string, exportType?: string, dataExportKey?: string, dataExportValue?: string }
+) => {
     let success: boolean = false;
 
-    if (dataExportKey && dataExportValue) {
+    if (targetType && exportType && dataExportKey && dataExportValue) {
         const token = KeycloakService.GetToken();
 
         const exportJob: {
@@ -40,8 +44,8 @@ const ScheduleDataExport = async ({ dataExportKey, dataExportValue }: { dataExpo
                             inputValue: dataExportValue
                         }
                     ],
-                    targetType: 'https://doi.org/21.T11148/894b1e6cad57e921764e',
-                    exportType: 'DOI_LIST'
+                    targetType,
+                    exportType
                 }
             }
         };

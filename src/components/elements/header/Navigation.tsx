@@ -28,17 +28,37 @@ const Navigation = () => {
 
     return (
         <div className="h-100">
-            <Row className="h-100">
+            <Row className="h-100 justify-content-center">
                 {/* Link to Home */}
-                <Col className="d-flex justify-content-end align-items-center pe-5">
+                <Col lg="auto"
+                    className="d-flex justify-content-end align-items-center"
+                >
                     <Link to="/">
                         <p className={NavItemClass('home')}>Home</p>
                     </Link>
                 </Col>
                 {/* Link to Search */}
-                <Col className="d-flex align-items-center ps-5">
+                <Col lg="auto"
+                    className="d-flex align-items-center px-5"
+                >
                     <Link to="/search">
                         <p className={NavItemClass('search')}>All Specimens</p>
+                    </Link>
+                </Col>
+                {/* Link to About */}
+                <Col lg="auto"
+                    className="d-flex align-items-center pe-5"
+                >
+                    <Link to="/about">
+                        <p className={NavItemClass('about')}>About</p>
+                    </Link>
+                </Col>
+                {/* Link to Acknowledgements */}
+                <Col lg="auto"
+                    className="d-flex align-items-center"
+                >
+                    <Link to="/acknowledgements">
+                        <p className={NavItemClass('acknowledgements')}>Acknowledgements</p>
                     </Link>
                 </Col>
             </Row>

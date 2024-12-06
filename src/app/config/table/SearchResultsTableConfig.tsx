@@ -82,6 +82,7 @@ const SearchResultsTableConfig = () => {
         }),
         columnHelper.accessor('specimenName', {
             header: 'Specimen Name',
+            cell: info => <span dangerouslySetInnerHTML={{__html: info.getValue()}} />,
             meta: {
                 widthInRem: 14,
                 pinned: true

@@ -4,6 +4,9 @@ import jp from 'jsonpath';
 import { useState, createElement, DetailedReactHTMLElement, HTMLAttributes } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
+/* Import Utilities */
+import { GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
+
 /* Import Config */
 import DigitalSpecimenIdCardConfig from 'app/config/idCard/DigitalSpecimenIdCardConfig';
 
@@ -13,7 +16,6 @@ import { useTrigger } from 'app/Hooks';
 /* Import Types */
 import { DigitalMedia } from 'app/types/DigitalMedia';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { Identification } from 'app/types/Identification';
 
 
 /* Props Type */
@@ -67,20 +69,6 @@ const IdCard = (props: Props) => {
         };
     }, []);
 
-    /**
-     * Function to get the HTML label of the first accepted identification within the specimen, if not present, provide generic specimen name
-     * @returns HTML label or specimen name string
-     */
-    const GetSpecimenNameHTMLLabel = () => {
-        const acceptedIdentification: Identification | undefined = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
-
-        if (acceptedIdentification) {
-            return acceptedIdentification['ods:hasTaxonIdentifications']?.[0]['ods:scientificNameHTMLLabel'] ?? digitalSpecimen['ods:specimenName'] ?? '';
-        } else {
-            return digitalSpecimen['ods:specimenName'] ?? '';
-        }
-    };
-
     /* Class Names */
     const idCardItemClass = classNames({
         'hover-grey mc-pointer': annotationMode
@@ -116,7 +104,7 @@ const IdCard = (props: Props) => {
                                     >
                                         <p className="fw-lightBold">Specimen Name</p>
                                         <p className="textOverflow"
-                                            dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel() }}
+                                            dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }}
                                         />
                                     </button>
                                 </Col>

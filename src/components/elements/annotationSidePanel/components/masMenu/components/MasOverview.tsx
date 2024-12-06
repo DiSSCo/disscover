@@ -41,7 +41,7 @@ const MasOverview = (props: Props) => {
     /* Hooks */
     const pagination = usePagination({
         pageSize: 25,
-        resultKey: 'MasJobRecords',
+        resultKey: 'masJobRecords',
         params: {
             handle: digitalObjectId,
             state: masJobRecordStateFilter

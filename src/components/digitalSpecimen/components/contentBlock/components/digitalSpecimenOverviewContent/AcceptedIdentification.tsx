@@ -2,6 +2,9 @@
 import classNames from "classnames";
 import { Row, Col } from "react-bootstrap";
 
+/* Import Utilities */
+import { GetSpecimenGenusLabel } from "app/utilities/NomenclaturalUtilities";
+
 /* Import Types */
 import { Identification } from "app/types/Identification";
 
@@ -161,7 +164,7 @@ const AcceptedIdentification = (props: Props) => {
                                 >
                                     <p className="fs-4 textOverflow">
                                         <span className="fw-lightBold">Genus: </span>
-                                        <span className="fst-italic">{acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:genus"]}</span>
+                                        <span dangerouslySetInnerHTML={{__html: GetSpecimenGenusLabel(acceptedIdentification)}} />
                                     </p>
                                 </button>
                             </Col>

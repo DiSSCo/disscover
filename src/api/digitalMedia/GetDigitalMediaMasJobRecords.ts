@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResultArray, Dict } from 'app/Types';
+import { MasJobRecord, JSONResultArray, Dict } from 'app/Types';
 
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';
@@ -16,7 +16,7 @@ import { NotFoundException } from 'app/Exceptions';
  */
 const GetDigitalMediaMasJobRecords = async ({ handle, pageSize, pageNumber, state }: { handle: string, pageSize?: number, pageNumber: number, state?: string }) => {
     let returnData: {
-        masJobRecords: Dict[],
+        masJobRecords: MasJobRecord[],
         links?: Dict
     } = {
         masJobRecords: []
@@ -41,7 +41,7 @@ const GetDigitalMediaMasJobRecords = async ({ handle, pageSize, pageNumber, stat
             const data: JSONResultArray = result.data;
 
             data.data.forEach(dataFragment => {
-                returnData.masJobRecords.push(dataFragment.attributes);
+                returnData.masJobRecords.push(dataFragment.attributes as MasJobRecord);
             });
 
             /* Set return data */

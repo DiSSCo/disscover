@@ -4,6 +4,9 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
+/* Import Utiltiies */
+import { GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
+
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { Event } from 'app/types/Event';
@@ -70,8 +73,18 @@ const DigitalSpecimenOverview = (props: Props) => {
      * Function to craft a citation string for this digital specimen
      * @returns Citation string
      */
-    const CraftCitation = () => {
-        return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']} [Dataset]. ${digitalSpecimen['@id']}`;
+    const CraftCitation = (label?: boolean) => {
+        if (label) {
+            return (
+                <>
+                    {`Distributed System of Scientific Collections (${new Date().getFullYear()}). `}
+                    <span dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }} />
+                    {`. ${digitalSpecimen['ods:organisationName'] ? digitalSpecimen['ods:organisationName'] + '.' : ''} [Dataset]. ${digitalSpecimen['@id']}`}
+                </>
+            );
+        } else {
+            return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']}. ${digitalSpecimen['ods:organisationName'] ? digitalSpecimen['ods:organisationName'] + '.' : ''} [Dataset]. ${digitalSpecimen['@id']}`;
+        }
     };
 
     /* Class Names */
@@ -278,7 +291,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <Row>
                                         <Col className="overflow-scroll">
                                             <p className="fs-4">
-                                                {CraftCitation()}
+                                                {CraftCitation(true)}
                                             </p>
                                         </Col>
                                         <Col lg="auto">
@@ -286,7 +299,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                                 variant="blank"
                                                 className="px-0 py-0"
                                                 OnClick={() => {
-                                                    navigator.clipboard.writeText(CraftCitation());
+                                                    navigator.clipboard.writeText(CraftCitation() as string);
                                                     setCopyMessage('Copied');
 
                                                     setTimeout(() => {

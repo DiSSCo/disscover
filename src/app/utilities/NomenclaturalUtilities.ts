@@ -1,5 +1,6 @@
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+import { Identification } from "app/types/Identification";
 import { Dict } from "app/Types"
 
 
@@ -42,7 +43,36 @@ const DetermineTopicDisciplineIcon = async (topicDiscipline?: string) => {
     return icon;
 };
 
+/**
+ * Function to get the HTML label of the first accepted identification within the digital specimen, if not present, provide generic specimen name
+ * @param digitalSpecimen The provided digital specimen
+ * @returns HTML label or specimen name string
+ */
+const GetSpecimenNameHTMLLabel = (digitalSpecimen: DigitalSpecimen): string => {
+    const acceptedIdentification: Identification | undefined = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
+
+    if (acceptedIdentification) {
+        return acceptedIdentification['ods:hasTaxonIdentifications']?.[0]['ods:scientificNameHTMLLabel'] ?? digitalSpecimen['ods:specimenName'] ?? '';
+    } else {
+        return digitalSpecimen['ods:specimenName'] ?? '';
+    }
+};
+
+/**
+ * Function to get the genus HTML label of the first accepted identification within the digital specimen, if not present, provide generic genus string
+ * @param digitalSpecimen The provided digital specimen
+ */
+const GetSpecimenGenusLabel = (acceptedIdentification: Identification): string => {
+    if (acceptedIdentification) {
+        return acceptedIdentification['ods:hasTaxonIdentifications']?.[0]['ods:genusHTMLLabel'] ?? acceptedIdentification['ods:hasTaxonIdentifications']?.[0]["dwc:genus"] ?? '';
+    } else {
+        return '';
+    }
+};
+
 export {
     DetermineScientificName,
-    DetermineTopicDisciplineIcon
+    DetermineTopicDisciplineIcon,
+    GetSpecimenNameHTMLLabel,
+    GetSpecimenGenusLabel
 };

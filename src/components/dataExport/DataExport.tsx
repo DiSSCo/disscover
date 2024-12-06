@@ -51,7 +51,7 @@ const DataExport = () => {
         Handler: (sourceSystems: SourceSystem[]) => {
             const sourceSystemDropdownItems: DropdownItem[] = [];
 
-            sourceSystems.map(sourceSytem => {
+            sourceSystems.forEach(sourceSytem => {
                 sourceSystemDropdownItems.push({
                     label: sourceSytem['schema:name'] ?? sourceSytem['schema:identifier'],
                     value: sourceSytem['@id'] ?? sourceSytem['schema:identifier']

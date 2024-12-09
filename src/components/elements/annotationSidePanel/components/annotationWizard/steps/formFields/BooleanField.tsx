@@ -9,8 +9,7 @@ import { AnnotationFormProperty } from "app/Types";
 /* Props Type */
 type Props = {
     fieldProperty: AnnotationFormProperty,
-    fieldName: string,
-    fieldValue?: string
+    fieldName: string
 };
 
 

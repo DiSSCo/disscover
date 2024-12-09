@@ -6,6 +6,7 @@ import { AnnotationFormProperty } from "app/Types";
 
 /* Import Components */
 import { DateField, SelectField, StringNumberField } from './FormFieldComponents';
+import { InputTextArea } from "components/elements/customUI/CustomUI";
 
 
 /* Props Type */
@@ -13,6 +14,7 @@ type Props = {
     fieldProperty: AnnotationFormProperty,
     fieldName: string,
     fieldValue?: string,
+    motivation: string,
     SetFieldValue?: Function
 };
 
@@ -22,11 +24,12 @@ type Props = {
  * @param fieldProperty The annotation form field property that corresponds to the targetted term
  * @param fieldName The name of the annotation form field
  * @param fieldValue If present, the value of the annotation form field
+ * @param motivation The selected motivation for making the annotation
  * @param SetFieldValue Function to set the value of a field in the annotation wizard form
  * @returns JSX Component
  */
 const FormField = (props: Props) => {
-    const { fieldProperty, fieldName, fieldValue, SetFieldValue } = props;
+    const { fieldProperty, fieldName, fieldValue, motivation, SetFieldValue } = props;
 
     if (fieldProperty.enum) {
         return <SelectField fieldProperty={fieldProperty}
@@ -39,11 +42,13 @@ const FormField = (props: Props) => {
             fieldValue={fieldValue}
             SetFieldValue={SetFieldValue}
         />
-    } else {
+    } else if (fieldProperty.type === 'integer' || !['oa:commenting', 'oa:assessing'].includes(motivation)) {
         return <StringNumberField fieldProperty={fieldProperty}
             fieldName={fieldName}
             fieldValue={fieldValue}
         />;
+    } else {
+        return <InputTextArea name={`annotationValues.${fieldName}`} />;
     }
 };
 

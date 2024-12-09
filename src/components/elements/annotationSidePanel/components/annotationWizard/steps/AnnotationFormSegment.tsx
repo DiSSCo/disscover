@@ -171,6 +171,7 @@ const AnnotationFormSegment = (props: Props) => {
                                         <FormField fieldProperty={fieldProperty}
                                             fieldName={fieldName}
                                             fieldValue={fieldValue}
+                                            motivation=''
                                             SetFieldValue={SetFieldValue}
                                         />
                                     }

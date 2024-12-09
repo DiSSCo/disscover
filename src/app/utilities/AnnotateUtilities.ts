@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { W3CImageAnnotation } from '@annotorious/annotorious';
 import jp from 'jsonpath';
-import { isEmpty, cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty, toLower } from 'lodash';
 
 /* Import Utilities */
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
@@ -205,6 +205,18 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
         }
     };
 
+    /**
+     * Function to check for a default value for a term
+     * 
+     */
+    const CheckForTermDefaultValue = (key: string, jsonPath: string) => {
+        if (toLower(key).includes('date')) {
+            /* Prefill all date fields with today's date */
+            console.log(formValues);
+            console.log(jsonPath)
+        }
+    };
+
     /* For each class, add it as a key property to the annotation form fields dictionary */
     classesList.forEach(classProperty => {
         if (!termValue) {
@@ -250,6 +262,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
             const termProperties = termsList.find(termsListOption => termsListOption.label === classProperty.label);
 
             termProperties?.options.forEach(termOption => {
+                /* Add to properties of class */
                 annotationFormFieldProperties[classProperty.label].properties?.push({
                     key: termOption.key,
                     name: termOption.label,
@@ -261,6 +274,15 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
         } else {
             /* Treat upper parent as term and set annotation form value */
             formValues.value = jp.value(superClass, termValue.value) ?? '';
+
+            /* Set term record as sole annotation form field property */
+            annotationFormFieldProperties[termValue.key] = {
+                key: termValue.key,
+                name: termValue.label,
+                jsonPath: termValue.value,
+                type: schema?.type ?? 'string',
+                ...(termValue.enum && { enum: termValue.enum })
+            };
         }
     });
 

@@ -17,7 +17,7 @@ import { Dict } from "app/Types";
 const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string) => {
     const classesList: { key: string, label: string, value: string }[] = [];
     const termsList: { label: string, options: { key: string, type: string, enum?: (string | number)[], label: string, value: string }[] }[] = [];
-    let termValue: { key: string, label: string, value: string } | undefined;
+    let termValue: { key: string, label: string, value: string, enum?: (string | number)[] } | undefined;
 
     /**
      * Function to push to the classes list
@@ -48,7 +48,8 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
         termValue = {
             key,
             label: schema.title,
-            value: jsonPath
+            value: jsonPath,
+            ...(schema.enum && { enum: schema.enum })
         };
     }
 

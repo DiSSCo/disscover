@@ -254,7 +254,8 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     key: termOption.key,
                     name: termOption.label,
                     jsonPath: termOption.value,
-                    type: 'string'
+                    type: termOption.type,
+                    ...(termOption.enum && { enum: termOption.enum })
                 });
             });
         } else {

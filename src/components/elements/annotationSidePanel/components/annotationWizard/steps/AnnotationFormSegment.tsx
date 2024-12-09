@@ -44,6 +44,8 @@ const AnnotationFormSegment = (props: Props) => {
         'd-none': isHidden
     });
 
+    console.log(annotationFormFieldProperty);
+
     /* Render form segment based on the type of the annotation form field property */
     switch (annotationFormFieldProperty.type) {
         case 'object': {

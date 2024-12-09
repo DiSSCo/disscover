@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector, useAppDispatch } from 'app/Hooks';
 
@@ -84,7 +87,7 @@ const CompareDigitalSpecimenMenu = () => {
                             let route = '/search/compare?';
 
                             compareDigitalSpecimen?.forEach((digitalSpecimen, index) => {
-                                route = route.concat(`${index > 0 ? '&' : ''}ds=${digitalSpecimen['@id'].replace(import.meta.env.VITE_DOI_URL, '')}`)
+                                route = route.concat(`${index > 0 ? '&' : ''}ds=${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)
                             });
 
                             navigate(route)

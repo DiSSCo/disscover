@@ -6,6 +6,9 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector, useFetch, useLoading, useNotification } from 'app/Hooks';
 
@@ -98,7 +101,7 @@ const AdvancedSearch = (props: Props) => {
      * @param doi The provided DOI
      */
     const SearchByDOI = async (doi: string) => {
-        const handle = doi.replace(import.meta.env.VITE_DOI_URL as string, '');
+        const handle = doi.replace(RetrieveEnvVariable('DOI_URL') as string, '');
 
         /* Try to fetch digital specimen by DOI */
         GetDigitalSpecimen({ handle }).then(() => {
@@ -136,7 +139,7 @@ const AdvancedSearch = (props: Props) => {
 
         GetDigitalSpecimens({ searchFilters, pageSize: 1 }).then(({ digitalSpecimens }) => {
             /* If a hit is found, navigate to the digital specimen page */
-            navigate(`/ds/${digitalSpecimens[0]['@id'].replace(import.meta.env.VITE_DOI_URL as string, '')}`);
+            navigate(`/ds/${digitalSpecimens[0]['@id'].replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
         }).catch(error => {
             console.error(error);
 

@@ -2,6 +2,9 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector } from 'app/Hooks';
 
@@ -74,7 +77,7 @@ const SearchResultsTableConfig = () => {
             }
         }),
         columnHelper.accessor('DOI', {
-            cell: info => info.getValue()?.replace(import.meta.env.VITE_DOI_URL as string, ''),
+            cell: info => info.getValue()?.replace(RetrieveEnvVariable('DOI_URL') as string, ''),
             meta: {
                 widthInRem: 10,
                 pinned: true

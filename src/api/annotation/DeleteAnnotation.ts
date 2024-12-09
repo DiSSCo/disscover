@@ -2,6 +2,9 @@
 import axios from 'axios';
 import KeycloakService from 'app/Keycloak';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Types */
 import { Dict } from 'app/Types';
 
@@ -22,7 +25,7 @@ const DeleteAnnotation = async ({ annotationId }: { annotationId: string }): Pro
     try {
         const result = await axios({
             method: 'delete',
-            url: `annotation/${annotationId.replace(import.meta.env.VITE_HANDLE_URL, '')}`,
+            url: `annotation/${annotationId.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`,
             responseType: 'json',
             headers: {
                 'Content-type': 'application/json',

@@ -1,6 +1,9 @@
 /* Import Dependencies */
 import { useState } from "react";
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from "app/Utilities";
+
 /* Import Hooks */
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "app/Hooks";
@@ -44,7 +47,7 @@ const DigitalMediaList = (props: Props) => {
         params: {
             handle: digitalMedia["ods:hasEntityRelationships"]?.find(
                 entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
-            )?.["dwc:relatedResourceID"].replace(import.meta.env.VITE_DOI_URL, '')
+            )?.["dwc:relatedResourceID"].replace(RetrieveEnvVariable('DOI_URL'), '')
         },
         Method: GetDigitalSpecimenDigitalMedia,
         Handler: (digitalSpecimenDigitalMedia: DigitalMedia[]) => setDigitalSpecimenDigitalMedia(digitalSpecimenDigitalMedia)
@@ -60,7 +63,7 @@ const DigitalMediaList = (props: Props) => {
                         <Button type="button"
                             variant="blank"
                             className="h-100 w-100 px-0 py-0"
-                            OnClick={() => navigate(`/dm/${digitalSpecimenDigitalMedia["@id"].replace(import.meta.env.VITE_DOI_URL, '')}`)}
+                            OnClick={() => navigate(`/dm/${digitalSpecimenDigitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
                         >
                             <DigitalMediaItem digitalMedia={digitalSpecimenDigitalMedia} />
                         </Button>

@@ -36,7 +36,7 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
     try {
         const result = await axios({
             method: 'post',
-            url: 'annotation',
+            url: 'annotation/v1',
             responseType: 'json',
             data: postAnnotation,
             headers: {

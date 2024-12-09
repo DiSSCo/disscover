@@ -25,7 +25,7 @@ const GetDigitalSpecimenSearchTermAggregations = async ({ searchFilterName, valu
     try {
         const result = await axios({
             method: 'get',
-            url: "/digital-specimen/searchTermValue",
+            url: "/digital-specimen/v1/searchTermValue",
             params: {
                 term: searchFilterName,
                 value

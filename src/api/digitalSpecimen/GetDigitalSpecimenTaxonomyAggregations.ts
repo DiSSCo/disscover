@@ -38,7 +38,7 @@ const GetDigitalSpecimenTaxonomyAggregations = async ({ searchFilters }: { searc
     try {
         const result = await axios({
             method: 'get',
-            url: `/digital-specimen/taxonomy/aggregation${filters}`,
+            url: `/digital-specimen/v1/taxonomy/aggregation${filters}`,
             responseType: 'json'
         });
 

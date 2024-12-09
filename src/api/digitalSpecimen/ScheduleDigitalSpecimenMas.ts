@@ -45,7 +45,7 @@ const ScheduleDigitalSpecimenMas = async ({ handle, masList }: { handle: string,
         try {
             const result = await axios({
                 method: 'post',
-                url: `digital-specimen/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mas`,
+                url: `digital-specimen/v1/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mas`,
                 responseType: 'json',
                 data: masRecord,
                 headers: {

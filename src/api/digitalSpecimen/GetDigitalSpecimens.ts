@@ -43,7 +43,7 @@ const GetDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters }:
     try {
         const result = await axios({
             method: 'get',
-            url: `digital-specimen/search${filters}`,
+            url: `digital-specimen/v1/search${filters}`,
             params: {
                 pageSize,
                 pageNumber: pageNumber ?? 1

@@ -19,7 +19,7 @@ const GetDigitalSpecimenOriginalData = async ({ digitalSpecimenId }: { digitalSp
     try {
         const result = await axios({
             method: 'get',
-            url: `/digital-specimen/${digitalSpecimenId}/original-data`,
+            url: `/digital-specimen/v1/${digitalSpecimenId}/original-data`,
             responseType: 'json'
         });
 

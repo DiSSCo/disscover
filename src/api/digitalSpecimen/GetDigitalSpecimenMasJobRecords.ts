@@ -26,7 +26,7 @@ const GetDigitalSpecimenMasJobRecords = async ({ handle, pageSize, pageNumber, s
     };
 
     if (handle) {
-        const endPoint: string = `/digital-specimen/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mjr`;
+        const endPoint: string = `/digital-specimen/v1/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mjr`;
 
         try {
             const result = await axios({

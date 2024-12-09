@@ -10,7 +10,7 @@ import axios from 'axios';
 const GetDigitalSpecimenVersions = async ({ handle }: { handle: string }) => {
     let digitalSpecimenVersions = [] as number[];
 
-    const endPoint: string = `digital-specimen/${handle}/versions`;
+    const endPoint: string = `digital-specimen/v1/${handle}/versions`;
 
     try {
         const result = await axios({

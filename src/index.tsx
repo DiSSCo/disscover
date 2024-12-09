@@ -27,7 +27,7 @@ import Loading from 'components/Loading';
 
 
 /* Define axios base url */
-axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api/v1`;
+axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`;
 
 
 const root = ReactDOM.createRoot(

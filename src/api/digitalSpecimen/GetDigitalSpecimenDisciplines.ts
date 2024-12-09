@@ -18,7 +18,7 @@ const GetDigitalSpecimenDisciplines = async () => {
     try {
         const result = await axios({
             method: 'get',
-            url: '/digital-specimen/discipline',
+            url: '/digital-specimen/v1/discipline',
             responseType: 'json'
         });
 

@@ -13,7 +13,7 @@ import { JSONResultArray } from "app/Types";
 const GetSourceSystems = async () => {
     const sourceSystems = <SourceSystem[]>[];
 
-    const endPoint = "/source-system";
+    const endPoint = "/source-system/v1";
 
     try {
         const result = await axios({

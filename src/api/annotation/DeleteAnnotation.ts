@@ -25,7 +25,7 @@ const DeleteAnnotation = async ({ annotationId }: { annotationId: string }): Pro
     try {
         const result = await axios({
             method: 'delete',
-            url: `annotation/${annotationId.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`,
+            url: `annotation/v1/${annotationId.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`,
             responseType: 'json',
             headers: {
                 'Content-type': 'application/json',

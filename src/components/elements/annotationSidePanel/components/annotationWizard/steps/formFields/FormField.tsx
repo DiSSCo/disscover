@@ -5,7 +5,7 @@ import { toLower } from "lodash";
 import { AnnotationFormProperty } from "app/Types";
 
 /* Import Components */
-import { DateField, SelectField, StringNumberField } from './FormFieldComponents';
+import { BooleanField, DateField, SelectField, StringNumberField } from './FormFieldComponents';
 import { InputTextArea } from "components/elements/customUI/CustomUI";
 
 
@@ -31,10 +31,16 @@ type Props = {
 const FormField = (props: Props) => {
     const { fieldProperty, fieldName, fieldValue, motivation, SetFieldValue } = props;
 
-    if (fieldProperty.enum) {
+    if (['oa:commenting', 'oa:assessing'].includes(motivation)) {
+        return <InputTextArea name={`annotationValues.${fieldName}`} />;
+    } else if (fieldProperty.enum) {
         return <SelectField fieldProperty={fieldProperty}
             fieldName={fieldName}
             fieldValue={fieldValue}
+        />;
+    } else if (fieldProperty.type === 'boolean') {
+        return <BooleanField fieldProperty={fieldProperty}
+            fieldName={fieldName}
         />;
     } else if (toLower(fieldProperty.key).includes('date')) {
         return <DateField fieldProperty={fieldProperty}
@@ -42,13 +48,11 @@ const FormField = (props: Props) => {
             fieldValue={fieldValue}
             SetFieldValue={SetFieldValue}
         />
-    } else if (fieldProperty.type === 'integer' || !['oa:commenting', 'oa:assessing'].includes(motivation)) {
+    } else {
         return <StringNumberField fieldProperty={fieldProperty}
             fieldName={fieldName}
             fieldValue={fieldValue}
         />;
-    } else {
-        return <InputTextArea name={`annotationValues.${fieldName}`} />;
     }
 };
 

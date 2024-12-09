@@ -14,7 +14,7 @@ type Props = {
 
 
 /**
- * Component that renders a select field for terms with the type of string in the annotation wizard form
+ * Component that renders a select field for terms with the type of string and an enum in the annotation wizard form
  * @param fieldProperty The annotation form field property that corresponds to the targetted term
  * @param fieldName The name of the annotation form field
  * @param fieldValue If present, the value of the annotation form field

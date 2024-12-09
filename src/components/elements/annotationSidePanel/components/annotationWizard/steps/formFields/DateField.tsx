@@ -16,7 +16,7 @@ type Props = {
 
 
 /**
- * Component that renders a string field for terms with the type of string or number in the annotation wizard form
+ * Component that renders a string field for terms with the type of date string in the annotation wizard form
  * @param fieldProperty The annotation form field property that corresponds to the targetted term
  * @param fieldName The name of the annotation form field
  * @param fieldValue If present, the value of the annotation form field

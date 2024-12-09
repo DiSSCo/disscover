@@ -111,7 +111,7 @@ const ExistingInstance = (props: Props) => {
                                 </Row>
                             </div>
                                 : <div>
-                                    <p className="fs-4"><span className="fw-lightBold">Value:</span> {instanceValue}</p>
+                                    <p className="fs-4"><span className="fw-lightBold">Value:</span> {String(instanceValue)}</p>
                                 </div>
                             }
                         </Col>

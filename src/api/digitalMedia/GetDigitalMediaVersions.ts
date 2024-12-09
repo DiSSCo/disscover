@@ -10,7 +10,7 @@ import axios from 'axios';
 const GetDigitalMediaVersions = async ({ handle }: { handle: string }) => {
     let digitalMediaVersions = [] as number[];
 
-    const endPoint: string = `digital-media/${handle}/versions`;
+    const endPoint: string = `digital-media/v1/${handle}/versions`;
 
     try {
         const result = await axios({

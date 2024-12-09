@@ -22,7 +22,7 @@ const GetDigitalMedia = async({ handle, version } : { handle: string, version?: 
         try {
             const result = await axios({
                 method: 'get',
-                url: `digital-media/${handle}${version ? '/' + version : ''}`,
+                url: `digital-media/v1/${handle}${version ? '/' + version : ''}`,
                 responseType: 'json'
             });
 

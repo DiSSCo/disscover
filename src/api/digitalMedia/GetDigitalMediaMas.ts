@@ -18,7 +18,7 @@ const GetDigitalMediaMas = async ({ handle }: { handle: string }) => {
     const digitalMediaMas: MachineAnnotationService[] = [];
 
     if (handle) {
-        const endPoint: string = `/digital-media/${handle}/mas`;
+        const endPoint: string = `/digital-media/v1/${handle}/mas`;
 
         try {
             const result = await axios({

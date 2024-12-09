@@ -26,7 +26,7 @@ const GetDigitalMediaMasJobRecords = async ({ handle, pageSize, pageNumber, stat
     };
 
     if (handle) {
-        const endPoint: string = `/digital-media/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mjr`;
+        const endPoint: string = `/digital-media/v1/${handle.replace(RetrieveEnvVariable('DOI_URL'), '')}/mjr`;
 
         try {
             const result = await axios({

@@ -32,7 +32,7 @@ const GetDigitalSpecimenAggregations = async ({ searchFilters }: { searchFilters
     try {
         const result = await axios({
             method: 'get',
-            url: `/digital-specimen/aggregation${filters}`,
+            url: `/digital-specimen/v1/aggregation${filters}`,
             responseType: 'json'
         });
 

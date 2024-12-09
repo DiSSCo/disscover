@@ -18,7 +18,7 @@ const GetDigitalSpecimenMas = async ({ handle }: { handle: string }) => {
     const digitalSpecimenMas: MachineAnnotationService[] = [];
 
     if (handle) {
-        const endPoint: string = `/digital-specimen/${handle}/mas`;
+        const endPoint: string = `/digital-specimen/v1/${handle}/mas`;
 
         try {
             const result = await axios({

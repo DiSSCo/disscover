@@ -1,6 +1,9 @@
 /* Import Types */
 import { AnnotationFormProperty } from "app/Types";
 
+/* Import Components */
+import { StringField } from './FormFieldComponents';
+
 
 /* Props Type */
 type Props = {
@@ -17,11 +20,16 @@ type Props = {
 const FormField = (props: Props) => {
     const { fieldProperty, fieldName, fieldValue } = props;
 
-    return (
-        <>
-            { }
-        </>
-    );
+    switch (fieldProperty.type) {
+        default: {
+            return (
+                <StringField fieldProperty={fieldProperty}
+                    fieldName={fieldName}
+                    fieldValue={fieldValue}
+                />
+            );
+        }
+    };
 };
 
 export default FormField;

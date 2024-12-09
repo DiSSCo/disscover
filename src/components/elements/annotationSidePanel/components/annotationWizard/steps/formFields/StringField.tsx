@@ -29,6 +29,7 @@ const StringField = (props: Props) => {
                 {fieldProperty.name}
             </p>
             <Field name={`annotationValues.${fieldName}`}
+                type={fieldProperty.type === 'number' ? 'number' : 'string'}
                 value={fieldValue ?? ''}
                 className="w-100 b-grey br-corner mt-1 py-1 px-2"
             />

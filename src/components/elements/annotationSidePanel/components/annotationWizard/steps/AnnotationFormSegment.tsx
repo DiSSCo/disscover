@@ -13,6 +13,7 @@ import { AnnotationFormProperty, Dict } from 'app/Types';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
+import FormField from './formFields/FormField';
 import { Button } from 'components/elements/customUI/CustomUI';
 
 
@@ -43,8 +44,6 @@ const AnnotationFormSegment = (props: Props) => {
     const formFieldsDivClass = classNames({
         'd-none': isHidden
     });
-
-    console.log(annotationFormFieldProperty);
 
     /* Render form segment based on the type of the annotation form field property */
     switch (annotationFormFieldProperty.type) {
@@ -165,15 +164,11 @@ const AnnotationFormSegment = (props: Props) => {
                                         <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                             formValues={formValues}
                                         />
-                                        : <>
-                                            <p className="fs-4">
-                                                {fieldProperty.name}
-                                            </p>
-                                            <Field name={`annotationValues.${fieldName}`}
-                                                value={fieldValue ?? ''}
-                                                className="w-100 b-grey br-corner mt-1 py-1 px-2"
-                                            />
-                                        </>
+                                        : 
+                                        <FormField fieldProperty={fieldProperty}
+                                            fieldName={fieldName}
+                                            fieldValue={fieldValue}
+                                        />
                                     }
                                 </Col>
                             </Row>

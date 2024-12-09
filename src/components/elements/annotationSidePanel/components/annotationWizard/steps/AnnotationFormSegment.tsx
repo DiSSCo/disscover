@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { Field, FieldArray } from 'formik';
+import { FieldArray } from 'formik';
 import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';

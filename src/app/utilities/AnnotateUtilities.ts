@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { W3CImageAnnotation } from '@annotorious/annotorious';
+import { format } from 'date-fns';
 import jp from 'jsonpath';
 import { cloneDeep, isEmpty, toLower } from 'lodash';
 
@@ -209,11 +210,9 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
      * Function to check for a default value for a term
      * 
      */
-    const CheckForTermDefaultValue = (key: string, jsonPath: string) => {
+    const CheckForTermDefaultValue = (key: string) => {
         if (toLower(key).includes('date')) {
-            /* Prefill all date fields with today's date */
-            console.log(formValues);
-            console.log(jsonPath)
+            return format(new Date, 'yyyy-MM-dd');
         }
     };
 
@@ -270,10 +269,15 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     type: termOption.type,
                     ...(termOption.enum && { enum: termOption.enum })
                 });
+
+                /* Check if the term field needs to be filled with a default value */
+                if (CheckForTermDefaultValue(termOption.key)) {
+                    classFormValues[termOption.key] = CheckForTermDefaultValue(termOption.key);
+                }
             });
         } else {
             /* Treat upper parent as term and set annotation form value */
-            formValues.value = jp.value(superClass, termValue.value) ?? '';
+            formValues.value = jp.value(superClass, termValue.value) ?? CheckForTermDefaultValue(termValue.key) ?? '';
 
             /* Set term record as sole annotation form field property */
             annotationFormFieldProperties[termValue.key] = {

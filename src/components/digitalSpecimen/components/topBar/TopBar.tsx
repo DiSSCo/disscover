@@ -85,7 +85,7 @@ const TopBar = (props: Props) => {
      */
     const ViewDigitalSpecimenJSON = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
-            `/api/v1/digital-specimen/${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`
+            `/api/digital-specimen/v1/${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`
         );
     };
 

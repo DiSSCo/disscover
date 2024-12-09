@@ -41,7 +41,7 @@ const SummaryValueBlock = (props: Props) => {
                     <span className={`${termTitleClass} fw-lightBold`}>
                         {`${termName}: `}
                     </span>
-                    {value}
+                    {String(value)}
                 </p>
             </Card>
         </div>

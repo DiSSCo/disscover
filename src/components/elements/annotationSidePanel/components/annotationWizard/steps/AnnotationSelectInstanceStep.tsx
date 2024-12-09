@@ -73,7 +73,7 @@ const AnnotationSelectInstanceStep = (props: Props) => {
     );
 
     const allowForExistingInstances: boolean = !!(nodes.length && ((Array.isArray(nodes[0].value) && nodes[0].value.length)
-        || !isEmpty(nodes[0].value) || (typeof(nodes[0].value) === 'boolean' && nodes[0].value))
+        || !isEmpty(nodes[0].value) || (typeof(nodes[0].value) === 'boolean' && typeof(nodes[0].value) !== 'undefined'))
     );
 
     if (allowForNewInstance && !allowForExistingInstances) {

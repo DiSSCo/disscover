@@ -1,7 +1,8 @@
 /* Import Dependencies */
 import { W3CImageAnnotation } from '@annotorious/annotorious';
+import { format } from 'date-fns';
 import jp from 'jsonpath';
-import { isEmpty, cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty, toLower } from 'lodash';
 
 /* Import Utilities */
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
@@ -205,6 +206,16 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
         }
     };
 
+    /**
+     * Function to check for a default value for a term
+     * 
+     */
+    const CheckForTermDefaultValue = (key: string) => {
+        if (toLower(key).includes('date')) {
+            return format(new Date, 'yyyy-MM-dd');
+        }
+    };
+
     /* For each class, add it as a key property to the annotation form fields dictionary */
     classesList.forEach(classProperty => {
         if (!termValue) {
@@ -250,16 +261,32 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
             const termProperties = termsList.find(termsListOption => termsListOption.label === classProperty.label);
 
             termProperties?.options.forEach(termOption => {
+                /* Add to properties of class */
                 annotationFormFieldProperties[classProperty.label].properties?.push({
                     key: termOption.key,
                     name: termOption.label,
                     jsonPath: termOption.value,
-                    type: 'string'
+                    type: termOption.type,
+                    ...(termOption.enum && { enum: termOption.enum })
                 });
+
+                /* Check if the term field needs to be filled with a default value */
+                if (CheckForTermDefaultValue(termOption.key)) {
+                    classFormValues[termOption.key] = CheckForTermDefaultValue(termOption.key);
+                }
             });
         } else {
             /* Treat upper parent as term and set annotation form value */
-            formValues.value = jp.value(superClass, termValue.value) ?? '';
+            formValues.value = jp.value(superClass, termValue.value) ?? CheckForTermDefaultValue(termValue.key) ?? '';
+
+            /* Set term record as sole annotation form field property */
+            annotationFormFieldProperties[termValue.key] = {
+                key: termValue.key,
+                name: termValue.label,
+                jsonPath: termValue.value,
+                type: schema?.type ?? 'string',
+                ...(termValue.enum && { enum: termValue.enum })
+            };
         }
     });
 

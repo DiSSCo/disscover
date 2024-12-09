@@ -167,6 +167,7 @@ export type AnnotationFormProperty = {
     name: string,
     jsonPath: string,
     type: string,
+    enum?: (string | number)[],
     currentValue?: string | number | boolean | Dict,
     properties?: AnnotationFormProperty[]
 };

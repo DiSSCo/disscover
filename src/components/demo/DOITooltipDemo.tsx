@@ -108,7 +108,7 @@ const DOITooltipDemo = (props: Props) => {
             if (doi.includes('TEST') || doi.includes('SANDBOX')) {
                 let environment: string = doi.includes('SANDBOX') ? 'sandbox' : 'dev';
 
-                const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/v1/pids/${doi.replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
+                const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/pids/v1/${doi.replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
                 const record = await response.json();
 
                 if (record.data) {

@@ -87,7 +87,7 @@ const TopBar = (props: Props) => {
      */
     const ViewDigitalMediaJSON = () => {
         window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}` +
-            `/api/v1/digital-media/${digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}`
+            `/api/digital-media/v1/${digitalMedia["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}`
         );
     };
 

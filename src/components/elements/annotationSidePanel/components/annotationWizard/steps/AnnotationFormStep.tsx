@@ -51,6 +51,8 @@ const AnnotationFormStep = (props: Props) => {
     /* Hooks */
     const trigger = useTrigger();
 
+    console.log(formValues);
+
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
@@ -267,6 +269,7 @@ const AnnotationFormStep = (props: Props) => {
                             {baseObjectFormFieldProperty &&
                                 <AnnotationFormSegment annotationFormFieldProperty={baseObjectFormFieldProperty}
                                     formValues={formValues}
+                                    SetFieldValue={SetFieldValue}
                                 />
                             }
                             {!isEmpty(subClassObjectFormFieldProperties) &&
@@ -279,6 +282,7 @@ const AnnotationFormStep = (props: Props) => {
                                             <AnnotationFormSegment key={key}
                                                 annotationFormFieldProperty={annotationFormFieldProperty}
                                                 formValues={formValues}
+                                                SetFieldValue={SetFieldValue}
                                             />
                                         );
                                     })}

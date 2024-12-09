@@ -1,8 +1,12 @@
 /* Import Components */
-import StringField from "./StringField";
+import DateField from "./DateField";
+import SelectField from "./SelectField";
+import StringNumberField from "./StringNumberField";
 
 
 /* Export components as part of the annotation wizard form fields */
 export {
-    StringField
+    DateField,
+    SelectField,
+    StringNumberField
 };

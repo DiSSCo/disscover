@@ -39,6 +39,6 @@
         }
     ],
     "links": {
-        "self": "https://sandbox.dissco.tech/api/v1/specimens/20.5000.1025/DW0-BNT-FM0/annotations"
+        "self": "https://sandbox.dissco.tech/api/digital-specimen/v1/20.5000.1025/DW0-BNT-FM0/annotations"
     }
 }

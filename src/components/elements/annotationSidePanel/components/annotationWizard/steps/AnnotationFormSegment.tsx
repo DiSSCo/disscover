@@ -22,7 +22,8 @@ type Props = {
     annotationFormFieldProperty: AnnotationFormProperty,
     formValues?: Dict,
     index?: number,
-    Remove?: Function
+    Remove?: Function,
+    SetFieldValue?: Function
 };
 
 
@@ -32,10 +33,11 @@ type Props = {
  * @param formValues The current form values of the annotation form
  * @param index An index indicating the instance of a property in the parent array
  * @param Remove Function to remove this selected instance from the parent array
+ * @param SetFieldValue Function to set the value of a field in the annotation wizard form
  * @returns JSX Component
  */
 const AnnotationFormSegment = (props: Props) => {
-    const { annotationFormFieldProperty, formValues, index, Remove } = props;
+    const { annotationFormFieldProperty, formValues, index, Remove, SetFieldValue } = props;
 
     /* Base variables */
     const [isHidden, setIsHidden] = useState<boolean>(annotationFormFieldProperty.jsonPath !== formValues?.jsonPath);
@@ -163,11 +165,13 @@ const AnnotationFormSegment = (props: Props) => {
                                     {['object', 'array'].includes(fieldProperty.type) ?
                                         <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                             formValues={formValues}
+                                            SetFieldValue={SetFieldValue}
                                         />
                                         : 
                                         <FormField fieldProperty={fieldProperty}
                                             fieldName={fieldName}
                                             fieldValue={fieldValue}
+                                            SetFieldValue={SetFieldValue}
                                         />
                                     }
                                 </Col>
@@ -254,6 +258,7 @@ const AnnotationFormSegment = (props: Props) => {
                                             <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                                 formValues={formValues}
                                                 index={localIndex}
+                                                SetFieldValue={SetFieldValue}
                                                 Remove={() => remove(localIndex)}
                                             />
                                         </div>

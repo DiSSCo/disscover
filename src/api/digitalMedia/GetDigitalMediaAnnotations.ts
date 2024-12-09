@@ -21,7 +21,7 @@ const GetDigitalMediaAnnotations = async({ handle } : { handle: string }) => {
         try {
             const result = await axios({
                 method: 'get',
-                url: `digital-media/${handle}/annotations`,
+                url: `digital-media/v1/${handle}/annotations`,
                 responseType: 'json'
             });
 

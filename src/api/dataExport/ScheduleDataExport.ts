@@ -53,7 +53,7 @@ const ScheduleDataExport = async ({ targetType, exportType, dataExportKey, dataE
         try {
             await axios({
                 method: 'post',
-                url: `data-export/schedule`,
+                url: `data-export/v1/schedule`,
                 responseType: 'json',
                 data: exportJob,
                 headers: {

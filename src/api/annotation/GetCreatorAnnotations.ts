@@ -23,7 +23,7 @@ const GetCreatorAnnotations = async () => {
         try {
             const result = await axios({
                 method: 'get',
-                url: `annotation/creator`,
+                url: `annotation/v1/creator`,
                 responseType: 'json',
                 headers: {
                     'Content-type': 'application/json',

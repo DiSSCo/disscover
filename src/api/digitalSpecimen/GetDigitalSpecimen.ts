@@ -22,9 +22,9 @@ const GetDigitalSpecimen = async({ handle, version } : { handle: string, version
         let endPoint: string;
 
         if (version) {
-            endPoint = `digital-specimen/${handle}/${version}`;
+            endPoint = `digital-specimen/v1/${handle}/${version}`;
         } else {
-            endPoint = `digital-specimen/${handle}`;
+            endPoint = `digital-specimen/v1/${handle}`;
         }
 
         try {

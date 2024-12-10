@@ -10,24 +10,27 @@ import EUFundedLogo from 'webroot/logos/euFundedLogo.png';
 import styles from './Footer.module.scss';
 
 /* Import Components */
+import FooterPlugin from './FooterPlugin';
 import { Button } from '../customUI/CustomUI';
 
 
 /* Props Type */
 type Props = {
     span?: number,
-    offset?: number
+    offset?: number,
+    plugin?: boolean
 };
 
 
 /**
  * Component that renders the application's footer
  * @param span The width in Bootstrap span (grid based on 12 columns)
- * @param offset the offset width in Bootstrap span (grid based on 12 columns)
+ * @param offset The offset width in Bootstrap span (grid based on 12 columns)
+ * @param plugin Boolean that indicates if the footer plugin should be loaded
  * @returns JSX Component
  */
 const Footer = (props: Props) => {
-    const { span, offset } = props;
+    const { span, offset, plugin } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -121,6 +124,9 @@ const Footer = (props: Props) => {
                     </Row>
                 </Col>
             </Row>
+            {plugin &&
+                <FooterPlugin />
+            }
         </Container>
     );
 };

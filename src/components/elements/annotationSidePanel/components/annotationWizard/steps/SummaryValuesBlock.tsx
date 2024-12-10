@@ -87,7 +87,7 @@ const SummaryValuesBlock = (props: Props) => {
                                                     <span className={`${termTitleClass} fw-lightBold`}>
                                                         {`${MakeJsonPathReadableString(key)}: `}
                                                     </span>
-                                                    {value}
+                                                    {String(value)}
                                                 </p>
                                             </Col>
                                         </Row>

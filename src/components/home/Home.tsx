@@ -186,6 +186,7 @@ const Home = () => {
             {/* Render footer */}
             <Footer span={10}
                 offset={1}
+                plugin
             />
 
             {/* Home tour steps */}

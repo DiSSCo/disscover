@@ -20,7 +20,8 @@ import { AnnotationFormProperty, AnnotationTarget, Dict, DropdownItem, SuperClas
 
 /* Import Components */
 import AnnotationFormSegment from './AnnotationFormSegment';
-import { Dropdown, InputTextArea } from "components/elements/customUI/CustomUI";
+import FormField from './formFields/FormField';
+import { Dropdown } from "components/elements/customUI/CustomUI";
 import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 
@@ -261,31 +262,42 @@ const AnnotationFormStep = (props: Props) => {
             <Row className="tourAnnotate15 flex-grow-1 mt-3 overflow-scroll">
                 <Col>
                     {/* If motivation is either adding or editing, render the complete digital object as a form, else a generic text area */}
-                    {(annotationFormFieldProperties && formValues && ['ods:adding', 'oa:editing'].includes(formValues.motivation) && annotationTarget?.type === 'class') ?
+                    {!isEmpty(annotationFormFieldProperties) &&
                         <>
-                            {/* Render base class' form fields */}
-                            {baseObjectFormFieldProperty &&
-                                <AnnotationFormSegment annotationFormFieldProperty={baseObjectFormFieldProperty}
-                                    formValues={formValues}
+                            {(formValues && ['ods:adding', 'oa:editing'].includes(formValues.motivation) && annotationTarget?.type === 'class') ?
+                                <>
+                                    {/* Render base class' form fields */}
+                                    {baseObjectFormFieldProperty &&
+                                        <AnnotationFormSegment annotationFormFieldProperty={baseObjectFormFieldProperty}
+                                            formValues={formValues}
+                                            SetFieldValue={SetFieldValue}
+                                        />
+                                    }
+                                    {!isEmpty(subClassObjectFormFieldProperties) &&
+                                        <>
+                                            <p className="fs-4 fw-lightBold mb-2">
+                                                {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
+                                            </p>
+                                            {Object.entries(subClassObjectFormFieldProperties).map(([key, annotationFormFieldProperty]) => {
+                                                return (
+                                                    <AnnotationFormSegment key={key}
+                                                        annotationFormFieldProperty={annotationFormFieldProperty}
+                                                        formValues={formValues}
+                                                        SetFieldValue={SetFieldValue}
+                                                    />
+                                                );
+                                            })}
+                                        </>
+                                    }
+                                </>
+                                : <FormField fieldProperty={Object.values(annotationFormFieldProperties)[0]}
+                                    fieldName="value"
+                                    fieldValue={jp.value(formValues, "$['annotationValues']['value']")}
+                                    motivation={formValues?.motivation}
+                                    SetFieldValue={SetFieldValue}
                                 />
                             }
-                            {!isEmpty(subClassObjectFormFieldProperties) &&
-                                <>
-                                    <p className="fs-4 fw-lightBold mb-2">
-                                        {`Sub classes of ${baseObjectFormFieldProperty?.name}`}
-                                    </p>
-                                    {Object.entries(subClassObjectFormFieldProperties).map(([key, annotationFormFieldProperty]) => {
-                                        return (
-                                            <AnnotationFormSegment key={key}
-                                                annotationFormFieldProperty={annotationFormFieldProperty}
-                                                formValues={formValues}
-                                            />
-                                        );
-                                    })}
-                                </>
-                            }
                         </>
-                        : <InputTextArea name="annotationValues.value" />
                     }
                 </Col>
             </Row>

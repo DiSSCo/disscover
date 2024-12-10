@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { Field, FieldArray } from 'formik';
+import { FieldArray } from 'formik';
 import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
@@ -13,6 +13,7 @@ import { AnnotationFormProperty, Dict } from 'app/Types';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
+import FormField from './formFields/FormField';
 import { Button } from 'components/elements/customUI/CustomUI';
 
 
@@ -21,7 +22,8 @@ type Props = {
     annotationFormFieldProperty: AnnotationFormProperty,
     formValues?: Dict,
     index?: number,
-    Remove?: Function
+    Remove?: Function,
+    SetFieldValue?: Function
 };
 
 
@@ -31,10 +33,11 @@ type Props = {
  * @param formValues The current form values of the annotation form
  * @param index An index indicating the instance of a property in the parent array
  * @param Remove Function to remove this selected instance from the parent array
+ * @param SetFieldValue Function to set the value of a field in the annotation wizard form
  * @returns JSX Component
  */
 const AnnotationFormSegment = (props: Props) => {
-    const { annotationFormFieldProperty, formValues, index, Remove } = props;
+    const { annotationFormFieldProperty, formValues, index, Remove, SetFieldValue } = props;
 
     /* Base variables */
     const [isHidden, setIsHidden] = useState<boolean>(annotationFormFieldProperty.jsonPath !== formValues?.jsonPath);
@@ -162,16 +165,15 @@ const AnnotationFormSegment = (props: Props) => {
                                     {['object', 'array'].includes(fieldProperty.type) ?
                                         <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                             formValues={formValues}
+                                            SetFieldValue={SetFieldValue}
                                         />
-                                        : <>
-                                            <p className="fs-4">
-                                                {fieldProperty.name}
-                                            </p>
-                                            <Field name={`annotationValues.${fieldName}`}
-                                                value={fieldValue ?? ''}
-                                                className="w-100 b-grey br-corner mt-1 py-1 px-2"
-                                            />
-                                        </>
+                                        : 
+                                        <FormField fieldProperty={fieldProperty}
+                                            fieldName={fieldName}
+                                            fieldValue={fieldValue}
+                                            motivation=''
+                                            SetFieldValue={SetFieldValue}
+                                        />
                                     }
                                 </Col>
                             </Row>
@@ -257,6 +259,7 @@ const AnnotationFormSegment = (props: Props) => {
                                             <AnnotationFormSegment annotationFormFieldProperty={annotationFormFieldSubProperty}
                                                 formValues={formValues}
                                                 index={localIndex}
+                                                SetFieldValue={SetFieldValue}
                                                 Remove={() => remove(localIndex)}
                                             />
                                         </div>

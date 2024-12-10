@@ -16,8 +16,8 @@ import { Dict } from "app/Types";
  */
 const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string) => {
     const classesList: { key: string, label: string, value: string }[] = [];
-    const termsList: { label: string, options: { key: string, label: string, value: string }[] }[] = [];
-    let termValue: { key: string, label: string, value: string } | undefined;
+    const termsList: { label: string, options: { key: string, type: string, enum?: (string | number)[], label: string, value: string }[] }[] = [];
+    let termValue: { key: string, label: string, value: string, enum?: (string | number)[] } | undefined;
 
     /**
      * Function to push to the classes list
@@ -31,7 +31,7 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
      * Function to push to the terms list
      * @param termsOption 
      */
-    const PushToTermsList = (termsOption: { label: string, options: { key: string, label: string, value: string }[] }) => {
+    const PushToTermsList = (termsOption: { label: string, options: { key: string, type: string, enum?: (string | number)[], label: string, value: string }[] }) => {
         termsList.push(termsOption);
     };
 
@@ -48,7 +48,8 @@ const ExtractClassesAndTermsFromSchema = async (schema: Dict, jsonPath?: string)
         termValue = {
             key,
             label: schema.title,
-            value: jsonPath
+            value: jsonPath,
+            ...(schema.enum && { enum: schema.enum })
         };
     }
 
@@ -167,7 +168,7 @@ const IterateOverSchemaLayer = async (params: {
 }) => {
     const { schema, jsonPath, schemaName, PushToClassesList, PushToTermsList } = params;
 
-    const localTermsList: { key: string, label: string, value: string }[] = [];
+    const localTermsList: { key: string, type: string, enum?: (string | number)[], label: string, value: string }[] = [];
 
     /* Iterate over schema layer properties and determine if it is a class or term by checking the ods:has pattern */
     for (let i = 0; i < Object.keys(schema ?? {}).length; i++) {
@@ -202,6 +203,8 @@ const IterateOverSchemaLayer = async (params: {
             /* Treat as a stand alone term */
             localTermsList.push({
                 key,
+                type: property.type,
+                ...(property.enum && { enum: property.enum }),
                 label: MakeJsonPathReadableString(key),
                 value: `${jsonPath}['${key}']`
             });

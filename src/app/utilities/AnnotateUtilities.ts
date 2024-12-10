@@ -5,6 +5,7 @@ import jp from 'jsonpath';
 import { cloneDeep, isEmpty, toLower } from 'lodash';
 
 /* Import Utilities */
+import { CheckForClassDefaultValues } from './ClassAnnotationUtilities';
 import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
@@ -208,7 +209,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 
     /**
      * Function to check for a default value for a term
-     * 
+     * @param key The term key to check
      */
     const CheckForTermDefaultValue = (key: string) => {
         if (toLower(key).includes('date')) {
@@ -242,7 +243,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
 
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
             } else if (classProperty.value.includes('has') && classProperty.value.at(-3) === 's') {
-                const localClassValues: Dict[] | undefined = classValues ?? [];
+                const localClassValues: Dict[] = classValues ?? [];
 
                 if (!classValues) {
                     const parentFieldName: string = classProperty.value.replace(`$`, jsonPath).split('[').slice(0, -1).join('[');
@@ -252,9 +253,12 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     PushToLocalClassValues(parentValues, childFieldName, (value: Dict) => localClassValues.push(value));
                 }
 
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ?? localClassValues ?? [];
+                CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath));
+
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ??
+                    (!isEmpty(localClassValues) ? localClassValues : undefined) ?? CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? [];
             } else {
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(jsonPath) ?? {};
             }
 
             /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */
@@ -271,7 +275,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 });
 
                 /* Check if the term field needs to be filled with a default value */
-                if (CheckForTermDefaultValue(termOption.key)) {
+                if (CheckForTermDefaultValue(termOption.key) && !(termOption.key in classFormValues)) {
                     classFormValues[termOption.key] = CheckForTermDefaultValue(termOption.key);
                 }
             });

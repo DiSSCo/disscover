@@ -18,7 +18,7 @@ type Callback = (bootState: {
 
 /**
  * Function that runs the application's necessary processes before it can be booted
- * @returns True or false depening on if is has booted
+ * @returns True or false depening on if it has booted
  */
 const Boot = (callback: Callback) => {
     /* Initiate keycloak which will render the root after finishing setting up */

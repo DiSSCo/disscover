@@ -22,7 +22,7 @@ afterEach(() => Server.resetHandlers());
 afterAll(() => Server.close());
 
 /* Mock Keycloak Service */
-vi.mock('keycloak/Keycloak.ts', async () => {
+vi.mock('app/Keycloak.ts', async () => {
   const KeycloakService = await vi.importMock('tests/mock/keycloak/KeycloakService.ts');
 
   return {

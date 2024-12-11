@@ -7,6 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - image: public.ecr.aws/dissco/${{ github.event.repository.name }}-production
+            keycloak_client: production-disscover-fe
+          - image: public.ecr.aws/dissco/${{ github.event.repository.name }}
+            keycloak_client: orchestration-service
     steps:
     - uses: actions/checkout@v2
       with:
@@ -36,7 +43,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: public.ecr.aws/dissco/${{ github.event.repository.name }}
+        images: ${{ matrix.image }}
         tags: |
           type=sha
           type=raw,value=latest
@@ -48,6 +55,8 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        build-args: |
+          "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}"
 
     - name: Set outputs
       id: vars

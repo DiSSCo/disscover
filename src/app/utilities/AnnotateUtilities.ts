@@ -229,9 +229,9 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
             return classValues;
         } else if (!isEmpty(localClassValues)) {
             return localClassValues;
-        } else if (motivation !== 'oa:editing' && isArray) {
+        } else if (motivation === 'ods:adding' && isArray) {
             return [CheckForClassDefaultValues(fieldName)];
-        } else if (motivation !== 'oa:editing') {
+        } else if (motivation === 'ods:adding') {
             return CheckForClassDefaultValues(fieldName) ?? {};
         }
     };

@@ -268,7 +268,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 } else if (!isEmpty(localClassValues)) {
                     formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = localClassValues;
                 } else if (motivation !== 'oa:editing') {
-                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? [];
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = [CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath))];
                 }
             } else {
                 formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? {};

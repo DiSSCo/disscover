@@ -39,12 +39,13 @@ const CheckForClassDefaultValues = (jsonPath: string) => {
 const ClassAgents = () => {
     /* Construct agent values object */
     const classValues = {
+        "@id": KeycloakService.GetParsedToken()?.orcid,
         "@type": 'schema:Person',
         "schema:identifier": KeycloakService.GetParsedToken()?.orcid,
         "schema:name": `${KeycloakService.GetParsedToken()?.given_name ?? ''} ${KeycloakService.GetParsedToken()?.family_name ?? ''}`
     };
 
-    return [classValues];
+    return classValues;
 };
 
 /**
@@ -78,7 +79,7 @@ const ClassIdentifiers = (jsonPath: string) => {
         "dcterms:identifier": dctermsIdentifier
     };
 
-    return [classValues];
+    return classValues;
 };
 
 /**
@@ -92,7 +93,7 @@ const ClassRoles = () => {
         "schema:roleName": ''
     };
 
-    return [classValues];
+    return classValues;
 };
 
 export {

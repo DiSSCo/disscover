@@ -183,7 +183,7 @@ const FormatJsonPathFromFieldName = (fieldName: string): string => {
  * @param schemaName The name of the base schema
  * @returns The annotation form field properties and their associated form values
  */
-const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: SuperClass, schemaName: string) => {
+const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClass: SuperClass, schemaName: string, motivation: string) => {
     const annotationFormFieldProperties: {
         [propertyName: string]: AnnotationFormProperty
     } = {};
@@ -241,24 +241,37 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                     }
                 });
 
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues ?? {};
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = {};
+
+                /* Check if (default) values are present, if so, set form values property with them */
+                if (!isEmpty(classFormValues)) {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classFormValues;
+                } else if (motivation !== 'oa:editing') {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? {};
+                }
             } else if (classProperty.value.includes('has') && classProperty.value.at(-3) === 's') {
-                const localClassValues: Dict[] = classValues ?? [];
+                let localClassValues: Dict[] = classValues ?? [];
 
                 if (!classValues) {
                     const parentFieldName: string = classProperty.value.replace(`$`, jsonPath).split('[').slice(0, -1).join('[');
                     const parentValues: Dict | undefined = jp.value(superClass, parentFieldName);
                     const childFieldName: string = classProperty.value.split('[').pop()?.replace(']', '').replaceAll("'", '') ?? '';
 
-                    PushToLocalClassValues(parentValues, childFieldName, (value: Dict) => localClassValues.push(value));
+                    PushToLocalClassValues(parentValues, childFieldName, (value: Dict) => localClassValues?.push(value));
                 }
 
-                CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath));
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = [];
 
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues ??
-                    (!isEmpty(localClassValues) ? localClassValues : undefined) ?? CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? [];
+                /* Check if (default) values are present, if so, set form values property with them */
+                if (classValues) {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = classValues;
+                } else if (!isEmpty(localClassValues)) {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = localClassValues;
+                } else if (motivation !== 'oa:editing') {
+                    formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? [];
+                }
             } else {
-                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(jsonPath) ?? {};
+                formValues[FormatFieldNameFromJsonPath(classProperty.value.replace(`$`, jsonPath))] = CheckForClassDefaultValues(classProperty.value.replace(`$`, jsonPath)) ?? {};
             }
 
             /* For each term of class, add it to the properties array of the corresponding class in the annotation form fields dictionary */

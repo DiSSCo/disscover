@@ -94,7 +94,7 @@ const AnnotationFormStep = (props: Props) => {
         }
 
         /* For selected class, get annotation form field properties and their values */
-        GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
+        GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName, formValues?.motivation).then(({ annotationFormFieldProperties, newFormValues }) => {
             let parentJsonPath: string = '$';
 
             if (annotationTarget?.jsonPath && FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {

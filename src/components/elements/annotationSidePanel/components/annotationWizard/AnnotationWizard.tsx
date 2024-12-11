@@ -194,6 +194,8 @@ const AnnotationWizard = (props: Props) => {
         });
     });
 
+    console.log(annotationTarget);
+
     /**
      * Function to set the annotation target based on the user's selection (wizard step one)
      */

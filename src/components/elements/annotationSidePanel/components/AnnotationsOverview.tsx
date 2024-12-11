@@ -92,9 +92,9 @@ const AnnotationsOverview = (props: Props) => {
         if (jsonPath) {
             filteredSortedAnnotations = filteredSortedAnnotations.filter(annotation => {
                 if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
-                    return annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] === jsonPath;
+                    return annotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"] === jsonPath.replaceAll("'", '"');
                 } else if (annotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:TermSelector') {
-                    return annotation["oa:hasTarget"]["oa:hasSelector"]["ods:term"] === jsonPath;
+                    return annotation["oa:hasTarget"]["oa:hasSelector"]["ods:term"] === jsonPath.replaceAll("'", '"');
                 }
             });
         }

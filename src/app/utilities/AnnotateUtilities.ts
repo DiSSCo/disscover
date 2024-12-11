@@ -43,7 +43,7 @@ const ConstructAnnotationObject = (params: {
 }): AnnotationTemplate => {
     const { digitalObjectId, digitalObjectType, motivation, annotationTargetType, jsonPath, annotationValues, fragments } = params;
 
-    let localJsonPath: string = jsonPath ?? '';
+    let localJsonPath: string = jsonPath?.replaceAll("'", '"') ?? '';
 
     /* If motivation is adding, check for new index at end of JSON path and remove if it is there */
     if (jsonPath && typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {

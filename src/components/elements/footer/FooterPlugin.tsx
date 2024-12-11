@@ -14,6 +14,7 @@ const FooterPlugin = () => {
     /* Base variables */
     const [bootPlugin, setBootPlugin] = useState<boolean>(false);
     const [backgroundColor, setBackgroundColor] = useState<string | undefined>();
+    const [explanationInterval, setExplanationInterval] = useState<any>();
     const codeCheck: number[] = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
     let pluginCode: number[] = [];
 
@@ -34,6 +35,11 @@ const FooterPlugin = () => {
                 const audioExplanation = new Audio(ExplanationAudio);
 
                 audioExplanation.play();
+
+                audioExplanation.onended = () => {
+                    setBootPlugin(false);
+                    setBackgroundColor(undefined);
+                };
             }
         } else {
             pluginCode = [];
@@ -48,9 +54,11 @@ const FooterPlugin = () => {
     useEffect(() => {
         /* If boot plugin is loaded, start explanation process */
         if (bootPlugin) {
-            setInterval(() => {
-                setBackgroundColor(Math.floor(Math.random()*16777215).toString(16));
-            }, 1250);
+            setExplanationInterval(setInterval(() => {
+                setBackgroundColor(Math.floor(Math.random() * 16777215).toString(16));
+            }, 1250));
+        } else {
+            clearInterval(explanationInterval);
         }
     }, [bootPlugin]);
 

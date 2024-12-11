@@ -21,6 +21,10 @@ RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
 RUN rm 'src/app/GenerateTypes.js'
 RUN node 'src/app/GenerateTypes.cjs'
 
+# Set env variables
+ARG VITE_KEYCLOAK_CLIENT
+ENV VITE_KEYCLOAK_CLIENT ${VITE_KEYCLOAK_CLIENT}
+
 # Setting app to production build
 RUN npm run build
 

@@ -107,7 +107,9 @@ const AnnotationFormStep = (props: Props) => {
                 annotationValues: {
                     ...newFormValues,
                     ...formValues?.annotationValues,
-                    value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value ?? newFormValues.value
+                    ...(annotationTarget?.type === 'term' && {
+                        value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value ?? newFormValues.value
+                    })
                 },
                 /* Set JSON path and motivation from this checkpoint if editing an annotation */
                 ...(annotationTarget?.annotation && {

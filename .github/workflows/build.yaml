@@ -56,7 +56,7 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
-          "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_token }}"
+          "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}"
 
     - name: Set outputs
       id: vars

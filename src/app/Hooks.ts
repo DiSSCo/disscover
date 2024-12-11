@@ -323,7 +323,7 @@ const usePagination = ({ pageSize, resultKey, params, allowSearchParams = false,
                 const result = await Method({ ...params, pageNumber: pageNumber, pageSize, ...(allowSearchParams && { searchFilters: searchFilters.GetSearchFilters() }) });
 
                 /* Set return data */
-                const records = resultKey ? result[resultKey] : result[Object.keys(result)[0]];
+                const records = resultKey ? result[resultKey] : result;
 
                 setReturnData({
                     records,

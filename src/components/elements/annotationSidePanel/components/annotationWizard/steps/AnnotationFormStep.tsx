@@ -94,7 +94,7 @@ const AnnotationFormStep = (props: Props) => {
         }
 
         /* For selected class, get annotation form field properties and their values */
-        GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName).then(({ annotationFormFieldProperties, newFormValues }) => {
+        GenerateAnnotationFormFieldProperties(jsonPath, localSuperClass, schemaName, formValues?.motivation).then(({ annotationFormFieldProperties, newFormValues }) => {
             let parentJsonPath: string = '$';
 
             if (annotationTarget?.jsonPath && FormatFieldNameFromJsonPath(annotationTarget.jsonPath).split('_').length > 1) {
@@ -107,7 +107,9 @@ const AnnotationFormStep = (props: Props) => {
                 annotationValues: {
                     ...newFormValues,
                     ...formValues?.annotationValues,
-                    value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value ?? newFormValues.value
+                    ...(annotationTarget?.type === 'term' && {
+                        value: (localAnnotationTarget?.jsonPath !== annotationTarget?.jsonPath) ? newFormValues.value : formValues?.annotationValues.value ?? newFormValues.value
+                    })
                 },
                 /* Set JSON path and motivation from this checkpoint if editing an annotation */
                 ...(annotationTarget?.annotation && {

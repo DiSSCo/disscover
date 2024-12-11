@@ -35,7 +35,6 @@ const UserMasJobRecordsTable = () => {
 
     const pagination = usePagination({
         pageSize: 25,
-        resultKey: 'userAnnotations',
         Method: GetCreatorMasJobRecords
     });
 

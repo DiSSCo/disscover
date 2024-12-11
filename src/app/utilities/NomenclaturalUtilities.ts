@@ -59,6 +59,16 @@ const GetSpecimenNameHTMLLabel = (digitalSpecimen: DigitalSpecimen): string => {
 };
 
 /**
+ * Function to get the scientific name identifier (that leads to COL) of the first accepted identification
+ * @param digitalSpecimen The provided digital specimen
+ */
+const GetSpecimenNameIdentifier = (digitalSpecimen: DigitalSpecimen) => {
+    const acceptedIdentification: Identification | undefined = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
+
+    return acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]["dwc:acceptedNameUsageID"];
+};
+
+/**
  * Function to get the genus HTML label of the first accepted identification within the digital specimen, if not present, provide generic genus string
  * @param digitalSpecimen The provided digital specimen
  */
@@ -74,5 +84,6 @@ export {
     DetermineScientificName,
     DetermineTopicDisciplineIcon,
     GetSpecimenNameHTMLLabel,
+    GetSpecimenNameIdentifier,
     GetSpecimenGenusLabel
 };

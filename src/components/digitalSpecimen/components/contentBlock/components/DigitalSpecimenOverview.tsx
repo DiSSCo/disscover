@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utiltiies */
-import { GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
+import { GetSpecimenNameHTMLLabel, GetSpecimenNameIdentifier } from 'app/utilities/NomenclaturalUtilities';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
@@ -74,16 +74,68 @@ const DigitalSpecimenOverview = (props: Props) => {
      * @returns Citation string
      */
     const CraftCitation = (label?: boolean) => {
+        /**
+         * Function to determine the organisation name for the citation string
+         * @returns Organisation name with link
+         */
+        const OrganisationName = () => {
+            return <a href={digitalSpecimen['ods:organisationID']}
+                target="_blank"
+                rel="noreferer"
+                className="tc-accent"
+            >
+                {digitalSpecimen['ods:organisationName'] ?? digitalSpecimen['ods:organisationID']}
+            </a>
+        };
+
+        /**
+         * Function to determine the scientific name for the citation string
+         * @returns Scientific name, with or without link/label
+         */
+        const ScientificName = () => {
+            const scientificNameIdentifier = GetSpecimenNameIdentifier(digitalSpecimen);
+
+            if (scientificNameIdentifier) {
+                return (
+                    <a href={scientificNameIdentifier}
+                        target="_blank"
+                        rel="noreferer"
+                        className="tc-accent"
+                    >
+                        <span dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }} />
+                    </a>
+                );
+            } else {
+                return <span dangerouslySetInnerHTML={{ __html: (GetSpecimenNameHTMLLabel(digitalSpecimen) ?? digitalSpecimen['ods:specimenName']) }} />;
+            }
+        };
+
         if (label) {
             return (
                 <>
-                    {`Distributed System of Scientific Collections (${new Date().getFullYear()}). `}
-                    <span dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }} />
-                    {`. ${digitalSpecimen['ods:organisationName'] ? digitalSpecimen['ods:organisationName'] + '.' : ''} [Dataset]. ${digitalSpecimen['@id']}`}
+                    {OrganisationName()}
+                    {` (${new Date().getFullYear()}). `}
+                    {ScientificName()}
+                    {'. '}
+                    <a href="https://ror.org/02wddde16"
+                        target="_blank"
+                        rel="noreferer"
+                        className="tc-accent"
+                    >
+                        Distributed System of Scientific Collections
+                    </a>
+                    {`. [Dataset]. `}
+                    <a href={digitalSpecimen['@id']}
+                        target="_blank"
+                        rel="noreferer"
+                        className="tc-accent"
+                    >
+                        {digitalSpecimen['@id']}
+                    </a>
                 </>
             );
         } else {
-            return `Distributed System of Scientific Collections (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']}. ${digitalSpecimen['ods:organisationName'] ? digitalSpecimen['ods:organisationName'] + '.' : ''} [Dataset]. ${digitalSpecimen['@id']}`;
+            return `${digitalSpecimen['ods:organisationName'] ? digitalSpecimen['ods:organisationName'] + '.' : digitalSpecimen['ods:organisationID'] + '.'} (${new Date().getFullYear()}). ${digitalSpecimen['ods:specimenName']}. Distributed System of Scientific Collections. [Dataset]. ${digitalSpecimen['@id']}`;
         }
     };
 

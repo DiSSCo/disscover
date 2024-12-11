@@ -31,7 +31,7 @@ const SelectField = (props: Props) => {
             <Field name={`annotationValues.${fieldName}`}
                 as="select"
                 value={fieldValue ?? ''}
-                className="w-100 b-grey br-corner mt-1 py-1 px-2"
+                className="w-100 b-grey br-corner mt-1 py-2 px-2"
             >
                 <option value=""
                     disabled

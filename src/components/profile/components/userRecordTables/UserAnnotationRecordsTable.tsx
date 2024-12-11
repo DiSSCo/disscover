@@ -34,7 +34,6 @@ const UserAnnotationRecordsTable = () => {
 
     const pagination = usePagination({
         pageSize: 25,
-        resultKey: 'userAnnotations',
         Method: GetCreatorAnnotations
     });
 
@@ -55,6 +54,8 @@ const UserAnnotationRecordsTable = () => {
             value: userAnnotation["oa:hasBody"]["oa:value"][0]
         });
     });
+
+    console.log(tableData);
 
     return (
         <div className="h-100 d-flex flex-column">

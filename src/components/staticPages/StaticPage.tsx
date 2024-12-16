@@ -79,7 +79,7 @@ const StaticPage = (props: Props) => {
                                         <Row>
                                             {paragraph.logo &&
                                                 <Col lg="auto">
-                                                    <img src={`src/webroot/logos/${paragraph.logo}`}
+                                                    <img src={`webroot/logos/${paragraph.logo}`}
                                                         alt={paragraph.logo}
                                                         className={styles.logo}
                                                     />

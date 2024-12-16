@@ -89,7 +89,7 @@ const MASJobRecordCard = (props: Props) => {
                             </span>
                             {` ${format(masJobRecord.timeStarted, 'MMMM dd - yyyy')}`}
                         </p>
-                        {['COMPLETED', 'FAILED'].includes(masJobRecord.state) &&
+                        {['COMPLETED'].includes(masJobRecord.state) &&
                             <p className="fs-4">
                                 <span className="fw-lightBold">
                                     Completed:

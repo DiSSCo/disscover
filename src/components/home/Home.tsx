@@ -90,7 +90,7 @@ const Home = () => {
                                         }
 
                                         /* If any topic disciplines are selected, add them as search params */
-                                        values.topicDisciplines.forEach((topicDiscipline, index) => {
+                                        ([...values.topicDisciplines, ...(values.unclassified ? ['unclassified'] : [])]).forEach((topicDiscipline, index) => {
                                             let linkExtension: string = `${(index > 0 || searchLink.includes('?')) ? '&' : '?'}topicDiscipline=`;
 
                                             /* Check if topic discipline belongs to other */

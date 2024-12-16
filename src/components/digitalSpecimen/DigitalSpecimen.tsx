@@ -220,7 +220,9 @@ const DigitalSpecimen = () => {
                 </Row>
             </Container>
 
-            <DigitalSpecimenTourSteps SetSelectedTabIndex={setSelectedTabIndex} />
+            <DigitalSpecimenTourSteps hasMedia={!!digitalSpecimen?.['ods:isKnownToContainMedia']}
+                SetSelectedTabIndex={setSelectedTabIndex}
+            />
             <AnnotateTourSteps SetAnnotationMode={setAnnotationMode} />
             <MasTourSteps SetAnnotationMode={setAnnotationMode} />
         </div>

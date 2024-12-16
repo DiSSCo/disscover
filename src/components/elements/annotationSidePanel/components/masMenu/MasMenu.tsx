@@ -20,7 +20,7 @@ import { Dict } from 'app/Types';
 
 /* Import Components */
 import { MasOverview, MasScheduleMenu } from './MasMenuComponents';
-import { Button } from 'components/elements/customUI/CustomUI';
+import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
@@ -90,9 +90,14 @@ const MASMenu = (props: Props) => {
                         disabled={!KeycloakService.IsLoggedIn()}
                         OnClick={() => setScheduleMasMenuToggle(!scheduleMasMenuToggle)}
                     >
-                        <p>
-                            {!scheduleMasMenuToggle ? 'Schedule a MAS' : 'Cancel scheduling'}
-                        </p>
+                        <Tooltip text="You must be logged in and have a valid ORCID attached to your profile to be able to schedule a MAS"
+                            placement="bottom"
+                            active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
+                        >
+                            <p>
+                                {!scheduleMasMenuToggle ? 'Schedule a MAS' : 'Cancel scheduling'}
+                            </p>
+                        </Tooltip>
                     </Button>
                 </Col>
             </Row>

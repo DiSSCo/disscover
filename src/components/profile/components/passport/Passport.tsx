@@ -18,6 +18,7 @@ import { Button } from "components/elements/customUI/CustomUI";
 
 /**
  * Component that renders the user passport on the profile page
+ * @returns JSX Component
  */
 const Passport = () => {
     return (
@@ -71,10 +72,10 @@ const Passport = () => {
                             >
                                 <img src={ORCIDIcon}
                                     alt="ORCID Logo"
-                                    className="w-100"
+                                    className={styles.orcidIcon}
                                 />
                             </Col>
-                            <Col className="ps-0 d-flex align-items-center">
+                            <Col className="ps-2 d-flex align-items-center">
                                 <a href={KeycloakService.GetParsedToken()?.orcid}
                                     target="_blank"
                                     rel="noreferer"

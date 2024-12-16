@@ -36,7 +36,7 @@ const Events = (props: Props) => {
         assertions?: Dict
     }[] = [];
     const jsonPaths: {
-       [propertySection: string]: string
+        [propertySection: string]: string
     } = {
         mainProperties: "$['ods:hasEvents'][index]",
         location: "$['ods:hasEvents'][index]['ods:hasLocation']",
@@ -87,16 +87,20 @@ const Events = (props: Props) => {
 
     return (
         <div className="h-100">
-            {events.map((event, index) => (
-                <ClassProperties key={event.mainProperties['@id']}
-                    index={index}
-                    title="event"
-                    properties={event}
-                    jsonPaths={jsonPaths}
-                    annotationMode={annotationMode}
-                    SetAnnotationTarget={SetAnnotationTarget}
-                />
-            ))}
+            {events.map((event, index) => {
+                const key: string = `event_${index}`;
+
+                return (
+                    <ClassProperties key={key}
+                        index={index}
+                        title="event"
+                        properties={event}
+                        jsonPaths={jsonPaths}
+                        annotationMode={annotationMode}
+                        SetAnnotationTarget={SetAnnotationTarget}
+                    />
+                );
+            })}
         </div>
     );
 };

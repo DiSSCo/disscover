@@ -24,7 +24,7 @@ const AnnotationPolicyText = (props: Props) => {
     const { HidePolicyText } = props;
 
     return (
-        <div className="px-4 py-4 tc-white">
+        <div className="h-100 d-flex flex-column px-4 py-4 tc-white">
             {/* Top bar */}
             <Row>
                 <Col lg="auto"
@@ -47,7 +47,7 @@ const AnnotationPolicyText = (props: Props) => {
                 </Col>
             </Row>
             {/* Policy content */}
-            <Row className="mt-5">
+            <Row className="flex-grow-1 overflow-scroll mt-5">
                 <Col>
                     {/* Requirements for Annotations */}
                     <Row>

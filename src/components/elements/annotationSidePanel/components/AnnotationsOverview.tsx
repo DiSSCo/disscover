@@ -24,7 +24,7 @@ import { faGears, faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
 /* Import Components */
 import AnnotationCard from "./AnnotationCard";
 import SortingFilters from "./SortingFilters";
-import { Button } from "components/elements/customUI/CustomUI";
+import { Button, Tooltip } from "components/elements/customUI/CustomUI";
 
 
 /* Props Type */
@@ -238,18 +238,25 @@ const AnnotationsOverview = (props: Props) => {
                         <Col lg="auto"
                             className="tourAnnotate6 ps-1"
                         >
+
                             <Button type="button"
                                 variant="accent"
                                 disabled={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
                                 OnClick={() => (KeycloakService.IsLoggedIn() && KeycloakService.GetParsedToken()?.orcid) && StartAnnotationWizard()}
                             >
-                                <p>
-                                    <FontAwesomeIcon icon={faPenToSquare}
-                                        className="me-2"
-                                    />
-                                    Add Annotation
-                                </p>
+                                <Tooltip text="You must be logged in and have a valid ORCID attached to your profile to be able to annotate"
+                                    placement="top"
+                                    active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
+                                >
+                                    <p>
+                                        <FontAwesomeIcon icon={faPenToSquare}
+                                            className="me-2"
+                                        />
+                                        Add Annotation
+                                    </p>
+                                </Tooltip>
                             </Button>
+
                         </Col>
                         {/* Machine annotation services button */}
                         <Col lg="auto"

@@ -36,6 +36,10 @@ const TopBarActions = (props: Props) => {
                 <Col lg="auto">
                     <Dropdown items={actionDropdownItems}
                         hasDefault={true}
+                        selectedItem={{
+                            label: 'Actions',
+                            value: ''
+                        }}
                         placeholder="Actions"
                         styles={{
                             color: '#f1f1f3',

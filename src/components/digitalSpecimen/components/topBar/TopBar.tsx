@@ -130,7 +130,7 @@ const TopBar = (props: Props) => {
                 {/* MIDS level and version select */}
                 <Col lg={{ span: 3 }}>
                     <Row>
-                        <Col className="d-flex align-items-center">
+                        <Col className="d-flex align-items-center pe-0">
                             <Tooltip text="Minimum Information about a Digital Specimen"
                                 placement="bottom"
                             >

@@ -90,16 +90,20 @@ const EntityRelationships = (props: Props) => {
                     />
                 </Card>
                 : <>
-                    {entityRelationships.map((entityRelationship, index) => (
-                        <ClassProperties key={entityRelationship.mainProperties['@id']}
-                            index={index}
-                            title="entityRelationship"
-                            properties={entityRelationship}
-                            jsonPaths={jsonPaths}
-                            annotationMode={annotationMode}
-                            SetAnnotationTarget={SetAnnotationTarget}
-                        />
-                    ))}
+                    {entityRelationships.map((entityRelationship, index) => {
+                        const key: string = `entityRelationship_${index}`;
+
+                        return (
+                            <ClassProperties key={key}
+                                index={index}
+                                title="entityRelationship"
+                                properties={entityRelationship}
+                                jsonPaths={jsonPaths}
+                                annotationMode={annotationMode}
+                                SetAnnotationTarget={SetAnnotationTarget}
+                            />
+                        );
+                    })}
                 </>
             }
 

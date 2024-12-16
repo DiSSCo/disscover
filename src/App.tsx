@@ -46,7 +46,7 @@ const App = (props: Props) => {
   const trigger = useTrigger();
 
   /* Base variables */
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(MobileCheck());
 
   /* Set boot state to global state and check if device being used is mobile */
   trigger.SetTrigger(() => {

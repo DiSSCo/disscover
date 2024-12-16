@@ -29,7 +29,7 @@ const GetDigitalSpecimenTaxonomyAggregations = async ({ searchFilters }: { searc
             /* Apply each value if value is relevant to taxonomy */
             if (taxonomicLevels.includes(key)) {
                 values.forEach((value, valueIndex) => {
-                    filters = filters.concat(`${(index > 0 || valueIndex > 0) ? '&' : '?'}${key}=${value}`);
+                    filters = filters.concat(`${(index > 0 || valueIndex > 0) ? '&' : '?'}${key}=${encodeURIComponent(value)}`);
                 });
             };
         });

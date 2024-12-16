@@ -16,17 +16,19 @@ import DigitalSpecimenTourStepsText from 'sources/tourText/digitalSpecimen.json'
 
 /* Props Type */
 type Props = {
+    hasMedia: boolean,
     SetSelectedTabIndex: Function
 };
 
 
 /**
  * Component that renders the tour steps for the digital specimen page
+ * @param hasMedia Boolean indicating if the digital specimen has any associated digital media
  * @param SetSelectedTabIndex Function to set the selected tab index
  * @returns JSX Component
  */
 const DigitalSpecimenTourSteps = (props: Props) => {
-    const { SetSelectedTabIndex } = props;
+    const { hasMedia, SetSelectedTabIndex } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -56,16 +58,16 @@ const DigitalSpecimenTourSteps = (props: Props) => {
     const OnStepChange = (nextIndex: number, resolve: Function) => {
         const nextIndexToTabIndexMap = {
             6: 0,
-            7: 1,
-            8: 2,
-            9: 3,
-            10: 4,
-            11: 5
+            7: hasMedia ? 1 : 0,
+            8: hasMedia ? 2 : 1,
+            9: hasMedia ? 3 : 2,
+            10: hasMedia ? 4 : 3,
+            11: hasMedia ? 5 : 4
         };
 
         if (Object.keys(nextIndexToTabIndexMap).includes(`${nextIndex}`)) {
             /* On step 7: set tab to digital specimen */
-            SetSelectedTabIndex(0);
+            SetSelectedTabIndex(nextIndexToTabIndexMap[nextIndex as keyof typeof nextIndexToTabIndexMap]);
 
             resolve();
         } else {

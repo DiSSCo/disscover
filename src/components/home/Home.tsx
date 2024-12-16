@@ -52,7 +52,7 @@ const Home = () => {
         title: 'About This Page'
     }];
 
-    /* OnLoad: fetch digital specimen disciplines */
+    /* OnLoad, fetch digital specimen disciplines */
     fetch.Fetch({
         Method: GetDigitalSpecimenDisciplines,
         Handler: (digitalSpecimenDisciplines: {

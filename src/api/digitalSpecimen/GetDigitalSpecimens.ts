@@ -35,7 +35,7 @@ const GetDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters }:
         Object.entries(searchFilters).map(([key, values], index) => {
             /* Apply each value */
             values.forEach((value, valueIndex) => {
-                filters = filters.concat(`${(index > 0 || valueIndex > 0) ? '&' : '?'}${key}=${value}`);
+                filters = filters.concat(`${(index > 0 || valueIndex > 0) ? '&' : '?'}${key}=${encodeURIComponent(value)}`);
             });
         });
     };

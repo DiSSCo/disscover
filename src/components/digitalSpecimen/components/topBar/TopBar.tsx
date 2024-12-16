@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -108,6 +109,12 @@ const TopBar = (props: Props) => {
         link.click();
     };
 
+    /* Class Names */
+    const midsLevelTitleClass = classNames({
+        'fs-3': !annotationMode,
+        'fs-4': annotationMode
+    });
+
     return (
         <div>
             {/* Digital specimen name */}
@@ -123,7 +130,7 @@ const TopBar = (props: Props) => {
                 {/* MIDS level and version select */}
                 <Col lg={{ span: 3 }}>
                     <Row>
-                        <Col className="d-flex align-items-center">
+                        <Col className="d-flex align-items-center pe-0">
                             <Tooltip text="Minimum Information about a Digital Specimen"
                                 placement="bottom"
                             >
@@ -131,7 +138,7 @@ const TopBar = (props: Props) => {
                                     className="tc-accent"
                                 />
                             </Tooltip>
-                            <span className="fs-3 tc-accent fw-bold ms-2">
+                            <span className={`${midsLevelTitleClass} tr-fast tc-accent fw-bold ms-2`}>
                                 {`MIDS level ${digitalSpecimen["ods:midsLevel"]}`}
                             </span>
                         </Col>

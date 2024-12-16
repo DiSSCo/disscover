@@ -65,16 +65,20 @@ const Identifications = (props: Props) => {
 
     return (
         <div>
-            {identifications.map((identification, index) => (
-                <ClassProperties key={identification.mainProperties['dwc:identificationID']}
-                    index={index}
-                    title="identification"
-                    properties={identification}
-                    jsonPaths={jsonPaths}
-                    annotationMode={annotationMode}
-                    SetAnnotationTarget={SetAnnotationTarget}
-                />
-            ))}
+            {identifications.map((identification, index) => {
+                const key: string = identification.mainProperties['dwc:identificationID'] ?? `identification_${index}`;
+
+                return (
+                    <ClassProperties key={key}
+                        index={index}
+                        title="identification"
+                        properties={identification}
+                        jsonPaths={jsonPaths}
+                        annotationMode={annotationMode}
+                        SetAnnotationTarget={SetAnnotationTarget}
+                    />
+                );
+            })}
         </div>
     );
 };

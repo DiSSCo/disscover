@@ -28,7 +28,7 @@ const GetDigitalSpecimenSearchTermAggregations = async ({ searchFilterName, valu
             url: "/digital-specimen/v1/searchTermValue",
             params: {
                 term: searchFilterName,
-                value
+                value: encodeURIComponent(value)
             },
             responseType: 'json'
         });

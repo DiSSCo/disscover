@@ -38,7 +38,7 @@ const DigitalSpecimenIdCardConfig = ({ digitalSpecimen }: { digitalSpecimen: Dig
             jsonPath: "$['ods:livingOrPreserved']"
         },
         {
-            label: 'Licence',
+            label: 'License',
             jsonPath: "$['dcterms:license']"
         },
         {

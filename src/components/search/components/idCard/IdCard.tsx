@@ -28,7 +28,7 @@ import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
 import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecimenDigitalMedia';
 
 /* Import Components */
-import { Button, LoadingScreen, OpenStreetMap } from 'components/elements/customUI/CustomUI';
+import { Button, LoadingScreen, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
 import { DigitalMediaItem } from 'components/elements/Elements';
 
 
@@ -117,9 +117,13 @@ const IdCard = () => {
                             <Col lg="auto"
                                 className="d-flex align-items-center pe-0"
                             >
-                                <FontAwesomeIcon icon={faInfoCircle}
-                                    className="fs-4 tc-accent"
-                                />
+                                <Tooltip text="Minimum Information about a Digital Specimen"
+                                    placement="bottom"
+                                >
+                                    <FontAwesomeIcon icon={faInfoCircle}
+                                        className="fs-4 tc-accent"
+                                    />
+                                </Tooltip>
                             </Col>
                             <Col>
                                 <p className="fs-4 tc-accent fw-bold">

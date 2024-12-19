@@ -42,8 +42,8 @@ const UserAnnotationRecordsTable = () => {
 
         if (userAnnotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:ClassSelector') {
             jsonPath = userAnnotation["oa:hasTarget"]["oa:hasSelector"]["ods:class"];
-        } else if (userAnnotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:FieldSelector') {
-            jsonPath = userAnnotation["oa:hasTarget"]["oa:hasSelector"]["ods:field"];
+        } else if (userAnnotation["oa:hasTarget"]["oa:hasSelector"]?.["@type"] === 'ods:TermSelector') {
+            jsonPath = userAnnotation["oa:hasTarget"]["oa:hasSelector"]["ods:term"];
         } else {
             jsonPath = 'Region of interest';
         }

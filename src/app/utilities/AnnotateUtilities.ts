@@ -270,7 +270,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
             } else if (classProperty.value.includes('has') && classProperty.value.at(-3) === 's') {
                 let localClassValues: Dict[] = classValues ?? [];
 
-                if (!classValues) {
+                if (!classValues && (Array.isArray(classValues) && classValues[0])) {
                     const parentFieldName: string = classProperty.value.replace(`$`, jsonPath).split('[').slice(0, -1).join('[');
                     const parentValues: Dict | undefined = jp.value(superClass, parentFieldName);
                     const childFieldName: string = classProperty.value.split('[').pop()?.replace(']', '').replaceAll("'", '') ?? '';

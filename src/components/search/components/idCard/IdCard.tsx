@@ -86,7 +86,7 @@ const IdCard = () => {
                 {/* Topic discipline/taxonomic icon, title and close icon */}
                 <Row>
                     {/* Specimen name */}
-                    <Col className="text-overflow">
+                    <Col lg className="text-overflow">
                         <p className="fs-3 fw-bold textOverflow"
                             dangerouslySetInnerHTML={{ __html: digitalSpecimen ? GetSpecimenNameHTMLLabel(digitalSpecimen) : '' }}
                         />

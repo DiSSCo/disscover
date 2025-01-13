@@ -10,14 +10,15 @@ DiSSCover is a service provided by the Distributed System of Scientific Collecti
 
 ## Technical specs
 
-DiSSCover is built using the React framework as the core foundation (bootstrapped with [VITE](https://github.com/facebook/create-react-app)). A bunch of packages are applied to complete the boilerplate using NPM. Some noteworthy packages:
+DiSSCover is built using the React framework as the core foundation (bootstrapped with [VITE](https://vite.dev/guide/)). A bunch of packages are applied to complete the boilerplate using NPM. Some noteworthy packages:
 
 - Bootstrap 5, CSS grid, modals and styling
 - SCSS modules, import styles with prefixes
 - React Router (DOM), for managing routing
 - Formik, building and managing forms
-- React data table component, building tables
+- React table (TanStack), building tables
 - Redux, for keeping track of the universal state
+- JSON path, for handling JSON paths
 - I18n, for translating to other languages
 - Axios, for handling fetch requests
 
@@ -31,7 +32,7 @@ Languages used:
 
 The application makes use of different source materials to for example: map data from API responses or to show static data properties (as options). Data kind of source files are written in JSON (as are all API responses). Media source files can reach from images, to audio, video and IIIF formats.
 
-Tests make use of the React Testing library as well as JEST.
+Tests make use of the React Testing library, as well as JEST, and are run with VITEST.
 
 ## Running DiSSCover locally
 
@@ -44,11 +45,14 @@ Running a local test version of DiSSCover requires a view steps:
     - The Node Package Manager is a helpful tool for managing JavaScript based applications. It keeps track of state of our application and the required dependencies.
 - Add a proxy in package.json that points to the DiSSCo API
     - The proxy is needed to evade CORS errors. Because our local environment is not recognized by the CORS protocol of the DiSSCo API as a valid origin, it will reject all fetch requests.
-    - The proxy needs to look like this: "proxy": "https://sandbox.dissco.tech"
-- Set the Axios url environment variable to localhost
-    - Because of our proxy, we want to point all our fetch requests to our localhost, which then redirects them to the DiSSCo API using the proxy.
-    - Set the REACT_APP_AXIOS_URL environment variable in the .env file to: "http://localhost:3000/api/v1"
-- Open the terminal and navigate into the root folder of the repository.
+    - The proxy is configured in the vite.config.ts file and can be configured by adding this piece of code:
+        ``server: {
+           port: 3000,
+           proxy: {
+             '^/api/.*': 'https://dev.dissco.tech'
+           }
+         }``
+- Open the terminal and navigate into the root folder of the project.
 - Finally, run 'npm start' to boot the application. This will open a new tab in your browser and display the application.
 
 ## Deploying with Docker
@@ -70,8 +74,8 @@ Builds a production version of the application for deployment. Optimizes all fil
 #### `npm test`
 To run the tests. The terminal will show how many tests passed and which failed.
 
-#### `npm testc`
-To run the tests and receive a coverage report. The coverage report indicates the amount of code lines, that are covered by the tests.
+#### `npm test:coverage`
+To run the tests and receive a coverage report. The coverage report indicates the amount of code lines that are covered by the tests.
 
 ## Feedback and support
 

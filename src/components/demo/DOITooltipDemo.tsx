@@ -91,7 +91,7 @@ const DOITooltipDemo = (props: Props) => {
                     loc: responseRecord.values.find((value: { [name: string]: any }) => value.type === '10320/loc')?.data.value ?? '',
                     specimenHost: responseRecord.values.find((value: { [name: string]: any }) => value.type === 'specimenHost')?.data.value ?? '',
                     specimenHostName: responseRecord.values.find((value: { [name: string]: any }) => value.type === 'specimenHostName')?.data.value ?? '',
-                    primarySpecimenObjectId: responseRecord.values.find((value: { [name: string]: any }) => value.type === 'primarySpecimenObjectId')?.data.value ?? '',
+                    primarySpecimenObjectId: responseRecord.values.find((value: { [name: string]: any }) => value.type === 'catalogNumber')?.data.value ?? '--',
                     topicDiscipline: responseRecord.values.find((value: { [name: string]: any }) => value.type === 'topicDiscipline')?.data.value ?? '',
                     livingOrPreserved: responseRecord.values.find((value: { [name: string]: any }) => value.type === 'livingOrPreserved')?.data.value ?? ''
                 }
@@ -218,7 +218,7 @@ const DOITooltipDemo = (props: Props) => {
                                     : <p id="tooltipID" className="IDField">{record.data.attributes.primarySpecimenObjectId}</p>
                                 }
 
-                                <p id="tooltipGUID" className="catalogNumber"> (Catalog number) </p>
+                                <p id="tooltipGUID" className="catalogNumber"> (Catalog Number) </p>
                             </span>
                         </div>
 

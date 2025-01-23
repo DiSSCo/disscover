@@ -1,10 +1,10 @@
 /* Import Dependencies */
-import { useState } from 'react';
-import { Formik, Form, Field } from 'formik';
-import { Container, Row, Col } from 'react-bootstrap';
+import {useState} from 'react';
+import {Formik, Form, Field} from 'formik';
+import {Container, Row, Col} from 'react-bootstrap';
 
 /* Import Components */
-import { Header, Footer } from 'components/elements/Elements';
+import {Header, Footer} from 'components/elements/Elements';
 import DOITooltipDemo from 'components/demo/DOITooltipDemo';
 
 
@@ -19,7 +19,7 @@ const Demo = () => {
     return (
         <div className="h-100 d-flex flex-column overflow-scroll">
             <Header span={10}
-                offset={1}
+                    offset={1}
             />
 
             <Container fluid className="flex-grow-1">
@@ -31,25 +31,25 @@ const Demo = () => {
 
                                 <p className="fs-4 text-center">
                                     This demo page demonstrates the DOI Tooltip component offered by DiSSCo.
-                                    <br />
+                                    <br/>
                                     It is a component that can be used to cite a digital specimen DOI in a HTML page.
                                     When hovered on with the mouse, it displays details on the DOI.
-                                    <br />
+                                    <br/>
                                     To implement the component yourself, please refer to this Notebook
-                                    <br />
+                                    <br/>
                                     <span className="tc-accent">
                                         <a href="https://colab.research.google.com/drive/1edY_tsIJvtQJsntTHk_xtnbdyuhLw6Br?usp=sharing"
-                                            target="_blank"
+                                           target="_blank"
                                         >
                                             https://colab.research.google.com/drive/1edY_tsIJvtQJsntTHk_xtnbdyuhLw6Br?usp=sharing
                                         </a>
                                     </span>
-                                    <br />
-                                    <br />
+                                    <br/>
+                                    <br/>
                                     The source code can be found at:&nbsp;
                                     <span className="tc-accent">
                                         <a href="https://github.com/DiSSCo/DOI-Tooltip"
-                                            target="_blank"
+                                           target="_blank"
                                         >
                                             https://github.com/DiSSCo/DOI-Tooltip
                                         </a>
@@ -58,47 +58,42 @@ const Demo = () => {
                             </Col>
                         </Row>
                         <Row className="mt-3">
-                            <Col md={{ span: 6, offset: 3 }} className="mt-5">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-
-                                <DOITooltipDemo doi={'10.3535/M42-Z4P-DRD'}>
+                            <Col md={{span: 6, offset: 3}} className="mt-5">
+                                The following DOI demonstrates the tooltip functionality:
+                                <DOITooltipDemo doi={'10.3535/0RS-2F9-VEJ'}>
                                     <span>
-                                        10.3535/M42-Z4P-DRD
+                                        10.3535/0RS-2F9-VEJ
                                     </span>
                                 </DOITooltipDemo>
-
-                                sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                                ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                deserunt mollit anim id est laborum.
+                                Upon hovering, you can see key information about the digital specimen, without resolving
+                                the resource. This information is stored in the FDO record.
                             </Col>
                         </Row>
                         <Row className="mt-5 justify-content-center">
                             <Col className="col-md-auto">
                                 <Row>
                                     <Col>
-                                        <p> Or try inserting a DOI: </p>
+                                        <p> Or try inserting a Digital Specimen DOI: </p>
                                     </Col>
                                 </Row>
 
                                 <Formik initialValues={{
-                                        DOI: ''
-                                    }}
-                                    onSubmit={async (form) => {
-                                        await new Promise((resolve) => setTimeout(resolve, 100));
+                                    DOI: ''
+                                }}
+                                        onSubmit={async (form) => {
+                                            await new Promise((resolve) => setTimeout(resolve, 100));
 
-                                        setInputDOI(form.DOI);
-                                    }}
+                                            setInputDOI(form.DOI);
+                                        }}
                                 >
                                     <Form>
                                         <Row>
                                             <Col>
-                                                <Field name="DOI" type="text" className="formField br-corner" />
+                                                <Field name="DOI" type="text" className="formField br-corner"/>
                                             </Col>
                                             <Col className="ps-0">
                                                 <button type="submit"
-                                                    className="bgc-primary br-corner tc-white px-3 py-1"
+                                                        className="bgc-primary br-corner tc-white px-3 py-1"
                                                 >
                                                     Go
                                                 </button>
@@ -125,7 +120,7 @@ const Demo = () => {
             </Container>
 
             <Footer span={10}
-                offset={1}
+                    offset={1}
             />
         </div>
     );

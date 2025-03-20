@@ -24,7 +24,7 @@ jobs:
 
     - name: Test and Coverage
       run: npm run test:coverage
-        
+
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -47,7 +47,7 @@ jobs:
         tags: |
           type=sha
           type=raw,value=latest
-        
+
     - name: Build and push
       uses: docker/build-push-action@v3
       with:

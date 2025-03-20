@@ -24,7 +24,7 @@ jobs:
 
     - name: Test and Coverage
       run: npm run test:coverage
-        
+
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -47,7 +47,7 @@ jobs:
         tags: |
           type=sha
           type=raw,value=latest
-        
+
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
@@ -57,6 +57,17 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}"
+
+    - name: Trivy - List all vulnerabilities
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: '${{ github.event.repository.name }}'
+        format: 'table'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        env:
+          TRIVY_SKIP_DB_UPDATE: true
+          TRIVY_SKIP_JAVA_DB_UPDATE: true
 
     - name: Set outputs
       id: vars

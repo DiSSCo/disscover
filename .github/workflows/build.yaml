@@ -65,9 +65,6 @@ jobs:
         format: 'table'
         ignore-unfixed: true
         vuln-type: 'os,library'
-        env:
-          TRIVY_SKIP_DB_UPDATE: true
-          TRIVY_SKIP_JAVA_DB_UPDATE: true
 
     - name: Set outputs
       id: vars

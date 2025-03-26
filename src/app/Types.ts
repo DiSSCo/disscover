@@ -138,16 +138,16 @@ export type AnnotationTemplate = {
 
 /* Machine Job Record */
 export type MasJobRecord = {
-    annotations: Dict,
-    batchingRequested: boolean,
-    jobHandle: string,
-    masId: string,
-    orcid: string,
     state: 'SCHEDULED' | 'RUNNING' | 'FAILED' | 'COMPLETED',
+    masId: string,
     targetId: string,
     targetType: string,
-    timeCompleted: string,
+    orcid: string,
+    jobHandle: string,
     timeStarted: string,
+    timeCompleted: string,
+    annotations: Array<string>,
+    batchingRequested: boolean,
     timeToLive: number
 };
 

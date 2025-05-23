@@ -9,7 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { RetrieveEnvVariable } from 'app/Utilities';
 
 /* Import Hooks */
-import { useAppDispatch, useFetch, useSearchFilters } from "app/Hooks";
+import { useAppDispatch, useAppSelector, useFetch, useSearchFilters } from "app/Hooks";
 
 /* Import Store */
 import { setSearchDigitalSpecimen, setCompareDigitalSpecimen } from "redux-store/SearchSlice";
@@ -22,14 +22,14 @@ import { Dict } from "app/Types";
 import DigitalSpecimenCompareFields from 'sources/compareFields/DigitalSpecimenCompareFields.json';
 
 /* Import API */
-import GetDigitalSpecimen from "api/digitalSpecimen/GetDigitalSpecimen";
+import GetDigitalSpecimenComplete from "api/digitalSpecimen/GetDigitalSpecimenComplete";
 
 /* Import Components */
 import { CompareMatrix } from "./components/SearchComponents";
 import { TopBar } from "./components/compareDigitalSpecimen/CompareDigitalSpecimenComponents";
 import { BreadCrumbs, Header, Footer } from "components/elements/Elements";
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
-
+import { getDigitalSpecimen } from "redux-store/DigitalSpecimenSlice";
 
 /**
  * Component that renders the compare digital specimen page
@@ -59,7 +59,7 @@ const CompareDigitalSpecimen = () => {
             params: {
                 handle: digitalSpecimenID
             },
-            Method: GetDigitalSpecimen
+            Method: GetDigitalSpecimenComplete
         })),
         triggers: [searchParams],
         Handler: (results: Dict) => {
@@ -72,9 +72,9 @@ const CompareDigitalSpecimen = () => {
                     }
                 } = {};
 
-                Object.values(results).forEach((digitalSpecimen: DigitalSpecimen) => {
-                    digitalSpecimenArray.push(digitalSpecimen);
-                    ConstructMatrixData(matrixData, digitalSpecimen);
+                Object.values(results).forEach((digitalSpecimen) => {
+                    digitalSpecimenArray.push(digitalSpecimen.digitalSpecimen);
+                    ConstructMatrixData(matrixData, digitalSpecimen.digitalSpecimen);
                 });
 
                 setDigitalSpecimen(digitalSpecimenArray);

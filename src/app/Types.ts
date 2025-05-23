@@ -204,3 +204,10 @@ export type TourTopic = {
     name: string,
     title: string
 };
+
+/* Full Digital Specimen */
+export type FullDigitalSpecimenResult = {
+    digitalSpecimen: DigitalSpecimenType | undefined;
+    digitalMedia: DigitalMediaType[];
+    annotations: Annotation[];
+}

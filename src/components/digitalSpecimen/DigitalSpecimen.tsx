@@ -8,21 +8,17 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
-import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
+import { getDigitalSpecimen, getDigitalSpecimenDigitalMedia, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { DigitalSpecimen as DigitalSpecimenType } from 'app/types/DigitalSpecimen';
-import { TourTopic } from 'app/Types';
+import { FullDigitalSpecimenResult, TourTopic } from 'app/Types';
 
 /* Import Sources */
 import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
 import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
 /* Import API */
-import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
-import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecimenDigitalMedia';
 import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
 import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
 import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
@@ -35,6 +31,7 @@ import MasTourSteps from './tourSteps/masTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
 import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
+import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
 
 
 /**
@@ -49,7 +46,7 @@ const DigitalSpecimen = () => {
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
-    const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
+    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia);
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tourTopics: TourTopic[] = [
@@ -71,35 +68,23 @@ const DigitalSpecimen = () => {
     fetch.FetchMultiple({
         callMethods: [
             {
-                alias: 'digitalSpecimen',
+                alias: 'digitalSpecimenComplete',
                 params: {
                     handle: `${params.prefix}/${params.suffix}`,
                     version: params.version
                 },
-                Method: GetDigitalSpecimen
-
+                Method: GetDigitalSpecimenComplete
             },
-            {
-                alias: 'digitalMedia',
-                params: {
-                    handle: `${params.prefix}/${params.suffix}`
-                },
-                Method: GetDigitalSpecimenDigitalMedia
-            }
         ],
         triggers: [params.version],
         Handler: (results: {
-            digitalSpecimen: DigitalSpecimenType | undefined,
-            digitalMedia: DigitalMedia[]
+            digitalSpecimenComplete: FullDigitalSpecimenResult,
         }) => {
             /* Dispatch digital specimen */
-            dispatch(setDigitalSpecimen(results.digitalSpecimen));
-
-            /* Set digital media */
-            setDigitalSpecimenDigitalMedia(results.digitalMedia);
+            dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));
         }
     });
-
+    
     /**
      * Function to set the annotation target state
      * @param annotationTargetType The type of the annotation target, either class or term

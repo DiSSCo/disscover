@@ -1,6 +1,7 @@
 /* Import Dependencies */
 import axios from 'axios';
 import KeycloakService from 'app/Keycloak';
+// import testResult from './testResult.json';
 
 /* Import Types */
 import { MasJobRecord, JSONResultArray } from 'app/Types';
@@ -42,6 +43,14 @@ const GetCreatorMasJobRecords = async () => {
         };
     }
 
+    // const data: JSONResultArray = testResult;
+    // console.log(data);
+
+    // data.data.forEach(dataRow => {
+    //     creatorMasJobRecords.push(dataRow.attributes as MasJobRecord);
+    // });
+
+    // console.log('in the call', creatorMasJobRecords);
     return creatorMasJobRecords;
 };
 

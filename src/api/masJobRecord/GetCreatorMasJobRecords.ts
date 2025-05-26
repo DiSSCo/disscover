@@ -42,15 +42,6 @@ const GetCreatorMasJobRecords = async () => {
             throw (NotFoundException('Creator MAS job records', error.request.responseURL));
         };
     }
-
-    // const data: JSONResultArray = testResult;
-    // console.log(data);
-
-    // data.data.forEach(dataRow => {
-    //     creatorMasJobRecords.push(dataRow.attributes as MasJobRecord);
-    // });
-
-    // console.log('in the call', creatorMasJobRecords);
     return creatorMasJobRecords;
 };
 

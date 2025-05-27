@@ -1,7 +1,6 @@
 /* Import Dependencies */
 import axios from 'axios';
 import KeycloakService from 'app/Keycloak';
-// import testResult from './testResult.json';
 
 /* Import Types */
 import { MasJobRecord, JSONResultArray } from 'app/Types';

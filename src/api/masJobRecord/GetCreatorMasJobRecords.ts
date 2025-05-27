@@ -41,6 +41,7 @@ const GetCreatorMasJobRecords = async () => {
             throw (NotFoundException('Creator MAS job records', error.request.responseURL));
         };
     }
+
     return creatorMasJobRecords;
 };
 

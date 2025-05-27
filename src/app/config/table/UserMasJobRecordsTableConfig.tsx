@@ -19,8 +19,8 @@ const UserMasJobRecordsTableConfig = () => {
     /* User annotation record type */
     type UserMasJobRecord = {
         targetId: string,
-        scheduled?: string | undefined,
-        completed?: string | undefined,
+        scheduled: string | undefined,
+        completed: string | undefined,
         state: string
     };
 

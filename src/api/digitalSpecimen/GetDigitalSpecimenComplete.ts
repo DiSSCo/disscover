@@ -47,7 +47,7 @@ const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string,
             })
 
             /* Add annotations to new variable */
-            const annotationData = data.data.attributes.annotations as Annotation[] | undefined;
+            const annotationData = data.data.attributes.annotations;
             
             annotationData?.forEach((annotationItem) => {
                 digitalSpecimenAnnotations.push(annotationItem);

@@ -9,7 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { RetrieveEnvVariable } from 'app/Utilities';
 
 /* Import Hooks */
-import { useAppDispatch, useAppSelector, useFetch, useSearchFilters } from "app/Hooks";
+import { useAppDispatch, useFetch, useSearchFilters } from "app/Hooks";
 
 /* Import Store */
 import { setSearchDigitalSpecimen, setCompareDigitalSpecimen } from "redux-store/SearchSlice";
@@ -29,7 +29,6 @@ import { CompareMatrix } from "./components/SearchComponents";
 import { TopBar } from "./components/compareDigitalSpecimen/CompareDigitalSpecimenComponents";
 import { BreadCrumbs, Header, Footer } from "components/elements/Elements";
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
-import { getDigitalSpecimen } from "redux-store/DigitalSpecimenSlice";
 
 /**
  * Component that renders the compare digital specimen page

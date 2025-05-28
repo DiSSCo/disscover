@@ -1,12 +1,9 @@
-/* Import Dependencies */
-import { useState } from "react";
-
 /* Import Utilities */
 import { RetrieveEnvVariable } from "app/Utilities";
 
 /* Import Hooks */
 import { useNavigate } from "react-router-dom";
-import { useFetch } from "app/Hooks";
+import { useAppSelector } from "app/Hooks";
 
 /* Import Types */
 import { DigitalMedia } from "app/types/DigitalMedia";
@@ -14,12 +11,10 @@ import { DigitalMedia } from "app/types/DigitalMedia";
 /* Import Styles */
 import styles from '../contentBlock.module.scss'
 
-/* Import API */
-import GetDigitalSpecimenDigitalMedia from "api/digitalSpecimen/GetDigitalSpecimenDigitalMedia";
-
 /* Import Components */
 import { DigitalMediaItem } from "components/elements/Elements";
 import { Button } from "components/elements/customUI/CustomUI";
+import { getDigitalSpecimenDigitalMedia } from "redux-store/DigitalSpecimenSlice";
 
 
 /* Props Type */
@@ -37,21 +32,9 @@ const DigitalMediaList = (props: Props) => {
 
     /* Hooks */
     const navigate = useNavigate();
-    const fetch = useFetch();
 
     /* Base variables */
-    const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[]>([]);
-
-    /* OnLoad, fetch associated digital media based upon digital specimen identifier */
-    fetch.Fetch({
-        params: {
-            handle: digitalMedia["ods:hasEntityRelationships"]?.find(
-                entityRelationship => entityRelationship['dwc:relationshipOfResource'] === 'hasDigitalSpecimen'
-            )?.["dwc:relatedResourceID"].replace(RetrieveEnvVariable('DOI_URL'), '')
-        },
-        Method: GetDigitalSpecimenDigitalMedia,
-        Handler: (digitalSpecimenDigitalMedia: DigitalMedia[]) => setDigitalSpecimenDigitalMedia(digitalSpecimenDigitalMedia)
-    });
+    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia);
 
     return (
         <div className="h-100">

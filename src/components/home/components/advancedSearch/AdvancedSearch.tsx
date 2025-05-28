@@ -26,7 +26,7 @@ import styles from 'components/home/home.module.scss';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 /* Import API */
-import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
+import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
 import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
 import GetSourceSystems from 'api/sourceSystem/GetSourceSystems';
 
@@ -104,7 +104,7 @@ const AdvancedSearch = (props: Props) => {
         const handle = doi.replace(RetrieveEnvVariable('DOI_URL') as string, '');
 
         /* Try to fetch digital specimen by DOI */
-        GetDigitalSpecimen({ handle }).then(() => {
+        GetDigitalSpecimenComplete({ handle }).then(() => {
             navigate(`/ds/${handle}`);
         }).catch(error => {
             console.error(error);

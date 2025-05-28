@@ -3,9 +3,8 @@ import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node'
 
 /* Import Mock Data */
-import DigitalSpecimenMock from 'tests/mock/digitalSpecimen/digitalSpecimen.json';
+import DigitalSpecimenMock from 'tests/mock/digitalSpecimen/digitalSpecimenComplete.json';
 import SpecimenAnnotationsMock from 'tests/mock/digitalSpecimen/specimenAnnotations.json';
-import SpecimenDigitalMediaMock from 'tests/mock/digitalSpecimen/specimenDigitalMedia.json';
 import SpecimenVersionsMock from 'tests/mock/digitalSpecimen/specimenVersions.json';
 import SpecimenDisciplineMock from 'tests/mock/digitalSpecimen/specimenDiscipline.json';
 
@@ -15,16 +14,12 @@ import SpecimenDisciplineMock from 'tests/mock/digitalSpecimen/specimenDisciplin
  */
 const Server = setupServer(
     /* Get Digital Specimen by ID */
-    http.get('/digital-specimen/v1/20.5000.1025/DW0-BNT-FM0', () => {
+    http.get('/digital-specimen/v1/20.5000.1025/DW0-BNT-FM0/full', () => {
         return HttpResponse.json(DigitalSpecimenMock);
     }),
     /* Get Digital Specimen's Annotations by ID */
     http.get('/digital-specimen/v1/20.5000.1025/DW0-BNT-FM0/annotations', () => {
         return HttpResponse.json(SpecimenAnnotationsMock);
-    }),
-    /* Get Digital Specimen, Digital Media */
-    http.get('/digital-specimen/v1/20.5000.1025/DW0-BNT-FM0/digital-media', () => {
-        return HttpResponse.json(SpecimenDigitalMediaMock);
     }),
     /* Get Digital Specimen's verions by id */
     http.get('/digital-specimen/v1/20.5000.1025/DW0-BNT-FM0/versions', () => {

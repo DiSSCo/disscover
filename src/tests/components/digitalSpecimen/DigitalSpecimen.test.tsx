@@ -8,7 +8,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { renderWithProviders } from 'tests/AppRender';
 
 /* Import Mock Data */
-import SpecimenMock from 'tests/mock/digitalSpecimen/digitalSpecimen.json';
+import SpecimenMock from 'tests/mock/digitalSpecimen/digitalSpecimenComplete.json';
 
 /* Import Components to be tested */
 import DigitalSpecimen from 'components/digitalSpecimen/DigitalSpecimen';
@@ -34,6 +34,6 @@ describe("Specimen Page Tests", () => {
 
     /* Test if Specimen data is fetched and rendered */
     it('fetches specimen data onload', async () => {
-        expect(await screen.findByRole('heading', { name: SpecimenMock.data.attributes['ods:specimenName'] })).toBeInTheDocument();
+        expect(await screen.findByRole('heading', { name: SpecimenMock.data.attributes.digitalSpecimen['ods:specimenName'] })).toBeInTheDocument();
     });
 });

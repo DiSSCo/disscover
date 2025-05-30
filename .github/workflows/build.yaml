@@ -7,24 +7,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - image: public.ecr.aws/dissco/${{ github.event.repository.name }}-production
-            keycloak_client: production-disscover-fe
-          - image: public.ecr.aws/dissco/${{ github.event.repository.name }}
-            keycloak_client: orchestration-service
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
     - name: Install Dependencies
       run: npm install
-
     - name: Test and Coverage
       run: npm run test:coverage
-
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -43,20 +39,17 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: ${{ matrix.image }}
+        images: public.ecr.aws/dissco/${{ github.event.repository.name }}
         tags: |
           type=sha
           type=raw,value=latest
-
-    - name: Build and push
+    - name: Build and Push to ECR
       uses: docker/build-push-action@v3
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        build-args: |
-          "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}"
 
     - name: Set outputs
       id: vars
@@ -67,4 +60,5 @@ jobs:
       uses: anothrNick/github-tag-action@1.36.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CUSTOM_TAG: sha-${{ steps.vars.outputs.sha_short }}-${{ matrix.keycloak_client }}
+        CUSTOM_TAG: sha-${{ steps.vars.outputs.sha_short }}
+

@@ -31,7 +31,10 @@ const DataExport = () => {
     const trigger = useTrigger();
 
     /* Content */
-    const description = ['The data export function supports downloading a list of digital specimen DOIs together with their physical specimen identifiers for a dataset from a DiSSCo facility. This provides an easy way for DiSSCo facility to download and import the DOIs for their specimens in their catalogs and to provide these with their DarwinCore or ABCD datasets.', 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes. This is important as the specimen record from a DiSSCo facility may be updated and that update should be included in the digital specimen without creating a new digital specimen.']
+    const description = [
+        { paragraph: 'The data export function supports downloading a list of digital specimen DOIs together with their physical specimen identifiers for a dataset from a DiSSCo facility. This provides an easy way for DiSSCo facility to download and import the DOIs for their specimens in their catalogs and to provide these with their DarwinCore or ABCD datasets.', key: 'paragraph-one'},
+        { paragraph: 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes. This is important as the specimen record from a DiSSCo facility may be updated and that update should be included in the digital specimen without creating a new digital specimen.', key: 'paragraph-two'},
+    ]
 
     /* Base variables */
     const [sourceSystemDropdownItems, setSourceSystemDropdownItems] = useState<DropdownItem[]>([]);
@@ -128,9 +131,9 @@ const DataExport = () => {
                                                 <h2 className="fs-2 mb-4 fw-lightBold">
                                                     Export Data
                                                 </h2>
-                                                {description.map((item, index) => (
-                                                    <p className="fs-4 mb-4 mt-2" key={'paragraph-' + index}>
-                                                        {item}
+                                                {description.map((item) => (
+                                                    <p className="fs-4 mb-4 mt-2" key={item.key}>
+                                                        {item.paragraph}
                                                     </p>
                                                 ))}
                                             </Col>

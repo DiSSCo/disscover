@@ -30,6 +30,9 @@ const DataExport = () => {
     const notification = useNotification();
     const trigger = useTrigger();
 
+    /* Content */
+    const description = ['The data export function supports downloading a list of digital specimen DOIs together with their physical specimen identifiers for a dataset from a DiSSCo facility. This provides an easy way for DiSSCo facility to download and import the DOIs for their specimens in their catalogs and to provide these with their DarwinCore or ABCD datasets.', 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes. This is important as the specimen record from a DiSSCo facility may be updated and that update should be included in the digital specimen without creating a new digital specimen.']
+
     /* Base variables */
     const [sourceSystemDropdownItems, setSourceSystemDropdownItems] = useState<DropdownItem[]>([]);
     const exportTypeDropdownItems: DropdownItem[] = [
@@ -79,7 +82,7 @@ const DataExport = () => {
 
             <Container fluid className="flex-grow-1 overflow-hidden py-5">
                 <Row className="h-100">
-                    <Col lg={{ span: 4, offset: 4 }}
+                    <Col lg={{ span: 6, offset: 3 }}
                         className="h-100 d-flex align-items-center"
                     >
                         <Formik initialValues={initialValues}
@@ -118,16 +121,18 @@ const DataExport = () => {
                             {({ setFieldValue, values }) => (
                                 <Form>
                                     {/* Data export card */}
-                                    <Card className="w-100 px-3 py-2">
+                                    <Card className="w-100 px-5 py-5">
                                         {/* Title and description */}
                                         <Row>
                                             <Col>
-                                                <p className="fs-2 fw-lightBold">
+                                                <h2 className="fs-2 mb-4 fw-lightBold">
                                                     Export Data
-                                                </p>
-                                                <p className="fs-4 mt-2">
-                                                    Receive a CSV of physical specimen IDs and DiSSCo managed DOIs
-                                                </p>
+                                                </h2>
+                                                {description.map((item, index) => (
+                                                    <p className="fs-4 mb-4 mt-2" key={index}>
+                                                        {item}
+                                                    </p>
+                                                ))}
                                             </Col>
                                         </Row>
                                         {/* Eport type dropdown */}

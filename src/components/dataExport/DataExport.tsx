@@ -129,7 +129,7 @@ const DataExport = () => {
                                                     Export Data
                                                 </h2>
                                                 {description.map((item, index) => (
-                                                    <p className="fs-4 mb-4 mt-2" key={index}>
+                                                    <p className="fs-4 mb-4 mt-2" key={'paragraph-' + index}>
                                                         {item}
                                                     </p>
                                                 ))}

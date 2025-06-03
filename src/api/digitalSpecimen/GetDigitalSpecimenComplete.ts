@@ -10,11 +10,11 @@ import { Annotation } from 'app/types/Annotation';
 import { NotFoundException } from 'app/Exceptions';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 
-const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string, version?: number }) => {
+const GetCompleteDigitalSpecimen = async({ handle, version } : { handle: string, version?: number }) => {
     /* Declare necessary variables and types */
     let fullDigitalSpecimen: FullDigitalSpecimenResult | undefined;
     let digitalSpecimen: DigitalSpecimen | undefined;
-    let digitalMedia: DigitalMedia[] = [];
+    let digitalMedia: Array<{ digitalMedia: DigitalMedia[], annotations: Annotation[] }> | undefined;
     let digitalSpecimenAnnotations: Annotation[] = [];
 
     if (handle) {
@@ -36,22 +36,20 @@ const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string,
             /* Get result data from JSON */
             const data: JSONResult = result.data;
 
+            console.log('data', result.data.data.attributes);
+
             /* Set Digital Specimen Complete */
             digitalSpecimen = data.data.attributes.digitalSpecimen;
 
             /* Add digitalMedia to new array */
-            const digitalMediaData = data.data.attributes.digitalMedia as Array<{digitalMediaObject: DigitalMedia }> | undefined;
-
-            digitalMediaData?.forEach((digitalMediaItem) => {
-                digitalMedia.push(digitalMediaItem.digitalMediaObject);
-            })
+            digitalMedia = (
+                data.data.attributes.digitalMedia as Array<{digitalMedia: DigitalMedia[], annotations: Annotation[] }> | undefined
+            )?.map((digitalMediaItem) => digitalMediaItem) ?? [];
 
             /* Add annotations to new variable */
-            const annotationData = data.data.attributes.annotations;
-            
-            annotationData?.forEach((annotationItem) => {
-                digitalSpecimenAnnotations.push(annotationItem);
-            });
+            digitalSpecimenAnnotations = (
+                data.data.attributes.annotations as Annotation[] | undefined
+            )?.map((annotation) => annotation) ?? [];
 
             /* Push components into fullDigitalSpecimen*/
             fullDigitalSpecimen = {
@@ -59,6 +57,7 @@ const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string,
                 digitalMedia,
                 annotations: digitalSpecimenAnnotations
             }
+            console.log('fullDigitalSpecimen', fullDigitalSpecimen);
 
         } catch (error: any) {
             throw(NotFoundException('Digital Specimen', error.request.responseURL));
@@ -67,4 +66,4 @@ const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string,
     return fullDigitalSpecimen;
 }
 
-export default GetDigitalSpecimenComplete;
+export default GetCompleteDigitalSpecimen;

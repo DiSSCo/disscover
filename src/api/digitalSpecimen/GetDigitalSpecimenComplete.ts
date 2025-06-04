@@ -3,7 +3,6 @@ import axios from 'axios';
 
 /* Import Types */
 import { JSONResult, DigitalSpecimenCompleteResult } from 'app/Types';
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { Annotation } from 'app/types/Annotation';
 
 /* Import Exceptions */
@@ -11,9 +10,6 @@ import { NotFoundException } from 'app/Exceptions';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 
 const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string, version?: number }) => {
-    /* Declare necessary variables and types */
-    let completeDigitalSpecimen: DigitalSpecimenCompleteResult | undefined;
-
     if (handle) {
         let endPoint: string;
 
@@ -34,30 +30,29 @@ const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string,
             const data: JSONResult = result.data;
 
             /* Set Digital Specimen Complete */
-            const digitalSpecimen = data.data.attributes.digitalSpecimen as DigitalSpecimen | undefined;;
+            const digitalSpecimen = data.data.attributes.digitalSpecimen;
 
-            /* Add digitalMedia to new array */
+            /* Add digitalMedia to new variable */
             const digitalMedia = (
                 data.data.attributes.digitalMedia as Array<{digitalMediaObject: DigitalMedia, annotations: Annotation[] }> | undefined
             )?.map((digitalMediaItem) => digitalMediaItem) ?? [];
 
             /* Add annotations to new variable */
             const digitalSpecimenAnnotations = (
-                data.data.attributes.annotations as Annotation[] | undefined
+                data.data.attributes.annotations
             )?.map((annotation) => annotation) ?? [];
 
-            /* Push components into completeDigitalSpecimen*/
-            return completeDigitalSpecimen = {
+            /* Return object with digitalSpecimen, digitalMedia and annotations*/
+            return {
                 digitalSpecimen,
                 digitalMedia,
                 annotations: digitalSpecimenAnnotations
-            }
+            } as DigitalSpecimenCompleteResult;
 
         } catch (error: any) {
             throw(NotFoundException('Digital Specimen', error.request.responseURL));
         };
     }
-    return completeDigitalSpecimen;
 }
 
 export default GetDigitalSpecimenComplete;

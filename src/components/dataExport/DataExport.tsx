@@ -30,7 +30,7 @@ const DataExport = () => {
     const notification = useNotification();
     const trigger = useTrigger();
 
-    /* Content */
+    /* Export type content */
     const description = [
         { 
             paragraph: 'Here, you may schedule an export of digital specimen data. Currently we only support the export of a list of digital specimen DOIs. This provides an easy way for institutions to download and import these in a collection management system or to include these with their DarwinCore or ABCD datasets for e.g. publication in GBIF.', 

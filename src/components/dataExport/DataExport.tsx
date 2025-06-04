@@ -32,8 +32,18 @@ const DataExport = () => {
 
     /* Content */
     const description = [
-        { paragraph: 'The data export function supports downloading a list of digital specimen DOIs together with their physical specimen identifiers for a dataset from a DiSSCo facility. This provides an easy way for DiSSCo facility to download and import the DOIs for their specimens in their catalogs and to provide these with their DarwinCore or ABCD datasets.', key: 'paragraph-one'},
-        { paragraph: 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes. This is important as the specimen record from a DiSSCo facility may be updated and that update should be included in the digital specimen without creating a new digital specimen.', key: 'paragraph-two'},
+        { 
+            paragraph: 'Here, you may schedule an export of DiSSCo data. The data export function provides an easy way for the DiSSCo facility to download and import identifiers for their specimens in their catalogs and to integrate these with their DarwinCore or ABCD datasets.', 
+            key: 'paragraph-one'
+        },
+        { 
+            paragraph: 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes, ensuring an always up to date digital specimen.', 
+            key: 'paragraph-two'
+        },
+        { 
+            paragraph: 'Select a type of data export for more information. When available, a download link is sent to your email address. No email? Check your spam folder.', 
+            key: 'paragraph-three'
+        },
     ]
 
     /* Base variables */
@@ -141,18 +151,23 @@ const DataExport = () => {
                                         {/* Eport type dropdown */}
                                         <Row className="mt-3">
                                             <Col>
-                                                <p className="fs-4 mb-1">
+                                                <p className="fs-4 mb-1 fw-lightBold">
                                                     Select an export type:
                                                 </p>
                                                 <Dropdown items={exportTypeDropdownItems}
                                                     OnChange={(exportTypeOption: DropdownItem) => setFieldValue('exportType', exportTypeOption.value)}
                                                 />
+                                                {values.exportType === 'DOI_LIST' &&
+                                                    <p className="fs-5 mb-1 mt-3">
+                                                        You will receive a download link to a CSV file with two columns: <code className="tc-primary">dcterms:identifier</code>, which is the DOI of the specimen, and <code className="tc-primary">ods:physicalSpecimenID</code>, the local catalog number used by the source system. This provides a mechanism to match the DiSSCo assigned DOIs with the institutional identifiers.
+                                                    </p>
+                                                }
                                             </Col>
                                         </Row>
                                         {/* Source system dropdown */}
                                         <Row className="mt-3">
                                             <Col>
-                                                <p className="fs-4 mb-1">
+                                                <p className="fs-4 mb-1 fw-lightBold">
                                                     Select a Source System to export from:
                                                 </p>
                                                 {!isEmpty(sourceSystemDropdownItems) &&

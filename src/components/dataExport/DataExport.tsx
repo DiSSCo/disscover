@@ -30,6 +30,22 @@ const DataExport = () => {
     const notification = useNotification();
     const trigger = useTrigger();
 
+    /* Export type content */
+    const description = [
+        { 
+            paragraph: 'Here, you may schedule an export of digital specimen data. Currently we only support the export of a list of digital specimen DOIs. This provides an easy way for institutions to download and import these in a collection management system or to include these with their DarwinCore or ABCD datasets for e.g. publication in GBIF.', 
+            key: 'paragraph-one'
+        },
+        { 
+            paragraph: 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes, to avoid digital specimen duplicates.', 
+            key: 'paragraph-two'
+        },
+        { 
+            paragraph: 'Select a data export type to view more information. Once your export is ready, a download link will be sent to your email. Didn’t receive an email? Be sure to check your spam folder.', 
+            key: 'paragraph-three'
+        },
+    ]
+
     /* Base variables */
     const [sourceSystemDropdownItems, setSourceSystemDropdownItems] = useState<DropdownItem[]>([]);
     const exportTypeDropdownItems: DropdownItem[] = [
@@ -79,7 +95,7 @@ const DataExport = () => {
 
             <Container fluid className="flex-grow-1 overflow-hidden py-5">
                 <Row className="h-100">
-                    <Col lg={{ span: 4, offset: 4 }}
+                    <Col lg={{ span: 6, offset: 3 }}
                         className="h-100 d-flex align-items-center"
                     >
                         <Formik initialValues={initialValues}
@@ -118,33 +134,40 @@ const DataExport = () => {
                             {({ setFieldValue, values }) => (
                                 <Form>
                                     {/* Data export card */}
-                                    <Card className="w-100 px-3 py-2">
+                                    <Card className="w-100 px-5 py-5">
                                         {/* Title and description */}
                                         <Row>
                                             <Col>
-                                                <p className="fs-2 fw-lightBold">
+                                                <h2 className="fs-2 mb-4 fw-lightBold">
                                                     Export Data
-                                                </p>
-                                                <p className="fs-4 mt-2">
-                                                    Receive a CSV of physical specimen IDs and DiSSCo managed DOIs
-                                                </p>
+                                                </h2>
+                                                {description.map((item) => (
+                                                    <p className="fs-4 mb-4 mt-2" key={item.key}>
+                                                        {item.paragraph}
+                                                    </p>
+                                                ))}
                                             </Col>
                                         </Row>
                                         {/* Eport type dropdown */}
                                         <Row className="mt-3">
                                             <Col>
-                                                <p className="fs-4 mb-1">
+                                                <p className="fs-4 mb-1 fw-lightBold">
                                                     Select an export type:
                                                 </p>
                                                 <Dropdown items={exportTypeDropdownItems}
                                                     OnChange={(exportTypeOption: DropdownItem) => setFieldValue('exportType', exportTypeOption.value)}
                                                 />
+                                                {values.exportType === 'DOI_LIST' &&
+                                                    <p className="fs-5 mb-1 mt-3">
+                                                        You will receive a download link to a CSV file with two columns: <code className="tc-primary">dcterms:identifier</code>, which represents the DOI assigned to the digital specimen, and <code className="tc-primary">ods:physicalSpecimenID</code>, the institutional identifier provided by the source system. This file enables you to match DiSSCo-assigned DOIs with the corresponding institutional identifiers.
+                                                    </p>
+                                                }
                                             </Col>
                                         </Row>
                                         {/* Source system dropdown */}
                                         <Row className="mt-3">
                                             <Col>
-                                                <p className="fs-4 mb-1">
+                                                <p className="fs-4 mb-1 fw-lightBold">
                                                     Select a Source System to export from:
                                                 </p>
                                                 {!isEmpty(sourceSystemDropdownItems) &&

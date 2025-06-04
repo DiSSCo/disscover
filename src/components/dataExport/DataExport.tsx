@@ -33,15 +33,15 @@ const DataExport = () => {
     /* Content */
     const description = [
         { 
-            paragraph: 'Here, you may schedule an export of DiSSCo data. The data export function provides an easy way for the DiSSCo facility to download and import identifiers for their specimens in their catalogs and to integrate these with their DarwinCore or ABCD datasets.', 
+            paragraph: 'Here, you may schedule an export of digital specimen data. Currently we only support the export of a list of digital specimen DOIs. This provides an easy way for institutions to download and import these in a collection management system or to include these with their DarwinCore or ABCD datasets for e.g. publication in GBIF.', 
             key: 'paragraph-one'
         },
         { 
-            paragraph: 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes, ensuring an always up to date digital specimen.', 
+            paragraph: 'This ensures a stable link between the specimen record in these datasets and the digital specimen, even if the physical specimen identifier changes, to avoid digital specimen duplicates.', 
             key: 'paragraph-two'
         },
         { 
-            paragraph: 'Select a type of data export for more information. When available, a download link is sent to your email address. No email? Check your spam folder.', 
+            paragraph: 'Select a data export type to view more information. Once your export is ready, a download link will be sent to your email. Didn’t receive an email? Be sure to check your spam folder.', 
             key: 'paragraph-three'
         },
     ]
@@ -159,7 +159,7 @@ const DataExport = () => {
                                                 />
                                                 {values.exportType === 'DOI_LIST' &&
                                                     <p className="fs-5 mb-1 mt-3">
-                                                        You will receive a download link to a CSV file with two columns: <code className="tc-primary">dcterms:identifier</code>, which is the DOI of the specimen, and <code className="tc-primary">ods:physicalSpecimenID</code>, the local catalog number used by the source system. This provides a mechanism to match the DiSSCo assigned DOIs with the institutional identifiers.
+                                                        You will receive a download link to a CSV file with two columns: <code className="tc-primary">dcterms:identifier</code>, which represents the DOI assigned to the digital specimen, and <code className="tc-primary">ods:physicalSpecimenID</code>, the institutional identifier provided by the source system. This file enables you to match DiSSCo-assigned DOIs with the corresponding institutional identifiers.
                                                     </p>
                                                 }
                                             </Col>

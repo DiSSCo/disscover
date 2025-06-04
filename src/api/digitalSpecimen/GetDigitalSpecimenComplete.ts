@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 /* Import Types */
-import { JSONResult, FullDigitalSpecimenResult } from 'app/Types';
+import { JSONResult, DigitalSpecimenCompleteResult } from 'app/Types';
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { Annotation } from 'app/types/Annotation';
 
@@ -10,11 +10,11 @@ import { Annotation } from 'app/types/Annotation';
 import { NotFoundException } from 'app/Exceptions';
 import { DigitalMedia } from 'app/types/DigitalMedia';
 
-const GetCompleteDigitalSpecimen = async({ handle, version } : { handle: string, version?: number }) => {
+const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string, version?: number }) => {
     /* Declare necessary variables and types */
-    let fullDigitalSpecimen: FullDigitalSpecimenResult | undefined;
+    let completeDigitalSpecimen: DigitalSpecimenCompleteResult | undefined;
     let digitalSpecimen: DigitalSpecimen | undefined;
-    let digitalMedia: Array<{ digitalMedia: DigitalMedia[], annotations: Annotation[] }> | undefined;
+    let digitalMedia: Array<{ digitalMediaObject: DigitalMedia, annotations: Annotation[] }> | undefined;
     let digitalSpecimenAnnotations: Annotation[] = [];
 
     if (handle) {
@@ -36,14 +36,12 @@ const GetCompleteDigitalSpecimen = async({ handle, version } : { handle: string,
             /* Get result data from JSON */
             const data: JSONResult = result.data;
 
-            console.log('data', result.data.data.attributes);
-
             /* Set Digital Specimen Complete */
             digitalSpecimen = data.data.attributes.digitalSpecimen;
 
             /* Add digitalMedia to new array */
             digitalMedia = (
-                data.data.attributes.digitalMedia as Array<{digitalMedia: DigitalMedia[], annotations: Annotation[] }> | undefined
+                data.data.attributes.digitalMedia as Array<{digitalMediaObject: DigitalMedia, annotations: Annotation[] }> | undefined
             )?.map((digitalMediaItem) => digitalMediaItem) ?? [];
 
             /* Add annotations to new variable */
@@ -51,19 +49,18 @@ const GetCompleteDigitalSpecimen = async({ handle, version } : { handle: string,
                 data.data.attributes.annotations as Annotation[] | undefined
             )?.map((annotation) => annotation) ?? [];
 
-            /* Push components into fullDigitalSpecimen*/
-            fullDigitalSpecimen = {
+            /* Push components into completeDigitalSpecimen*/
+            completeDigitalSpecimen = {
                 digitalSpecimen,
                 digitalMedia,
                 annotations: digitalSpecimenAnnotations
             }
-            console.log('fullDigitalSpecimen', fullDigitalSpecimen);
 
         } catch (error: any) {
             throw(NotFoundException('Digital Specimen', error.request.responseURL));
         };
     }
-    return fullDigitalSpecimen;
+    return completeDigitalSpecimen;
 }
 
-export default GetCompleteDigitalSpecimen;
+export default GetDigitalSpecimenComplete;

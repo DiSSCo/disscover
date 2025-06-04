@@ -3,11 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/Store';
 
 /* Import Types */
-import { FullDigitalSpecimenResult } from 'app/Types';
+import { DigitalSpecimenCompleteResult } from 'app/Types';
 
 
 export interface SpecimenState {
-    digitalSpecimenComplete: FullDigitalSpecimenResult;
+    digitalSpecimenComplete: DigitalSpecimenCompleteResult;
     digitalSpecimenAggregations?: {
         [searchFilter: string]: {
             [aggregation: string]: number
@@ -28,7 +28,7 @@ export const DigitalSpecimenSlice = createSlice({
     name: 'digitalSpecimen',
     initialState,
     reducers: {
-        setDigitalSpecimenComplete: (state, action: PayloadAction<FullDigitalSpecimenResult | undefined>) => {
+        setDigitalSpecimenComplete: (state, action: PayloadAction<DigitalSpecimenCompleteResult | undefined>) => {
             state.digitalSpecimenComplete = { ...state.digitalSpecimenComplete, ...action.payload };
         },
         setDigitalSpecimenAggregations: (state, action: PayloadAction<{[searchFilter: string]: {[aggregation: string]: number}}>) => {

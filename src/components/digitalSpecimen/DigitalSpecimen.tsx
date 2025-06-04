@@ -12,13 +12,14 @@ import { getDigitalSpecimen, getDigitalSpecimenDigitalMedia, setDigitalSpecimenC
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
-import { FullDigitalSpecimenResult, TourTopic } from 'app/Types';
+import { DigitalSpecimenCompleteResult, TourTopic } from 'app/Types';
 
 /* Import Sources */
 import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
 import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
 /* Import API */
+import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
 import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
 import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
 import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
@@ -31,8 +32,6 @@ import MasTourSteps from './tourSteps/masTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
 import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
-import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
-
 
 /**
  * Component that renders the digital specimen page
@@ -46,7 +45,7 @@ const DigitalSpecimen = () => {
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
-    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia);
+    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia).map(item => item.digitalMediaObject);;
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tourTopics: TourTopic[] = [
@@ -63,7 +62,6 @@ const DigitalSpecimen = () => {
             title: 'Machine Annotation Services'
         }
     ];
-    console.log('digitalSpecimenDigitalMedia', digitalSpecimenDigitalMedia);
 
     /* OnLoad, fetch digital specimen data */
     fetch.FetchMultiple({
@@ -79,7 +77,7 @@ const DigitalSpecimen = () => {
         ],
         triggers: [params.version],
         Handler: (results: {
-            digitalSpecimenComplete: FullDigitalSpecimenResult,
+            digitalSpecimenComplete: DigitalSpecimenCompleteResult,
         }) => {
             /* Dispatch digital specimen */
             dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));

@@ -15,7 +15,7 @@ import { getDigitalSpecimen, setDigitalSpecimenComplete, getDigitalSpecimenDigit
 import { getSearchDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Types */
-import { FullDigitalSpecimenResult } from 'app/Types';
+import { DigitalSpecimenCompleteResult } from 'app/Types';
 
 /* Import Icons */
 import { faChevronRight, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -55,7 +55,7 @@ const IdCard = () => {
         ],
         triggers: [searchDigitalSpecimen],
         Handler: (results: {
-            digitalSpecimenComplete: FullDigitalSpecimenResult,
+            digitalSpecimenComplete: DigitalSpecimenCompleteResult,
         }) => {
             /* Dispatch complete digital specimen object containing specimen, media and annotations*/
             dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));
@@ -188,7 +188,7 @@ const IdCard = () => {
                                 {digitalSpecimenDigitalMedia?.length ?
                                     <Row className="h-50 flex-nowrap overflow-x-scroll pt-2">
                                         {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
-                                            <Col key={`${digitalMedia['@id']}_${index}`}
+                                            <Col key={`${digitalMedia.digitalMediaObject['@id']}_${index}`}
                                                 lg={{ span: 4 }}
                                                 className="h-100 overflow-hidden"
                                             >
@@ -196,9 +196,9 @@ const IdCard = () => {
                                                 <Button type="button"
                                                     variant="blank"
                                                     className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
-                                                    OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
+                                                    OnClick={() => navigate(`/dm/${digitalMedia.digitalMediaObject['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
                                                 >
-                                                    <DigitalMediaItem digitalMedia={digitalMedia} />
+                                                    <DigitalMediaItem digitalMedia={digitalMedia.digitalMediaObject} />
                                                 </Button>
 
 

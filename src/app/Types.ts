@@ -206,8 +206,8 @@ export type TourTopic = {
 };
 
 /* Full Digital Specimen */
-export type FullDigitalSpecimenResult = {
+export type DigitalSpecimenCompleteResult = {
     digitalSpecimen: DigitalSpecimenType | undefined;
-    digitalMedia: Array<{ digitalMedia: DigitalMediaType[], annotations: Annotation[] }>;
+    digitalMedia: Array<{ digitalMediaObject: DigitalMediaType, annotations: Annotation[] }>;
     annotations: Annotation[];
 }

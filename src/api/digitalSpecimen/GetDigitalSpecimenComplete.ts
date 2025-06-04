@@ -13,9 +13,6 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string, version?: number }) => {
     /* Declare necessary variables and types */
     let completeDigitalSpecimen: DigitalSpecimenCompleteResult | undefined;
-    let digitalSpecimen: DigitalSpecimen | undefined;
-    let digitalMedia: Array<{ digitalMediaObject: DigitalMedia, annotations: Annotation[] }> | undefined;
-    let digitalSpecimenAnnotations: Annotation[] = [];
 
     if (handle) {
         let endPoint: string;
@@ -37,20 +34,20 @@ const GetDigitalSpecimenComplete = async({ handle, version } : { handle: string,
             const data: JSONResult = result.data;
 
             /* Set Digital Specimen Complete */
-            digitalSpecimen = data.data.attributes.digitalSpecimen;
+            const digitalSpecimen = data.data.attributes.digitalSpecimen as DigitalSpecimen | undefined;;
 
             /* Add digitalMedia to new array */
-            digitalMedia = (
+            const digitalMedia = (
                 data.data.attributes.digitalMedia as Array<{digitalMediaObject: DigitalMedia, annotations: Annotation[] }> | undefined
             )?.map((digitalMediaItem) => digitalMediaItem) ?? [];
 
             /* Add annotations to new variable */
-            digitalSpecimenAnnotations = (
+            const digitalSpecimenAnnotations = (
                 data.data.attributes.annotations as Annotation[] | undefined
             )?.map((annotation) => annotation) ?? [];
 
             /* Push components into completeDigitalSpecimen*/
-            completeDigitalSpecimen = {
+            return completeDigitalSpecimen = {
                 digitalSpecimen,
                 digitalMedia,
                 annotations: digitalSpecimenAnnotations

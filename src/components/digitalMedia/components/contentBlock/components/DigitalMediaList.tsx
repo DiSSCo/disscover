@@ -34,7 +34,7 @@ const DigitalMediaList = (props: Props) => {
     const navigate = useNavigate();
 
     /* Base variables */
-    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia);
+    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia).map(item => item.digitalMediaObject);
 
     return (
         <div className="h-100">

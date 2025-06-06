@@ -1,7 +1,5 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isEmpty } from 'lodash';
-import { useState } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
 /* Import Utilities */
@@ -13,24 +11,21 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
-import { getDigitalSpecimen, setDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
+import { getDigitalSpecimen, setDigitalSpecimenComplete, getDigitalSpecimenDigitalMedia } from 'redux-store/DigitalSpecimenSlice';
 import { getSearchDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Types */
-import { DigitalMedia } from 'app/types/DigitalMedia';
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalSpecimenCompleteResult } from 'app/Types';
 
 /* Import Icons */
 import { faChevronRight, faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 /* Import API */
-import GetDigitalSpecimen from 'api/digitalSpecimen/GetDigitalSpecimen';
-import GetDigitalSpecimenDigitalMedia from 'api/digitalSpecimen/GetDigitalSpecimenDigitalMedia';
+import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
 
 /* Import Components */
 import { Button, LoadingScreen, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
 import { DigitalMediaItem } from 'components/elements/Elements';
-
 
 /**
  * Component that renders the ID card on the search page
@@ -45,38 +40,25 @@ const IdCard = () => {
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
-    const [digitalSpecimenDigitalMedia, setDigitalSpecimenDigitalMedia] = useState<DigitalMedia[] | undefined>();
+    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia);
 
     /* Fetch full digital specimen */
     fetch.FetchMultiple({
         callMethods: [
             {
-                alias: 'digitalSpecimen',
+                alias: 'digitalSpecimenComplete',
                 params: {
                     handle: searchDigitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
                 },
-                Method: GetDigitalSpecimen,
+                Method: GetDigitalSpecimenComplete,
             },
-            {
-                alias: 'digitalMedia',
-                params: {
-                    handle: searchDigitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
-                },
-                Method: GetDigitalSpecimenDigitalMedia
-            }
         ],
         triggers: [searchDigitalSpecimen],
         Handler: (results: {
-            digitalSpecimen: DigitalSpecimen | undefined,
-            digitalMedia: DigitalMedia[]
+            digitalSpecimenComplete: DigitalSpecimenCompleteResult,
         }) => {
-            /* Dispatch digital specimen */
-            dispatch(setDigitalSpecimen(results.digitalSpecimen));
-
-            /* Set digital specimen digital media, if array is not empty */
-            if (!isEmpty(results.digitalMedia) || digitalSpecimen?.['ods:isKnownToContainMedia']) {
-                setDigitalSpecimenDigitalMedia(results.digitalMedia);
-            }
+            /* Dispatch complete digital specimen object containing specimen, media and annotations*/
+            dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));
         }
     });
 
@@ -99,7 +81,7 @@ const IdCard = () => {
                             variant="blank"
                             className="py-0 px-0"
                             OnClick={() => {
-                                dispatch(setDigitalSpecimen(undefined));
+                                dispatch(setDigitalSpecimenComplete(undefined));
                                 dispatch(setSearchDigitalSpecimen(undefined));
                             }}
                         >
@@ -206,7 +188,7 @@ const IdCard = () => {
                                 {digitalSpecimenDigitalMedia?.length ?
                                     <Row className="h-50 flex-nowrap overflow-x-scroll pt-2">
                                         {digitalSpecimenDigitalMedia?.map((digitalMedia, index) => (
-                                            <Col key={`${digitalMedia['@id']}_${index}`}
+                                            <Col key={`${digitalMedia.digitalMediaObject['@id']}_${index}`}
                                                 lg={{ span: 4 }}
                                                 className="h-100 overflow-hidden"
                                             >
@@ -214,9 +196,9 @@ const IdCard = () => {
                                                 <Button type="button"
                                                     variant="blank"
                                                     className="px-0 py-0 h-100 w-100 d-flex align-items-center justify-content-center bgc-grey br-corner overflow-hidden"
-                                                    OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
+                                                    OnClick={() => navigate(`/dm/${digitalMedia.digitalMediaObject['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
                                                 >
-                                                    <DigitalMediaItem digitalMedia={digitalMedia} />
+                                                    <DigitalMediaItem digitalMedia={digitalMedia.digitalMediaObject} />
                                                 </Button>
 
 

@@ -3,11 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/Store';
 
 /* Import Types */
-import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
+import { DigitalSpecimenCompleteResult } from 'app/Types';
 
 
 export interface SpecimenState {
-    digitalSpecimen: DigitalSpecimen | undefined;
+    digitalSpecimenComplete: DigitalSpecimenCompleteResult;
     digitalSpecimenAggregations?: {
         [searchFilter: string]: {
             [aggregation: string]: number
@@ -16,7 +16,11 @@ export interface SpecimenState {
 }
 
 const initialState: SpecimenState = {
-    digitalSpecimen: undefined,
+    digitalSpecimenComplete: {
+        digitalSpecimen: undefined,
+        digitalMedia: [],
+        annotations: []
+    },
     digitalSpecimenAggregations: undefined
 };
 
@@ -24,8 +28,8 @@ export const DigitalSpecimenSlice = createSlice({
     name: 'digitalSpecimen',
     initialState,
     reducers: {
-        setDigitalSpecimen: (state, action: PayloadAction<DigitalSpecimen | undefined>) => {
-            state.digitalSpecimen = action.payload;
+        setDigitalSpecimenComplete: (state, action: PayloadAction<DigitalSpecimenCompleteResult | undefined>) => {
+            state.digitalSpecimenComplete = { ...state.digitalSpecimenComplete, ...action.payload };
         },
         setDigitalSpecimenAggregations: (state, action: PayloadAction<{[searchFilter: string]: {[aggregation: string]: number}}>) => {
             state.digitalSpecimenAggregations = action.payload;
@@ -35,12 +39,15 @@ export const DigitalSpecimenSlice = createSlice({
 
 /* Action Creators */
 export const {
-    setDigitalSpecimen,
-    setDigitalSpecimenAggregations
+    setDigitalSpecimenComplete,
+    setDigitalSpecimenAggregations,
 } = DigitalSpecimenSlice.actions;
 
 /* Connect with Root State */
-export const getDigitalSpecimen = (state: RootState) => state.digitalSpecimen.digitalSpecimen;
+export const getDigitalSpecimen = (state: RootState) => state.digitalSpecimen.digitalSpecimenComplete.digitalSpecimen;
+export const getDigitalSpecimenDigitalMedia = (state: RootState) => state.digitalSpecimen.digitalSpecimenComplete.digitalMedia;
+export const getDigitalSpecimenAnnotations = (state: RootState) => state.digitalSpecimen.digitalSpecimenComplete.annotations;
+export const getDigitalSpecimenComplete = (state: RootState) => state.digitalSpecimen.digitalSpecimenComplete;
 export const getDigitalSpecimenAggregations = (state: RootState) => state.digitalSpecimen.digitalSpecimenAggregations;
 
 export default DigitalSpecimenSlice.reducer;

@@ -16,6 +16,13 @@ export default defineConfig({
       webroot: '/src/webroot'
     }
   },
+  // This is a local development server config, and does not have any effect on non-development environments
+  server: {
+    port: 3000,
+    proxy: {
+      '^/api/.*': 'https://dev.dissco.tech'
+    }
+  },
   build: {
     outDir: './build',
     emptyOutDir: true

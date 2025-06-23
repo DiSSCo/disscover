@@ -45,12 +45,15 @@ type Props = {
 const TopBar = (props: Props) => {
     const { digitalSpecimen, annotationMode, ToggleAnnotationMode } = props;
 
+    console.log(digitalSpecimen);
     /* Hooks */
     const navigate = useNavigate();
     const fetch = useFetch();
 
     /* Base variables */
     const [digitalSpecimenVersions, setDigitalSpecimenVersions] = useState<number[] | undefined>();
+    const digitalSpecimenDOI = digitalSpecimen['@id'];
+
     const actionDropdownItems: DropdownItem[] = [
         {
             label: 'View JSON',
@@ -123,6 +126,13 @@ const TopBar = (props: Props) => {
                     <h2 className="fs-pageTitle"
                         dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }}
                     />
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <span className="fs-4">
+                        {digitalSpecimenDOI.replace(RetrieveEnvVariable('DOI_URL'), '')}
+                    </span>
                 </Col>
             </Row>
             {/* MIDS level, version select, annotations button and actions dropdown */}

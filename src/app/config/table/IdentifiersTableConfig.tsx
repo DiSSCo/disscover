@@ -1,31 +1,37 @@
 /* Import Dependencies */
 import { createColumnHelper } from '@tanstack/react-table';
 
-/* Import Utilities */
-import { RetrieveEnvVariable } from 'app/Utilities';
 
 /**
  * Config function that sets up the basic table column template for the search results table on the search page
  * @returns Table columns
  */
 const IdentifiersTableConfig = () => {
-    /* Search results type */
-    type Identifiers = {
-        DOI: string,
+    /* Property key value pair type */
+    type IdentifierKeyValuePair = {
+        key: string,
+        value: string
     };
 
     /* Base variables */
-    const columnHelper = createColumnHelper<Identifiers>();
+    const columnHelper = createColumnHelper<IdentifierKeyValuePair>();
 
     /* Table columns */
     const columns = [
-        columnHelper.accessor('DOI', {
-            cell: info => info.getValue()?.replace(RetrieveEnvVariable('DOI_URL') as string, ''),
+        columnHelper.accessor('key', {
+            header: 'Identifier type',
             meta: {
                 widthInRem: 10,
                 pinned: true
             }
         }),
+        columnHelper.accessor('value', {
+            header: 'Identifier value',
+            meta: {
+                widthInRem: 10,
+                pinned: true
+            }
+        })
     ];
 
     return { columns };

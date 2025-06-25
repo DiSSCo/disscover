@@ -45,7 +45,6 @@ type Props = {
 const TopBar = (props: Props) => {
     const { digitalSpecimen, annotationMode, ToggleAnnotationMode } = props;
 
-    console.log(digitalSpecimen);
     /* Hooks */
     const navigate = useNavigate();
     const fetch = useFetch();

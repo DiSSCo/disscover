@@ -65,7 +65,8 @@ const ContentBlock = (props: Props) => {
                 SetAnnotationTarget={SetAnnotationTarget}
             />
         }),
-        'identifiers': <Identifiers digitalSpecimen={digitalSpecimen}/>
+        'identifiers': <Identifiers digitalSpecimen={digitalSpecimen}
+        />
     };
 
     return (

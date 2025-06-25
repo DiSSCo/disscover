@@ -15,7 +15,7 @@ import { getAnnotationWizardToggle, getMasMenuToggle } from 'redux-store/TourSli
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
-import { Dict, SuperClass } from 'app/Types';
+import { Dict, DigitalSpecimenCompleteResult, SuperClass } from 'app/Types';
 
 /* Import Styles */
 import styles from './annotationSidePanel.module.scss';
@@ -80,16 +80,20 @@ const AnnotationSidePanel = (props: Props) => {
     });
 
     /* OnLoad: fetch annotations of super class with provided method */
-    fetch.Fetch({
-        params: {
-            handle: superClass?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
-        },
-        triggers: [superClass, annotationWizardToggle],
-        Method: GetAnnotations,
-        Handler: (annotations: Annotation[]) => {
-            setAnnotations(annotations);
-        }
-    });
+    const handle = superClass?.['@id']?.replace(RetrieveEnvVariable('DOI_URL'), '');
+
+    if (handle && (superClass['@type'] === 'ods:DigitalSpecimen' || superClass['@type'] === 'ods:DigitalMedia')) {
+        fetch.Fetch({
+            params: {
+                handle
+            },
+            triggers: [superClass, annotationWizardToggle],
+            Method: GetAnnotations,
+            Handler: (result: DigitalSpecimenCompleteResult | Annotation[]) => {
+                setAnnotations(Array.isArray(result) ? result : result.annotations);
+            }
+        });
+    }
 
     /**
      * Function for refreshing the annotations in the side panel by fetching fresh data from the API

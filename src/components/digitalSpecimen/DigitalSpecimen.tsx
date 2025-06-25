@@ -20,7 +20,6 @@ import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpeci
 
 /* Import API */
 import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
-import GetDigitalSpecimenAnnotations from 'api/digitalSpecimen/GetDigitalSpecimenAnnotations';
 import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
 import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
 import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
@@ -45,7 +44,7 @@ const DigitalSpecimen = () => {
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
-    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia).map(item => item.digitalMediaObject);;
+    const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia).map(item => item.digitalMediaObject);
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tourTopics: TourTopic[] = [
@@ -193,7 +192,7 @@ const DigitalSpecimen = () => {
                             <AnnotationSidePanel superClass={digitalSpecimen}
                                 schema={DigitalSpecimenSchema}
                                 annotationCases={DigitalSpecimenAnnotationCases.annotationCases}
-                                GetAnnotations={GetDigitalSpecimenAnnotations}
+                                GetAnnotations={GetDigitalSpecimenComplete}
                                 GetMas={GetDigitalSpecimenMas}
                                 GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
                                 ScheduleMas={ScheduleDigitalSpecimenMas}

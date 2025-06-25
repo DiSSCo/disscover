@@ -1,16 +1,15 @@
 /* Import Dependencies */
 import { createColumnHelper } from '@tanstack/react-table';
 
-
 /**
- * Config function that sets up the basic table column template for the search results table on the search page
+ * Config function that sets up the basic table column template for the identifiers tab on the Digital Specimen page
  * @returns Table columns
  */
 const IdentifiersTableConfig = () => {
-    /* Property key value pair type */
+    /* Identifier key value pair type */
     type IdentifierKeyValuePair = {
-        key: string,
-        value: string
+        key: string | undefined,
+        value: string | undefined
     };
 
     /* Base variables */

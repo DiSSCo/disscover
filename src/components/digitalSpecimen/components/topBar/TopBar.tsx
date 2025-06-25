@@ -51,7 +51,6 @@ const TopBar = (props: Props) => {
 
     /* Base variables */
     const [digitalSpecimenVersions, setDigitalSpecimenVersions] = useState<number[] | undefined>();
-    const digitalSpecimenDOI = digitalSpecimen['@id'];
 
     const actionDropdownItems: DropdownItem[] = [
         {
@@ -130,7 +129,7 @@ const TopBar = (props: Props) => {
             <Row>
                 <Col>
                     <span className="fs-4">
-                        {digitalSpecimenDOI.replace(RetrieveEnvVariable('DOI_URL'), '')}
+                        {digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}
                     </span>
                 </Col>
             </Row>

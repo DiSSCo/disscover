@@ -27,16 +27,15 @@ type DataRow = {
 const Identifiers = (props: Props) => {
     const { digitalSpecimen } = props;
 
-    /* Data table configutation */
+    /* Data table configuration */
     const { columns } = IdentifiersTableConfig();
 
-    /* Set Table data */
+    /* Set Table data with different identifiers */
     const tableData: DataRow[] = [];
 
-    const doi = digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '');
     tableData.push({
         key: 'DOI',
-        value: doi
+        value: digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
     });
 
     digitalSpecimen['ods:hasIdentifiers']?.forEach((identifier) => {

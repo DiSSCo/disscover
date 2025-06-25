@@ -51,7 +51,6 @@ const TopBar = (props: Props) => {
 
     /* Base variables */
     const [digitalSpecimenVersions, setDigitalSpecimenVersions] = useState<number[] | undefined>();
-
     const actionDropdownItems: DropdownItem[] = [
         {
             label: 'View JSON',

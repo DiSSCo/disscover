@@ -9,6 +9,7 @@ import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { Assertions, DigitalSpecimenDigitalMedia, DigitalSpecimenOverview, Events, Identifications } from './ContentBlockComponents';
 import { EntityRelationships } from 'components/elements/Elements';
 import { Tabs } from 'components/elements/customUI/CustomUI';
+import Identifiers from './components/Identifiers';
 
 
 /* Props Type */
@@ -63,7 +64,8 @@ const ContentBlock = (props: Props) => {
                 annotationMode={annotationMode}
                 SetAnnotationTarget={SetAnnotationTarget}
             />
-        })
+        }),
+        'identifiers': <Identifiers digitalSpecimen={digitalSpecimen}/>
     };
 
     return (

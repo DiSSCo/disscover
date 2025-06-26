@@ -31,19 +31,16 @@ const Identifiers = (props: Props) => {
     const { columns } = IdentifiersTableConfig();
 
     /* Set Table data with different identifiers */
-    const tableData: DataRow[] = [];
-
-    tableData.push({
-        key: 'DOI',
-        value: digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
-    });
-
-    digitalSpecimen['ods:hasIdentifiers']?.forEach((identifier) => {
-        tableData.push({
+    const tableData: DataRow[] = [
+        {
+            key: 'DOI',
+            value: digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
+        },
+        ...(digitalSpecimen['ods:hasIdentifiers']?.map((identifier) => ({
             key: identifier['dcterms:type'],
             value: identifier['@id']
-        });
-    });
+        })) ?? [])
+    ];
 
     return (
         <div className="h-100">

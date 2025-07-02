@@ -125,6 +125,13 @@ const TopBar = (props: Props) => {
                     />
                 </Col>
             </Row>
+            <Row>
+                <Col>
+                    <span className="fs-4">
+                        {digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}
+                    </span>
+                </Col>
+            </Row>
             {/* MIDS level, version select, annotations button and actions dropdown */}
             <Row className="mt-2">
                 {/* MIDS level and version select */}

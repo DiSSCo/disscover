@@ -91,8 +91,13 @@ const AnnotationSidePanel = (props: Props) => {
             Method: GetAnnotations,
             Handler: (result: DigitalSpecimenCompleteResult | Annotation[]) => {
                 setAnnotations(Array.isArray(result) ? result : result.annotations);
+            },
+            ErrorHandler: () => {
+                console.warn(`Error fetching annotations of ${superClass['@type']}`);
             }
         });
+    } else {
+        console.warn('No annotations retrieved, because no known DOI and superclass type are available');
     }
 
     /**

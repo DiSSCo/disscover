@@ -79,7 +79,10 @@ const AnnotationSidePanel = (props: Props) => {
         sortBy: 'dateLatest'
     });
 
-    /* OnLoad: fetch annotations of super class with provided method */
+    /** 
+     * OnLoad: fetch annotations of super class with provided method
+     * Check if handle is defined, and if not throw out a console.warn
+     */
     const handle = superClass?.['@id']?.replace(RetrieveEnvVariable('DOI_URL'), '');
 
     if (handle && (superClass['@type'] === 'ods:DigitalSpecimen' || superClass['@type'] === 'ods:DigitalMedia')) {

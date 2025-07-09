@@ -12,6 +12,7 @@ import { useAppSelector, useTrigger } from 'app/Hooks';
 /* Import Store */
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
+import { getTourTopic } from 'redux-store/GlobalSlice';
 
 /* Import Types */
 import { Dict, SuperClass } from 'app/Types';
@@ -47,15 +48,20 @@ const AnnotationSummaryStep = (props: Props) => {
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
+    const tourTopic = useAppSelector(getTourTopic);
     const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     let motivationDescription: string;
 
     /* Trigger for tour annotation wizard form values */
     trigger.SetTrigger(() => {
-        if (tourAnnotationWizardFormValues) {
+        /**
+         * Only apply tour values if the annotation tour is active.
+         * This prevents the tour's dummy data from overwriting the user's real data.
+         */
+        if (tourTopic === 'annotate' && tourAnnotationWizardFormValues) {
             AnnotationWizardTourTrigger(tourAnnotationWizardFormValues, SetFieldValue);
         }
-    }, [tourAnnotationWizardFormValues]);
+    }, [tourAnnotationWizardFormValues, tourTopic]);
 
     /* Define motivation description based upon selected motivation, deleting is not part of this */
     switch (formValues?.motivation) {

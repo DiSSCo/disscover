@@ -79,7 +79,7 @@ const AcceptedIdentification = (props: Props) => {
                                 <button type="button"
                                     className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                                     onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:kingdom']`)
+                                        SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
                                     }
                                 >
                                     <p className="fs-4 textOverflow">
@@ -95,7 +95,7 @@ const AcceptedIdentification = (props: Props) => {
                                 <button type="button"
                                     className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                                     onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:phylum']`)
+                                        SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
                                     }
                                 >
                                     <p className="fs-4 textOverflow">
@@ -111,7 +111,7 @@ const AcceptedIdentification = (props: Props) => {
                                 <button type="button"
                                     className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                                     onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:class']`)
+                                        SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
                                     }
                                 >
                                     <p className="fs-4 textOverflow">
@@ -127,7 +127,7 @@ const AcceptedIdentification = (props: Props) => {
                                 <button type="button"
                                     className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                                     onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:order']`)
+                                        SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
                                     }
                                 >
                                     <p className="fs-4 textOverflow">
@@ -143,7 +143,7 @@ const AcceptedIdentification = (props: Props) => {
                                 <button type="button"
                                     className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                                     onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:family']`)
+                                        SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
                                     }
                                 >
                                     <p className="fs-4 textOverflow">
@@ -159,7 +159,7 @@ const AcceptedIdentification = (props: Props) => {
                                 <button type="button"
                                     className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                                     onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:genus']`)
+                                        SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
                                     }
                                 >
                                     <p className="fs-4 textOverflow">

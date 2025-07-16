@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import "@testing-library/react/dont-cleanup-after-each";
 import { screen, render } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 /* Import Types */
 import { Identification } from "app/types/Identification";
@@ -29,7 +29,7 @@ describe("Accepted Identification", () => {
                     'dwc:class': 'Dinosauria',
                     'dwc:order': 'Sauropodomorpha',
                     'dwc:family': 'Diplodocidae',
-                    'dwc:genus': 'Diplodocus'
+                    'dwc:genus': ''
                 }
             ]
         } as Identification,
@@ -39,9 +39,7 @@ describe("Accepted Identification", () => {
         SetAnnotationTarget: vi.fn(),
     };
 
-
-
-    it('renders the Accepted Identification of a digital specimen', async () => {
+    beforeEach(() => {
         render(
             <AcceptedIdentification 
                 acceptedIdentification={mockProps.acceptedIdentification}
@@ -51,12 +49,18 @@ describe("Accepted Identification", () => {
                 SetAnnotationTarget={mockProps.SetAnnotationTarget}
             />
         );
+    })
+
+    it('renders the Accepted Identification of a digital specimen', async () => {
         expect(await screen.findByText('Diplodocus Longus')).toBeInTheDocument();
         expect(await screen.findByText('Animalia')).toBeInTheDocument();
         expect(await screen.findByText('Chordata')).toBeInTheDocument();
         expect(await screen.findByText('Dinosauria')).toBeInTheDocument();
         expect(await screen.findByText('Sauropodomorpha')).toBeInTheDocument();
         expect(await screen.findByText('Diplodocidae')).toBeInTheDocument();
-        expect(await screen.findByText('Diplodocus')).toBeInTheDocument();
+    });
+
+    it('renders a rank available in the data even when it does not have a value', async () => {
+        expect(await screen.findByText('Genus:')).toBeInTheDocument();
     });
 });

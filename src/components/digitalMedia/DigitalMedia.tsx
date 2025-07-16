@@ -46,6 +46,7 @@ const DigitalMedia = () => {
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [annotoriousMode, setAnnotoriousMode] = useState<string>('move');
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+    console.log('digitalMedia', digitalMedia);
 
     /* OnLoad, fetch digital media data */
     fetch.Fetch({

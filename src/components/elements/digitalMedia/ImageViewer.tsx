@@ -114,12 +114,15 @@ const ImageViewer = (props: Props) => {
             } catch {
                 /* Manifest version 3 */
                 const versionThreeId = manifest.items[0].items[0].items[0].body.id;
+                const versionThree = manifest.items[0].items[0].items[0].body;
+                console.log('versionThree', versionThree);
 
                 infoUrl = versionThreeId.replace('/info.json', '');
+                console.log('infoUrl', infoUrl);
 
                 /* Set Canvas Width and Height */
-                width = versionThreeId.items[0].width;
-                height = versionThreeId.items[0].height;
+                width = versionThree.width;
+                height = versionThree.height;
             };
 
             setOsdOptions({

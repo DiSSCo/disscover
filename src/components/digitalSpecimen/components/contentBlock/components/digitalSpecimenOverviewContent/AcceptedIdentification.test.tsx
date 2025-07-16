@@ -9,7 +9,6 @@ import { Identification } from "app/types/Identification";
 /* Import Components to be tested */
 import AcceptedIdentification from '../digitalSpecimenOverviewContent/AcceptedIdentification';
 
-
 /**
  * Description of unit tests to validate the Accepted Identification component
  */

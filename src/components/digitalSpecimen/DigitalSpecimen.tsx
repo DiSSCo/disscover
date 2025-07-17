@@ -61,7 +61,6 @@ const DigitalSpecimen = () => {
             title: 'Machine Annotation Services'
         }
     ];
-    console.log('digitalSpecimen', digitalSpecimen);
 
     /* OnLoad, fetch digital specimen data */
     fetch.FetchMultiple({

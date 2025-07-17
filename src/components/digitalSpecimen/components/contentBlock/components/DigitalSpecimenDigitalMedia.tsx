@@ -12,6 +12,9 @@ import { DigitalMedia } from 'app/types/DigitalMedia';
 import { Audio, File, Image, Video } from 'components/elements/media/MediaComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
 
+/* Import Webroot */
+import IIIFLogo from 'webroot/logos/IIIFLogo.png';
+
 
 /* Props Type */
 type Props = {
@@ -65,6 +68,19 @@ const DigitalSpecimenDigitalMedia = (props: Props) => {
                 );
 
                 break;
+            case 'InteractiveResource':
+                (digitalMediaComponentsDict.images || (digitalMediaComponentsDict.images = [])).push(
+                    <Button type="button"
+                        variant="blank"
+                        className="h-100 w-100 px-0 py-0 object-fit-contain"
+                        OnClick={() => navigate(`/dm/${digitalMedia['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`)}
+                    >
+                    <img src={IIIFLogo}
+                        alt="IIIF Logo" />
+                    </Button>
+                );
+
+                break;
             default:
                 (digitalMediaComponentsDict.otherMedia || (digitalMediaComponentsDict.images = [])).push(
                     <File accessURI={digitalMedia['ac:accessURI']} />
@@ -90,7 +106,7 @@ const DigitalSpecimenDigitalMedia = (props: Props) => {
                             </Row>
                             <Row className="flex-grow-1 overflow-hidden mt-1">
                                 <Col className="h-100">
-                                    <div className="h-100 horizontalScroll">
+                                    <div className="h-100 horizontalScroll d-flex">
                                         {digitalMediaComponents.map((digitalMediaComponent, index) => {
                                             const key = `digitalMediaComponent-${index}`;
 

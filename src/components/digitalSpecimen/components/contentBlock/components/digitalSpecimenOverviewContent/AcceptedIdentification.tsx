@@ -21,6 +21,9 @@ type Props = {
     SetAnnotationTarget: Function
 };
 
+/* Taxonomic Rank Type */
+type TaxonomicRank = 'kingdom' | 'phylum' | 'class' | 'order' | 'family' | 'genus';
+
 
 /**
  * Component that renders the accepted identification in the digital specimen overview on the digital specimen page
@@ -40,6 +43,30 @@ const AcceptedIdentification = (props: Props) => {
         'hover-grey mc-pointer': annotationMode,
         'mc-default': !annotationMode
     });
+
+    const renderTaxonomicRank = (displayName: string, rank: TaxonomicRank, isGenus: boolean = false) => (
+            <Row>
+                <Col>
+                    <button type="button"
+                        className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                        onClick={() => annotationMode &&
+                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
+                        }
+                    >
+                        {isGenus && 
+                        <p className="fs-4 textOverflow">
+                            <span className="fw-lightBold">{displayName}: </span>
+                            <span dangerouslySetInnerHTML={{__html: GetSpecimenGenusLabel(acceptedIdentification)}} />
+                        </p>}
+                        {!isGenus && 
+                        <p className="fs-4 textOverflow">
+                            <span className="fw-lightBold">{displayName}: </span>
+                            {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0][`dwc:${rank}`]}
+                        </p>}
+                    </button>
+                </Col>
+            </Row>
+    );
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -74,101 +101,17 @@ const AcceptedIdentification = (props: Props) => {
                 >
                     <div className="h-100 d-flex flex-column justify-content-between">
                         {/* Kingdom */}
-                        <Row>
-                            <Col>
-                                <button type="button"
-                                    className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                                    onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:kingdom']`)
-                                    }
-                                >
-                                    <p className="fs-4 textOverflow">
-                                        <span className="fw-lightBold">Kingdom: </span>
-                                        {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:kingdom"]}
-                                    </p>
-                                </button>
-                            </Col>
-                        </Row>
+                        {renderTaxonomicRank('Kingdom', 'kingdom')}
                         {/* Phylum */}
-                        <Row>
-                            <Col>
-                                <button type="button"
-                                    className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                                    onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:phylum']`)
-                                    }
-                                >
-                                    <p className="fs-4 textOverflow">
-                                        <span className="fw-lightBold">Phylum: </span>
-                                        {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:phylum"]}
-                                    </p>
-                                </button>
-                            </Col>
-                        </Row>
+                        {renderTaxonomicRank('Phylum', 'phylum')}
                         {/* Class */}
-                        <Row>
-                            <Col>
-                                <button type="button"
-                                    className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                                    onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:class']`)
-                                    }
-                                >
-                                    <p className="fs-4 textOverflow">
-                                        <span className="fw-lightBold">Class: </span>
-                                        {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:class"]}
-                                    </p>
-                                </button>
-                            </Col>
-                        </Row>
+                        {renderTaxonomicRank('Class', 'class')}
                         {/* Order */}
-                        <Row>
-                            <Col>
-                                <button type="button"
-                                    className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                                    onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:order']`)
-                                    }
-                                >
-                                    <p className="fs-4 textOverflow">
-                                        <span className="fw-lightBold">Order: </span>
-                                        {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:order"]}
-                                    </p>
-                                </button>
-                            </Col>
-                        </Row>
+                        {renderTaxonomicRank('Order', 'order')}
                         {/* Family */}
-                        <Row>
-                            <Col>
-                                <button type="button"
-                                    className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                                    onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:family']`)
-                                    }
-                                >
-                                    <p className="fs-4 textOverflow">
-                                        <span className="fw-lightBold">Family: </span>
-                                        {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["dwc:family"]}
-                                    </p>
-                                </button>
-                            </Col>
-                        </Row>
+                        {renderTaxonomicRank('Family', 'family')}
                         {/* Genus */}
-                        <Row>
-                            <Col>
-                                <button type="button"
-                                    className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                                    onClick={() => annotationMode &&
-                                        SetAnnotationTarget('term', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]['dwc:genus']`)
-                                    }
-                                >
-                                    <p className="fs-4 textOverflow">
-                                        <span className="fw-lightBold">Genus: </span>
-                                        <span dangerouslySetInnerHTML={{__html: GetSpecimenGenusLabel(acceptedIdentification)}} />
-                                    </p>
-                                </button>
-                            </Col>
-                        </Row>
+                        {renderTaxonomicRank('Genus', 'genus', true)}
                     </div>
                 </Col>
             </Row>

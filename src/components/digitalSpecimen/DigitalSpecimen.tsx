@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
+/* Import Utilities */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
 /* Import Hooks */
 import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
@@ -61,25 +64,29 @@ const DigitalSpecimen = () => {
             title: 'Machine Annotation Services'
         }
     ];
+    const handle: string = `${params.prefix}/${params.suffix}`;
+    const storedHandle: string | undefined = digitalSpecimen?.['@id']?.replace(RetrieveEnvVariable('DOI_URL'), '');
 
-    /* OnLoad, fetch digital specimen data */
+    /* OnLoad, fetch digital specimen data if the digitalSpecimen data with the current handle is not already in the store*/
     fetch.FetchMultiple({
-        callMethods: [
+        callMethods: (storedHandle !== handle) ? [
             {
                 alias: 'digitalSpecimenComplete',
                 params: {
-                    handle: `${params.prefix}/${params.suffix}`,
+                    handle,
                     version: params.version
                 },
                 Method: GetDigitalSpecimenComplete
             },
-        ],
-        triggers: [params.version],
+        ] : [],
+        triggers: [handle, params.version],
         Handler: (results: {
-            digitalSpecimenComplete: DigitalSpecimenCompleteResult,
+            digitalSpecimenComplete?: DigitalSpecimenCompleteResult,
         }) => {
-            /* Dispatch digital specimen */
-            dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));
+            if (results.digitalSpecimenComplete) {
+                /* Dispatch digital specimen */
+                dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));
+            }
         }
     });
     

@@ -81,7 +81,7 @@ const IdCard = () => {
                             variant="blank"
                             className="py-0 px-0"
                             OnClick={() => {
-                                dispatch(setDigitalSpecimenComplete(undefined));
+                                dispatch(setDigitalSpecimenComplete({ digitalSpecimen: undefined, digitalMedia: [], annotations: [] }));
                                 dispatch(setSearchDigitalSpecimen(undefined));
                             }}
                         >

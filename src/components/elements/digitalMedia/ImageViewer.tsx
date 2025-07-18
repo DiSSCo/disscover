@@ -93,33 +93,25 @@ const ImageViewer = (props: Props) => {
 
             /* Try to structure the info.json file link from the first image in the manifest file */
             let infoUrl: string = '';
-            let context: string | string[] = manifest['@context'][1];
-            let width: number = 0;
-            let height: number = 0;
 
             /* First try manifest version 2, if it fails try version 3 */
             try {
                 /* Manifest version 2 */
-                let versionTwoId = manifest.sequences[0].canvases[0].images[0].resource['@id'];
+                const versionTwo = manifest.sequences[0].canvases[0].images[0].resource;
+                let versionTwoId = versionTwo['@id'];
 
-                if (!(versionTwoId.includes('/info.json'))) {
-                    versionTwoId = manifest.sequences[0].canvases[0].images[0].resource.service['@id'];
+                // if the @id doesn't include /info.json, look in the service
+                if (!(versionTwoId.includes('/info.json')) && versionTwo.service) {
+                    versionTwoId = versionTwo.service['@id'];
                 }
 
                 infoUrl = versionTwoId.replace('/info.json', '');
-
-                /* Set Canvas Width and Height */
-                width = manifest.sequences[0].canvases[0].width;
-                height = manifest.sequences[0].canvases[0].height;
             } catch {
                 /* Manifest version 3 */
-                const versionThreeId = manifest.items[0].items[0].items[0].body.id;
+                const versionThree = manifest.items[0].items[0].items[0].body;
+                const service = versionThree.service.find(s => s.type === 'ImageService3') || versionThree.service[0];
 
-                infoUrl = versionThreeId.replace('/info.json', '');
-
-                /* Set Canvas Width and Height */
-                width = versionThreeId.items[0].width;
-                height = versionThreeId.items[0].height;
+                infoUrl = service['id'];
             };
 
             setOsdOptions({
@@ -128,18 +120,7 @@ const ImageViewer = (props: Props) => {
                 visibilityRatio: 1,
                 defaultZoomLevel: 0,
                 sequenceMode: true,
-                tileSources: {
-                    "@context": context,
-                    "@id": infoUrl,
-                    "height": height,
-                    "width": width,
-                    "profile": ["https://iiif.io/api/image/2/level2.json"],
-                    "protocol": "http://iiif.io/api/image",
-                    "tiles": [{
-                        "scaleFactors": [1, 2, 4, 8, 16, 32],
-                        "width": 1024
-                    }]
-                },
+                tileSources: `${infoUrl}/info.json`,
                 showFullPageControl: false,
                 showHomeControl: false,
                 prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/"
@@ -293,7 +274,7 @@ const ImageViewer = (props: Props) => {
     return (
         <div className="h-100 position-relative">
             {osdOptions ?
-                <OpenSeadragonAnnotator adapter={W3CImageFormat('https://iiif.bodleian.ox.ac.uk/iiif/image/af315e66-6a85-445b-9e26-012f729fc49c')}
+                <OpenSeadragonAnnotator adapter={W3CImageFormat(digitalMedia['ac:accessURI'])}
                     drawingEnabled={annotoriousMode === 'draw'}
                     drawingMode='click'
                     tool="rectangle"

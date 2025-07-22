@@ -50,7 +50,7 @@ const AcceptedIdentification = (props: Props) => {
                     <button type="button"
                         className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
                         onClick={() => annotationMode &&
-                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
+                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`)
                         }
                     >
                         {isGenus && 

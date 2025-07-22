@@ -144,6 +144,11 @@ const AnnotationFormStep = (props: Props) => {
 
             SetLocalAnnotationTarget(annotationTarget);
 
+            if (annotationFormFieldProperties['Taxon Identification']) {
+                const expectedProperties = ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus'];
+                annotationFormFieldProperties['Taxon Identification']['properties'] = annotationFormFieldProperties['Taxon Identification']['properties']?.filter(prop => expectedProperties.includes(prop.key));
+            }
+
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);
         });

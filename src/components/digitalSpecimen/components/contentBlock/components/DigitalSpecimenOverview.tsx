@@ -14,9 +14,6 @@ import { Event } from 'app/types/Event';
 /* Import Icons */
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
-/* Import Styles */
-import styles from './digitalSpecimenOverviewContent/digitalSpecimenOverview.module.scss';
-
 /* Import Components */
 import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIdentification';
 import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';

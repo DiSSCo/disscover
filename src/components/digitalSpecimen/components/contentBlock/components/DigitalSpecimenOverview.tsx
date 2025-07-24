@@ -14,9 +14,6 @@ import { Event } from 'app/types/Event';
 /* Import Icons */
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
-/* Import Styles */
-import styles from './digitalSpecimenOverviewContent/digitalSpecimenOverview.module.scss';
-
 /* Import Components */
 import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIdentification';
 import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
@@ -157,14 +154,6 @@ const DigitalSpecimenOverview = (props: Props) => {
                             <Col>
                                 <p className="tc-accent fw-lightBold">Origin</p>
                             </Col>
-                            {collectionEvent?.['ods:hasLocation']?.['dwc:countryCode'] &&
-                                <Col lg="auto">
-                                    <img src={`https://flagsapi.com/${collectionEvent['ods:hasLocation']['dwc:countryCode']}/shiny/64.png`}
-                                        alt="Flag icon of country"
-                                        className={styles.countryFlag}
-                                    />
-                                </Col>
-                            }
                         </Row>
                         {/* Fields */}
                         <Row className="mt-2">

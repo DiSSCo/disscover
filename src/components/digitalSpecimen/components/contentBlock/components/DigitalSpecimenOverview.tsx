@@ -157,14 +157,6 @@ const DigitalSpecimenOverview = (props: Props) => {
                             <Col>
                                 <p className="tc-accent fw-lightBold">Origin</p>
                             </Col>
-                            {collectionEvent?.['ods:hasLocation']?.['dwc:countryCode'] &&
-                                <Col lg="auto">
-                                    <img src={`https://flagsapi.com/${collectionEvent['ods:hasLocation']['dwc:countryCode']}/shiny/64.png`}
-                                        alt="Flag icon of country"
-                                        className={styles.countryFlag}
-                                    />
-                                </Col>
-                            }
                         </Row>
                         {/* Fields */}
                         <Row className="mt-2">

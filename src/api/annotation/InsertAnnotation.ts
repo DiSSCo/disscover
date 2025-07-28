@@ -30,6 +30,7 @@ const InsertAnnotation = async ({ newAnnotation }: { newAnnotation: AnnotationTe
             attributes: newAnnotation
         }
     };
+    console.log('postAnnotation', postAnnotation);
 
     const token = KeycloakService.GetToken();
 

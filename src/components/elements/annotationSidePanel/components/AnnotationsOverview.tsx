@@ -47,7 +47,7 @@ type Props = {
 /**
  * Component that renders the annotations overview in the annotation side panel
  * @param annotations The annotations to be rendered in the overview
- * @param annotationTarget The annotation target that specifies the targetted part of the digital object
+ * @param annotationTarget The annotation target that specifies the targetted part of the digital objectwithout
  * @param filterSortValues The filter/sort values to refine the overview annotations
  * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values
@@ -59,6 +59,7 @@ type Props = {
  */
 const AnnotationsOverview = (props: Props) => {
     const { annotations, annotationTarget, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
+    console.log('annotations', annotations)
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -77,6 +78,7 @@ const AnnotationsOverview = (props: Props) => {
         /* Filter by motivation */
         if (!motivation) {
             filteredSortedAnnotations = annotations;
+            console.log('filteredSortedAnnotations without motivation', filteredSortedAnnotations);
         } else {
             filteredSortedAnnotations = annotations.filter(annotation => annotation["oa:motivation"] === motivation);
         }

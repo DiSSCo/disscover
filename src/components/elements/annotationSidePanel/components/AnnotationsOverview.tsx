@@ -77,7 +77,6 @@ const AnnotationsOverview = (props: Props) => {
         /* Filter by motivation */
         if (!motivation) {
             filteredSortedAnnotations = annotations;
-            console.log('filteredSortedAnnotations without motivation', filteredSortedAnnotations);
         } else {
             filteredSortedAnnotations = annotations.filter(annotation => annotation["oa:motivation"] === motivation);
         }

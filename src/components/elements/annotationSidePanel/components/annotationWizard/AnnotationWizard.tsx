@@ -275,7 +275,6 @@ const AnnotationWizard = (props: Props) => {
                                     jsonPath: values.jsonPath as string,
                                     annotationValues
                                 });
-                                console.log('newAnnotation', newAnnotation);
 
                                 /* Try to post the new annotation */
                                 SetLoading(true);

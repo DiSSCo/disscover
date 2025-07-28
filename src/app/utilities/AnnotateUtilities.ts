@@ -48,7 +48,6 @@ const ConstructAnnotationObject = (params: {
     /* If motivation is adding, check for new index at end of JSON path and remove if it is there */
     if (motivation === 'ods:adding') {
         if (jsonPath && typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
-            console.log('jsonPath', motivation);
             localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
         }
     }

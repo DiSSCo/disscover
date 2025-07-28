@@ -113,7 +113,6 @@ const AnnotationSidePanel = (props: Props) => {
             handle: superClass?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
         });
         superClass['@type'] === 'ods:DigitalSpecimen' ? setAnnotations(annotations.annotations) : setAnnotations(annotations);
-        console.log('annotations in RefreshAnnotations', annotations)
         setLoading(false);
     };
 

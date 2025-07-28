@@ -59,7 +59,6 @@ type Props = {
  */
 const AnnotationsOverview = (props: Props) => {
     const { annotations, annotationTarget, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
-    console.log('annotations', annotations)
 
     /* Hooks */
     const dispatch = useAppDispatch();

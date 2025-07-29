@@ -47,7 +47,7 @@ type Props = {
 /**
  * Component that renders the annotations overview in the annotation side panel
  * @param annotations The annotations to be rendered in the overview
- * @param annotationTarget The annotation target that specifies the targetted part of the digital objectwithout
+ * @param annotationTarget The annotation target that specifies the targetted part of the digital object
  * @param filterSortValues The filter/sort values to refine the overview annotations
  * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values

@@ -59,6 +59,7 @@ const AnnotationFormStep = (props: Props) => {
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation, annotationTarget?.type);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: Dict = {};
+    const expectedTaxonomicProperties = ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus'];
 
     /* Construct annotation motivation dropdown items */
     const annotationMotivationDropdownItems: DropdownItem[] = Object.entries(annotationMotivations).map(([value, label]) => ({
@@ -143,6 +144,13 @@ const AnnotationFormStep = (props: Props) => {
             SetFormValues?.(newSetFormValues);
 
             SetLocalAnnotationTarget(annotationTarget);
+
+            /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification */
+            if (annotationFormFieldProperties['Taxon Identification']) {
+                annotationFormFieldProperties['Taxon Identification']['properties'] = annotationFormFieldProperties['Taxon Identification']['properties']?.filter(
+                    prop => expectedTaxonomicProperties.includes(prop.key)
+                );
+            }
 
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);

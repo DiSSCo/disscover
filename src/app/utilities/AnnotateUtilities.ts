@@ -46,8 +46,10 @@ const ConstructAnnotationObject = (params: {
     let localJsonPath: string = jsonPath?.replaceAll("'", '"') ?? '';
 
     /* If motivation is adding, check for new index at end of JSON path and remove if it is there */
-    if (jsonPath && typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
-        localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
+    if (motivation === 'ods:adding') {
+        if (jsonPath && typeof (jp.parse(jsonPath).at(-1).expression.value) === 'number') {
+            localJsonPath = jp.stringify(jp.parse(jsonPath).slice(0, -1));
+        }
     }
 
     /* Define target type DOI */

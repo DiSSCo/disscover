@@ -12,7 +12,7 @@ import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { Event } from 'app/types/Event';
 
 /* Import Icons */
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIdentification';
@@ -23,7 +23,8 @@ import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/Cus
 type Props = {
     digitalSpecimen: DigitalSpecimen,
     annotationMode: boolean,
-    SetAnnotationTarget: Function
+    SetAnnotationTarget: Function,
+    ToggleAnnotationMode: Function
 };
 
 
@@ -35,7 +36,7 @@ type Props = {
  * @returns JSX Component
  */
 const DigitalSpecimenOverview = (props: Props) => {
-    const { digitalSpecimen, annotationMode, SetAnnotationTarget } = props;
+    const { digitalSpecimen, annotationMode, SetAnnotationTarget, ToggleAnnotationMode } = props;
 
     /* Base variables */
     const [copyMessage, setCopyMessage] = useState<string>('Copy');
@@ -249,15 +250,33 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 <Col>
                                     <p className="tc-accent fw-lightBold">Accepted Identification</p>
                                 </Col>
+                                <Col lg="auto">
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="px-0 py-0"
+                                        data-testid="identification-annotation-button"
+                                        OnClick={() => {
+                                            // Toggle annotation mode
+                                            ToggleAnnotationMode();
+                                            // Set annotation target to taxonomic identification
+                                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
+                                        }}
+                                    >
+                                        <Tooltip text="Modify this data by adding an annotation"
+                                            placement="bottom"
+                                        >
+                                            <FontAwesomeIcon icon={faPenToSquare}
+                                                className="tc-grey"
+                                            />
+                                        </Tooltip>
+                                    </Button>
+                                </Col>
                             </Row>
                             {/* Accepted identification */}
                             <Row className="flex-grow-1 overflow-hidden mt-2">
                                 <Col>
                                     <AcceptedIdentification acceptedIdentification={acceptedIdentification}
-                                        acceptedIdentificationIndex={acceptedIdentificationIndex}
                                         digitalSpecimenName={digitalSpecimen['ods:specimenName'] ?? ''}
-                                        annotationMode={annotationMode}
-                                        SetAnnotationTarget={SetAnnotationTarget}
                                     />
                                 </Col>
                             </Row>

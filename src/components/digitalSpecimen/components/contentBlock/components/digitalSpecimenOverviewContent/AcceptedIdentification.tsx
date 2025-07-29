@@ -15,10 +15,7 @@ import styles from './digitalSpecimenOverview.module.scss';
 /* Props Type */
 type Props = {
     acceptedIdentification: Identification,
-    acceptedIdentificationIndex?: number,
     digitalSpecimenName: string,
-    annotationMode: boolean,
-    SetAnnotationTarget: Function
 };
 
 /* Taxonomic Rank Type */
@@ -28,42 +25,26 @@ type TaxonomicRank = 'kingdom' | 'phylum' | 'class' | 'order' | 'family' | 'genu
 /**
  * Component that renders the accepted identification in the digital specimen overview on the digital specimen page
  * @param acceptedIdentification The accepted identification to display
- * @param acceptedIdentificationIndex The index of the accepted identification in the identifications array
  * @param digitalSpecimenName The name of the selected digital specimen
  * @param annotationMode Boolean indicating if the annotation mode is on
- * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const AcceptedIdentification = (props: Props) => {
-    const { acceptedIdentification, acceptedIdentificationIndex, digitalSpecimenName, annotationMode, SetAnnotationTarget } = props;
-
-    /* Class Names */
-    const overviewItemButtonClass = classNames({
-        'tr-fast': true,
-        'hover-grey mc-pointer': annotationMode,
-        'mc-default': !annotationMode
-    });
+    const { acceptedIdentification, digitalSpecimenName } = props;
 
     const renderTaxonomicRank = (displayName: string, rank: TaxonomicRank, isGenus: boolean = false) => (
             <Row>
                 <Col>
-                    <button type="button"
-                        className={`${overviewItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
-                        onClick={() => annotationMode &&
-                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]`)
-                        }
-                    >
-                        {isGenus && 
-                        <p className="fs-4 textOverflow">
-                            <span className="fw-lightBold">{displayName}: </span>
-                            <span dangerouslySetInnerHTML={{__html: GetSpecimenGenusLabel(acceptedIdentification)}} />
-                        </p>}
-                        {!isGenus && 
-                        <p className="fs-4 textOverflow">
-                            <span className="fw-lightBold">{displayName}: </span>
-                            {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0][`dwc:${rank}`]}
-                        </p>}
-                    </button>
+                    {isGenus && 
+                    <p className="fs-4 textOverflow">
+                        <span className="fw-lightBold">{displayName}: </span>
+                        <span dangerouslySetInnerHTML={{__html: GetSpecimenGenusLabel(acceptedIdentification)}} />
+                    </p>}
+                    {!isGenus && 
+                    <p className="fs-4 textOverflow">
+                        <span className="fw-lightBold">{displayName}: </span>
+                        {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0][`dwc:${rank}`]}
+                    </p>}
                 </Col>
             </Row>
     );

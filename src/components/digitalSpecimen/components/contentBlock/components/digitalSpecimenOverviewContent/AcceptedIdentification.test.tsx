@@ -32,20 +32,14 @@ describe("Accepted Identification", () => {
                 }
             ]
         } as Identification,
-        acceptedIdentificationIndex: 0,
-        annotationMode: false,
         digitalSpecimenName: 'Diplodocus Longus',
-        SetAnnotationTarget: vi.fn(),
     };
 
     beforeEach(() => {
         render(
             <AcceptedIdentification 
                 acceptedIdentification={mockProps.acceptedIdentification}
-                acceptedIdentificationIndex={mockProps.acceptedIdentificationIndex}
                 digitalSpecimenName={mockProps.digitalSpecimenName}
-                annotationMode={mockProps.annotationMode}
-                SetAnnotationTarget={mockProps.SetAnnotationTarget}
             />
         );
     })

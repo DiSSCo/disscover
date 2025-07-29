@@ -175,6 +175,7 @@ const DigitalSpecimen = () => {
                                                             annotationMode={annotationMode}
                                                             SetAnnotationTarget={SetAnnotationTarget}
                                                             SetSelectedTabIndex={setSelectedTabIndex}
+                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                         />
                                                     </Col>
                                                 </Row>

@@ -1,7 +1,7 @@
 /* Import Dependencies */
 import "@testing-library/react/dont-cleanup-after-each";
 import { screen, render } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 /* Import Types */
 import { Identification } from "app/types/Identification";
@@ -32,20 +32,14 @@ describe("Accepted Identification", () => {
                 }
             ]
         } as Identification,
-        acceptedIdentificationIndex: 0,
-        annotationMode: false,
         digitalSpecimenName: 'Diplodocus Longus',
-        SetAnnotationTarget: vi.fn(),
     };
 
     beforeEach(() => {
         render(
             <AcceptedIdentification 
                 acceptedIdentification={mockProps.acceptedIdentification}
-                acceptedIdentificationIndex={mockProps.acceptedIdentificationIndex}
                 digitalSpecimenName={mockProps.digitalSpecimenName}
-                annotationMode={mockProps.annotationMode}
-                SetAnnotationTarget={mockProps.SetAnnotationTarget}
             />
         );
     })

@@ -12,7 +12,8 @@ interface Props {
     variant: 'primary' | 'secondary' | 'accent' | 'grey' | 'blank',
     disabled?: boolean,
     className?: string,
-    OnClick?: Function
+    OnClick?: Function,
+    dataTestId?: string
 };
 
 
@@ -23,9 +24,10 @@ interface Props {
     * @param disabled A boolean that indicates if the button should be disabled
     * @param className Additional class names to be added to the button
     * @param OnClick The event to be fired when clicking on the button
+    * @param dataTestId Unique id of this button to target it in integration tests
 */
 const Button = (props: Props) => {
-    const { children, type, variant, disabled, className, OnClick } = props;
+    const { children, type, variant, disabled, className, OnClick, dataTestId } = props;
 
     /* Class Names */
     const buttonClass = classNames({
@@ -40,6 +42,7 @@ const Button = (props: Props) => {
 
     return (
         <button type={type}
+            data-testid={dataTestId}
             disabled={disabled}
             className={`${styles.button} ${styles[variant]} ${buttonClass}`}
             onClick={() => OnClick?.()}

@@ -19,7 +19,8 @@ type Props = {
     selectedTabIndex: number,
     annotationMode: boolean,
     SetAnnotationTarget: Function,
-    SetSelectedTabIndex: Function
+    SetSelectedTabIndex: Function,
+    ToggleAnnotationMode: Function
 };
 
 
@@ -34,13 +35,14 @@ type Props = {
  * @returns JSX Component
  */
 const ContentBlock = (props: Props) => {
-    const { digitalSpecimen, digitalSpecimenDigitalMedia, selectedTabIndex, annotationMode, SetAnnotationTarget, SetSelectedTabIndex } = props;
+    const { digitalSpecimen, digitalSpecimenDigitalMedia, selectedTabIndex, annotationMode, SetAnnotationTarget, SetSelectedTabIndex, ToggleAnnotationMode } = props;
 
     /* Base variables */
     const tabs = {
         'digitalSpecimen': <DigitalSpecimenOverview digitalSpecimen={digitalSpecimen}
             annotationMode={annotationMode}
             SetAnnotationTarget={SetAnnotationTarget}
+            ToggleAnnotationMode={ToggleAnnotationMode}
         />,
         ...(digitalSpecimenDigitalMedia && !isEmpty(digitalSpecimenDigitalMedia) && {
             'digitalMedia': <DigitalSpecimenDigitalMedia digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia} />

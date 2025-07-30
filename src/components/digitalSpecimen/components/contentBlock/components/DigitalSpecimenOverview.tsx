@@ -254,7 +254,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <Button type="button"
                                         variant="blank"
                                         className="px-0 py-0"
-                                        data-testid="identification-annotation-button"
+                                        dataTestId="identification-annotation-button"
                                         OnClick={() => {
                                             // Toggle annotation mode
                                             ToggleAnnotationMode();

@@ -5,7 +5,7 @@ import { toLower } from "lodash";
 import { AnnotationFormProperty } from "app/Types";
 
 /* Import Components */
-import { BooleanField, DateField, SelectField, StringNumberField } from './FormFieldComponents';
+import { BooleanField, DateField, SearchSelectField, SelectField, StringNumberField } from './FormFieldComponents';
 import { InputTextArea } from "components/elements/customUI/CustomUI";
 
 
@@ -13,9 +13,10 @@ import { InputTextArea } from "components/elements/customUI/CustomUI";
 type Props = {
     fieldProperty: AnnotationFormProperty,
     fieldName: string,
-    fieldValue?: string,
+    fieldValue: string,
     motivation: string,
-    SetFieldValue?: Function
+    SetFieldValue?: Function,
+    isIdentificationAnnotation?: boolean
 };
 
 
@@ -29,7 +30,7 @@ type Props = {
  * @returns JSX Component
  */
 const FormField = (props: Props) => {
-    const { fieldProperty, fieldName, fieldValue, motivation, SetFieldValue } = props;
+    const { fieldProperty, fieldName, fieldValue, motivation, SetFieldValue, isIdentificationAnnotation } = props;
 
     if (['oa:commenting', 'oa:assessing'].includes(motivation)) {
         return <InputTextArea name={`annotationValues.${fieldName}`} />;
@@ -46,6 +47,12 @@ const FormField = (props: Props) => {
         return <DateField fieldProperty={fieldProperty}
             fieldName={fieldName}
             fieldValue={fieldValue}
+            SetFieldValue={SetFieldValue}
+        />
+    } else if (isIdentificationAnnotation) {
+        return <SearchSelectField fieldProperty={fieldProperty}
+            name={fieldName}
+            namePrefix="annotationValues"
             SetFieldValue={SetFieldValue}
         />
     } else {

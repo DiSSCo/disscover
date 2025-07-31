@@ -41,6 +41,7 @@ const AnnotationFormSegment = (props: Props) => {
 
     /* Base variables */
     const [isHidden, setIsHidden] = useState<boolean>(annotationFormFieldProperty.jsonPath !== formValues?.jsonPath);
+    const isIdentificationAnnotation = annotationFormFieldProperty.key === 'TaxonIdentification';
 
     /* Class Names */
     const formFieldsDivClass = classNames({
@@ -173,6 +174,7 @@ const AnnotationFormSegment = (props: Props) => {
                                             fieldValue={fieldValue}
                                             motivation=''
                                             SetFieldValue={SetFieldValue}
+                                            isIdentificationAnnotation={isIdentificationAnnotation}
                                         />
                                     }
                                 </Col>

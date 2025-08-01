@@ -16,7 +16,7 @@ const GetTaxonomicIdentification = async ({rank, value}: {rank: string, value: s
 
         taxonomicResults = data;
     } catch (error: any) {
-        throw (DefaultException('Digital Specimen Taxonomy Aggregations', error.request.responseURL));
+        throw (DefaultException('Digital Specimen Taxonomy Identification', error.request.responseURL));
     };
 
     return taxonomicResults;

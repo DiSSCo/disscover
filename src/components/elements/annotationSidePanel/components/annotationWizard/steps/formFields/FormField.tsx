@@ -53,6 +53,7 @@ const FormField = (props: Props) => {
         return <SearchSelectField fieldProperty={fieldProperty}
             name={fieldName}
             namePrefix="annotationValues"
+            fieldValue={fieldValue}
             SetFieldValue={SetFieldValue}
         />
     } else {

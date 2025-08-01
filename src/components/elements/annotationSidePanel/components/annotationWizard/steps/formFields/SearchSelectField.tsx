@@ -1,9 +1,6 @@
 /* Import Dependencies */
 import { useState } from 'react';
 
-/* Import Hooks */
-import { useAppSelector, useDynamicSearch, useFetch } from 'app/Hooks';
-
 /* Import Types */
 import { AnnotationFormProperty, MultiSelectItem } from 'app/Types';
 
@@ -11,7 +8,6 @@ import { AnnotationFormProperty, MultiSelectItem } from 'app/Types';
 import GetTaxonomicIdentification from 'api/taxonomicIdentification/GetTaxonomicIdentification';
 
 /* Import Components */
-import { MultiSelect } from 'components/elements/customUI/CustomUI';
 import { Field, FieldArray } from 'formik';
 import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +20,8 @@ type Props = {
     name: string,
     namePrefix?: string,
     SetFieldValue?: Function,
-    fieldProperty: AnnotationFormProperty
+    fieldProperty: AnnotationFormProperty,
+    fieldValue?: string
 };
 
 
@@ -36,12 +33,12 @@ type Props = {
  * @returns JSX Component
  */
 const SearchSelectField = (props: Props) => {
-    const { name, namePrefix, SetFieldValue, fieldProperty } = props;
+    const { name, namePrefix, SetFieldValue, fieldProperty, fieldValue } = props;
 
     /* Base variables */
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
-
+    const checkIfDisabled = fieldProperty.key !== 'dwc:genus' && fieldValue;
 
     const MultiSelectListClass = () => {
         return classNames({
@@ -50,18 +47,21 @@ const SearchSelectField = (props: Props) => {
         });
     };
 
-    // Write function to retrieve the taxonomic identification fields based on fieldProperty.name.toLowercase() and whatever data comes back from the api call
-    // Fill the dropdown based on the current input field with the options based on the 
+    /**
+     * Function to call the GetTaxonomicIdentification to retrieve taxonomic data
+     * @param rank The current rank of the selected digital specimen in the form field
+     * @param value The value or the name of the digital specimen in the form field
+     * @returns Array with objects of possible names corresponding to the requested rank of the digital specimen
+     */
     const handleTaxonomicIdentificationInput = async (rank: string, value: string) => {
         const results = await GetTaxonomicIdentification({ rank, value });
-        const newMultiSelectItems = results
-            .map((item: { usage: { label: string, name: { scientificName: string } } }) => ({
-                label: item.usage.label,
-                value: item.usage.name.scientificName,
-                originalItem: item, // Keep the original object to use on selection
-            }))
-            .filter((item: { label: any; }) => item.label); // Filter out any results that might not have a name
-        console.log(newMultiSelectItems);
+        const newMultiSelectItems = (results || []).flatMap((item: any) => {
+            const label = item?.usage?.label;
+
+            return (label)
+                ? [{ label, value: label, originalItem: item }]
+                : [];
+        });
         setMultiSelectItems(newMultiSelectItems);
     };
 
@@ -79,6 +79,7 @@ const SearchSelectField = (props: Props) => {
                                     {/* Visible select field */}
                                     <Col className="position-relative d-flex align-items-center">
                                         <Field
+                                            disabled={checkIfDisabled}
                                             name={`${namePrefix}.${name}`}
                                             placeholder={'Type at least 4 characters to start your search'}
                                             className={'w-100 fs-4 px-3 py-1 b-primary br-round'}
@@ -87,16 +88,17 @@ const SearchSelectField = (props: Props) => {
                                                     value: string
                                                 }
                                             }) => {
-                                                console.log(field.target.value);
                                                 /* Set field value */
                                                 SetFieldValue?.(`${namePrefix}.${name}`, field.target.value);
-                                                if(field.target.value.length > 3) {
-                                                    handleTaxonomicIdentificationInput( `${fieldProperty.name}`.toLowerCase(), `${field.target.value}`);
-                                                }
+
+                                                /* Either get taxonomic identification or set the dropdown items to [] again */
+                                                field.target.value.length > 3 
+                                                    ? handleTaxonomicIdentificationInput( `${fieldProperty.name}`.toLowerCase(), `${field.target.value}`)
+                                                    : setMultiSelectItems([]);;
                                             }}
-                                            onClick={(e: { target: { value: any; }; }) => {
-                                                console.log(e.target.value);
-                                                // setMultiSelectTrigger(!multiSelectTrigger);
+                                            onClick={() => {
+                                                setMultiSelectTrigger(!multiSelectTrigger);
+                                                if (fieldValue) handleTaxonomicIdentificationInput( `${fieldProperty.name}`.toLowerCase(), `${fieldValue?.substring(0, fieldValue?.indexOf(' '))}`)
                                             }}
                                         />
 
@@ -118,13 +120,14 @@ const SearchSelectField = (props: Props) => {
                                 {/* Select list */}
                                 <div className={`${MultiSelectListClass()} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
                                     {multiSelectItems.map((item) => (
-                                        <button key={item.label}
+                                        <button key={item.originalItem.id}
                                             type="button"
                                             className="button-no-style"
                                             onClick={() => {
                                                 /* Set field value */
                                                 SetFieldValue?.(`${namePrefix}.${name}`, item.value);
                                                 setMultiSelectTrigger(false);
+                                                // Send item to store, so that the form fields can be populated again with this info
                                             }}
                                         >
                                             <Row key={item.value}>

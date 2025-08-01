@@ -46,9 +46,9 @@ const Mobile = () => {
                             <p style={{
                                 fontSize: '16px'
                             }}>
-                                Thanks for your interest in DiSSCover!
-                                Unfortunately we do not yet support mobile devices,
-                                please use a desktop or laptop for access in the meantime.
+                                Thanks for your interest in DiSSCover! 
+                                DiSSCover cannot properly be displayed on very small windows. 
+                                Please make your window bigger or, if you are using a mobile device, use a desktop or laptop instead.
                             </p>
                         </Col>
                     </Row>

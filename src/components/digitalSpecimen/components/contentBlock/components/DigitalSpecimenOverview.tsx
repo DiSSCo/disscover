@@ -262,7 +262,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                             SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
                                         }}
                                     >
-                                        <Tooltip text="Modify this data by adding an annotation"
+                                        <Tooltip text="Add an annotation to modify the accepted identification"
                                             placement="bottom"
                                         >
                                             <FontAwesomeIcon icon={faPenToSquare}

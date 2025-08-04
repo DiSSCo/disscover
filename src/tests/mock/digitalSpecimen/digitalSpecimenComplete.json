@@ -15,7 +15,7 @@
                 "ods:physicalSpecimenIdType": "combined",
                 "ods:topicOrigin": "Natural",
                 "ods:topicDomain": "Life",
-                "ods:topicDiscipline": "Palaeontoloogy",
+                "ods:topicDiscipline": "Palaeontology",
                 "ods:isMarkedAsType": true,
                 "ods:isKnownToContainMedia": true,
                 "ods:specimenName": "Iguanodon sp.",
@@ -54,7 +54,25 @@
                 "ods:hasCitation": [],
                 "ods:hasIdentifier": [],
                 "ods:hasChronometricAge": [],
-                "ods:hasAgent": []
+                "ods:hasAgent": [],
+                "ods:hasIdentifications": [
+                    {
+                        "@type": "ods:Identification",
+                        "ods:identificationType": "TaxonIdentification",
+                        "dwc:verbatimIdentification": "Iguanodon sp.",
+                        "ods:isVerifiedIdentification": true,
+                        "ods:hasTaxonIdentifications": [
+                            {
+                                "@id": "https://www.catalogueoflife.org/data/taxon/4BPFZ",
+                                "@type": "ods:TaxonIdentification",
+                                "dwc:taxonID": "https://www.catalogueoflife.org/data/taxon/4BPFZ",
+                                "dwc:scientificName": "Iguanodon sp.",
+                                "ods:scientificNameHTMLLabel": "<i>Iguanodon sp.</i>",
+                                "ods:genusHTMLLabel": "<i>Iguanodon sp.</i>"
+                            }
+                        ]
+                    }
+                ]
             },
             "digitalMedia": [],
             "annotations": []

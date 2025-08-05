@@ -451,6 +451,13 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
     return annotoriousAnnotation;
 };
 
+const AnnotationFormFields = (topic: string) => {
+    if (topic === 'taxonomy') {
+        return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
+    };
+};
+
+
 export {
     ConstructAnnotationObject,
     ExtractParentClasses,
@@ -460,5 +467,6 @@ export {
     GetAnnotationMotivations,
     ProcessAnnotationValues,
     ProvideReadableMotivation,
-    ReformatToAnnotoriousAnnotation
+    ReformatToAnnotoriousAnnotation,
+    AnnotationFormFields
 };

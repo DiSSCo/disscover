@@ -13,6 +13,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
+import { AnnotationFormFields } from 'app/utilities/AnnotateUtilities';
 
 
 /* Props Type */
@@ -38,7 +39,7 @@ const SearchSelectField = (props: Props) => {
     /* Base variables */
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
-    const checkIfDisabled = fieldProperty.key !== 'dwc:genus' && fieldValue;
+    const checkIfDisabled = fieldProperty.key !== 'dwc:scientificName' && fieldValue;
 
     const MultiSelectListClass = () => {
         return classNames({
@@ -53,8 +54,11 @@ const SearchSelectField = (props: Props) => {
      * @param value The value or the name of the digital specimen in the form field
      * @returns Array with objects of possible names corresponding to the requested rank of the digital specimen
      */
-    const handleTaxonomicIdentificationInput = async (rank: string, value: string) => {
-        const results = await GetTaxonomicIdentification({ rank, value });
+    const handleTaxonomicIdentificationInput = async (shortRank: string, value: string) => {
+        const rank = shortRank.replaceAll('dwc:', '');
+        const params = shortRank === 'dwc:scientificName' ? { value } : { rank, value };
+
+        const results = await GetTaxonomicIdentification(params);
         const newMultiSelectItems = (results || []).flatMap((item: any) => {
             const label = item?.usage?.label;
 
@@ -64,6 +68,23 @@ const SearchSelectField = (props: Props) => {
         });
         setMultiSelectItems(newMultiSelectItems);
     };
+
+    const handleSetFieldValue = (value: any) => {
+        console.log('value', value);
+        const taxonomyFields = AnnotationFormFields('taxonomy');
+
+        taxonomyFields?.forEach((item: string) => {
+            const classificationItem = value?.classification?.find(
+                (c: { rank: string; }) => c.rank === item.replace('dwc:', '')
+            );
+            console.log(classificationItem);
+
+            const fieldName = `${namePrefix}.$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0[${item}]`;
+            const fieldValue = classificationItem ? classificationItem.label : value?.usage?.label;
+
+            SetFieldValue?.(fieldName, fieldValue);
+        });
+    }
 
     return (
         <div>
@@ -93,12 +114,12 @@ const SearchSelectField = (props: Props) => {
 
                                                 /* Either get taxonomic identification or set the dropdown items to [] again */
                                                 field.target.value.length > 3 
-                                                    ? handleTaxonomicIdentificationInput( `${fieldProperty.name}`.toLowerCase(), `${field.target.value}`)
+                                                    ? handleTaxonomicIdentificationInput( `${fieldProperty.key}`, `${field.target.value}`)
                                                     : setMultiSelectItems([]);;
                                             }}
                                             onClick={() => {
                                                 setMultiSelectTrigger(!multiSelectTrigger);
-                                                if (fieldValue) handleTaxonomicIdentificationInput( `${fieldProperty.name}`.toLowerCase(), `${fieldValue?.substring(0, fieldValue?.indexOf(' '))}`)
+                                                if (fieldValue) handleTaxonomicIdentificationInput( `${fieldProperty.key}`, `${fieldValue?.substring(0, fieldValue?.indexOf(' '))}`)
                                             }}
                                         />
 
@@ -125,7 +146,8 @@ const SearchSelectField = (props: Props) => {
                                             className="button-no-style"
                                             onClick={() => {
                                                 /* Set field value */
-                                                SetFieldValue?.(`${namePrefix}.${name}`, item.value);
+                                                handleSetFieldValue(item.originalItem);
+                                                
                                                 setMultiSelectTrigger(false);
                                                 // Send item to store, so that the form fields can be populated again with this info
                                             }}

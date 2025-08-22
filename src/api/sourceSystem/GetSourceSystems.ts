@@ -18,7 +18,7 @@ const GetSourceSystems = async () => {
     try {
         const result = await axios({
             method: "get",
-            baseURL: `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`.replace('dev', 'dev-orchestration').replace('sandbox', 'orchestration'),
+            baseURL: `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`.replace('dev', 'dev-orchestration').replace('sandbox', 'acc.orchestration'),
             url: endPoint,
             params: {
                 pageSize: 50

@@ -21,6 +21,7 @@ import { Header, Footer } from 'components/elements/Elements';
 import { AdvancedSearch, DatasetDisclaimer, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
 
+
 /**
  * Base component that renders the Home page
  * @returns JSX Component

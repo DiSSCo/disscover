@@ -1,12 +1,14 @@
 /* Import Dependencies */
 import classNames from 'classnames';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useEffect } from 'react';
 
 /* Import Hooks */
 import { useAppDispatch, useAppSelector, usePagination } from 'app/Hooks';
 
 /* Import Store */
 import { getSearchDigitalSpecimen, getCompareDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
+import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 
 /* Import Types */
 import { TourTopic } from 'app/Types';
@@ -22,8 +24,6 @@ import SearchTourSteps from './tourSteps/SearchTourSteps';
 import CompareTourSteps from './tourSteps/CompareTourSteps';
 import { CompareDigitalSpecimenMenu, IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
 import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
-import { useEffect } from 'react';
-import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 
 
 /**
@@ -31,6 +31,9 @@ import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/Digi
  * @returns JSX Component
  */
 const Search = () => {
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
     /* Base variables */
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
     const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
@@ -50,9 +53,6 @@ const Search = () => {
             dispatch(setSearchDigitalSpecimen(undefined));
         }; 
     }, []);
-
-    /* Hooks */
-    const dispatch = useAppDispatch();
 
     /* OnLoad: setup pagination */
     const pagination = usePagination({

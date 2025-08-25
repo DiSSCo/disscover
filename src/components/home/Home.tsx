@@ -1,13 +1,13 @@
 /* Import Dependencies */
 import { Formik, Form } from 'formik';
 import { capitalize } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom';
 
 /* Import Hooks */
-import { useAppDispatch, useAppSelector, useFetch } from 'app/Hooks';
+import { useFetch } from 'app/Hooks';
 
 /* Import Types */
 import { TourTopic, Dict } from 'app/Types';
@@ -20,9 +20,6 @@ import TourSteps from './TourSteps';
 import { Header, Footer } from 'components/elements/Elements';
 import { AdvancedSearch, DatasetDisclaimer, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
-import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
-import { setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
-
 
 /**
  * Base component that renders the Home page
@@ -32,7 +29,6 @@ const Home = () => {
     /* Hooks */
     const navigate = useNavigate();
     const fetch = useFetch();
-    const dispatch = useAppDispatch();
 
     /* Base variables */
     const [digitalSpecimenDisciplines, setDigitalSpecimenDisciplines] = useState<{
@@ -54,15 +50,6 @@ const Home = () => {
         name: 'home',
         title: 'About This Page'
     }];
-    const digitalSpecimen = useAppSelector(getDigitalSpecimen);
-
-    /* Clean up digital specimen in store to start fresh */
-    useEffect(() => {
-        if (digitalSpecimen) {
-            dispatch(setDigitalSpecimenComplete({ digitalSpecimen: undefined, digitalMedia: [], annotations: [] }));
-            dispatch(setSearchDigitalSpecimen(undefined));
-        }; 
-    }, []);
 
     /* OnLoad, fetch digital specimen disciplines */
     fetch.Fetch({

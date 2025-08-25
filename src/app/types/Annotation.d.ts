@@ -46,7 +46,7 @@ export interface Annotation {
    */
   "oa:motivatedBy"?: string;
   "oa:hasTarget": AnnotationTarget;
-  "oa:hasBody": AnnotationBody;
+  "oa:hasBody"?: AnnotationBody | undefined;
   "dcterms:creator": Agent;
   /**
    * The date and time when the annotation was created, following the ISO Date Time Format yyyy-MM-dd'T'HH:mm:ss.SSSXXX

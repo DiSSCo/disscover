@@ -136,7 +136,7 @@ const AnnotationsOverview = (props: Props) => {
             annotation: {
                 id: annotation["@id"],
                 motivation: annotation["oa:motivation"],
-                values: annotation["oa:hasBody"]["oa:value"]
+                values: annotation["oa:hasBody"]?.["oa:value"]
             }
         }));
 

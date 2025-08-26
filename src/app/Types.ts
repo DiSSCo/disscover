@@ -101,7 +101,7 @@ export type AnnotationTarget = {
     annotation?: {
         id: string,
         motivation: string,
-        values: string[]
+        values: string[] | undefined
     }
 };
 

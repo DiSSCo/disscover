@@ -85,7 +85,7 @@ const AnnotationFormStep = (props: Props) => {
             const countIndication: string = Array.isArray(currentValue) ? `[${currentValue.length}]` : '';
 
             jsonPath = `${jsonPath}${countIndication}`;
-            const value = annotationTarget.annotation.values[0].startsWith('{') ? JSON.parse(annotationTarget.annotation.values[0]) : annotationTarget.annotation.values[0];
+            const value = annotationTarget.annotation.values?.[0].startsWith('{') ? JSON.parse(annotationTarget.annotation.values[0]) : annotationTarget.annotation.values?.[0];
 
             if (jsonPath === '$' && !formValues.annotationValues.value) {
                 formValues.annotationValues.value = value;

@@ -69,7 +69,7 @@ const ImagePopup = (props: Props) => {
     const initialFormValues: {
         annotationValue: string
     } = {
-        annotationValue: annotation ? annotation["oa:hasBody"]["oa:value"][0] : ''
+        annotationValue: annotation?.["oa:hasBody"] ? annotation["oa:hasBody"]["oa:value"][0] : ''
     };
     let userTag: string = annotation?.['dcterms:creator']['schema:name'] ?? annotation?.['dcterms:creator']['@id'] ?? '';
 
@@ -165,7 +165,7 @@ const ImagePopup = (props: Props) => {
                                 <Col>
                                     <p className="fs-4">
                                         <span className="fw-bold">Value: </span>
-                                        {annotation["oa:hasBody"]["oa:value"][0]}
+                                        {annotation["oa:hasBody"]?.["oa:value"][0]}
                                     </p>
                                 </Col>
                             </Row>

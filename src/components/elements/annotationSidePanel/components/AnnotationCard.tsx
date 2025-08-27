@@ -107,7 +107,7 @@ const AnnotationCard = (props: Props) => {
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector' && 'Image'}
                         </span>
                     </Col>
-                    {(annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' && Object.keys(JSON.parse(annotation['oa:hasBody']['oa:value'][0])).length >= 3) &&
+                    {(annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' && (annotation['oa:hasBody']?.['oa:value']?.[0] ? Object.keys(JSON.parse(annotation['oa:hasBody']['oa:value'][0])).length >= 3 : false)) &&
                         <Col lg="auto">
                             <Button type="button"
                                 variant="blank"
@@ -128,13 +128,14 @@ const AnnotationCard = (props: Props) => {
                         {/* Render annotation content based on target type */}
                         {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
                             <p className="fs-4">
-                                {annotation['oa:hasBody']['oa:value']}
+                                {annotation['oa:hasBody']?.['oa:value']}
                             </p>
                         }
                         {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
                             <div>
-                                {Object.entries(JSON.parse(annotation['oa:hasBody']['oa:value'][0])).map(([key, value], index) => {
-                                    if (showAllValues || index < 3) {
+                                {annotation['oa:hasBody']?.['oa:value']?.[0] &&
+                                    Object.entries(JSON.parse(annotation['oa:hasBody']['oa:value'][0])).map(([key, value], index) => {
+                                        if (showAllValues || index < 3) {
                                         return (
                                             <p key={key}
                                                 className="fs-4"
@@ -145,8 +146,8 @@ const AnnotationCard = (props: Props) => {
                                                 {`${value}`}
                                             </p>
                                         );
-                                    }
-                                })}
+                                        }
+                                    })}
                             </div>
                         }
                     </Col>

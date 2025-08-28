@@ -13,7 +13,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
-import { original } from '@reduxjs/toolkit';
+import { TaxonomicIdentificationMapper } from 'components/elements/annotationSidePanel/utilities/AnnotationMappers';
 
 /* Props Type */
 type Props = {
@@ -49,7 +49,7 @@ const SearchSelectField = (props: Props) => {
     };
 
     /**
-     * Function to call the GetTaxonomicIdentification to retrieve taxonomic data
+     * Function to call the GetTaxonomicIdentification to retrieve taxonomic data based on rank and value
      * @param rank The current rank of the selected digital specimen in the form field
      * @param value The value or the name of the digital specimen in the form field
      * @returns Array with objects of possible names corresponding to the requested rank of the digital specimen
@@ -69,37 +69,15 @@ const SearchSelectField = (props: Props) => {
         setMultiSelectItems(newMultiSelectItems);
     };
 
-    const handleSetFieldValue = (originalItem: any) => {
-        console.log('new info', originalItem);
-        console.log('old info', formValues?.annotationValues);
-        // TaxonomicIdentificationMapper(formValues?.annotationValues["$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0"], value);
-
-        // const taxonomyFields = AnnotationFormFields('taxonomy');
-
+    /**
+     * Function to populate specific field values with newly selected taxonomic info through SetFieldValue
+     * @param originalItem Current taxonomic tree of digital specimen
+     */
+    const handleSetFieldValue = (taxonomicTree: any) => {
         Object.entries(formValues?.annotationValues["$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0"])?.forEach(([key, value]) => {
-            let fieldValue;
-
-            console.log('original Item', originalItem);
-            console.log(key, value);
-
-            const classificationItem = originalItem?.classification?.find(
-                (c: { rank: string; }) => c.rank === (key.replace('dwc:', '') || key.replace('ods:', ''))
-            );
-
-            if (classificationItem && key !== 'dwc:scientificName') {
-                fieldValue = classificationItem.label
-            } else if (key === 'dwc:scientificName') {
-                fieldValue = originalItem?.usage?.label
-            } else if (key === '@id' || key === 'dwc:taxonID') {
-                fieldValue = `https://www.checklistbank.org/dataset/3/taxon/${originalItem?.id}`
-            } else if (key === 'dwc:scientificNameHTMLLabel') {
-                fieldValue = originalItem?.usage?.labelHtml
-            } else {
-                fieldValue = value;
-            }
-
+            const fieldValue = TaxonomicIdentificationMapper(taxonomicTree, [key, value]);
             const fieldName = `${namePrefix}.$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0[${key}]`;
-
+            
             SetFieldValue?.(fieldName, fieldValue);
         });
     }

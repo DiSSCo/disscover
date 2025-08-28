@@ -175,6 +175,7 @@ const AnnotationFormSegment = (props: Props) => {
                                             motivation=''
                                             SetFieldValue={SetFieldValue}
                                             isIdentificationAnnotation={isIdentificationAnnotation}
+                                            formValues={formValues}
                                         />
                                     }
                                 </Col>

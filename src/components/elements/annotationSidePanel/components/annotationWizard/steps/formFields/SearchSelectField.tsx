@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 /* Import Types */
-import { AnnotationFormProperty, MultiSelectItem } from 'app/Types';
+import { AnnotationFormProperty, Dict, MultiSelectItem } from 'app/Types';
 
 /* Import API */
 import GetTaxonomicIdentification from 'api/taxonomicIdentification/GetTaxonomicIdentification';
@@ -13,8 +13,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
-import { AnnotationFormFields } from 'app/utilities/AnnotateUtilities';
-
+import { original } from '@reduxjs/toolkit';
 
 /* Props Type */
 type Props = {
@@ -22,7 +21,8 @@ type Props = {
     namePrefix?: string,
     SetFieldValue?: Function,
     fieldProperty: AnnotationFormProperty,
-    fieldValue?: string
+    fieldValue?: string,
+    formValues?: Dict
 };
 
 
@@ -34,7 +34,7 @@ type Props = {
  * @returns JSX Component
  */
 const SearchSelectField = (props: Props) => {
-    const { name, namePrefix, SetFieldValue, fieldProperty, fieldValue } = props;
+    const { name, namePrefix, SetFieldValue, fieldProperty, fieldValue, formValues } = props;
 
     /* Base variables */
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
@@ -69,18 +69,36 @@ const SearchSelectField = (props: Props) => {
         setMultiSelectItems(newMultiSelectItems);
     };
 
-    const handleSetFieldValue = (value: any) => {
-        console.log('value', value);
-        const taxonomyFields = AnnotationFormFields('taxonomy');
+    const handleSetFieldValue = (originalItem: any) => {
+        console.log('new info', originalItem);
+        console.log('old info', formValues?.annotationValues);
+        // TaxonomicIdentificationMapper(formValues?.annotationValues["$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0"], value);
 
-        taxonomyFields?.forEach((item: string) => {
-            const classificationItem = value?.classification?.find(
-                (c: { rank: string; }) => c.rank === item.replace('dwc:', '')
+        // const taxonomyFields = AnnotationFormFields('taxonomy');
+
+        Object.entries(formValues?.annotationValues["$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0"])?.forEach(([key, value]) => {
+            let fieldValue;
+
+            console.log('original Item', originalItem);
+            console.log(key, value);
+
+            const classificationItem = originalItem?.classification?.find(
+                (c: { rank: string; }) => c.rank === (key.replace('dwc:', '') || key.replace('ods:', ''))
             );
-            console.log(classificationItem);
 
-            const fieldName = `${namePrefix}.$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0[${item}]`;
-            const fieldValue = classificationItem ? classificationItem.label : value?.usage?.label;
+            if (classificationItem && key !== 'dwc:scientificName') {
+                fieldValue = classificationItem.label
+            } else if (key === 'dwc:scientificName') {
+                fieldValue = originalItem?.usage?.label
+            } else if (key === '@id' || key === 'dwc:taxonID') {
+                fieldValue = `https://www.checklistbank.org/dataset/3/taxon/${originalItem?.id}`
+            } else if (key === 'dwc:scientificNameHTMLLabel') {
+                fieldValue = originalItem?.usage?.labelHtml
+            } else {
+                fieldValue = value;
+            }
+
+            const fieldName = `${namePrefix}.$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0[${key}]`;
 
             SetFieldValue?.(fieldName, fieldValue);
         });

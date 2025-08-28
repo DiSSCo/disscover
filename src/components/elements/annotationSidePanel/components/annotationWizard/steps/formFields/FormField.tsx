@@ -2,7 +2,7 @@
 import { toLower } from "lodash";
 
 /* Import Types */
-import { AnnotationFormProperty } from "app/Types";
+import { AnnotationFormProperty, Dict } from "app/Types";
 
 /* Import Components */
 import { BooleanField, DateField, SearchSelectField, SelectField, StringNumberField } from './FormFieldComponents';
@@ -16,7 +16,8 @@ type Props = {
     fieldValue: string,
     motivation: string,
     SetFieldValue?: Function,
-    isIdentificationAnnotation?: boolean
+    isIdentificationAnnotation?: boolean,
+    formValues?: Dict
 };
 
 
@@ -30,7 +31,7 @@ type Props = {
  * @returns JSX Component
  */
 const FormField = (props: Props) => {
-    const { fieldProperty, fieldName, fieldValue, motivation, SetFieldValue, isIdentificationAnnotation } = props;
+    const { fieldProperty, fieldName, fieldValue, motivation, SetFieldValue, isIdentificationAnnotation, formValues } = props;
 
     if (['oa:commenting', 'oa:assessing'].includes(motivation)) {
         return <InputTextArea name={`annotationValues.${fieldName}`} />;
@@ -55,6 +56,7 @@ const FormField = (props: Props) => {
             namePrefix="annotationValues"
             fieldValue={fieldValue}
             SetFieldValue={SetFieldValue}
+            formValues={formValues}
         />
     } else {
         return <StringNumberField fieldProperty={fieldProperty}

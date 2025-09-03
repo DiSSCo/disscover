@@ -12,7 +12,6 @@ import { Field, FieldArray } from 'formik';
 import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import classNames from 'classnames';
 import { TaxonomicIdentificationMapper } from 'components/elements/annotationSidePanel/utilities/AnnotationMappers';
 
 /* Props Type */

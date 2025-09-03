@@ -146,7 +146,7 @@ const AnnotationFormStep = (props: Props) => {
             SetLocalAnnotationTarget(annotationTarget);
 
             /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification */
-            const taxonId = annotationFormFieldProperties['Taxon Identification'];
+            let taxonId = annotationFormFieldProperties['Taxon Identification'];
             if (taxonId?.properties) {
                 const props = taxonId.properties.filter(prop => expectedTaxonomicProperties?.includes(prop.key));
                 taxonId.properties = props.filter(p => p.key !== 'dwc:scientificName')

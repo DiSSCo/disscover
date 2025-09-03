@@ -40,21 +40,15 @@ const SearchSelectField = (props: Props) => {
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
     const checkIfDisabled = fieldProperty.key !== 'dwc:scientificName' && fieldValue;
-
-    const MultiSelectListClass = () => {
-        return classNames({
-            "d-block": multiSelectTrigger,
-            "d-none": !multiSelectTrigger || !multiSelectItems.length
-        });
-    };
+    const MultiSelectListClass = !multiSelectTrigger || !multiSelectItems.length ? "d-none" : "d-block";
 
     /**
      * Function to call the GetTaxonomicIdentification to retrieve taxonomic data based on rank and value
+     * and set the multiSelectItems with the response of the taxonomic data.
      * @param rank The current rank of the selected digital specimen in the form field
      * @param value The value or the name of the digital specimen in the form field
-     * @returns Array with objects of possible names corresponding to the requested rank of the digital specimen
      */
-    const handleTaxonomicIdentificationInput = async (shortRank: string, value: string) => {
+    const handleTaxonomicIdentificationInput = async (shortRank: string, value: string): Promise<void> => {
         const rank = shortRank.replaceAll('dwc:', '');
         const params = shortRank === 'dwc:scientificName' ? { value } : { rank, value };
 
@@ -73,7 +67,7 @@ const SearchSelectField = (props: Props) => {
      * Function to populate specific field values with newly selected taxonomic info through SetFieldValue
      * @param originalItem Current taxonomic tree of digital specimen
      */
-    const handleSetFieldValue = (taxonomicTree: any) => {
+    const handleSetFieldValue = (taxonomicTree: any): void => {
         Object.entries(formValues?.annotationValues["$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0"])?.forEach(([key, value]) => {
             const fieldValue = TaxonomicIdentificationMapper(taxonomicTree, [key, value]);
             const fieldName = `${namePrefix}.$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0[${key}]`;
@@ -135,7 +129,7 @@ const SearchSelectField = (props: Props) => {
                                 </Row>
 
                                 {/* Select list */}
-                                <div className={`${MultiSelectListClass()} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
+                                <div className={`${MultiSelectListClass} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
                                     {multiSelectItems.map((item) => (
                                         <button key={item.originalItem.id}
                                             type="button"
@@ -145,7 +139,6 @@ const SearchSelectField = (props: Props) => {
                                                 handleSetFieldValue(item.originalItem);
                                                 
                                                 setMultiSelectTrigger(false);
-                                                // Send item to store, so that the form fields can be populated again with this info
                                             }}
                                         >
                                             <Row key={item.value}>

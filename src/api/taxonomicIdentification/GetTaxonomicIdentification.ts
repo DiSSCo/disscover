@@ -2,20 +2,23 @@
 import { DefaultException } from 'app/Exceptions';
 import axios from 'axios';
 
-const GetTaxonomicIdentification = async ({rank, value}: {rank?: string, value: string}) => {
-    let taxonomicResults;
-    let url;
+/* Import types */
+import { TaxonomicIdentificationItem } from 'app/Types';
+
+const GetTaxonomicIdentification = async ({rank, value}: {rank?: string, value: string}): Promise<TaxonomicIdentificationItem[]> => {
+    let taxonomicResults: TaxonomicIdentificationItem[] = [];
+    let endpoint: string;
 
     if (rank) {
-        url = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&rank=${rank}&type=prefix&limit=500`;
+        endpoint = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&rank=${rank}&type=prefix&limit=500`;
     } else {
-        url = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&type=prefix&limit=500`;
+        endpoint = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&type=prefix&limit=500`;
     }
 
     try {
         const result = await axios({
             method: 'get',
-            url: url,
+            url: endpoint,
             responseType: 'json'
         });
 

@@ -1,25 +1,5 @@
-/* Types */
-interface ClassificationItem {
-    rank: string;
-    label: string;
-    labelHtml?: string;
-}
-
-interface Usage {
-    label?: string;
-    labelHtml?: string;
-    name?: {
-        authorship?: string;
-        specificEpithet?: string;
-        infragenericEpithet?: string;
-    };
-}
-
-interface TaxonomicIdentificationItem {
-    id?: string | number;
-    classification?: ClassificationItem[];
-    usage?: Usage;
-}
+/* Import Types */
+import { TaxonomicIdentificationItem } from 'app/Types';
 
 const TaxonomicIdentificationMapper = (taxonomicTree: TaxonomicIdentificationItem, [key, value]: [string, any]) => {
     const classificationItem = taxonomicTree?.classification?.find(

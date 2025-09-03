@@ -150,6 +150,10 @@ button {
   font-weight: 500;
 }
 
+.fw-bold {
+  font-weight: 700;
+}
+
 /* Text overflow */
 .horizontalScroll {
   overflow-x: auto;

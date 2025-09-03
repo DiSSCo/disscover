@@ -13,7 +13,7 @@ import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
 import { useFetch } from "app/Hooks";
 
 /* Import Types */
-import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+import { DigitalSpecimen, Identifier2 } from "app/types/DigitalSpecimen";
 import { DropdownItem } from "app/Types";
 
 /* Import Icons */
@@ -63,6 +63,7 @@ const TopBar = (props: Props) => {
             action: () => DownloadDigitalSpecimenAsJSON()
         }
     ];
+    const catalogNumber: Identifier2 | undefined = digitalSpecimen['ods:hasIdentifiers']?.find(item => item['dcterms:title'] === 'dwc:catalogNumber');
 
     /* Construct version dropdown items */
     const versionDropdownItems: DropdownItem[] | undefined = digitalSpecimenVersions?.map(digitalSpecimenVersion => ({
@@ -125,11 +126,24 @@ const TopBar = (props: Props) => {
                     />
                 </Col>
             </Row>
-            <Row>
-                <Col>
-                    <span className="fs-4">
-                        {digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}
-                    </span>
+            <Row className="mt-2">
+                <Col lg={{ span: 3 }}>
+                    <Row>
+                        <Col lg="auto">
+                            <span className="fw-bold fs-4">DOI: </span>
+                            <span className="fs-4">
+                                {digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}
+                            </span>
+                        </Col>
+                        {catalogNumber &&
+                            <Col lg="auto">
+                                <span className="fw-bold fs-4">Catalog Number: </span>
+                                <span className="fs-4">
+                                    {catalogNumber?.['dcterms:identifier']}
+                                </span>
+                            </Col>
+                        }
+                    </Row>
                 </Col>
             </Row>
             {/* MIDS level, version select, annotations button and actions dropdown */}

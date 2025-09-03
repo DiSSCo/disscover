@@ -211,3 +211,28 @@ export type DigitalSpecimenCompleteResult = {
     digitalMedia: Array<{ digitalMediaObject: DigitalMediaType, annotations: Annotation[] }>;
     annotations: Annotation[];
 }
+
+export type ClassificationItem = {
+    rank: string;
+    label: string;
+    labelHtml?: string;
+}
+
+export type Usage = {
+    label?: string;
+    labelHtml?: string;
+    name?: {
+        authorship?: string;
+        specificEpithet?: string;
+        infragenericEpithet?: string;
+    };
+}
+
+export type TaxonomicIdentificationItem = {
+    group: string,
+    id: string,
+    publisherKey?: string,
+    sectorDataSetKey?: number
+    classification?: ClassificationItem[];
+    usage?: Usage;
+}

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
-import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations } from "app/utilities/AnnotateUtilities";
+import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations, AnnotationFormFields } from "app/utilities/AnnotateUtilities";
 import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
@@ -59,7 +59,7 @@ const AnnotationFormStep = (props: Props) => {
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation, annotationTarget?.type);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: Dict = {};
-    const expectedTaxonomicProperties = ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus'];
+    const expectedTaxonomicProperties = AnnotationFormFields('taxonomy');
 
     /* Construct annotation motivation dropdown items */
     const annotationMotivationDropdownItems: DropdownItem[] = Object.entries(annotationMotivations).map(([value, label]) => ({
@@ -145,11 +145,12 @@ const AnnotationFormStep = (props: Props) => {
 
             SetLocalAnnotationTarget(annotationTarget);
 
-            /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification */
-            if (annotationFormFieldProperties['Taxon Identification']) {
-                annotationFormFieldProperties['Taxon Identification']['properties'] = annotationFormFieldProperties['Taxon Identification']['properties']?.filter(
-                    prop => expectedTaxonomicProperties.includes(prop.key)
-                );
+            /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification. */
+            let taxonId = annotationFormFieldProperties['Taxon Identification'];
+            if (taxonId?.properties) {
+                const props = taxonId.properties.filter(prop => expectedTaxonomicProperties?.includes(prop.key));
+                taxonId.properties = props.filter(p => p.key !== 'dwc:scientificName')
+                    .concat(props.filter(p => p.key === 'dwc:scientificName'));
             }
 
             /* Set annotation form field properties */

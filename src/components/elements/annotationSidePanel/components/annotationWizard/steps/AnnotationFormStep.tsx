@@ -145,7 +145,7 @@ const AnnotationFormStep = (props: Props) => {
 
             SetLocalAnnotationTarget(annotationTarget);
 
-            /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification */
+            /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification. */
             let taxonId = annotationFormFieldProperties['Taxon Identification'];
             if (taxonId?.properties) {
                 const props = taxonId.properties.filter(prop => expectedTaxonomicProperties?.includes(prop.key));

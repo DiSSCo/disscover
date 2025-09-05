@@ -12,7 +12,7 @@ const GetTaxonomicIdentification = async ({rank, value}: {rank?: string, value: 
     if (rank) {
         endpoint = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&rank=${rank}&type=prefix&limit=500`;
     } else {
-        endpoint = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&type=prefix&limit=500`;
+        endpoint = `https://api.checklistbank.org/dataset/3/nameusage/search?q=${value}&content=SCIENTIFIC_NAME&type=prefix&limit=500`;
     }
 
     try {

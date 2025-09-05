@@ -38,7 +38,7 @@ const SearchSelectField = (props: Props) => {
     /* Base variables */
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
-    const checkIfDisabled = fieldProperty.key !== 'dwc:scientificName' && fieldValue;
+    const checkIfDisabled: boolean = !!(fieldProperty.key !== 'dwc:scientificName' && fieldValue);
     const MultiSelectListClass = !multiSelectTrigger || !multiSelectItems.length ? "d-none" : "d-block";
 
     /**
@@ -89,6 +89,7 @@ const SearchSelectField = (props: Props) => {
                                     {/* Visible select field */}
                                     <Col className="position-relative d-flex align-items-center">
                                         <Field
+                                            autocomplete='off'
                                             disabled={checkIfDisabled}
                                             name={`${namePrefix}.${name}`}
                                             placeholder={'Type at least 4 characters to start your search'}
@@ -115,7 +116,8 @@ const SearchSelectField = (props: Props) => {
                                         {/* Absolute chevron up or down */}
                                         <Button type="button"
                                             variant="blank"
-                                            className="position-absolute end-0 me-1"
+                                            disabled={checkIfDisabled}
+                                            className="position-absolute end-0 me-1 b-none"
                                             onClick={() => {
                                                 setMultiSelectTrigger(!multiSelectTrigger);
                                             }}
@@ -128,32 +130,34 @@ const SearchSelectField = (props: Props) => {
                                 </Row>
 
                                 {/* Select list */}
-                                <div className={`${MultiSelectListClass} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
-                                    {multiSelectItems.map((item) => (
-                                        <button key={item.originalItem.id}
-                                            type="button"
-                                            className="button-no-style"
-                                            onClick={() => {
-                                                /* Set field value */
-                                                handleSetFieldValue(item.originalItem);
-                                                
-                                                setMultiSelectTrigger(false);
-                                            }}
-                                        >
-                                            <Row key={item.value}>
-                                                <Col>
-                                                    <div className={'px-2 py-1 br-corner tr-fast'}>
-                                                        <Row>
-                                                            <Col className="d-flex align-items-center">
-                                                                <p className="fs-5">{item.label}</p>
-                                                            </Col>
-                                                        </Row>  
-                                                    </div>
-                                                </Col>
-                                            </Row>
-                                        </button>
-                                    ))}
-                                </div>
+                                {multiSelectItems &&
+                                    <div className={`${MultiSelectListClass} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
+                                        {multiSelectItems.map((item) => (
+                                            <button key={item.originalItem.id}
+                                                type="button"
+                                                className="button-no-style"
+                                                onClick={() => {
+                                                    /* Set field value */
+                                                    handleSetFieldValue(item.originalItem);
+                                                    
+                                                    setMultiSelectTrigger(false);
+                                                }}
+                                            >
+                                                <Row key={item.value}>
+                                                    <Col>
+                                                        <div className={'px-2 py-1 br-corner tr-fast'}>
+                                                            <Row>
+                                                                <Col className="d-flex align-items-center">
+                                                                    <p className="fs-5">{item.label}</p>
+                                                                </Col>
+                                                            </Row>  
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </button>
+                                        ))}
+                                    </div>
+                                }
                             </div>
                         </Col>
                     </Row>

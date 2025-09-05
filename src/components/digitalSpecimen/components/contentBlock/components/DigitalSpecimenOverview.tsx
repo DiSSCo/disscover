@@ -136,13 +136,6 @@ const DigitalSpecimenOverview = (props: Props) => {
         }
     };
 
-    /* Class Names */
-    const overviewItemButtonClass = classNames({
-        'tr-fast': true,
-        'hover-grey mc-pointer': annotationMode,
-        'mc-default': !annotationMode
-    });
-
     return (
         <div className="h-100">
             <Row className="h-50 pb-2">

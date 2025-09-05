@@ -3,32 +3,14 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
 import { Footer, Header } from "components/elements/Elements";
-import { useFetch } from 'app/Hooks';
-import getAllVirtualCollections from 'api/virtualCollections/getAllVirtualCollections';
+import VirtualCollectionsTable from './components/VirtualCollectionsTable';
+
 
 /**
- * Base component that renders the VirtualCollections page
+ * Base component that renders the Virtual Collections page
  * @returns JSX Component
  */
 const VirtualCollections = () => {
-    /* Hooks */
-    const fetch = useFetch();
-
-    /* OnLoad, fetch digital specimen data if the digitalSpecimen data with the current handle is not already in the store*/
-    fetch.FetchMultiple({
-        callMethods: [
-            {
-                alias: 'allVirtualCollections',
-                params: {},
-                Method: getAllVirtualCollections
-            },
-        ],
-        triggers: [],
-        Handler: (results: any) => {
-            console.log('virtual collections',results)
-        }
-    });
-
     return (
         <div className="h-100 d-flex flex-column">
             {/* Render header*/}
@@ -36,7 +18,7 @@ const VirtualCollections = () => {
                 offset={1}
             />
 
-            {/* Search page body */}
+            {/* Virtual Collections page body */}
             <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">
                     <Col lg={{ span: 10, offset: 1 }}
@@ -45,6 +27,11 @@ const VirtualCollections = () => {
                         <Row>
                             <Col>
                                 <h2>Virtual Collections</h2>
+                            </Col>
+                        </Row>
+                        <Row className="mt-4">
+                            <Col>
+                                <VirtualCollectionsTable />
                             </Col>
                         </Row>
                     </Col>

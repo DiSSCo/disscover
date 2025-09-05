@@ -40,7 +40,6 @@ const ContentBlock = (props: Props) => {
     /* Base variables */
     const tabs = {
         'digitalSpecimen': <DigitalSpecimenOverview digitalSpecimen={digitalSpecimen}
-            annotationMode={annotationMode}
             SetAnnotationTarget={SetAnnotationTarget}
             ToggleAnnotationMode={ToggleAnnotationMode}
         />,

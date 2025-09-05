@@ -46,6 +46,14 @@ const Navigation = () => {
                         <p className={NavItemClass('search')}>All Specimens</p>
                     </Link>
                 </Col>
+                {/* Link to Virtual Collections */}
+                <Col lg="auto"
+                    className="d-flex align-items-center px-5"
+                >
+                    <Link to="/virtual-collections">
+                        <p className={NavItemClass('virtualCollections')}>Virtual Collections</p>
+                    </Link>
+                </Col>
                 {/* Link to About */}
                 <Col lg="auto"
                     className="d-flex align-items-center pe-5"
@@ -59,7 +67,7 @@ const Navigation = () => {
                     <Col lg="auto"
                         className="d-flex align-items-center"
                     >
-                        <Link to="/dataExport">
+                        <Link to="/data-export">
                             <p className={NavItemClass('dataExport')}>Data Export</p>
                         </Link>
                     </Col>

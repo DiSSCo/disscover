@@ -1,6 +1,5 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
 import { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
@@ -22,7 +21,6 @@ import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/Cus
 /* Props Type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
-    annotationMode: boolean,
     SetAnnotationTarget: Function,
     ToggleAnnotationMode: Function
 };
@@ -31,12 +29,11 @@ type Props = {
 /**
  * Component that renders the digital specimen overview content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
- * @param annotationMode Boolean indicating if the annotation mode is enabled
  * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const DigitalSpecimenOverview = (props: Props) => {
-    const { digitalSpecimen, annotationMode, SetAnnotationTarget, ToggleAnnotationMode } = props;
+    const { digitalSpecimen, SetAnnotationTarget, ToggleAnnotationMode } = props;
 
     /* Base variables */
     const [copyMessage, setCopyMessage] = useState<string>('Copy');

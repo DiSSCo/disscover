@@ -7,6 +7,7 @@ import DigitalSpecimenMock from 'tests/mock/digitalSpecimen/digitalSpecimenCompl
 import SpecimenAnnotationsMock from 'tests/mock/digitalSpecimen/specimenAnnotations.json';
 import SpecimenVersionsMock from 'tests/mock/digitalSpecimen/specimenVersions.json';
 import SpecimenDisciplineMock from 'tests/mock/digitalSpecimen/specimenDiscipline.json';
+import VirtualCollectionsMock from 'tests/mock/virtualCollections/virtualCollections.json';
 
 
 /**
@@ -28,6 +29,10 @@ const Server = setupServer(
     /* Get Topic Disciplines numbers */
     http.get('/digital-specimen/v1/discipline', () => {
         return HttpResponse.json(SpecimenDisciplineMock);
+    }),
+    /* Get Virtual Co90llections */
+    http.get('/virtual-collection/v1', () => {
+        return HttpResponse.json(VirtualCollectionsMock);
     })
 );
 

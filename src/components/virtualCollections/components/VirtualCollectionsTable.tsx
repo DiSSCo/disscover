@@ -38,11 +38,8 @@ const VirtualCollectionsTable = () => {
         pageSize: 25,
         Method: getAllVirtualCollections
     });
-    console.log(pagination);
 
     pagination.records.forEach(virtualCollection => {
-        console.log(virtualCollection)
-
         tableData.push({
             collectionName: virtualCollection.attributes['ltc:collectionName'],
             description: virtualCollection.attributes['ltc:description'],

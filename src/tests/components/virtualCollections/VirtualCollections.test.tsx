@@ -19,9 +19,9 @@ import VirtualCollections from 'components/virtualCollections/VirtualCollections
  */
 describe("General Virtual Collections Page Tests", () => {
     beforeEach(() => {
-        renderWithProviders('virtual-collection/v1',
+        renderWithProviders('/virtual-collections',
             <Routes>
-                <Route path="/virtual-collection/v1"
+                <Route path="/virtual-collections"
                     element={<VirtualCollections />}
                 />
             </Routes>
@@ -35,5 +35,10 @@ describe("General Virtual Collections Page Tests", () => {
     /* Test if virtual collection data is fetched and rendered */
     it('fetches virtual collection data onload', async () => {
         expect(await screen.findByRole('heading', { name: 'Virtual Collections' })).toBeInTheDocument();
+    });
+    it('fetches virtual collection data', async () => {
+        // expect(await screen.findByText(VirtualCollectionMock.data[0].attributes['ltc:collectionName']));
+        // expect(await screen.findByDisplayValue(VirtualCollectionMock.data[0].attributes['ltc:collectionName']));
+        expect(await screen.findByRole('textbox', { name: VirtualCollectionMock.data[0].attributes['ltc:collectionName']})).toBeInTheDocument()
     });
 });

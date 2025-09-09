@@ -225,6 +225,8 @@ export type Usage = {
         authorship?: string;
         specificEpithet?: string;
         infragenericEpithet?: string;
+        scientificName?: string;
+        rank?: string;
     };
 }
 

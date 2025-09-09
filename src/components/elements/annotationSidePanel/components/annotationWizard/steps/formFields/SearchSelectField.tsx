@@ -13,6 +13,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { TaxonomicIdentificationMapper } from 'components/elements/annotationSidePanel/utilities/AnnotationMappers';
+import { AnnotationFormFields } from 'app/utilities/AnnotateUtilities';
 
 /* Props Type */
 type Props = {
@@ -38,8 +39,8 @@ const SearchSelectField = (props: Props) => {
     /* Base variables */
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
-    const checkIfDisabled: boolean = !!(fieldProperty.key !== 'dwc:scientificName' && fieldValue);
     const MultiSelectListClass = !multiSelectTrigger || !multiSelectItems.length ? "d-none" : "d-block";
+    const annotationTaxonomicFields = AnnotationFormFields('taxonomy');
 
     /**
      * Function to call the GetTaxonomicIdentification to retrieve taxonomic data based on rank and value
@@ -63,14 +64,32 @@ const SearchSelectField = (props: Props) => {
     };
 
     /**
-     * Function to populate specific field values with newly selected taxonomic info through SetFieldValue
+     * Function to populate specific annotation field values based on newly selected taxonomic info
+     * and the standard taxonomic identification annotation fields through SetFieldValue
      * @param originalItem Current taxonomic tree of digital specimen
      */
     const handleSetFieldValue = (taxonomicTree: any): void => {
-        Object.entries(formValues?.annotationValues["$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0"])?.forEach(([key, value]) => {
-            const fieldValue = TaxonomicIdentificationMapper(taxonomicTree, [key, value]);
-            const fieldName = `${namePrefix}.$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0[${key}]`;
-            
+        /* Declare variables */
+        const taxonIdentificationsPath = `$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0`;
+        const basePath = `${namePrefix}.${taxonIdentificationsPath}`;
+        const existingValues = formValues?.annotationValues?.[taxonIdentificationsPath] || {};
+
+        /* Create a new set of keys to loop through with existing annotation values and the standard
+        taxonomic identification annotation fields */
+        const allKeys = new Set([
+            ...Object.keys(existingValues),
+            ...annotationTaxonomicFields,
+        ]);
+
+        allKeys.forEach((key) => {
+            const value = annotationTaxonomicFields.includes(key)
+                ? ''
+                : (existingValues[key] as string) || '';
+
+            const item = { key, value };
+            const fieldValue = TaxonomicIdentificationMapper(taxonomicTree, item);
+            const fieldName = `${basePath}[${key}]`;
+
             SetFieldValue?.(fieldName, fieldValue);
         });
     }
@@ -89,8 +108,7 @@ const SearchSelectField = (props: Props) => {
                                     {/* Visible select field */}
                                     <Col className="position-relative d-flex align-items-center">
                                         <Field
-                                            autocomplete='off'
-                                            disabled={checkIfDisabled}
+                                            autoComplete='off'
                                             name={`${namePrefix}.${name}`}
                                             placeholder={'Type at least 4 characters to start your search'}
                                             className={'w-100 fs-4 px-3 py-1 b-primary br-round'}
@@ -116,7 +134,6 @@ const SearchSelectField = (props: Props) => {
                                         {/* Absolute chevron up or down */}
                                         <Button type="button"
                                             variant="blank"
-                                            disabled={checkIfDisabled}
                                             className="position-absolute end-0 me-1 b-none"
                                             onClick={() => {
                                                 setMultiSelectTrigger(!multiSelectTrigger);

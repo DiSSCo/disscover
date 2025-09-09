@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 /* Import Types */
-import { AnnotationFormProperty, Dict, MultiSelectItem } from 'app/Types';
+import { AnnotationFormProperty, Dict, MultiSelectItem, TaxonomicIdentificationItem } from 'app/Types';
 
 /* Import API */
 import GetTaxonomicIdentification from 'api/taxonomicIdentification/GetTaxonomicIdentification';
@@ -66,9 +66,9 @@ const SearchSelectField = (props: Props) => {
     /**
      * Function to populate specific annotation field values based on newly selected taxonomic info
      * and the standard taxonomic identification annotation fields through SetFieldValue
-     * @param originalItem Current taxonomic tree of digital specimen
+     * @param taxonomicTree Current taxonomic tree of digital specimen
      */
-    const handleSetFieldValue = (taxonomicTree: any): void => {
+    const handleSetFieldValue = (taxonomicTree: TaxonomicIdentificationItem): void => {
         /* Declare variables */
         const taxonIdentificationsPath = `$'ods:hasIdentifications'_0_'ods:hasTaxonIdentifications'_0`;
         const basePath = `${namePrefix}.${taxonIdentificationsPath}`;

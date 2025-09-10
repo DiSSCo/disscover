@@ -452,10 +452,14 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
 };
 
 const AnnotationFormFields = (topic: string) : string[] => {
-    if (topic === 'taxonomy') {
-        return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
-    };
-    return [];
+    switch (topic) {
+        case 'TaxonIdentification':
+            return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
+        case 'Georeference':
+            return ['dwc:geodeticDatum', 'dwc:decimalLatitude', 'dwc:decimalLongitude', 'dwc:coordinateUncertaintyInMeters', 'dwc:verbatimCoordinates', 'dwc:coordinatePrecision'];
+        default:
+            return [];
+    }
 };
 
 

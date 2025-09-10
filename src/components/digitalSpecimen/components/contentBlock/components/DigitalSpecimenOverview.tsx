@@ -196,6 +196,27 @@ const DigitalSpecimenOverview = (props: Props) => {
                             <Col>
                                 <p className="tc-accent fw-lightBold">Geographical Map</p>
                             </Col>
+                            <Col lg="auto">
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="px-0 py-0"
+                                        dataTestId="georeference-annotation-button"
+                                        OnClick={() => {
+                                            // Toggle annotation mode
+                                            ToggleAnnotationMode();
+                                            // // Set annotation target to geological reference
+                                            SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
+                                        }}
+                                    >
+                                        <Tooltip text="Add an annotation to modify the geological reference"
+                                            placement="bottom"
+                                        >
+                                            <FontAwesomeIcon icon={faPenToSquare}
+                                                className="tc-grey"
+                                            />
+                                        </Tooltip>
+                                    </Button>
+                                </Col>
                         </Row>
                         {/* Geological reference map */}
                         <Row className="py-2 h-100">

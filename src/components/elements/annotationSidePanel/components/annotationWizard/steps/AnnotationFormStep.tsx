@@ -144,7 +144,7 @@ const AnnotationFormStep = (props: Props) => {
 
             SetLocalAnnotationTarget(annotationTarget);
 
-            /* Defines which class we are currently annotating based on the jsonPath, i.e. Georeference */
+            /* Defines which class we are currently annotating based on the jsonPath, i.e. Georeference and sets the specific form fields */
             const currentAnnotationClass = Object.entries(annotationFormFieldProperties).find(item => item[1]['jsonPath'] === jsonPath);
 
             /* Set the form properties to expectedProperties if the user is trying to annotate either the Taxon Identification or Georeference */

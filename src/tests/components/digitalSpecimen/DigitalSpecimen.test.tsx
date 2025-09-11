@@ -37,7 +37,7 @@ describe("General Digital Specimen Page Tests", () => {
         expect(await screen.findByRole('heading', { name: SpecimenMock.data.attributes.digitalSpecimen['ods:specimenName'] })).toBeInTheDocument();
     });
 
-    /* Test if annotation panel opens, but work in progress */
+    /* Test if annotation panel opens when clicking on the identificationAnnotationButton, but work in progress */
     it('opens the annotation panel when clicking the button', async () => {
         // Find button
         const annotationButton = await screen.findByTestId('identification-annotation-button');
@@ -47,6 +47,21 @@ describe("General Digital Specimen Page Tests", () => {
 
         // Find annotation target
         const annotationTarget = await screen.findByText('Identifications 0 Taxon Identifications 0');
+
+        // Check if annotation panel is visible
+        expect(annotationTarget).toBeVisible();
+    });
+
+    /* Test if annotation panel opens when clicking on the georeferenceAnnotationButton */
+    it('opens the annotation panel when clicking the button', async () => {
+        // Find button
+        const annotationButton = await screen.findByTestId('georeference-annotation-button');
+
+        // Click button
+        fireEvent.click(annotationButton);
+
+        // Find annotation target
+        const annotationTarget = await screen.findByText('Events 0 Location Georeference');
 
         // Check if annotation panel is visible
         expect(annotationTarget).toBeVisible();

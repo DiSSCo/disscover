@@ -30,7 +30,7 @@ const Server = setupServer(
     http.get('/digital-specimen/v1/discipline', () => {
         return HttpResponse.json(SpecimenDisciplineMock);
     }),
-    /* Get Virtual Co90llections */
+    /* Get Virtual Collections */
     http.get('/virtual-collection/v1', () => {
         return HttpResponse.json(VirtualCollectionsMock);
     })

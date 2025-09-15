@@ -462,6 +462,46 @@ const AnnotationFormFields = (topic: string) : string[] => {
     }
 };
 
+/**
+ * Filters and reorders properties for specific annotation classes.
+ * For 'Taxon Identification', it moves 'dwc:scientificName' to the end.
+ * This function mutates the properties of the found annotation class.
+ * @param annotationFormFieldProperties The properties object to modify.
+ * @param jsonPath The JSON path to find the current annotation class.
+ */
+const FilterAndReorderAnnotationProperties = (
+    annotationFormFieldProperties: { [propertyName: string]: AnnotationFormProperty },
+    jsonPath: string
+) => {
+    /* Defines which class we are currently annotating based on the jsonPath, i.e. Georeference and sets the specific form fields */
+    const currentAnnotationClassEntry = Object.entries(annotationFormFieldProperties).find(
+        item => item[1]['jsonPath'] === jsonPath
+    );
+
+    if (!currentAnnotationClassEntry) {
+        return;
+    }
+
+    const currentAnnotationClass = currentAnnotationClassEntry[1];
+
+    /* Set the form properties to expectedProperties if the user is trying to annotate either the Taxon Identification or Georeference */
+    if (currentAnnotationClass.properties) {
+        const props = currentAnnotationClass.properties.filter(prop =>
+            AnnotationFormFields(currentAnnotationClass.key)?.includes(prop.key)
+        );
+
+        if (currentAnnotationClass.key === 'Taxon Identification') {
+            /* Recreating the props array by adding scientificName at the end for the UI */
+            const scientificNameProp = props.find(p => p.key === 'dwc:scientificName');
+            const otherProps = props.filter(p => p.key !== 'dwc:scientificName');
+            currentAnnotationClass.properties = scientificNameProp
+                ? [...otherProps, scientificNameProp]
+                : otherProps;
+        } else {
+            currentAnnotationClass.properties = props;
+        }
+    }
+};
 
 export {
     ConstructAnnotationObject,
@@ -473,5 +513,6 @@ export {
     ProcessAnnotationValues,
     ProvideReadableMotivation,
     ReformatToAnnotoriousAnnotation,
-    AnnotationFormFields
+    AnnotationFormFields,
+    FilterAndReorderAnnotationProperties
 };

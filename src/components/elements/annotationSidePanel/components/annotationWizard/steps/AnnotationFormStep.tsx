@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
-import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations, AnnotationFormFields } from "app/utilities/AnnotateUtilities";
+import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations, FilterAndReorderAnnotationProperties } from "app/utilities/AnnotateUtilities";
 import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
@@ -144,23 +144,8 @@ const AnnotationFormStep = (props: Props) => {
 
             SetLocalAnnotationTarget(annotationTarget);
 
-            /* Defines which class we are currently annotating based on the jsonPath, i.e. Georeference and sets the specific form fields */
-            const currentAnnotationClass = Object.entries(annotationFormFieldProperties).find(item => item[1]['jsonPath'] === jsonPath);
-
-            /* Set the form properties to expectedProperties if the user is trying to annotate either the Taxon Identification or Georeference */
-            if (currentAnnotationClass?.[1].properties) {
-                const props = currentAnnotationClass?.[1].properties.filter(prop => AnnotationFormFields(currentAnnotationClass?.[1].key)?.includes(prop.key));
-                if (currentAnnotationClass?.[1].key === 'Taxon Identification') {
-                    /* Recreating the props array by adding scientificName at the end for the UI */
-                    const scientificNameProp = props.find(p => p.key === 'dwc:scientificName');
-                    const otherProps = props.filter(p => p.key !== 'dwc:scientificName');
-                    currentAnnotationClass[1].properties = scientificNameProp
-                        ? [...otherProps, scientificNameProp]
-                        : otherProps;
-                } else {
-                    currentAnnotationClass[1].properties = props;
-                }
-            }
+            /* Filter and reorder properties for specific annotation classes like Taxon Identification */
+            FilterAndReorderAnnotationProperties(annotationFormFieldProperties, jsonPath);
 
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);

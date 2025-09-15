@@ -1,14 +1,18 @@
 /* Import Types */
 import { TaxonomicIdentificationItem } from 'app/Types';
 
-const TaxonomicIdentificationMapper = (taxonomicTree: TaxonomicIdentificationItem, [key, value]: [string, any]) => {
+const TaxonomicIdentificationMapper = (taxonomicTree: TaxonomicIdentificationItem, { key, value }: { key: string, value: string }): string | undefined => {
     const classificationItem = taxonomicTree?.classification?.find(
         (classification) => classification.rank === key.replace(/^(dwc:|ods:)/, '')
     );
 
     switch (key) {
         case 'dwc:scientificName':
-            return taxonomicTree?.usage?.label;
+            if (taxonomicTree?.usage?.name?.rank === 'species') {
+                return `${taxonomicTree?.usage?.name?.scientificName} ${taxonomicTree?.usage?.name?.authorship}`;
+            }
+            // Clear the scientific name if any level above in the tree is filled in
+            return '';
         case '@id':
         case 'dwc:taxonID':
             return `https://www.checklistbank.org/dataset/3/taxon/${taxonomicTree?.id}`;

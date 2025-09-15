@@ -1,10 +1,6 @@
 /* Import Dependencies */
 import { createColumnHelper } from '@tanstack/react-table';
 
-/* Import Utilities */
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
-
-
 /**
  * Config function that sets up the basic table column template for the user annotation records table on the profile page
  * @returns Table columns
@@ -22,53 +18,23 @@ const VirtualCollectionsTableConfig = () => {
 
     /* Base variables */
     const columnHelper = createColumnHelper<VirtualCollectionRecord>();
+    const columnsContent = [
+        { columnValue: 'collectionName', columnHeader: 'Name' },
+        { columnValue: 'description', columnHeader: 'Description' },
+        { columnValue: 'dateCreated', columnHeader: 'Date' },
+        { columnValue: 'creator', columnHeader: 'Creator' },
+        { columnValue: 'type', columnHeader: 'Type' },
+        { columnValue: 'identifier', columnHeader: 'PID' }
+    ]
 
     /* Table columns */
-    const columns = [
-        columnHelper.accessor('collectionName', {
-            header: 'Name',
-            cell: info => MakeJsonPathReadableString(info.getValue()),
-            meta: {
-                widthInRem: 10,
-                pinned: true
-            }
-        }),
-        columnHelper.accessor('description', {
-            header: 'Description',
-            meta: {
-                widthInRem: 10,
-                pinned: true
-            }
-        }),
-        columnHelper.accessor('dateCreated', {
-            header: 'Date',
-            meta: {
-                widthInRem: 10,
-                pinned: true
-            }
-        }),
-        columnHelper.accessor('creator', {
-            header: 'Creator',
-            meta: {
-                widthInRem: 10,
-                pinned: true
-            }
-        }),
-        columnHelper.accessor('type', {
-            header: 'Type',
-            meta: {
-                widthInRem: 10,
-                pinned: true
-            }
-        }),
-        columnHelper.accessor('identifier', {
-            header: 'PID',
-            meta: {
-                widthInRem: 10,
-                pinned: true
-            }
-        })
-    ];
+    const columns = columnsContent.map((item) => columnHelper.accessor(item.columnValue as keyof VirtualCollectionRecord, {
+        header: item.columnHeader,
+        meta: {
+            widthInRem: 10,
+            pinned: true
+        }
+    }));
 
     return { columns };
 };

@@ -467,16 +467,13 @@ const AnnotationFormFields = (topic: string) : string[] => {
  * For 'Taxon Identification', it moves 'dwc:scientificName' to the end.
  * This function mutates the properties of the found annotation class.
  * @param annotationFormFieldProperties The properties object to modify.
- * @param jsonPath The JSON path to find the current annotation class.
  */
 const FilterAndReorderAnnotationProperties = (
     annotationFormFieldProperties: { [propertyName: string]: AnnotationFormProperty },
-    jsonPath: string
 ) => {
     /* Defines which class we are currently annotating based on the jsonPath, i.e. Georeference and sets the specific form fields */
-    const currentAnnotationClassEntry = Object.entries(annotationFormFieldProperties).find(
-        item => item[1]['jsonPath'] === jsonPath
-    );
+    const currentAnnotationClassEntry = Object.entries(annotationFormFieldProperties).find(item => 
+        item[1].jsonPath.includes('Taxon') || item[1].jsonPath.includes('Georeference'));
 
     if (!currentAnnotationClassEntry) {
         return;

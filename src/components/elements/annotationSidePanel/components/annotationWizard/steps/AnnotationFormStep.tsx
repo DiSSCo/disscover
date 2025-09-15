@@ -145,7 +145,7 @@ const AnnotationFormStep = (props: Props) => {
             SetLocalAnnotationTarget(annotationTarget);
 
             /* Filter and reorder properties for specific annotation classes like Taxon Identification */
-            FilterAndReorderAnnotationProperties(annotationFormFieldProperties, jsonPath);
+            FilterAndReorderAnnotationProperties(annotationFormFieldProperties);
 
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);

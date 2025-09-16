@@ -15,7 +15,7 @@ import { NotFoundException } from 'app/Exceptions';
  * @returns Array of Annotations
  */
 const GetCreatorAnnotations = async () => {
-    let creatorAnnotations: Annotation[] = [];
+    const creatorAnnotations: Annotation[] = [];
 
     const token = KeycloakService.GetToken();
 

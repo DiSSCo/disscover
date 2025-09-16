@@ -15,7 +15,7 @@ import { NotFoundException } from 'app/Exceptions';
  * @returns Array of Annotations
  */
 const GetDigitalMediaAnnotations = async({ handle } : { handle: string }) => {
-    let digitalMediaAnnotations: Annotation[] = [];
+    const digitalMediaAnnotations: Annotation[] = [];
 
     if (handle) {
         try {

@@ -46,7 +46,7 @@ const IdCard = (props: Props) => {
 
     /* OnLoad, check image height and width, if height is bigger than width, rotate it */
     trigger.SetTrigger(() => {
-        let digitalSpecimenImage = new Image();
+        const digitalSpecimenImage = new Image();
 
         digitalSpecimenImage.src = digitalSpecimenDigitalMedia?.find(digitalMedia =>
             digitalMedia['dcterms:type'] === 'Image' ||

@@ -55,7 +55,7 @@ const TaxonomicTree = (props: Props) => {
     const bootAggregations = useAppSelector(getAggregations);
 
     /* Distill the kingdoms from the boot aggregations, these will function as the base of the taxonomic tree */
-    let kingdoms: Dict = {};
+    const kingdoms: Dict = {};
 
     Object.keys(bootAggregations.kingdom).forEach(kingdom => {
         kingdoms[kingdom] = {};

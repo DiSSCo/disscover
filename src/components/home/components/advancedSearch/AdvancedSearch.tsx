@@ -128,7 +128,7 @@ const AdvancedSearch = (props: Props) => {
      */
     const SearchByPhysicalSpecimenId = (type: 'global' | 'local' | 'resolvable', physicalSpecimenId: string, sourceSystemId?: string) => {
         /* Base search filters on physcial specimen id type */
-        let searchFilters: SearchFilters = {
+        const searchFilters: SearchFilters = {
             physicalSpecimenId: [physicalSpecimenId]
         };
 

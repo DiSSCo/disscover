@@ -42,7 +42,7 @@ const CompareTourSteps = (props: Props) => {
     const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
     const compareSteps = SearchTourStepsText.compare;
     const { options } = StepsConfig();
-    let steps: {
+    const steps: {
         intro: string,
         element?: string
     }[] = [];

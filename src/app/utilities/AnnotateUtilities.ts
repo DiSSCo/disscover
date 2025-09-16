@@ -118,7 +118,7 @@ const ExtractParentClasses = (params: {
     /* For each parant, find and extract its class information */
     parents.forEach((parent, index) => {
         /* Filter path from schemas */
-        let parentName = parent.expression.value.replace(/^[^:]+:/g, '');
+        const parentName = parent.expression.value.replace(/^[^:]+:/g, '');
 
         /* Add to pathArray */
         pathArray.push(parent.expression.value);
@@ -270,7 +270,7 @@ const GenerateAnnotationFormFieldProperties = async (jsonPath: string, superClas
                 );
 
             } else if (classProperty.value.includes('has') && classProperty.value.at(-3) === 's') {
-                let localClassValues: Dict[] = classValues ?? [];
+                const localClassValues: Dict[] = classValues ?? [];
 
                 if (!classValues && (Array.isArray(classValues) && classValues[0])) {
                     const parentFieldName: string = classProperty.value.replace(`$`, jsonPath).split('[').slice(0, -1).join('[');

@@ -52,7 +52,7 @@ const AnnotationCard = (props: Props) => {
 
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
-    let userTag: string = annotation['dcterms:creator']['schema:name'] ?? annotation['dcterms:creator']['@id'] ?? '';
+    const userTag: string = annotation['dcterms:creator']['schema:name'] ?? annotation['dcterms:creator']['@id'] ?? '';
 
     /* Class Names */
     const userTagClass = classNames({

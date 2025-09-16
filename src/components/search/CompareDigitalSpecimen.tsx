@@ -64,8 +64,8 @@ const CompareDigitalSpecimen = () => {
         Handler: (results: Dict) => {
             /* If results is not empty, start crafting matrix data for each digital specimen, otherwise return to search page */
             if (!isEmpty(results)) {
-                let digitalSpecimenArray: DigitalSpecimen[] = [];
-                let matrixData: {
+                const digitalSpecimenArray: DigitalSpecimen[] = [];
+                const matrixData: {
                     [collection: string]: {
                         [field: string]: string[][]
                     }

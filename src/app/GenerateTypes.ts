@@ -54,7 +54,7 @@ const HarvestTypes = (typesDict: { [type: string]: string }) => {
         for (let index = 0; index < results.length; index++) {
             const type: string = Object.keys(typesDict)[index][0].toUpperCase() + Object.keys(typesDict)[index].slice(1);
 
-            let result: Dict = results[index];
+            const result: Dict = results[index];
 
             /* Check for refs inside schema, if so, replace with local generated files */
             Object.values(result.data.properties).filter((value: any) => (value.type === 'array' || value.type === 'object')).forEach((value: any) => {

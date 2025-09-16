@@ -106,7 +106,7 @@ const DOITooltipDemo = (props: Props) => {
         try {
             /* If DOI does not contain local prefix, try to resolve with the general handler */
             if (doi.includes('TEST') || doi.includes('SANDBOX')) {
-                let environment: string = doi.includes('SANDBOX') ? 'sandbox' : 'dev';
+                const environment: string = doi.includes('SANDBOX') ? 'sandbox' : 'dev';
 
                 const response = await fetch(`https://${environment}.dissco.tech/handle-manager/api/pids/v1/${doi.replace(RetrieveEnvVariable('DOI_URL') as string, '')}`);
                 const record = await response.json();

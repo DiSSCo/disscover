@@ -30,7 +30,7 @@ const MASJobRecordCard = (props: Props) => {
     const { masJobRecord } = props;
 
     /* Base variables */
-    let userTag: string = masJobRecord.orcid === KeycloakService.GetParsedToken()?.orcid ? KeycloakService.GetParsedToken()?.orcid : masJobRecord.orcid;
+    const userTag: string = masJobRecord.orcid === KeycloakService.GetParsedToken()?.orcid ? KeycloakService.GetParsedToken()?.orcid : masJobRecord.orcid;
 
     /* Class Names */
     const userTagClass = classNames({

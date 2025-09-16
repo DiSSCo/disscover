@@ -14,7 +14,7 @@ import { NotFoundException } from 'app/Exceptions';
  * @returns Array of MAS job records
  */
 const GetCreatorMasJobRecords = async () => {
-    let creatorMasJobRecords: MasJobRecord[] = [];
+    const creatorMasJobRecords: MasJobRecord[] = [];
 
     const token = KeycloakService.GetToken();
 

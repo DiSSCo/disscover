@@ -41,7 +41,7 @@ const SearchTourSteps = (props: Props) => {
     const tourTopic = useAppSelector(getTourTopic);
     const searchSteps = SearchTourStepsText.search;
     const { options } = StepsConfig();
-    let steps: {
+    const steps: {
         intro: string,
         element?: string
     }[] = [];

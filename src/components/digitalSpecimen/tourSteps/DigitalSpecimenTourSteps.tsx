@@ -37,7 +37,7 @@ const DigitalSpecimenTourSteps = (props: Props) => {
     const tourTopic = useAppSelector(getTourTopic);
     const digitalSpecimenSteps = DigitalSpecimenTourStepsText.digitalSpecimen;
     const { options } = StepsConfig();
-    let steps: {
+    const steps: {
         intro: string,
         element?: string
     }[] = [];

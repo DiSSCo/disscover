@@ -71,7 +71,7 @@ const ImagePopup = (props: Props) => {
     } = {
         annotationValue: annotation?.["oa:hasBody"] ? annotation["oa:hasBody"]["oa:value"][0] : ''
     };
-    let userTag: string = annotation?.['dcterms:creator']['schema:name'] ?? annotation?.['dcterms:creator']['@id'] ?? '';
+    const userTag: string = annotation?.['dcterms:creator']['schema:name'] ?? annotation?.['dcterms:creator']['@id'] ?? '';
 
     /* OnChange of annotation value field ref, set focus on field if adding or editing the annotation */
     trigger.SetTrigger(() => {

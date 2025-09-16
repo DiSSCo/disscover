@@ -78,7 +78,7 @@ const AnnotationFormStep = (props: Props) => {
     trigger.SetTrigger(() => {
         /* Either take JSON path from form values or the annotation target (when editing an annotation) */
         let jsonPath: string = annotationTarget?.directPath ? annotationTarget.jsonPath : formValues?.jsonPath;
-        let localSuperClass: SuperClass = cloneDeep(superClass);
+        const localSuperClass: SuperClass = cloneDeep(superClass);
 
         if (formValues && annotationTarget?.annotation) {
             const currentValue = jp.value(superClass, jsonPath);
@@ -146,7 +146,7 @@ const AnnotationFormStep = (props: Props) => {
             SetLocalAnnotationTarget(annotationTarget);
 
             /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification. */
-            let taxonId = annotationFormFieldProperties['Taxon Identification'];
+            const taxonId = annotationFormFieldProperties['Taxon Identification'];
             if (taxonId?.properties) {
                 const props = taxonId.properties.filter(prop => expectedTaxonomicProperties?.includes(prop.key));
                 taxonId.properties = props.filter(p => p.key !== 'dwc:scientificName')
@@ -179,7 +179,7 @@ const AnnotationFormStep = (props: Props) => {
                 let properties: boolean = false;
 
                 jp.parse(parentPath).forEach(pathSegment => {
-                    let path = pathSegment.expression.value;
+                    const path = pathSegment.expression.value;
 
                     let index: number | undefined;
 

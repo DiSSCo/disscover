@@ -33,7 +33,7 @@ const TourSteps = (props: Props) => {
     const tourTopic = useAppSelector(getTourTopic);
     const homeSteps = HomeTourStepsText.home;
     const { options } = StepsConfig();
-    let steps: {
+    const steps: {
         intro: string,
         element?: string
     }[] = [];

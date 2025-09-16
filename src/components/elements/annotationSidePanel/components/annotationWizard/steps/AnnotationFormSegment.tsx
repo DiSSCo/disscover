@@ -197,7 +197,7 @@ const AnnotationFormSegment = (props: Props) => {
             }
 
             const RemoveExtraUnderscoreNumbers = (string: string) => {
-                let firstUnderscoreNumber = /_\d+_/.exec(string);
+                const firstUnderscoreNumber = /_\d+_/.exec(string);
 
                 if (!firstUnderscoreNumber) {
                     return string;

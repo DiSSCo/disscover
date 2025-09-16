@@ -18,7 +18,7 @@ import { NotFoundException } from 'app/Exceptions';
  * @returns Array of Machine Job Records
  */
 const GetDigitalMediaMasJobRecords = async ({ handle, pageSize, pageNumber, state }: { handle: string, pageSize?: number, pageNumber: number, state?: string }) => {
-    let returnData: {
+    const returnData: {
         masJobRecords: MasJobRecord[],
         links?: Dict
     } = {

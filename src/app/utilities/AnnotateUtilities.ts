@@ -10,7 +10,13 @@ import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPat
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
-import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass, AnnotationTopic } from "app/Types";
+import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass } from "app/Types";
+
+/* Enum */
+enum AnnotationTopic {
+    TaxonIdentification = 'TaxonIdentification',
+    Georeference = 'Georeference'
+}
 
 /* Utilities associated with annotating */
 

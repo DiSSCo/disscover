@@ -238,8 +238,3 @@ export type TaxonomicIdentificationItem = {
     classification?: ClassificationItem[];
     usage?: Usage;
 }
-
-export enum AnnotationTopic {
-    TaxonIdentification = 'TaxonIdentification',
-    Georeference = 'Georeference'
-}

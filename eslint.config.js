@@ -20,7 +20,6 @@ export default defineConfig([
             }
         },
         rules: {
-            "no-useless-catch": "off",
             "@typescript-eslint/no-unsafe-function-type": "off",
             "@typescript-eslint/no-unused-expressions": "off",
             "@typescript-eslint/no-explicit-any": "off",
@@ -40,6 +39,6 @@ export default defineConfig([
         },
     },
     {
-        ignores: ['dist', 'eslint.config.js'],
+        ignores: ['dist', 'eslint.config.js', './src/app/types/*'],
     },
 ]);

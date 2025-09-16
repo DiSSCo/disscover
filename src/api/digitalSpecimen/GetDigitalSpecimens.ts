@@ -32,7 +32,7 @@ const GetDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters }:
 
     if (searchFilters) {
         /* For each filter */
-        Object.entries(searchFilters).map(([key, values], index) => {
+        Object.entries(searchFilters).forEach(([key, values], index) => {
             /* Apply each value */
             values.forEach((value, valueIndex) => {
                 filters = filters.concat(`${(index > 0 || valueIndex > 0) ? '&' : '?'}${key}=${encodeURIComponent(value)}`);
@@ -51,24 +51,20 @@ const GetDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters }:
             responseType: 'json'
         });
 
-        /* Set return data */
-        const data: JSONResultArray = result.data;
+        const data: JSONResultArray = result.data; // Set return data
 
-        if (data.data.length) {
-            data.data.forEach((dataRow) => {
-                returnData.digitalSpecimens.push(dataRow.attributes as DigitalSpecimen);
-            });
-        } else {
-            throw (NoSearchResults('Digital Specimen', result.request.responseURL));
-        };
+        data.data.forEach((dataRow) => {
+            returnData.digitalSpecimens.push(dataRow.attributes as DigitalSpecimen);
+        });
 
         returnData.links = data.links;
 
         if (data.meta) {
             returnData.metadata = data.meta;
         };
+
     } catch (error: any) {
-        throw (error);
+        throw (NoSearchResults('Digital Specimen', error.request.responseURL));
     };
 
     return returnData;

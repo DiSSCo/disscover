@@ -37,10 +37,10 @@ describe("General Digital Specimen Page Tests", () => {
         expect(await screen.findByRole('heading', { name: SpecimenMock.data.attributes.digitalSpecimen['ods:specimenName'] })).toBeInTheDocument();
     });
 
-    /* Test if annotation panel opens when clicking on the identificationAnnotationButton, but work in progress */
-    it('opens the annotation panel when clicking the button', async () => {
+    /* Test if annotation panel opens when clicking on the identificationAnnotationButton */
+    it('opens the annotation panel when clicking the identification annotation button', async () => {
         // Find button
-        const annotationButton = await screen.findByTestId('identification-annotation-button');
+        const annotationButton = await screen.findByRole('button', { name: /add an annotation to modify the accepted identification/i });
 
         // Click button
         fireEvent.click(annotationButton);
@@ -53,9 +53,9 @@ describe("General Digital Specimen Page Tests", () => {
     });
 
     /* Test if annotation panel opens when clicking on the georeferenceAnnotationButton */
-    it('opens the annotation panel when clicking the button', async () => {
+    it('opens the annotation panel when clicking the georeference annotation button', async () => {
         // Find button
-        const annotationButton = await screen.findByTestId('georeference-annotation-button');
+        const annotationButton = await screen.findByRole('button', { name: /add an annotation to modify the geological reference/i });
 
         // Click button
         fireEvent.click(annotationButton);

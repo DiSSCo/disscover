@@ -197,26 +197,26 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 <p className="tc-accent fw-lightBold">Geographical Map</p>
                             </Col>
                             <Col lg="auto">
-                                    <Button type="button"
+                                <Tooltip text="Add an annotation to modify the geological reference" placement="bottom">
+                                    <Button
+                                        type="button"
                                         variant="blank"
                                         className="px-0 py-0"
-                                        dataTestId="georeference-annotation-button"
+                                        aria-label="Edit geological reference"
                                         OnClick={() => {
                                             // Toggle annotation mode
                                             ToggleAnnotationMode();
-                                            // // Set annotation target to geological reference
+                                            // Set annotation target to geological reference
                                             SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
                                         }}
                                     >
-                                        <Tooltip text="Add an annotation to modify the geological reference"
-                                            placement="bottom"
-                                        >
-                                            <FontAwesomeIcon icon={faPenToSquare}
-                                                className="tc-grey"
-                                            />
-                                        </Tooltip>
+                                        <FontAwesomeIcon icon={faPenToSquare}
+                                            className="tc-grey"
+                                            title="Add an annotation to modify the geological reference"
+                                        />
                                     </Button>
-                                </Col>
+                                </Tooltip>
+                            </Col>
                         </Row>
                         {/* Geological reference map */}
                         <Row className="py-2 h-100">
@@ -241,25 +241,25 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <p className="tc-accent fw-lightBold">Accepted Identification</p>
                                 </Col>
                                 <Col lg="auto">
-                                    <Button type="button"
-                                        variant="blank"
-                                        className="px-0 py-0"
-                                        dataTestId="identification-annotation-button"
-                                        OnClick={() => {
-                                            // Toggle annotation mode
-                                            ToggleAnnotationMode();
-                                            // Set annotation target to taxonomic identification
-                                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
-                                        }}
-                                    >
-                                        <Tooltip text="Add an annotation to modify the accepted identification"
-                                            placement="bottom"
+                                    <Tooltip text="Add an annotation to modify the accepted identification" placement="bottom">
+                                        <Button
+                                            type="button"
+                                            variant="blank"
+                                            className="px-0 py-0"
+                                            aria-label="Edit accepted identification"
+                                            OnClick={() => {
+                                                // Toggle annotation mode
+                                                ToggleAnnotationMode();
+                                                // Set annotation target to taxonomic identification
+                                                SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
+                                            }}
                                         >
                                             <FontAwesomeIcon icon={faPenToSquare}
                                                 className="tc-grey"
+                                                title="Add an annotation to modify the accepted identification"
                                             />
-                                        </Tooltip>
-                                    </Button>
+                                        </Button>
+                                    </Tooltip>
                                 </Col>
                             </Row>
                             {/* Accepted identification */}

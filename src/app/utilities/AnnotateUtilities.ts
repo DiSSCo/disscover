@@ -10,8 +10,7 @@ import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPat
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
-import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass } from "app/Types";
-
+import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass, AnnotationTopic } from "app/Types";
 
 /* Utilities associated with annotating */
 
@@ -453,9 +452,9 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
 
 const AnnotationFormFields = (topic: string) : string[] => {
     switch (topic) {
-        case 'TaxonIdentification':
+        case AnnotationTopic.TaxonIdentification:
             return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
-        case 'Georeference':
+        case AnnotationTopic.Georeference:
             return ['dwc:geodeticDatum', 'dwc:decimalLatitude', 'dwc:decimalLongitude', 'dwc:coordinateUncertaintyInMeters', 'dwc:verbatimCoordinates', 'dwc:coordinatePrecision'];
         default:
             return [];
@@ -487,7 +486,7 @@ const FilterAndReorderAnnotationProperties = (
             AnnotationFormFields(currentAnnotationClass.key)?.includes(prop.key)
         );
 
-        if (currentAnnotationClass.key === 'Taxon Identification') {
+        if (currentAnnotationClass.key === AnnotationTopic.TaxonIdentification) {
             /* Recreating the props array by adding scientificName at the end for the UI */
             const scientificNameProp = props.find(p => p.key === 'dwc:scientificName');
             const otherProps = props.filter(p => p.key !== 'dwc:scientificName');

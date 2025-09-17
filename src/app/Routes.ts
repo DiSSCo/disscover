@@ -7,6 +7,7 @@ import DigitalSpecimenRoutes from 'components/digitalSpecimen/Routes';
 import DigitalMediaRoutes from 'components/digitalMedia/Routes';
 import ProfileRoutes from 'components/profile/Routes';
 import StaticPagesRoutes from 'components/staticPages/Routes';
+import VirtualCollectionsRoutes from 'components/virtualCollections/Routes';
 
 
 /* Routes for application */
@@ -18,7 +19,8 @@ const AppRoutes: JSX.Element[] = [
     ...DigitalSpecimenRoutes,
     ...DigitalMediaRoutes,
     ...ProfileRoutes,
-    ...StaticPagesRoutes
+    ...StaticPagesRoutes,
+    ...VirtualCollectionsRoutes
 ];
 
 export default AppRoutes;

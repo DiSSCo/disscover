@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --fix --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage --watch=false"
+    "test:coverage": "vitest run --coverage --watch=false",
+    "prepare": "husky"
   },
   "dependencies": {
     "@annotorious/annotorious": "^3.0.19",
@@ -74,6 +75,7 @@
     "eslint": "^9.35.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.20",
+    "husky": "^9.1.7",
     "jsdom": "^25.0.1",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.43.0",

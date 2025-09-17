@@ -40,7 +40,7 @@ const SearchSelectField = (props: Props) => {
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
     const MultiSelectListClass = !multiSelectTrigger || !multiSelectItems.length ? "d-none" : "d-block";
-    const annotationTaxonomicFields = AnnotationFormFields('taxonomy');
+    const annotationTaxonomicFields = AnnotationFormFields('TaxonIdentification');
 
     /**
      * Function to call the GetTaxonomicIdentification to retrieve taxonomic data based on rank and value

@@ -456,7 +456,9 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
     return annotoriousAnnotation;
 };
 
-const AnnotationFormFields = (topic: string) : string[] => {
+type AnnotationTopicValues = `${AnnotationTopic}`
+
+const AnnotationFormFields = (topic: AnnotationTopicValues) : string[] => {
     switch (topic) {
         case AnnotationTopic.TaxonIdentification:
             return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
@@ -489,7 +491,7 @@ const FilterAndReorderAnnotationProperties = (
     /* Set the form properties to expectedProperties if the user is trying to annotate either the Taxon Identification or Georeference */
     if (currentAnnotationClass.properties) {
         const props = currentAnnotationClass.properties.filter(prop =>
-            AnnotationFormFields(currentAnnotationClass.key)?.includes(prop.key)
+            AnnotationFormFields(currentAnnotationClass.key as AnnotationTopicValues)?.includes(prop.key)
         );
 
         if (currentAnnotationClass.key === AnnotationTopic.TaxonIdentification) {

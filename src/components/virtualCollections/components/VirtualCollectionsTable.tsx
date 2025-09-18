@@ -17,7 +17,6 @@ import { DataTable } from "components/elements/customUI/CustomUI";
 /* User annotation record type */
 type DataRow = {
     collectionName: string,
-    description: string,
     dateCreated: string,
     creator: string,
     type: string,
@@ -42,11 +41,10 @@ const VirtualCollectionsTable = () => {
     pagination.records.forEach(virtualCollection => {
         tableData.push({
             collectionName: virtualCollection.attributes['ltc:collectionName'],
-            description: virtualCollection.attributes['ltc:description'],
             dateCreated: virtualCollection.attributes['schema:dateCreated'],
             creator: virtualCollection.attributes['schema:creator']['schema:name'],
             type: virtualCollection.attributes['ltc:basisOfScheme'],
-            identifier: virtualCollection.attributes['schema:creator']['ods:hasIdentifiers'][0]['dcterms:identifier']
+            identifier: virtualCollection.attributes['@id']
         });
     });
     

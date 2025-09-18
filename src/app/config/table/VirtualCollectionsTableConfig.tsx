@@ -9,7 +9,6 @@ const VirtualCollectionsTableConfig = () => {
     /* User annotation record type */
     type VirtualCollectionRecord = {
         collectionName: string,
-        description: string,
         dateCreated: string,
         creator: string,
         type: string,
@@ -20,7 +19,6 @@ const VirtualCollectionsTableConfig = () => {
     const columnHelper = createColumnHelper<VirtualCollectionRecord>();
     const columnsContent = [
         { columnValue: 'collectionName', columnHeader: 'Name' },
-        { columnValue: 'description', columnHeader: 'Description' },
         { columnValue: 'dateCreated', columnHeader: 'Date' },
         { columnValue: 'creator', columnHeader: 'Creator' },
         { columnValue: 'type', columnHeader: 'Type' },

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
-import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations, AnnotationFormFields } from "app/utilities/AnnotateUtilities";
+import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations, FilterAndReorderAnnotationProperties } from "app/utilities/AnnotateUtilities";
 import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
@@ -59,7 +59,6 @@ const AnnotationFormStep = (props: Props) => {
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation, annotationTarget?.type);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
     let subClassObjectFormFieldProperties: Dict = {};
-    const expectedTaxonomicProperties = AnnotationFormFields('taxonomy');
 
     /* Construct annotation motivation dropdown items */
     const annotationMotivationDropdownItems: DropdownItem[] = Object.entries(annotationMotivations).map(([value, label]) => ({
@@ -145,13 +144,8 @@ const AnnotationFormStep = (props: Props) => {
 
             SetLocalAnnotationTarget(annotationTarget);
 
-            /* Set taxon identification properties to expectedProperties if the user is trying to annotate the Taxon Identification. */
-            let taxonId = annotationFormFieldProperties['Taxon Identification'];
-            if (taxonId?.properties) {
-                const props = taxonId.properties.filter(prop => expectedTaxonomicProperties?.includes(prop.key));
-                taxonId.properties = props.filter(p => p.key !== 'dwc:scientificName')
-                    .concat(props.filter(p => p.key === 'dwc:scientificName'));
-            }
+            /* Filter and reorder properties for specific annotation classes like Taxon Identification */
+            FilterAndReorderAnnotationProperties(annotationFormFieldProperties);
 
             /* Set annotation form field properties */
             setAnnotationFormFieldProperties(annotationFormFieldProperties);
@@ -162,67 +156,69 @@ const AnnotationFormStep = (props: Props) => {
     if (!isEmpty(annotationFormFieldProperties) && formValues?.jsonPath) {
         baseObjectFormFieldProperty = Object.values(annotationFormFieldProperties).find(annotationFormFieldProperty => annotationFormFieldProperty.jsonPath === formValues.jsonPath);
 
-        /* From annotation form field properties, extract sub class objects and their properties */
-        Object.values(annotationFormFieldProperties).filter(
-            annotationFormFieldProperty => annotationFormFieldProperty.jsonPath !== formValues.jsonPath
-        ).forEach(annotationFormFieldProperty => {
-            const jsonPath = `$${annotationFormFieldProperty.jsonPath.replace(baseObjectFormFieldProperty?.jsonPath ?? '', '')}`;
+        if (!annotationFormFieldProperties['Georeference']) {
+            /* From annotation form field properties, extract sub class objects and their properties */
+            Object.values(annotationFormFieldProperties).filter(
+                annotationFormFieldProperty => annotationFormFieldProperty.jsonPath !== formValues.jsonPath
+            ).forEach(annotationFormFieldProperty => {
+                const jsonPath = `$${annotationFormFieldProperty.jsonPath.replace(baseObjectFormFieldProperty?.jsonPath ?? '', '')}`;
 
-            let parentPath: string = '$';
-            let localExtendedPath: string = '';
+                let parentPath: string = '$';
+                let localExtendedPath: string = '';
 
-            jp.parse(jsonPath).slice(1, -1).forEach(pathSegment => {
-                parentPath = parentPath.concat(`['${pathSegment.expression.value}']['properties']`);
+                jp.parse(jsonPath).slice(1, -1).forEach(pathSegment => {
+                    parentPath = parentPath.concat(`['${pathSegment.expression.value}']['properties']`);
+                });
+
+                if (parentPath.split('properties').length >= 3) {
+                    let properties: boolean = false;
+
+                    jp.parse(parentPath).forEach(pathSegment => {
+                        let path = pathSegment.expression.value;
+
+                        let index: number | undefined;
+
+                        if (path === 'properties') {
+                            properties = true;
+                        } else if (properties) {
+                            /* Find index of sub class in parent properties array */
+                            index = jp.value(subClassObjectFormFieldProperties, localExtendedPath)?.findIndex((fieldProperty: AnnotationFormProperty) =>
+                                jp.parse(fieldProperty.jsonPath).pop().expression.value === path
+                            );
+
+                            properties = false;
+                        }
+
+                        if (typeof (index) !== 'undefined' && index >= 0) {
+                            localExtendedPath = localExtendedPath.concat(`[${index}]`);
+                        } else {
+                            localExtendedPath = localExtendedPath.concat(path === '$' ? '$' : `['${path}']`);
+                        }
+                    });
+                }
+
+                if (parentPath !== '$') {
+                    /* Remove last properties part from parent path and treat as local path */
+                    const localPath: string = localExtendedPath ? localExtendedPath.split('[').slice(0, -1).join('[') : parentPath.split('[').slice(0, -1).join('[');
+
+                    jp.value(subClassObjectFormFieldProperties, localPath, {
+                        ...jp.value(subClassObjectFormFieldProperties, localPath),
+                        properties: [
+                            ...(jp.value(subClassObjectFormFieldProperties, `${localPath}['properties']`) ?? []),
+                            annotationFormFieldProperty
+                        ]
+                    });
+                } else {
+                    /* Create local path for parent sub class */
+                    const localPath: string = jp.parse(jsonPath).pop().expression.value;
+
+                    subClassObjectFormFieldProperties = {
+                        ...subClassObjectFormFieldProperties,
+                        [localPath]: annotationFormFieldProperty
+                    };
+                }
             });
-
-            if (parentPath.split('properties').length >= 3) {
-                let properties: boolean = false;
-
-                jp.parse(parentPath).forEach(pathSegment => {
-                    let path = pathSegment.expression.value;
-
-                    let index: number | undefined;
-
-                    if (path === 'properties') {
-                        properties = true;
-                    } else if (properties) {
-                        /* Find index of sub class in parent properties array */
-                        index = jp.value(subClassObjectFormFieldProperties, localExtendedPath)?.findIndex((fieldProperty: AnnotationFormProperty) =>
-                            jp.parse(fieldProperty.jsonPath).pop().expression.value === path
-                        );
-
-                        properties = false;
-                    }
-
-                    if (typeof (index) !== 'undefined' && index >= 0) {
-                        localExtendedPath = localExtendedPath.concat(`[${index}]`);
-                    } else {
-                        localExtendedPath = localExtendedPath.concat(path === '$' ? '$' : `['${path}']`);
-                    }
-                });
-            }
-
-            if (parentPath !== '$') {
-                /* Remove last properties part from parent path and treat as local path */
-                const localPath: string = localExtendedPath ? localExtendedPath.split('[').slice(0, -1).join('[') : parentPath.split('[').slice(0, -1).join('[');
-
-                jp.value(subClassObjectFormFieldProperties, localPath, {
-                    ...jp.value(subClassObjectFormFieldProperties, localPath),
-                    properties: [
-                        ...(jp.value(subClassObjectFormFieldProperties, `${localPath}['properties']`) ?? []),
-                        annotationFormFieldProperty
-                    ]
-                });
-            } else {
-                /* Create local path for parent sub class */
-                const localPath: string = jp.parse(jsonPath).pop().expression.value;
-
-                subClassObjectFormFieldProperties = {
-                    ...subClassObjectFormFieldProperties,
-                    [localPath]: annotationFormFieldProperty
-                };
-            }
-        });
+        }
     }
 
     return (

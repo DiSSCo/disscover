@@ -12,6 +12,11 @@ import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPat
 import { Annotation } from 'app/types/Annotation';
 import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass } from "app/Types";
 
+/* Enum */
+enum AnnotationTopic {
+    TaxonIdentification = 'TaxonIdentification',
+    Georeference = 'Georeference'
+}
 
 /* Utilities associated with annotating */
 
@@ -451,13 +456,56 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
     return annotoriousAnnotation;
 };
 
-const AnnotationFormFields = (topic: string) : string[] => {
-    if (topic === 'taxonomy') {
-        return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
-    };
-    return [];
+type AnnotationTopicValues = `${AnnotationTopic}`
+
+const AnnotationFormFields = (topic: AnnotationTopicValues) : string[] => {
+    switch (topic) {
+        case AnnotationTopic.TaxonIdentification:
+            return ['dwc:kingdom', 'dwc:phylum', 'dwc:class', 'dwc:order', 'dwc:family', 'dwc:genus', 'dwc:scientificName'];
+        case AnnotationTopic.Georeference:
+            return ['dwc:geodeticDatum', 'dwc:decimalLatitude', 'dwc:decimalLongitude', 'dwc:coordinateUncertaintyInMeters', 'dwc:verbatimCoordinates', 'dwc:coordinatePrecision'];
+        default:
+            return [];
+    }
 };
 
+/**
+ * Filters and reorders properties for specific annotation classes.
+ * For 'Taxon Identification', it moves 'dwc:scientificName' to the end.
+ * This function mutates the properties of the found annotation class.
+ * @param annotationFormFieldProperties The properties object to modify.
+ */
+const FilterAndReorderAnnotationProperties = (
+    annotationFormFieldProperties: { [propertyName: string]: AnnotationFormProperty },
+) => {
+    /* Defines which class we are currently annotating based on the jsonPath, i.e. Georeference and sets the specific form fields */
+    const currentAnnotationClassEntry = Object.entries(annotationFormFieldProperties).find(item => 
+        item[1].jsonPath.includes('Taxon') || item[1].jsonPath.includes('Georeference'));
+
+    if (!currentAnnotationClassEntry) {
+        return;
+    }
+
+    const currentAnnotationClass = currentAnnotationClassEntry[1];
+
+    /* Set the form properties to expectedProperties if the user is trying to annotate either the Taxon Identification or Georeference */
+    if (currentAnnotationClass.properties) {
+        const props = currentAnnotationClass.properties.filter(prop =>
+            AnnotationFormFields(currentAnnotationClass.key as AnnotationTopicValues)?.includes(prop.key)
+        );
+
+        if (currentAnnotationClass.key === AnnotationTopic.TaxonIdentification) {
+            /* Recreating the props array by adding scientificName at the end for the UI */
+            const scientificNameProp = props.find(p => p.key === 'dwc:scientificName');
+            const otherProps = props.filter(p => p.key !== 'dwc:scientificName');
+            currentAnnotationClass.properties = scientificNameProp
+                ? [...otherProps, scientificNameProp]
+                : otherProps;
+        } else {
+            currentAnnotationClass.properties = props;
+        }
+    }
+};
 
 export {
     ConstructAnnotationObject,
@@ -469,5 +517,6 @@ export {
     ProcessAnnotationValues,
     ProvideReadableMotivation,
     ReformatToAnnotoriousAnnotation,
-    AnnotationFormFields
+    AnnotationFormFields,
+    FilterAndReorderAnnotationProperties
 };

@@ -89,14 +89,13 @@ const TopBar = () => {
                                                 setCopyMessage('Copy url');
                                             }, 2000);
                                         }}
-                                    >
-                                        
+                                    >   
                                         <Tooltip text={copyMessage} placement="bottom">
                                             <div>
                                                 <FontAwesomeIcon icon={faCopy}
                                                     className="tc-secondary pe-2"
                                                 />
-                                                Share this list
+                                                <span>Share this list</span>
                                             </div>
                                         </Tooltip>
                                     </Button>
@@ -108,8 +107,7 @@ const TopBar = () => {
                                         OnClick={() => {
                                             dispatch(setSearchDigitalSpecimen(undefined));
                                             dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))
-                                        }
-                                        }
+                                        }}
                                     >
                                         {!compareDigitalSpecimen ? 'Compare' : 'Cancel Compare'}
                                     </Button>

@@ -109,7 +109,7 @@ const TopBar = () => {
                                             dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))
                                         }}
                                     >
-                                        {!compareDigitalSpecimen ? 'Compare' : 'Cancel Compare'}
+                                        {compareDigitalSpecimen ? 'Cancel Compare' : 'Compare'}
                                     </Button>
                                 </Col>
                             </Row>

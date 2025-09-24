@@ -2,6 +2,7 @@
 import { Formik, Form } from 'formik';
 import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 
 /* Import Hooks */
 import { useAppSelector, useAppDispatch } from 'app/Hooks';
@@ -10,8 +11,9 @@ import { useAppSelector, useAppDispatch } from 'app/Hooks';
 import { setSearchDigitalSpecimen, getCompareDigitalSpecimen, setCompareDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Components */
-import { Button, InputField } from 'components/elements/customUI/CustomUI';
-
+import { Button, InputField, Tooltip } from 'components/elements/customUI/CustomUI';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Component that renders the top bar on the search page
@@ -29,6 +31,7 @@ const TopBar = () => {
     } = {
         query: searchParams.get('q') ?? ''
     };
+    const [copyMessage, setCopyMessage] = useState<string>('Copy url');
 
     return (
         <div>
@@ -71,19 +74,45 @@ const TopBar = () => {
                                 </Col>
                             </Row>
                         </Col>
-                        {/* Compare button */}
-                        <Col className="d-flex justify-content-end">
-                            <Button type="button"
-                                variant="secondary"
-                                className="tourCompare2"
-                                OnClick={() => {
-                                    dispatch(setSearchDigitalSpecimen(undefined));
-                                    dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))
-                                }
-                                }
-                            >
-                                {!compareDigitalSpecimen ? 'Compare' : 'Cancel Compare'}
-                            </Button>
+                        {/* Share list & Compare button */}
+                        <Col lg={{span: 9}}>
+                            <Row className="d-flex justify-content-end">
+                                <Col lg="auto" className="d-flex align-items-center">
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="px-0 py-0 fs-4 tc-secondary fw-lightBold"
+                                        OnClick={() => {
+                                            navigator.clipboard.writeText(location.href);
+                                            setCopyMessage('Url copied');
+
+                                            setTimeout(() => {
+                                                setCopyMessage('Copy url');
+                                            }, 2000);
+                                        }}
+                                    >   
+                                        <Tooltip text={copyMessage} placement="bottom">
+                                            <div>
+                                                <FontAwesomeIcon icon={faCopy}
+                                                    className="tc-secondary pe-2"
+                                                />
+                                                <span>Share this list</span>
+                                            </div>
+                                        </Tooltip>
+                                    </Button>
+                                </Col>
+                                <Col lg="auto">
+                                    <Button type="button"
+                                        variant="secondary"
+                                        className="tourCompare2"
+                                        OnClick={() => {
+                                            dispatch(setSearchDigitalSpecimen(undefined));
+                                            dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))
+                                        }}
+                                    >
+                                        {compareDigitalSpecimen ? 'Cancel Compare' : 'Compare'}
+                                    </Button>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Form>

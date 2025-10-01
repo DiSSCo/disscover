@@ -23,6 +23,7 @@ import { Button } from 'components/elements/customUI/CustomUI';
 
 /* Import Store */
 import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
+import { setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /**
  * Base component that renders the Home page
@@ -60,6 +61,7 @@ const Home = () => {
     useEffect(() => {
         if (digitalSpecimen) {
             dispatch(setDigitalSpecimenComplete({ digitalSpecimen: undefined, digitalMedia: [], annotations: [] }));
+            dispatch(setSearchDigitalSpecimen(undefined));
         }; 
     }, []);
 

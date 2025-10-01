@@ -2,16 +2,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col } from 'react-bootstrap';
 import { useLocation, Link } from "react-router-dom";
+import { useEffect } from 'react';
 
 /* Import Utilities */
 import { RetrieveEnvVariable } from 'app/Utilities';
 
 /* Import Hooks */
-import { useAppSelector } from 'app/Hooks';
+import { useAppDispatch, useAppSelector } from 'app/Hooks';
 
 /* Import Store */
 import { getDigitalSpecimen } from 'redux-store/DigitalSpecimenSlice';
 import { getDigitalMedia } from 'redux-store/DigitalMediaSlice';
+import { setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Icons */
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -31,11 +33,19 @@ type BreadCrumb = {
 const BreadCrumbs = () => {
     /* Hooks */
     const location = useLocation();
+    const dispatch = useAppDispatch();
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const digitalMedia = useAppSelector(getDigitalMedia);
     const breadCrumbs: BreadCrumb[] = [];
+
+    /* Clean up digital specimen in store from search to start fresh */
+    useEffect(() => {
+        if (digitalSpecimen) {
+            dispatch(setSearchDigitalSpecimen(undefined));
+        }; 
+    }, []);
 
     /* Construct bread crumbs based on location */
     location.pathname.slice(1).split('/').forEach((pathPart) => {

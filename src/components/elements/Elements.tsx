@@ -9,7 +9,7 @@ import Header from "./header/Header";
 import ImageViewer from "./digitalMedia/ImageViewer";
 import Paginator from "./paginator/Paginator";
 import TopBarActions from "./topBarActions/TopBarActions";
-
+import ContentNavigation from "./contentNavigation/ContentNavigation";
 
 
 /* Export components from elements */
@@ -23,5 +23,6 @@ export {
     Header,
     ImageViewer,
     Paginator,
-    TopBarActions
+    TopBarActions,
+    ContentNavigation
 };

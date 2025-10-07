@@ -52,20 +52,24 @@ const BreadCrumbs = () => {
         switch (pathPart) {
             case 'search': {
                 breadCrumbs.push({
-                    crumb: 'Specimens',
-                    path: '/search'
+                    crumb: 'Home',
+                    path: '/'
                 });
 
-                if (location.pathname.includes('compare')) {
-                    breadCrumbs.push({
-                        crumb: 'Compare'
-                    });
-                };
+                breadCrumbs.push({
+                    crumb: 'Search results',
+                    path: '/search'
+                });
 
                 break;
             } case 'ds': {
                 breadCrumbs.push({
-                    crumb: 'Specimens',
+                    crumb: 'Home',
+                    path: '/'
+                });
+
+                breadCrumbs.push({
+                    crumb: 'Search results',
                     path: '/search'
                 });
 
@@ -77,7 +81,12 @@ const BreadCrumbs = () => {
                 break;
             } case 'dm': {
                 breadCrumbs.push({
-                    crumb: 'Specimens',
+                    crumb: 'Home',
+                    path: '/'
+                });
+                
+                breadCrumbs.push({
+                    crumb: 'Search results',
                     path: '/search'
                 });
 
@@ -108,6 +117,9 @@ const BreadCrumbs = () => {
     return (
         <div>
             <Row>
+                    {/* <Col>
+                        Back to list
+                    </Col> */}
                 {breadCrumbs.map((breadCrumb, index) => (
                     <Col key={breadCrumb.crumb}
                         lg="auto"

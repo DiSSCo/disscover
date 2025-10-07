@@ -7,18 +7,30 @@ type Callback = () => Function | void;
 
 
 /* Create keycloak instance */
+// const keycloak = new Keycloak({
+//     url: "https://login-demo.dissco.eu/auth",
+//     realm: "dissco",
+//     clientId: import.meta.env.VITE_KEYCLOAK_CLIENT,
+// });
+
 const keycloak = new Keycloak({
-    url: "https://login-demo.dissco.eu/auth",
+    url: "http://localhost:8080",
     realm: "dissco",
     clientId: import.meta.env.VITE_KEYCLOAK_CLIENT,
 });
+
+// const keycloak = new Keycloak({
+//     url: "https://keycloak.iam.naturalis.io",
+//     realm: "dissco-dev",
+//     clientId: import.meta.env.VITE_KEYCLOAK_CLIENT,
+// });
 
 const InitKeyCloak = (callback?: Callback, token?: string) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
         pkceMethod: "S256",
-        scope: 'roles profile email orcid',
+        scope: 'roles profile email',
         token: token,
         refreshToken: token
     })

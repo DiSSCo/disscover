@@ -6,10 +6,15 @@ import { Dict } from 'app/Types';
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
+type SearchResults = {
+    records: Dict[],
+    currentPage: number
+}
+
 export interface SearchState {
     digitalSpecimen: DigitalSpecimen | undefined,
     compareDigitalSpecimen: DigitalSpecimen[] | undefined,
-    searchResults: Dict[] | undefined,
+    searchResults: SearchResults | undefined,
     searchUrl: string | undefined
 }
 
@@ -30,11 +35,10 @@ export const SearchSlice = createSlice({
         setCompareDigitalSpecimen: (state, action: PayloadAction<DigitalSpecimen[] | undefined>) => {
             state.compareDigitalSpecimen = action.payload;
         },
-        setSearchResults: (state, action: PayloadAction<Dict[] | undefined>) => {
+        setSearchResults: (state, action: PayloadAction<SearchResults | undefined>) => {
             state.searchResults = action.payload;
         },
         setSearchUrl: (state, action: PayloadAction<string | undefined>) => {
-            console.log(action.payload);
             state.searchUrl = action.payload;
         }
     },

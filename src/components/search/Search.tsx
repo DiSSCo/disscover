@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector, usePagination } from 'app/Hooks';
 
 /* Import Store */
-import { getSearchDigitalSpecimen, getCompareDigitalSpecimen, setSearchDigitalSpecimen, getSearchResults, setSearchUrl, getSearchUrl, setSearchResults } from 'redux-store/SearchSlice';
+import { getSearchDigitalSpecimen, getCompareDigitalSpecimen, setSearchDigitalSpecimen, setSearchUrl, setSearchResults } from 'redux-store/SearchSlice';
 import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 
 /* Import Types */
@@ -45,8 +45,6 @@ const Search = () => {
         title: 'Comparing Specimens'
     }];
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
-    const searchResults = useAppSelector(getSearchResults);
-    console.log('results', searchResults);
 
     /* Clean up digital specimen in store to start fresh */
     useEffect(() => {
@@ -64,7 +62,7 @@ const Search = () => {
         Method: GetDigitalSpecimens
     });
     if (pagination) {
-        dispatch(setSearchResults(pagination.records));
+        dispatch(setSearchResults({ records: pagination.records, currentPage: pagination.currentPage}))
     }
 
     /* OnLoad: set search url in store */

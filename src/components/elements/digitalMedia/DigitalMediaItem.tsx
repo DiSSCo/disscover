@@ -23,7 +23,7 @@ type Props = {
  * @param digitalMedia: The Digital Media item
  * @returns JSX Component
  */
-const DigitalMediaItem = (props: Props) => {
+export const DigitalMediaItem = (props: Props) => {
     const { digitalMedia, className } = props;
 
     switch (digitalMedia['dcterms:type']) {
@@ -58,5 +58,3 @@ const DigitalMediaItem = (props: Props) => {
             }
     };
 };
-
-export default DigitalMediaItem;

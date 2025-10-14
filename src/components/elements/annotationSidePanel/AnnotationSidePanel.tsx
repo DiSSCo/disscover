@@ -55,7 +55,7 @@ type Props = {
  * @param HideAnnotationSidePanel Function to hide the annotation side panel
  * @returns JSX Component
  */
-const AnnotationSidePanel = (props: Props) => {
+export const AnnotationSidePanel = (props: Props) => {
     const { superClass, schema, annotationCases, GetAnnotations, GetMas, GetMasJobRecords, ScheduleMas, HideAnnotationSidePanel } = props;
 
     /* Hooks */
@@ -194,5 +194,3 @@ const AnnotationSidePanel = (props: Props) => {
         </div>
     );
 };
-
-export default AnnotationSidePanel;

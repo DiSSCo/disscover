@@ -29,7 +29,7 @@ type Props = {
  * @param plugin Boolean that indicates if the footer plugin should be loaded
  * @returns JSX Component
  */
-const Footer = (props: Props) => {
+export const Footer = (props: Props) => {
     const { span, offset, plugin } = props;
 
     /* Hooks */
@@ -130,5 +130,3 @@ const Footer = (props: Props) => {
         </Container>
     );
 };
-
-export default Footer;

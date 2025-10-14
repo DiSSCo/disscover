@@ -27,7 +27,7 @@ type Props = {
  * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @returns JSX Component
  */
-const TopBarActions = (props: Props) => {
+export const TopBarActions = (props: Props) => {
     const { actionDropdownItems, annotationMode, ToggleAnnotationMode } = props;
 
     return (
@@ -68,5 +68,3 @@ const TopBarActions = (props: Props) => {
         </div>
     );
 };
-
-export default TopBarActions;

@@ -1,26 +1,11 @@
-/* Import Components */
-import AnnotationSidePanel from "./annotationSidePanel/AnnotationSidePanel";
-import ClassProperties from "./classProperties/ClassProperties";
-import DigitalMediaItem from "./digitalMedia/DigitalMediaItem";
-import EntityRelationships from "./classProperties/EntityRelationships";
-import Footer from "./footer/Footer";
-import Header from "./header/Header";
-import ImageViewer from "./digitalMedia/ImageViewer";
-import Paginator from "./paginator/Paginator";
-import TopBarActions from "./topBarActions/TopBarActions";
-import ContentNavigation from "./contentNavigation/ContentNavigation";
-
-
 /* Export components from elements */
-export {
-    AnnotationSidePanel,
-    ClassProperties,
-    DigitalMediaItem,
-    EntityRelationships,
-    Footer,
-    Header,
-    ImageViewer,
-    Paginator,
-    TopBarActions,
-    ContentNavigation
-};
+export { AnnotationSidePanel } from "./annotationSidePanel/AnnotationSidePanel.tsx";
+export { ClassProperties } from "./classProperties/ClassProperties.tsx";
+export { DigitalMediaItem } from "./digitalMedia/DigitalMediaItem.tsx";
+export { EntityRelationships } from "./classProperties/EntityRelationships.tsx";
+export { Footer } from "./footer/Footer.tsx";
+export { Header } from "./header/Header.tsx";
+export { ImageViewer } from "./digitalMedia/ImageViewer.tsx";
+export { Paginator } from "./paginator/Paginator.tsx";
+export { TopBarActions } from "./topBarActions/TopBarActions.tsx";
+export { ContentNavigation } from "./contentNavigation/ContentNavigation.tsx";

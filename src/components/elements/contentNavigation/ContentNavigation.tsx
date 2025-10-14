@@ -37,7 +37,7 @@ type ContentNavItems = {
  * Component that renders content navigation items based upon the current location with its appropriate action
  * @returns JSX Component
  */
-const ContentNavigation = () => {
+export const ContentNavigation = () => {
     /* Hooks */
     const location = useLocation();
     const dispatch = useAppDispatch();
@@ -215,5 +215,3 @@ const ContentNavigation = () => {
         </div>
     );
 };
-
-export default ContentNavigation;

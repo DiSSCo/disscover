@@ -68,7 +68,7 @@ const Search = () => {
     /* OnLoad: set search url in store */
     useEffect(() => {
         dispatch(setSearchUrl(location.href));
-    });
+    }, []);
 
     /* Class Names */
     const searchResultsClass = classNames({

@@ -41,7 +41,7 @@ type Props = {
  * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @returns JSX Component
  */
-const ImageViewer = (props: Props) => {
+export const ImageViewer = (props: Props) => {
     const { digitalMedia, annotoriousMode, GetAnnotations, SetAnnotoriousMode } = props;
 
     /* Hooks */
@@ -306,5 +306,3 @@ const ImageViewer = (props: Props) => {
         </div>
     );
 };
-
-export default ImageViewer;

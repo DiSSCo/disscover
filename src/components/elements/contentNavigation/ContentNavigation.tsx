@@ -24,7 +24,7 @@ import Button from '../customUI/button/Button';
 import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
 
 
-/* Bread crumb type */
+/* Content navigation items type */
 type ContentNavItems = {
     crumb: string,
     path: string
@@ -122,8 +122,8 @@ const ContentNavigation = () => {
                         // Dispatch the new results from the previous page
                         dispatch(setSearchResults({ records: result.digitalSpecimens, currentPage: previousPageNumber }));
                         // Navigate to the last item of the new (previous) page
-                        const previousDigitalSpecimen = result.digitalSpecimens[result.digitalSpecimens.length - 1];
-                        navigate(`/ds/${previousDigitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
+                        const previousDigitalSpecimen = result.digitalSpecimens.at(-1);
+                        navigate(`/ds/${previousDigitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
                     }
                 } catch (error) {
                     console.error("Failed to fetch previous page of specimens:", error);

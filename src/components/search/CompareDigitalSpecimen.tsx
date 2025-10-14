@@ -27,7 +27,7 @@ import GetDigitalSpecimenComplete from "api/digitalSpecimen/GetDigitalSpecimenCo
 /* Import Components */
 import { CompareMatrix } from "./components/SearchComponents";
 import { TopBar } from "./components/compareDigitalSpecimen/CompareDigitalSpecimenComponents";
-import { BreadCrumbs, Header, Footer } from "components/elements/Elements";
+import { Header, Footer } from "components/elements/Elements";
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
 
 /**
@@ -154,13 +154,6 @@ const CompareDigitalSpecimen = () => {
                     <Col lg={{ span: 10, offset: 1 }}
                         className="h-100 d-flex flex-column position-relative"
                     >
-                        {/* Bread crumbs */}
-                        <Row>
-                            <Col>
-                                <BreadCrumbs />
-                            </Col>
-                        </Row>
-
                         {/* Top bar */}
                         <Row className="mt-2">
                             <Col>

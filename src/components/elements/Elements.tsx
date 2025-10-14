@@ -1,6 +1,5 @@
 /* Import Components */
 import AnnotationSidePanel from "./annotationSidePanel/AnnotationSidePanel";
-import BreadCrumbs from "./breadCrumbs/BreadCrumbs";
 import ClassProperties from "./classProperties/ClassProperties";
 import DigitalMediaItem from "./digitalMedia/DigitalMediaItem";
 import EntityRelationships from "./classProperties/EntityRelationships";
@@ -15,7 +14,6 @@ import ContentNavigation from "./contentNavigation/ContentNavigation";
 /* Export components from elements */
 export {
     AnnotationSidePanel,
-    BreadCrumbs,
     ClassProperties,
     DigitalMediaItem,
     EntityRelationships,

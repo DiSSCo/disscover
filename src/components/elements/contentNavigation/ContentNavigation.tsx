@@ -55,7 +55,7 @@ export const ContentNavigation = () => {
     });
     /* Determine if next/previous buttons should be shown */
     const showPrevious = currentIndex !== undefined && (currentIndex > 0 || (searchResults?.currentPage ?? 1) > 1);
-    const showNext = currentIndex !== undefined && (currentIndex < (searchResults?.records?.length ?? 0) - 1 || (searchResults?.currentPage ?? 1) < 399);
+    const showNext = currentIndex !== undefined && (currentIndex < (searchResults?.records?.length ?? 0) - 1 || (searchResults?.currentPage ?? 1) < 399); //399 is last page of results due to indexing errors
 
     /* Clean up digital specimen in store from search to start fresh */
     useEffect(() => {

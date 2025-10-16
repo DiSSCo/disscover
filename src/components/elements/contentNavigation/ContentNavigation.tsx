@@ -64,72 +64,46 @@ export const ContentNavigation = () => {
         }; 
     }, []);
 
-    const navigateToNextDigitalSpecimen = async () => {
-        if (isNavigating) return;
+    const navigateDigitalSpecimen = async (direction: 'next' | 'previous') => {
+        if (isNavigating || currentIndex === undefined || !searchResults?.records) return;
+        const indexDirection = direction === 'next' ? 1 : -1;
+        const newIndex = currentIndex + indexDirection;
 
-        if (searchResults?.records && currentIndex !== undefined && currentIndex < searchResults.records.length - 1) {
-            // If we are not at the end of the list, navigate to the next item
-            const nextDigitalSpecimen = searchResults.records[currentIndex + 1];
-            navigate(`/ds/${nextDigitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
-        } else {
-            // We are at the end, fetch the next page
+        // Check if we can navigate
+        if (newIndex >= 0 && newIndex < searchResults.records.length) {
+            const digitalSpecimen = searchResults.records[newIndex];
+            navigate(`/ds/${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
+            return;
+        }
+
+        // If not, fetch new page
+        const currentPage = searchResults.currentPage ?? 1;
+        const newPageNumber = currentPage + indexDirection  ;
+
+        // Boundary check for page numbers
+        if (newPageNumber > 0) {
             setIsNavigating(true);
             try {
-                const nextPageNumber = (searchResults?.currentPage ?? 0) + 1;
                 const result = await GetDigitalSpecimens({
                     pageSize: 25,
-                    pageNumber: nextPageNumber,
+                    pageNumber: newPageNumber,
                     searchFilters: searchFilters.GetSearchFilters()
                 });
     
                 if (result.digitalSpecimens.length > 0) {
                     // Dispatch the new results
-                    dispatch(setSearchResults({ records: result.digitalSpecimens, currentPage: nextPageNumber }));
-                    // Navigate to the first item of the new page
-                    const nextDigitalSpecimen = result.digitalSpecimens[0];
-                    navigate(`/ds/${nextDigitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
+                    dispatch(setSearchResults({ records: result.digitalSpecimens, currentPage: newPageNumber }));
+                    // Navigate to the first item of the new page or the last item of the previous page
+                    const specimenToNavigate = direction === 'next' ? result.digitalSpecimens[0] : result.digitalSpecimens.at(-1);
+
+                    if (specimenToNavigate) {
+                        navigate(`/ds/${specimenToNavigate['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
+                    }
                 }
             } catch (error) {
-                console.error("Failed to fetch next page of specimens:", error);
-                // Optionally, show an error message to the user
+                console.error(`Failed to fetch ${direction} page of specimens:`, error);
             } finally {
                 setIsNavigating(false);
-            }
-        }
-    };
-
-    const navigateToPreviousDigitalSpecimen = async () => {
-        if (isNavigating) return;
-
-        if (searchResults?.records && currentIndex !== undefined && currentIndex > 0) {
-            // If we are not at the beginning of the list, navigate to the previous item
-            const previousDigitalSpecimen = searchResults.records[currentIndex - 1];
-            navigate(`/ds/${previousDigitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
-        } else {
-            // We are at the beginning of the list, fetch the previous page
-            const previousPageNumber = (searchResults?.currentPage ?? 1) - 1;
- 
-            if (previousPageNumber > 0) {
-                setIsNavigating(true);
-                try {
-                    const result = await GetDigitalSpecimens({
-                        pageSize: 25,
-                        pageNumber: previousPageNumber,
-                        searchFilters: searchFilters.GetSearchFilters()
-                    });
-    
-                    if (result.digitalSpecimens.length > 0) {
-                        // Dispatch the new results from the previous page
-                        dispatch(setSearchResults({ records: result.digitalSpecimens, currentPage: previousPageNumber }));
-                        // Navigate to the last item of the new (previous) page
-                        const previousDigitalSpecimen = result.digitalSpecimens.at(-1);
-                        navigate(`/ds/${previousDigitalSpecimen?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch previous page of specimens:", error);
-                } finally {
-                    setIsNavigating(false);
-                }
             }
         }
     };
@@ -178,14 +152,14 @@ export const ContentNavigation = () => {
                         }
                     </Col>
                 ))}
-                {(location.pathname.includes('/ds/') && (searchResults?.records?.length ?? 0) > 0) &&
+                {(location.pathname.includes('/ds/') && (searchResults?.records?.length ?? 0) > 1) &&
                 <Col lg="auto" className="ms-4">
                     {showPrevious &&
                         <>
                             <Button type="button"
                                 variant="blank"
                                 className="px-0 py-0"
-                                OnClick={() => navigateToPreviousDigitalSpecimen()}
+                                OnClick={() => navigateDigitalSpecimen('previous')}
                                 disabled={isNavigating}
                             >
                                 <div>
@@ -200,7 +174,7 @@ export const ContentNavigation = () => {
                         <Button type="button"
                             variant="blank"
                             className="px-0 py-0"
-                            OnClick={() => navigateToNextDigitalSpecimen()}
+                            OnClick={() => navigateDigitalSpecimen('next')}
                             disabled={isNavigating}
                         >
                             <div>

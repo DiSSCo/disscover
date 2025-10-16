@@ -54,7 +54,7 @@ const Search = () => {
         }; 
     }, []);
 
-    /* OnLoad: setup pagination */
+    /* OnLoad: setup pagination & dispatch the searchUrl in the store*/
     const pagination = usePagination({
         pageSize: 25,
         resultKey: 'digitalSpecimens',
@@ -62,13 +62,9 @@ const Search = () => {
         Method: GetDigitalSpecimens
     });
     if (pagination) {
-        dispatch(setSearchResults({ records: pagination.records, currentPage: pagination.currentPage}))
-    }
-
-    /* OnLoad: set search url in store */
-    useEffect(() => {
+        dispatch(setSearchResults({ records: pagination.records, currentPage: pagination.currentPage}));
         dispatch(setSearchUrl(location.href));
-    }, []);
+    };
 
     /* Class Names */
     const searchResultsClass = classNames({

@@ -43,7 +43,7 @@ export const ContentNavigation = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const searchFilters = useSearchFilters();
-    const [isNavigating, setIsNavigating] = useState(false);
+    const [retrievingMoreResults, setRetrievingMoreResults] = useState(false);
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
@@ -65,7 +65,7 @@ export const ContentNavigation = () => {
     }, []);
 
     const navigateDigitalSpecimen = async (direction: 'next' | 'previous') => {
-        if (isNavigating || currentIndex === undefined || !searchResults?.records) return;
+        if (retrievingMoreResults || currentIndex === undefined || !searchResults?.records) return;
         const indexDirection = direction === 'next' ? 1 : -1;
         const newIndex = currentIndex + indexDirection;
 
@@ -82,7 +82,7 @@ export const ContentNavigation = () => {
 
         // Boundary check for page numbers
         if (newPageNumber > 0) {
-            setIsNavigating(true);
+            setRetrievingMoreResults(true);
             try {
                 const result = await GetDigitalSpecimens({
                     pageSize: 25,
@@ -103,7 +103,7 @@ export const ContentNavigation = () => {
             } catch (error) {
                 console.error(`Failed to fetch ${direction} page of specimens:`, error);
             } finally {
-                setIsNavigating(false);
+                setRetrievingMoreResults(false);
             }
         }
     };
@@ -160,7 +160,7 @@ export const ContentNavigation = () => {
                                 variant="blank"
                                 className="px-0 py-0"
                                 OnClick={() => navigateDigitalSpecimen('previous')}
-                                disabled={isNavigating}
+                                disabled={retrievingMoreResults}
                             >
                                 <div>
                                     <FontAwesomeIcon icon={faChevronLeft} className="fs-4 tc-secondary fw-lightBold pe-2" />
@@ -175,7 +175,7 @@ export const ContentNavigation = () => {
                             variant="blank"
                             className="px-0 py-0"
                             OnClick={() => navigateDigitalSpecimen('next')}
-                            disabled={isNavigating}
+                            disabled={retrievingMoreResults}
                         >
                             <div>
                                 <span className="fs-4 tc-secondary fw-lightBold pe-2">Next</span>

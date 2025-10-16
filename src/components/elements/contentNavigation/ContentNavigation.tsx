@@ -78,7 +78,7 @@ export const ContentNavigation = () => {
 
         // If not, fetch new page
         const currentPage = searchResults.currentPage ?? 1;
-        const newPageNumber = currentPage + indexDirection  ;
+        const newPageNumber = currentPage + indexDirection;
 
         // Boundary check for page numbers
         if (newPageNumber > 0) {

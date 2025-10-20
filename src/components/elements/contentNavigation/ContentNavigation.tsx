@@ -69,7 +69,7 @@ export const ContentNavigation = () => {
         const indexDirection = direction === 'next' ? 1 : -1;
         const newIndex = currentIndex + indexDirection;
 
-        // Check if we can navigate
+        // Check if we can navigate to new digital specimen
         if (newIndex >= 0 && newIndex < searchResults.records.length) {
             const digitalSpecimen = searchResults.records[newIndex];
             navigate(`/ds/${digitalSpecimen['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`);

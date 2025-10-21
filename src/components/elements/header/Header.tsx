@@ -32,7 +32,7 @@ type Props = {
  * @param tourTopics Tour topics that can activated for the rendered page
  * @returns JSX Component
  */
-const Header = (props: Props) => {
+export const Header = (props: Props) => {
     const { span, offset, tourTopics } = props;
 
     /* Class Names */
@@ -86,5 +86,3 @@ const Header = (props: Props) => {
         </Container>
     );
 };
-
-export default Header;

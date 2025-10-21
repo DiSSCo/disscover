@@ -12,7 +12,7 @@ import { Dict } from "app/Types";
 import { faDiagramProject, faTable } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
-import ClassProperties from "./ClassProperties";
+import { ClassProperties } from "./ClassProperties";
 import { Button, RelationalGraph } from "components/elements/customUI/CustomUI";
 
 
@@ -33,7 +33,7 @@ type Props = {
  * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
-const EntityRelationships = (props: Props) => {
+export const EntityRelationships = (props: Props) => {
     const { digitalObjectId, digitalObjectName, digitalObjectEntityRelationships, annotationMode, SetAnnotationTarget } = props;
 
     /* Base variables */
@@ -138,5 +138,3 @@ const EntityRelationships = (props: Props) => {
         </div>
     );
 };
-
-export default EntityRelationships;

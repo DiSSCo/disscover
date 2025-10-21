@@ -42,7 +42,7 @@ type Props = {
  * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
-const ClassProperties = (props: Props) => {
+export const ClassProperties = (props: Props) => {
     const { index, title, taxonAcceptedName, properties, jsonPaths, annotationMode, SetAnnotationTarget } = props;
 
     /* Base variables */
@@ -133,5 +133,3 @@ const ClassProperties = (props: Props) => {
         </div>
     );
 };
-
-export default ClassProperties;

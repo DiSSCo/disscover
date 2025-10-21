@@ -27,7 +27,7 @@ import ScheduleDigitalMediaMas from "api/digitalMedia/ScheduleDigitalMediaMas";
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from "./components/DigitalMediaComponents";
-import { AnnotationSidePanel, BreadCrumbs, Footer, Header } from "components/elements/Elements";
+import { AnnotationSidePanel, ContentNavigation, Footer, Header } from "components/elements/Elements";
 import { LoadingScreen } from "components/elements/customUI/CustomUI";
 
 
@@ -105,10 +105,10 @@ const DigitalMedia = () => {
                                     >
                                         {(!fetch.loading && digitalMedia) &&
                                             <>
-                                                {/* Bread crumbs */}
+                                                {/* ContentNavigation */}
                                                 <Row>
                                                     <Col>
-                                                        <BreadCrumbs />
+                                                        <ContentNavigation />
                                                     </Col>
                                                 </Row>
                                                 {/* Top bar */}

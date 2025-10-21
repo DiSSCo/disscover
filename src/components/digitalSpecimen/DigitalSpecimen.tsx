@@ -32,7 +32,7 @@ import AnnotateTourSteps from './tourSteps/AnnotateTourSteps';
 import DigitalSpecimenTourSteps from './tourSteps/DigitalSpecimenTourSteps';
 import MasTourSteps from './tourSteps/masTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
-import { AnnotationSidePanel, BreadCrumbs, Header, Footer } from 'components/elements/Elements';
+import { AnnotationSidePanel, ContentNavigation, Header, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
 
 /**
@@ -138,10 +138,10 @@ const DigitalSpecimen = () => {
                                     >
                                         {(!fetch.loading && digitalSpecimen) &&
                                             <>
-                                                {/* Bread crumbs */}
+                                                {/* ContentNavigation */}
                                                 <Row>
                                                     <Col>
-                                                        <BreadCrumbs />
+                                                        <ContentNavigation />
                                                     </Col>
                                                 </Row>
                                                 {/* Top bar */}

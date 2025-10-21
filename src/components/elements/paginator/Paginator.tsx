@@ -11,7 +11,7 @@ type Props = {
 };
 
 
-const Paginator = (props: Props) => {
+export const Paginator = (props: Props) => {
     const { pagination } = props;
 
     /* Base variables */
@@ -101,5 +101,3 @@ const Paginator = (props: Props) => {
         </div>
     );
 };
-
-export default Paginator;

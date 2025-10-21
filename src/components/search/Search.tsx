@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector, usePagination } from 'app/Hooks';
 
 /* Import Store */
-import { getSearchDigitalSpecimen, getCompareDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
+import { getSearchDigitalSpecimen, getCompareDigitalSpecimen, setSearchDigitalSpecimen, setSearchUrl, setSearchResults } from 'redux-store/SearchSlice';
 import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 
 /* Import Types */
@@ -23,7 +23,7 @@ import styles from './Search.module.scss';
 import SearchTourSteps from './tourSteps/SearchTourSteps';
 import CompareTourSteps from './tourSteps/CompareTourSteps';
 import { CompareDigitalSpecimenMenu, IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
-import { BreadCrumbs, Footer, Header } from "components/elements/Elements";
+import { Footer, Header, ContentNavigation } from "components/elements/Elements";
 
 
 /**
@@ -54,13 +54,17 @@ const Search = () => {
         }; 
     }, []);
 
-    /* OnLoad: setup pagination */
+    /* OnLoad: setup pagination & dispatch the searchUrl in the store*/
     const pagination = usePagination({
         pageSize: 25,
         resultKey: 'digitalSpecimens',
         allowSearchParams: true,
         Method: GetDigitalSpecimens
     });
+    if (pagination) {
+        dispatch(setSearchResults({ records: pagination.records, currentPage: pagination.currentPage}));
+        dispatch(setSearchUrl(location.href));
+    };
 
     /* Class Names */
     const searchResultsClass = classNames({
@@ -86,10 +90,10 @@ const Search = () => {
                     <Col lg={{ span: 10, offset: 1 }}
                         className="h-100 d-flex flex-column"
                     >
-                        {/* Bread crumbs */}
+                        {/* Content navigation*/}
                         <Row>
                             <Col>
-                                <BreadCrumbs />
+                                <ContentNavigation />
                             </Col>
                         </Row>
                         {/* Top bar */}

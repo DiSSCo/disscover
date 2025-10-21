@@ -1,19 +1,28 @@
 /* Import Dependencies */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/Store';
+import { Dict } from 'app/Types';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 
+type SearchResults = {
+    records: Dict[],
+    currentPage: number
+}
 
 export interface SearchState {
     digitalSpecimen: DigitalSpecimen | undefined,
-    compareDigitalSpecimen: DigitalSpecimen[] | undefined
+    compareDigitalSpecimen: DigitalSpecimen[] | undefined,
+    searchResults: SearchResults | undefined,
+    searchUrl: string | undefined
 }
 
 const initialState: SearchState = {
     digitalSpecimen: undefined,
-    compareDigitalSpecimen: undefined
+    compareDigitalSpecimen: undefined,
+    searchResults: undefined,
+    searchUrl: undefined
 };
 
 export const SearchSlice = createSlice({
@@ -25,6 +34,12 @@ export const SearchSlice = createSlice({
         },
         setCompareDigitalSpecimen: (state, action: PayloadAction<DigitalSpecimen[] | undefined>) => {
             state.compareDigitalSpecimen = action.payload;
+        },
+        setSearchResults: (state, action: PayloadAction<SearchResults | undefined>) => {
+            state.searchResults = action.payload;
+        },
+        setSearchUrl: (state, action: PayloadAction<string | undefined>) => {
+            state.searchUrl = action.payload;
         }
     },
 })
@@ -32,11 +47,15 @@ export const SearchSlice = createSlice({
 /* Action Creators */
 export const {
     setSearchDigitalSpecimen,
-    setCompareDigitalSpecimen
+    setCompareDigitalSpecimen,
+    setSearchResults,
+    setSearchUrl
 } = SearchSlice.actions;
 
 /* Connect with Root State */
 export const getSearchDigitalSpecimen = (state: RootState) => state.search.digitalSpecimen
 export const getCompareDigitalSpecimen = (state: RootState) => state.search.compareDigitalSpecimen;
+export const getSearchResults = (state: RootState) => state.search.searchResults;
+export const getSearchUrl = (state: RootState) => state.search.searchUrl;
 
 export default SearchSlice.reducer;

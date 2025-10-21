@@ -3,8 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 /* Import Components */
-import Header from '../header/Header';
-import Footer from '../footer/Footer';
+import { Header, Footer } from '../Elements';
 
 
 /**

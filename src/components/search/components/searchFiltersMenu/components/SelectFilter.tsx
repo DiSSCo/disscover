@@ -50,12 +50,13 @@ const SelectFilter = (props: Props) => {
         [aggregation: string]: number
     } | undefined>(aggregations);
     const multiSelectItems: MultiSelectItem[] = [];
+    const isMissingDataFilter = name === 'missingData';
 
     /* Construct from selected values, overwrites search results */
     fieldValues.forEach(fieldValue => {
         /* Prepend selected item */
         multiSelectItems.unshift({
-            label: fieldValue,
+            label: isMissingDataFilter ? fieldValue.replace('no', 'No ') : fieldValue,
             value: fieldValue,
             count: filterAggregations?.[fieldValue] ?? aggregations?.[fieldValue] ?? bootAggregations?.[name]?.[fieldValue]
         });
@@ -67,7 +68,7 @@ const SelectFilter = (props: Props) => {
             /* Check if item is not already present due to selected list */
             if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
-                    label: key,
+                    label: isMissingDataFilter ? key.replace('no', 'No ') : key,
                     value: key,
                     count
                 });
@@ -82,7 +83,7 @@ const SelectFilter = (props: Props) => {
             /* Check if item is not already present due to selected list */
             if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
-                    label: key,
+                    label: isMissingDataFilter ? key.replace('no', 'No ') : key,
                     value: key,
                     count
                 });

@@ -95,8 +95,7 @@
         "missingData": {
             "label": "Missing Data",
             "type": "select",
-            "nestedIn": "filters",
-            "searchable": true
+            "nestedIn": "filters"
         }
     }
 }

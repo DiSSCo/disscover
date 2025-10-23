@@ -48,6 +48,19 @@ const SearchFiltersMenu = () => {
         filters: {},
         search: {}
     };
+    const missingDataFilters = {
+        'hasGenus': [],
+        'hasClass': [],
+        'hasLatitude': [],
+        'hasPhylum': [],
+        'hasCountry': [],
+        'hasLongitude': [],
+        'hasFamily': [],
+        'hasKingdom': [],
+        'hasLocality': [],
+        'hasOrder': [],
+        'hasSpecies': []
+    }
 
     /* OnLoad: fetch digital specimen aggregations */
     fetch.FetchMultiple({
@@ -89,11 +102,24 @@ const SearchFiltersMenu = () => {
             initialFormValues[key] = [...searchParams.getAll(key)];
         }
 
+        if (key === 'missingData') {
+            initialFormValues.filters = { ...initialFormValues.filters, ...missingDataFilters}
+        }
+
         /* Add to inital form search query if allowed for this filter */
         if (searchFilter.searchable) {
             initialFormValues.search[key] = '';
         }
     });
+
+
+    const mapMissingDataFilters = (missingDataFilters: string[]): Dict => {
+        return missingDataFilters.reduce((acc: Dict, filter: string) => {
+            const newKey = filter.replace('no', 'has');
+            acc[newKey] = [false];
+            return acc;
+        }, {});
+    };
 
     return (
         <div className="h-100">
@@ -101,12 +127,15 @@ const SearchFiltersMenu = () => {
                 <Formik initialValues={initialFormValues}
                     onSubmit={async (values) => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
+                        // Map missingData filters
+                        const newMissingDataFilters = mapMissingDataFilters(values.filters.missingData);
 
                         /* Extract filters */
-                        const filters = { ...values.filters, ...values.filters.taxonomy };
+                        const filters = { ...values.filters, ...values.filters.taxonomy, ...newMissingDataFilters };
 
                         /* Remove taxonomy filter key from filters */
                         delete filters.taxonomy;
+                        delete filters.missingData;
 
                         /* OnSubmit: set the search filters equal to this form's values */
                         searchFilters.SetSearchFilters({ ...filters, midsLevel: values.midsLevel });

@@ -17,6 +17,7 @@ const initialState: AnnotateState = {
     annotationMode: false,
     annotationContext: {
         title: undefined,
+        key: undefined,
         adjustedFormFields: []
     }
 };
@@ -32,7 +33,7 @@ export const AnnotateSlice = createSlice({
             state.annotationMode = action.payload;
         },
         setAnnotationContext: (state, action: PayloadAction<AnnotationContext>) => {
-            state.annotationContext = action.payload;
+            state.annotationContext = { ...state.annotationContext, ...action.payload};
         }
     },
 })

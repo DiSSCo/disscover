@@ -11,7 +11,7 @@ import { MakeJsonPathReadableString } from "app/utilities/SchemaUtilities";
 import { useAppSelector, useAppDispatch } from "app/Hooks";
 
 /* Import Store */
-import { setAnnotationTarget, getAnnotationContext } from "redux-store/AnnotateSlice";
+import { setAnnotationTarget, getAnnotationContext, setAnnotationContext } from "redux-store/AnnotateSlice";
 import { getAnnotationWizardDummyAnnotation } from "redux-store/TourSlice";
 
 /* Import Types */
@@ -179,7 +179,14 @@ const AnnotationsOverview = (props: Props) => {
                         <Button type="button"
                             variant="blank"
                             className="px-0 py-0"
-                            OnClick={() => dispatch(setAnnotationTarget(undefined))}
+                            OnClick={() => {
+                                dispatch(setAnnotationTarget(undefined));
+                                dispatch(setAnnotationContext({
+                                    title: undefined,
+                                    key: undefined,
+                                    adjustedFormFields: undefined
+                                }));
+                            }}
                         >
                             <FontAwesomeIcon icon={faX}
                                 className="tc-primary"

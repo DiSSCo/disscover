@@ -12,7 +12,7 @@ import { ConstructAnnotationObject, ProcessAnnotationValues } from 'app/utilitie
 import { useAppSelector, useAppDispatch, useNotification, useTrigger } from 'app/Hooks';
 
 /* Import Store */
-import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationTarget, setAnnotationContext, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
 
 /* Import Types */
@@ -322,6 +322,11 @@ const AnnotationWizard = (props: Props) => {
                                                 OnClick={() => {
                                                     StopAnnotationWizard();
                                                     dispatch(setAnnotationTarget(undefined));
+                                                    dispatch(setAnnotationContext({
+                                                        title: undefined,
+                                                        key: undefined,
+                                                        adjustedFormFields: undefined
+                                                    }));
                                                 }}
                                             >
                                                 <p>

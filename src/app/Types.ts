@@ -241,5 +241,6 @@ export type TaxonomicIdentificationItem = {
 
 export type AnnotationContext = {
     title?: string;
+    key?: string,
     adjustedFormFields?: string[];
 }

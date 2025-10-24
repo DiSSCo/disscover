@@ -6,7 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from 'app/Hooks';
 
 /* Import Store */
-import { getAnnotationContext, setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationContext, setAnnotationContext, setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Icons */
 import { faClosedCaptioning, faFileContract, faRotate, faX } from '@fortawesome/free-solid-svg-icons';
@@ -50,6 +50,11 @@ const TopBar = (props: Props) => {
                         OnClick={() => {
                             dispatch(setAnnotationMode(false))
                             dispatch(setAnnotationTarget(undefined));
+                            dispatch(setAnnotationContext({
+                                title: undefined,
+                                key: undefined,
+                                adjustedFormFields: undefined
+                            }));
                         }}
                     >
                         <FontAwesomeIcon icon={faX}

@@ -18,6 +18,7 @@ import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIde
 import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
 import { useAppDispatch, useAppSelector } from 'app/Hooks';
 import { getAnnotationMode, setAnnotationContext, setAnnotationMode } from 'redux-store/AnnotateSlice';
+import { AnnotationFormFields } from 'app/utilities/AnnotateUtilities';
 
 
 /* Props Type */
@@ -213,7 +214,11 @@ const DigitalSpecimenOverview = (props: Props) => {
                                             if (annotationMode === false) dispatch(setAnnotationMode(!annotationMode))
                                             // Set annotation target to geological reference
                                             SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
-                                            dispatch(setAnnotationContext({ title: 'Geological Reference'}));
+                                            dispatch(setAnnotationContext({
+                                                title: 'Geological Reference',
+                                                key: 'Georeference',
+                                                adjustedFormFields: AnnotationFormFields('Georeference')
+                                            }));
                                         }}
                                     >
                                         <span className="tc-primary fs-5 fw-lightBold">
@@ -261,7 +266,11 @@ const DigitalSpecimenOverview = (props: Props) => {
                                                 if (annotationMode === false) dispatch(setAnnotationMode(!annotationMode))
                                                 // Set annotation target to taxonomic identification
                                                 SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
-                                                dispatch(setAnnotationContext({ title: 'Accepted Identification'}));
+                                                dispatch(setAnnotationContext({
+                                                    title: 'Accepted Identification',
+                                                    key: 'TaxonIdentification',
+                                                    adjustedFormFields: AnnotationFormFields('TaxonIdentification')
+                                                }));
                                             }}
                                         >
                                             <span className="tc-primary fs-5 fw-lightBold">

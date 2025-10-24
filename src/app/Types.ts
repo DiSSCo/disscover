@@ -238,3 +238,8 @@ export type TaxonomicIdentificationItem = {
     classification?: ClassificationItem[];
     usage?: Usage;
 }
+
+export type AnnotationContext = {
+    title?: string;
+    adjustedFormFields?: string[];
+}

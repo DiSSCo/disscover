@@ -6,10 +6,10 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from 'app/Hooks';
 
 /* Import Store */
-import { setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationContext, setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Icons */
-import { faChevronLeft, faClosedCaptioning, faFileContract, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faClosedCaptioning, faFileContract, faRotate, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
@@ -34,6 +34,9 @@ const TopBar = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
 
+    /* Base variables */
+    const annotationContext = useAppSelector(getAnnotationContext);
+
     return (
         <div>
             <Row>
@@ -49,7 +52,7 @@ const TopBar = (props: Props) => {
                             dispatch(setAnnotationTarget(undefined));
                         }}
                     >
-                        <FontAwesomeIcon icon={faChevronLeft}
+                        <FontAwesomeIcon icon={faX}
                             className="tc-primary"
                             size="xl"
                         />
@@ -58,7 +61,7 @@ const TopBar = (props: Props) => {
                 {/* Title */}
                 <Col className="d-flex align-items-center">
                     <p className="fs-2 fw-lightBold">
-                        Annotation Menu
+                        { annotationContext.title ? `Annotate ${annotationContext.title}` : 'Annotation Menu' }
                     </p>
                 </Col>
                 {/* Refresh button */}

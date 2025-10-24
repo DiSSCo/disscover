@@ -10,7 +10,7 @@ import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 import { useAppSelector, useTrigger } from 'app/Hooks';
 
 /* Import Store */
-import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationContext, getAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 import { getTourTopic } from 'redux-store/GlobalSlice';
 
@@ -51,6 +51,7 @@ const AnnotationSummaryStep = (props: Props) => {
     const tourTopic = useAppSelector(getTourTopic);
     const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     let motivationDescription: string;
+    const annotationContext = useAppSelector(getAnnotationContext);
 
     /* Trigger for tour annotation wizard form values */
     trigger.SetTrigger(() => {
@@ -100,10 +101,7 @@ const AnnotationSummaryStep = (props: Props) => {
                             {motivationDescription}
                         </p>
                         <p>
-                            <span className="tc-primary fw-lightBold">
-                                {`${capitalize(annotationTarget?.type)}: `}
-                            </span>
-                            {MakeJsonPathReadableString(annotationTarget?.jsonPath !== '$' ? annotationTarget?.jsonPath ?? '' : schemaTitle)}
+                            {annotationContext.title || MakeJsonPathReadableString(annotationTarget?.jsonPath === '$' ? schemaTitle : annotationTarget?.jsonPath ?? '')}
                         </p>
                     </Card>
                 </Col>

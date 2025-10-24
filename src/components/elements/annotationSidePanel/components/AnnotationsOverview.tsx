@@ -11,7 +11,7 @@ import { MakeJsonPathReadableString } from "app/utilities/SchemaUtilities";
 import { useAppSelector, useAppDispatch } from "app/Hooks";
 
 /* Import Store */
-import { setAnnotationTarget } from "redux-store/AnnotateSlice";
+import { setAnnotationTarget, getAnnotationContext } from "redux-store/AnnotateSlice";
 import { getAnnotationWizardDummyAnnotation } from "redux-store/TourSlice";
 
 /* Import Types */
@@ -65,6 +65,7 @@ const AnnotationsOverview = (props: Props) => {
 
     /* Base variables */
     const tourAnnotationWizardDummyAnnotation = useAppSelector(getAnnotationWizardDummyAnnotation);
+    const annotationContext = useAppSelector(getAnnotationContext);
 
     /**
      * Function to sort and filter annotations by the selected values
@@ -190,7 +191,7 @@ const AnnotationsOverview = (props: Props) => {
                             <span className="fw-lightBold">
                                 {`Annotation target: `}
                             </span>
-                            {MakeJsonPathReadableString(annotationTarget.jsonPath)}
+                            {annotationContext.title ? annotationContext.title : MakeJsonPathReadableString(annotationTarget.jsonPath)}
                         </p>
                     </Col>
                 </Row>

@@ -46,7 +46,7 @@ describe("General Digital Specimen Page Tests", () => {
         fireEvent.click(annotationButton);
 
         // Find annotation target
-        const annotationTarget = await screen.findByText('Identifications 0 Taxon Identifications 0');
+        const annotationTarget = await screen.findByText('Annotate Accepted Identification');
 
         // Check if annotation panel is visible
         expect(annotationTarget).toBeVisible();
@@ -61,7 +61,7 @@ describe("General Digital Specimen Page Tests", () => {
         fireEvent.click(annotationButton);
 
         // Find annotation target
-        const annotationTarget = await screen.findByText('Events 0 Location Georeference');
+        const annotationTarget = await screen.findByText('Annotate Geological Reference');
 
         // Check if annotation panel is visible
         expect(annotationTarget).toBeVisible();

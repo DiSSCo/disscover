@@ -5,6 +5,7 @@ import { FieldArray } from 'formik';
 import jp from 'jsonpath';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { useAppSelector } from 'app/Hooks';
 
 /* Import Types */
 import { AnnotationFormProperty, Dict } from 'app/Types';
@@ -15,6 +16,9 @@ import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/fre
 /* Import Components */
 import FormField from './formFields/FormField';
 import { Button } from 'components/elements/customUI/CustomUI';
+
+/* Import store */
+import { getAnnotationContext } from 'redux-store/AnnotateSlice';
 
 
 /* Props Type */
@@ -42,6 +46,7 @@ const AnnotationFormSegment = (props: Props) => {
     /* Base variables */
     const [isHidden, setIsHidden] = useState<boolean>(annotationFormFieldProperty.jsonPath !== formValues?.jsonPath);
     const isIdentificationAnnotation = annotationFormFieldProperty.key === 'TaxonIdentification';
+    const annotationContext = useAppSelector(getAnnotationContext);
 
     /* Class Names */
     const formFieldsDivClass = classNames({
@@ -61,7 +66,7 @@ const AnnotationFormSegment = (props: Props) => {
                     <Row className="py-1">
                         <Col className="d-flex align-items-center">
                             <p className="tc-primary fw-lightBold">
-                                {annotationFormFieldPropertyTitle}
+                                {annotationContext.title ? annotationContext.title : annotationFormFieldPropertyTitle}
                             </p>
                         </Col>
 

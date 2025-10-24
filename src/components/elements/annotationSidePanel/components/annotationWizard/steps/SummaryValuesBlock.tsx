@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import jp from 'jsonpath';
 import { isEmpty } from 'lodash';
 import { Row, Col, Card } from 'react-bootstrap';
+import { useAppSelector } from 'app/Hooks';
 
 /* Import Utilities */
 import { FormatJsonPathFromFieldName } from 'app/utilities/AnnotateUtilities';
@@ -11,6 +12,8 @@ import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 /* Import Types */
 import { Dict, SuperClass } from 'app/Types';
 
+/* Import store */
+import { getAnnotationContext } from 'redux-store/AnnotateSlice';
 
 /* Props Type */
 type Props = {
@@ -37,6 +40,7 @@ const SummaryValuesBlock = (props: Props) => {
     /* Base variables */
     let title: string = MakeJsonPathReadableString(className);
     let classFieldPath: string = className;
+    const annotationContext = useAppSelector(getAnnotationContext);
 
 
     /* Add index to title and class field parh if present */
@@ -58,7 +62,7 @@ const SummaryValuesBlock = (props: Props) => {
                 className="px-3 py-2"
             >
                 <p className={`${classTitleClass} tc-primary fw-lightBold`}>
-                    {title}
+                    {annotationContext.title ? annotationContext.title : title}
                 </p>
 
                 {/* Class values */}

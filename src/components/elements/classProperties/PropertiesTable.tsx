@@ -27,9 +27,6 @@ type DataRow = {
 type Props = {
     title: string,
     properties: Dict,
-    baseJsonPath: string,
-    annotationMode: boolean,
-    SetAnnotationTarget: Function
 };
 
 
@@ -37,13 +34,10 @@ type Props = {
  * Component that renders a properties table for displaying all properties of a class in key value pairs
  * @param title The title of the class from which the proprties are displayed
  * @param properties The properties dictionary
- * @param baseJsonPath The base JSON path to build the annotation target from together with the property
- * @param annotationMode Boolean indicating ig the annotation mode is on
- * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const PropertiesTable = (props: Props) => {
-    const { title, properties, baseJsonPath, annotationMode, SetAnnotationTarget } = props;
+    const { title, properties } = props;
 
     /* Data table configutation */
     const { columns } = PropertiesTableConfig();
@@ -73,7 +67,6 @@ const PropertiesTable = (props: Props) => {
                         <div className={`${styles.propertiesTable} h-100 overflow-auto position-relative rounded-c}`}>
                             <DataTable columns={columns}
                                 data={tableData}
-                                SelectAction={(row: DataRow) => annotationMode && SetAnnotationTarget('term', `${baseJsonPath}['${row.key}']`)}
                             />
                         </div>
                     </Col>

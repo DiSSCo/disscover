@@ -12,20 +12,16 @@ import { ClassProperties } from "components/elements/Elements";
 /* Props Type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
-    annotationMode: boolean,
-    SetAnnotationTarget: Function
 };
 
 
 /**
  * Component that renders the identifications content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
- * @param annotationMode Boolean indicating ig the annotation mode is on
- * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 const Identifications = (props: Props) => {
-    const { digitalSpecimen, annotationMode, SetAnnotationTarget } = props;
+    const { digitalSpecimen } = props;
 
     /* Base variables */
     const identifications: {
@@ -74,8 +70,6 @@ const Identifications = (props: Props) => {
                         title="identification"
                         properties={identification}
                         jsonPaths={jsonPaths}
-                        annotationMode={annotationMode}
-                        SetAnnotationTarget={SetAnnotationTarget}
                     />
                 );
             })}

@@ -10,7 +10,7 @@ import StepsConfig from 'app/config/StepsConfig';
 import { useAppSelector, useAppDispatch, useTrigger } from 'app/Hooks';
 
 /* Import Store */
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 import {
     setAnnotationWizardDummyAnnotation, setAnnotationWizardSelectedIndex,
     setAnnotationWizardToggle, setAnnotationWizardFormValues
@@ -24,21 +24,11 @@ import { Dict } from 'app/Types';
 /* Import Sources */
 import DigitalSpecimenTourStepsText from 'sources/tourText/digitalSpecimen.json';
 
-
-/* Props Type */
-type Props = {
-    SetAnnotationMode: Function
-};
-
-
 /**
  * Component that renders the tour steps for the annotation tour on the digital specimen page
- * @param SetAnnotationMode Function to set the annotation mode
  * @returns JSX Component
  */
-const AnnotateTourSteps = (props: Props) => {
-    const { SetAnnotationMode } = props;
-
+const AnnotateTourSteps = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const trigger = useTrigger();
@@ -157,7 +147,7 @@ const AnnotateTourSteps = (props: Props) => {
      */
     const OnStepChange = async (nextIndex: number, resolve: Function) => {
         /* Handler for setting annotation mode on or off */
-        SetAnnotationMode(!stepsConfig.annotationModeOff.includes(nextIndex));
+        dispatch(setAnnotationMode(!stepsConfig.annotationModeOff.includes(nextIndex)));
 
         /* Handler for setting the annotation wizard toggle on or off */
         dispatch(setAnnotationWizardToggle(stepsConfig.wizardOn.includes(nextIndex)));

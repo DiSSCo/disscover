@@ -7,11 +7,13 @@ import { AnnotationTarget } from 'app/Types';
 
 
 export interface AnnotateState {
-    annotationTarget?: AnnotationTarget
+    annotationTarget?: AnnotationTarget,
+    annotationMode: boolean
 }
 
 const initialState: AnnotateState = {
-    annotationTarget: undefined
+    annotationTarget: undefined,
+    annotationMode: false
 };
 
 export const AnnotateSlice = createSlice({
@@ -21,15 +23,20 @@ export const AnnotateSlice = createSlice({
         setAnnotationTarget: (state, action: PayloadAction<AnnotationTarget | undefined>) => {
             state.annotationTarget = action.payload;
         },
+        setAnnotationMode: (state, action: PayloadAction<boolean>) => {
+            state.annotationMode = action.payload;
+        }
     },
 })
 
 /* Action Creators */
 export const {
-    setAnnotationTarget
+    setAnnotationTarget,
+    setAnnotationMode
 } = AnnotateSlice.actions;
 
 /* Connect with Root State */
 export const getAnnotationTarget = (state: RootState) => state.annotate.annotationTarget;
+export const getAnnotationMode = (state: RootState) => state.annotate.annotationMode;
 
 export default AnnotateSlice.reducer;

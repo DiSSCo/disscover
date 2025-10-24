@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { useAppDispatch } from 'app/Hooks';
+import { useAppDispatch, useAppSelector } from 'app/Hooks';
 
 /* Import Store */
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Icons */
 import { faChevronLeft, faClosedCaptioning, faFileContract, faRotate } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,6 @@ import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
-    HideAnnotationSidePanel: Function,
     RefreshAnnotations: Function,
     ShowPolicyText: Function
 };
@@ -25,13 +24,12 @@ type Props = {
 
 /**
  * Component that renders the top bar of the annotation side panel
- * @param HideAnnotationSidePanel Function that hides the annotation side panel
  * @param RefreshAnnotations Function to refresh the annotations in the side panel
  * @param ShowPolicyText Function that shows the annotation policy text
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { HideAnnotationSidePanel, RefreshAnnotations, ShowPolicyText } = props;
+    const { RefreshAnnotations, ShowPolicyText } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -47,7 +45,7 @@ const TopBar = (props: Props) => {
                         variant="blank"
                         className="px-0 py-0"
                         OnClick={() => {
-                            HideAnnotationSidePanel();
+                            dispatch(setAnnotationMode(false))
                             dispatch(setAnnotationTarget(undefined));
                         }}
                     >

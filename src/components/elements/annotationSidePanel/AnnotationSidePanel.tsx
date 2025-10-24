@@ -39,7 +39,6 @@ type Props = {
     GetMas: Function,
     GetMasJobRecords: Function,
     ScheduleMas: Function,
-    HideAnnotationSidePanel: Function
 };
 
 
@@ -52,11 +51,10 @@ type Props = {
  * @param GetMas Function that fetches the potential MASs to be run
  * @param GetMasJobRecords Function that fetches the MAS job records of the super class
  * @param ScheduleMas Function to schedule MASs
- * @param HideAnnotationSidePanel Function to hide the annotation side panel
  * @returns JSX Component
  */
 export const AnnotationSidePanel = (props: Props) => {
-    const { superClass, schema, annotationCases, GetAnnotations, GetMas, GetMasJobRecords, ScheduleMas, HideAnnotationSidePanel } = props;
+    const { superClass, schema, annotationCases, GetAnnotations, GetMas, GetMasJobRecords, ScheduleMas } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -132,7 +130,7 @@ export const AnnotationSidePanel = (props: Props) => {
             {/* Top bar */}
             <Row>
                 <Col>
-                    <TopBar HideAnnotationSidePanel={HideAnnotationSidePanel}
+                    <TopBar
                         RefreshAnnotations={RefreshAnnotations}
                         ShowPolicyText={() => setPolicyTextToggle(true)}
                     />

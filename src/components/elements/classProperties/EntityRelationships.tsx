@@ -21,20 +21,16 @@ type Props = {
     digitalObjectId: string,
     digitalObjectName?: string,
     digitalObjectEntityRelationships?: EntityRelationship[],
-    annotationMode: boolean,
-    SetAnnotationTarget: Function
 };
 
 
 /**
  * Component that renders the entity relationships content block on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
- * @param annotationMode Boolean indicating ig the annotation mode is on
- * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 export const EntityRelationships = (props: Props) => {
-    const { digitalObjectId, digitalObjectName, digitalObjectEntityRelationships, annotationMode, SetAnnotationTarget } = props;
+    const { digitalObjectId, digitalObjectName, digitalObjectEntityRelationships } = props;
 
     /* Base variables */
     const [displayMode, setDisplayMode] = useState<'graph' | 'table'>('graph');
@@ -99,8 +95,6 @@ export const EntityRelationships = (props: Props) => {
                                 title="entityRelationship"
                                 properties={entityRelationship}
                                 jsonPaths={jsonPaths}
-                                annotationMode={annotationMode}
-                                SetAnnotationTarget={SetAnnotationTarget}
                             />
                         );
                     })}

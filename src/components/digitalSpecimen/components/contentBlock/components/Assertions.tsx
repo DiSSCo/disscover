@@ -8,8 +8,6 @@ import { ClassProperties } from "components/elements/Elements";
 /* Props Type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
-    annotationMode: boolean,
-    SetAnnotationTarget: Function
 };
 
 
@@ -21,7 +19,7 @@ type Props = {
  * @returns JSX Component
  */
 const Assertions = (props: Props) => {
-    const { digitalSpecimen, annotationMode, SetAnnotationTarget } = props;
+    const { digitalSpecimen } = props;
 
     /* Base variables */
     const jsonPaths: {
@@ -38,8 +36,6 @@ const Assertions = (props: Props) => {
                     title="assertion"
                     properties={assertion}
                     jsonPaths={jsonPaths}
-                    annotationMode={annotationMode}
-                    SetAnnotationTarget={SetAnnotationTarget}
                 />
             ))}
         </div>

@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
 import { getDigitalSpecimen, getDigitalSpecimenDigitalMedia, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { setAnnotationTarget, getAnnotationMode } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { DigitalSpecimenCompleteResult, TourTopic } from 'app/Types';
@@ -48,7 +48,7 @@ const DigitalSpecimen = () => {
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
     const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia).map(item => item.digitalMediaObject);
-    const [annotationMode, setAnnotationMode] = useState<boolean>(false);
+    const annotationMode = useAppSelector(getAnnotationMode);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const tourTopics: TourTopic[] = [
         {
@@ -148,8 +148,6 @@ const DigitalSpecimen = () => {
                                                 <Row className="tourDigitalSpecimen2 mt-2">
                                                     <Col>
                                                         <TopBar digitalSpecimen={digitalSpecimen}
-                                                            annotationMode={annotationMode}
-                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -161,8 +159,6 @@ const DigitalSpecimen = () => {
                                                     >
                                                         <IdCard digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
-                                                            annotationMode={annotationMode}
-                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                         />
                                                     </Col>
                                                     {/* Content block */}
@@ -173,10 +169,8 @@ const DigitalSpecimen = () => {
                                                         <ContentBlock digitalSpecimen={digitalSpecimen}
                                                             digitalSpecimenDigitalMedia={digitalSpecimenDigitalMedia}
                                                             selectedTabIndex={selectedTabIndex}
-                                                            annotationMode={annotationMode}
                                                             SetAnnotationTarget={SetAnnotationTarget}
                                                             SetSelectedTabIndex={setSelectedTabIndex}
-                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                         />
                                                     </Col>
                                                 </Row>
@@ -205,7 +199,6 @@ const DigitalSpecimen = () => {
                                 GetMas={GetDigitalSpecimenMas}
                                 GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
                                 ScheduleMas={ScheduleDigitalSpecimenMas}
-                                HideAnnotationSidePanel={() => setAnnotationMode(false)}
                             />
                         </div>
                     }
@@ -215,8 +208,8 @@ const DigitalSpecimen = () => {
             <DigitalSpecimenTourSteps hasMedia={!!digitalSpecimen?.['ods:isKnownToContainMedia']}
                 SetSelectedTabIndex={setSelectedTabIndex}
             />
-            <AnnotateTourSteps SetAnnotationMode={setAnnotationMode} />
-            <MasTourSteps SetAnnotationMode={setAnnotationMode} />
+            <AnnotateTourSteps />
+            <MasTourSteps />
         </div>
     );
 };

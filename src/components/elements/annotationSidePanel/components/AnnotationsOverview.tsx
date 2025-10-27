@@ -35,7 +35,6 @@ type Props = {
         motivation: string,
         sortBy: string
     },
-    schemaTitle: string,
     SetFilterSortValues: Function,
     StartAnnotationWizard: Function,
     RefreshAnnotations: Function,
@@ -49,7 +48,6 @@ type Props = {
  * @param annotations The annotations to be rendered in the overview
  * @param annotationTarget The annotation target that specifies the targetted part of the digital object
  * @param filterSortValues The filter/sort values to refine the overview annotations
- * @param schemaTitle The title of the super class schema
  * @param SetFilterSortValues Function to set the filter/sort values
  * @param StartAnnotationWizard Function that starts the annotation wizard
  * @param RefresAnnotations Function to refresh the annotations in the annotations overview
@@ -58,7 +56,7 @@ type Props = {
  * @returns JSX Component
  */
 const AnnotationsOverview = (props: Props) => {
-    const { annotations, annotationTarget, filterSortValues, schemaTitle, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
+    const { annotations, annotationTarget, filterSortValues, SetFilterSortValues, StartAnnotationWizard, RefreshAnnotations, OpenMasMenu, ShowPolicyText } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -205,7 +203,6 @@ const AnnotationsOverview = (props: Props) => {
                             className={`${!index ? 'tourAnnotate19' : ''} mb-2`}
                         >
                             <AnnotationCard annotation={annotation}
-                                schemaTitle={schemaTitle}
                                 EditAnnotation={EditAnnotation}
                                 RefreshAnnotations={RefreshAnnotations}
                             />

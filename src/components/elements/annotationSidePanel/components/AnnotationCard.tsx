@@ -30,7 +30,6 @@ import { Button } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     annotation: Annotation,
-    schemaTitle: string,
     EditAnnotation: Function,
     RefreshAnnotations: Function
 };
@@ -39,13 +38,12 @@ type Props = {
 /**
  * Component that renders an annotation card in the
  * @param annotation The annotation to be displayed in the card
- * @param schemaTitle The title of the super class schema
  * @param EditAnnotation Function to start editing the annotation
  * @param RefreshAnnotation Function to refresh the annotations in the annotations overview
  * @returns JSX Component
  */
 const AnnotationCard = (props: Props) => {
-    const { annotation, schemaTitle, EditAnnotation, RefreshAnnotations } = props;
+    const { annotation, EditAnnotation, RefreshAnnotations } = props;
 
     /* Hooks */
     const notification = useNotification();

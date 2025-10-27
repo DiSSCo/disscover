@@ -285,14 +285,14 @@ const ExtractLastSegmentFromPath = (jsonPath: string): string => {
     const parts = jsonPath.split('[');
 
     /* Find the last part that is not just a number (to ignore array indices) */
-    const lastMeaningfulSegment = [...parts].reverse().find(segment => !/^\d+\]$/.test(segment));
+    const lastMeaningfulPart = [...parts].reverse().find(part => !/^\d+\]$/.test(part));
 
-    if (!lastMeaningfulSegment) return '';
+    if (!lastMeaningfulPart) return '';
 
     /* Clean up the part and make it readable */
-    const cleanedSegment = lastMeaningfulSegment.replace(/["'\]]/g, '');
+    const cleanedPart = lastMeaningfulPart.replaceAll(/["'\]]/g, '');
 
-    return MakeReadableString(RemoveSchemaPrefixes(cleanedSegment));
+    return MakeReadableString(RemoveSchemaPrefixes(cleanedPart));
 };
 
 export {

@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch, useFetch } from "app/Hooks";
 
 /* Import Store */
 import { getDigitalMedia, setDigitalMedia } from "redux-store/DigitalMediaSlice";
-import { getAnnotationMode, setAnnotationTarget } from "redux-store/AnnotateSlice";
+import { getAnnotationMode } from "redux-store/AnnotateSlice";
 
 /* Import Types */
 import { DigitalMedia as DigitalMediaType } from "app/types/DigitalMedia";
@@ -57,19 +57,6 @@ const DigitalMedia = () => {
         Method: GetDigitalMedia,
         Handler: (digitalMedia: DigitalMediaType) => dispatch(setDigitalMedia(digitalMedia))
     });
-
-    /**
-     * Function to set the annotation target state
-     * @param annotationTargetType The type of the annotation target, either class or term
-     * @param jsonPath The JSON path that targets the class or term
-     */
-    const SetAnnotationTarget = (annotationTargetType: 'class' | 'term', jsonPath: string) => {
-        dispatch(setAnnotationTarget({
-            type: annotationTargetType,
-            jsonPath,
-            directPath: true
-        }));
-    };
 
     /* Class Names */
     const digitalMediaBodyClass = classNames({

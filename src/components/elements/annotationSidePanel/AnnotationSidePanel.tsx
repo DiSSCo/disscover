@@ -168,7 +168,6 @@ export const AnnotationSidePanel = (props: Props) => {
                                 : <AnnotationsOverview annotations={annotations}
                                     annotationTarget={annotationTarget}
                                     filterSortValues={filterSortValues}
-                                    schemaTitle={schema.title}
                                     SetFilterSortValues={setFilterSortValues}
                                     StartAnnotationWizard={() => setAnnotationWizardToggle(true)}
                                     RefreshAnnotations={RefreshAnnotations}

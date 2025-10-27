@@ -1,5 +1,5 @@
 /* Import Dependencies */
-import { capitalize, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */

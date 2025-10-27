@@ -209,7 +209,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                         className="px-0 py-0"
                                         aria-label="Edit geological reference"
                                         OnClick={() => {
-                                            // Toggle annotation mode
+                                            // Toggle annotation mode only when annotationMode is not already on
                                             if (annotationMode === false) dispatch(setAnnotationMode(!annotationMode))
                                             // Set annotation target to geological reference
                                             SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
@@ -257,7 +257,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                             className="px-0 py-0"
                                             aria-label="Edit accepted identification"
                                             OnClick={() => {
-                                                // Toggle annotation mode
+                                                // Toggle annotation mode only when annotationMode is not already on
                                                 if (annotationMode === false) dispatch(setAnnotationMode(!annotationMode))
                                                 // Set annotation target to taxonomic identification
                                                 SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);

@@ -5,13 +5,13 @@ import KeycloakService from "app/Keycloak";
 import { Row, Col, Card } from "react-bootstrap";
 
 /* Import Utilities */
-import { MakeJsonPathReadableString } from "app/utilities/SchemaUtilities";
+import { ExtractLastSegmentFromPath } from "app/utilities/SchemaUtilities";
 
 /* Import Hooks */
 import { useAppSelector, useAppDispatch } from "app/Hooks";
 
 /* Import Store */
-import { setAnnotationTarget, getAnnotationContext, setAnnotationContext } from "redux-store/AnnotateSlice";
+import { setAnnotationTarget } from "redux-store/AnnotateSlice";
 import { getAnnotationWizardDummyAnnotation } from "redux-store/TourSlice";
 
 /* Import Types */
@@ -65,7 +65,6 @@ const AnnotationsOverview = (props: Props) => {
 
     /* Base variables */
     const tourAnnotationWizardDummyAnnotation = useAppSelector(getAnnotationWizardDummyAnnotation);
-    const annotationContext = useAppSelector(getAnnotationContext);
 
     /**
      * Function to sort and filter annotations by the selected values
@@ -181,11 +180,6 @@ const AnnotationsOverview = (props: Props) => {
                             className="px-0 py-0"
                             OnClick={() => {
                                 dispatch(setAnnotationTarget(undefined));
-                                dispatch(setAnnotationContext({
-                                    title: undefined,
-                                    key: undefined,
-                                    adjustedFormFields: undefined
-                                }));
                             }}
                         >
                             <FontAwesomeIcon icon={faX}
@@ -198,7 +192,7 @@ const AnnotationsOverview = (props: Props) => {
                             <span className="fw-lightBold">
                                 {`Annotation target: `}
                             </span>
-                            {annotationContext.title ? annotationContext.title : MakeJsonPathReadableString(annotationTarget.jsonPath)}
+                            {ExtractLastSegmentFromPath(annotationTarget.jsonPath)}
                         </p>
                     </Col>
                 </Row>

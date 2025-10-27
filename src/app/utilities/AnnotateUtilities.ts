@@ -10,13 +10,7 @@ import { ExtractLowestLevelSchema, ExtractClassesAndTermsFromSchema, MakeJsonPat
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
-import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass } from "app/Types";
-
-/* Enum */
-enum AnnotationTopic {
-    TaxonIdentification = 'TaxonIdentification',
-    Georeference = 'Georeference'
-}
+import { AnnotationFormProperty, AnnotationTarget, AnnotationTemplate, ParentClass, Dict, SuperClass, AnnotationTopicValues, AnnotationTopic } from "app/Types";
 
 /* Utilities associated with annotating */
 
@@ -456,7 +450,6 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
     return annotoriousAnnotation;
 };
 
-type AnnotationTopicValues = `${AnnotationTopic}`
 
 const AnnotationFormFields = (topic: AnnotationTopicValues) : string[] => {
     switch (topic) {

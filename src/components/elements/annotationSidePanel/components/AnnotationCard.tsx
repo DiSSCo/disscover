@@ -9,10 +9,10 @@ import { Row, Col, Card } from 'react-bootstrap';
 /* Import Utilities */
 import { RetrieveEnvVariable } from 'app/Utilities';
 import { ProvideReadableMotivation } from 'app/utilities/AnnotateUtilities';
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLastSegmentFromPath, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
-import { useAppSelector, useNotification } from 'app/Hooks';
+import { useNotification } from 'app/Hooks';
 
 /* Import Types */
 import { Annotation } from 'app/types/Annotation';
@@ -26,8 +26,6 @@ import DeleteAnnotation from 'api/annotation/DeleteAnnotation';
 /* Import Components */
 import { Button } from 'components/elements/customUI/CustomUI';
 
-/* Import store */
-import { getAnnotationContext } from 'redux-store/AnnotateSlice';
 
 /* Props Type */
 type Props = {
@@ -55,7 +53,6 @@ const AnnotationCard = (props: Props) => {
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
     let userTag: string = annotation['dcterms:creator']['schema:name'] ?? annotation['dcterms:creator']['@id'] ?? '';
-    const annotationContext = useAppSelector(getAnnotationContext);
 
     /* Class Names */
     const userTagClass = classNames({
@@ -98,15 +95,12 @@ const AnnotationCard = (props: Props) => {
                             {`${ProvideReadableMotivation(annotation['oa:motivation'])} on: `}
                         </span>
                         <span className="fs-4">
-                            {annotationContext.title ||
-                                (annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
-                                    MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'] !== '$' ?
-                                        annotation['oa:hasTarget']['oa:hasSelector']['ods:term']
-                                        : schemaTitle
-                                    )) ||
+                                {(annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
+                                    ExtractLastSegmentFromPath(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'])
+                                    ) ||
                                 (annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
-                                    MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:class']))
-                            }
+                                    ExtractLastSegmentFromPath(annotation['oa:hasTarget']['oa:hasSelector']['ods:class']))
+                                }
 
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector' && 'Image'}
                         </span>

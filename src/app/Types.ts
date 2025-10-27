@@ -239,8 +239,9 @@ export type TaxonomicIdentificationItem = {
     usage?: Usage;
 }
 
-export type AnnotationContext = {
-    title?: string;
-    key?: string,
-    adjustedFormFields?: string[];
+export enum AnnotationTopic {
+    TaxonIdentification = 'TaxonIdentification',
+    Georeference = 'Georeference'
 }
+
+export type AnnotationTopicValues = `${AnnotationTopic}`

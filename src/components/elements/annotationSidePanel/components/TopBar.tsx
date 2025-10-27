@@ -6,13 +6,16 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from 'app/Hooks';
 
 /* Import Store */
-import { getAnnotationContext, setAnnotationContext, setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationTarget, setAnnotationMode, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Icons */
 import { faClosedCaptioning, faFileContract, faRotate, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
+
+/* Import utilities */
+import { ExtractLastSegmentFromPath } from 'app/utilities/SchemaUtilities';
 
 
 /* Props Type */
@@ -35,7 +38,7 @@ const TopBar = (props: Props) => {
     const dispatch = useAppDispatch();
 
     /* Base variables */
-    const annotationContext = useAppSelector(getAnnotationContext);
+    const annotationTarget = useAppSelector(getAnnotationTarget);
 
     return (
         <div>
@@ -50,11 +53,6 @@ const TopBar = (props: Props) => {
                         OnClick={() => {
                             dispatch(setAnnotationMode(false))
                             dispatch(setAnnotationTarget(undefined));
-                            dispatch(setAnnotationContext({
-                                title: undefined,
-                                key: undefined,
-                                adjustedFormFields: undefined
-                            }));
                         }}
                     >
                         <FontAwesomeIcon icon={faX}
@@ -66,7 +64,7 @@ const TopBar = (props: Props) => {
                 {/* Title */}
                 <Col className="d-flex align-items-center">
                     <p className="fs-2 fw-lightBold">
-                        { annotationContext.title ? `Annotate ${annotationContext.title}` : 'Annotation Menu' }
+                        { annotationTarget?.jsonPath ? `Annotate ${ExtractLastSegmentFromPath(annotationTarget.jsonPath)}` : 'Annotation Menu' }
                     </p>
                 </Col>
                 {/* Refresh button */}

@@ -1,16 +1,16 @@
 /* Import Dependencies */
-import { capitalize, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLastSegmentFromPath, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
 import { useAppSelector, useTrigger } from 'app/Hooks';
 
 /* Import Store */
-import { getAnnotationContext, getAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 import { getTourTopic } from 'redux-store/GlobalSlice';
 
@@ -51,7 +51,6 @@ const AnnotationSummaryStep = (props: Props) => {
     const tourTopic = useAppSelector(getTourTopic);
     const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     let motivationDescription: string;
-    const annotationContext = useAppSelector(getAnnotationContext);
 
     /* Trigger for tour annotation wizard form values */
     trigger.SetTrigger(() => {
@@ -101,7 +100,7 @@ const AnnotationSummaryStep = (props: Props) => {
                             {motivationDescription}
                         </p>
                         <p>
-                            {annotationContext.title || MakeJsonPathReadableString(annotationTarget?.jsonPath === '$' ? schemaTitle : annotationTarget?.jsonPath ?? '')}
+                            {(annotationTarget?.jsonPath && ExtractLastSegmentFromPath(annotationTarget.jsonPath)) || MakeJsonPathReadableString(annotationTarget?.jsonPath === '$' ? schemaTitle : annotationTarget?.jsonPath ?? '')}
                         </p>
                     </Card>
                 </Col>

@@ -26,6 +26,9 @@ import GetDigitalSpecimenAggregations from 'api/digitalSpecimen/GetDigitalSpecim
 /* Import Components */
 import { SearchFilter } from './SearchFiltersMenuComponents';
 
+/* Import utilities */
+import { missingDataFilters, formatMissingDataFilter } from 'app/utilities/SearchFilterUtilities';
+
 
 /**
  * Component that renders the search filters menu on the search page
@@ -48,19 +51,6 @@ const SearchFiltersMenu = () => {
         filters: {},
         search: {}
     };
-    const missingDataFilters = {
-        'hasGenus': [],
-        'hasClass': [],
-        'hasLatitude': [],
-        'hasPhylum': [],
-        'hasCountry': [],
-        'hasLongitude': [],
-        'hasFamily': [],
-        'hasKingdom': [],
-        'hasLocality': [],
-        'hasOrder': [],
-        'hasSpecies': []
-    }
 
     /* OnLoad: fetch digital specimen aggregations */
     fetch.FetchMultiple({
@@ -102,6 +92,7 @@ const SearchFiltersMenu = () => {
             initialFormValues[key] = [...searchParams.getAll(key)];
         }
 
+        /* Add missing data filters to be able to use them */
         if (key === 'missingData') {
             initialFormValues.filters = { ...initialFormValues.filters, ...missingDataFilters}
         }
@@ -113,11 +104,13 @@ const SearchFiltersMenu = () => {
     });
 
 
+    /* Format the missingDataFilters to the requested format for the /search api */
     const mapMissingDataFilters = (missingDataFilters: string[]): Dict => {
-        return missingDataFilters.reduce((acc: Dict, filter: string) => {
-            const newKey = filter.replace('no', 'has');
-            acc[newKey] = [false];
-            return acc;
+        return missingDataFilters.reduce((result: Dict, filter: string) => {
+            // Translate 'noGenus' to 'hasGenus' with a set value to false
+            const newKey = formatMissingDataFilter(filter, 'filter');
+            result[newKey] = [false];
+            return result;
         }, {});
     };
 
@@ -128,10 +121,10 @@ const SearchFiltersMenu = () => {
                     onSubmit={async (values) => {
                         await new Promise((resolve) => setTimeout(resolve, 100));
                         // Map missingData filters
-                        const newMissingDataFilters = mapMissingDataFilters(values.filters.missingData);
+                        const mappedMissingDataFilters = mapMissingDataFilters(values.filters.missingData);
 
                         /* Extract filters */
-                        const filters = { ...values.filters, ...values.filters.taxonomy, ...newMissingDataFilters };
+                        const filters = { ...values.filters, ...values.filters.taxonomy, ...mappedMissingDataFilters };
 
                         /* Remove taxonomy filter key from filters */
                         delete filters.taxonomy;

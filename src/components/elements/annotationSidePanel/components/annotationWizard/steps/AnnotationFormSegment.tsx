@@ -16,6 +16,9 @@ import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/fre
 import FormField from './formFields/FormField';
 import { Button } from 'components/elements/customUI/CustomUI';
 
+/* Import utilities */
+import { ExtractLastSegmentFromPath } from 'app/utilities/SchemaUtilities';
+
 
 /* Props Type */
 type Props = {
@@ -61,7 +64,7 @@ const AnnotationFormSegment = (props: Props) => {
                     <Row className="py-1">
                         <Col className="d-flex align-items-center">
                             <p className="tc-primary fw-lightBold">
-                                {annotationFormFieldPropertyTitle}
+                            {formValues?.jsonPath ? ExtractLastSegmentFromPath(formValues.jsonPath) : annotationFormFieldPropertyTitle}
                             </p>
                         </Col>
 

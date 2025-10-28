@@ -3,7 +3,7 @@ import { capitalize, isEmpty } from 'lodash';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { MakeJsonPathReadableString, ExtractLastSegmentFromPath } from 'app/utilities/SchemaUtilities';
 import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
@@ -103,7 +103,7 @@ const AnnotationSummaryStep = (props: Props) => {
                             <span className="tc-primary fw-lightBold">
                                 {`${capitalize(annotationTarget?.type)}: `}
                             </span>
-                            {MakeJsonPathReadableString(annotationTarget?.jsonPath !== '$' ? annotationTarget?.jsonPath ?? '' : schemaTitle)}
+                            {(annotationTarget?.jsonPath && ExtractLastSegmentFromPath(annotationTarget.jsonPath)) || MakeJsonPathReadableString(annotationTarget?.jsonPath === '$' ? schemaTitle : annotationTarget?.jsonPath ?? '')}
                         </p>
                     </Card>
                 </Col>

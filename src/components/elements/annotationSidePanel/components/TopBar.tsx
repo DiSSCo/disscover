@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { useAppDispatch } from 'app/Hooks';
+import { useAppDispatch, useAppSelector } from 'app/Hooks';
 
 /* Import Store */
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Icons */
 import { faChevronLeft, faClosedCaptioning, faFileContract, faRotate } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +14,8 @@ import { faChevronLeft, faClosedCaptioning, faFileContract, faRotate } from '@fo
 /* Import Components */
 import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
 
+/* Import utilities */
+import { ExtractLastSegmentFromPath } from 'app/utilities/SchemaUtilities';
 
 /* Props Type */
 type Props = {
@@ -35,6 +37,9 @@ const TopBar = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
+
+    /* Base variables */
+    const annotationTarget = useAppSelector(getAnnotationTarget);
 
     return (
         <div>
@@ -60,7 +65,7 @@ const TopBar = (props: Props) => {
                 {/* Title */}
                 <Col className="d-flex align-items-center">
                     <p className="fs-2 fw-lightBold">
-                        Annotation Menu
+                    { annotationTarget?.jsonPath ? `Annotate ${ExtractLastSegmentFromPath(annotationTarget.jsonPath)}` : 'Annotation Menu' }
                     </p>
                 </Col>
                 {/* Refresh button */}

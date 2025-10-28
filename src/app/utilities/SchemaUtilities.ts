@@ -271,9 +271,35 @@ const StripSchemaString = (jsonPath: string) => {
     return strippedSchemaName;
 };
 
+
+/**
+ * Function to extract the last human-readable part from a JSONPath string.
+ * For example, from '$["ods:hasEvents"][0]["ods:hasLocation"]["ods:hasGeoreference"]' it will extract 'Georeference'.
+ * @param jsonPath The JSON path string.
+ * @returns The readable last part of the path.
+ */
+const ExtractLastSegmentFromPath = (jsonPath: string): string => {
+    /* If jsonPath is root, return generic name */
+    if (jsonPath === '$') return 'Digital Specimen';
+
+    /* Split the path by the '[' character to get parts */
+    const parts = jsonPath.split('[');
+
+    /* Find the last part that is not just a number (to ignore array indices) */
+    const lastMeaningfulPart = [...parts].reverse().find(part => !/^\d+\]$/.test(part));
+
+    if (!lastMeaningfulPart) return '';
+
+    /* Clean up the part and make it readable */
+    const cleanedPart = lastMeaningfulPart.replaceAll(/["'\]]/g, '');
+
+    return MakeReadableString(RemoveSchemaPrefixes(cleanedPart));
+};
+
 export {
     ExtractClassesAndTermsFromSchema,
     ExtractFromSchema,
     ExtractLowestLevelSchema,
-    MakeJsonPathReadableString
+    MakeJsonPathReadableString,
+    ExtractLastSegmentFromPath
 };

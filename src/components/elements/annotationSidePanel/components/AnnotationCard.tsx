@@ -9,7 +9,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 /* Import Utilities */
 import { RetrieveEnvVariable } from 'app/Utilities';
 import { ProvideReadableMotivation } from 'app/utilities/AnnotateUtilities';
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLastSegmentFromPath, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
 import { useNotification } from 'app/Hooks';
@@ -30,7 +30,6 @@ import { Button } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     annotation: Annotation,
-    schemaTitle: string,
     EditAnnotation: Function,
     RefreshAnnotations: Function
 };
@@ -39,13 +38,12 @@ type Props = {
 /**
  * Component that renders an annotation card in the
  * @param annotation The annotation to be displayed in the card
- * @param schemaTitle The title of the super class schema
  * @param EditAnnotation Function to start editing the annotation
  * @param RefreshAnnotation Function to refresh the annotations in the annotations overview
  * @returns JSX Component
  */
 const AnnotationCard = (props: Props) => {
-    const { annotation, schemaTitle, EditAnnotation, RefreshAnnotations } = props;
+    const { annotation, EditAnnotation, RefreshAnnotations } = props;
 
     /* Hooks */
     const notification = useNotification();
@@ -58,6 +56,34 @@ const AnnotationCard = (props: Props) => {
     const userTagClass = classNames({
         'tc-accent': annotation['dcterms:creator']['@id'] === KeycloakService.GetParsedToken()?.orcid
     });
+
+    const showAnnotationValues = () => {
+        if (annotation['oa:hasBody']?.['oa:value']?.[0]) {
+            const annotationValues = JSON.parse(annotation['oa:hasBody']['oa:value'][0]);
+            
+            /* Use destructuring to exclude some data and gather the rest of the properties. */
+            const {
+                '@id': id,
+                '@type': type,
+                'dwc:taxonID': taxonId,
+                'ods:scientificNameHTMLLabel': scientificNameHtmlLabel,
+                ...restOfAnnotationValues
+            } = annotationValues;
+
+            return Object.entries(restOfAnnotationValues).map(([key, value], index) => {
+                if (showAllValues || index < 3) {
+                    return (
+                        <p key={key} className="fs-4">
+                            <span className="fw-lightBold">
+                                {`${MakeJsonPathReadableString(key)}: `}
+                            </span>
+                            {`${value}`}
+                        </p>
+                    );
+                }
+            });
+        }
+    };
 
     return (
         <div>
@@ -95,14 +121,11 @@ const AnnotationCard = (props: Props) => {
                             {`${ProvideReadableMotivation(annotation['oa:motivation'])} on: `}
                         </span>
                         <span className="fs-4">
-                            {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'] !== '$' ?
-                                    annotation['oa:hasTarget']['oa:hasSelector']['ods:term']
-                                    : schemaTitle
-                                )
-                            }
-                            {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:class'])
+                            {(annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
+                                ExtractLastSegmentFromPath(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'])
+                                ) ||
+                            (annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
+                                ExtractLastSegmentFromPath(annotation['oa:hasTarget']['oa:hasSelector']['ods:class']))
                             }
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector' && 'Image'}
                         </span>
@@ -133,21 +156,7 @@ const AnnotationCard = (props: Props) => {
                         }
                         {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
                             <div>
-                                {annotation['oa:hasBody']?.['oa:value']?.[0] &&
-                                    Object.entries(JSON.parse(annotation['oa:hasBody']['oa:value'][0])).map(([key, value], index) => {
-                                        if (showAllValues || index < 3) {
-                                        return (
-                                            <p key={key}
-                                                className="fs-4"
-                                            >
-                                                <span className="fw-lightBold">
-                                                    {`${MakeJsonPathReadableString(key)}: `}
-                                                </span>
-                                                {`${value}`}
-                                            </p>
-                                        );
-                                        }
-                                    })}
+                                {showAnnotationValues()}
                             </div>
                         }
                     </Col>

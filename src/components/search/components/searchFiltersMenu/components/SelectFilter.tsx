@@ -16,6 +16,9 @@ import GetDigitalSpecimenSearchTermAggregations from "api/digitalSpecimen/GetDig
 /* Import Components */
 import { MultiSelect } from 'components/elements/customUI/CustomUI';
 
+/* Import utilities */
+import { formatMissingDataFilter } from 'app/utilities/SearchFilterUtilities';
+
 
 /* Props Type */
 type Props = {
@@ -50,12 +53,13 @@ const SelectFilter = (props: Props) => {
         [aggregation: string]: number
     } | undefined>(aggregations);
     const multiSelectItems: MultiSelectItem[] = [];
+    const isMissingDataFilter = name === 'missingData';
 
     /* Construct from selected values, overwrites search results */
     fieldValues.forEach(fieldValue => {
         /* Prepend selected item */
         multiSelectItems.unshift({
-            label: fieldValue,
+            label: isMissingDataFilter ? formatMissingDataFilter(fieldValue, 'title') : fieldValue,
             value: fieldValue,
             count: filterAggregations?.[fieldValue] ?? aggregations?.[fieldValue] ?? bootAggregations?.[name]?.[fieldValue]
         });
@@ -67,7 +71,7 @@ const SelectFilter = (props: Props) => {
             /* Check if item is not already present due to selected list */
             if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
-                    label: key,
+                    label: isMissingDataFilter ? formatMissingDataFilter(key, 'title') : key,
                     value: key,
                     count
                 });
@@ -82,7 +86,7 @@ const SelectFilter = (props: Props) => {
             /* Check if item is not already present due to selected list */
             if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
-                    label: key,
+                    label: isMissingDataFilter ? formatMissingDataFilter(key, 'title') : key,
                     value: key,
                     count
                 });

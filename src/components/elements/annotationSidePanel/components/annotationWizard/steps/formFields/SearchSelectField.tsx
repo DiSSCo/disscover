@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { useState } from 'react';
+import classNames from 'classnames';
 
 /* Import Types */
 import { AnnotationFormProperty, Dict, MultiSelectItem, TaxonomicIdentificationItem } from 'app/Types';
@@ -41,6 +42,11 @@ const SearchSelectField = (props: Props) => {
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
     const MultiSelectListClass = !multiSelectTrigger || !multiSelectItems.length ? "d-none" : "d-block";
     const annotationTaxonomicFields = AnnotationFormFields('TaxonIdentification');
+    const [changedField, setChangedField] = useState<boolean>(false);
+
+    const changedFieldClass = classNames({
+        'b-form': changedField
+    });
 
     /**
      * Function to call the GetTaxonomicIdentification to retrieve taxonomic data based on rank and value
@@ -111,7 +117,7 @@ const SearchSelectField = (props: Props) => {
                                             autoComplete='off'
                                             name={`${namePrefix}.${name}`}
                                             placeholder={'Type at least 4 characters to start your search'}
-                                            className={'w-100 fs-4 px-3 py-1 b-primary br-round'}
+                                            className={`${changedFieldClass} w-100 fs-4 px-3 py-1 b-primary br-round`}
                                             onChange={(field: {
                                                 target: {
                                                     value: string
@@ -119,6 +125,7 @@ const SearchSelectField = (props: Props) => {
                                             }) => {
                                                 /* Set field value */
                                                 SetFieldValue?.(`${namePrefix}.${name}`, field.target.value);
+                                                setChangedField(true);
 
                                                 /* Either get taxonomic identification or set the dropdown items to [] again */
                                                 field.target.value.length > 3 

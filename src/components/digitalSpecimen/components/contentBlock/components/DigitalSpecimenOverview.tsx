@@ -210,10 +210,13 @@ const DigitalSpecimenOverview = (props: Props) => {
                                             SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
                                         }}
                                     >
-                                        <FontAwesomeIcon icon={faPenToSquare}
-                                            className="tc-grey"
-                                            title="Add an annotation to modify the geological reference"
-                                        />
+                                        <span className="tc-primary fs-5 fw-lightBold">
+                                            Annotate
+                                            <FontAwesomeIcon icon={faPenToSquare}
+                                                className="ps-2"
+                                                title="Add an annotation to modify the geological reference"
+                                            />
+                                        </span>
                                     </Button>
                                 </Tooltip>
                             </Col>
@@ -254,10 +257,13 @@ const DigitalSpecimenOverview = (props: Props) => {
                                                 SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
                                             }}
                                         >
-                                            <FontAwesomeIcon icon={faPenToSquare}
-                                                className="tc-grey"
-                                                title="Add an annotation to modify the accepted identification"
-                                            />
+                                            <span className="tc-primary fs-5 fw-lightBold">
+                                                Annotate
+                                                <FontAwesomeIcon icon={faPenToSquare}
+                                                    className="ps-2"
+                                                    title="Add an annotation to modify the accepted identification"
+                                                />
+                                            </span>
                                         </Button>
                                     </Tooltip>
                                 </Col>

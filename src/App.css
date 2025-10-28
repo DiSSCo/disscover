@@ -273,6 +273,10 @@ button {
   border: none;
 }
 
+.b-form {
+  border: 2px solid var(--secondary);
+}
+
 /* Border radius */
 .br-corner {
   border-radius: 8px;

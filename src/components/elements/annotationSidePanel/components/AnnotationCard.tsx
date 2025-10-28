@@ -61,7 +61,7 @@ const AnnotationCard = (props: Props) => {
         if (annotation['oa:hasBody']?.['oa:value']?.[0]) {
             const annotationValues = JSON.parse(annotation['oa:hasBody']['oa:value'][0]);
             
-            /* Use destructuring to exclude some data and gather the rest of the properties. */
+            /* Destructuring the annotationValues to exclude some data and gather the rest of the properties. */
             const {
                 '@id': id,
                 '@type': type,

@@ -9,7 +9,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 /* Import Utilities */
 import { RetrieveEnvVariable } from 'app/Utilities';
 import { ProvideReadableMotivation } from 'app/utilities/AnnotateUtilities';
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLastSegmentFromPath, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Hooks */
 import { useNotification } from 'app/Hooks';
@@ -30,7 +30,6 @@ import { Button } from 'components/elements/customUI/CustomUI';
 /* Props Type */
 type Props = {
     annotation: Annotation,
-    schemaTitle: string,
     EditAnnotation: Function,
     RefreshAnnotations: Function
 };
@@ -39,13 +38,12 @@ type Props = {
 /**
  * Component that renders an annotation card in the
  * @param annotation The annotation to be displayed in the card
- * @param schemaTitle The title of the super class schema
  * @param EditAnnotation Function to start editing the annotation
  * @param RefreshAnnotation Function to refresh the annotations in the annotations overview
  * @returns JSX Component
  */
 const AnnotationCard = (props: Props) => {
-    const { annotation, schemaTitle, EditAnnotation, RefreshAnnotations } = props;
+    const { annotation, EditAnnotation, RefreshAnnotations } = props;
 
     /* Hooks */
     const notification = useNotification();
@@ -95,15 +93,13 @@ const AnnotationCard = (props: Props) => {
                             {`${ProvideReadableMotivation(annotation['oa:motivation'])} on: `}
                         </span>
                         <span className="fs-4">
-                            {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'] !== '$' ?
-                                    annotation['oa:hasTarget']['oa:hasSelector']['ods:term']
-                                    : schemaTitle
-                                )
-                            }
-                            {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
-                                MakeJsonPathReadableString(annotation['oa:hasTarget']['oa:hasSelector']['ods:class'])
-                            }
+                                {(annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:TermSelector' &&
+                                    ExtractLastSegmentFromPath(annotation['oa:hasTarget']['oa:hasSelector']['ods:term'])
+                                    ) ||
+                                (annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
+                                    ExtractLastSegmentFromPath(annotation['oa:hasTarget']['oa:hasSelector']['ods:class']))
+                                }
+
                             {annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector' && 'Image'}
                         </span>
                     </Col>

@@ -238,3 +238,10 @@ export type TaxonomicIdentificationItem = {
     classification?: ClassificationItem[];
     usage?: Usage;
 }
+
+export const enum AnnotationTopic {
+    TaxonIdentification = 'TaxonIdentification',
+    Georeference = 'Georeference'
+}
+
+export type AnnotationTopicValues = `${AnnotationTopic}`

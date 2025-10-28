@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch, useTrigger } from 'app/Hooks';
 /* Import Store */
 import { setAnnotationWizardToggle, setMasMenuToggle, setMasScheduleMenuToggle, setMasDummy, setMasMachineJobRecordDummy } from 'redux-store/TourSlice';
 import { getTourTopic, setTourTopic } from 'redux-store/GlobalSlice';
+import { setAnnotationMode } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
 import { MachineAnnotationService } from 'app/types/MachineAnnotationService';
@@ -21,20 +22,11 @@ import { Dict } from 'app/Types';
 import DigitalSpecimenTourStepsText from 'sources/tourText/digitalSpecimen.json';
 
 
-/* Props Type */
-type Props = {
-    SetAnnotationMode: Function
-};
-
-
 /**
  * Component that renders the tour steps for the machine annotation services on the digital specimen page
- * @param SetAnnotationMode Function to set the annotation mode
  * @returns JSX Component
  */
-const MasTourSteps = (props: Props) => {
-    const { SetAnnotationMode } = props;
-
+const MasTourSteps = () => {
     /* Hooks */
     const dispatch = useAppDispatch();
     const trigger = useTrigger();
@@ -129,7 +121,7 @@ const MasTourSteps = (props: Props) => {
      */
     const OnStepChange = async (nextIndex: number, resolve: Function) => {
         /* Handler for setting annotation mode on or off */
-        SetAnnotationMode(!stepsConfig.annotationModeOff.includes(nextIndex));
+        dispatch(setAnnotationMode(!stepsConfig.annotationModeOff.includes(nextIndex)));
 
         /* Handler for MAS menu toggle */
         dispatch(setMasMenuToggle(stepsConfig.masMenuToggleOn.includes(nextIndex)));

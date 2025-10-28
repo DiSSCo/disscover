@@ -10,7 +10,7 @@ import { RetrieveEnvVariable } from "app/Utilities";
 import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
 
 /* Import Hooks */
-import { useFetch } from "app/Hooks";
+import { useAppSelector, useFetch } from "app/Hooks";
 
 /* Import Types */
 import { DigitalSpecimen, Identifier2 } from "app/types/DigitalSpecimen";
@@ -25,25 +25,22 @@ import GetDigitalSpecimenVersions from "api/digitalSpecimen/GetDigitalSpecimenVe
 /* Import Components */
 import { TopBarActions } from "components/elements/Elements";
 import { Dropdown, Tooltip } from "components/elements/customUI/CustomUI";
+import { getAnnotationMode } from "redux-store/AnnotateSlice";
 
 
 /* Props type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
-    annotationMode: boolean,
-    ToggleAnnotationMode: Function
 };
 
 
 /**
  * Component that renders the top bar on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
- * @param annotationMode Boolean that indicates if the annotation mode is toggled
- * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalSpecimen, annotationMode, ToggleAnnotationMode } = props;
+    const { digitalSpecimen } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -64,6 +61,7 @@ const TopBar = (props: Props) => {
         }
     ];
     const catalogNumber: Identifier2 | undefined = digitalSpecimen['ods:hasIdentifiers']?.find(item => item['dcterms:title'] === 'dwc:catalogNumber');
+    const annotationMode = useAppSelector(getAnnotationMode);
 
     /* Construct version dropdown items */
     const versionDropdownItems: DropdownItem[] | undefined = digitalSpecimenVersions?.map(digitalSpecimenVersion => ({
@@ -187,8 +185,6 @@ const TopBar = (props: Props) => {
                 </Col>
                 <Col className="tourDigitalSpecimen4">
                     <TopBarActions actionDropdownItems={actionDropdownItems}
-                        annotationMode={annotationMode}
-                        ToggleAnnotationMode={ToggleAnnotationMode}
                     />
                 </Col>
             </Row>

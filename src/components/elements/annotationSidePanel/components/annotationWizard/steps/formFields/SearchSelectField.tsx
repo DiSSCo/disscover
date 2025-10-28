@@ -123,7 +123,7 @@ const SearchSelectField = (props: Props) => {
                                                 /* Either get taxonomic identification or set the dropdown items to [] again */
                                                 field.target.value.length > 3 
                                                     ? handleTaxonomicIdentificationInput( `${fieldProperty.key}`, `${field.target.value}`)
-                                                    : setMultiSelectItems([]);;
+                                                    : setMultiSelectItems([]);
                                             }}
                                             onClick={() => {
                                                 setMultiSelectTrigger(!multiSelectTrigger);

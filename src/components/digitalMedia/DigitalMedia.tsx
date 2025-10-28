@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch, useFetch } from "app/Hooks";
 
 /* Import Store */
 import { getDigitalMedia, setDigitalMedia } from "redux-store/DigitalMediaSlice";
-import { setAnnotationTarget } from "redux-store/AnnotateSlice";
+import { getAnnotationMode } from "redux-store/AnnotateSlice";
 
 /* Import Types */
 import { DigitalMedia as DigitalMediaType } from "app/types/DigitalMedia";
@@ -43,7 +43,7 @@ const DigitalMedia = () => {
 
     /* Base variables */
     const digitalMedia = useAppSelector(getDigitalMedia);
-    const [annotationMode, setAnnotationMode] = useState<boolean>(false);
+    const annotationMode = useAppSelector(getAnnotationMode);
     const [annotoriousMode, setAnnotoriousMode] = useState<string>('move');
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 
@@ -57,19 +57,6 @@ const DigitalMedia = () => {
         Method: GetDigitalMedia,
         Handler: (digitalMedia: DigitalMediaType) => dispatch(setDigitalMedia(digitalMedia))
     });
-
-    /**
-     * Function to set the annotation target state
-     * @param annotationTargetType The type of the annotation target, either class or term
-     * @param jsonPath The JSON path that targets the class or term
-     */
-    const SetAnnotationTarget = (annotationTargetType: 'class' | 'term', jsonPath: string) => {
-        dispatch(setAnnotationTarget({
-            type: annotationTargetType,
-            jsonPath,
-            directPath: true
-        }));
-    };
 
     /* Class Names */
     const digitalMediaBodyClass = classNames({
@@ -115,10 +102,8 @@ const DigitalMedia = () => {
                                                 <Row className="mt-2">
                                                     <Col>
                                                         <TopBar digitalMedia={digitalMedia}
-                                                            annotationMode={annotationMode}
                                                             annotoriousMode={annotoriousMode}
                                                             selectedTabIndex={selectedTabIndex}
-                                                            ToggleAnnotationMode={() => setAnnotationMode(!annotationMode)}
                                                             SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                         />
                                                     </Col>
@@ -138,8 +123,6 @@ const DigitalMedia = () => {
                                                         <ContentBlock digitalMedia={digitalMedia}
                                                             annotoriousMode={annotoriousMode}
                                                             selectedTabIndex={selectedTabIndex}
-                                                            annotationMode={annotationMode}
-                                                            SetAnnotationTarget={SetAnnotationTarget}
                                                             SetAnnotoriousMode={(mode: string) => setAnnotoriousMode(mode)}
                                                             SetSelectedTabIndex={setSelectedTabIndex}
                                                         />
@@ -170,7 +153,6 @@ const DigitalMedia = () => {
                                 GetMas={GetDigitalMediaMas}
                                 GetMasJobRecords={GetDigitalMediaMasJobRecords}
                                 ScheduleMas={ScheduleDigitalMediaMas}
-                                HideAnnotationSidePanel={() => setAnnotationMode(false)}
                             />
                         </div>
                     }

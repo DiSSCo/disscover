@@ -16,13 +16,14 @@ import { faCopy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 /* Import Components */
 import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIdentification';
 import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
+import { useAppDispatch, useAppSelector } from 'app/Hooks';
+import { getAnnotationMode, setAnnotationMode } from 'redux-store/AnnotateSlice';
 
 
 /* Props Type */
 type Props = {
     digitalSpecimen: DigitalSpecimen,
     SetAnnotationTarget: Function,
-    ToggleAnnotationMode: Function
 };
 
 
@@ -33,7 +34,10 @@ type Props = {
  * @returns JSX Component
  */
 const DigitalSpecimenOverview = (props: Props) => {
-    const { digitalSpecimen, SetAnnotationTarget, ToggleAnnotationMode } = props;
+    const { digitalSpecimen, SetAnnotationTarget } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
 
     /* Base variables */
     const [copyMessage, setCopyMessage] = useState<string>('Copy');
@@ -50,6 +54,7 @@ const DigitalSpecimenOverview = (props: Props) => {
         'Zoology',
         'Other Biodiversity'
     ];
+    const annotationMode = useAppSelector(getAnnotationMode);
 
     /* Construct collectors array */
     digitalSpecimen['ods:hasEvents']?.filter(
@@ -205,15 +210,18 @@ const DigitalSpecimenOverview = (props: Props) => {
                                         aria-label="Edit geological reference"
                                         OnClick={() => {
                                             // Toggle annotation mode
-                                            ToggleAnnotationMode();
+                                            if (annotationMode === false) dispatch(setAnnotationMode(!annotationMode))
                                             // Set annotation target to geological reference
                                             SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
                                         }}
                                     >
-                                        <FontAwesomeIcon icon={faPenToSquare}
-                                            className="tc-grey"
-                                            title="Add an annotation to modify the geological reference"
-                                        />
+                                        <span className="tc-primary fs-5 fw-lightBold">
+                                            Annotate
+                                            <FontAwesomeIcon icon={faPenToSquare}
+                                                className="ps-2"
+                                                title="Add an annotation to modify the geological reference"
+                                            />
+                                        </span>
                                     </Button>
                                 </Tooltip>
                             </Col>
@@ -249,15 +257,18 @@ const DigitalSpecimenOverview = (props: Props) => {
                                             aria-label="Edit accepted identification"
                                             OnClick={() => {
                                                 // Toggle annotation mode
-                                                ToggleAnnotationMode();
+                                                if (annotationMode === false) dispatch(setAnnotationMode(!annotationMode))
                                                 // Set annotation target to taxonomic identification
                                                 SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
                                             }}
                                         >
-                                            <FontAwesomeIcon icon={faPenToSquare}
-                                                className="tc-grey"
-                                                title="Add an annotation to modify the accepted identification"
-                                            />
+                                            <span className="tc-primary fs-5 fw-lightBold">
+                                                Annotate
+                                                <FontAwesomeIcon icon={faPenToSquare}
+                                                    className="ps-2"
+                                                    title="Add an annotation to modify the accepted identification"
+                                                />
+                                            </span>
                                         </Button>
                                     </Tooltip>
                                 </Col>

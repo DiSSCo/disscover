@@ -10,25 +10,29 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
 import { Button, Dropdown } from "../customUI/CustomUI";
+import { useAppDispatch, useAppSelector } from "app/Hooks";
+import { getAnnotationMode, setAnnotationMode } from "redux-store/AnnotateSlice";
 
 
 /* Props Type */
 type Props = {
     actionDropdownItems: DropdownItem[],
-    annotationMode: boolean,
-    ToggleAnnotationMode: Function
 };
 
 
 /**
  * Component that renders the actions of the top bar on the digital specimen and media pages
  * @param actionDropdownItems A list of action items to appear in the actions dropdown
- * @param annotationMode Boolean indicating if annotation mode is on
- * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @returns JSX Component
  */
 export const TopBarActions = (props: Props) => {
-    const { actionDropdownItems, annotationMode, ToggleAnnotationMode } = props;
+    const { actionDropdownItems } = props;
+
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
+    /* Base variables */
+    const annotationMode = useAppSelector(getAnnotationMode);
 
     return (
         <div>
@@ -54,7 +58,7 @@ export const TopBarActions = (props: Props) => {
                 >
                     <Button type="button"
                         variant="primary"
-                        OnClick={() => ToggleAnnotationMode()}
+                        OnClick={() => dispatch(setAnnotationMode(!annotationMode))}
                     >
                         <span>
                             {annotationMode ? 'Stop annotating' : 'Annotate'}

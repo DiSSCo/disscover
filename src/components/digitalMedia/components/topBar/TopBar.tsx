@@ -21,14 +21,11 @@ import GetDigitalMediaVersions from "api/digitalMedia/GetDigitalMediaVersions";
 import { TopBarActions } from "components/elements/Elements";
 import { Button, Dropdown } from "components/elements/customUI/CustomUI";
 
-
 /* Props type */
 type Props = {
     digitalMedia: DigitalMedia,
-    annotationMode: boolean,
     annotoriousMode: string,
     selectedTabIndex: number,
-    ToggleAnnotationMode: Function,
     SetAnnotoriousMode: Function
 };
 
@@ -36,15 +33,13 @@ type Props = {
 /**
  * Component that renders the top bar on the digital specimen page
  * @param digitalSpecimen The selected digital specimen
- * @param annotationMode Boolean that indicates if the annotation mode is toggled
  * @param annotoriousMode String indicating the Annotorious mode
  * @param selectedTabIndex The index of the selected content block tab
- * @param ToggleAnnotationMode Function to toggle the annotation mode
  * @param SetAnnotoriousMode Function to set the Annotorious mode
  * @returns JSX Component
  */
 const TopBar = (props: Props) => {
-    const { digitalMedia, annotationMode, annotoriousMode, selectedTabIndex, ToggleAnnotationMode, SetAnnotoriousMode } = props;
+    const { digitalMedia, annotoriousMode, selectedTabIndex, SetAnnotoriousMode } = props;
 
     /* Hooks */
     const navigate = useNavigate();
@@ -159,8 +154,6 @@ const TopBar = (props: Props) => {
                 }
                 <Col lg={(KeycloakService.IsLoggedIn() && !selectedTabIndex) && 'auto'}>
                     <TopBarActions actionDropdownItems={actionDropdownItems}
-                        annotationMode={annotationMode}
-                        ToggleAnnotationMode={ToggleAnnotationMode}
                     />
                 </Col>
             </Row>

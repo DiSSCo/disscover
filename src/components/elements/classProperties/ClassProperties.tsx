@@ -26,8 +26,6 @@ type Props = {
     jsonPaths: {
         [propertySection: string]: string
     },
-    annotationMode: boolean,
-    SetAnnotationTarget: Function
 };
 
 
@@ -38,12 +36,10 @@ type Props = {
  * @param taxonAcceptedName When related to taxonomy, holds the accepted taxonomic name
  * @param properties The class's properties
  * @param jsonPath The base JSON paths to adhere to for the different targets
- * @param annotationMode Boolean indicating ig the annotation mode is on
- * @param SetAnnotationTarget Function to set the annotation target
  * @returns JSX Component
  */
 export const ClassProperties = (props: Props) => {
-    const { index, title, taxonAcceptedName, properties, jsonPaths, annotationMode, SetAnnotationTarget } = props;
+    const { index, title, taxonAcceptedName, properties, jsonPaths } = props;
 
     /* Base variables */
     const [collapsed, setCollapsed] = useState<boolean>(!!(index && index > 0));
@@ -97,9 +93,6 @@ export const ClassProperties = (props: Props) => {
                                                                     <PropertiesTable
                                                                         title={`${propertyKey} #${subIndex + 1}`}
                                                                         properties={subInstance}
-                                                                        baseJsonPath={jsonPath}
-                                                                        annotationMode={annotationMode}
-                                                                        SetAnnotationTarget={SetAnnotationTarget}
                                                                     />
                                                                 </div>
                                                             );
@@ -108,9 +101,6 @@ export const ClassProperties = (props: Props) => {
                                                             <PropertiesTable
                                                                 title={propertyKey}
                                                                 properties={properties[propertyKey as keyof typeof properties] as Dict}
-                                                                baseJsonPath={jsonPath}
-                                                                annotationMode={annotationMode}
-                                                                SetAnnotationTarget={SetAnnotationTarget}
                                                             />
                                                         </div>
                                                     }
@@ -120,9 +110,6 @@ export const ClassProperties = (props: Props) => {
                                     </>
                                     : <PropertiesTable title="Properties"
                                         properties={properties}
-                                        baseJsonPath={jsonPaths.mainProperties.replace('index', `${index}`)}
-                                        annotationMode={annotationMode}
-                                        SetAnnotationTarget={SetAnnotationTarget}
                                     />
                                 }
                             </Col>

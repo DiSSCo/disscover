@@ -40,33 +40,36 @@ const SearchSelectField = (props: Props) => {
     /* Base variables */
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
-    const MultiSelectListClass = !multiSelectTrigger || !multiSelectItems.length ? "d-none" : "d-block";
     const annotationTaxonomicFields = AnnotationFormFields('TaxonIdentification');
     const [changedField, setChangedField] = useState<boolean>(false);
 
-    const changedFieldClass = classNames({
-        'b-form': changedField
+    const multiSelectListClass = classNames({
+        'd-none': !multiSelectTrigger,
+        'd-block': multiSelectTrigger && multiSelectItems.length > 0
     });
 
     /**
      * Function to call the GetTaxonomicIdentification to retrieve taxonomic data based on rank and value
-     * and set the multiSelectItems with the response of the taxonomic data.
+     * and set the multiSelectItems with the response of the taxonomic data. But only if there is a value.
      * @param rank The current rank of the selected digital specimen in the form field
      * @param value The value or the name of the digital specimen in the form field
      */
     const handleTaxonomicIdentificationInput = async (shortRank: string, value: string): Promise<void> => {
-        const rank = shortRank.replaceAll('dwc:', '');
-        const params = shortRank === 'dwc:scientificName' ? { value } : { rank, value };
-
-        const results = await GetTaxonomicIdentification(params);
-        const newMultiSelectItems = (results || []).flatMap((item: any) => {
-            const label = item?.usage?.label;
-
-            return (label)
-                ? [{ label, value: label, originalItem: item }]
-                : [];
-        });
-        setMultiSelectItems(newMultiSelectItems);
+        if (value) {
+            setMultiSelectTrigger(true);
+            const rank = shortRank.replaceAll('dwc:', '');
+            const params = shortRank === 'dwc:scientificName' ? { value } : { rank, value };
+    
+            const results = await GetTaxonomicIdentification(params);
+            const newMultiSelectItems = (results || []).flatMap((item: any) => {
+                const label = item?.usage?.label;
+    
+                return (label)
+                    ? [{ label, value: label, originalItem: item }]
+                    : [];
+            });
+            setMultiSelectItems(newMultiSelectItems);
+        }
     };
 
     /**
@@ -117,7 +120,7 @@ const SearchSelectField = (props: Props) => {
                                             autoComplete='off'
                                             name={`${namePrefix}.${name}`}
                                             placeholder={'Type at least 4 characters to start your search'}
-                                            className={`${changedFieldClass} w-100 fs-4 px-3 py-1 b-primary br-round`}
+                                            className={'w-100 fs-4 px-3 py-1 b-primary br-round'}
                                             onChange={(field: {
                                                 target: {
                                                     value: string
@@ -126,6 +129,8 @@ const SearchSelectField = (props: Props) => {
                                                 /* Set field value */
                                                 SetFieldValue?.(`${namePrefix}.${name}`, field.target.value);
                                                 setChangedField(true);
+                                                /* Set multiselectitems to empty if there is no field value */
+                                                if (field.target.value === '') setMultiSelectItems([]);
 
                                                 /* Either get taxonomic identification or set the dropdown items to [] again */
                                                 field.target.value.length > 3 
@@ -133,7 +138,6 @@ const SearchSelectField = (props: Props) => {
                                                     : setMultiSelectItems([]);
                                             }}
                                             onClick={() => {
-                                                setMultiSelectTrigger(!multiSelectTrigger);
                                                 if (fieldValue) handleTaxonomicIdentificationInput( `${fieldProperty.key}`, `${fieldValue?.substring(0, fieldValue?.indexOf(' '))}`)
                                             }}
                                         />
@@ -154,8 +158,8 @@ const SearchSelectField = (props: Props) => {
                                 </Row>
 
                                 {/* Select list */}
-                                {multiSelectItems &&
-                                    <div className={`${MultiSelectListClass} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
+                                {multiSelectItems.length > 0 &&
+                                    <div className={`${multiSelectListClass} bgc-white b-primary br-corner mt-2 px-2 py-1 z-1`}>
                                         {multiSelectItems.map((item) => (
                                             <button key={item.originalItem.id}
                                                 type="button"

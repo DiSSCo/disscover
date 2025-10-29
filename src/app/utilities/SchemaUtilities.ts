@@ -278,7 +278,7 @@ const StripSchemaString = (jsonPath: string) => {
  * @param jsonPath The JSON path string.
  * @returns The readable last part of the path.
  */
-const ExtractLastSegmentFromPath = (jsonPath: string): string => {
+const ExtractLastSegmentFromPath = (jsonPath: string): string | undefined => {
     /* If jsonPath is root, return generic name */
     if (jsonPath === '$') return 'Digital Specimen';
 
@@ -288,7 +288,7 @@ const ExtractLastSegmentFromPath = (jsonPath: string): string => {
     /* Find the last part that is not just a number (to ignore array indices) */
     const lastMeaningfulPart = [...parts].reverse().find(part => !/^\d+\]$/.test(part));
 
-    if (!lastMeaningfulPart) return '';
+    if (!lastMeaningfulPart) return undefined;
 
     /* Clean up the part and make it readable */
     const cleanedPart = lastMeaningfulPart.replaceAll(/["'\]]/g, '');

@@ -17,13 +17,22 @@ describe("the ExtractLastSegmentFromPath functionality", () => {
         result = ExtractLastSegmentFromPath(jsonPath);
 
         expect(result).toBe('Georeference');
+    });
+    it('should extract the last human-readable part from a JSONPath string and ignore index numbers', async () => {
+        jsonPath = '$["ods:hasIdentifications"][0]["ods:hasTaxonIdentification"][0]';
 
+        result = ExtractLastSegmentFromPath(jsonPath);
+
+        expect(result).toBe('Taxon Identification');
+    });
+    it('should return Digital Specimen if jsonPath is root', async () => {
         jsonPath = '$';
 
         result = ExtractLastSegmentFromPath(jsonPath);
 
         expect(result).toBe('Digital Specimen');
-
+    });
+    it('should return the last human-readable part of a JSONPath if JSONPath only has one part', async () => {
         jsonPath = '$["ods:hasEntityRelationships"]';
 
         result = ExtractLastSegmentFromPath(jsonPath);

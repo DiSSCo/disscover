@@ -6,7 +6,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
 import { FormatJsonPathFromFieldName } from 'app/utilities/AnnotateUtilities';
-import { MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
+import { ExtractLastSegmentFromPath, MakeJsonPathReadableString } from 'app/utilities/SchemaUtilities';
 
 /* Import Types */
 import { Dict, SuperClass } from 'app/Types';
@@ -58,7 +58,7 @@ const SummaryValuesBlock = (props: Props) => {
                 className="px-3 py-2"
             >
                 <p className={`${classTitleClass} tc-primary fw-lightBold`}>
-                    {title}
+                    {classJsonPath ? ExtractLastSegmentFromPath(classJsonPath) : title}
                 </p>
 
                 {/* Class values */}
@@ -83,12 +83,14 @@ const SummaryValuesBlock = (props: Props) => {
                                     return (
                                         <Row key={key}>
                                             <Col>
+                                                {!existingValue || value !== existingValue &&
                                                 <p>
                                                     <span className={`${termTitleClass} fw-lightBold`}>
                                                         {`${MakeJsonPathReadableString(key)}: `}
                                                     </span>
                                                     {String(value)}
                                                 </p>
+                                                }
                                             </Col>
                                         </Row>
                                     );

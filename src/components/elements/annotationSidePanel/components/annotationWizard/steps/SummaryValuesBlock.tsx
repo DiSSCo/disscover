@@ -64,36 +64,36 @@ const SummaryValuesBlock = (props: Props) => {
                     {!isEmpty(values) ?
                         <>
                             {Object.entries(values).filter(
-                            ([_key, value]) => typeof(value) !== 'object'
-                        ).sort(
-                            (a, b) => a > b ? 1 : 0
-                        ).map(([key, value]) => {
-                            if (value) {
-                                const termFieldPath: string = `${classFieldPath}_'${key}'`;
-                                const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);
-                                const existingValue: string | number | boolean = jp.value(superClass, termJsonPath);
+                                ([_key, value]) => typeof(value) !== 'object'
+                            ).sort(
+                                (a, b) => a > b ? 1 : 0
+                            ).map(([key, value]) => {
+                                if (value) {
+                                    const termFieldPath: string = `${classFieldPath}_'${key}'`;
+                                    const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);
+                                    const existingValue: string | number | boolean = jp.value(superClass, termJsonPath);
 
-                                /* Class Name */
-                                const termTitleClass = classNames({
-                                    'tc-accent': !existingValue || value !== existingValue
-                                });
+                                    /* Class Name */
+                                    const termTitleClass = classNames({
+                                        'tc-accent': !existingValue || value !== existingValue
+                                    });
 
-                                return (
-                                    <Row key={key}>
-                                        <Col>
-                                            {(!existingValue || value !== existingValue  || existingValue === undefined) &&
-                                            <p>
-                                                <span className={`${termTitleClass} fw-lightBold`}>
-                                                    {`${MakeJsonPathReadableString(key)}: `}
-                                                </span>
-                                                {String(value)}
-                                            </p>
-                                            }
-                                        </Col>
-                                    </Row>
-                                );
-                            }
-                        })}
+                                    return (
+                                        <Row key={key}>
+                                            <Col>
+                                                {(!existingValue || value !== existingValue  || existingValue === undefined) &&
+                                                <p>
+                                                    <span className={`${termTitleClass} fw-lightBold`}>
+                                                        {`${MakeJsonPathReadableString(key)}: `}
+                                                    </span>
+                                                    {String(value)}
+                                                </p>
+                                                }
+                                            </Col>
+                                        </Row>
+                                    );
+                                }
+                            })}
                         </>
                         : <p className="tc-grey fst-italic">
                             Has no attached values

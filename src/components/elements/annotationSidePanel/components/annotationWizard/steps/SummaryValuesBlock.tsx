@@ -37,6 +37,41 @@ const SummaryValuesBlock = (props: Props) => {
     /* Base variables */
     let title: string = MakeJsonPathReadableString(className);
     let classFieldPath: string = className;
+    const classJsonPath: string = FormatJsonPathFromFieldName(classFieldPath);
+
+    const showAnnotationSummaryFields = () => {
+        return Object.entries(values).filter(
+            ([_key, value]) => typeof(value) !== 'object'
+        ).sort(
+            (a, b) => a > b ? 1 : 0
+        ).map(([key, value]) => {
+            if (value) {
+                const termFieldPath: string = `${classFieldPath}_'${key}'`;
+                const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);
+                const existingValue: string | number | boolean = jp.value(superClass, termJsonPath);
+
+                /* Class Name */
+                const termTitleClass = classNames({
+                    'tc-accent': !existingValue || value !== existingValue
+                });
+
+                return (
+                    <Row key={key}>
+                        <Col>
+                            {(!existingValue || value !== existingValue  || existingValue === undefined) &&
+                            <p>
+                                <span className={`${termTitleClass} fw-lightBold`}>
+                                    {`${MakeJsonPathReadableString(key)}: `}
+                                </span>
+                                {String(value)}
+                            </p>
+                            }
+                        </Col>
+                    </Row>
+                );
+            }
+        })
+    };
 
 
     /* Add index to title and class field parh if present */
@@ -44,8 +79,6 @@ const SummaryValuesBlock = (props: Props) => {
         title = title.concat(` #${index + 1}`);
         classFieldPath = classFieldPath.concat(`_${index}`);
     }
-
-    const classJsonPath: string = FormatJsonPathFromFieldName(classFieldPath);
 
     /* Class Names */
     const classTitleClass = classNames({
@@ -65,37 +98,7 @@ const SummaryValuesBlock = (props: Props) => {
                 <div className="mt-1">
                     {!isEmpty(values) ?
                         <>
-                            {Object.entries(values).filter(
-                                ([_key, value]) => typeof(value) !== 'object'
-                            ).sort(
-                                (a, b) => a > b ? 1 : 0
-                            ).map(([key, value]) => {
-                                if (value) {
-                                    const termFieldPath: string = `${classFieldPath}_'${key}'`;
-                                    const termJsonPath: string = FormatJsonPathFromFieldName(termFieldPath);
-                                    const existingValue: string | number | boolean = jp.value(superClass, termJsonPath);
-
-                                    /* Class Name */
-                                    const termTitleClass = classNames({
-                                        'tc-accent': !existingValue || value !== existingValue
-                                    });
-
-                                    return (
-                                        <Row key={key}>
-                                            <Col>
-                                                {!existingValue || value !== existingValue &&
-                                                <p>
-                                                    <span className={`${termTitleClass} fw-lightBold`}>
-                                                        {`${MakeJsonPathReadableString(key)}: `}
-                                                    </span>
-                                                    {String(value)}
-                                                </p>
-                                                }
-                                            </Col>
-                                        </Row>
-                                    );
-                                }
-                            })}
+                            {showAnnotationSummaryFields()}
                         </>
                         : <p className="tc-grey fst-italic">
                             Has no attached values

@@ -41,7 +41,6 @@ const SearchSelectField = (props: Props) => {
     const [multiSelectTrigger, setMultiSelectTrigger] = useState<boolean>(false);
     const [multiSelectItems, setMultiSelectItems] = useState<(MultiSelectItem & { originalItem: any })[]>([]);
     const annotationTaxonomicFields = AnnotationFormFields('TaxonIdentification');
-    const [changedField, setChangedField] = useState<boolean>(false);
 
     const multiSelectListClass = classNames({
         'd-none': !multiSelectTrigger,

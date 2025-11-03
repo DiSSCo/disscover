@@ -127,7 +127,6 @@ const SearchSelectField = (props: Props) => {
                                             }) => {
                                                 /* Set field value */
                                                 SetFieldValue?.(`${namePrefix}.${name}`, field.target.value);
-                                                setChangedField(true);
                                                 /* Set multiselectitems to empty if there is no field value */
                                                 if (field.target.value === '') setMultiSelectItems([]);
 

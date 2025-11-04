@@ -123,7 +123,7 @@ const AnnotationSummaryStep = (props: Props) => {
                     </p>
                 </Col>
             </Row>
-            <Row className="flex-grow-1 overflow-scroll mt-2">
+            <Row className="flex-grow-1 overflow-auto mt-2">
                 {formValues?.jsonPath &&
                     <Col>
                         {(annotationTarget?.type === 'class' && ['ods:adding', 'oa:editing'].includes(formValues?.motivation)) ?
@@ -171,20 +171,6 @@ const AnnotationSummaryStep = (props: Props) => {
                         }
                     </Col>
                 }
-            </Row>
-            {/* Save annotation button */}
-            <Row className="flex-row-reverse mt-3">
-                <Col lg="auto"
-                    className="tourAnnotate18"
-                >
-                    <Button type="submit"
-                        variant="primary"
-                    >
-                        <p>
-                            Save Annotation
-                        </p>
-                    </Button>
-                </Col>
             </Row>
         </div >
     );

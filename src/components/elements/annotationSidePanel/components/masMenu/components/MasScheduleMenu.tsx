@@ -29,6 +29,7 @@ type Props = {
     digitalObjectId: string,
     mass: MachineAnnotationService[],
     SetLoading: Function,
+    SetLoadingText: Function,
     ScheduleMas: Function,
     ReturnToOverview: Function
 };
@@ -39,12 +40,13 @@ type Props = {
  * @param digitalObjectId The identifier of the super class digital object
  * @param mass A list of potential MASs to be executed on the digital object
  * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param SetLoadingText Function to set the loading text of the annotation side panel
  * @param ScheduleMas Function to schedule MASs
  * @param ReturnToOverview Function to return to the MAS overview
  * @returns JSX Component
  */
 const MASScheduleMenu = (props: Props) => {
-    const { digitalObjectId, mass, SetLoading, ScheduleMas, ReturnToOverview } = props;
+    const { digitalObjectId, mass, SetLoading, SetLoadingText, ScheduleMas, ReturnToOverview } = props;
 
     /* Hooks */
     const notification = useNotification();
@@ -98,6 +100,7 @@ const MASScheduleMenu = (props: Props) => {
 
                             /* Start loading */
                             SetLoading(true);
+                            SetLoadingText('Scheduling MAS...');
 
                             /* Construct MAS list */
                             const masList = values.scheduledMas.map(mas => ({

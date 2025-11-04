@@ -28,6 +28,7 @@ type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     CloseMasMenu: Function,
     SetLoading: Function,
+    SetLoadingText: Function,
     GetMas: Function,
     GetMasJobRecords: Function
     ScheduleMas: Function
@@ -39,13 +40,14 @@ type Props = {
  * @param superClass The selected super class
  * @param CloseMasMenu Function to close the MAS menu
  * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param SetLoadingText Function to set the loading text of the annotation side panel
  * @param GetMas Function to fetch the potential MASs to be run
  * @param GetMasJobRecords Function that fetches the MAS job records
  * @param ScheduleMas Function to schedule MASs
  * @returns JSX Component
  */
 const MASMenu = (props: Props) => {
-    const { superClass, CloseMasMenu, SetLoading, GetMas, GetMasJobRecords, ScheduleMas } = props;
+    const { superClass, CloseMasMenu, SetLoading, SetLoadingText, GetMas, GetMasJobRecords, ScheduleMas } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -108,6 +110,7 @@ const MASMenu = (props: Props) => {
                         <MasScheduleMenu digitalObjectId={superClass['@id']}
                             mass={mass}
                             SetLoading={SetLoading}
+                            SetLoadingText={SetLoadingText}
                             ScheduleMas={ScheduleMas}
                             ReturnToOverview={() => setScheduleMasMenuToggle(false)}
                         />

@@ -39,6 +39,7 @@ type Props = {
     }[],
     StopAnnotationWizard: Function,
     SetLoading: Function,
+    SetLoadingText: Function,
     SetFilterSortValues: Function
 };
 
@@ -50,11 +51,12 @@ type Props = {
  * @param annotationCases Default annotation cases that can be selected as the annotation target
  * @param StopAnnotationWizard Function to stop and shut down the annotation wizard
  * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param SetLoadingText Function to set the loading text of the annotation side panel
  * @param SetFilterSortValues Function to set the filter and sort values in the annotations overview
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass, annotationCases, StopAnnotationWizard, SetLoading, SetFilterSortValues } = props;
+    const { schema, superClass, annotationCases, StopAnnotationWizard, SetLoading, SetFilterSortValues, SetLoadingText } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -269,6 +271,7 @@ const AnnotationWizard = (props: Props) => {
 
                                 /* Try to post the new annotation */
                                 SetLoading(true);
+                                SetLoadingText('Submitting your annotation...');
 
                                 /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
                                 try {

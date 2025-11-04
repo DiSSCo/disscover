@@ -213,7 +213,6 @@ const DigitalSpecimenOverview = (props: Props) => {
                                             Annotate
                                             <FontAwesomeIcon icon={faPenToSquare}
                                                 className="ps-2"
-                                                title="Add an annotation to modify the geological reference"
                                             />
                                         </span>
                                     </Tooltip>

@@ -261,6 +261,10 @@ button {
   border-bottom: 1px solid var(--grey);
 }
 
+.bt-greyMedium {
+  border-top: 1px solid var(--greyMedium);
+}
+
 .b-secondary-hard {
   border: 1px solid var(--secondary-hard);
 }

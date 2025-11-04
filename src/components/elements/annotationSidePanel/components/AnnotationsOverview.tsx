@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Formik, Form } from "formik";
 import KeycloakService from "app/Keycloak";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 /* Import Utilities */
 import { ExtractLastSegmentFromPath } from "app/utilities/SchemaUtilities";
@@ -19,7 +19,7 @@ import { Annotation } from "app/types/Annotation";
 import { AnnotationTarget } from "app/Types";
 
 /* Import Icons */
-import { faGears, faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
 import AnnotationCard from "./AnnotationCard";
@@ -194,7 +194,7 @@ const AnnotationsOverview = (props: Props) => {
                 </Row>
             }
             {/* Annotations */}
-            <Row className="overflow-scroll mt-4">
+            <Row className="overflow-auto mt-4">
                 <Col>
                     {overviewAnnotations.length ? overviewAnnotations.map((annotation, index) => (
                         <div key={annotation['@id']}
@@ -211,27 +211,18 @@ const AnnotationsOverview = (props: Props) => {
                 </Col>
             </Row>
             {/* Bottom menu with option to add an annotation or toggle machine anotation services */}
-            <Row>
-                <Col className="px-0">
-                    <p className="fs-5 tc-grey mt-2">
-                        {`To make an annotation you must agree with our `}
-                        <span className="tc-accent">
-                            <Button type="button"
-                                variant="blank"
-                                className="py-0 px-0"
-                                OnClick={() => ShowPolicyText()}
-                            >
-                                <p className="fs-5">
-                                    annotation policy
-                                </p>
-                            </Button>
-                        </span>
-                    </p>
+            <Row  className="bt-greyMedium">
+                <Col>
+                    <Row className="mt-3">
+                        <Col>
+                            <p className="fs-4 fw-lightBold">To avoid duplicates, please check the annotations above before adding a new one.</p>
+                        </Col>
+                    </Row>
 
-                    <Row className="mt-2">
+                    <Row className="mt-3">
                         {/* Add annotation button */}
                         <Col lg="auto"
-                            className="tourAnnotate6"
+                            className="tourAnnotate6 pe-1"
                         >
 
                             <Button type="button"
@@ -263,6 +254,24 @@ const AnnotationsOverview = (props: Props) => {
                                     Machine Annotation Services
                                 </p>
                             </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <p className="fs-5 tc-grey mt-2">
+                                {`To make an annotation you must agree with our `}
+                                <span className="tc-accent">
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="py-0 px-0"
+                                        OnClick={() => ShowPolicyText()}
+                                    >
+                                        <p className="fs-5">
+                                            annotation policy
+                                        </p>
+                                    </Button>
+                                </span>
+                            </p>
                         </Col>
                     </Row>
                 </Col>

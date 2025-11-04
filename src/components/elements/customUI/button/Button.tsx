@@ -32,7 +32,6 @@ const Button = (props: Props) => {
     /* Class Names */
     const buttonClass = classNames({
         [`${className}`]: className,
-        'fw-bold': variant !== 'blank',
         'fs-4': !className?.includes('fs'),
         'py-2': !className?.includes('py'),
         'px-4': !className?.includes('px'),

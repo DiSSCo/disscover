@@ -194,7 +194,7 @@ const AnnotationsOverview = (props: Props) => {
                 </Row>
             }
             {/* Annotations */}
-            <Row className="flex-grow-1 overflow-scroll mt-4">
+            <Row className="overflow-scroll mt-4">
                 <Col>
                     {overviewAnnotations.length ? overviewAnnotations.map((annotation, index) => (
                         <div key={annotation['@id']}
@@ -205,7 +205,7 @@ const AnnotationsOverview = (props: Props) => {
                                 RefreshAnnotations={RefreshAnnotations}
                             />
                         </div>
-                    )) : <p className="fs-4 tc-grey fst-italic">
+                    )) : <p className="fs-4 tc-grey fst-italic mb-4">
                         Currently, this digital object does not have any annotations
                     </p>}
                 </Col>
@@ -213,9 +213,7 @@ const AnnotationsOverview = (props: Props) => {
             {/* Bottom menu with option to add an annotation or toggle machine anotation services */}
             <Row>
                 <Col className="px-0">
-                    <Card />
-
-                    <p className="fs-5 tc-grey mt-2 text-end">
+                    <p className="fs-5 tc-grey mt-2">
                         {`To make an annotation you must agree with our `}
                         <span className="tc-accent">
                             <Button type="button"
@@ -230,14 +228,14 @@ const AnnotationsOverview = (props: Props) => {
                         </span>
                     </p>
 
-                    <Row className="flex-row-reverse mt-2">
+                    <Row className="mt-2">
                         {/* Add annotation button */}
                         <Col lg="auto"
-                            className="tourAnnotate6 ps-1"
+                            className="tourAnnotate6"
                         >
 
                             <Button type="button"
-                                variant="accent"
+                                variant="primary"
                                 disabled={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
                                 OnClick={() => (KeycloakService.IsLoggedIn() && KeycloakService.GetParsedToken()?.orcid) && StartAnnotationWizard()}
                             >
@@ -246,9 +244,6 @@ const AnnotationsOverview = (props: Props) => {
                                     active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
                                 >
                                     <p>
-                                        <FontAwesomeIcon icon={faPenToSquare}
-                                            className="me-2"
-                                        />
                                         Add Annotation
                                     </p>
                                 </Tooltip>
@@ -260,14 +255,11 @@ const AnnotationsOverview = (props: Props) => {
                             className="tourMas4"
                         >
                             <Button type="button"
-                                variant="accent"
+                                variant="secondary"
                                 OnClick={() => OpenMasMenu()}
+                                className="b-secondary-hard"
                             >
                                 <p>
-                                    <FontAwesomeIcon icon={faGears}
-                                        size="lg"
-                                        className="me-2"
-                                    />
                                     Machine Annotation Services
                                 </p>
                             </Button>

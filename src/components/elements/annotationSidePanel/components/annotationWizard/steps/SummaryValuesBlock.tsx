@@ -37,15 +37,13 @@ const SummaryValuesBlock = (props: Props) => {
     /* Base variables */
     let title: string = MakeJsonPathReadableString(className);
     let classFieldPath: string = className;
-
+    const classJsonPath: string = FormatJsonPathFromFieldName(classFieldPath);
 
     /* Add index to title and class field parh if present */
     if (typeof (index) !== 'undefined') {
         title = title.concat(` #${index + 1}`);
         classFieldPath = classFieldPath.concat(`_${index}`);
     }
-
-    const classJsonPath: string = FormatJsonPathFromFieldName(classFieldPath);
 
     /* Class Names */
     const classTitleClass = classNames({
@@ -83,7 +81,7 @@ const SummaryValuesBlock = (props: Props) => {
                                     return (
                                         <Row key={key}>
                                             <Col>
-                                                {!existingValue || value !== existingValue &&
+                                                {(!existingValue || value !== existingValue  || existingValue === undefined) &&
                                                 <p>
                                                     <span className={`${termTitleClass} fw-lightBold`}>
                                                         {`${MakeJsonPathReadableString(key)}: `}

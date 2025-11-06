@@ -197,25 +197,26 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 <p className="tc-accent fw-lightBold">Geographical Map</p>
                             </Col>
                             <Col lg="auto">
-                                <Tooltip text="Add an annotation to modify the geological reference" placement="bottom">
-                                    <Button
-                                        type="button"
-                                        variant="blank"
-                                        className="px-0 py-0"
-                                        aria-label="Edit geological reference"
-                                        OnClick={() => {
-                                            // Toggle annotation mode
-                                            ToggleAnnotationMode();
-                                            // Set annotation target to geological reference
-                                            SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faPenToSquare}
-                                            className="tc-grey"
-                                            title="Add an annotation to modify the geological reference"
-                                        />
-                                    </Button>
-                                </Tooltip>
+                                <Button
+                                    type="button"
+                                    variant="blank"
+                                    className="px-0 py-0"
+                                    OnClick={() => {
+                                        // Toggle annotation mode
+                                        ToggleAnnotationMode();
+                                        // Set annotation target to geological reference
+                                        SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
+                                    }}
+                                >
+                                    <Tooltip text="Add an annotation to modify the geological reference" placement="bottom">
+                                        <span className="tc-primary fs-5 fw-lightBold">
+                                            Annotate
+                                            <FontAwesomeIcon icon={faPenToSquare}
+                                                className="ps-2"
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                </Button>
                             </Col>
                         </Row>
                         {/* Geological reference map */}
@@ -241,25 +242,26 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <p className="tc-accent fw-lightBold">Accepted Identification</p>
                                 </Col>
                                 <Col lg="auto">
-                                    <Tooltip text="Add an annotation to modify the accepted identification" placement="bottom">
-                                        <Button
-                                            type="button"
-                                            variant="blank"
-                                            className="px-0 py-0"
-                                            aria-label="Edit accepted identification"
-                                            OnClick={() => {
-                                                // Toggle annotation mode
-                                                ToggleAnnotationMode();
-                                                // Set annotation target to taxonomic identification
-                                                SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
-                                            }}
-                                        >
-                                            <FontAwesomeIcon icon={faPenToSquare}
-                                                className="tc-grey"
-                                                title="Add an annotation to modify the accepted identification"
-                                            />
-                                        </Button>
-                                    </Tooltip>
+                                    <Button
+                                        type="button"
+                                        variant="blank"
+                                        className="px-0 py-0"
+                                        OnClick={() => {
+                                            // Toggle annotation mode
+                                            ToggleAnnotationMode();
+                                            // Set annotation target to taxonomic identification
+                                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
+                                        }}
+                                    >
+                                        <Tooltip text="Add an annotation to modify the accepted identification" placement="bottom">
+                                            <span className="tc-primary fs-5 fw-lightBold">
+                                                Annotate
+                                                <FontAwesomeIcon icon={faPenToSquare}
+                                                    className="ps-2"
+                                                />
+                                            </span>
+                                        </Tooltip>
+                                    </Button>
                                 </Col>
                             </Row>
                             <Row>

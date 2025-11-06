@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'app/Hooks';
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Icons */
-import { faChevronLeft, faClosedCaptioning, faFileContract, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faClosedCaptioning, faFileContract, faRotate, faX } from '@fortawesome/free-solid-svg-icons';
 
 /* Import Components */
 import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
@@ -56,7 +56,7 @@ const TopBar = (props: Props) => {
                             dispatch(setAnnotationTarget(undefined));
                         }}
                     >
-                        <FontAwesomeIcon icon={faChevronLeft}
+                        <FontAwesomeIcon icon={faX}
                             className="tc-primary"
                             size="xl"
                         />

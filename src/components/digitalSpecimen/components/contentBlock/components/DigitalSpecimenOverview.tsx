@@ -262,6 +262,23 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     </Tooltip>
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col>
+                                    <Button 
+                                        type="button"
+                                        variant="primary"
+                                        className="br-corner bgc-warning tc-black fw-lightBold my-2 w-full"
+                                        OnClick={() => {
+                                            // Toggle annotation mode
+                                            ToggleAnnotationMode();
+                                            // Set annotation target to taxonomic identification
+                                            SetAnnotationTarget('class', `$['ods:hasIdentifications'][${acceptedIdentificationIndex}]['ods:hasTaxonIdentifications'][0]`);
+                                        }}
+                                        >
+                                            Pending annotations
+                                        </Button>
+                                </Col>
+                            </Row>
                             {/* Accepted identification */}
                             <Row className="flex-grow-1 overflow-hidden mt-2">
                                 <Col>

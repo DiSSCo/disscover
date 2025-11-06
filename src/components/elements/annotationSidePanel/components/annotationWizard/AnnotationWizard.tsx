@@ -387,12 +387,12 @@ const AnnotationWizard = (props: Props) => {
                                         <Col lg="auto" className="pe-1">
                                             {selectedIndex === 2 &&
                                             <Button type="button"
-                                            variant="primary"
-                                            className="tourAnnotate12 tourAnnotate16"
-                                            OnClick={() => GoToStep(selectedIndex + 1)}
-                                        >
-                                            Review annotation
-                                        </Button>
+                                                variant="primary"
+                                                className="tourAnnotate12 tourAnnotate16"
+                                                OnClick={() => GoToStep(selectedIndex + 1)}
+                                            >
+                                                Review annotation
+                                            </Button>
                                             }
                                             {selectedIndex === 3 &&
                                             <Button type="submit"

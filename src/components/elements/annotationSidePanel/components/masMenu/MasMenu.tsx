@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import KeycloakService from 'app/Keycloak';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -20,7 +19,7 @@ import { Dict } from 'app/Types';
 
 /* Import Components */
 import { MasOverview, MasScheduleMenu } from './MasMenuComponents';
-import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
+import { Button } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
@@ -79,27 +78,8 @@ const MASMenu = (props: Props) => {
                         OnClick={() => CloseMasMenu()}
                     >
                         <p className="tc-primary fw-lightBold">
-                            Exit
+                            {'< Back to annotations'}
                         </p>
-                    </Button>
-                </Col>
-                <Col lg="auto"
-                    className="tourMas7"
-                >
-                    <Button type="button"
-                        variant="secondary"
-                        className="fs-5"
-                        disabled={!KeycloakService.IsLoggedIn()}
-                        OnClick={() => setScheduleMasMenuToggle(!scheduleMasMenuToggle)}
-                    >
-                        <Tooltip text="You must be logged in and have a valid ORCID attached to your profile to be able to schedule a MAS"
-                            placement="bottom"
-                            active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
-                        >
-                            <p>
-                                {!scheduleMasMenuToggle ? 'Schedule a MAS' : 'Cancel scheduling'}
-                            </p>
-                        </Tooltip>
                     </Button>
                 </Col>
             </Row>
@@ -116,6 +96,7 @@ const MASMenu = (props: Props) => {
                         />
                         : <MasOverview digitalObjectId={superClass['@id']}
                             GetMasJobRecords={GetMasJobRecords}
+                            ScheduleMasMenu={() => setScheduleMasMenuToggle(!scheduleMasMenuToggle)}
                         />
                     }
                 </Col>

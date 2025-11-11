@@ -99,12 +99,16 @@ const DigitalSpecimen = () => {
      * @param digitalSpecimenAnnotations The response Annotation[] from the currently selected Digital Specimen
      */
     const handlePendingAnnotations = (digitalSpecimenAnnotations: Annotation[]): Annotation[] => {
-        console.log('original', digitalSpecimenAnnotations);
+        console.log(digitalSpecimenAnnotations);
         // TEST/F3E-NJE-SBH
         const result: Annotation[] = [];
 
         digitalSpecimenAnnotations.forEach((annotation) => {
-            if(annotation['ods:mergingDecisionStatus'] === 'Pending' || !annotation['ods:mergingDecisionStatus']) {
+            console.log(annotation['oa:hasTarget']['oa:hasSelector']['ods:class']);
+            if(
+                annotation?.['oa:hasTarget']['oa:hasSelector']['ods:class'] === '$["ods:hasIdentifications"][0]["ods:hasTaxonIdentifications"][0]'
+                && (annotation['ods:mergingDecisionStatus'] === 'Pending' || !annotation['ods:mergingDecisionStatus'])
+            ) {
                 result.push(annotation);
             }
         });

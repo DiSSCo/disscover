@@ -167,6 +167,7 @@ const AnnotationsOverview = (props: Props) => {
                     </Formik>
                 </Col>
             </Row>
+            {annotations.length > 0 &&
             <Row>
                 <Col className="mt-3 w">
                     <div className="fw-lightBold fs-4 px-4 py-2 br-corner bgc-warning tc-black my-2 w-full text-center">
@@ -176,6 +177,7 @@ const AnnotationsOverview = (props: Props) => {
                     </div>
                 </Col>
             </Row>
+            }
             {/* Annotation target if defined */}
             {annotationTarget &&
                 <Row className="mt-1">

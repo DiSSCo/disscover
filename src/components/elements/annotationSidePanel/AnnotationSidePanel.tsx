@@ -95,6 +95,7 @@ export const AnnotationSidePanel = (props: Props) => {
             Method: GetAnnotations,
             Handler: (result: DigitalSpecimenCompleteResult | Annotation[]) => {
                 setAnnotations(Array.isArray(result) ? result : result.annotations);
+                handlePendingAnnotations(Array.isArray(result) ? result : result.annotations);
             },
             ErrorHandler: () => {
                 console.warn(`Error fetching annotations of ${superClass['@type']}`);
@@ -102,6 +103,16 @@ export const AnnotationSidePanel = (props: Props) => {
         });
     } else {
         console.warn('No annotations retrieved, because no known DOI and superclass type are available');
+    }
+
+    const handlePendingAnnotations = (annotations: Annotation[]) => {
+        const result: Annotation[] = [];
+        annotations.forEach(annotation => {
+            if (annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus']) {
+                result.push(annotation);
+            }
+        });
+        setAnnotations(result);
     }
 
     /**

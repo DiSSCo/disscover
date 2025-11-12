@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utiltiies */
@@ -9,6 +9,7 @@ import { GetSpecimenNameHTMLLabel, GetSpecimenNameIdentifier } from 'app/utiliti
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
 import { Event } from 'app/types/Event';
+import { Annotation } from 'app/types/Annotation';
 
 /* Import Icons */
 import { faCopy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +17,12 @@ import { faCopy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 /* Import Components */
 import AcceptedIdentification from './digitalSpecimenOverviewContent/AcceptedIdentification';
 import { Button, OpenStreetMap, Tooltip } from 'components/elements/customUI/CustomUI';
+
+/* Import Store */
+import { getDigitalSpecimenAnnotations } from 'redux-store/DigitalSpecimenSlice';
+
+/* Import Hooks */
+import { useAppSelector } from 'app/Hooks';
 
 
 /* Props Type */
@@ -50,6 +57,9 @@ const DigitalSpecimenOverview = (props: Props) => {
         'Zoology',
         'Other Biodiversity'
     ];
+    const digitalSpecimenAnnotations = useAppSelector(getDigitalSpecimenAnnotations);
+    const [hasTaxonomicPendingAnnotations, setHasTaxonomicPendingAnnotations] = useState<boolean>(false);
+    const [hasGeoreferencePendingAnnotations, setHasGeoreferencePendingAnnotations] = useState<boolean>(false);
 
     /* Construct collectors array */
     digitalSpecimen['ods:hasEvents']?.filter(
@@ -62,6 +72,27 @@ const DigitalSpecimenOverview = (props: Props) => {
             }
         })
     );
+    
+    /**
+     * Function to get the pending or undecided annotations and exclude the approved and rejected annotations
+     * @param digitalSpecimenAnnotations The response Annotation[] from the currently selected Digital Specimen
+     */
+    const handlePendingAnnotations = (digitalSpecimenAnnotations: Annotation[]) => {
+        const hasPending = (jsonPath: string) => digitalSpecimenAnnotations.some(annotation =>
+            annotation?.['oa:hasTarget']?.['oa:hasSelector']?.['@type'] === 'ods:ClassSelector' &&
+            annotation?.['oa:hasTarget']?.['oa:hasSelector']?.['ods:class'] === jsonPath &&
+            (annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus'])
+        );
+
+        setHasTaxonomicPendingAnnotations(hasPending('$["ods:hasIdentifications"][0]["ods:hasTaxonIdentifications"][0]'));
+        setHasGeoreferencePendingAnnotations(hasPending('$["ods:hasEvents"][0]["ods:hasLocation"]["ods:hasGeoreference"]'));
+    };
+
+    useEffect(() => {
+        if (digitalSpecimenAnnotations) {
+            handlePendingAnnotations(digitalSpecimenAnnotations)
+        };
+    }, [digitalSpecimenAnnotations]);
 
     /**
      * Function to craft a citation string for this digital specimen
@@ -219,6 +250,25 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 </Button>
                             </Col>
                         </Row>
+                        {hasGeoreferencePendingAnnotations &&
+                            <Row>
+                                <Col>
+                                    <Button 
+                                        type="button"
+                                        variant="primary"
+                                        className="br-corner bgc-warning tc-black fw-lightBold my-2 w-full"
+                                        OnClick={() => {
+                                            // Toggle annotation mode
+                                            ToggleAnnotationMode();
+                                            // Set annotation target to taxonomic identification
+                                            SetAnnotationTarget('class', `$['ods:hasEvents'][0]['ods:hasLocation']['ods:hasGeoreference']`);
+                                        }}
+                                        >
+                                            Pending annotations
+                                        </Button>
+                                </Col>
+                            </Row>
+                            }
                         {/* Geological reference map */}
                         <Row className="py-2 h-100">
                             <Col>
@@ -264,6 +314,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     </Button>
                                 </Col>
                             </Row>
+                            {hasTaxonomicPendingAnnotations &&
                             <Row>
                                 <Col>
                                     <Button 
@@ -281,6 +332,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                         </Button>
                                 </Col>
                             </Row>
+                            }
                             {/* Accepted identification */}
                             <Row className="flex-grow-1 overflow-hidden mt-2">
                                 <Col>

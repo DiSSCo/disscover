@@ -11,7 +11,7 @@ import { RetrieveEnvVariable } from 'app/Utilities';
 import { useAppSelector, useAppDispatch, useFetch } from 'app/Hooks';
 
 /* Import Store */
-import { getDigitalSpecimen, getDigitalSpecimenAnnotations, getDigitalSpecimenDigitalMedia, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
+import { getDigitalSpecimen, getDigitalSpecimenDigitalMedia, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 
 /* Import Types */
@@ -34,7 +34,6 @@ import MasTourSteps from './tourSteps/masTourSteps';
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
 import { AnnotationSidePanel, ContentNavigation, Header, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
-import { Annotation } from 'app/types/Annotation';
 
 /**
  * Component that renders the digital specimen page
@@ -48,7 +47,6 @@ const DigitalSpecimen = () => {
 
     /* Base variables */
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
-    const digitalSpecimenAnnotations = useAppSelector(getDigitalSpecimenAnnotations);
     const digitalSpecimenDigitalMedia = useAppSelector(getDigitalSpecimenDigitalMedia).map(item => item.digitalMediaObject);
     const [annotationMode, setAnnotationMode] = useState<boolean>(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
@@ -89,32 +87,9 @@ const DigitalSpecimen = () => {
             if (results.digitalSpecimenComplete) {
                 /* Dispatch digital specimen */
                 dispatch(setDigitalSpecimenComplete(results.digitalSpecimenComplete));
-                handlePendingAnnotations(digitalSpecimenAnnotations);
             }
         }
     });
-
-    /**
-     * Function to get the pending or undecided annotations and exclude the approved and rejected annotations
-     * @param digitalSpecimenAnnotations The response Annotation[] from the currently selected Digital Specimen
-     */
-    const handlePendingAnnotations = (digitalSpecimenAnnotations: Annotation[]): Annotation[] => {
-        console.log(digitalSpecimenAnnotations);
-        // TEST/F3E-NJE-SBH
-        const result: Annotation[] = [];
-
-        digitalSpecimenAnnotations.forEach((annotation) => {
-            console.log(annotation['oa:hasTarget']['oa:hasSelector']['ods:class']);
-            if(
-                annotation?.['oa:hasTarget']['oa:hasSelector']['ods:class'] === '$["ods:hasIdentifications"][0]["ods:hasTaxonIdentifications"][0]'
-                && (annotation['ods:mergingDecisionStatus'] === 'Pending' || !annotation['ods:mergingDecisionStatus'])
-            ) {
-                result.push(annotation);
-            }
-        });
-        console.log('result', result);
-        return result;
-    };
     
     /**
      * Function to set the annotation target state

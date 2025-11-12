@@ -271,10 +271,6 @@ button {
   border: none;
 }
 
-.b-test {
-  border: 3px solid var(--secondary-hard);
-}
-
 /* Border radius */
 .br-corner {
   border-radius: 8px;

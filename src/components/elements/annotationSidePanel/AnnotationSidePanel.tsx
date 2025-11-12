@@ -107,11 +107,11 @@ export const AnnotationSidePanel = (props: Props) => {
 
     const handlePendingAnnotations = (annotations: Annotation[]) => {
         const result: Annotation[] = [];
-        annotations.forEach(annotation => {
+        for (const annotation of annotations) {
             if (annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus']) {
                 result.push(annotation);
             }
-        });
+        };
         setAnnotations(result);
     }
 

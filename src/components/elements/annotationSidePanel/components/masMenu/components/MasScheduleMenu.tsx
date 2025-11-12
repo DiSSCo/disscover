@@ -141,7 +141,7 @@ const MASScheduleMenu = (props: Props) => {
                                     </Col>
                                 </Row>
                                 {/* Display selected MAS */}
-                                <Row className="flex-grow-1 py-3 overflow-scroll">
+                                <Row className="py-3 overflow-auto">
                                     <Col>
                                         {[...values.scheduledMas, ...(tourMasDummy ? [{
                                             label: 'MachineAnnotationServiceDummy',
@@ -217,8 +217,8 @@ const MASScheduleMenu = (props: Props) => {
                                         })}
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col className="d-flex justify-content-end">
+                                <Row className="mt-3">
+                                    <Col lg="auto" className="pe-1">
                                         <Button type="submit"
                                             variant="primary"
                                             disabled={!values.scheduledMas.length}
@@ -227,6 +227,17 @@ const MASScheduleMenu = (props: Props) => {
                                             <p>
                                                 Schedule
                                             </p>
+                                        </Button>
+                                    </Col>
+                                    <Col lg="auto">
+                                        <Button type="button"
+                                            variant="secondary"
+                                            className="b-secondary-hard"
+                                            OnClick={() => {
+                                                ReturnToOverview();
+                                            }}
+                                        >
+                                            Cancel
                                         </Button>
                                     </Col>
                                 </Row>

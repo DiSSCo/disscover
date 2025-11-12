@@ -1,6 +1,7 @@
 /* Import Dependencies */
+import KeycloakService from 'app/Keycloak';
 import { useEffect, useState } from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
 import { useAppSelector, usePagination } from 'app/Hooks';
@@ -14,13 +15,13 @@ import { DropdownItem, Dict, MasJobRecord } from "app/Types";
 /* Import Components */
 import MasJobRecordCard from "./MasJobRecordCard";
 import { Paginator } from 'components/elements/Elements';
-import { Dropdown } from 'components/elements/customUI/CustomUI';
-
+import { Dropdown, Button, Tooltip } from 'components/elements/customUI/CustomUI';
 
 /* Props Type */
 type Props = {
     digitalObjectId: string,
-    GetMasJobRecords: Function
+    GetMasJobRecords: Function,
+    ScheduleMasMenu: Function
 };
 
 
@@ -28,10 +29,11 @@ type Props = {
  * Component that renders the MAS overview in the MAS menu
  * @param digitalObjectId The identifier of the super class digital object
  * @param GetMasJobRecords Function to fetch the MAS job records of the super class digital object
+ * @param ScheduleMasMenu Function to call the scheduleMasMenu function
  * @returns JSX Component
  */
 const MasOverview = (props: Props) => {
-    const { digitalObjectId, GetMasJobRecords } = props;
+    const { digitalObjectId, GetMasJobRecords, ScheduleMasMenu } = props;
 
     /* Base variables */
     const tourMasMachineJobRecordDummy = useAppSelector(getMasMachineJobRecordDummy);
@@ -123,7 +125,7 @@ const MasOverview = (props: Props) => {
                 </Col>
             </Row>
             {/* MAS job record cards */}
-            <Row className="flex-grow-1 overflow-scroll mt-4">
+            <Row className=" mt-4">
                 <Col>
                     {(pagination.records.length || tourMasMachineJobRecordDummy) ? [...pagination.records,
                     ...(tourMasMachineJobRecordDummy ? [tourMasMachineJobRecordDummy] : [])].map((masJobRecord: Dict, index: number) => (
@@ -143,14 +145,28 @@ const MasOverview = (props: Props) => {
                     }
                 </Col>
             </Row>
+            <Row className="mt-3">
+                <Col lg="auto" className="pe-1">
+                    <Button type="button"
+                        variant="primary"
+                        className="tourMas10"
+                        OnClick={() => ScheduleMasMenu()}
+                    >
+                        <Tooltip text="You must be logged in and have a valid ORCID attached to your profile to be able to schedule a MAS"
+                            placement="bottom"
+                            active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
+                        >
+                            <p>
+                            Schedule a MAS
+                            </p>
+                        </Tooltip>
+                    </Button>
+                </Col>
+            </Row>
             {/* Paginator */}
+            {!!(pagination.records.length) &&
             <Row>
                 <Col>
-                    <Row>
-                        <Col>
-                            <Card />
-                        </Col>
-                    </Row>
                     <Row className="mt-3">
                         <Col className="d-flex justify-content-center">
                             <Paginator pagination={pagination} />
@@ -158,6 +174,7 @@ const MasOverview = (props: Props) => {
                     </Row>
                 </Col>
             </Row>
+            }
         </div>
     );
 };

@@ -1,5 +1,4 @@
 /* Import Dependencies */
-import KeycloakService from 'app/Keycloak';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
@@ -20,7 +19,7 @@ import { Dict } from 'app/Types';
 
 /* Import Components */
 import { MasOverview, MasScheduleMenu } from './MasMenuComponents';
-import { Button, Tooltip } from 'components/elements/customUI/CustomUI';
+import { Button } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
@@ -28,6 +27,7 @@ type Props = {
     superClass: DigitalSpecimen | DigitalMedia | Dict,
     CloseMasMenu: Function,
     SetLoading: Function,
+    SetLoadingText: Function,
     GetMas: Function,
     GetMasJobRecords: Function
     ScheduleMas: Function
@@ -39,13 +39,14 @@ type Props = {
  * @param superClass The selected super class
  * @param CloseMasMenu Function to close the MAS menu
  * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param SetLoadingText Function to set the loading text of the annotation side panel
  * @param GetMas Function to fetch the potential MASs to be run
  * @param GetMasJobRecords Function that fetches the MAS job records
  * @param ScheduleMas Function to schedule MASs
  * @returns JSX Component
  */
 const MASMenu = (props: Props) => {
-    const { superClass, CloseMasMenu, SetLoading, GetMas, GetMasJobRecords, ScheduleMas } = props;
+    const { superClass, CloseMasMenu, SetLoading, SetLoadingText, GetMas, GetMasJobRecords, ScheduleMas } = props;
 
     /* Hooks */
     const fetch = useFetch();
@@ -77,27 +78,8 @@ const MASMenu = (props: Props) => {
                         OnClick={() => CloseMasMenu()}
                     >
                         <p className="tc-primary fw-lightBold">
-                            Exit
+                            {'< Back to annotations'}
                         </p>
-                    </Button>
-                </Col>
-                <Col lg="auto"
-                    className="tourMas7"
-                >
-                    <Button type="button"
-                        variant="secondary"
-                        className="fs-5"
-                        disabled={!KeycloakService.IsLoggedIn()}
-                        OnClick={() => setScheduleMasMenuToggle(!scheduleMasMenuToggle)}
-                    >
-                        <Tooltip text="You must be logged in and have a valid ORCID attached to your profile to be able to schedule a MAS"
-                            placement="bottom"
-                            active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
-                        >
-                            <p>
-                                {!scheduleMasMenuToggle ? 'Schedule a MAS' : 'Cancel scheduling'}
-                            </p>
-                        </Tooltip>
                     </Button>
                 </Col>
             </Row>
@@ -108,11 +90,13 @@ const MASMenu = (props: Props) => {
                         <MasScheduleMenu digitalObjectId={superClass['@id']}
                             mass={mass}
                             SetLoading={SetLoading}
+                            SetLoadingText={SetLoadingText}
                             ScheduleMas={ScheduleMas}
                             ReturnToOverview={() => setScheduleMasMenuToggle(false)}
                         />
                         : <MasOverview digitalObjectId={superClass['@id']}
                             GetMasJobRecords={GetMasJobRecords}
+                            ScheduleMasMenu={() => setScheduleMasMenuToggle(!scheduleMasMenuToggle)}
                         />
                     }
                 </Col>

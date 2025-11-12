@@ -16,7 +16,7 @@ import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSl
 import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
 
 /* Import Types */
-import { AnnotationTarget, Dict, ProgressDot, SuperClass } from 'app/Types';
+import { AnnotationTarget, Dict, SuperClass } from 'app/Types';
 
 /* Import API */
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
@@ -24,7 +24,7 @@ import PatchAnnotation from 'api/annotation/PatchAnnotation';
 
 /* Import Components */
 import { AnnotationFormStep, AnnotationSelectInstanceStep, AnnotationSummaryStep, AnnotationTargetStep } from './AnnotationWizardComponents';
-import { Button, ProgressDots, Tabs } from 'components/elements/customUI/CustomUI';
+import { Button, Tabs } from 'components/elements/customUI/CustomUI';
 
 
 /* Props Type */
@@ -39,6 +39,7 @@ type Props = {
     }[],
     StopAnnotationWizard: Function,
     SetLoading: Function,
+    SetLoadingText: Function,
     SetFilterSortValues: Function
 };
 
@@ -50,11 +51,12 @@ type Props = {
  * @param annotationCases Default annotation cases that can be selected as the annotation target
  * @param StopAnnotationWizard Function to stop and shut down the annotation wizard
  * @param SetLoading Function to set the loading state of the annotation side panel
+ * @param SetLoadingText Function to set the loading text of the annotation side panel
  * @param SetFilterSortValues Function to set the filter and sort values in the annotations overview
  * @returns JSX Component
  */
 const AnnotationWizard = (props: Props) => {
-    const { schema, superClass, annotationCases, StopAnnotationWizard, SetLoading, SetFilterSortValues } = props;
+    const { schema, superClass, annotationCases, StopAnnotationWizard, SetLoading, SetFilterSortValues, SetLoadingText } = props;
 
     /* Hooks */
     const dispatch = useAppDispatch();
@@ -64,7 +66,6 @@ const AnnotationWizard = (props: Props) => {
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
     const tourAnnotationWizardSelectedIndex = useAppSelector(getAnnotationWizardSelectedIndex);
-    const progressDots: ProgressDot[] = [];
     const [localAnnotationTarget, setLocalAnnotationTarget] = useState<AnnotationTarget | undefined>();
     const [initialFormValues, setInitialFormValues] = useState<{
         class: {
@@ -86,6 +87,7 @@ const AnnotationWizard = (props: Props) => {
             } | { value: string }
         }
     } | undefined>(undefined);
+    const isIdentificationOrGeoreference = annotationTarget?.jsonPath.includes('Identification') || annotationTarget?.jsonPath.includes('Georeference');
 
     /* OnLoad: define initial form values and local annotation target JSON path */
     trigger.SetTrigger(() => {
@@ -142,7 +144,6 @@ const AnnotationWizard = (props: Props) => {
         }))
     );
     const selectedIndex: number = tabStates.findIndex(tabState => tabState.active);
-    const completedTill: number = tabStates.findLastIndex(tabState => tabState.checked);
 
     /* Onchange of tour annotation wizard selected index, update local state */
     trigger.SetTrigger(() => {
@@ -185,14 +186,6 @@ const AnnotationWizard = (props: Props) => {
 
         setTabStates([...tabStates]);
     };
-
-    /* Construct progress dots */
-    Object.keys(tabs).forEach((tab, index) => {
-        progressDots.push({
-            label: tab,
-            OnClick: () => GoToStep(index)
-        });
-    });
 
     /**
      * Function to set the annotation target based on the user's selection (wizard step one)
@@ -278,6 +271,7 @@ const AnnotationWizard = (props: Props) => {
 
                                 /* Try to post the new annotation */
                                 SetLoading(true);
+                                SetLoadingText('Submitting your annotation...');
 
                                 /* If annotation object is not empty and thus the action succeeded, go back to overview and refresh, otherwise show error message */
                                 try {
@@ -325,11 +319,11 @@ const AnnotationWizard = (props: Props) => {
                                                 }}
                                             >
                                                 <p>
-                                                    Exit
+                                                    {isIdentificationOrGeoreference ? `< Back to annotations` : 'Exit'}
                                                 </p>
                                             </Button>
                                         </Col>
-                                        {!!selectedIndex &&
+                                        {(!!selectedIndex && !isIdentificationOrGeoreference) &&
                                             <Col lg>
                                                 <Button type="button"
                                                     variant="blank"
@@ -340,7 +334,7 @@ const AnnotationWizard = (props: Props) => {
                                                 </Button>
                                             </Col>
                                         }
-                                        {CheckForwardCriteria(selectedIndex, values) &&
+                                        {(CheckForwardCriteria(selectedIndex, values) && !isIdentificationOrGeoreference) &&
                                             <Col lg
                                                 className="d-flex justify-content-end"
                                             >
@@ -356,7 +350,7 @@ const AnnotationWizard = (props: Props) => {
                                     </Row>
 
                                     {/* Wizard steps display */}
-                                    <Row className="flex-grow-1 overflow-hidden">
+                                    <Row className="overflow-hidden">
                                         <Col className="h-100">
                                             <Tabs tabs={tabs}
                                                 selectedIndex={selectedIndex}
@@ -373,18 +367,56 @@ const AnnotationWizard = (props: Props) => {
                                             />
                                         </Col>
                                     </Row>
-
-
-                                    {/* Progress dots adhering to the wizard */}
-                                    <Row className="mt-3">
-                                        <Col>
-                                            <ProgressDots progressDots={progressDots}
-                                                selectedIndex={selectedIndex}
-                                                completedTill={completedTill}
-                                                ValidationFunction={(index: number) => CheckForwardCriteria(index, values)}
-                                            />
+                                    {!isIdentificationOrGeoreference && selectedIndex === 3 &&
+                                    <Row className="flex-row-reverse mt-3">
+                                        <Col lg="auto"
+                                            className="tourAnnotate18"
+                                        >
+                                            <Button type="submit"
+                                                variant="primary"
+                                            >
+                                                <p>
+                                                    Save Annotation
+                                                </p>
+                                            </Button>
                                         </Col>
                                     </Row>
+                                    }
+                                    {(annotationTarget && isIdentificationOrGeoreference) &&
+                                    <Row className="mt-3">
+                                        <Col lg="auto" className="pe-1">
+                                            {selectedIndex === 2 &&
+                                            <Button type="button"
+                                                variant="primary"
+                                                className="tourAnnotate12 tourAnnotate16"
+                                                OnClick={() => GoToStep(selectedIndex + 1)}
+                                            >
+                                                Review annotation
+                                            </Button>
+                                            }
+                                            {selectedIndex === 3 &&
+                                            <Button type="submit"
+                                                variant="primary"
+                                                className="tourAnnotate12 tourAnnotate16"
+                                            >
+                                                Submit annotation
+                                            </Button>
+                                            }
+                                        </Col>
+                                        <Col lg="auto">
+                                            <Button type="button"
+                                                variant="secondary"
+                                                className="tourAnnotate12 tourAnnotate16 b-secondary-hard"
+                                                OnClick={() => {
+                                                    StopAnnotationWizard();
+                                                    dispatch(setAnnotationTarget(undefined));
+                                                }}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                    }
                                 </Form>
                             )}
                         </Formik>

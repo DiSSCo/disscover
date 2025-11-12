@@ -225,9 +225,9 @@ const AnnotationFormStep = (props: Props) => {
         <div className="h-100 d-flex flex-column">
             {/* Annotation motivation, will be disabled if pre defined by instance selection */}
             <Row>
-                <Col className="tourAnnotate14">
+                <Col className="tourAnnotate14 fw-lightBold">
                     <p>
-                        What motivates you to make this annotation?
+                        Type of annotation
                     </p>
 
                     <Row className="mt-3">
@@ -266,7 +266,7 @@ const AnnotationFormStep = (props: Props) => {
                     </p>
                 </Col>
             </Row>
-            <Row className="tourAnnotate15 flex-grow-1 mt-3 overflow-scroll">
+            <Row className="tourAnnotate15 mt-3 overflow-auto">
                 <Col>
                     {/* If motivation is either adding or editing, render the complete digital object as a form, else a generic text area */}
                     {!isEmpty(annotationFormFieldProperties) &&

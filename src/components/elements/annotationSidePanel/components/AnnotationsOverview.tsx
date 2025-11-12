@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Formik, Form } from "formik";
 import KeycloakService from "app/Keycloak";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 /* Import Utilities */
 import { ExtractLastSegmentFromPath } from "app/utilities/SchemaUtilities";
@@ -19,7 +19,7 @@ import { Annotation } from "app/types/Annotation";
 import { AnnotationTarget } from "app/Types";
 
 /* Import Icons */
-import { faGears, faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 /* Import Components */
 import AnnotationCard from "./AnnotationCard";
@@ -194,7 +194,7 @@ const AnnotationsOverview = (props: Props) => {
                 </Row>
             }
             {/* Annotations */}
-            <Row className="flex-grow-1 overflow-scroll mt-4">
+            <Row className="overflow-auto mt-4">
                 <Col>
                     {overviewAnnotations.length ? overviewAnnotations.map((annotation, index) => (
                         <div key={annotation['@id']}
@@ -205,39 +205,28 @@ const AnnotationsOverview = (props: Props) => {
                                 RefreshAnnotations={RefreshAnnotations}
                             />
                         </div>
-                    )) : <p className="fs-4 tc-grey fst-italic">
+                    )) : <p className="fs-4 tc-grey fst-italic mb-4">
                         Currently, this digital object does not have any annotations
                     </p>}
                 </Col>
             </Row>
             {/* Bottom menu with option to add an annotation or toggle machine anotation services */}
-            <Row>
-                <Col className="px-0">
-                    <Card />
+            <Row  className="bt-greyMedium">
+                <Col>
+                    <Row className="mt-3">
+                        <Col>
+                            <p className="fs-4 fw-lightBold">To avoid duplicates, please check the annotations above before adding a new one.</p>
+                        </Col>
+                    </Row>
 
-                    <p className="fs-5 tc-grey mt-2 text-end">
-                        {`To make an annotation you must agree with our `}
-                        <span className="tc-accent">
-                            <Button type="button"
-                                variant="blank"
-                                className="py-0 px-0"
-                                OnClick={() => ShowPolicyText()}
-                            >
-                                <p className="fs-5">
-                                    annotation policy
-                                </p>
-                            </Button>
-                        </span>
-                    </p>
-
-                    <Row className="flex-row-reverse mt-2">
+                    <Row className="mt-3">
                         {/* Add annotation button */}
                         <Col lg="auto"
-                            className="tourAnnotate6 ps-1"
+                            className="tourAnnotate6 pe-1"
                         >
 
                             <Button type="button"
-                                variant="accent"
+                                variant="primary"
                                 disabled={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
                                 OnClick={() => (KeycloakService.IsLoggedIn() && KeycloakService.GetParsedToken()?.orcid) && StartAnnotationWizard()}
                             >
@@ -246,9 +235,6 @@ const AnnotationsOverview = (props: Props) => {
                                     active={!KeycloakService.IsLoggedIn() || !KeycloakService.GetParsedToken()?.orcid}
                                 >
                                     <p>
-                                        <FontAwesomeIcon icon={faPenToSquare}
-                                            className="me-2"
-                                        />
                                         Add Annotation
                                     </p>
                                 </Tooltip>
@@ -260,17 +246,32 @@ const AnnotationsOverview = (props: Props) => {
                             className="tourMas4"
                         >
                             <Button type="button"
-                                variant="accent"
+                                variant="secondary"
                                 OnClick={() => OpenMasMenu()}
+                                className="b-secondary-hard"
                             >
                                 <p>
-                                    <FontAwesomeIcon icon={faGears}
-                                        size="lg"
-                                        className="me-2"
-                                    />
                                     Machine Annotation Services
                                 </p>
                             </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <p className="fs-5 tc-grey mt-2">
+                                {`To make an annotation you must agree with our `}
+                                <span className="tc-accent">
+                                    <Button type="button"
+                                        variant="blank"
+                                        className="py-0 px-0"
+                                        OnClick={() => ShowPolicyText()}
+                                    >
+                                        <p className="fs-5">
+                                            annotation policy
+                                        </p>
+                                    </Button>
+                                </span>
+                            </p>
                         </Col>
                     </Row>
                 </Col>

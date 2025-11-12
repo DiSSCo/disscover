@@ -71,6 +71,7 @@ export const AnnotationSidePanel = (props: Props) => {
     const [masMenuToggle, setMasMenuToggle] = useState<boolean>(false);
     const [policyTextToggle, setPolicyTextToggle] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [loadingText, setLoadingText] = useState<string>('Loading annotations');
     const [filterSortValues, setFilterSortValues] = useState<{
         motivation: string,
         sortBy: string
@@ -157,12 +158,14 @@ export const AnnotationSidePanel = (props: Props) => {
                                 }
                             }}
                             SetLoading={(loading: boolean) => setLoading(loading)}
+                            SetLoadingText={(loadingText: string) => setLoadingText(loadingText)}
                             SetFilterSortValues={setFilterSortValues}
                         />
                         : <>
                             {((masMenuToggle || tourMasMenuToggle) && superClass) ? <MasMenu superClass={superClass}
                                 CloseMasMenu={() => setMasMenuToggle(false)}
                                 SetLoading={setLoading}
+                                SetLoadingText={setLoadingText}
                                 GetMas={GetMas}
                                 GetMasJobRecords={GetMasJobRecords}
                                 ScheduleMas={ScheduleMas}
@@ -189,6 +192,7 @@ export const AnnotationSidePanel = (props: Props) => {
             <LoadingScreen visible={loading}
                 displaySpinner={true}
                 className={`${loadingScreenClass} position-absolute top-0 start-0 h-100 w-100`}
+                text={loadingText}
             />
         </div>
     );

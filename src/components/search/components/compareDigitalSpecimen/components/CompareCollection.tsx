@@ -71,7 +71,7 @@ const CompareCollection = (props: Props) => {
                                     <Col lg={{ span: 2 }}
                                         className="position-sticky-left bgc-default py-1 bb-grey br-grey"
                                     >
-                                        <p className="fw-lightBold fs-4  textOverflow">
+                                        <p className="fw-lightBold fs-4">
                                             {MakeReadableString(fieldName)}
                                         </p>
                                     </Col>

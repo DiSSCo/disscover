@@ -99,13 +99,11 @@ const IdCard = (props: Props) => {
                             <Row>
                                 <Col className={`${idCardItemClass} fs-4 tr-fast`}>
                                     <button type="button"
-                                        className={`${idCardItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                        className={`${idCardItemButtonClass} button-no-style px-0 py-0 overflow-hidden`}
                                         onClick={() => annotationMode && SetAnnotationTarget('term', "$['ods:specimenName']")}
                                     >
                                         <p className="fw-lightBold">Specimen Name</p>
-                                        <p className="textOverflow"
-                                            dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }}
-                                        />
+                                        <p dangerouslySetInnerHTML={{ __html: GetSpecimenNameHTMLLabel(digitalSpecimen) }} />
                                     </button>
                                 </Col>
                             </Row>
@@ -116,12 +114,12 @@ const IdCard = (props: Props) => {
                                         {/* ID card item */}
                                         <Col className={`${idCardItemClass} fs-4 tr-fast overflow-hidden`}>
                                             <button type="button"
-                                                className={`${idCardItemButtonClass} button-no-style textOverflow px-0 py-0 overflow-hidden`}
+                                                className={`${idCardItemButtonClass} button-no-style px-0 py-0 overflow-hidden`}
                                                 onClick={() => annotationMode && SetAnnotationTarget('term', idCardField.jsonPath)}
                                             >
                                                 {/* Item label */}
                                                 <p className="fw-lightBold">{idCardField.label}</p>
-                                                <p className="textOverflow">{jp.query(digitalSpecimen, idCardField.jsonPath)}</p>
+                                                <p>{jp.query(digitalSpecimen, idCardField.jsonPath)}</p>
                                             </button>
                                         </Col>
                                     </Row>

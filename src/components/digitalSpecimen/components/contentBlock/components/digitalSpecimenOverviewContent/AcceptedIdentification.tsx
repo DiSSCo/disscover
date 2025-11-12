@@ -35,12 +35,12 @@ const AcceptedIdentification = (props: Props) => {
             <Row>
                 <Col>
                     {isGenus && 
-                    <p className="fs-4 textOverflow">
+                    <p className="fs-4">
                         <span className="fw-lightBold">{displayName}: </span>
                         <span dangerouslySetInnerHTML={{__html: GetSpecimenGenusLabel(acceptedIdentification)}} />
                     </p>}
                     {!isGenus && 
-                    <p className="fs-4 textOverflow">
+                    <p className="fs-4">
                         <span className="fw-lightBold">{displayName}: </span>
                         {acceptedIdentification["ods:hasTaxonIdentifications"]?.[0][`dwc:${rank}`]}
                     </p>}
@@ -53,12 +53,12 @@ const AcceptedIdentification = (props: Props) => {
             <Row>
                 <Col>
                     {/* Scientific Name */}
-                    <p className="fs-4 fw-lightBold textOverflow"
+                    <p className="fs-4 fw-lightBold"
                         dangerouslySetInnerHTML={{ __html: acceptedIdentification["ods:hasTaxonIdentifications"]?.[0]["ods:scientificNameHTMLLabel"] ?? digitalSpecimenName }}
                     />
                 </Col>
             </Row>
-            <Row className="flex-grow-1 mt-2">
+            <Row className="mt-2">
                 <Col lg="auto"
                     className="pe-0"
                 >
@@ -77,7 +77,7 @@ const AcceptedIdentification = (props: Props) => {
                     </div>
                 </Col>
                 <Col lg
-                    className="overflow-hidden"
+                    className="overflow-auto"
                 >
                     <div className="h-100 d-flex flex-column justify-content-between">
                         {/* Kingdom */}

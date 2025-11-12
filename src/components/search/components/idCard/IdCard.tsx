@@ -69,7 +69,7 @@ const IdCard = () => {
                 <Row>
                     {/* Specimen name */}
                     <Col lg className="text-overflow">
-                        <p className="fs-3 fw-bold textOverflow"
+                        <p className="fs-3 fw-bold"
                             dangerouslySetInnerHTML={{ __html: digitalSpecimen ? GetSpecimenNameHTMLLabel(digitalSpecimen) : '' }}
                         />
                     </Col>

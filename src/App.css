@@ -161,12 +161,6 @@ button {
   white-space: nowrap;
 }
 
-.textOverflow {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 /* Button no style */
 .button-no-style {
   width: 100%;
@@ -275,6 +269,10 @@ button {
 
 .b-none {
   border: none;
+}
+
+.b-test {
+  border: 3px solid var(--secondary-hard);
 }
 
 /* Border radius */

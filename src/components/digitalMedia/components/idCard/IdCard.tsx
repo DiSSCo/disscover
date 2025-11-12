@@ -38,7 +38,7 @@ const IdCard = (props: Props) => {
                                         <Col className="fs-4">
                                             {/* Item label */}
                                             <p className="fw-lightBold">{idCardField.label}</p>
-                                            <p className="textOverflow">{jp.query(digitalMedia, idCardField.jsonPath)}</p>
+                                            <p>{jp.query(digitalMedia, idCardField.jsonPath)}</p>
                                         </Col>
                                     </Row>
                                 );

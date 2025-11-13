@@ -1,10 +1,4 @@
 /* Custom styling for DOI Tooltip component */
-.textOverflow {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
 .tooltip {
     display: flex;
     font-size: 14px;

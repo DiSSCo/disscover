@@ -151,7 +151,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Collectors */}
                                 <Row>
                                     <Col>
-                                        <p className="fs-4 textOverflow">
+                                        <p className="fs-4">
                                             <span className="fw-lightBold">{`Collector${collectors.length > 1 ? 's' : ''}:`} </span>
                                             {collectors.join(' & ')}
                                         </p>
@@ -160,7 +160,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Collection date */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
+                                        <p className="fs-4">
                                             <span className="fw-lightBold">Collection date: </span>
                                             {collectionEvent?.['dwc:eventDate']}
                                         </p>
@@ -169,7 +169,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Country */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
+                                        <p className="fs-4">
                                             <span className="fw-lightBold">Country: </span>
                                             {collectionEvent?.['ods:hasLocation']?.['dwc:country']}
                                         </p>
@@ -178,7 +178,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Locality */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
+                                        <p className="fs-4">
                                             <span className="fw-lightBold">Locality: </span>
                                             {collectionEvent?.['ods:hasLocation']?.['dwc:locality']}
                                         </p>
@@ -265,7 +265,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 </Col>
                             </Row>
                             {/* Accepted identification */}
-                            <Row className="flex-grow-1 overflow-hidden mt-2">
+                            <Row className="flex-grow-1 overflow-auto mt-2">
                                 <Col>
                                     <AcceptedIdentification acceptedIdentification={acceptedIdentification}
                                         digitalSpecimenName={digitalSpecimen['ods:specimenName'] ?? ''}
@@ -290,7 +290,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Name */}
                                 <Row>
                                     <Col>
-                                        <p className="fs-4 textOverflow">
+                                        <p className="fs-4">
                                             <span className="fw-lightBold">Name: </span>
                                             <a href={digitalSpecimen['ods:organisationID']}
                                                 target="_blank"
@@ -305,7 +305,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                 {/* Collection */}
                                 <Row className="mt-1">
                                     <Col>
-                                        <p className="fs-4 textOverflow">
+                                        <p className="fs-4">
                                             <span className="fw-lightBold">Collection: </span>
                                             {digitalSpecimen['dwc:collectionCode']}
                                         </p>

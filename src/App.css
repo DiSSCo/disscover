@@ -161,12 +161,6 @@ button {
   white-space: nowrap;
 }
 
-.textOverflow {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 /* Button no style */
 .button-no-style {
   width: 100%;

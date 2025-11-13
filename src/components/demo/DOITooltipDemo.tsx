@@ -195,7 +195,7 @@ const DOITooltipDemo = (props: Props) => {
                                     <p className="verbatimName">(Verbatim name)</p>
                                 </div>
                                 <div className="preservedStatusDiv grow">
-                                    <p id="tooltipStatus" className="preservedStatus textOverflow">
+                                    <p id="tooltipStatus" className="preservedStatus">
                                         {`${record.data.attributes.livingOrPreserved[0].toUpperCase() + record.data.attributes.livingOrPreserved.slice(1)}
                                     ${record.data.attributes.topicDiscipline.toLowerCase()} specimen`}
                                     </p>

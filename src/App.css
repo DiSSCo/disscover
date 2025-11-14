@@ -16,6 +16,7 @@
   --greyMedium: #B4B4BF;
   --greyDark: #868696;
   --error: #E74C3C;
+  --warning: #FFBB00;
 }
 
 /* Import Montserrat Font */
@@ -145,6 +146,10 @@ button {
   width: 0 !important;
 }
 
+.w-full {
+  width: 100%;
+}
+
 /* Font weight */
 .fw-lightBold {
   font-weight: 500;
@@ -228,6 +233,10 @@ button {
 
 .bgc-orcid {
   background-color: #A5CD39;
+}
+
+.bgc-warning {
+  background-color: var(--warning);
 }
 
 /* Border */

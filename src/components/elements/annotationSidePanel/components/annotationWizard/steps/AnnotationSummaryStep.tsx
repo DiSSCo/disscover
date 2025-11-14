@@ -21,7 +21,6 @@ import { Dict, SuperClass } from 'app/Types';
 import SummaryValueBlock from './SummaryValueBlock';
 import SummaryValuesBlock from './SummaryValuesBlock';
 
-
 /* Props Type */
 type Props = {
     superClass: SuperClass,

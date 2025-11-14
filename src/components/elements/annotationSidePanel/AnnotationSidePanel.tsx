@@ -105,13 +105,14 @@ export const AnnotationSidePanel = (props: Props) => {
         console.warn('No annotations retrieved, because no known DOI and superclass type are available');
     }
 
+    /**
+     * Function for handling and only showing pending annotations
+     * @param annotations All annotations this function needs to filter on
+     */
     const handlePendingAnnotations = (annotations: Annotation[]) => {
-        const result: Annotation[] = [];
-        for (const annotation of annotations) {
-            if (annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus']) {
-                result.push(annotation);
-            }
-        };
+        const result: Annotation[] = annotations.filter((annotation) => {
+            return annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus']
+        });
         setAnnotations(result);
     }
 

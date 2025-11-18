@@ -167,9 +167,20 @@ const AnnotationsOverview = (props: Props) => {
                     </Formik>
                 </Col>
             </Row>
+            {overviewAnnotations.length > 0 &&
+            <Row>
+                <Col className="mt-3 w">
+                    <div className="fw-lightBold fs-4 px-4 py-2 br-corner bgc-warning tc-black my-2 w-full text-center">
+                        <p>
+                            Pending annotations
+                        </p>
+                    </div>
+                </Col>
+            </Row>
+            }
             {/* Annotation target if defined */}
             {annotationTarget &&
-                <Row className="mt-3">
+                <Row className="mt-1">
                     <Col lg="auto"
                         className="pe-0"
                     >
@@ -194,7 +205,7 @@ const AnnotationsOverview = (props: Props) => {
                 </Row>
             }
             {/* Annotations */}
-            <Row className="overflow-auto mt-4">
+            <Row className="overflow-auto mt-3 mb-3">
                 <Col>
                     {overviewAnnotations.length ? overviewAnnotations.map((annotation, index) => (
                         <div key={annotation['@id']}

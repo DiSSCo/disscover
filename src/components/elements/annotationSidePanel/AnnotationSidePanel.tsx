@@ -95,6 +95,7 @@ export const AnnotationSidePanel = (props: Props) => {
             Method: GetAnnotations,
             Handler: (result: DigitalSpecimenCompleteResult | Annotation[]) => {
                 setAnnotations(Array.isArray(result) ? result : result.annotations);
+                handlePendingAnnotations(Array.isArray(result) ? result : result.annotations);
             },
             ErrorHandler: () => {
                 console.warn(`Error fetching annotations of ${superClass['@type']}`);
@@ -102,6 +103,17 @@ export const AnnotationSidePanel = (props: Props) => {
         });
     } else {
         console.warn('No annotations retrieved, because no known DOI and superclass type are available');
+    }
+
+    /**
+     * Function for handling and only showing pending annotations
+     * @param annotations All annotations this function needs to filter on
+     */
+    const handlePendingAnnotations = (annotations: Annotation[]) => {
+        const result: Annotation[] = annotations.filter((annotation) => {
+            return annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus']
+        });
+        setAnnotations(result);
     }
 
     /**

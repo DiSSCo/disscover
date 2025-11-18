@@ -46,7 +46,6 @@ const DigitalSpecimenOverview = (props: Props) => {
     const [copyMessage, setCopyMessage] = useState<string>('Copy');
     const acceptedIdentification = digitalSpecimen['ods:hasIdentifications']?.find(identification => identification['ods:isVerifiedIdentification']);
     const acceptedIdentificationIndex: number | undefined = digitalSpecimen['ods:hasIdentifications']?.findIndex(identification => identification['ods:isVerifiedIdentification']);
-    console.log(acceptedIdentification, acceptedIdentificationIndex);
     const collectors: string[] = [];
     const collectionEvent: Event | undefined = digitalSpecimen['ods:hasEvents']?.find(event => event['dwc:eventType'] === 'Collecting Event');
     const topicDisciplinesWithIdentifications: string[] = [
@@ -84,9 +83,7 @@ const DigitalSpecimenOverview = (props: Props) => {
             annotation?.['oa:hasTarget']?.['oa:hasSelector']?.['ods:class'] === jsonPath &&
             (annotation?.['ods:mergingDecisionStatus'] === 'Pending' || !annotation?.['ods:mergingDecisionStatus'])
         );
-        console.log(`$['ods:hasIdentifications'][${acceptedIdentificationIndex ?? '0'}]['ods:hasTaxonIdentifications'][0]`);
-        console.log(`$['ods:hasIdentifications'][0]['ods:hasTaxonIdentifications'][0]`)
-        setHasTaxonomicPendingAnnotations(hasPending(`$['ods:hasIdentifications'][0]['ods:hasTaxonIdentifications'][0]`));
+        setHasTaxonomicPendingAnnotations(hasPending(`$["ods:hasIdentifications"][${acceptedIdentificationIndex ?? 0}]["ods:hasTaxonIdentifications"][0]`));
         setHasGeoreferencePendingAnnotations(hasPending('$["ods:hasEvents"][0]["ods:hasLocation"]["ods:hasGeoreference"]'));
     };
 
@@ -258,7 +255,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <Button 
                                         type="button"
                                         variant="primary"
-                                        className="br-corner bgc-warning tc-black fw-lightBold my-2 w-full"
+                                        className="br-corner bgc-warning tc-black fw-lightBold my-2 w-full fs-5"
                                         OnClick={() => {
                                             // Toggle annotation mode
                                             ToggleAnnotationMode();
@@ -322,7 +319,7 @@ const DigitalSpecimenOverview = (props: Props) => {
                                     <Button 
                                         type="button"
                                         variant="primary"
-                                        className="br-corner bgc-warning tc-black fw-lightBold my-2 w-full"
+                                        className="br-corner bgc-warning tc-black fw-lightBold my-2 w-full fs-5"
                                         OnClick={() => {
                                             // Toggle annotation mode
                                             ToggleAnnotationMode();

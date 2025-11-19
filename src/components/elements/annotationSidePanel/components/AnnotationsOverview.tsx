@@ -106,6 +106,17 @@ const AnnotationsOverview = (props: Props) => {
         ...SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy, annotationTarget?.jsonPath)
     ];
 
+    /* Set pending annotations title */
+    const pendingAnnotationTitle = () => {
+        const count = overviewAnnotations.length;
+        const singularOrPlural = count === 1 ? 'pending annotation' : 'pending annotations';
+        const lastSegmentFromPath = annotationTarget?.jsonPath ? ExtractLastSegmentFromPath(annotationTarget.jsonPath) : null;
+
+        return lastSegmentFromPath
+            ? `${count} ${lastSegmentFromPath} ${singularOrPlural}`
+            : `${count} ${singularOrPlural}`;
+    };
+
     /**
      * Function to start editing an existing annotation
      * @param annotation The annotation to be edited
@@ -172,7 +183,7 @@ const AnnotationsOverview = (props: Props) => {
                 <Col className="mt-3 w">
                     <div className="fw-lightBold fs-4 px-4 py-2 br-corner bgc-warning tc-black my-2 w-full text-center">
                         <p>
-                            Pending annotations
+                            {pendingAnnotationTitle()}
                         </p>
                     </div>
                 </Col>

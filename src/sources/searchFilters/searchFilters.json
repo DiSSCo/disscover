@@ -2,7 +2,9 @@
     "searchFilters": {
         "midsLevel": {
             "label": "MIDS Level",
-            "type": "block"
+            "type": "block",
+            "filters": ["0", "1", "2"],
+            "noAggregations": true
         },
         "topicDiscipline": {
             "label": "Topic Discipline",
@@ -73,7 +75,9 @@
         "livingOrPreserved": {
             "label": "Living or preserved",
             "type": "block",
-            "nestedIn": "filters"
+            "nestedIn": "filters",
+            "filters": ["Living", "Preserved"],
+            "noAggregations": true
         },
         "license": {
             "label": "License",
@@ -84,7 +88,9 @@
         "hasMedia": {
             "label": "Has Media",
             "type": "boolean",
-            "nestedIn": "filters"
+            "nestedIn": "filters",
+            "filters": ["true", "false"],
+            "noAggregations": true
         },
         "collectionCode": {
             "label": "Collection Code",
@@ -95,7 +101,11 @@
         "missingData": {
             "label": "Missing Data",
             "type": "select",
-            "nestedIn": "filters"
+            "nestedIn": "filters",
+            "filters": [
+                "noLongitude", "noLatitude", "noCountry", "noLocality", "noKingdom", "noPhylum", "noClass", "noOrder", "noFamily", "noGenus"
+            ],
+            "noAggregations": true
         }
     }
 }

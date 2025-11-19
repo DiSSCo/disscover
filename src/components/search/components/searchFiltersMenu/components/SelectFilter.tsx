@@ -29,7 +29,9 @@ type Props = {
     aggregations?: { [aggregation: string]: number },
     enableSearchQuery?: boolean,
     SetFieldValue: Function,
-    SubmitForm: Function
+    SubmitForm: Function,
+    filters?: string[],
+    noAggregations?: boolean
 };
 
 
@@ -45,7 +47,7 @@ type Props = {
  * @returns JSX Component
  */
 const SelectFilter = (props: Props) => {
-    const { name, namePrefix, fieldValues, searchQuery, aggregations, enableSearchQuery, SetFieldValue, SubmitForm } = props;
+    const { name, namePrefix, fieldValues, searchQuery, aggregations, enableSearchQuery, SetFieldValue, SubmitForm, filters, noAggregations } = props;
 
     /* Base variables */
     const bootAggregations = useAppSelector(getAggregations);
@@ -61,34 +63,46 @@ const SelectFilter = (props: Props) => {
         multiSelectItems.unshift({
             label: isMissingDataFilter ? formatMissingDataFilter(fieldValue, 'title') : fieldValue,
             value: fieldValue,
-            count: filterAggregations?.[fieldValue] ?? aggregations?.[fieldValue] ?? bootAggregations?.[name]?.[fieldValue]
+            count: isMissingDataFilter ? undefined : (filterAggregations?.[fieldValue] ?? aggregations?.[fieldValue] ?? bootAggregations?.[name]?.[fieldValue])
         });
     });
 
+    /* Construct from hardcoded filters */
+    if (filters && noAggregations) {
+        filters.forEach((filter) => {
+            if (!multiSelectItems.some(multiSelectItem => multiSelectItem.value === filter)) {
+                multiSelectItems.push({
+                    label: isMissingDataFilter ? formatMissingDataFilter(filter, 'title') : filter,
+                    value: filter,
+                    count: undefined
+                });
+            }
+    })};
+
     /* Construct from boot aggregations to initiate top ten values, if aggregation is not yet present and if not searching */
-    if (!searchQuery) {
+    if (!searchQuery && !filterAggregations && !noAggregations) {
         Object.entries(bootAggregations[name]).forEach(([key, count]) => {
             /* Check if item is not already present due to selected list */
-            if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
+            if (!multiSelectItems.some(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
                     label: isMissingDataFilter ? formatMissingDataFilter(key, 'title') : key,
                     value: key,
-                    count
+                    count: isMissingDataFilter ? undefined : count
                 });
             }
         });
     };
 
     /* Construct multi select items, if aggregations are present */
-    if (filterAggregations) {
+    if (filterAggregations && !noAggregations) {
         /* Construct from filter aggregations, includes search results, negates if value is already present in selected */
         Object.entries(filterAggregations).forEach(([key, count]) => {
             /* Check if item is not already present due to selected list */
-            if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
+            if (!multiSelectItems.some(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
                     label: isMissingDataFilter ? formatMissingDataFilter(key, 'title') : key,
                     value: key,
-                    count
+                    count: isMissingDataFilter ? undefined : count
                 });
             };
         });

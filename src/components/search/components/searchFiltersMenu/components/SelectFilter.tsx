@@ -83,7 +83,7 @@ const SelectFilter = (props: Props) => {
     if (!searchQuery && !filterAggregations && !noAggregations) {
         Object.entries(bootAggregations[name]).forEach(([key, count]) => {
             /* Check if item is not already present due to selected list */
-            if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
+            if (!multiSelectItems.some(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
                     label: isMissingDataFilter ? formatMissingDataFilter(key, 'title') : key,
                     value: key,
@@ -98,7 +98,7 @@ const SelectFilter = (props: Props) => {
         /* Construct from filter aggregations, includes search results, negates if value is already present in selected */
         Object.entries(filterAggregations).forEach(([key, count]) => {
             /* Check if item is not already present due to selected list */
-            if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === key)) {
+            if (!multiSelectItems.some(multiSelectItem => multiSelectItem.value === key)) {
                 multiSelectItems.push({
                     label: isMissingDataFilter ? formatMissingDataFilter(key, 'title') : key,
                     value: key,

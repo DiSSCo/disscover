@@ -6,10 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 
 /* Import Hooks */
-import { useAppSelector, useFetch, useSearchFilters } from 'app/Hooks';
-
-/* Import Store */
-import { getAggregations } from 'redux-store/BootSlice';
+import { useFetch, useSearchFilters } from 'app/Hooks';
 
 /* Import Types */
 import { SearchFilter as SearchFilterType, Dict } from 'app/Types';
@@ -41,7 +38,6 @@ const SearchFiltersMenu = () => {
     const searchFilters = useSearchFilters();
 
     /* Base variables */
-    const bootAggregations = useAppSelector(getAggregations);
     const [digitalSpecimenAggregations, setDigitalSpecimenAggregations] = useState<{
         [searchFilterName: string]: {
             [aggregation: string]: number
@@ -210,11 +206,8 @@ const SearchFiltersMenu = () => {
                                                             Object.keys(searchFilter.contains ?? {}).forEach(taxonomyKey => {
                                                                 aggregations[key][taxonomyKey] = digitalSpecimenAggregations[taxonomyKey];
                                                             });
-                                                        } else if (searchFilter.noAggregations) {
-                                                            aggregations = {}
-                                                        } else {
-                                                            aggregations = { [key]: digitalSpecimenAggregations?.[key] };
-                                                        };
+                                                        } else if (searchFilter.noAggregations) aggregations = {};
+                                                        else aggregations = { [key]: digitalSpecimenAggregations?.[key] };
 
                                                         return (
                                                             <Row key={key}

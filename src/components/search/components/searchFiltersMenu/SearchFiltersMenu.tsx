@@ -160,7 +160,6 @@ const SearchFiltersMenu = () => {
                                                 <SearchFilter name="midsLevel"
                                                     fieldValue={values.midsLevel}
                                                     searchFilter={SearchFilters.searchFilters.midsLevel}
-                                                    aggregations={{ midsLevel: bootAggregations.midsLevel }}
                                                     text="MIDS"
                                                     SetFieldValue={(field: string, value: string | string[]) => setFieldValue(field, value)}
                                                     SubmitForm={submitForm}
@@ -211,6 +210,8 @@ const SearchFiltersMenu = () => {
                                                             Object.keys(searchFilter.contains ?? {}).forEach(taxonomyKey => {
                                                                 aggregations[key][taxonomyKey] = digitalSpecimenAggregations[taxonomyKey];
                                                             });
+                                                        } else if (searchFilter.noAggregations) {
+                                                            aggregations = {}
                                                         } else {
                                                             aggregations = { [key]: digitalSpecimenAggregations?.[key] };
                                                         };

@@ -69,7 +69,9 @@ export type SearchFilter = {
     nestedIn?: string,
     contains?: { [searchFilterName: string]: SearchFilter },
     searchable?: boolean,
-    searchAlias?: string
+    searchAlias?: string,
+    filters?: string[],
+    noAggregations?: boolean,
 };
 
 /* Search filters (fetch requests) */

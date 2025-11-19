@@ -70,7 +70,7 @@ const SelectFilter = (props: Props) => {
     /* Construct from hardcoded filters */
     if (filters && noAggregations) {
         filters.forEach((filter) => {
-            if (!multiSelectItems.find(multiSelectItem => multiSelectItem.value === filter)) {
+            if (!multiSelectItems.some(multiSelectItem => multiSelectItem.value === filter)) {
                 multiSelectItems.push({
                     label: isMissingDataFilter ? formatMissingDataFilter(filter, 'title') : filter,
                     value: filter,

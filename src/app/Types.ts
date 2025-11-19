@@ -71,7 +71,7 @@ export type SearchFilter = {
     searchable?: boolean,
     searchAlias?: string,
     filters?: string[],
-    noAggregations?: boolean,
+    noAggregations?: boolean
 };
 
 /* Search filters (fetch requests) */

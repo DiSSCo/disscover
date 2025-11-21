@@ -5,11 +5,10 @@ import Keycloak from 'keycloak-js';
 /* Callback type */
 type Callback = () => Function | void;
 
-
 /* Create keycloak instance */
 const keycloak = new Keycloak({
-    url: "https://login-demo.dissco.eu/auth",
-    realm: "dissco",
+    url: import.meta.env.VITE_KEYCLOAK_SERVER,
+    realm: import.meta.env.VITE_KEYCLOAK_REALM,
     clientId: import.meta.env.VITE_KEYCLOAK_CLIENT,
 });
 
@@ -18,7 +17,7 @@ const InitKeyCloak = (callback?: Callback, token?: string) => {
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
         pkceMethod: "S256",
-        scope: 'roles profile email orcid',
+        scope: 'roles profile email',
         token: token,
         refreshToken: token
     })

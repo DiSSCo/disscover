@@ -1,5 +1,5 @@
 # Pull official node image as base
-FROM node:20.15.1-alpine3.19 as build
+FROM node:24-alpine3.21 as build
 
 # Set working directory
 WORKDIR /disscover
@@ -8,7 +8,7 @@ WORKDIR /disscover
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN npm install npm@10.8.2
+RUN npm install npm@11.6.3
 
 # Copy application
 COPY . ./
@@ -24,12 +24,16 @@ RUN node 'src/app/GenerateTypes.cjs'
 # Set env variables
 ARG VITE_KEYCLOAK_CLIENT
 ENV VITE_KEYCLOAK_CLIENT ${VITE_KEYCLOAK_CLIENT}
+ARG VITE_KEYCLOAK_SERVER
+ENV VITE_KEYCLOAK_SERVER ${VITE_KEYCLOAK_SERVER}
+ARG VITE_KEYCLOAK_REALM
+ENV VITE_KEYCLOAK_REALM ${VITE_KEYCLOAK_REALM}
 
 # Setting app to production build
 RUN npm run build
 
 # Setting up NGINX
-FROM nginx:stable-alpine
+FROM nginx:alpine
 
 COPY --from=build /disscover/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf

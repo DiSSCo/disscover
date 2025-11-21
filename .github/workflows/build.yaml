@@ -12,8 +12,12 @@ jobs:
         include:
           - image: public.ecr.aws/dissco/${{ github.event.repository.name }}-production
             keycloak_client: production-disscover-fe
+            keycloak_server: https://login-demo.dissco.eu/auth
+            keycloak_realm: dissco
           - image: public.ecr.aws/dissco/${{ github.event.repository.name }}
             keycloak_client: orchestration-service
+            keycloak_server: https://keycloak.iam.naturalis.io
+            keycloak_realm: dissco-dev
     steps:
     - uses: actions/checkout@v2
       with:
@@ -60,7 +64,8 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}"
-
+          "VITE_KEYCLOAK_SERVER=${{ matrix.keycloak_server }}"
+          "VITE_KEYCLOAK_REALM=${{ matrix.keycloak_realm }}"
     - name: Set outputs
       id: vars
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"

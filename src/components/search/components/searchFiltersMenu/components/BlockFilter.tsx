@@ -11,7 +11,9 @@ type Props = {
     fieldValues: string[],
     aggregations?: { [aggregation: string]: number },
     text?: string,
-    SubmitForm: Function
+    SubmitForm: Function,
+    filters?: string[],
+    noAggregations?: boolean
 };
 
 
@@ -26,16 +28,18 @@ type Props = {
  * @returns JSX Component
  */
 const BlockFilter = (props: Props) => {
-    const { name, namePrefix, fieldValues, aggregations, text, SubmitForm } = props;
+    const { name, namePrefix, fieldValues, aggregations, text, SubmitForm, filters, noAggregations } = props;
 
     /* Base variables */
     const blockFilterItems: string[] = [];
 
     /* Construct from boot aggregations */
-    if (aggregations) {
-        Object.keys(aggregations).forEach(key => {
-            blockFilterItems.push(key);
-        })
+    if (aggregations && !noAggregations) {
+        Object.keys(aggregations).forEach(key => blockFilterItems.push(key))
+    }
+
+    if (noAggregations && filters) {
+        filters.forEach(key => blockFilterItems.push(key));
     }
 
     /* Construct from selected values by replacing the aggregation ones */

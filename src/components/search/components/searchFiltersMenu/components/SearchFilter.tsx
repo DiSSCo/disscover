@@ -54,6 +54,8 @@ const SearchFilter = (props: Props) => {
                 enableSearchQuery={searchFilter.searchable}
                 SetFieldValue={(field: string, value: string | string[]) => SetFieldValue?.(field, value)}
                 SubmitForm={SubmitForm}
+                filters={searchFilter.filters}
+                noAggregations={searchFilter.noAggregations}
             />;
 
             break;
@@ -64,6 +66,8 @@ const SearchFilter = (props: Props) => {
                 aggregations={aggregations?.[name] as { [aggregation: string]: number }}
                 text={text}
                 SubmitForm={SubmitForm}
+                filters={searchFilter.filters}
+                noAggregations={searchFilter.noAggregations}
             />
 
             break;
@@ -92,6 +96,8 @@ const SearchFilter = (props: Props) => {
                 aggregations={aggregations?.[name] as { [aggregation: string]: number }}
                 SetFieldValue={(field: string, value: string[]) => SetFieldValue?.(field, value)}
                 SubmitForm={SubmitForm}
+                filters={searchFilter.filters}
+                noAggregations={searchFilter.noAggregations}
             />;
     };
 

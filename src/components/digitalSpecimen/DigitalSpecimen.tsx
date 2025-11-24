@@ -66,6 +66,7 @@ const DigitalSpecimen = () => {
     ];
     const handle: string = `${params.prefix}/${params.suffix}`;
     const storedHandle: string | undefined = digitalSpecimen?.['@id']?.replace(RetrieveEnvVariable('DOI_URL'), '');
+    console.log(storedHandle, digitalSpecimen);
     const isDifferentVersion: boolean = params.version !== digitalSpecimen?.['ods:version'].toString();
 
     /* OnLoad, fetch digital specimen data if the digitalSpecimen data with the current handle is not already in the store*/

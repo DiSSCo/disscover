@@ -10,6 +10,7 @@ import DigitalSpecimenReducer from 'redux-store/DigitalSpecimenSlice';
 import GlobalReducer from 'redux-store/GlobalSlice';
 import SearchReducer from 'redux-store/SearchSlice';
 import TourReducer from 'redux-store/TourSlice';
+import VirtualCollectionReducer from 'redux-store/VirtualCollectionSlice';
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   digitalSpecimen: DigitalSpecimenReducer,
   global: GlobalReducer,
   search: SearchReducer,
-  tour: TourReducer
+  tour: TourReducer,
+  virtualCollection: VirtualCollectionReducer
 });
 
 export const setupStore = (preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>) => {

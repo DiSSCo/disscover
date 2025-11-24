@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import VirtualCollectionsTableConfig from "app/config/table/VirtualCollectionsTableConfig";
 
 /* Import Hooks */
-import { usePagination } from "app/Hooks";
+import { useAppDispatch, usePagination } from "app/Hooks";
 
 /* Import API */
 import getAllVirtualCollections from "api/virtualCollections/getAllVirtualCollections";
@@ -13,6 +13,9 @@ import getAllVirtualCollections from "api/virtualCollections/getAllVirtualCollec
 /* Import Components */
 import { Paginator } from "components/elements/Elements";
 import { DataTable } from "components/elements/customUI/CustomUI";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { setAllVirtualCollections, setSelectedVirtualCollection } from "redux-store/VirtualCollectionSlice";
 
 /* User annotation record type */
 type DataRow = {
@@ -29,6 +32,10 @@ type DataRow = {
  * @returns JSX Component
  */
 const VirtualCollectionsTable = () => {
+    /* Hooks */
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     /* Base variables */
     const { columns } = VirtualCollectionsTableConfig();
     const tableData: DataRow[] = [];
@@ -37,6 +44,11 @@ const VirtualCollectionsTable = () => {
         pageSize: 25,
         Method: getAllVirtualCollections
     });
+    useEffect(() => {
+        if (pagination) {
+            dispatch(setAllVirtualCollections(pagination.records));
+        }
+    })
 
     pagination.records.forEach(virtualCollection => {
         tableData.push({
@@ -47,6 +59,14 @@ const VirtualCollectionsTable = () => {
             identifier: virtualCollection.attributes['@id']
         });
     });
+
+    const doSomething = (e: any) => {
+        console.log('something', e);
+        console.log(e.identifier);
+        const virtualCollectionId = e.identifier.split('/').pop();
+        console.log(virtualCollectionId);
+        dispatch(setSelectedVirtualCollection(e));
+    };
     
     return (
         <div className="h-100 d-flex flex-column">
@@ -55,6 +75,7 @@ const VirtualCollectionsTable = () => {
                     <div className="h-100 bgc-white b-secondary-hard br-corner">
                         <DataTable columns={columns}
                             data={tableData}
+                            SelectAction={(e: any) => doSomething(e)}
                         />
                     </div>
                 </Col>

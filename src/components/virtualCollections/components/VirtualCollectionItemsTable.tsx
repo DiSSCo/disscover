@@ -50,7 +50,7 @@ const VirtualCollectionItemsTable = (props: Props) => {
     
     return (
         <div className="h-100 d-flex flex-column">
-            <Row className="flex-grow-1 overflow-hidden">
+            <Row className="flex-grow-1 overflow-auto">
                 <Col>
                     <div className="h-100 bgc-white b-secondary-hard br-corner">
                         <DataTable columns={columns}

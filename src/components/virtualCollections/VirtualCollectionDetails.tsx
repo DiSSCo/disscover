@@ -61,15 +61,15 @@ const VirtualCollectionDetails = () => {
             <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">
                     <Col lg={{ span: 10, offset: 1 }}
-                        className="d-flex flex-column"
+                        className="d-flex flex-column h-100"
                     >
                         <Row>
                             <Col>
                                 <Jumbotron virtualCollection={selectedVirtualCollection} />
                             </Col>
                         </Row>
-                        <Row className="mt-4">
-                            <Col>
+                        <Row className="flex-grow-1 position-relative overflow-y-hidden mt-3">
+                            <Col className="h-100">
                                 {/* Digital specimen items */}
                                 <VirtualCollectionItemsTable pagination={pagination} />
                             </Col>

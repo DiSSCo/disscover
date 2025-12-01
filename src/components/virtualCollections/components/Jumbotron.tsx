@@ -1,7 +1,14 @@
-const Jumbotron = () => {
+type Props = {
+    virtualCollection: any
+}
+
+const Jumbotron = (props: Props) => {
+    const { virtualCollection } = props;
+
     return (
-        <div>
-            <h1>Jumbotron</h1>
+        <div className="mb-4">
+            <h1 className="mb-2">{virtualCollection?.attributes?.['ltc:collectionName']}</h1>
+            <p>{virtualCollection?.attributes?.['ltc:description']}</p>
         </div>
     );
 };

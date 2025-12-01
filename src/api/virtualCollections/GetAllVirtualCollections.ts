@@ -7,7 +7,7 @@ import { JSONResult } from 'app/Types';
 /* Import Exceptions */
 import { NotFoundException } from 'app/Exceptions';
 
-const getAllVirtualCollections = async() => {
+const GetAllVirtualCollections = async() => {
     const endPoint = `virtual-collection/v1`;
 
     try {
@@ -26,4 +26,4 @@ const getAllVirtualCollections = async() => {
     };
 }
 
-export default getAllVirtualCollections;
+export default GetAllVirtualCollections;

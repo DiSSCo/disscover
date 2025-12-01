@@ -1,5 +1,6 @@
 /* Import Dependencies */
 import { Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 /* Import Config */
 import VirtualCollectionsTableConfig from "app/config/table/VirtualCollectionsTableConfig";
@@ -8,14 +9,15 @@ import VirtualCollectionsTableConfig from "app/config/table/VirtualCollectionsTa
 import { useAppDispatch, usePagination } from "app/Hooks";
 
 /* Import API */
-import getAllVirtualCollections from "api/virtualCollections/getAllVirtualCollections";
+import GetAllVirtualCollections from "api/virtualCollections/GetAllVirtualCollections";
+
+/* Import Store */
+import { setSelectedVirtualCollection } from "redux-store/VirtualCollectionSlice";
 
 /* Import Components */
 import { Paginator } from "components/elements/Elements";
 import { DataTable } from "components/elements/customUI/CustomUI";
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
-import { setAllVirtualCollections, setSelectedVirtualCollection } from "redux-store/VirtualCollectionSlice";
+import { RetrieveEnvVariable } from "app/Utilities";
 
 /* User annotation record type */
 type DataRow = {
@@ -42,13 +44,8 @@ const VirtualCollectionsTable = () => {
 
     const pagination = usePagination({
         pageSize: 25,
-        Method: getAllVirtualCollections
+        Method: GetAllVirtualCollections
     });
-    useEffect(() => {
-        if (pagination) {
-            dispatch(setAllVirtualCollections(pagination.records));
-        }
-    })
 
     pagination.records.forEach(virtualCollection => {
         tableData.push({
@@ -60,14 +57,17 @@ const VirtualCollectionsTable = () => {
         });
     });
 
-    const doSomething = (e: any) => {
-        console.log('something', e);
-        console.log(e.identifier);
-        const virtualCollectionId = e.identifier.split('/').pop();
-        console.log(virtualCollectionId);
-        dispatch(setSelectedVirtualCollection(e));
+    const selectVirtualCollection = (selectedCollection: any) => {
+        const result = pagination.records.find((collection) => {
+            return collection.id === selectedCollection.identifier;
+        });
+        // Dispatch the selected virtual collection to the store
+        dispatch(setSelectedVirtualCollection(result));
+        
+        // Navigate to the virtual collection details
+        navigate(`/virtual-collections/${selectedCollection.identifier.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`);
     };
-    
+
     return (
         <div className="h-100 d-flex flex-column">
             <Row className="flex-grow-1 overflow-hidden">
@@ -75,7 +75,7 @@ const VirtualCollectionsTable = () => {
                     <div className="h-100 bgc-white b-secondary-hard br-corner">
                         <DataTable columns={columns}
                             data={tableData}
-                            SelectAction={(e: any) => doSomething(e)}
+                            SelectAction={(e: any) => selectVirtualCollection(e)}
                         />
                     </div>
                 </Col>

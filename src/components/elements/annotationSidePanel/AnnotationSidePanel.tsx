@@ -125,7 +125,7 @@ export const AnnotationSidePanel = (props: Props) => {
         const annotations = await GetAnnotations({
             handle: superClass?.['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
         });
-        superClass['@type'] === 'ods:DigitalSpecimen' ? setAnnotations(annotations.annotations) : setAnnotations(annotations);
+        superClass['@type'] === 'ods:DigitalSpecimen' ? handlePendingAnnotations(annotations.annotations) : handlePendingAnnotations(annotations);
         setLoading(false);
     };
 

@@ -33,18 +33,18 @@ const GetAllVirtualCollectionItems = async({ pageSize, pageNumber, virtualCollec
         const data: JSONResultArray = result.data;
 
         if (data.data.length) {
-            data.data.forEach((dataRow) => {
+            for (const dataRow of data.data) {
                 returnData.digitalSpecimens.push(dataRow.attributes as DigitalSpecimen);
-            });
+            }
         } else {
-            throw (NoSearchResults('Digital Specimen', result.request.responseURL));
+            throw (NoSearchResults('Virtual Collection Items', result.request.responseURL));
         };
-
-        returnData.links = data.links;
 
         if (data.meta) {
             returnData.metadata = data.meta;
         };
+
+        returnData.links = data.links;
     } catch (error: any) {
         throw (error);
     };

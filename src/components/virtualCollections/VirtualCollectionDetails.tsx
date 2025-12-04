@@ -2,14 +2,13 @@
 import { Col, Container, Row } from "react-bootstrap";
 
 /* Import Hooks */
-import { useAppDispatch, useAppSelector, useFetch, usePagination } from "app/Hooks";
+import { useAppDispatch, useAppSelector, useFetch } from "app/Hooks";
 
 /* Import Config */
 import VirtualCollectionItemsTable from "./components/VirtualCollectionItemsTable";
 
 /* Import API */
 import GetSpecificVirtualCollection from "api/virtualCollections/GetSpecificVirtualCollection";
-import GetAllVirtualCollectionItems from "api/virtualCollections/GetAllVirtualCollectionItems";
 
 /* Import Store */
 import { getSelectedVirtualCollection, setSelectedVirtualCollection } from "redux-store/VirtualCollectionSlice";
@@ -17,6 +16,9 @@ import { getSelectedVirtualCollection, setSelectedVirtualCollection } from "redu
 /* Import Components */
 import Jumbotron from "./components/Jumbotron";
 import { Footer, Header } from "components/elements/Elements";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 
 const VirtualCollectionDetails = () => {
@@ -28,7 +30,7 @@ const VirtualCollectionDetails = () => {
     /* Base variables */
     const selectedVirtualCollection = useAppSelector(getSelectedVirtualCollection);
 
-    /* Onload get selectedVirtualCollection if virtual collection is not retrieved yet */
+    /* Onload get selectedVirtualCollection in case of direct navigation to this page*/
     fetch.Fetch({
         Method: GetSpecificVirtualCollection,
         params: {
@@ -40,14 +42,6 @@ const VirtualCollectionDetails = () => {
                 dispatch(dispatch(setSelectedVirtualCollection(results)));
             }
         })
-    });
-
-    const pagination = usePagination({
-        pageSize: 25,
-        params: {
-            virtualCollectionID: location.pathname.replace('/virtual-collections/', ''),
-        },
-        Method: GetAllVirtualCollectionItems
     });
 
     return (
@@ -63,6 +57,15 @@ const VirtualCollectionDetails = () => {
                     <Col lg={{ span: 10, offset: 1 }}
                         className="d-flex flex-column h-100"
                     >
+                        {/* Navigation back to virtual collections */}
+                        <Row className="mb-4">
+                            <Col lg="auto">
+                                <Link to="/virtual-collections">
+                                    <FontAwesomeIcon icon={faChevronLeft} className="fs-4 tc-secondary fw-lightBold pe-2"/>
+                                    <span className="fs-4 tc-secondary fw-lightBold pe-2">Back to virtual collections</span>
+                                </Link>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
                                 <Jumbotron virtualCollection={selectedVirtualCollection} />
@@ -71,7 +74,7 @@ const VirtualCollectionDetails = () => {
                         <Row className="flex-grow-1 position-relative overflow-y-hidden mt-3">
                             <Col className="h-100">
                                 {/* Digital specimen items */}
-                                <VirtualCollectionItemsTable pagination={pagination} />
+                                <VirtualCollectionItemsTable />
                             </Col>
                         </Row>
                     </Col>

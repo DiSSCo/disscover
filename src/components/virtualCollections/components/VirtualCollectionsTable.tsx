@@ -47,7 +47,7 @@ const VirtualCollectionsTable = () => {
         Method: GetAllVirtualCollections
     });
 
-    pagination.records.forEach(virtualCollection => {
+    for (const virtualCollection of pagination.records) {
         tableData.push({
             collectionName: virtualCollection.attributes['ltc:collectionName'],
             dateCreated: virtualCollection.attributes['schema:dateCreated'],
@@ -55,7 +55,7 @@ const VirtualCollectionsTable = () => {
             type: virtualCollection.attributes['ltc:basisOfScheme'],
             identifier: virtualCollection.attributes['@id']
         });
-    });
+    };
 
     const selectVirtualCollection = (selectedCollection: any) => {
         const result = pagination.records.find((collection) => {

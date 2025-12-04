@@ -41,11 +41,13 @@ const VirtualCollectionsTable = () => {
     /* Base variables */
     const { columns } = VirtualCollectionsTableConfig();
 
+    /* Retrieve virtual collections */
     const pagination = usePagination({
         pageSize: 25,
         Method: GetAllVirtualCollections
     });
 
+    /* Set tableData */
     const tableData: DataRow[] = pagination.records.map(virtualCollection => ({
         collectionName: virtualCollection.attributes['ltc:collectionName'],
         dateCreated: virtualCollection.attributes['schema:dateCreated'],

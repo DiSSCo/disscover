@@ -55,7 +55,6 @@ const TopBar = () => {
                     <Row>
                         {/* Search bar */}
                         <Col lg={{ span: 3 }}
-                            className="tourSearch2"
                         >
                             <Row>
                                 <Col className="pe-0">
@@ -103,7 +102,6 @@ const TopBar = () => {
                                 <Col lg="auto">
                                     <Button type="button"
                                         variant="secondary"
-                                        className="tourCompare2"
                                         OnClick={() => {
                                             dispatch(setSearchDigitalSpecimen(undefined));
                                             dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))

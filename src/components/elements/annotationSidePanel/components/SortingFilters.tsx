@@ -60,7 +60,7 @@ const SortingFilters = (props: Props) => {
     });
 
     return (
-        <div className="tourAnnotate5">
+        <div>
             <Row>
                 {/* Annotation motivation */}
                 <Col>

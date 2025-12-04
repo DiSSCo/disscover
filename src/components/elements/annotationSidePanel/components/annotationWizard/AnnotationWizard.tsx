@@ -13,7 +13,6 @@ import { useAppSelector, useAppDispatch, useNotification, useTrigger } from 'app
 
 /* Import Store */
 import { getAnnotationTarget, setAnnotationTarget } from 'redux-store/AnnotateSlice';
-import { getAnnotationWizardSelectedIndex } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { AnnotationTarget, Dict, SuperClass } from 'app/Types';
@@ -65,7 +64,6 @@ const AnnotationWizard = (props: Props) => {
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
-    const tourAnnotationWizardSelectedIndex = useAppSelector(getAnnotationWizardSelectedIndex);
     const [localAnnotationTarget, setLocalAnnotationTarget] = useState<AnnotationTarget | undefined>();
     const [initialFormValues, setInitialFormValues] = useState<{
         class: {
@@ -144,26 +142,6 @@ const AnnotationWizard = (props: Props) => {
         }))
     );
     const selectedIndex: number = tabStates.findIndex(tabState => tabState.active);
-
-    /* Onchange of tour annotation wizard selected index, update local state */
-    trigger.SetTrigger(() => {
-        if (typeof (tourAnnotationWizardSelectedIndex) !== 'undefined') {
-            setTabStates([
-                {
-                    checked: true, active: tourAnnotationWizardSelectedIndex === 0
-                },
-                {
-                    checked: tourAnnotationWizardSelectedIndex > 0, active: tourAnnotationWizardSelectedIndex === 1
-                },
-                {
-                    checked: tourAnnotationWizardSelectedIndex > 1, active: tourAnnotationWizardSelectedIndex === 2,
-                },
-                {
-                    checked: tourAnnotationWizardSelectedIndex > 2, active: tourAnnotationWizardSelectedIndex === 3,
-                }
-            ]);
-        }
-    }, [tourAnnotationWizardSelectedIndex]);
 
     /**
      * Function to go to the provided step in the wizard
@@ -340,7 +318,7 @@ const AnnotationWizard = (props: Props) => {
                                             >
                                                 <Button type="button"
                                                     variant="blank"
-                                                    className="tourAnnotate12 tourAnnotate16 px-0 py-0 tc-primary fw-lightBold"
+                                                    className="px-0 py-0 tc-primary fw-lightBold"
                                                     OnClick={() => GoToStep(selectedIndex + 1)}
                                                 >
                                                     {`Next step >`}
@@ -369,9 +347,7 @@ const AnnotationWizard = (props: Props) => {
                                     </Row>
                                     {!isIdentificationOrGeoreference && selectedIndex === 3 &&
                                     <Row className="flex-row-reverse mt-3">
-                                        <Col lg="auto"
-                                            className="tourAnnotate18"
-                                        >
+                                        <Col lg="auto">
                                             <Button type="submit"
                                                 variant="primary"
                                             >
@@ -388,7 +364,6 @@ const AnnotationWizard = (props: Props) => {
                                             {selectedIndex === 2 &&
                                             <Button type="button"
                                                 variant="primary"
-                                                className="tourAnnotate12 tourAnnotate16"
                                                 OnClick={() => GoToStep(selectedIndex + 1)}
                                             >
                                                 Review annotation
@@ -397,7 +372,6 @@ const AnnotationWizard = (props: Props) => {
                                             {selectedIndex === 3 &&
                                             <Button type="submit"
                                                 variant="primary"
-                                                className="tourAnnotate12 tourAnnotate16"
                                             >
                                                 Submit annotation
                                             </Button>
@@ -406,7 +380,7 @@ const AnnotationWizard = (props: Props) => {
                                         <Col lg="auto">
                                             <Button type="button"
                                                 variant="secondary"
-                                                className="tourAnnotate12 tourAnnotate16 b-secondary-hard"
+                                                className="b-secondary-hard"
                                                 OnClick={() => {
                                                     StopAnnotationWizard();
                                                     dispatch(setAnnotationTarget(undefined));

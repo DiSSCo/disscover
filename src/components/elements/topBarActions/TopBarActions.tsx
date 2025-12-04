@@ -50,7 +50,7 @@ export const TopBarActions = (props: Props) => {
                     />
                 </Col>
                 <Col lg="auto"
-                    className="tourAnnotate3 tourMas3 pe-1"
+                    className="pe-1"
                 >
                     <Button type="button"
                         variant="primary"

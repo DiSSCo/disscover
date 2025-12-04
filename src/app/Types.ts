@@ -201,12 +201,6 @@ export type ProgressDot = {
     OnClick: Function
 };
 
-/* Tour topic */
-export type TourTopic = {
-    name: string,
-    title: string
-};
-
 /* Full Digital Specimen */
 export type DigitalSpecimenCompleteResult = {
     digitalSpecimen: DigitalSpecimenType | undefined;

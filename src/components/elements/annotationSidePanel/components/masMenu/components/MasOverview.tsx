@@ -4,10 +4,7 @@ import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 /* Import Hooks */
-import { useAppSelector, usePagination } from 'app/Hooks';
-
-/* Import Store */
-import { getMasMachineJobRecordDummy } from 'redux-store/TourSlice';
+import { usePagination } from 'app/Hooks';
 
 /* Import Types */
 import { DropdownItem, Dict, MasJobRecord } from "app/Types";
@@ -36,7 +33,6 @@ const MasOverview = (props: Props) => {
     const { digitalObjectId, GetMasJobRecords, ScheduleMasMenu } = props;
 
     /* Base variables */
-    const tourMasMachineJobRecordDummy = useAppSelector(getMasMachineJobRecordDummy);
     const [masJobRecordStateFilter, setMasJobRecordStateFilter] = useState<string>('');
     const [pollInterval, setPollInterval] = useState<NodeJS.Timeout>();
 
@@ -93,9 +89,7 @@ const MasOverview = (props: Props) => {
         <div className="h-100 d-flex flex-column">
             {/* State filter */}
             <Row>
-                <Col lg={{ span: 6 }}
-                    className="tourMas6"
-                >
+                <Col lg={{ span: 6 }}>
                     <Row>
                         <Col lg="auto"
                             className="pe-0"
@@ -127,12 +121,11 @@ const MasOverview = (props: Props) => {
             {/* MAS job record cards */}
             <Row className=" mt-4">
                 <Col>
-                    {(pagination.records.length || tourMasMachineJobRecordDummy) ? [...pagination.records,
-                    ...(tourMasMachineJobRecordDummy ? [tourMasMachineJobRecordDummy] : [])].map((masJobRecord: Dict, index: number) => (
+                    {pagination.records.length ? [...pagination.records].map((masJobRecord: Dict, index: number) => (
                         <Row key={masJobRecord.jobHandle}
                             className={index >= 1 ? 'mt-3' : ''}
                         >
-                            <Col className={!index ? 'tourMas11 tourMas12 tourMas13' : ''}>
+                            <Col>
                                 <MasJobRecordCard masJobRecord={masJobRecord as MasJobRecord} />
                             </Col>
                         </Row>
@@ -149,7 +142,6 @@ const MasOverview = (props: Props) => {
                 <Col lg="auto" className="pe-1">
                     <Button type="button"
                         variant="primary"
-                        className="tourMas10"
                         OnClick={() => ScheduleMasMenu()}
                     >
                         <Tooltip text="You must be logged in and have a valid ORCID attached to your profile to be able to schedule a MAS"

@@ -205,7 +205,7 @@ const AdvancedSearch = (props: Props) => {
                             </Col>
                         </Row>
                         {/* Advanced search window, absolute to relative column in Home.tsx */}
-                        <div id="tourHome5"
+                        <div
                             className={`${styles.advancedSearch} ${advancedSearchClass} position-absolute h-100 w-50 pe-5 ps-5 end-0 bottom-0 pt-5 bgc-default`}
                         >
                             {/* Title and close icon */}

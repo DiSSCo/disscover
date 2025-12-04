@@ -6,14 +6,12 @@ import { Row, Col } from 'react-bootstrap';
 
 /* Import Utitlties */
 import { GenerateAnnotationFormFieldProperties, FormatFieldNameFromJsonPath, FormatJsonPathFromFieldName, GetAnnotationMotivations, FilterAndReorderAnnotationProperties } from "app/utilities/AnnotateUtilities";
-import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
 import { useAppSelector, useTrigger } from "app/Hooks";
 
 /* Import Store */
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
-import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
 
 /* Import Types */
 import { AnnotationFormProperty, AnnotationTarget, Dict, DropdownItem, SuperClass } from "app/Types";
@@ -54,7 +52,6 @@ const AnnotationFormStep = (props: Props) => {
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
-    const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     const [annotationFormFieldProperties, setAnnotationFormFieldProperties] = useState<{ [propertyName: string]: AnnotationFormProperty }>({});
     const annotationMotivations = GetAnnotationMotivations(formValues?.motivation, annotationTarget?.type);
     let baseObjectFormFieldProperty: AnnotationFormProperty | undefined;
@@ -65,13 +62,6 @@ const AnnotationFormStep = (props: Props) => {
         label,
         value
     }));
-
-    /* Trigger for tour annotation wizard form values */
-    trigger.SetTrigger(() => {
-        if (tourAnnotationWizardFormValues) {
-            AnnotationWizardTourTrigger(tourAnnotationWizardFormValues, SetFieldValue);
-        }
-    }, [tourAnnotationWizardFormValues]);
 
     /* OnLoad, generate field properties for annotation form */
     trigger.SetTrigger(() => {
@@ -225,7 +215,7 @@ const AnnotationFormStep = (props: Props) => {
         <div className="h-100 d-flex flex-column">
             {/* Annotation motivation, will be disabled if pre defined by instance selection */}
             <Row>
-                <Col className="tourAnnotate14 fw-lightBold">
+                <Col className="fw-lightBold">
                     <p>
                         Type of annotation
                     </p>
@@ -266,7 +256,7 @@ const AnnotationFormStep = (props: Props) => {
                     </p>
                 </Col>
             </Row>
-            <Row className="tourAnnotate15 mt-3 overflow-auto">
+            <Row className="mt-3 overflow-auto">
                 <Col>
                     {/* If motivation is either adding or editing, render the complete digital object as a form, else a generic text area */}
                     {!isEmpty(annotationFormFieldProperties) &&

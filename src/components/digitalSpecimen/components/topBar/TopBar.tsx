@@ -165,7 +165,6 @@ const TopBar = (props: Props) => {
                         </Col>
                         {versionDropdownItems &&
                             <Col lg="auto"
-                                className="tourDigitalSpecimen3"
                             >
                                 <Dropdown items={versionDropdownItems}
                                     selectedItem={{
@@ -185,7 +184,7 @@ const TopBar = (props: Props) => {
                         }
                     </Row>
                 </Col>
-                <Col className="tourDigitalSpecimen4">
+                <Col>
                     <TopBarActions actionDropdownItems={actionDropdownItems}
                         annotationMode={annotationMode}
                         ToggleAnnotationMode={ToggleAnnotationMode}

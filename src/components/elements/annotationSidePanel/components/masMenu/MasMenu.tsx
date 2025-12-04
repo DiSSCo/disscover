@@ -6,10 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 import { RetrieveEnvVariable } from 'app/Utilities';
 
 /* Import Hooks */
-import { useAppSelector, useFetch } from 'app/Hooks';
-
-/* Import Store */
-import { getMasScheduleMenuToggle } from 'redux-store/TourSlice';
+import { useFetch } from 'app/Hooks';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
@@ -52,7 +49,6 @@ const MASMenu = (props: Props) => {
     const fetch = useFetch();
 
     /* Base variables */
-    const tourMasScheduleMenuToggle = useAppSelector(getMasScheduleMenuToggle);
     const [mass, setMass] = useState<MachineAnnotationService[]>([]);
     const [scheduleMasMenuToggle, setScheduleMasMenuToggle] = useState<boolean>(false);
 
@@ -86,7 +82,7 @@ const MASMenu = (props: Props) => {
             <Row className="flex-grow-1 overflow-hidden">
                 <Col className="h-100">
                     {/* MAS overview and schedule menu */}
-                    {(scheduleMasMenuToggle || tourMasScheduleMenuToggle) ?
+                    {scheduleMasMenuToggle ?
                         <MasScheduleMenu digitalObjectId={superClass['@id']}
                             mass={mass}
                             SetLoading={SetLoading}

@@ -239,7 +239,7 @@ const AnnotationsOverview = (props: Props) => {
                     <Row className="mt-3">
                         {/* Add annotation button */}
                         <Col lg="auto"
-                            className="e-1"
+                            className="pe-1"
                         >
 
                             <Button type="button"

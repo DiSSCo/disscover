@@ -40,22 +40,19 @@ const VirtualCollectionsTable = () => {
 
     /* Base variables */
     const { columns } = VirtualCollectionsTableConfig();
-    const tableData: DataRow[] = [];
 
     const pagination = usePagination({
         pageSize: 25,
         Method: GetAllVirtualCollections
     });
 
-    for (const virtualCollection of pagination.records) {
-        tableData.push({
-            collectionName: virtualCollection.attributes['ltc:collectionName'],
-            dateCreated: virtualCollection.attributes['schema:dateCreated'],
-            creator: virtualCollection.attributes['schema:creator']['schema:name'],
-            type: virtualCollection.attributes['ltc:basisOfScheme'],
-            identifier: virtualCollection.attributes['@id']
-        });
-    };
+    const tableData: DataRow[] = pagination.records.map(virtualCollection => ({
+        collectionName: virtualCollection.attributes['ltc:collectionName'],
+        dateCreated: virtualCollection.attributes['schema:dateCreated'],
+        creator: virtualCollection.attributes['schema:creator']['schema:name'],
+        type: virtualCollection.attributes['ltc:basisOfScheme'],
+        identifier: virtualCollection.attributes['@id']
+    }));
 
     const selectVirtualCollection = (selectedCollection: any) => {
         const result = pagination.records.find((collection) => {

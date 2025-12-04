@@ -66,11 +66,13 @@ const VirtualCollectionDetails = () => {
                                 </Link>
                             </Col>
                         </Row>
+                        {selectedVirtualCollection &&
                         <Row>
                             <Col>
                                 <Jumbotron virtualCollection={selectedVirtualCollection} />
                             </Col>
                         </Row>
+                        }
                         <Row className="flex-grow-1 position-relative overflow-y-hidden mt-3">
                             <Col className="h-100">
                                 {/* Digital specimen items */}

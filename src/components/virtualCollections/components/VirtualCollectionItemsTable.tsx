@@ -34,9 +34,8 @@ const VirtualCollectionItemsTable = () => {
 
     /* Base variables */
     const { columns } = VirtualCollectionDetailsTableConfig();
-    const tableData: DataRow[] = [];
 
-    /*  */
+    /* Retrieve items from specific virtual collection */
     const pagination = usePagination({
         pageSize: 25,
         params: {
@@ -46,15 +45,13 @@ const VirtualCollectionItemsTable = () => {
         Method: GetAllVirtualCollectionItems
     });
 
-    /*  */
-    for (const virtualCollection of pagination.records) {
-        tableData.push({
-            name: virtualCollection['ods:hasIdentifications'][0]['ods:hasTaxonIdentifications'][0]['dwc:scientificName'],
-            doi: virtualCollection['@id'],
-            country: virtualCollection['ods:hasEvents'][0]['ods:hasLocation']['dwc:country'],
-            dateCreated: virtualCollection['ods:hasEvents'][0]['dwc:eventDate']
-        });
-    }
+    /* Set tableData */
+    const tableData: DataRow[] = pagination.records.map(virtualCollection => ({
+        name: virtualCollection['ods:hasIdentifications'][0]['ods:hasTaxonIdentifications'][0]['dwc:scientificName'],
+        doi: virtualCollection['@id'],
+        country: virtualCollection['ods:hasEvents'][0]['ods:hasLocation']['dwc:country'],
+        dateCreated: virtualCollection['ods:hasEvents'][0]['dwc:eventDate']
+    }));
 
     const handleDigitalSpecimenSelect = (digitalSpecimen: { doi: string, name: string, country: string, dateCreated: string }) => {
         const handle = digitalSpecimen.doi.replace(RetrieveEnvVariable('DOI_URL'), '');

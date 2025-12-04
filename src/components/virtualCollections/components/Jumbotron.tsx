@@ -7,8 +7,8 @@ const Jumbotron = (props: Props) => {
 
     return (
         <div className="mb-4">
-            <h1 className="mb-2">{virtualCollection?.attributes?.['ltc:collectionName']}</h1>
-            <p>{virtualCollection?.attributes?.['ltc:description']}</p>
+            <h1 className="mb-2">{virtualCollection.attributes?.['ltc:collectionName']}</h1>
+            <p>{virtualCollection.attributes?.['ltc:description']}</p>
         </div>
     );
 };

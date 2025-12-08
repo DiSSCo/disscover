@@ -24,7 +24,6 @@ import Notifications from 'components/elements/notifications/Notifications';
 type Props = {
   bootState: {
     aggregations: Dict,
-    phylopicBuild: number
   }
 };
 

@@ -1,7 +1,6 @@
 /* Import Types */
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 import { Identification } from "app/types/Identification";
-import { Dict } from "app/Types"
 
 
 /* Utilities associated with the nomenclatural rules */
@@ -23,24 +22,6 @@ const DetermineScientificName = (digitalSpecimen: DigitalSpecimen) => {
     };
 
     return scientificName;
-};
-
-/**
- * Function to find and determine the icon belonging to the provided topic discipline
- * @param topicDiscipline The topic discipline to find an icon for
- */
-const DetermineTopicDisciplineIcon = async (topicDiscipline?: string) => {
-    let icon: Dict | string | undefined;
-
-    if (topicDiscipline) {
-        try {
-            icon = await import(`../../webroot/topicDisciplineIcons/${topicDiscipline.toLowerCase()}.png`);
-        } catch {
-            icon = '';
-        };
-    };
-
-    return icon;
 };
 
 /**
@@ -82,7 +63,6 @@ const GetSpecimenGenusLabel = (acceptedIdentification: Identification): string =
 
 export {
     DetermineScientificName,
-    DetermineTopicDisciplineIcon,
     GetSpecimenNameHTMLLabel,
     GetSpecimenNameIdentifier,
     GetSpecimenGenusLabel

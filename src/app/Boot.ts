@@ -6,13 +6,11 @@ import { Dict } from "./Types";
 
 /* Import API */
 import GetDigitalSpecimenAggregations from "api/digitalSpecimen/GetDigitalSpecimenAggregations";
-import GetPhylopicBuild from "api/phylopic/GetPhylopicBuild";
 
 
 /* Callback type */
 type Callback = (bootState: {
     aggregations: Dict,
-    phylopicBuild: number
 }) => Function | void;
 
 
@@ -23,12 +21,11 @@ type Callback = (bootState: {
 const Boot = (callback: Callback) => {
     /* Initiate keycloak which will render the root after finishing setting up */
     KeycloakService.InitKeyCloak(() => {
-        const promises = [GetDigitalSpecimenAggregations({}), GetPhylopicBuild()];
+        const promises = [GetDigitalSpecimenAggregations({})];
 
         Promise.all(promises).then((results: Dict) => {
             callback({
                 aggregations: results[0],
-                phylopicBuild: results[1]
             });
         });
     });

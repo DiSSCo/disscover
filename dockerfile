@@ -6,15 +6,15 @@ WORKDIR /disscover
 
 # Install dependencies
 COPY package.json ./
-COPY package-lock.json ./
+COPY pnpm-lock.yaml ./
 
-RUN npm install npm@11.6.3
+RUN npm install pnpm@latest-10
 
 # Copy application
 COPY . ./
 
 # Generate Type Files
-RUN npm install typescript -g
+RUN pnpm install typescript -g
 
 RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
@@ -30,7 +30,7 @@ ARG VITE_KEYCLOAK_REALM
 ENV VITE_KEYCLOAK_REALM ${VITE_KEYCLOAK_REALM}
 
 # Setting app to production build
-RUN npm run build
+RUN pnpm run build
 
 # Setting up NGINX
 FROM nginx:alpine

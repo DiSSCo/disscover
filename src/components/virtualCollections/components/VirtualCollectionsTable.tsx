@@ -1,6 +1,6 @@
 /* Import Dependencies */
 import { Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 /* Import Config */
 import VirtualCollectionsTableConfig from "app/config/table/VirtualCollectionsTableConfig";

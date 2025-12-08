@@ -4,9 +4,6 @@ import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 
-/* Import Hooks */
-import { useAppDispatch } from 'app/Hooks';
-
 /* Import Components */
 import { Button, InputField, Tooltip } from 'components/elements/customUI/CustomUI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

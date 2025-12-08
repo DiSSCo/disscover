@@ -23,6 +23,11 @@ jobs:
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3 # docs https://pnpm.io/continuous-integration#github-actions
+      with:
+        version: 10  # Optional: specify a pnpm version
+
     - name: Install Dependencies
       run: pnpm install
 

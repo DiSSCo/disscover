@@ -9,6 +9,7 @@ import DigitalMediaReducer from 'redux-store/DigitalMediaSlice';
 import DigitalSpecimenReducer from 'redux-store/DigitalSpecimenSlice';
 import GlobalReducer from 'redux-store/GlobalSlice';
 import SearchReducer from 'redux-store/SearchSlice';
+import VirtualCollectionReducer from 'redux-store/VirtualCollectionSlice';
 
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   digitalSpecimen: DigitalSpecimenReducer,
   global: GlobalReducer,
   search: SearchReducer,
+  virtualCollection: VirtualCollectionReducer
 });
 
 export const setupStore = (preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>) => {

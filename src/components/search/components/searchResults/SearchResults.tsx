@@ -12,7 +12,7 @@ import SearchResultsTableConfig from 'app/config/table/SearchResultsTableConfig'
 import { useAppSelector, useAppDispatch, useTrigger } from 'app/Hooks';
 
 /* Import Store */
-import { getSearchDigitalSpecimen, setSearchDigitalSpecimen, getCompareDigitalSpecimen, setCompareDigitalSpecimen } from 'redux-store/SearchSlice';
+import { getSearchDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
@@ -33,7 +33,6 @@ type DataRow = {
     countryOfOrigin: string | undefined,
     dateCollected: string | undefined,
     organisation: [string | undefined, string | undefined],
-    selected: boolean
 };
 
 /* Props Type */
@@ -59,7 +58,6 @@ const SearchResults = (props: Props) => {
 
     /* Base variables */
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
-    const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
     const [tableData, setTableData] = useState<DataRow[]>([]);
 
     /* OnChange of pagination records, construct table data */
@@ -82,7 +80,6 @@ const SearchResults = (props: Props) => {
                 organisation: digitalSpecimen['ods:organisationName'] ?
                     [digitalSpecimen['ods:organisationName'], digitalSpecimen['ods:organisationID']]
                     : [digitalSpecimen['ods:organisationID'], digitalSpecimen['ods:organisationID']],
-                selected: compareDigitalSpecimen ? !!(compareDigitalSpecimen.find((compareDigitalSpecimen) => compareDigitalSpecimen['@id'] === digitalSpecimen['@id'])) : false
             });
         });
 
@@ -91,12 +88,8 @@ const SearchResults = (props: Props) => {
 
     /* OnChange of selected digital specimen, set active table row */
     trigger.SetTrigger(() => {
-        tableData.forEach(tableRow => {
-            tableRow.selected = compareDigitalSpecimen ? !!(compareDigitalSpecimen?.find(digitalSpecimen => digitalSpecimen['@id'] === tableRow.DOI)) : false;
-        });
-
         setTableData([...tableData]);
-    }, [compareDigitalSpecimen]);
+    }, []);
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -109,30 +102,9 @@ const SearchResults = (props: Props) => {
                             data={tableData}
                             selectedRowIndex={tableData.findIndex(tableRow => tableRow.DOI === searchDigitalSpecimen?.['@id'])}
                             SelectAction={(row: DataRow) => {
-                                /* If compare is active, handle compare selection, otherwise open specimen in id card */
-                                if (compareDigitalSpecimen) {
-                                    const index = compareDigitalSpecimen.findIndex(digitalSpecimen => digitalSpecimen['@id'] === row.DOI);
+                                const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
 
-                                    /* If row is already checked, remove from compare digital specimen array, other wise add */
-                                    if (index >= 0) {
-                                        const updatedCompareDigitalSpecimen = [...compareDigitalSpecimen];
-
-                                        updatedCompareDigitalSpecimen.splice(index, 1);
-
-                                        dispatch(setCompareDigitalSpecimen(updatedCompareDigitalSpecimen));
-                                    } else if (compareDigitalSpecimen.length < 10) {
-                                        const digitalSpecimen: DigitalSpecimen | undefined = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
-
-                                        dispatch(setCompareDigitalSpecimen([
-                                            ...(compareDigitalSpecimen),
-                                            ...(digitalSpecimen ? [digitalSpecimen] : [])
-                                        ]));
-                                    }
-                                } else {
-                                    const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
-
-                                    dispatch(setSearchDigitalSpecimen(digitalSpecimen));
-                                }
+                                dispatch(setSearchDigitalSpecimen(digitalSpecimen));
                             }}
                         />
 

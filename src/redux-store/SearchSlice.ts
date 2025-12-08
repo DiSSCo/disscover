@@ -13,14 +13,12 @@ type SearchResults = {
 
 export interface SearchState {
     digitalSpecimen: DigitalSpecimen | undefined,
-    compareDigitalSpecimen: DigitalSpecimen[] | undefined,
     searchResults: SearchResults | undefined,
     searchUrl: string | undefined
 }
 
 const initialState: SearchState = {
     digitalSpecimen: undefined,
-    compareDigitalSpecimen: undefined,
     searchResults: undefined,
     searchUrl: undefined
 };
@@ -31,9 +29,6 @@ export const SearchSlice = createSlice({
     reducers: {
         setSearchDigitalSpecimen: (state, action: PayloadAction<DigitalSpecimen | undefined>) => {
             state.digitalSpecimen = action.payload;
-        },
-        setCompareDigitalSpecimen: (state, action: PayloadAction<DigitalSpecimen[] | undefined>) => {
-            state.compareDigitalSpecimen = action.payload;
         },
         setSearchResults: (state, action: PayloadAction<SearchResults | undefined>) => {
             state.searchResults = action.payload;
@@ -47,14 +42,12 @@ export const SearchSlice = createSlice({
 /* Action Creators */
 export const {
     setSearchDigitalSpecimen,
-    setCompareDigitalSpecimen,
     setSearchResults,
     setSearchUrl
 } = SearchSlice.actions;
 
 /* Connect with Root State */
 export const getSearchDigitalSpecimen = (state: RootState) => state.search.digitalSpecimen
-export const getCompareDigitalSpecimen = (state: RootState) => state.search.compareDigitalSpecimen;
 export const getSearchResults = (state: RootState) => state.search.searchResults;
 export const getSearchUrl = (state: RootState) => state.search.searchUrl;
 

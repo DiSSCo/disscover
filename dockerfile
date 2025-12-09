@@ -4,19 +4,21 @@ FROM node:24-alpine3.21 as build
 # Set working directory
 WORKDIR /disscover
 
-# Install dependencies
+# Install pnpm globally
+RUN npm install -g pnpm@latest-10
+
+# Copy package.json and pnpm-lock.yaml for dependency caching
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-RUN npm install pnpm@latest-10
+# Install project dependencies (including devDependencies like typescript)
+RUN pnpm install --frozen-lockfile
 
 # Copy application
 COPY . ./
 
-# Generate Type Files
-RUN pnpm install typescript -g
-
-RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
+# Generate Type Files (assuming typescript is a devDependency)
+RUN pnpm exec tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
 RUN rm 'src/app/GenerateTypes.js'
 RUN node 'src/app/GenerateTypes.cjs'

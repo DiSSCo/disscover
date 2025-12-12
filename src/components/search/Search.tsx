@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector, usePagination } from 'app/Hooks';
 
 /* Import Store */
-import { getSearchDigitalSpecimen, getCompareDigitalSpecimen, setSearchDigitalSpecimen, setSearchUrl, setSearchResults } from 'redux-store/SearchSlice';
+import { getSearchDigitalSpecimen, setSearchDigitalSpecimen, setSearchUrl, setSearchResults } from 'redux-store/SearchSlice';
 import { getDigitalSpecimen, setDigitalSpecimenComplete } from 'redux-store/DigitalSpecimenSlice';
 
 /* Import API */
@@ -17,7 +17,7 @@ import GetDigitalSpecimens from 'api/digitalSpecimen/GetDigitalSpecimens';
 import styles from './Search.module.scss';
 
 /* Import Components */
-import { CompareDigitalSpecimenMenu, IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
+import { IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
 import { Footer, Header, ContentNavigation } from "components/elements/Elements";
 
 
@@ -31,7 +31,6 @@ const Search = () => {
 
     /* Base variables */
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
-    const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
 
     /* Clean up digital specimen in store to start fresh */
@@ -58,10 +57,6 @@ const Search = () => {
     const searchResultsClass = classNames({
         'col-lg-6': !!searchDigitalSpecimen,
         'col-lg-9 offset-lg-3': !searchDigitalSpecimen
-    });
-
-    const compareDigitalSpecimenMenuClass = classNames({
-        'd-none': !compareDigitalSpecimen
     });
 
     return (
@@ -109,15 +104,6 @@ const Search = () => {
                             </Col>
                         </Row>
                     </Col>
-
-                    {/* Compare digital specimens menu */}
-                    <div className={`${compareDigitalSpecimenMenuClass} position-absolute w-25 end-0 bottom-0 z-1`}>
-                        <Row>
-                            <Col lg={{ span: 10 }}>
-                                <CompareDigitalSpecimenMenu />
-                            </Col>
-                        </Row>
-                    </div>
                 </Row>
             </Container>
 

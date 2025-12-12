@@ -1,11 +1,9 @@
 /* Import Dependencies */
-import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
 
 /* Import Utilities */
-import { DetermineTopicDisciplineIcon, GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
+import { GetSpecimenNameHTMLLabel } from 'app/utilities/NomenclaturalUtilities';
 
 /* Import Config */
 import SearchResultsTableConfig from 'app/config/table/SearchResultsTableConfig';
@@ -14,15 +12,11 @@ import SearchResultsTableConfig from 'app/config/table/SearchResultsTableConfig'
 import { useAppSelector, useAppDispatch, useTrigger } from 'app/Hooks';
 
 /* Import Store */
-import { getPhylopicBuild } from 'redux-store/BootSlice';
-import { getSearchDigitalSpecimen, setSearchDigitalSpecimen, getCompareDigitalSpecimen, setCompareDigitalSpecimen } from 'redux-store/SearchSlice';
+import { getSearchDigitalSpecimen, setSearchDigitalSpecimen } from 'redux-store/SearchSlice';
 
 /* Import Types */
 import { DigitalSpecimen } from 'app/types/DigitalSpecimen';
-import { PaginationObject, Dict } from 'app/Types';
-
-/* Import API */
-import GetPhylopicIcon from 'api/phylopic/GetPhylopicIcon';
+import { PaginationObject } from 'app/Types';
 
 /* Import Components */
 import { Paginator } from 'components/elements/Elements';
@@ -33,14 +27,12 @@ import { DataTable, LoadingScreen } from 'components/elements/customUI/CustomUI'
 type DataRow = {
     index: number,
     DOI: string,
-    taxonomyIconUrl: Promise<string | Dict | undefined>,
     specimenName: string | undefined,
     physicalSpecimenID: string | undefined,
     topicDiscipline: string | undefined,
     countryOfOrigin: string | undefined,
     dateCollected: string | undefined,
     organisation: [string | undefined, string | undefined],
-    selected: boolean
 };
 
 /* Props Type */
@@ -59,7 +51,6 @@ const SearchResults = (props: Props) => {
 
     /* Hooks */
     const dispatch = useAppDispatch();
-    const [searchParams] = useSearchParams();
     const trigger = useTrigger();
 
     /* Data table configuration */
@@ -67,55 +58,7 @@ const SearchResults = (props: Props) => {
 
     /* Base variables */
     const searchDigitalSpecimen = useAppSelector(getSearchDigitalSpecimen);
-    const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
-    const phylopicBuild = useAppSelector(getPhylopicBuild);
     const [tableData, setTableData] = useState<DataRow[]>([]);
-    const taxonomyIcons: { [taxonomyIdentification: string]: string | Dict } = {};
-
-    /**
-     * Function to determine the icon being shown with the digital specimen in the search results
-     * @param digitalSpecimen The digital specimen to do an icon check for
-     */
-    const DetermineTableRowIcon = (digitalSpecimen: DigitalSpecimen): Promise<string | Dict | undefined> => {
-        /* Base variables */
-        const nonBiologicalTopicDisciplines = ['Anthropology', 'Other Geodiversity', 'Other Biodiversity', 'Ecology', 'Geology', 'Astrogeology', 'Unclassified'];
-        const topicDisciplines = searchParams.getAll('topicDiscipline');
-        let icon: Promise<Dict | string | undefined> = Promise.resolve(undefined);
-
-        /* If not any or a single non biological topic discipline is selected, use topic discipline icon */
-        if (!topicDisciplines.length || topicDisciplines.some(topicDiscipline => nonBiologicalTopicDisciplines.includes(topicDiscipline))) {
-            icon = DetermineTopicDisciplineIcon(digitalSpecimen['ods:topicDiscipline']);
-        } else {
-            /* Determine accepted identification and most relevant taxonomic level to base icon on */
-            const acceptedIdentification = digitalSpecimen?.['ods:hasIdentifications']?.find((identification) =>
-                identification['ods:isVerifiedIdentification']
-            );
-            let taxonomyIdentification: string | undefined = digitalSpecimen['ods:specimenName']?.split(' ')[0];
-
-            if (acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]['dwc:order']) {
-                /* Search icon by order */
-                taxonomyIdentification = acceptedIdentification['ods:hasTaxonIdentifications'][0]['dwc:order'];
-            } else if (acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]['dwc:family']) {
-                /* Search icon by family */
-                taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentifications'][0]['dwc:family'];
-            } else if (acceptedIdentification?.['ods:hasTaxonIdentifications']?.[0]['dwc:genus']) {
-                /* Search icon by genus */
-                taxonomyIdentification = acceptedIdentification?.['ods:hasTaxonIdentifications'][0]['dwc:genus'];
-            }
-
-            /* Try to fetch a taxonomy based icon from Phylopic if not already present in the taxonomy icon url array and add it to the table record */
-            if (taxonomyIdentification && taxonomyIdentification in taxonomyIcons) {
-                icon = Promise.resolve(taxonomyIcons[taxonomyIdentification]);
-            } else if (taxonomyIdentification) {
-                icon = GetPhylopicIcon(phylopicBuild, taxonomyIdentification);
-
-                /* Add to dictionary of known taxonomic identifications and icon urls */
-                taxonomyIcons[taxonomyIdentification] = icon;
-            }
-        };
-
-        return icon;
-    };
 
     /* OnChange of pagination records, construct table data */
     trigger.SetTrigger(() => {
@@ -129,7 +72,6 @@ const SearchResults = (props: Props) => {
             tableDataArray.push({
                 index,
                 DOI: digitalSpecimen['@id'],
-                taxonomyIconUrl: !isEmpty(tableData) && tableData[index] && tableData[index].DOI === digitalSpecimen['@id'] ? tableData[index].taxonomyIconUrl : DetermineTableRowIcon(digitalSpecimen),
                 specimenName: GetSpecimenNameHTMLLabel(digitalSpecimen),
                 physicalSpecimenID: digitalSpecimen['ods:normalisedPhysicalSpecimenID'],
                 topicDiscipline: digitalSpecimen['ods:topicDiscipline'],
@@ -138,7 +80,6 @@ const SearchResults = (props: Props) => {
                 organisation: digitalSpecimen['ods:organisationName'] ?
                     [digitalSpecimen['ods:organisationName'], digitalSpecimen['ods:organisationID']]
                     : [digitalSpecimen['ods:organisationID'], digitalSpecimen['ods:organisationID']],
-                selected: compareDigitalSpecimen ? !!(compareDigitalSpecimen.find((compareDigitalSpecimen) => compareDigitalSpecimen['@id'] === digitalSpecimen['@id'])) : false
             });
         });
 
@@ -147,12 +88,8 @@ const SearchResults = (props: Props) => {
 
     /* OnChange of selected digital specimen, set active table row */
     trigger.SetTrigger(() => {
-        tableData.forEach(tableRow => {
-            tableRow.selected = compareDigitalSpecimen ? !!(compareDigitalSpecimen?.find(digitalSpecimen => digitalSpecimen['@id'] === tableRow.DOI)) : false;
-        });
-
         setTableData([...tableData]);
-    }, [compareDigitalSpecimen]);
+    }, []);
 
     return (
         <div className="h-100 d-flex flex-column">
@@ -165,30 +102,9 @@ const SearchResults = (props: Props) => {
                             data={tableData}
                             selectedRowIndex={tableData.findIndex(tableRow => tableRow.DOI === searchDigitalSpecimen?.['@id'])}
                             SelectAction={(row: DataRow) => {
-                                /* If compare is active, handle compare selection, otherwise open specimen in id card */
-                                if (compareDigitalSpecimen) {
-                                    const index = compareDigitalSpecimen.findIndex(digitalSpecimen => digitalSpecimen['@id'] === row.DOI);
+                                const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
 
-                                    /* If row is already checked, remove from compare digital specimen array, other wise add */
-                                    if (index >= 0) {
-                                        const updatedCompareDigitalSpecimen = [...compareDigitalSpecimen];
-
-                                        updatedCompareDigitalSpecimen.splice(index, 1);
-
-                                        dispatch(setCompareDigitalSpecimen(updatedCompareDigitalSpecimen));
-                                    } else if (compareDigitalSpecimen.length < 10) {
-                                        const digitalSpecimen: DigitalSpecimen | undefined = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
-
-                                        dispatch(setCompareDigitalSpecimen([
-                                            ...(compareDigitalSpecimen),
-                                            ...(digitalSpecimen ? [digitalSpecimen] : [])
-                                        ]));
-                                    }
-                                } else {
-                                    const digitalSpecimen = pagination.records.find(digitalSpecimen => digitalSpecimen['@id'] === row.DOI) as DigitalSpecimen | undefined;
-
-                                    dispatch(setSearchDigitalSpecimen(digitalSpecimen));
-                                }
+                                dispatch(setSearchDigitalSpecimen(digitalSpecimen));
                             }}
                         />
 

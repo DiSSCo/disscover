@@ -4,12 +4,6 @@ import { Row, Col } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 
-/* Import Hooks */
-import { useAppSelector, useAppDispatch } from 'app/Hooks';
-
-/* Import Store */
-import { setSearchDigitalSpecimen, getCompareDigitalSpecimen, setCompareDigitalSpecimen } from 'redux-store/SearchSlice';
-
 /* Import Components */
 import { Button, InputField, Tooltip } from 'components/elements/customUI/CustomUI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,11 +15,9 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons';
  */
 const TopBar = () => {
     /* Hooks */
-    const dispatch = useAppDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
 
     /* Base variables */
-    const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen)
     const initialFormValues: {
         query: string
     } = {
@@ -73,7 +65,7 @@ const TopBar = () => {
                                 </Col>
                             </Row>
                         </Col>
-                        {/* Share list & Compare button */}
+                        {/* Share list */}
                         <Col lg={{span: 9}}>
                             <Row className="d-flex justify-content-end">
                                 <Col lg="auto" className="d-flex align-items-center">
@@ -97,17 +89,6 @@ const TopBar = () => {
                                                 <span>Share this list</span>
                                             </div>
                                         </Tooltip>
-                                    </Button>
-                                </Col>
-                                <Col lg="auto">
-                                    <Button type="button"
-                                        variant="secondary"
-                                        OnClick={() => {
-                                            dispatch(setSearchDigitalSpecimen(undefined));
-                                            dispatch(setCompareDigitalSpecimen(compareDigitalSpecimen ? undefined : []))
-                                        }}
-                                    >
-                                        {compareDigitalSpecimen ? 'Cancel Compare' : 'Compare'}
                                     </Button>
                                 </Col>
                             </Row>

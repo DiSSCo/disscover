@@ -29,7 +29,6 @@ import Mobile from './Mobile';
 type Props = {
   bootState: {
     aggregations: Dict,
-    phylopicBuild: number
   }
 };
 

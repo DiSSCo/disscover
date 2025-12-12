@@ -39,7 +39,6 @@ const root = ReactDOM.createRoot(
  */
 const RenderRoot = (bootState?: {
   aggregations: Dict,
-  phylopicBuild: number
 }) => {
   if (bootState) {
     root.render(

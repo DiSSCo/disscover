@@ -1,18 +1,8 @@
 /* Import Dependencies */
 import { createColumnHelper } from '@tanstack/react-table';
-import { useState } from 'react';
 
 /* Import Utilities */
 import { RetrieveEnvVariable } from 'app/Utilities';
-
-/* Import Hooks */
-import { useAppSelector } from 'app/Hooks';
-
-/* Import Store */
-import { getCompareDigitalSpecimen } from 'redux-store/SearchSlice';
-
-/* Import Types */
-import { Dict } from 'app/Types';
 
 
 /**
@@ -22,9 +12,7 @@ import { Dict } from 'app/Types';
 const SearchResultsTableConfig = () => {
     /* Search results type */
     type SearchResult = {
-        selected: boolean,
         DOI: string,
-        taxonomyIconUrl: Promise<string | Dict>,
         specimenName: string,
         physicalSpecimenID: string,
         topicDiscipline: string,
@@ -34,48 +22,10 @@ const SearchResultsTableConfig = () => {
     };
 
     /* Base variables */
-    const compareDigitalSpecimen = useAppSelector(getCompareDigitalSpecimen);
     const columnHelper = createColumnHelper<SearchResult>();
-
-    /**
-     * Function to generate an icon in the taxonomy cell based upon the fetched data
-     * @param promise A promise holding the result of the fetch for the icon
-     */
-    const TaxonomyIconCell = (promise: Promise<Dict | string>) => {
-        /* Base variables */
-        const [taxonomyIcon, setTaxonomyIcon] = useState<string | undefined>();
-
-        Promise.resolve(promise).then(value => {
-            setTaxonomyIcon(typeof value == 'object' ? value.default : value);
-        });
-
-        return (
-            <img src={taxonomyIcon}
-                alt={taxonomyIcon}
-                className="b-none"
-                style={{ width: `${taxonomyIcon && 2.5 * 0.85}rem`, height: `${taxonomyIcon && 2.5 * 0.85}rem` }}
-            />
-        );
-    };
 
     /* Table columns */
     const columns = [
-        ...(compareDigitalSpecimen ? [columnHelper.accessor('selected', {
-            header: '',
-            cell: info => <input type="checkbox" defaultChecked={info.getValue()} />,
-            meta: {
-                widthInRem: 3,
-                pinned: true
-            }
-        })] : []),
-        columnHelper.accessor('taxonomyIconUrl', {
-            header: '',
-            cell: info => TaxonomyIconCell(info.getValue()),
-            meta: {
-                widthInRem: 4,
-                pinned: true
-            }
-        }),
         columnHelper.accessor('DOI', {
             cell: info => info.getValue()?.replace(RetrieveEnvVariable('DOI_URL') as string, ''),
             meta: {

@@ -21,12 +21,8 @@ type Callback = (bootState: {
 const Boot = (callback: Callback) => {
     /* Initiate keycloak which will render the root after finishing setting up */
     KeycloakService.InitKeyCloak(() => {
-        const promises = [GetDigitalSpecimenAggregations({})];
-
-        Promise.all(promises).then((results: Dict) => {
-            callback({
-                aggregations: results[0],
-            });
+        GetDigitalSpecimenAggregations({}).then((aggregations: Dict) => {
+            callback({ aggregations });
         });
     });
 };

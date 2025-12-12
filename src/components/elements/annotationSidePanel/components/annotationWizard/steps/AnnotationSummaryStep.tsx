@@ -4,15 +4,12 @@ import { Row, Col, Card } from 'react-bootstrap';
 
 /* Import Utilities */
 import { MakeJsonPathReadableString, ExtractLastSegmentFromPath } from 'app/utilities/SchemaUtilities';
-import { AnnotationWizardTourTrigger } from 'app/utilities/TourUtilities';
 
 /* Import Hooks */
-import { useAppSelector, useTrigger } from 'app/Hooks';
+import { useAppSelector } from 'app/Hooks';
 
 /* Import Store */
 import { getAnnotationTarget } from 'redux-store/AnnotateSlice';
-import { getAnnotationWizardFormValues } from 'redux-store/TourSlice';
-import { getTourTopic } from 'redux-store/GlobalSlice';
 
 /* Import Types */
 import { Dict, SuperClass } from 'app/Types';
@@ -26,7 +23,6 @@ type Props = {
     superClass: SuperClass,
     schemaTitle: string,
     formValues?: Dict,
-    SetFieldValue?: Function
 };
 
 
@@ -35,31 +31,14 @@ type Props = {
  * @param superClass The selected super class
  * @param schemaTitle The title of the super class schema
  * @param formValues The current form values of the annotation form
- * @param SetFieldValue Function to set the value of a field in the annotation wizard form
  * @returns JSX Component
  */
 const AnnotationSummaryStep = (props: Props) => {
-    const { superClass, schemaTitle, formValues, SetFieldValue } = props;
-
-    /* Hooks */
-    const trigger = useTrigger();
+    const { superClass, schemaTitle, formValues } = props;
 
     /* Base variables */
     const annotationTarget = useAppSelector(getAnnotationTarget);
-    const tourTopic = useAppSelector(getTourTopic);
-    const tourAnnotationWizardFormValues = useAppSelector(getAnnotationWizardFormValues);
     let motivationDescription: string;
-
-    /* Trigger for tour annotation wizard form values */
-    trigger.SetTrigger(() => {
-        /**
-         * Only apply tour values if the annotation tour is active.
-         * This prevents the tour's dummy data from overwriting the user's real data.
-         */
-        if (tourTopic === 'annotate' && tourAnnotationWizardFormValues) {
-            AnnotationWizardTourTrigger(tourAnnotationWizardFormValues, SetFieldValue);
-        }
-    }, [tourAnnotationWizardFormValues, tourTopic]);
 
     /* Define motivation description based upon selected motivation, deleting is not part of this */
     switch (formValues?.motivation) {

@@ -6,12 +6,8 @@ import { Link } from 'react-router-dom';
 /* Import Utilities */
 import KeycloakService from 'app/Keycloak';
 
-/* Import Types */
-import { TourTopic } from 'app/Types';
-
 /* Import Components */
 import Navigation from './Navigation';
-import TourTopicMenu from './TourTopicMenu';
 import UserMenu from './UserMenu';
 import { Button } from 'components/elements/customUI/CustomUI';
 
@@ -21,7 +17,6 @@ import { Button } from 'components/elements/customUI/CustomUI';
 type Props = {
     span?: number,
     offset?: number,
-    tourTopics?: TourTopic[]
 };
 
 
@@ -29,11 +24,10 @@ type Props = {
  * Component that renders the application's header
  * @param span The width in Bootstrap span (grid based on 12 columns)
  * @param offset the offset width in Bootstrap span (grid based on 12 columns)
- * @param tourTopics Tour topics that can activated for the rendered page
  * @returns JSX Component
  */
 export const Header = (props: Props) => {
-    const { span, offset, tourTopics } = props;
+    const { span, offset } = props;
 
     /* Class Names */
     const headerClass = classNames({
@@ -57,14 +51,6 @@ export const Header = (props: Props) => {
                         <Col>
                             <Navigation />
                         </Col>
-                        {/* Take a tour button */}
-                        {tourTopics?.length &&
-                            <Col lg="auto"
-                                className="position-relative tc-primary d-flex align-items-center"
-                            >
-                                <TourTopicMenu tourTopics={tourTopics} />
-                            </Col>
-                        }
                         <Col lg="auto"
                             className="d-flex align-items-center"
                         >

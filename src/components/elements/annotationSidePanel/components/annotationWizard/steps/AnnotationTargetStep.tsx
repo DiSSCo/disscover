@@ -76,7 +76,7 @@ const AnnotationTargetStep = (props: Props) => {
                 </Col>
             </Row>
             {/* Annotation cases */}
-            <Row className="tourAnnotate9 mt-3">
+            <Row className="mt-3">
                 <Col>
                     {/* Title */}
                     <Row>

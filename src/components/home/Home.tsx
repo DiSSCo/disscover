@@ -10,13 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, useFetch } from 'app/Hooks';
 
 /* Import Types */
-import { TourTopic, Dict } from 'app/Types';
+import { Dict } from 'app/Types';
 
 /* Import API */
 import GetDigitalSpecimenDisciplines from 'api/digitalSpecimen/GetDigitalSpecimenDisciplines';
 
 /* Import Components */
-import TourSteps from './TourSteps';
 import { Header, Footer } from 'components/elements/Elements';
 import { AdvancedSearch, DatasetDisclaimer, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
@@ -51,10 +50,6 @@ const Home = () => {
         query: '',
         topicDisciplines: []
     };
-    const tourTopics: TourTopic[] = [{
-        name: 'home',
-        title: 'About This Page'
-    }];
     const digitalSpecimen = useAppSelector(getDigitalSpecimen);
 
     /* Clean up digital specimen in store to start fresh */
@@ -79,7 +74,6 @@ const Home = () => {
             {/* Render header*/}
             <Header span={10}
                 offset={1}
-                tourTopics={tourTopics}
             />
 
             {/* Home page body */}
@@ -122,7 +116,6 @@ const Home = () => {
                                             <Row className="align-items-center overflow-y-hidden overflow-x-hidden">
                                                 {/* Left side containing: total count and topic discipline filters */}
                                                 <Col lg={{ span: 6 }}
-                                                    id="tourHome3"
                                                     className="pe-5"
                                                 >
                                                     {/* Total count */}
@@ -154,7 +147,7 @@ const Home = () => {
                                                         </Col>
                                                     </Row>
                                                     {/* Query bar */}
-                                                    <Row id="tourHome4" className="mt-5">
+                                                    <Row className="mt-5">
                                                         <Col>
                                                             <SearchBar />
                                                         </Col>
@@ -201,9 +194,6 @@ const Home = () => {
                 offset={1}
                 plugin
             />
-
-            {/* Home tour steps */}
-            <TourSteps SetAdvancedSearchToggle={setAdvancedSearchToggle} />
         </div>
     );
 };

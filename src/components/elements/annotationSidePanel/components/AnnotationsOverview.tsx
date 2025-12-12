@@ -8,11 +8,10 @@ import { Row, Col } from "react-bootstrap";
 import { ExtractLastSegmentFromPath } from "app/utilities/SchemaUtilities";
 
 /* Import Hooks */
-import { useAppSelector, useAppDispatch } from "app/Hooks";
+import { useAppDispatch } from "app/Hooks";
 
 /* Import Store */
 import { setAnnotationTarget } from "redux-store/AnnotateSlice";
-import { getAnnotationWizardDummyAnnotation } from "redux-store/TourSlice";
 
 /* Import Types */
 import { Annotation } from "app/types/Annotation";
@@ -61,9 +60,6 @@ const AnnotationsOverview = (props: Props) => {
     /* Hooks */
     const dispatch = useAppDispatch();
 
-    /* Base variables */
-    const tourAnnotationWizardDummyAnnotation = useAppSelector(getAnnotationWizardDummyAnnotation);
-
     /**
      * Function to sort and filter annotations by the selected values
      * @param motivation The annotation motivation to filter by
@@ -102,7 +98,6 @@ const AnnotationsOverview = (props: Props) => {
 
     /* Set overview annotations */
     const overviewAnnotations = [
-        ...(tourAnnotationWizardDummyAnnotation ? [tourAnnotationWizardDummyAnnotation] : []),
         ...SortAndFilerAnnotations(filterSortValues.motivation, filterSortValues.sortBy, annotationTarget?.jsonPath)
     ];
 
@@ -218,9 +213,9 @@ const AnnotationsOverview = (props: Props) => {
             {/* Annotations */}
             <Row className="overflow-auto mt-3 mb-3">
                 <Col>
-                    {overviewAnnotations.length ? overviewAnnotations.map((annotation, index) => (
+                    {overviewAnnotations.length ? overviewAnnotations.map((annotation) => (
                         <div key={annotation['@id']}
-                            className={`${!index ? 'tourAnnotate19' : ''} mb-2`}
+                            className="mb-2"
                         >
                             <AnnotationCard annotation={annotation}
                                 EditAnnotation={EditAnnotation}
@@ -244,7 +239,7 @@ const AnnotationsOverview = (props: Props) => {
                     <Row className="mt-3">
                         {/* Add annotation button */}
                         <Col lg="auto"
-                            className="tourAnnotate6 pe-1"
+                            className="pe-1"
                         >
 
                             <Button type="button"
@@ -264,9 +259,7 @@ const AnnotationsOverview = (props: Props) => {
 
                         </Col>
                         {/* Machine annotation services button */}
-                        <Col lg="auto"
-                            className="tourMas4"
-                        >
+                        <Col lg="auto">
                             <Button type="button"
                                 variant="secondary"
                                 OnClick={() => OpenMasMenu()}

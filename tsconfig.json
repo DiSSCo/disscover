@@ -8,7 +8,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "preserveSymlinks": true,
-    "types": ["node", "@testing-library/jest-dom"],
+    "types": ["node"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",

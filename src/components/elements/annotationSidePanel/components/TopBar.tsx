@@ -46,7 +46,7 @@ const TopBar = (props: Props) => {
             <Row>
                 {/* Return icon */}
                 <Col lg="auto"
-                    className="tourAnnotate20 d-flex align-items-center"
+                    className="d-flex align-items-center"
                 >
                     <Button type="button"
                         variant="blank"

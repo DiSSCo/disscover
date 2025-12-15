@@ -19,12 +19,11 @@
   --warning: #FFBB00;
 }
 
-/* Import Open Sans Font */
+/* Import fonts */
 @font-face {
   font-family: 'Open Sans';
   src: url(webroot/font/OpenSans-VariableFont_wdth,wght.ttf);
 }
-
 @font-face {
   font-family: 'Courier Prime';
   src: url(webroot/font/CourierPrime-Regular.ttf);
@@ -32,7 +31,7 @@
 
 /* Radix theme configuration */
 .radix-themes {
-	--default-font-family: 'Open Sans', sans-serif;
+  --default-font-family: 'Open Sans', sans-serif;
   --default-font-weight: 300;
   --default-font-color: var(--greyDark);
   --default-font-size: 1rem;

@@ -66,7 +66,7 @@ const App = (props: Props) => {
   /* If booted: return routes for application, otherwise show loading screen */
   if (!isMobile) {
     return (
-      <div className="h-100 w-100">
+      <div className="h-full w-full">
         <Router>
           <Routes>
             {AppRoutes}

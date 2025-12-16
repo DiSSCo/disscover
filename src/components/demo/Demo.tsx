@@ -4,7 +4,7 @@ import {Formik, Form, Field} from 'formik';
 import {Container, Row, Col} from 'react-bootstrap';
 
 /* Import Components */
-import {Header, Footer} from 'components/elements/Elements';
+import {Footer} from 'components/elements/Elements';
 import DOITooltipDemo from 'components/demo/DOITooltipDemo';
 
 
@@ -18,10 +18,6 @@ const Demo = () => {
 
     return (
         <div className="h-100 d-flex flex-column overflow-scroll">
-            <Header span={10}
-                    offset={1}
-            />
-
             <Container fluid className="flex-grow-1">
                 <Row className="h-100 align-items-center">
                     <Col>

@@ -45,7 +45,7 @@ const RenderRoot = (bootState?: {
   if (bootState) {
     root.render(
       <Provider store={setupStore()}>
-        <Theme>
+        <Theme accentColor="indigo" grayColor="sand" radius="large" scaling="95%">
           <App bootState={bootState} />
         </Theme>
       </Provider>

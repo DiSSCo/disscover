@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import styles from './staticPage.module.scss';
 
 /* Import Components */
-import { Header, Footer } from "components/elements/Elements";
+import { Footer } from "components/elements/Elements";
 
 
 /* Source Material type */
@@ -42,11 +42,6 @@ const StaticPage = (props: Props) => {
 
     return (
         <div className="h-100 d-flex flex-column">
-            {/* Render header*/}
-            <Header span={10}
-                offset={1}
-            />
-
             {/* Static page body */}
             <Container fluid className="flex-grow-1 overflow-hidden">
                 <Row className="h-100">

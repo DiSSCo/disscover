@@ -18,7 +18,7 @@ import ScheduleDataExport from "api/dataExport/ScheduleDataExport";
 import GetSourceSystems from "api/sourceSystem/GetSourceSystems";
 
 /* Import Components */
-import { Header, Footer } from "components/elements/Elements";
+import { Footer } from "components/elements/Elements";
 import { Button, Dropdown, LoadingScreen } from "components/elements/customUI/CustomUI";
 
 
@@ -88,11 +88,6 @@ const DataExport = () => {
 
     return (
         <div className="h-100 d-flex flex-column">
-            {/* Render header*/}
-            <Header span={10}
-                offset={1}
-            />
-
             <Container fluid className="flex-grow-1 overflow-hidden py-5">
                 <Row className="h-100">
                     <Col lg={{ span: 6, offset: 3 }}

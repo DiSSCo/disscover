@@ -29,7 +29,7 @@ import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpeci
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
-import { AnnotationSidePanel, ContentNavigation, Header, Footer } from 'components/elements/Elements';
+import { AnnotationSidePanel, ContentNavigation, Footer } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
 
 /**
@@ -110,9 +110,6 @@ const DigitalSpecimen = () => {
                 <Row className="h-100">
                     <Col className={`${digitalSpecimenBodyClass} h-100 tr-smooth`}>
                         <div className={`${digitalSpecimenContentClass} h-100 d-flex flex-column tr-smooth`}>
-                            {/* Render header*/}
-                            <Header />
-
                             {/* Digital specimen page body */}
                             <Container fluid className="flex-grow-1 overflow-hidden my-5">
                                 <Row className="h-100">

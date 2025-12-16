@@ -19,11 +19,12 @@ import { Dict } from 'app/Types';
 
 /* Import Styles */
 import './App.css';
+import './Main.scss';
 
 /* Import Components */
 import Notifications from 'components/elements/notifications/Notifications';
 import Mobile from './Mobile';
-
+import { Header } from 'components/elements/header/Header';
 
 /* Props type */
 type Props = {
@@ -68,6 +69,7 @@ const App = (props: Props) => {
     return (
       <div className="h-full w-full">
         <Router>
+          <Header />
           <Routes>
             {AppRoutes}
           </Routes>

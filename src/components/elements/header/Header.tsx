@@ -1,74 +1,67 @@
-/* Import Components */
-import classNames from 'classnames';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, DropdownMenu, Text } from "@radix-ui/themes";
+import KeycloakService from "app/Keycloak";
+import { Link, useNavigate } from "react-router-dom";
 
-/* Import Utilities */
-import KeycloakService from 'app/Keycloak';
+export const Header = () => {
+    /* Hooks */
+    const navigate = useNavigate();
 
-/* Import Components */
-import Navigation from './Navigation';
-import UserMenu from './UserMenu';
-import { Button } from 'components/elements/customUI/CustomUI';
+    /* Base variables */
+    const navItems = [
+        {
+            url: '/search',
+            label: 'Specimens'
+        },
+        {
+            url: '/virtual-collections',
+            label: 'Virtual Collections'
+        },
+        {
+            url: '/data-export',
+            label: 'Data Export'
+        },
+        {
+            url: '/about',
+            label: 'About'
+        }
+    ]
+    /* Create user tag */
+    const userTag: string = `${KeycloakService.GetParsedToken()?.given_name?.[0]}. ${KeycloakService.GetParsedToken()?.family_name}`;
 
-
-
-/* Props Type */
-type Props = {
-    span?: number,
-    offset?: number,
-};
-
-
-/**
- * Component that renders the application's header
- * @param span The width in Bootstrap span (grid based on 12 columns)
- * @param offset the offset width in Bootstrap span (grid based on 12 columns)
- * @returns JSX Component
- */
-export const Header = (props: Props) => {
-    const { span, offset } = props;
-
-    /* Class Names */
-    const headerClass = classNames({
-        'p-0': !span
-    });
+    const handleNavigation = (item: { url: string, label: string }) => {
+        navigate(item.url);
+    }
 
     return (
-        <Container fluid>
-            <Row className="py-3">
-                <Col lg={{ span: span ?? 12, offset }}
-                    className={headerClass}
-                >
-                    <Row>
-                        {/* Title */}
-                        <Col lg="auto">
-                            <Link to="/">
-                                <h2 className="fs-1 tc-primary fw-bold">DiSSCover</h2>
-                            </Link>
-                        </Col>
-                        {/* Navigation */}
-                        <Col>
-                            <Navigation />
-                        </Col>
-                        <Col lg="auto"
-                            className="d-flex align-items-center"
-                        >
-                            {KeycloakService.IsLoggedIn() ?
-                                <UserMenu />
-                                : <Button type="button"
-                                    variant="blank"
-                                    className="fw-lightBold"
-                                    OnClick={() => KeycloakService.Login()}
-                                >
-                                    Login / Sign-up
-                                </Button>
-                            }
-                        </Col>
-                    </Row>
-                </Col>
-
-            </Row>
-        </Container>
-    );
-};
+        <nav>
+            <Link to="/">
+                <Text as="p" weight="bold" size="8" color="indigo">DiSSCover</Text>
+            </Link>
+            <ul>
+                {navItems.map((item) => (
+                    <li key={item.url}><Button variant="ghost" onClick={() => handleNavigation(item)}>{item.label}</Button></li>
+                ))}
+                {KeycloakService.IsLoggedIn() ?
+                    <DropdownMenu.Root>
+                        <DropdownMenu.Trigger>
+                            <Button variant="soft">
+                                {userTag}
+                                <DropdownMenu.TriggerIcon />
+                            </Button>
+                        </DropdownMenu.Trigger>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.Item>
+                                <Link to="/profile">Profile</Link>
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item>
+                                <Link to="/data-export">Data Export</Link>
+                            </DropdownMenu.Item>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                : <Button variant="soft" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
+                }
+                
+            </ul>
+        </nav>
+    )
+}

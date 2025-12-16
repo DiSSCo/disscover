@@ -27,7 +27,7 @@ import ScheduleDigitalMediaMas from "api/digitalMedia/ScheduleDigitalMediaMas";
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from "./components/DigitalMediaComponents";
-import { AnnotationSidePanel, ContentNavigation, Footer, Header } from "components/elements/Elements";
+import { AnnotationSidePanel, ContentNavigation, Footer } from "components/elements/Elements";
 import { LoadingScreen } from "components/elements/customUI/CustomUI";
 
 
@@ -94,9 +94,6 @@ const DigitalMedia = () => {
                 <Row className="h-100">
                     <Col className={`${digitalMediaBodyClass} h-100 tr-smooth`}>
                         <div className={`${digitalMediaContentClass} h-100 d-flex flex-column tr-smooth`}>
-                            {/* Render header*/}
-                            <Header />
-
                             {/* Digital specimen page body */}
                             <Container fluid className="flex-grow-1 overflow-hidden my-5">
                                 <Row className="h-100">

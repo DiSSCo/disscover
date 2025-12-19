@@ -2,7 +2,7 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Styles */
-import './App.css';
+import 'styles/App.css';
 
 /* Import Webroot */
 import DiSSCoLogo from 'webroot/logos/dissco-logo.svg';

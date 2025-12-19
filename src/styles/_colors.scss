@@ -1,0 +1,70 @@
+// This file defines the custom color palette for the application.
+
+// Light theme color definitions
+:root, .light, .light-theme {
+    --disscover-blueberry-1: #f7f7f8;
+    --disscover-blueberry-2: #f2f3f8;
+    --disscover-blueberry-3: #e9ecf6;
+    --disscover-blueberry-4: #dce2f6;
+    --disscover-blueberry-5: #d0d7f4;
+    --disscover-blueberry-6: #c0c9ee;
+    --disscover-blueberry-7: #abb6e3;
+    --disscover-blueberry-8: #8f9cd6;
+    --disscover-blueberry-9: #4d59a2;
+    --disscover-blueberry-10: #404a92;
+    --disscover-blueberry-11: #4c57a0;
+    --disscover-blueberry-12: #262d55;
+
+    --disscover-blueberry-a1: #94623005;
+    --disscover-blueberry-a2: #1a1b7d08;
+    --disscover-blueberry-a3: #0928a211;
+    --disscover-blueberry-a4: #032eca1e;
+    --disscover-blueberry-a5: #0126cc2a;
+    --disscover-blueberry-a6: #0327c03b;
+    --disscover-blueberry-a7: #0121ad50;
+    --disscover-blueberry-a8: #011fa46d;
+    --disscover-blueberry-a9: #02137bb1;
+    --disscover-blueberry-a10: #010e6ebe;
+    --disscover-blueberry-a11: #021179b2;
+    --disscover-blueberry-a12: #010937d9;
+
+    --disscover-blueberry-contrast: #fff;
+    --disscover-blueberry-surface: #f0f1f8cc;
+    --disscover-blueberry-indicator: #4d59a2;
+    --disscover-blueberry-track: #4d59a2;
+
+    // P3 color gamut enhancements for displays that support it
+    @supports (color: color(display-p3 1 1 1)) {
+        @media (color-gamut: p3) {
+            --disscover-blueberry-1: oklch(97.6% 0.002 274.2);
+            --disscover-blueberry-2: oklch(96.5% 0.0066 274.2);
+            --disscover-blueberry-3: oklch(94.4% 0.0136 274.2);
+            --disscover-blueberry-4: oklch(91.4% 0.0281 274.2);
+            --disscover-blueberry-5: oklch(88.3% 0.0409 274.2);
+            --disscover-blueberry-6: oklch(84.2% 0.0524 274.2);
+            --disscover-blueberry-7: oklch(78.3% 0.0654 274.2);
+            --disscover-blueberry-8: oklch(70.5% 0.0864 274.2);
+            --disscover-blueberry-9: oklch(49% 0.1171 274.2);
+            --disscover-blueberry-10: oklch(43.9% 0.1171 274.2);
+            --disscover-blueberry-11: oklch(48.5% 0.1171 274.2);
+            --disscover-blueberry-12: oklch(31.3% 0.071 274.2);
+
+            --disscover-blueberry-a1: color(display-p3 0.4902 0.2471 0.0118 / 0.016);
+            --disscover-blueberry-a2: color(display-p3 0.0314 0.0353 0.451 / 0.029);
+            --disscover-blueberry-a3: color(display-p3 0.0157 0.0824 0.5412 / 0.061);
+            --disscover-blueberry-a4: color(display-p3 0.0078 0.149 0.7098 / 0.113);
+            --disscover-blueberry-a5: color(display-p3 0.0039 0.1294 0.7216 / 0.161);
+            --disscover-blueberry-a6: color(display-p3 0.0039 0.1137 0.6902 / 0.221);
+            --disscover-blueberry-a7: color(display-p3 0.0039 0.1059 0.6196 / 0.306);
+            --disscover-blueberry-a8: color(display-p3 0.0039 0.098 0.5922 / 0.418);
+            --disscover-blueberry-a9: color(display-p3 0 0.0588 0.4431 / 0.683);
+            --disscover-blueberry-a10: color(display-p3 0 0.0431 0.3961 / 0.735);
+            --disscover-blueberry-a11: color(display-p3 0 0.051 0.4353 / 0.687);
+            --disscover-blueberry-a12: color(display-p3 0 0.0275 0.2 / 0.844);
+
+            --disscover-blueberry-surface: color(display-p3 0.9412 0.9451 0.9725 / 0.8);
+            --disscover-blueberry-indicator: oklch(49% 0.1171 274.2);
+            --disscover-blueberry-track: oklch(49% 0.1171 274.2);
+        }
+    }
+}

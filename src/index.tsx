@@ -3,6 +3,7 @@ import './app/i18n';
 import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { Theme } from "@radix-ui/themes";
 
 /* Import Store */
 import { setupStore } from './app/Store';
@@ -13,6 +14,7 @@ import { Dict } from 'app/Types';
 /* Import Styles */
 import '@annotorious/react/annotorious-react.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "@radix-ui/themes/styles.css";
 import 'intro.js/introjs.css';
 import 'leaflet/dist/leaflet.css';
 import "react-datepicker/dist/react-datepicker.css";
@@ -43,7 +45,9 @@ const RenderRoot = (bootState?: {
   if (bootState) {
     root.render(
       <Provider store={setupStore()}>
-        <App bootState={bootState} />
+        <Theme accentColor="indigo" grayColor="sand" radius="large" scaling="95%">
+          <App bootState={bootState} />
+        </Theme>
       </Provider>
     );
   } else {

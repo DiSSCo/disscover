@@ -39,7 +39,7 @@ const TopicOriginFilter = (props: Props) => {
             {/* Name and checkbox */}
             <Row>
                 <Col>
-                    <p className="fs-3 fw-lightBold">{topicOrigin.name}</p>
+                    <p className="fw-lightBold">{topicOrigin.name}</p>
                 </Col>
                 <Col lg="auto">
                     <Field name={id}

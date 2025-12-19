@@ -10,6 +10,7 @@ export default defineConfig({
       api: '/src/api',
       app: '/src/app',
       components: '/src/components',
+      styles: '/src/styles',
       "redux-store": '/src/redux-store',
       sources: '/src/sources',
       tests: '/src/tests',

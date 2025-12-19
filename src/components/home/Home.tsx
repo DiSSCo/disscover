@@ -183,12 +183,6 @@ const Home = () => {
                     </Row>
                 </Container>
             }
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-                plugin
-            />
         </div>
     );
 };

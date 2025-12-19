@@ -171,8 +171,6 @@ const DigitalSpecimen = () => {
                                     </Col>
                                 </Row>
                             </Container>
-
-                            <Footer />
                         </div>
                     </Col>
                     {digitalSpecimen &&

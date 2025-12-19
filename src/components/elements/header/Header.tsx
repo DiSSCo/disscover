@@ -25,8 +25,6 @@ export const Header = () => {
             label: 'About'
         }
     ]
-    /* Create user tag */
-    const userTag: string = `${KeycloakService.GetParsedToken()?.given_name?.[0]}. ${KeycloakService.GetParsedToken()?.family_name}`;
 
     const handleNavigation = (item: { url: string, label: string }) => {
         navigate(item.url);
@@ -44,8 +42,8 @@ export const Header = () => {
                 {KeycloakService.IsLoggedIn() ?
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger>
-                            <Button variant="soft">
-                                {userTag}
+                            <Button variant="outline">
+                                MyDiSSCover
                                 <DropdownMenu.TriggerIcon />
                             </Button>
                         </DropdownMenu.Trigger>
@@ -54,11 +52,11 @@ export const Header = () => {
                                 <Link to="/profile">Profile</Link>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item>
-                                <Link to="/data-export">Data Export</Link>
+                            <Button variant="ghost" onClick={() => KeycloakService.Logout()}>Log-out</Button>
                             </DropdownMenu.Item>
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
-                : <Button variant="soft" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
+                : <Button variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
                 }
                 
             </ul>

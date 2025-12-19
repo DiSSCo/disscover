@@ -114,10 +114,6 @@ const Demo = () => {
                     </Col>
                 </Row>
             </Container>
-
-            <Footer span={10}
-                    offset={1}
-            />
         </div>
     );
 };

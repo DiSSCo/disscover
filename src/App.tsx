@@ -18,13 +18,14 @@ import { setBootState } from "redux-store/BootSlice";
 import { Dict } from 'app/Types';
 
 /* Import Styles */
-import './App.css';
-import './Main.scss';
+import 'styles/App.css';
+import 'styles/Main.scss';
 
 /* Import Components */
 import Notifications from 'components/elements/notifications/Notifications';
 import Mobile from './Mobile';
 import { Header } from 'components/elements/header/Header';
+import { Footer } from 'components/elements/footer/Footer';
 
 /* Props type */
 type Props = {
@@ -73,6 +74,7 @@ const App = (props: Props) => {
           <Routes>
             {AppRoutes}
           </Routes>
+          <Footer />
         </Router>
 
         <Notifications />

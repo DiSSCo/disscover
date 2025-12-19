@@ -154,8 +154,6 @@ const DigitalMedia = () => {
                                     </Col>
                                 </Row>
                             </Container>
-
-                            <Footer />
                         </div>
                     </Col>
                     {digitalMedia &&

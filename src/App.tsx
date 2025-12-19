@@ -18,12 +18,14 @@ import { setBootState } from "redux-store/BootSlice";
 import { Dict } from 'app/Types';
 
 /* Import Styles */
-import './App.css';
+import 'styles/App.css';
+import 'styles/Main.scss';
 
 /* Import Components */
 import Notifications from 'components/elements/notifications/Notifications';
 import Mobile from './Mobile';
-
+import { Header } from 'components/elements/header/Header';
+import { Footer } from 'components/elements/footer/Footer';
 
 /* Props type */
 type Props = {
@@ -66,11 +68,13 @@ const App = (props: Props) => {
   /* If booted: return routes for application, otherwise show loading screen */
   if (!isMobile) {
     return (
-      <div className="h-100 w-100">
+      <div className="h-full w-full">
         <Router>
+          <Header />
           <Routes>
             {AppRoutes}
           </Routes>
+          <Footer />
         </Router>
 
         <Notifications />

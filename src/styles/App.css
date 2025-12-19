@@ -19,10 +19,9 @@
   --warning: #FFBB00;
 }
 
-/* Import Montserrat Font */
-@font-face {
-  font-family: 'Montserrat';
-  src: url(webroot/font/Montserrat-VariableFont_wght.ttf);
+/* Replacement Bootstrap styles*/
+.h-full {
+  height: 100vh;
 }
 
 /* Global styles */
@@ -34,17 +33,14 @@ html {
 body {
   height: 100%;
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333333;
-  background-color: var(--background);
   overflow: hidden;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Courier Prime', monospace;
 }
 
 #root {

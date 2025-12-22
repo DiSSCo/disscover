@@ -24,6 +24,10 @@
   height: 100vh;
 }
 
+.h-90 {
+  height: 90%;
+}
+
 /* Global styles */
 html {
   height: 100vh;

@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 /* Import Components */
-import { Header, Footer } from '../Elements';
+import { Footer } from '../Elements';
 
 
 /**
@@ -13,11 +13,6 @@ import { Header, Footer } from '../Elements';
 const NotFound404 = () => {
     return (
         <div className="h-100 d-flex flex-column">
-            {/* Render header */}
-            <Header span={10}
-                offset={1}
-            />
-
             {/* Render not found 404 page */}
             <Container fluid className="flex-grow-1">
                 <Row className="h-100">

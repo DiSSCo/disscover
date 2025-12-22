@@ -8,7 +8,7 @@ import { useTrigger } from "app/Hooks";
 
 /* Import Components */
 import { Passport, UserRecordTables } from "./components/ProfileComponents";
-import { Header, Footer } from "components/elements/Elements";
+import { Footer } from "components/elements/Elements";
 
 
 /**
@@ -28,12 +28,7 @@ const Profile = () => {
     }, []);
 
     return (
-        <div className="h-100 d-flex flex-column">
-            {/* Render header*/}
-            <Header span={10}
-                offset={1}
-            />
-
+        <div className="h-90 d-flex flex-column">
             <Container fluid className="flex-grow-1 overflow-hidden py-5">
                 <Row className="h-100">
                     <Col lg={{ span: 3, offset: 1 }}>

@@ -23,6 +23,7 @@
       "api/*": ["api/*"],
       "app/*": ["app/*"],
       "components/*": ["components/*"],
+      "styling/*": ["styling/*"],
       "redux-store/*": ["redux-store/*"],
       "sources/*": ["sources/*"],
       "tests/*": ["tests/*"],

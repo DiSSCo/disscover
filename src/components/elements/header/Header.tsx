@@ -1,74 +1,88 @@
-/* Import Components */
-import classNames from 'classnames';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
-/* Import Utilities */
-import KeycloakService from 'app/Keycloak';
+/* Import Dependencies */
+import KeycloakService from "app/Keycloak";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 /* Import Components */
-import Navigation from './Navigation';
-import UserMenu from './UserMenu';
-import { Button } from 'components/elements/customUI/CustomUI';
+import { Button, DropdownMenu } from "@radix-ui/themes";
+import { ChevronDownIcon, ChevronUpIcon, Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 
+export const Header = () => {
+    /* Hooks */
+    const navigate = useNavigate();
 
-/* Props Type */
-type Props = {
-    span?: number,
-    offset?: number,
-};
-
-
-/**
- * Component that renders the application's header
- * @param span The width in Bootstrap span (grid based on 12 columns)
- * @param offset the offset width in Bootstrap span (grid based on 12 columns)
- * @returns JSX Component
- */
-export const Header = (props: Props) => {
-    const { span, offset } = props;
-
-    /* Class Names */
-    const headerClass = classNames({
-        'p-0': !span
-    });
+    /* Base variables */
+    const [isOpen, setIsOpen] = useState(false);
+    const navItems = [
+        { url: '/search', label: 'Specimens' },
+        { url: '/virtual-collections', label: 'Virtual Collections' },
+        ...(KeycloakService.IsLoggedIn() ? [{ url: '/data-export', label: 'Data Export' }] : []),
+        { url: '/about', label: 'About' }
+    ];
 
     return (
-        <Container fluid>
-            <Row className="py-3">
-                <Col lg={{ span: span ?? 12, offset }}
-                    className={headerClass}
-                >
-                    <Row>
-                        {/* Title */}
-                        <Col lg="auto">
-                            <Link to="/">
-                                <h2 className="fs-1 tc-primary fw-bold">DiSSCover</h2>
-                            </Link>
-                        </Col>
-                        {/* Navigation */}
-                        <Col>
-                            <Navigation />
-                        </Col>
-                        <Col lg="auto"
-                            className="d-flex align-items-center"
-                        >
-                            {KeycloakService.IsLoggedIn() ?
-                                <UserMenu />
-                                : <Button type="button"
-                                    variant="blank"
-                                    className="fw-lightBold"
-                                    OnClick={() => KeycloakService.Login()}
-                                >
-                                    Login / Sign-up
-                                </Button>
-                            }
-                        </Col>
-                    </Row>
-                </Col>
+        <nav>
+            <Link to="/">
+                <span id="text-logo">DiSSCover</span>
+            </Link>
 
-            </Row>
-        </Container>
-    );
-};
+            {/* Desktop navigation */}
+            <ul className="desktop-nav">
+                {navItems.map((item) => (
+                    <li key={item.url}><Button variant="ghost" className="nav-buttons" onClick={() => navigate(item.url)}>{item.label}</Button></li>
+                ))}
+                {KeycloakService.IsLoggedIn() ?
+                    <li>
+                        <DropdownMenu.Root onOpenChange={(isOpen) => setIsOpen(isOpen)}>
+                            <DropdownMenu.Trigger>
+                                <Button variant="outline">
+                                    MyDiSSCover
+                                    {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                                </Button>
+                            </DropdownMenu.Trigger>
+                            <DropdownMenu.Content size="2">
+                            <>
+                                <DropdownMenu.Item>
+                                    <Link to="/profile">Profile</Link>
+                                </DropdownMenu.Item>
+                                <Button className="login-btn" variant="outline" onClick={() => KeycloakService.Logout()}>Logout</Button>
+                            </>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Root>
+                    </li>
+                : <li><Button variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button></li>
+                }
+
+            </ul>
+            
+            {/* Mobile navigation */}
+            <div className="mobile-nav">
+                <DropdownMenu.Root onOpenChange={(isOpen) => setIsOpen(isOpen)}>
+                    <DropdownMenu.Trigger>
+                        <Button variant="outline">
+                            Menu
+                            {isOpen ? <Cross1Icon /> : <HamburgerMenuIcon />}
+                        </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content size="2">
+                        {navItems.map((item) => (
+                            <DropdownMenu.Item key={item.url}>
+                                <Link to={item.url}>{item.label}</Link>
+                            </DropdownMenu.Item>
+                        ))}
+                        {KeycloakService.IsLoggedIn() ?
+                            <>
+                                <DropdownMenu.Item>
+                                    <Link to="/profile">Profile</Link>
+                                </DropdownMenu.Item>
+                                <Button className="login-btn" variant="outline" onClick={() => KeycloakService.Logout()}>Logout</Button>
+                            </>
+                        : <Button className="login-btn" variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
+                        }
+                    </DropdownMenu.Content>
+                </DropdownMenu.Root>
+            </div>
+        </nav>
+    )
+}

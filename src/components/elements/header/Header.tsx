@@ -51,9 +51,7 @@ export const Header = () => {
 
     return (
         <nav>
-            <Link to="/">
-                <span id="text-logo-disscover">DiSSCover</span>
-            </Link>
+            <Link to="/" id="text-logo-disscover">DiSSCover</Link>
 
             {/* Desktop navigation */}
             <ul className="desktop-nav">

@@ -4,8 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 /* Import Components */
-import { Button, DropdownMenu } from "@radix-ui/themes";
+import { Button, DropdownMenu, Popover } from "@radix-ui/themes";
 import { ChevronDownIcon, ChevronUpIcon, Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+
+/* Import Styles */
+import './Header.scss';
 
 
 export const Header = () => {
@@ -13,7 +16,8 @@ export const Header = () => {
     const navigate = useNavigate();
 
     /* Base variables */
-    const [isOpen, setIsOpen] = useState(false);
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [dropDownOpen, setDropDownOpen] = useState(false);
     const navItems = [
         { url: '/search', label: 'Specimens' },
         { url: '/virtual-collections', label: 'Virtual Collections' },
@@ -21,10 +25,34 @@ export const Header = () => {
         { url: '/about', label: 'About' }
     ];
 
+    /* Reusable dropdown content for the MyDiSSCover functionality */
+    const loggedInDropdownContent = () => {
+        return (
+            <DropdownMenu.Root onOpenChange={(dropDownOpen) => setDropDownOpen(dropDownOpen)}>
+                <DropdownMenu.Trigger>
+                    <Button variant="outline">
+                        MyDiSSCover
+                        {dropDownOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content size="2">
+                <>
+                    <DropdownMenu.Item>
+                        <Link to="/profile">Profile</Link>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item asChild>
+                        <button className="login-btn" onClick={() => KeycloakService.Logout()}>Logout</button>
+                    </DropdownMenu.Item>
+                </>
+                </DropdownMenu.Content>
+            </DropdownMenu.Root>
+        )
+    }
+
     return (
         <nav>
             <Link to="/">
-                <span id="text-logo">DiSSCover</span>
+                <span id="text-logo-disscover">DiSSCover</span>
             </Link>
 
             {/* Desktop navigation */}
@@ -34,22 +62,7 @@ export const Header = () => {
                 ))}
                 {KeycloakService.IsLoggedIn() ?
                     <li>
-                        <DropdownMenu.Root onOpenChange={(isOpen) => setIsOpen(isOpen)}>
-                            <DropdownMenu.Trigger>
-                                <Button variant="outline">
-                                    MyDiSSCover
-                                    {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                                </Button>
-                            </DropdownMenu.Trigger>
-                            <DropdownMenu.Content size="2">
-                            <>
-                                <DropdownMenu.Item>
-                                    <Link to="/profile">Profile</Link>
-                                </DropdownMenu.Item>
-                                <Button className="login-btn" variant="outline" onClick={() => KeycloakService.Logout()}>Logout</Button>
-                            </>
-                            </DropdownMenu.Content>
-                        </DropdownMenu.Root>
+                        {loggedInDropdownContent()}
                     </li>
                 : <li><Button variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button></li>
                 }
@@ -58,30 +71,27 @@ export const Header = () => {
             
             {/* Mobile navigation */}
             <div className="mobile-nav">
-                <DropdownMenu.Root onOpenChange={(isOpen) => setIsOpen(isOpen)}>
-                    <DropdownMenu.Trigger>
+                <Popover.Root onOpenChange={(popoverOpen) => setPopoverOpen(popoverOpen)}>
+                    <Popover.Trigger>
                         <Button variant="outline">
                             Menu
-                            {isOpen ? <Cross1Icon /> : <HamburgerMenuIcon />}
+                            {popoverOpen ? <Cross1Icon /> : <HamburgerMenuIcon />}
                         </Button>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content size="2">
-                        {navItems.map((item) => (
-                            <DropdownMenu.Item key={item.url}>
-                                <Link to={item.url}>{item.label}</Link>
-                            </DropdownMenu.Item>
-                        ))}
+                    </Popover.Trigger>
+                    <Popover.Content>
+                        <ul className="mobile-nav-items">
+                            {navItems.map((item) => (
+                                <li key={item.url}><Button variant="ghost" onClick={() => navigate(item.url)}>{item.label}</Button></li>
+                            ))}
+                        </ul>
+
                         {KeycloakService.IsLoggedIn() ?
-                            <>
-                                <DropdownMenu.Item>
-                                    <Link to="/profile">Profile</Link>
-                                </DropdownMenu.Item>
-                                <Button className="login-btn" variant="outline" onClick={() => KeycloakService.Logout()}>Logout</Button>
-                            </>
-                        : <Button className="login-btn" variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
-                        }
-                    </DropdownMenu.Content>
-                </DropdownMenu.Root>
+                            loggedInDropdownContent()
+                            : <Button variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
+                            }
+
+                    </Popover.Content>
+                </Popover.Root>
             </div>
         </nav>
     )

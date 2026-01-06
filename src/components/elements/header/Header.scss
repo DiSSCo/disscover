@@ -1,0 +1,59 @@
+/* Header */
+nav {
+    max-width: 1200px;
+    height: 80px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 15px;
+    border-bottom: 1px solid var(--gray-a5);
+
+    .desktop-nav {
+        display: flex;
+        gap: 2rem;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        @media (max-width: 768px) {
+            display: none;
+        }
+
+        .nav-buttons {
+            height: 100%
+        }
+    }
+    a {
+        #text-logo-disscover {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--indigo-9);
+        }
+    }
+
+    .mobile-nav {
+        display: none;
+        @media (max-width: 768px) {
+            display: block;
+        }
+    }
+}
+
+.mobile-nav-items li {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Radix overwrites */
+.rt-DropdownMenuViewport {
+    min-width: 133px;
+}
+
+/* TODO: Set primary and secundary button styling when this has been designed */
+.login-btn {
+    margin-top: 5px;
+    font-weight: 300;
+}
+

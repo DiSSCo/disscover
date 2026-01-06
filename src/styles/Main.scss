@@ -52,55 +52,6 @@ code {
     font-family: 'Courier Prime', monospace;
 }
 
-/* Header */
-nav {
-    max-width: 1200px;
-    height: 80px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    padding: 15px;
-    border-bottom: 1px solid var(--gray-a5);
-
-    .desktop-nav {
-        display: flex;
-        gap: 2rem;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-
-        @media (max-width: 768px) {
-            display: none;
-        }
-
-        .nav-buttons {
-            height: 100%
-        }
-    }
-    a {
-        #text-logo {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--indigo-9);
-        }
-    }
-
-    .mobile-nav {
-        display: none;
-        @media (max-width: 768px) {
-            display: block;
-        }
-    }
+ul {
+    list-style: none;
 }
-
-/* Radix overwrites */
-.rt-DropdownMenuViewport {
-    min-width: 125px;
-}
-
-.login-btn {
-    margin-top: 5px;
-}
-

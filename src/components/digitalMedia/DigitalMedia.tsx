@@ -149,13 +149,11 @@ const DigitalMedia = () => {
                                         <LoadingScreen visible={fetch.loading}
                                             displaySpinner={true}
                                             text="Loading Digital Media"
-                                            className="bgc-default"
                                         />
                                     </Col>
                                 </Row>
                             </Container>
 
-                            <Footer />
                         </div>
                     </Col>
                     {digitalMedia &&

@@ -41,7 +41,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333333;
-  background-color: var(--background);
   overflow: hidden;
 }
 
@@ -55,7 +54,6 @@ body {
 a {
   margin: 0 !important;
   padding: 0 !important;
-  color: inherit;
   text-decoration: none !important;
 }
 
@@ -203,10 +201,6 @@ button {
 
 .bgc-accent-dark {
   background-color: var(--accent-dark) !important;
-}
-
-.bgc-default {
-  background-color: var(--background) !important;
 }
 
 .bgc-white {

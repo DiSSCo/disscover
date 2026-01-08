@@ -3,3 +3,22 @@
 .euFundedLogo {
     height: 2rem;
 }
+
+footer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding: 15px;
+}
+
+a {
+    color: var(--accent-a11);
+    font-weight: 400;
+}
+
+#footer-links-container {
+    display: flex;
+    flex-direction: row;
+}

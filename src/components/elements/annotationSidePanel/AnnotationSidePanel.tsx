@@ -136,7 +136,7 @@ export const AnnotationSidePanel = (props: Props) => {
     });
 
     return (
-        <div className={`${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column bgc-default px-4 py-4`}>
+        <div className={`${styles.annotationSidePanel} h-100 w-100 position-relative d-flex flex-column px-4 py-4`}>
             {/* Top bar */}
             <Row>
                 <Col>

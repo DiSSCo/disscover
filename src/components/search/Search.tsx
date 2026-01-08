@@ -88,7 +88,7 @@ const Search = () => {
                                 <SearchFiltersMenu />
                             </Col>
                             {/* Search results table */}
-                            <Col className={`${searchResultsClass} h-100 tr-smooth z-1 bgc-default`}>
+                            <Col className={`${searchResultsClass} h-100 tr-smooth z-1`}>
                                 <SearchResults pagination={pagination} />
                             </Col>
                             {/* ID card */}
@@ -101,11 +101,6 @@ const Search = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

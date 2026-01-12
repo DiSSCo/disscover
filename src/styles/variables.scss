@@ -1,0 +1,57 @@
+// WIP due to refactor
+/* SCSS variables */
+
+/* Breakpoints */
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+/* Media queries */
+$media-queries: (
+    "sm": $breakpoint-sm,
+    "md": $breakpoint-md,
+    "lg": $breakpoint-lg,
+    "xl": $breakpoint-xl
+);
+
+/* Root variables */
+:root {
+    /* Font family*/
+    --font-family: 'Inter', sans-serif;
+    --code-font-family: 'Courier Prime', monospace;
+
+    /* Font sizes */
+    --xs-font-size: 0.75rem;
+    --sm-font-size: 0.875rem;
+    --md-font-size: 1rem;
+    --lg-font-size: 1.125rem;
+    --xl-font-size: 1.25rem;
+    --2xl-font-size: 1.5rem;
+    --3xl-font-size: 1.75rem;
+    --4xl-font-size: 2.1875rem;
+    --5xl-font-size: 3.75rem;
+
+    /* Font weight */
+    --light-font-weight: 300;
+    --regular-font-weight: 400;
+    --medium-font-weight: 500;
+    --bold-font-weight: 700;
+
+    /* Breakpoints */
+    --breakpoint-sm: #{$breakpoint-sm};
+    --breakpoint-md: #{$breakpoint-md};
+    --breakpoint-lg: #{$breakpoint-lg};
+    --breakpoint-xl: #{$breakpoint-xl};
+
+    /* Spacing */
+    --spacing-xxs: 2px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-m: 16px;
+    --spacing-l: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    --spacing-xxxl: 64px;
+}
+

@@ -1,0 +1,28 @@
+// WIP due to refactor
+@use "variables.scss" as *;
+@use "sass:map";
+
+/* Media queries */
+@mixin smallAndUp {
+    @media (min-width: map.get($media-queries, "sm")) {
+        @content;
+    }
+}
+
+@mixin mediumAndUp {
+    @media (min-width: map.get($media-queries, "md")) {
+        @content;
+    }
+}
+
+@mixin largeAndUp {
+    @media (min-width: map.get($media-queries, "lg")) {
+        @content;
+    }
+}
+
+@mixin extraLargeAndUp {
+    @media (min-width: map.get($media-queries, "xl")) {
+        @content;
+    }
+}

@@ -31,18 +31,6 @@
 /* Global styles */
 html {
   height: 100vh;
-  font-size: 0.85vw;
-}
-
-body {
-  height: 100%;
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #333333;
-  background-color: var(--background);
-  overflow: hidden;
 }
 
 #root {

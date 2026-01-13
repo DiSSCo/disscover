@@ -1,0 +1,16 @@
+// WIP due to refactor
+
+/* Radix Theme overwrites */
+.radix-themes {
+    /* Default font styles */
+    --default-font-family: var(--font-family);
+    --default-code-font-family: var(--code-font-family);
+    --default-font-color: var(--indigo-4);
+    --default-line-height: 1.5;
+    --default-font-size: var(--md-font-size);
+    --default-font-weight: var(--regular-font-weight);
+}
+
+:root {
+    font-weight: var(--regular-font-weight);
+}

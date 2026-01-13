@@ -1,74 +1,96 @@
-/* Import Components */
-import classNames from 'classnames';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
-/* Import Utilities */
-import KeycloakService from 'app/Keycloak';
+/* Import Dependencies */
+import KeycloakService from "app/Keycloak";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 /* Import Components */
-import Navigation from './Navigation';
-import UserMenu from './UserMenu';
-import { Button } from 'components/elements/customUI/CustomUI';
+import { Button, DropdownMenu, Popover } from "@radix-ui/themes";
+import { ChevronDownIcon, ChevronUpIcon, Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+
+/* Import Styles */
+import './Header.scss';
 
 
+export const Header = () => {
+    /* Hooks */
+    const navigate = useNavigate();
 
-/* Props Type */
-type Props = {
-    span?: number,
-    offset?: number,
-};
+    /* Base variables */
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [dropDownOpen, setDropDownOpen] = useState(false);
+    const navItems = [
+        { url: '/search', label: 'Specimens' },
+        { url: '/virtual-collections', label: 'Virtual Collections' },
+        ...(KeycloakService.IsLoggedIn() ? [{ url: '/data-export', label: 'Data Export' }] : []),
+        { url: '/about', label: 'About' }
+    ];
 
-
-/**
- * Component that renders the application's header
- * @param span The width in Bootstrap span (grid based on 12 columns)
- * @param offset the offset width in Bootstrap span (grid based on 12 columns)
- * @returns JSX Component
- */
-export const Header = (props: Props) => {
-    const { span, offset } = props;
-
-    /* Class Names */
-    const headerClass = classNames({
-        'p-0': !span
-    });
+    /* Reusable dropdown content for the MyDiSSCover functionality */
+    const loggedInDropdownContent = () => {
+        return (
+            <DropdownMenu.Root onOpenChange={(dropDownOpen) => setDropDownOpen(dropDownOpen)}>
+                <DropdownMenu.Trigger>
+                    <Button variant="outline">
+                        MyDiSSCover
+                        {dropDownOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content size="2">
+                <>
+                    <DropdownMenu.Item>
+                        <Link to="/profile">Profile</Link>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item asChild>
+                        <button className="login-btn" onClick={() => KeycloakService.Logout()}>Logout</button>
+                    </DropdownMenu.Item>
+                </>
+                </DropdownMenu.Content>
+            </DropdownMenu.Root>
+        )
+    }
 
     return (
-        <Container fluid>
-            <Row className="py-3">
-                <Col lg={{ span: span ?? 12, offset }}
-                    className={headerClass}
-                >
-                    <Row>
-                        {/* Title */}
-                        <Col lg="auto">
-                            <Link to="/">
-                                <h2 className="fs-1 tc-primary fw-bold">DiSSCover</h2>
-                            </Link>
-                        </Col>
-                        {/* Navigation */}
-                        <Col>
-                            <Navigation />
-                        </Col>
-                        <Col lg="auto"
-                            className="d-flex align-items-center"
-                        >
-                            {KeycloakService.IsLoggedIn() ?
-                                <UserMenu />
-                                : <Button type="button"
-                                    variant="blank"
-                                    className="fw-lightBold"
-                                    OnClick={() => KeycloakService.Login()}
-                                >
-                                    Login / Sign-up
-                                </Button>
-                            }
-                        </Col>
-                    </Row>
-                </Col>
+        <nav>
+            <Link to="/" id="text-logo-disscover">DiSSCover</Link>
 
-            </Row>
-        </Container>
-    );
-};
+            {/* Desktop navigation */}
+            <ul className="desktop-nav">
+                {navItems.map((item) => (
+                    <li key={item.url}><Button variant="ghost" className="nav-buttons" onClick={() => navigate(item.url)}>{item.label}</Button></li>
+                ))}
+                {KeycloakService.IsLoggedIn() ?
+                    <li>
+                        {loggedInDropdownContent()}
+                    </li>
+                : <li><Button variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button></li>
+                }
+
+            </ul>
+            
+            {/* Mobile navigation */}
+            <div className="mobile-nav">
+                <Popover.Root onOpenChange={(popoverOpen) => setPopoverOpen(popoverOpen)}>
+                    <Popover.Trigger>
+                        <Button variant="outline">
+                            Menu
+                            {popoverOpen ? <Cross1Icon /> : <HamburgerMenuIcon />}
+                        </Button>
+                    </Popover.Trigger>
+                    <Popover.Content>
+                        <ul className="mobile-nav-items">
+                            {navItems.map((item) => (
+                                <li key={item.url}><Button variant="ghost" onClick={() => navigate(item.url)}>{item.label}</Button></li>
+                            ))}
+                        </ul>
+
+                        {KeycloakService.IsLoggedIn() ?
+                            loggedInDropdownContent()
+                            : <Button variant="outline" onClick={() => KeycloakService.Login()}>Login / Sign-up</Button>
+                            }
+
+                    </Popover.Content>
+                </Popover.Root>
+            </div>
+        </nav>
+    )
+}

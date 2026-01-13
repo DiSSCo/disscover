@@ -2,7 +2,7 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
-import { Footer, Header } from "components/elements/Elements";
+import { Footer } from "components/elements/Elements";
 import VirtualCollectionsTable from './components/VirtualCollectionsTable';
 
 
@@ -12,12 +12,7 @@ import VirtualCollectionsTable from './components/VirtualCollectionsTable';
  */
 const VirtualCollections = () => {
     return (
-        <div className="h-100 d-flex flex-column">
-            {/* Render header*/}
-            <Header span={10}
-                offset={1}
-            />
-
+        <div className="h-90 d-flex flex-column">
             {/* Virtual Collections page body */}
             <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">

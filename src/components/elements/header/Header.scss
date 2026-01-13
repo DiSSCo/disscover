@@ -1,0 +1,60 @@
+@use "styles/mixins.scss" as *;
+
+/* Header */
+nav {
+    max-width: 1200px;
+    height: 80px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: var(--spacing-m);
+    border-bottom: 1px solid var(--gray-a5);
+
+    .desktop-nav {
+        display: none;
+
+        @include mediumAndUp {
+            display: flex;
+            gap: 2rem;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .nav-buttons {
+            height: 100%
+        }
+    }
+    #text-logo-disscover {
+        font-size: var(--4xl-font-size);
+        font-weight: var(--bold-font-weight);
+        color: var(--indigo-9);
+    }
+
+    .mobile-nav {
+        display: block;
+        @include mediumAndUp {
+            display: none;
+        }
+    
+    }
+}
+
+.mobile-nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+        padding: var(--spacing-sm);
+        list-style: none;
+    }
+}
+
+/* Radix overwrites */
+.rt-DropdownMenuViewport {
+    min-width: 133px;
+}
+

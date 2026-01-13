@@ -19,7 +19,7 @@ import { Dict } from 'app/Types';
 
 /* Import Styles */
 import 'styles/App.css';
-import 'styles/Main.scss';
+import 'styles/index.scss';
 
 /* Import Components */
 import Notifications from 'components/elements/notifications/Notifications';

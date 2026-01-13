@@ -1,3 +1,5 @@
+@use "styles/mixins.scss" as *;
+
 /* Header */
 nav {
     max-width: 1200px;
@@ -7,52 +9,52 @@ nav {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    padding: 15px;
+    padding: var(--spacing-m);
     border-bottom: 1px solid var(--gray-a5);
 
     .desktop-nav {
-        display: flex;
-        gap: 2rem;
-        padding: 0;
-        margin: 0;
-        list-style: none;
+        display: none;
 
-        @media (max-width: 768px) {
-            display: none;
+        @include mediumAndUp {
+            display: flex;
+            gap: 2rem;
+            padding: 0;
+            margin: 0;
+            list-style: none;
         }
 
         .nav-buttons {
             height: 100%
         }
     }
-    
     #text-logo-disscover {
-        font-size: 32px;
-        font-weight: 700;
+        font-size: var(--4xl-font-size);
+        font-weight: var(--bold-font-weight);
         color: var(--indigo-9);
     }
 
     .mobile-nav {
-        display: none;
-        @media (max-width: 768px) {
-            display: block;
+        display: block;
+        @include mediumAndUp {
+            display: none;
         }
+    
     }
 }
 
-.mobile-nav-items li {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.mobile-nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+        padding: var(--spacing-sm);
+        list-style: none;
+    }
 }
 
 /* Radix overwrites */
 .rt-DropdownMenuViewport {
     min-width: 133px;
-}
-
-/* TODO: Set primary and secundary button styling when this has been designed */
-.login-btn {
-    margin-top: 5px;
-    font-weight: 300;
 }
 

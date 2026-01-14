@@ -69,7 +69,7 @@ const Home = () => {
     });
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Home page body */}
             {(!fetch.loading && digitalSpecimenDisciplines) &&
                 <Container fluid className="flex-grow-1 overflow-hidden">

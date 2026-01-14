@@ -5,108 +5,73 @@ import { Link } from 'react-router-dom';
 import EUFundedLogo from 'webroot/logos/euFundedLogo.png';
 
 /* Import Styles */
-import styles from './Footer.module.scss';
+import './Footer.scss';
 
 /* Import Components */
 import FooterPlugin from './FooterPlugin';
 
 
-/* Props Type */
-type Props = {
-    plugin?: boolean
-};
-
-
 /**
  * Component that renders the application's footer
- * @param span The width in Bootstrap span (grid based on 12 columns)
- * @param offset The offset width in Bootstrap span (grid based on 12 columns)
- * @param plugin Boolean that indicates if the footer plugin should be loaded
  * @returns JSX Component
  */
-export const Footer = (props: Props) => {
-    const { plugin } = props;
-
+export const Footer = () => {
+    /* Base variables */
     const footerLearnMoreItems = [
-        {
-            url: '/about',
-            label: 'About DiSSCover'
-        },
-        {
-            url: 'https://dissco.eu',
-            label: 'Distributed System of Scientific Collections'
-        },
-        {
-            url: 'mailto:support@dissco.jitbit.com',
-            label: 'Get support'
-        },
-        {
-            url: '/acknowledgements',
-            label: 'Acknowledgements'
-        }
+        { url: '/about', label: 'About DiSSCover' },
+        { url: 'https://dissco.eu', label: 'Distributed System of Scientific Collections' },
+        { url: 'mailto:support@dissco.jitbit.com', label: 'Get support' },
+        { url: '/acknowledgements', label: 'Acknowledgements' }
     ];
     const footerTermsItems = [
-        {
-            url: '/privacy',
-            label: 'Privacy'
-        },
-        {
-            url: '/terms',
-            label: 'Terms'
-        },
-        {
-            url: 'https://github.com/DiSSCo/unified-curation-and-annotation-service/issues',
-            label: 'Send us feedback on GitHub'
-        }
+        { url: '/privacy', label: 'Privacy' },
+        { url: '/terms', label: 'Terms' },
+        { url: 'https://github.com/DiSSCo/unified-curation-and-annotation-service/issues', label: 'Send us feedback on GitHub'}
     ];
+
+    const footerLinkItem = (item: { url: string, label: string }, key: string) => {
+        return (
+            <li key={key}>
+                <Link to={item.url} target="_blank"
+                    rel="noreferrer"
+                >
+                    {item.label}
+                </Link>
+            </li>
+        )
+    }
 
     return (
         <footer>
-        <div id="footer-links-container">
-            <div>
-                <p>Learn more</p>
-                <ul>
-                    {footerLearnMoreItems.map((item, index) => {
-                        const key = `footerLearnMoreItem_${index}`;
+            <div id="footer-links-container">
+                <div>
+                    <h5>Learn more</h5>
+                    <ul>
+                        {footerLearnMoreItems.map((item, index) => {
+                            const key = `footerLearnMoreItem_${index}`;
 
-                        return (
-                            <li key={key}>
-                                <Link to={item.url} target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    {item.label}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-            <div>
-                <p>Terms and usage</p>
-                <ul>
-                    {footerTermsItems.map((item, index) => {
-                        const key = `footerTermsItem_${index}`;
+                            return footerLinkItem(item, key);
+                        })}
+                    </ul>
+                </div>
+                <div>
+                    <h5>Terms and usage</h5>
+                    <ul>
+                        {footerTermsItems.map((item, index) => {
+                            const key = `footerTermsItem_${index}`;
 
-                        return (
-                            <li key={key}>
-                                <Link to={item.url} target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    {item.label}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                </ul>
+                            return footerLinkItem(item, key);
+                        })}
+                    </ul>
+                </div>
             </div>
-        </div>
-        <img src={EUFundedLogo}
-            alt="Funded by the European Union"
-            className={styles.euFundedLogo}
-        />
-            {plugin &&
-                <FooterPlugin />
-            }
+            {/* EU funded logo */}
+            <img src={EUFundedLogo}
+                alt="Funded by the European Union"
+                id="footer-eu-logo"
+            />
+            {/* plugin */}
+            <FooterPlugin />
         </footer>
     );
 };

@@ -16,7 +16,7 @@ const Demo = () => {
     const [inputDOI, setInputDOI] = useState<string>();
 
     return (
-        <div className="h-90 d-flex flex-column overflow-scroll">
+        <div className="h-79 d-flex flex-column overflow-scroll">
             <Container fluid className="flex-grow-1">
                 <Row className="h-100 align-items-center">
                     <Col>

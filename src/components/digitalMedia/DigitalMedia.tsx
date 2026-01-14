@@ -88,7 +88,7 @@ const DigitalMedia = () => {
     });
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Main container, acting as the body for the digital specimen page and additionally, the annotation side panel */}
             <Container fluid className="h-100 overflow-hidden">
                 <Row className="h-100">

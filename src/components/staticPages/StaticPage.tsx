@@ -37,7 +37,7 @@ const StaticPage = (props: Props) => {
     const { sourceMaterial } = props;
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Static page body */}
             <Container fluid className="flex-grow-1 overflow-hidden">
                 <Row className="h-100">

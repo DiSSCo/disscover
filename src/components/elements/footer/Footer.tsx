@@ -18,28 +18,16 @@ import FooterPlugin from './FooterPlugin';
 export const Footer = () => {
     /* Base variables */
     const footerLearnMoreItems = [
-        { url: '/about', label: 'About DiSSCover' },
-        { url: 'https://dissco.eu', label: 'Distributed System of Scientific Collections' },
-        { url: 'mailto:support@dissco.jitbit.com', label: 'Get support' },
-        { url: '/acknowledgements', label: 'Acknowledgements' }
+        { url: '/about', label: 'About DiSSCover' , id: 'footerLinkItem_about'},
+        { url: 'https://dissco.eu', label: 'Distributed System of Scientific Collections', id: 'footerLinkItem_dissco'},
+        { url: 'mailto:support@dissco.jitbit.com', label: 'Get support', id: 'footerLinkItem_support' },
+        { url: '/acknowledgements', label: 'Acknowledgements', id: 'footerLinkItem_acknowledgements' }
     ];
     const footerTermsItems = [
-        { url: '/privacy', label: 'Privacy' },
-        { url: '/terms', label: 'Terms' },
-        { url: 'https://github.com/DiSSCo/unified-curation-and-annotation-service/issues', label: 'Send us feedback on GitHub'}
+        { url: '/privacy', label: 'Privacy', id: 'footerLinkItem_privacy' },
+        { url: '/terms', label: 'Terms', id: 'footerLinkItem_terms' },
+        { url: 'https://github.com/DiSSCo/unified-curation-and-annotation-service/issues', label: 'Send us feedback on GitHub', id: 'footerLinkItem_github'}
     ];
-
-    const footerLinkItem = (item: { url: string, label: string }, key: string) => {
-        return (
-            <li key={key}>
-                <Link to={item.url} target="_blank"
-                    rel="noreferrer"
-                >
-                    {item.label}
-                </Link>
-            </li>
-        )
-    }
 
     return (
         <footer>
@@ -47,20 +35,28 @@ export const Footer = () => {
                 <div>
                     <h5>Learn more</h5>
                     <ul>
-                        {footerLearnMoreItems.map((item, index) => {
-                            const key = `footerLearnMoreItem_${index}`;
-
-                            return footerLinkItem(item, key);
+                        {footerLearnMoreItems.map((item) => {
+                            return (
+                                <li key={item.id}>
+                                    <Link to={item.url} target="_blank" rel="noreferrer">
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>
                 <div>
                     <h5>Terms and usage</h5>
                     <ul>
-                        {footerTermsItems.map((item, index) => {
-                            const key = `footerTermsItem_${index}`;
-
-                            return footerLinkItem(item, key);
+                        {footerTermsItems.map((item) => {
+                            return (
+                                <li key={item.id}>
+                                    <Link to={item.url} target="_blank" rel="noreferrer">
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            );
                         })}
                     </ul>
                 </div>

@@ -101,11 +101,6 @@ const Search = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

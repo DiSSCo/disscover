@@ -27,7 +27,7 @@ import ScheduleDigitalMediaMas from "api/digitalMedia/ScheduleDigitalMediaMas";
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from "./components/DigitalMediaComponents";
-import { AnnotationSidePanel, ContentNavigation, Footer } from "components/elements/Elements";
+import { AnnotationSidePanel, ContentNavigation } from "components/elements/Elements";
 import { LoadingScreen } from "components/elements/customUI/CustomUI";
 
 

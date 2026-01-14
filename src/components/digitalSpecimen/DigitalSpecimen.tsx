@@ -29,7 +29,7 @@ import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpeci
 
 /* Import Components */
 import { ContentBlock, IdCard, TopBar } from './components/DigitalSpecimenComponents';
-import { AnnotationSidePanel, ContentNavigation, Footer } from 'components/elements/Elements';
+import { AnnotationSidePanel, ContentNavigation } from 'components/elements/Elements';
 import { LoadingScreen } from 'components/elements/customUI/CustomUI';
 
 /**

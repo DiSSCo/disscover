@@ -18,7 +18,6 @@ import ScheduleDataExport from "api/dataExport/ScheduleDataExport";
 import GetSourceSystems from "api/sourceSystem/GetSourceSystems";
 
 /* Import Components */
-import { Footer } from "components/elements/Elements";
 import { Button, Dropdown, LoadingScreen } from "components/elements/customUI/CustomUI";
 
 

@@ -4,10 +4,6 @@ import { Container, Row, Col } from "react-bootstrap";
 /* Import Styles */
 import styles from './staticPage.module.scss';
 
-/* Import Components */
-import { Footer } from "components/elements/Elements";
-
-
 /* Source Material type */
 type SourceMaterial = {
     title: string,

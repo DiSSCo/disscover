@@ -18,7 +18,7 @@ import styles from './Search.module.scss';
 
 /* Import Components */
 import { IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
-import { Footer, ContentNavigation } from "components/elements/Elements";
+import { ContentNavigation } from "components/elements/Elements";
 
 
 /**

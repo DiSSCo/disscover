@@ -8,8 +8,6 @@ import { useTrigger } from "app/Hooks";
 
 /* Import Components */
 import { Passport, UserRecordTables } from "./components/ProfileComponents";
-import { Footer } from "components/elements/Elements";
-
 
 /**
  * Component that renders the profle page

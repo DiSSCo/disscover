@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
-import { Footer } from 'components/elements/Elements';
 import DOITooltipDemo from 'components/demo/DOITooltipDemo';
 
 

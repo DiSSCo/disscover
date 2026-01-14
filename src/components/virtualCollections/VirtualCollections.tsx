@@ -2,7 +2,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
-import { Footer } from "components/elements/Elements";
 import VirtualCollectionsTable from './components/VirtualCollectionsTable';
 
 

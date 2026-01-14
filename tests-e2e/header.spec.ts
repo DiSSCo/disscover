@@ -1,0 +1,67 @@
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test.describe('Header Accessibility', () => {
+  test('Header should be accessible', async ({ page }) => {
+    // Given a user is on the homepage
+    await page.goto('/');
+
+    // Then the header should be visible
+    await expect(page.locator('nav')).toBeVisible();
+  
+    // When the accessibility runs
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .include('nav')
+      .analyze();
+
+    // Then the results should be logged
+    console.log(`Accessibility audit complete. Checked ${accessibilityScanResults.passes.length} rules.`);
+    
+    if (accessibilityScanResults.violations.length > 0) {
+        console.error('Accessibility Violations:', accessibilityScanResults.violations);
+    }
+    
+    // And the violations should be empty
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+});
+
+test.describe('Header Navigation', () => {
+  test('should navigate to the Specimens page', async ({ page }) => {
+    // Given a user goes to the homepage
+    await page.goto('/');
+
+    // When a user clicks on the Specimens button link in the navigation
+    await page.getByRole('button', { name: /specimens/i }).click();
+
+    // Then the url should change to the Specimens url
+    await expect(page).toHaveURL(/\/search/);
+    
+    // TODO when page is refactored: Verify content is expected
+  });
+
+  test('should navigate to the About page from the Specimens page', async ({ page }) => {
+    // Given a user goes to the search page
+    await page.goto('/search');
+
+    // When the user clicks on the about button in the navigation
+    await page.getByRole('button', { name: /about/i }).click();
+
+    // Then the page should redirect to the about page
+    await expect(page).toHaveURL(/\/about/);
+    
+    // TODO when page is refactored: Verify content is expected
+  });
+
+  test('should show the login redirect when clicking login', async ({ page }) => {
+    // Given a user is on the homepage
+    await page.goto('/');
+    
+    // When the user clicks on the login button
+    await page.getByRole('button', { name: /login\s*\/\s*sign-up/i }).click();
+
+    // Then the page loaded should be the Keycloak login screen
+    await expect(page).toHaveURL(/.*keycloak.iam.naturalis.io*/);
+  });
+});

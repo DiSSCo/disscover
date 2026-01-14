@@ -45,13 +45,8 @@ Running a local test version of DiSSCover requires a view steps:
     - The Node Package Manager is a helpful tool for managing JavaScript based applications. It keeps track of state of our application and the required dependencies.
 - Add a proxy in package.json that points to the DiSSCo API
     - The proxy is needed to evade CORS errors. Because our local environment is not recognized by the CORS protocol of the DiSSCo API as a valid origin, it will reject all fetch requests.
-    - The proxy is configured in the vite.config.ts file and can be configured by adding this piece of code:
-        ``server: {
-           port: 3000,
-           proxy: {
-             '^/api/.*': 'https://dev.dissco.tech'
-           }
-         }``
+    - The proxy is configured in the vite.config.ts file. Add a key to your .env.local with the following value:
+        ``VITE_PROXY_TARGET = https://dev.dissco.tech``
 - Open the terminal and navigate into the root folder of the project.
 - Finally, run 'npm start' to boot the application. This will open a new tab in your browser and display the application.
 

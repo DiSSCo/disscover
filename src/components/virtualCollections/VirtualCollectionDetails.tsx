@@ -15,7 +15,6 @@ import { getSelectedVirtualCollection, setSelectedVirtualCollection } from "redu
 
 /* Import Components */
 import Jumbotron from "./components/Jumbotron";
-import { Footer } from "components/elements/Elements";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -45,7 +44,7 @@ const VirtualCollectionDetails = () => {
     });
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Virtual Collections page body */}
             <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">
@@ -77,11 +76,6 @@ const VirtualCollectionDetails = () => {
                     </Col>
                 </Row>
             </Container>
-    
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

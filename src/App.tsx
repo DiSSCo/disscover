@@ -24,7 +24,7 @@ import 'styles/index.scss';
 /* Import Components */
 import Notifications from 'components/elements/notifications/Notifications';
 import Mobile from './Mobile';
-import { Header } from 'components/elements/Elements';
+import { Header, Footer } from 'components/elements/Elements';
 
 
 /* Props type */
@@ -74,6 +74,7 @@ const App = (props: Props) => {
           <Routes>
             {AppRoutes}
           </Routes>
+          <Footer />
         </Router>
 
         <Notifications />

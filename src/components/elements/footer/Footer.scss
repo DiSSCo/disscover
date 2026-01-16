@@ -1,0 +1,60 @@
+/* Custom styling for Footer component */
+@use "styles/mixins.scss" as *;
+
+footer {
+    max-width: 1200px;
+    margin: auto;
+    padding: var(--spacing-l) var(--spacing-sm);
+    border-top: 1px solid var(--gray-a5);
+    
+    @include smallAndUp {
+        padding: var(--spacing-l) var(--spacing-xl);
+    }
+
+    @include mediumAndUp {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+    }
+
+    #footer-eu-logo {
+        height: var(--spacing-xl);
+    }
+
+    #footer-links-container {
+        margin-bottom: var(--spacing-xxl);
+
+        @include smallAndUp {
+            display: flex;
+            flex-direction: row;
+        }
+
+        @include mediumAndUp {
+            margin-bottom: 0;
+        }
+    
+        div:last-child {
+            margin-top: var(--spacing-l);
+
+            @include smallAndUp {
+                margin-top: 0;
+            }
+        }
+
+        div {
+            @include smallAndUp {
+                margin-right: var(--spacing-xxl);
+            }
+    
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+    
+                li {
+                    margin-top: var(--spacing-sm);
+                }
+            }
+        }
+    }
+}

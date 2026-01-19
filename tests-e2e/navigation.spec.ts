@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+/* WIP: This test suite is a WIP, and currently acts like a proof of concept for playwright*/
 test.describe('Navigation components Accessibility', () => {
   test('Header and footer should be accessible', async ({ page }) => {
     // Given a user is on the homepage
@@ -61,4 +62,27 @@ test.describe('Header Navigation', () => {
     // Then the page loaded should be the Keycloak login screen
     await expect(page).toHaveURL(/.*keycloak.iam.naturalis.io*/);
   });
+});
+
+test.describe('Footer Navigation', () => {
+  test('should navigate to the about page', async ({ page }) => {
+    // Given a user is on the homepage
+    await page.goto('/');
+
+    // When the user clicks on the about button in the navigation
+    await page.getByRole('link', { name: /about disscover/i }).click();
+
+    // Then the page should redirect to the about page
+    await expect(page).toHaveURL(/\/about/);
+  });
+  test('should navigate to the privacy page', async ({ page }) => {
+    // Given a user is on the homepage
+    await page.goto('/');
+
+    // When the user clicks on the about button in the navigation
+    await page.getByRole('link', { name: /privacy/i }).click();
+
+    // Then the page should redirect to the privacy page
+    await expect(page).toHaveURL(/\/privacy/);
+  })
 });

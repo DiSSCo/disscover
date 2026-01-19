@@ -1,7 +1,10 @@
+/* Import dependencies */
 import { screen } from '@testing-library/react';
-import { render } from '../../../tests/test-utils'
+import { render } from 'tests/test-utils'
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+/* Import components */
 import { Header } from './Header';
 import KeycloakService from 'app/Keycloak';
 

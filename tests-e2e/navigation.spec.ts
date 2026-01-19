@@ -1,18 +1,19 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test.describe('Header Accessibility', () => {
-  test('Header should be accessible', async ({ page }) => {
+test.describe('Navigation components Accessibility', () => {
+  test('Header and footer should be accessible', async ({ page }) => {
     // Given a user is on the homepage
     await page.goto('/');
 
-    // Then the header should be visible
+    // Then the header and footer should be visible
     await expect(page.locator('nav')).toBeVisible();
+    await expect(page.locator('footer')).toBeVisible();
   
     // When the accessibility runs
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
-      .include('nav')
+      .include(['nav', 'footer'])
       .analyze();
 
     // Then the results should be logged
@@ -37,8 +38,6 @@ test.describe('Header Navigation', () => {
 
     // Then the url should change to the Specimens url
     await expect(page).toHaveURL(/\/search/);
-    
-    // TODO when page is refactored: Verify content is expected
   });
 
   test('should navigate to the About page from the Specimens page', async ({ page }) => {
@@ -50,8 +49,6 @@ test.describe('Header Navigation', () => {
 
     // Then the page should redirect to the about page
     await expect(page).toHaveURL(/\/about/);
-    
-    // TODO when page is refactored: Verify content is expected
   });
 
   test('should show the login redirect when clicking login', async ({ page }) => {

@@ -18,7 +18,7 @@ import styles from './Search.module.scss';
 
 /* Import Components */
 import { IdCard, SearchFiltersMenu, SearchResults, TopBar } from './components/SearchComponents';
-import { Footer, ContentNavigation } from "components/elements/Elements";
+import { ContentNavigation } from "components/elements/Elements";
 
 
 /**
@@ -60,7 +60,7 @@ const Search = () => {
     });
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Search page body */}
             <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">
@@ -101,11 +101,6 @@ const Search = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

@@ -14,3 +14,19 @@
 :root {
     font-weight: var(--regular-font-weight);
 }
+
+/* Headings */
+h5 {
+    font-weight: 500;
+    font-size: var(--md-font-size);
+    line-height: 20px;
+}
+
+/* Links and buttons */
+a {
+    color: var(--indigo-11);
+    font-weight: 400;
+    font-size: var(--sm-font-size);
+    line-height: 20px;
+}
+

@@ -16,7 +16,6 @@ import { Dict } from 'app/Types';
 import GetDigitalSpecimenDisciplines from 'api/digitalSpecimen/GetDigitalSpecimenDisciplines';
 
 /* Import Components */
-import { Footer } from 'components/elements/Elements';
 import { AdvancedSearch, DatasetDisclaimer, Introduction, SearchBar, TopicFilters } from './components/HomeComponents';
 import { Button } from 'components/elements/customUI/CustomUI';
 
@@ -70,7 +69,7 @@ const Home = () => {
     });
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Home page body */}
             {(!fetch.loading && digitalSpecimenDisciplines) &&
                 <Container fluid className="flex-grow-1 overflow-hidden">
@@ -183,12 +182,6 @@ const Home = () => {
                     </Row>
                 </Container>
             }
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-                plugin
-            />
         </div>
     );
 };

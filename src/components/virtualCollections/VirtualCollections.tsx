@@ -2,7 +2,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
-import { Footer } from "components/elements/Elements";
 import VirtualCollectionsTable from './components/VirtualCollectionsTable';
 
 
@@ -12,7 +11,7 @@ import VirtualCollectionsTable from './components/VirtualCollectionsTable';
  */
 const VirtualCollections = () => {
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Virtual Collections page body */}
             <Container fluid className="flex-grow-1 overflow-y-hidden my-5">
                 <Row className="h-100 position-relative">
@@ -32,11 +31,6 @@ const VirtualCollections = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

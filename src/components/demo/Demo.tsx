@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import { Container, Row, Col } from 'react-bootstrap';
 
 /* Import Components */
-import { Footer } from 'components/elements/Elements';
 import DOITooltipDemo from 'components/demo/DOITooltipDemo';
 
 
@@ -17,7 +16,7 @@ const Demo = () => {
     const [inputDOI, setInputDOI] = useState<string>();
 
     return (
-        <div className="h-90 d-flex flex-column overflow-scroll">
+        <div className="h-79 d-flex flex-column overflow-scroll">
             <Container fluid className="flex-grow-1">
                 <Row className="h-100 align-items-center">
                     <Col>
@@ -114,10 +113,6 @@ const Demo = () => {
                     </Col>
                 </Row>
             </Container>
-
-            <Footer span={10}
-                    offset={1}
-            />
         </div>
     );
 };

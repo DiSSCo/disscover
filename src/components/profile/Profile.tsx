@@ -8,8 +8,6 @@ import { useTrigger } from "app/Hooks";
 
 /* Import Components */
 import { Passport, UserRecordTables } from "./components/ProfileComponents";
-import { Footer } from "components/elements/Elements";
-
 
 /**
  * Component that renders the profle page
@@ -28,7 +26,7 @@ const Profile = () => {
     }, []);
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             <Container fluid className="flex-grow-1 overflow-hidden py-5">
                 <Row className="h-100">
                     <Col lg={{ span: 3, offset: 1 }}>
@@ -48,11 +46,6 @@ const Profile = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render header*/}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

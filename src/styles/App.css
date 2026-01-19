@@ -24,8 +24,8 @@
   height: 100vh;
 }
 
-.h-90 {
-  height: 90%;
+.h-79 {
+  height: 79%;
 }
 
 /* Global styles */
@@ -43,7 +43,6 @@ html {
 a {
   margin: 0 !important;
   padding: 0 !important;
-  color: inherit;
   text-decoration: none !important;
 }
 

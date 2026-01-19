@@ -2,9 +2,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-/* Import Components */
-import { Footer } from '../Elements';
-
 
 /**
  * Component that renders a 404 page for when the user enters an invalid url
@@ -30,11 +27,6 @@ const NotFound404 = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

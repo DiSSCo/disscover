@@ -4,10 +4,6 @@ import { Container, Row, Col } from "react-bootstrap";
 /* Import Styles */
 import styles from './staticPage.module.scss';
 
-/* Import Components */
-import { Footer } from "components/elements/Elements";
-
-
 /* Source Material type */
 type SourceMaterial = {
     title: string,
@@ -41,7 +37,7 @@ const StaticPage = (props: Props) => {
     const { sourceMaterial } = props;
 
     return (
-        <div className="h-90 d-flex flex-column">
+        <div className="h-79 d-flex flex-column">
             {/* Static page body */}
             <Container fluid className="flex-grow-1 overflow-hidden">
                 <Row className="h-100">
@@ -149,11 +145,6 @@ const StaticPage = (props: Props) => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Render footer */}
-            <Footer span={10}
-                offset={1}
-            />
         </div>
     );
 };

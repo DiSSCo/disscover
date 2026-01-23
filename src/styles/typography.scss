@@ -15,7 +15,26 @@
     font-weight: var(--regular-font-weight);
 }
 
+/* Typography */
+p {
+    font-weight: var(--regular-font-weight);
+    font-size: var(--md-font-size);
+}
+
 /* Headings */
+h1 {
+    font-weight: var(--bold-font-weight);
+    font-size: var(--3xl-font-size);
+}
+h2 {
+    font-weight: var(--bold-font-weight);
+    font-size: var(--xl-font-size);
+}
+h3 {
+    font-weight: var(--bold-font-weight);
+    font-size: var(--md-font-size);
+}
+
 h5 {
     font-weight: 500;
     font-size: var(--md-font-size);
@@ -26,7 +45,11 @@ h5 {
 a {
     color: var(--indigo-11);
     font-weight: 400;
-    font-size: var(--sm-font-size);
+    font-size: var(--md-font-size);
     line-height: 20px;
+}
+
+a.navigation-link {
+    font-size: var(--sm-font-size);
 }
 

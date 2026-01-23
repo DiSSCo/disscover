@@ -1,0 +1,39 @@
+/* Custom styling for the Static Page Renderer */
+@use "styles/mixins.scss" as *;
+
+.content-container {
+    max-width: 648px;
+    margin: auto;
+    padding: 0px var(--spacing-m);
+    margin-bottom: var(--spacing-xxl);
+
+    @include smallAndUp {
+        padding: 0px var(--spacing-l);
+    }
+    
+    p, h1, h2 {
+        margin-top: var(--spacing-xxl);
+    }
+
+    .partners {
+        margin-top: 40px;
+
+        @include smallAndUp {
+            display: flex;
+        }
+    
+        p {
+            margin-top: 8px;
+
+            @include smallAndUp {
+                margin-top: 0px;
+            }
+        }
+    
+        img {
+            width: 160px;
+            height: 100%;
+            margin-right: 24px;
+        }
+    }
+}

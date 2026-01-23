@@ -1,8 +1,5 @@
-/* Import Sources */
-import acknowledgementsSource from 'sources/staticPages/acknowledgements.json';
-
 /* Import Components */
-import StaticPage from './StaticPage';
+import StaticPageRenderer from './StaticPageRenderer';
 
 
 /**
@@ -11,7 +8,7 @@ import StaticPage from './StaticPage';
  */
 const Acknowledgements = () => {
     return (
-        <StaticPage sourceMaterial={acknowledgementsSource} />
+        <StaticPageRenderer fileName="acknowledgements"></StaticPageRenderer>
     );
 };
 

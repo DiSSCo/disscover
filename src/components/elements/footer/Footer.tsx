@@ -38,7 +38,7 @@ export const Footer = () => {
                         {footerLearnMoreItems.map((item) => {
                             return (
                                 <li key={item.id}>
-                                    <Link to={item.url} rel="noreferrer">
+                                    <Link to={item.url} rel="noreferrer" className="navigation-link">
                                         {item.label}
                                     </Link>
                                 </li>
@@ -52,7 +52,7 @@ export const Footer = () => {
                         {footerTermsItems.map((item) => {
                             return (
                                 <li key={item.id}>
-                                    <Link to={item.url} rel="noreferrer">
+                                    <Link to={item.url} rel="noreferrer" className="navigation-link">
                                         {item.label}
                                     </Link>
                                 </li>

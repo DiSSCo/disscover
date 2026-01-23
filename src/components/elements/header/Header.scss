@@ -7,7 +7,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-l) var(--spacing-sm);
+    padding: var(--spacing-l) var(--spacing-m);
     border-bottom: 1px solid var(--gray-a5);
 
     @include smallAndUp {

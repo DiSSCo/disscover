@@ -24,6 +24,7 @@ Supervisory authority: Dutch Data Protection Authority. They can be contacted [v
 ## Personal data processed
 The Login service may process the following personal data:
 
+### Personal data
 - Name
 - Identification numbers (as provided by identity providers like a home institution, or identifiers from third parties like ORCID)
 - Email address

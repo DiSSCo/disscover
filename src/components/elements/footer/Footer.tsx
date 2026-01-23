@@ -33,7 +33,7 @@ export const Footer = () => {
         <footer>
             <div id="footer-links-container">
                 <div>
-                    <h5>Learn more</h5>
+                    <p>Learn more</p>
                     <ul>
                         {footerLearnMoreItems.map((item) => {
                             return (
@@ -47,7 +47,7 @@ export const Footer = () => {
                     </ul>
                 </div>
                 <div>
-                    <h5>Terms and usage</h5>
+                    <p>Terms and usage</p>
                     <ul>
                         {footerTermsItems.map((item) => {
                             return (

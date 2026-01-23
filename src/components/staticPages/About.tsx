@@ -1,5 +1,5 @@
 /* Import Components */
-import StaticPageRenderer from './StaticPageRenderer';
+import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
 
 const About = () => {
     return (

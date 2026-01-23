@@ -10,9 +10,24 @@
     @include smallAndUp {
         padding: 0px var(--spacing-l);
     }
+    h1 {
+        margin: var(--spacing-xxl) 0px;
+    }
     
-    p, h1, h2 {
+    h2 {
         margin-top: var(--spacing-xxl);
+    }
+
+    h3, h4, h5, h6 {
+        margin-top: var(--spacing-l);
+    }
+
+    p {
+        margin-top: var(--spacing-m);
+
+        a {
+            text-decoration: underline;
+        }
     }
 
     .partners {

@@ -1,0 +1,18 @@
+@use "styles/mixins.scss" as *;
+
+header {
+    padding: var(--spacing-l) var(--spacing-m);
+
+    @include smallAndUp {
+        padding: var(--spacing-l) var(--spacing-xl);
+    }
+}
+
+main {
+    padding: var(--spacing-l) var(--spacing-m);
+    background-color: var(--gray-a2);
+
+    @include smallAndUp {
+        padding: var(--spacing-l) var(--spacing-xl);
+    }
+}

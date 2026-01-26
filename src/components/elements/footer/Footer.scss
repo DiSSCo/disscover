@@ -2,8 +2,6 @@
 @use "styles/mixins.scss" as *;
 
 footer {
-    max-width: 1200px;
-    margin: auto;
     padding: var(--spacing-l) var(--spacing-m);
     border-top: 1px solid var(--gray-a5);
     

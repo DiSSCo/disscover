@@ -1,6 +1,6 @@
 /* Import Components */
-import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
-
+import StaticPageRenderer from 'components/staticPageRenderer/StaticPageRenderer';
+import AcknowledgementsContent from 'sources/staticPages/acknowledgements.md?raw';
 
 /**
  * Component that renders the acknowledgements page
@@ -8,7 +8,7 @@ import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
  */
 const Acknowledgements = () => {
     return (
-        <StaticPageRenderer fileName="acknowledgements"></StaticPageRenderer>
+        <StaticPageRenderer pageContent={AcknowledgementsContent}></StaticPageRenderer>
     );
 };
 

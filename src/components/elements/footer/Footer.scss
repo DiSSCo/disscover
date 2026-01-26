@@ -2,8 +2,6 @@
 @use "styles/mixins.scss" as *;
 
 footer {
-    max-width: 1200px;
-    margin: auto;
     padding: var(--spacing-l) var(--spacing-m);
     border-top: 1px solid var(--gray-a5);
     
@@ -22,7 +20,7 @@ footer {
     }
 
     #footer-links-container {
-        margin-bottom: var(--spacing-xxl);
+        margin-block-end: var(--spacing-xxl);
 
         @include smallAndUp {
             display: flex;
@@ -30,20 +28,20 @@ footer {
         }
 
         @include mediumAndUp {
-            margin-bottom: 0;
+            margin-block-end: 0;
         }
     
         div:last-child {
-            margin-top: var(--spacing-l);
+            margin-block-start: var(--spacing-l);
 
             @include smallAndUp {
-                margin-top: 0;
+                margin-block-start: 0;
             }
         }
 
         div {
             @include smallAndUp {
-                margin-right: var(--spacing-xxl);
+                margin-inline-end: var(--spacing-xxl);
             }
     
             ul {
@@ -52,14 +50,13 @@ footer {
                 margin: 0;
     
                 li {
-                    margin-top: var(--spacing-sm);
+                    margin-block-start: var(--spacing-sm);
                 }
             }
             p {
                 margin: 0px;
-                font-weight: 500;
+                font-weight: var(--medium-font-weight);
                 font-size: var(--md-font-size);
-                line-height: 20px;
             }
         }
     }

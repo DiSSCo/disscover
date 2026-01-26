@@ -1,9 +1,6 @@
-/* Import Sources */
-import aboutSource from 'sources/staticPages/about.json';
-
 /* Import Components */
-import StaticPage from './StaticPage';
-
+import StaticPageRenderer from 'components/staticPageRenderer/StaticPageRenderer';
+import AboutContent from 'sources/staticPages/about.md?raw';
 
 /**
  * Component that renders the about page
@@ -11,7 +8,7 @@ import StaticPage from './StaticPage';
  */
 const About = () => {
     return (
-        <StaticPage sourceMaterial={aboutSource} />
+        <StaticPageRenderer pageContent={AboutContent}></StaticPageRenderer>
     );
 };
 

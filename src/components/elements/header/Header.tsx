@@ -38,7 +38,7 @@ export const Header = () => {
                 <DropdownMenu.Content size="2">
                 <>
                     <DropdownMenu.Item>
-                        <Link to="/profile">Profile</Link>
+                        <Link to="/profile" className="navigation-link">Profile</Link>
                     </DropdownMenu.Item>
                     <DropdownMenu.Item asChild>
                         <button className="login-btn" onClick={() => KeycloakService.Logout()}>Logout</button>

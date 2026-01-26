@@ -1,0 +1,55 @@
+/* Custom styling for the Static Page Renderer */
+@use "styles/mixins.scss" as *;
+
+.content-container {
+    max-width: 640px;
+    margin: auto;
+    padding-inline: var(--spacing-m);
+    margin-block-end: var(--spacing-xxl);
+
+    @include smallAndUp {
+        padding-inline: var(--spacing-l);
+    }
+    h1 {
+        margin-block: var(--spacing-xxl);
+    }
+    
+    h2 {
+        margin-block-start: var(--spacing-xxl);
+    }
+
+    h3, h4, h5, h6 {
+        margin-block-start: var(--spacing-l);
+    }
+
+    p {
+        margin-block-start: var(--spacing-m);
+    }
+
+    a {
+        text-decoration: underline;
+        text-underline-offset: var(--spacing-xxs);
+    }
+
+    .partners {
+        margin-block-start: var(--spacing-xxl);
+
+        @include smallAndUp {
+            display: flex;
+        }
+    
+        p {
+            margin-block-start: var(--spacing-sm);
+
+            @include smallAndUp {
+                margin-top: 0px;
+            }
+        }
+    
+        img {
+            width: 160px;
+            height: 100%;
+            margin-inline-end: var(--spacing-l);
+        }
+    }
+}

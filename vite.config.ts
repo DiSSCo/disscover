@@ -49,6 +49,7 @@ export default defineConfig(({mode}) => {
     build: {
       outDir: './build',
       emptyOutDir: true
-    }
+    },
+    assetsInclude: ['**/*.md']
   }
 });

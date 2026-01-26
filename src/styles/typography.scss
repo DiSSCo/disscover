@@ -15,18 +15,33 @@
     font-weight: var(--regular-font-weight);
 }
 
-/* Headings */
-h5 {
-    font-weight: 500;
+/* Typography */
+p {
+    font-weight: var(--regular-font-weight);
     font-size: var(--md-font-size);
-    line-height: 20px;
+}
+
+/* Headings */
+h1 {
+    font-weight: var(--bold-font-weight);
+    font-size: var(--3xl-font-size);
+}
+h2 {
+    font-weight: var(--bold-font-weight);
+    font-size: var(--xl-font-size);
+}
+h3 {
+    font-weight: var(--bold-font-weight);
+    font-size: var(--md-font-size);
 }
 
 /* Links and buttons */
 a {
     color: var(--indigo-11);
-    font-weight: 400;
+    text-decoration: none;
+}
+
+a.navigation-link {
     font-size: var(--sm-font-size);
-    line-height: 20px;
 }
 

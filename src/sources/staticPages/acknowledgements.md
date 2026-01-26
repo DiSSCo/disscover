@@ -1,0 +1,63 @@
+# Acknowledgements
+
+The DiSSCo development team at Naturalis would like to acknowledge all organisations and people that worked with us to make DiSSCover and the digital specimen implementation possible including the organisations that provided data. Our thanks also go to our funders: the EU and DiSSCo members. In the spirit of the past BiCIKL project, we strive to continue working with other infrastructures to accomplish bi-directional linkages with existing online sources of specimen related information. We would like to acknowledge a few organisations in particular:
+
+<div class="partners">
+<img src="/webroot/TDWG.png" alt="TWGD logo">
+<p>The community in Biodiversity Information standards (TDWG) has been essential in development of the openDS schemas and implementation of the standards. Task groups have done important work to fill current gaps in biodiversity information standards to support digital specimens such as the development of MIDS and LatimerCore.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/GBIF.svg" alt="GBIF logo">
+<p>We would like to thank the GBIF secretariat for discussing the openDS data model, vocabularies and its alignment with the draft GBIF unified model and vocabulary service work. We would also like to thank the GBIF ECA nodes for their input and advocating work related to persistent identifiers and their interest in working with us on development of machine annotation services and a publication route from digital specimens to GBIF.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/ChecklistBank.png" alt="Catalogue of Life logo">
+<p>We would like to thank Catalogue of Life and GBIF for the excellent ChecklistBank service which has been essential for providing a taxonomic backbone in DiSSCover.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/CETAF.png" alt="CETAF logo">
+<p>We would like to thank CETAF for working closely with us on planning integration with collection and facility descriptions, integration with GeoCASe and for their interest in using DiSSCover as a platform for virtual reference collections. We would also like to thank the CETAF working groups for their feedback on openDS, like their input to better support earth science specimens.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/IPDES.png" alt="IPDES logo">
+<p>The joint development of the Digital Extended Specimen concept in IPDES has been important for the contribution of stakeholders to the technical implementation. We would like to thank the international partners in IPDES for the fruitful discussions and collaboration in the global promotion of the concept.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/MINDAT.png" alt="MINDAT logo">
+<p>We would like to acknowledge Mindat for discussing linkages with their mineral data and for their support in providing an API towards a machine annotation service for annotating mineral specimens with locations.<p>
+</div>
+
+<div class="partners">
+<img src="/webroot/ENA.png" alt="ENA logo">
+<p>ENA has played an important role in discussing linkages between digital specimens and sequence data. We like to thank ENA for these discussions and their steps taken to establish future bi-directional links between data in ENA and the digital specimens.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/BarcodeOfLife.png" alt="Barcode of Life logo">
+<p>We would like to mention Barcode of Life for their support in proving a link between digital specimens and BOLD EU.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/Pensoft.png" alt="Pensoft logo">
+<p>We would like to thank Pensoft for their support and avocation work of the digital specimen DOI, their implementation of digital specimen DOIs in the ARPHA journal system and their collaboration with Knowledge Pixels to link the DOIs with Nanopublications.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/DataCite.png" alt="DataCite logo">
+<p>The close collaboration with DataCite has resulted in provision of digital specimen DOIs and integration in services like the CrossCite Citation Formatter.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/CNRI.png" alt="CNRI logo">
+<p>CNRI has been instrumental in implementation of the Handle infrastructure to support persistent identifiers and FAIR digital objects. We would like to thank them for their advice and technical support.</p>
+</div>
+
+<div class="partners">
+<img src="/webroot/FAIRDigitalObjectsForum.png" alt="FDO Forum logo">
+<p>We would like to thank the FDO Forum for development of the FDO concept and providing a space for us to demonstrate and discuss our early implementation with other FDO stakeholders.</p>
+</div>

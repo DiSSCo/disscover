@@ -1,9 +1,6 @@
-/* Import Sources */
-import privacyPolicySource from 'sources/staticPages/privacyPolicy.json';
-
 /* Import Components */
-import StaticPage from './StaticPage';
-
+import StaticPageRenderer from 'components/staticPageRenderer/StaticPageRenderer';
+import PrivacyContent from 'sources/staticPages/privacy.md?raw';
 
 /**
  * Component that renders the privacy policy page
@@ -11,7 +8,7 @@ import StaticPage from './StaticPage';
  */
 const PrivacyPolicy = () => {
     return (
-        <StaticPage sourceMaterial={privacyPolicySource} />
+        <StaticPageRenderer pageContent={PrivacyContent}></StaticPageRenderer>
     );
 };
 

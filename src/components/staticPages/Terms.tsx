@@ -1,8 +1,6 @@
-/* Import Sources */
-import termsSource from 'sources/staticPages/terms.json';
-
 /* Import Components */
-import StaticPage from './StaticPage';
+import StaticPageRenderer from 'components/staticPageRenderer/StaticPageRenderer';
+import TermsContent from 'sources/staticPages/terms.md?raw';
 
 
 /**
@@ -11,7 +9,7 @@ import StaticPage from './StaticPage';
  */
 const Terms = () => {
     return (
-        <StaticPage sourceMaterial={termsSource} />
+        <StaticPageRenderer pageContent={TermsContent}></StaticPageRenderer>
     );
 };
 

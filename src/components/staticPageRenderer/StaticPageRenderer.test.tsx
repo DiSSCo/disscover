@@ -6,28 +6,12 @@ import { describe, it, expect } from 'vitest';
 /* Import components */
 import StaticPageRenderer from './StaticPageRenderer';
 
+const markdownMock = '# This is a test title';
+
 describe('StaticPageRenderer Component', () => {
-    it('renders the title of the about page when fileName is about', () => {
-        render(<StaticPageRenderer fileName="about"/>);
+    it('renders the title of the mock content when pageContent is passed', () => {
+        render(<StaticPageRenderer pageContent={markdownMock}/>);
 
-        expect(screen.getByRole('heading', { name: /about\s*disscover/i })).toBeInTheDocument();
-    });
-
-    it('renders the title of the privacy page when fileName is privacy', () => {
-        render(<StaticPageRenderer fileName="privacy"/>);
-
-        expect(screen.getByRole('heading', { name: /privacy/i })).toBeInTheDocument();
-    });
-
-    it('renders the title of the acknowledgements page when fileName is acknowledgements', () => {
-        render(<StaticPageRenderer fileName="acknowledgements"/>);
-
-        expect(screen.getByRole('heading', { name: /acknowledgements/i })).toBeInTheDocument();
-    });
-
-    it('renders the title of the terms page when fileName is terms', () => {
-        render(<StaticPageRenderer fileName="terms"/>);
-
-        expect(screen.getByRole('heading', { name: /dissco\s*acceptable\s*use\s*policy\s*and\s*conditions\s*of\s*use/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /this\s*is\s*a\s*test\s*title/i })).toBeInTheDocument();
     });
 });

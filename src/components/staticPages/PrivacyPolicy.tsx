@@ -1,5 +1,6 @@
 /* Import Components */
-import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
+import StaticPageRenderer from 'components/staticPageRenderer/StaticPageRenderer';
+import PrivacyContent from 'sources/staticPages/privacy.md?raw';
 
 /**
  * Component that renders the privacy policy page
@@ -7,7 +8,7 @@ import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
  */
 const PrivacyPolicy = () => {
     return (
-        <StaticPageRenderer fileName="privacy"></StaticPageRenderer>
+        <StaticPageRenderer pageContent={PrivacyContent}></StaticPageRenderer>
     );
 };
 

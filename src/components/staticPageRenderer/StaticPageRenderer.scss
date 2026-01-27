@@ -2,43 +2,44 @@
 @use "styles/mixins.scss" as *;
 
 .content-container {
-    max-width: 648px;
+    max-width: 640px;
     margin: auto;
-    padding: 0px var(--spacing-m);
-    margin-bottom: var(--spacing-xxl);
+    padding-inline: var(--spacing-m);
+    margin-block-end: var(--spacing-xxl);
 
     @include smallAndUp {
-        padding: 0px var(--spacing-l);
+        padding-inline: var(--spacing-l);
     }
     h1 {
-        margin: var(--spacing-xxl) 0px;
+        margin-block: var(--spacing-xxl);
     }
     
     h2 {
-        margin-top: var(--spacing-xxl);
+        margin-block-start: var(--spacing-xxl);
     }
 
     h3, h4, h5, h6 {
-        margin-top: var(--spacing-l);
+        margin-block-start: var(--spacing-l);
     }
 
     p {
-        margin-top: var(--spacing-m);
+        margin-block-start: var(--spacing-m);
+    }
 
-        a {
-            text-decoration: underline;
-        }
+    a {
+        text-decoration: underline;
+        text-underline-offset: var(--spacing-xxs);
     }
 
     .partners {
-        margin-top: 40px;
+        margin-block-start: var(--spacing-xxl);
 
         @include smallAndUp {
             display: flex;
         }
     
         p {
-            margin-top: 8px;
+            margin-block-start: var(--spacing-sm);
 
             @include smallAndUp {
                 margin-top: 0px;
@@ -48,7 +49,7 @@
         img {
             width: 160px;
             height: 100%;
-            margin-right: 24px;
+            margin-inline-end: var(--spacing-l);
         }
     }
 }

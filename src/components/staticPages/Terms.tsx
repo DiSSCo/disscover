@@ -1,5 +1,6 @@
 /* Import Components */
-import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
+import StaticPageRenderer from 'components/staticPageRenderer/StaticPageRenderer';
+import TermsContent from 'sources/staticPages/terms.md?raw';
 
 
 /**
@@ -8,7 +9,7 @@ import StaticPageRenderer from '../staticPageRenderer/StaticPageRenderer';
  */
 const Terms = () => {
     return (
-        <StaticPageRenderer fileName="terms"></StaticPageRenderer>
+        <StaticPageRenderer pageContent={TermsContent}></StaticPageRenderer>
     );
 };
 

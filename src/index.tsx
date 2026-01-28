@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Theme } from "@radix-ui/themes";
+import { QueryClientProvider,QueryClient } from '@tanstack/react-query';
 
 /* Import Store */
 import { setupStore } from './app/Store';
@@ -30,7 +31,7 @@ import Loading from 'components/Loading';
 
 /* Define axios base url */
 axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`;
-
+const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -44,11 +45,13 @@ const RenderRoot = (bootState?: {
 }) => {
   if (bootState) {
     root.render(
+      <QueryClientProvider client={queryClient}>
       <Provider store={setupStore()}>
         <Theme accentColor="indigo" grayColor="sand" radius="large" scaling="95%">
           <App bootState={bootState} />
         </Theme>
       </Provider>
+      </QueryClientProvider>
     );
   } else {
     root.render(

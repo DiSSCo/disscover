@@ -2,7 +2,7 @@
 import { Route } from "react-router-dom";
 
 /* Import Components */
-import VirtualCollectionsOverview from "./VirtualCollectionsOverview";
+import VirtualCollectionsOverview from "pages/VirtualCollectionOverview/VirtualCollectionsOverview";
 import VirtualCollectionDetails from "./VirtualCollectionDetails";
 
 

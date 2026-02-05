@@ -15,6 +15,8 @@ export default defineConfig(({mode}) => {
         app: '/src/app',
         components: '/src/components',
         hooks: '/src/hooks',
+        pages: '/src/pages',
+        services: '/src/services',
         styles: '/src/styles',
         "redux-store": '/src/redux-store',
         sources: '/src/sources',

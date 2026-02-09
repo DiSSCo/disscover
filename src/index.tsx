@@ -4,7 +4,7 @@ import axios from 'axios';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Theme } from "@radix-ui/themes";
-import { QueryClientProvider,QueryClient } from '@tanstack/react-query';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 /* Import Store */
 import { setupStore } from './app/Store';
@@ -31,7 +31,6 @@ import Loading from 'components/Loading';
 
 /* Define axios base url */
 axios.defaults.baseURL = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`;
-
 /* Set up queryClient for TanStack query */
 const queryClient = new QueryClient();
 

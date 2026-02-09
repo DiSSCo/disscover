@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-/* WIP: This test suite is a WIP, and currently acts like a proof of concept for playwright*/
+/* This test suite is a WIP, and currently acts like a proof of concept for playwright*/
 test.describe('Accessibility', () => {
   	test('Navigation and footer should be accessible', async ({ page }) => {
 		// Given a user is on the homepage

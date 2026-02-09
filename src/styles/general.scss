@@ -14,5 +14,6 @@ main {
 
     @include smallAndUp {
         padding: var(--spacing-l) var(--spacing-xl);
+        min-height: 60vh;
     }
 }

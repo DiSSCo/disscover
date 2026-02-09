@@ -41,7 +41,7 @@ const VirtualCollectionsTable = () => {
     /* Use query hook to retrieve Virtual Collections */
     const { data, isLoading, isError } = useVirtualCollections();
 
-    /* WIP: Handle loading and error state */
+    /* Handle loading and error state */
     if (isLoading) return <main><p>Retrieving the Virtual Collections...</p></main>;
     if (isError) return <main><p>Something went wrong with fetching the Virtual Collections. Please try again later.</p></main>;
 

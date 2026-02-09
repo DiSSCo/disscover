@@ -1,7 +1,6 @@
 import apiClient from '../apiClient';
 
 /**
- * WIP: Needs to be consistent with all other services, simplified and needs global error handling
  * Service that retrieves all virtual collections through the apiClient
  * @returns An array with all virtual collections
  */

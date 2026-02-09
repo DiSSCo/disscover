@@ -1,5 +1,7 @@
 /* Import dependencies */
 import { format } from "date-fns";
+import { RetrieveEnvVariable } from "app/Utilities";
+import { Link } from "react-router-dom";
 
 /* Import components */
 import { Badge, Card } from "@radix-ui/themes";
@@ -9,7 +11,6 @@ import './VirtualCollectionsOverview.scss';
 
 /* Import hooks */
 import { useVirtualCollections } from "hooks/useVirtualCollections";
-
 
 /**
  * Base component that renders the Virtual Collections page
@@ -33,10 +34,12 @@ const VirtualCollections = () => {
                 <div className="gallery-container">
                     {data?.map((collection: any) => {
                         return (
-                            <Card variant="surface" className="gallery-card" key={collection.id}>
-                                <Badge color="yellow" variant="solid">{collection.attributes['ltc:basisOfScheme']}</Badge>
-                                <p>{collection.attributes['ltc:collectionName']}</p>
-                                <span id="updated-date">Updated: {collection.attributes['schema:dateModified'] ? format(collection.attributes['schema:dateModified'], 'yyyy-MM-dd') : 'Unknown'}</span>
+                            <Card variant="surface" className="gallery-card" key={collection.id} asChild>
+                                <Link to={`/virtual-collections/${collection.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`} className="gallery-card">
+                                    <Badge color="sky" variant="solid">{collection.attributes['ltc:basisOfScheme']}</Badge>
+                                    <p>{collection.attributes['ltc:collectionName']}</p>
+                                    <span id="updated-date">Updated: {collection.attributes['schema:dateModified'] ? format(collection.attributes['schema:dateModified'], 'yyyy-MM-dd') : 'Unknown'}</span>
+                                </Link>
                             </Card>
                         )
                     })}

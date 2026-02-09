@@ -6,16 +6,13 @@ import { useNavigate } from "react-router";
 import VirtualCollectionsTableConfig from "app/config/table/VirtualCollectionsTableConfig";
 
 /* Import Hooks */
-import { useAppDispatch, usePagination } from "app/Hooks";
-
-/* Import API */
-import GetAllVirtualCollections from "api/virtualCollections/GetAllVirtualCollections";
+import { useAppDispatch } from "app/Hooks";
+import { useVirtualCollections } from "hooks/useVirtualCollections";
 
 /* Import Store */
 import { setSelectedVirtualCollection } from "redux-store/VirtualCollectionSlice";
 
 /* Import Components */
-import { Paginator } from "components/elements/Elements";
 import { DataTable } from "components/elements/customUI/CustomUI";
 import { RetrieveEnvVariable } from "app/Utilities";
 
@@ -41,14 +38,15 @@ const VirtualCollectionsTable = () => {
     /* Base variables */
     const { columns } = VirtualCollectionsTableConfig();
 
-    /* Retrieve virtual collections */
-    const pagination = usePagination({
-        pageSize: 25,
-        Method: GetAllVirtualCollections
-    });
+    /* Use query hook to retrieve Virtual Collections */
+    const { data, isLoading, isError } = useVirtualCollections();
+
+    /* Handle loading and error state */
+    if (isLoading) return <main><p>Retrieving the Virtual Collections...</p></main>;
+    if (isError) return <main><p>Something went wrong with fetching the Virtual Collections. Please try again later.</p></main>;
 
     /* Set tableData */
-    const tableData: DataRow[] = pagination.records.map(virtualCollection => ({
+    const tableData: DataRow[] = data.map((virtualCollection: { attributes: { [x: string]: any; }; }) => ({
         collectionName: virtualCollection.attributes['ltc:collectionName'],
         dateCreated: virtualCollection.attributes['schema:dateCreated'],
         creator: virtualCollection.attributes['schema:creator']['schema:name'],
@@ -57,7 +55,7 @@ const VirtualCollectionsTable = () => {
     }));
 
     const selectVirtualCollection = (selectedCollection: any) => {
-        const result = pagination.records.find((collection) => {
+        const result = data.find((collection: { id: any; }) => {
             return collection.id === selectedCollection.identifier;
         });
         // Dispatch the selected virtual collection to the store
@@ -77,11 +75,6 @@ const VirtualCollectionsTable = () => {
                             SelectAction={(e: any) => selectVirtualCollection(e)}
                         />
                     </div>
-                </Col>
-            </Row>
-            <Row className="mt-3">
-                <Col className="d-flex justify-content-center">
-                    <Paginator pagination={pagination} />
                 </Col>
             </Row>
         </div>

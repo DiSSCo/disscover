@@ -11,6 +11,7 @@ import './VirtualCollectionsOverview.scss';
 
 /* Import hooks */
 import { useVirtualCollections } from "hooks/useVirtualCollections";
+import Pagination from "components/pagination/Pagination";
 
 /**
  * Base component that renders the Virtual Collections page
@@ -44,7 +45,10 @@ const VirtualCollections = () => {
                         )
                     })}
                 </div>
-            </main>
+                <Pagination
+                    count={data?.length}
+                />
+            </main> 
         </>
     );
 };

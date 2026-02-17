@@ -45,6 +45,7 @@ const GetAllVirtualCollectionItems = async({ pageSize, pageNumber, virtualCollec
         };
 
         returnData.links = data.links;
+        console.log(returnData);
     } catch (error: any) {
         throw (error);
     };

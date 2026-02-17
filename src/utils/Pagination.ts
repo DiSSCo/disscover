@@ -5,20 +5,28 @@
  * @param maxPerPage Amount of items per page we want to show
  * @returns The sliced array, total amount of pages and total amount of items
  */
-export const paginateItems = <T>(items: T[] | undefined, currentPage: number, maxPerPage: number) => {
-    if (!items) return { currentItems: [], totalPages: 0, totalAmount: 0 };
+export const paginateItems = <T>(items: T[] | undefined, currentPage: number, maxPerPage: number, totalRecords: number | undefined) => {
+    // If totalRecords is provided, we trust it as the source of truth for total amount (server-side pagination).
+    // Otherwise, we use the length of the items array (client-side pagination).
+    const totalAmount = totalRecords ?? items?.length ?? 0;
+    const totalPages = totalAmount ? Math.ceil(totalAmount / maxPerPage) : 0;
 
-    const totalAmount = items.length;
-    const totalPages = Math.ceil(totalAmount / maxPerPage);
-    
-    // Ensure we don't calculate indices for a page that doesn't exist
+    // When totalRecords is provided, it implies server-side pagination,
+    // and the `items` array is already the data for the current page.
+    if (totalRecords !== undefined) {
+        return {
+            currentItems: items || [],
+            totalPages,
+            totalAmount,
+        };
+    }
+
+    // Otherwise, we perform client-side pagination by slicing the items array.
     const sanitizedPage = Math.max(1, Math.min(currentPage, totalPages || 1));
-
     const startIndex = (sanitizedPage - 1) * maxPerPage;
-    const endIndex = startIndex + maxPerPage;
 
     return {
-        currentItems: items.slice(startIndex, endIndex),
+        currentItems: items?.slice(startIndex, startIndex + maxPerPage) || [],
         totalPages,
         totalAmount,
     };

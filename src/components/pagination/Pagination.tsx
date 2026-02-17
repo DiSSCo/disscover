@@ -20,13 +20,8 @@ export const Pagination = ({ totalAmount, currentPage, maxPerPage, onPageChange,
     const totalPages = Math.ceil(totalAmount / maxPerPage);
 
     /* Generic page change handler */
-    const handlePrevious = () => {
-        if (currentPage > 1) onPageChange(currentPage - 1);
-    };
-
-    const handleNext = () => {
-        if (currentPage < totalPages) onPageChange(currentPage + 1);
-    };
+    const handlePrevious = () => { if (currentPage > 1) onPageChange(currentPage - 1)};
+    const handleNext = () => { if (currentPage < totalPages) onPageChange(currentPage + 1)};
 
     return (
         <div className="pagination-container">
@@ -34,7 +29,7 @@ export const Pagination = ({ totalAmount, currentPage, maxPerPage, onPageChange,
                 <ChevronLeftIcon />
                 Previous
             </Button>
-            <div>
+            <div className="pagination-info">
                 <span>{totalAmount} {content}</span>
                 <span> • </span>
                 <span>Page {currentPage} of {totalPages}</span>

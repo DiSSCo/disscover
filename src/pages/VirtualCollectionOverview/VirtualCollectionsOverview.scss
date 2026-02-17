@@ -1,21 +1,31 @@
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--spacing-l);
-    grid-auto-rows: 1fr;
-    margin-bottom: 24px;
+.virtual-collections-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
 
-    .gallery-card {
-        height: 100%;
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: var(--spacing-l);
+        grid-auto-rows: 1fr;
+        margin-bottom: 24px;
 
-        p {
-            font-weight: var(--bold-font-weight);
-            font-size: var(--sm-font-size);
-            margin-block-start: var(--spacing-sm);
+        .gallery-card {
+            height: 100%;
+
+            p {
+                font-weight: var(--bold-font-weight);
+                font-size: var(--sm-font-size);
+                margin-block-start: var(--spacing-sm);
+            }
+            span {
+                font-size: var(--xs-font-size);
+            }
         }
-        span {
-            font-size: var(--xs-font-size);
-        }
+    }
+
+    .pagination-container {
+        margin-top: auto; 
     }
 }
 

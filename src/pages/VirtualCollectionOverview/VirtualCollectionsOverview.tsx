@@ -31,6 +31,7 @@ const VirtualCollections = () => {
     if (isLoading) return <main><p>Retrieving the Virtual Collections...</p></main>;
     if (isError) return <main><p>Something went wrong with fetching the Virtual Collections. Please try again later.</p></main>;
 
+    /* Use pagination */
     const { currentItems, totalAmount } = paginateItems(data, currentPage, maxPerPage);
 
     return (
@@ -39,7 +40,7 @@ const VirtualCollections = () => {
                 <h1>Virtual Collections</h1>
                 <p className="subtitle">DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. </p>
             </header>
-            <main>
+            <main className="virtual-collections-main">
                 <div className="gallery-container">
                     {currentItems?.map((collection: any) => {
                         return (

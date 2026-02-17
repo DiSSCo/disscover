@@ -11,7 +11,9 @@ import './VirtualCollectionsOverview.scss';
 
 /* Import hooks */
 import { useVirtualCollections } from "hooks/useVirtualCollections";
-import Pagination from "components/pagination/Pagination";
+import { Pagination } from "components/pagination/Pagination";
+import { useState } from "react";
+import { paginateItems } from "utils/Pagination";
 
 /**
  * Base component that renders the Virtual Collections page
@@ -21,9 +23,15 @@ const VirtualCollections = () => {
     /* Calling the Virtual Collections hook */
     const { data, isLoading, isError } = useVirtualCollections();
 
+    /* Base variables */
+    const [currentPage, setCurrentPage] = useState(1);
+    const maxPerPage = 24;
+
     /* This will become more generic after migrating more services */
     if (isLoading) return <main><p>Retrieving the Virtual Collections...</p></main>;
     if (isError) return <main><p>Something went wrong with fetching the Virtual Collections. Please try again later.</p></main>;
+
+    const { currentItems, totalAmount } = paginateItems(data, currentPage, maxPerPage);
 
     return (
         <>
@@ -33,7 +41,7 @@ const VirtualCollections = () => {
             </header>
             <main>
                 <div className="gallery-container">
-                    {data?.map((collection: any) => {
+                    {currentItems?.map((collection: any) => {
                         return (
                             <Card variant="surface" className="gallery-card" key={collection.id} asChild>
                                 <Link to={`/virtual-collections/${collection.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`} className="gallery-card">
@@ -46,7 +54,11 @@ const VirtualCollections = () => {
                     })}
                 </div>
                 <Pagination
-                    count={data?.length}
+                    totalAmount={totalAmount}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    currentPage={currentPage}
+                    maxPerPage={maxPerPage}
+                    content="collections"
                 />
             </main> 
         </>

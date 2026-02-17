@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 /* Import components */
-import { Header } from './Header';
+import { Navigation } from './Navigation';
 import KeycloakService from 'app/Keycloak';
 
 // Mock the KeycloakService
@@ -17,7 +17,7 @@ vi.mock('app/Keycloak', () => ({
     },
 }));
 
-describe('Header Component', () => {
+describe('Navigation Component', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -25,7 +25,7 @@ describe('Header Component', () => {
     it('renders the logo and basic navigation items', () => {
         // Default to logged out
         (KeycloakService.IsLoggedIn as any).mockReturnValue(false);
-        render(<Header />);
+        render(<Navigation />);
 
         expect(screen.getByRole('link', { name: /disscover/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /specimens/i })).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('Header Component', () => {
     describe('When Logged Out', () => {
         beforeEach(() => {
             (KeycloakService.IsLoggedIn as any).mockReturnValue(false);
-            render(<Header />);
+            render(<Navigation />);
         });
 
         it('shows the Login button', () => {
@@ -65,7 +65,7 @@ describe('Header Component', () => {
     describe('When Logged In', () => {
         beforeEach(() => {
             (KeycloakService.IsLoggedIn as any).mockReturnValue(true);
-            render(<Header />);
+            render(<Navigation />);
         });
 
         it('shows Data Export and MyDiSSCover', () => {

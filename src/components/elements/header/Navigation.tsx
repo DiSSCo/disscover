@@ -8,10 +8,10 @@ import { Button, DropdownMenu, Popover } from "@radix-ui/themes";
 import { ChevronDownIcon, ChevronUpIcon, Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 /* Import Styles */
-import './Header.scss';
+import './Navigation.scss';
 
 
-export const Header = () => {
+export const Navigation = () => {
     /* Hooks */
     const navigate = useNavigate();
 

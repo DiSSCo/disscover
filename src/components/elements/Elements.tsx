@@ -4,7 +4,7 @@ export { ClassProperties } from "./classProperties/ClassProperties.tsx";
 export { DigitalMediaItem } from "./digitalMedia/DigitalMediaItem.tsx";
 export { EntityRelationships } from "./classProperties/EntityRelationships.tsx";
 export { Footer } from "./footer/Footer.tsx";
-export { Header } from "./header/Header.tsx";
+export { Navigation } from "./header/Navigation.tsx";
 export { ImageViewer } from "./digitalMedia/ImageViewer.tsx";
 export { Paginator } from "./paginator/Paginator.tsx";
 export { TopBarActions } from "./topBarActions/TopBarActions.tsx";

@@ -67,7 +67,10 @@ To start the application.
 Builds a production version of the application for deployment. Optimizes all files into compressed JavaScript and CSS files that are parsed by the interpreter.
 
 #### `npm test`
-To run the tests. The terminal will show how many tests passed and which failed.
+To run the tests. This is done with Vitest. The terminal will show how many tests passed and which failed.
+
+#### `npm test:e2e`
+To run the e2e tests. This is done with Playwright. The terminal will show how many tests passed and which failed.
 
 #### `npm test:coverage`
 To run the tests and receive a coverage report. The coverage report indicates the amount of code lines that are covered by the tests.

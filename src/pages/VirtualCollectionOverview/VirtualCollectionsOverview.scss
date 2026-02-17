@@ -1,0 +1,23 @@
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--general-card-width), 1fr));
+    gap: var(--spacing-l);
+    grid-auto-rows: 1fr;
+
+    .gallery-card {
+        height: 100%;
+
+        p {
+            font-weight: var(--bold-font-weight);
+            font-size: var(--sm-font-size);
+            margin-block-start: var(--spacing-sm);
+        }
+        span {
+            font-size: var(--xs-font-size);
+        }
+    }
+}
+
+.subtitle {
+    max-width: 600px;
+}

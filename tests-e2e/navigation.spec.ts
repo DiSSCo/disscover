@@ -3,11 +3,11 @@ import AxeBuilder from '@axe-core/playwright';
 
 /* This test suite is a WIP, and currently acts like a proof of concept for playwright*/
 test.describe('Accessibility', () => {
-  	test('Header and footer should be accessible', async ({ page }) => {
+  	test('Navigation and footer should be accessible', async ({ page }) => {
 		// Given a user is on the homepage
 		await page.goto('/');
 
-		// Then the header and footer should be visible
+		// Then the navigation and footer should be visible
 		await expect(page.locator('nav')).toBeVisible();
 		await expect(page.locator('footer')).toBeVisible();
 	
@@ -52,7 +52,7 @@ test.describe('Accessibility', () => {
 	});
 });
 
-test.describe('Header Navigation', () => {
+test.describe('Navigation', () => {
 	test('should navigate to the Specimens page', async ({ page }) => {
 		// Given a user goes to the homepage
 		await page.goto('/');
@@ -87,7 +87,7 @@ test.describe('Header Navigation', () => {
 	});
 });
 
-test.describe('Footer Navigation', () => {
+test.describe('Footer', () => {
 	test('should navigate to the about page', async ({ page }) => {
 		// Given a user is on the homepage
 		await page.goto('/');

@@ -1,7 +1,8 @@
-.virtual-collections-main {
-    display: flex;
-    flex-direction: column;
-    min-height: 50vh;
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--general-card-width), 1fr));
+    gap: var(--spacing-l);
+    grid-auto-rows: 1fr;
 
     .gallery-container {
         display: grid;

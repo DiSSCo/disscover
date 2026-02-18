@@ -10,7 +10,7 @@ header {
 
 main {
     padding: var(--spacing-l) var(--spacing-m);
-    background-color: var(--gray-a2);
+    background-color: var(--background-gray);
 
     @include smallAndUp {
         padding: var(--spacing-l) var(--spacing-xl);

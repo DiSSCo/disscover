@@ -11,7 +11,6 @@ test.describe('Virtual Collections', () => {
         await firstCardAvailable.click();
 
         // Then the page should redirect to the virtual collection details page
-        await expect(page).toHaveURL(/.*virtual-collections\/TEST\/.*/);
+        await expect(page).toHaveURL(/\/virtual-collections\/TEST\//);
     });
 });
-

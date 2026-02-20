@@ -66,7 +66,7 @@ const App = (props: Props) => {
   }, []);
 
   /* If booted: return routes for application, otherwise show loading screen */
-  if (!isMobile) {
+  // if (!isMobile) {
     return (
       <div className="h-full w-full">
         <Router>
@@ -80,11 +80,11 @@ const App = (props: Props) => {
         <Notifications />
       </div>
     );
-  } else {
-    return (
-      <Mobile />
-    );
-  }
+  // } else {
+  //   return (
+  //     <Mobile />
+  //   );
+  // }
 };
 
 export default App;

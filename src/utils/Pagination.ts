@@ -5,7 +5,7 @@
  * @param maxPerPage Amount of items per page we want to show
  * @returns The sliced array, total amount of pages and total amount of items
  */
-export const paginateItems = <T>(items: T[] | undefined, currentPage: number, maxPerPage: number, totalRecords: number | undefined) => {
+export const paginateItems = <T>(items: T[] | undefined, currentPage: number, maxPerPage: number, totalRecords?: number | undefined) => {
     // If totalRecords is provided, we trust it as the source of truth for total amount (server-side pagination).
     // Otherwise, we use the length of the items array (client-side pagination).
     const totalAmount = totalRecords ?? items?.length ?? 0;

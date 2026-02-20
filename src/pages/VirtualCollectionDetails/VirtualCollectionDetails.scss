@@ -1,0 +1,30 @@
+@use "styles/mixins.scss" as *;
+
+#mobile-view {
+    display: block;
+
+    @include smallAndUp {
+        display: none;
+    }
+}
+
+#desktop-view {
+    display: none;
+
+    @include smallAndUp {
+        display: flex;
+    }
+}
+
+p {
+    font-size: 14px;
+}
+
+.rt-TableBody {
+    background-color: #fff;
+}
+
+.rt-TableRootTable {
+    min-width: 923px;
+    margin-bottom: 24px;
+}

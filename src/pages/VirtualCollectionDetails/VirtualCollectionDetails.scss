@@ -16,10 +16,6 @@
     }
 }
 
-p {
-    font-size: 14px;
-}
-
 .rt-TableBody {
     background-color: #fff;
 }
@@ -27,4 +23,8 @@ p {
 .rt-TableRootTable {
     min-width: 923px;
     margin-bottom: 24px;
+}
+
+#header-content-virtual-collections {
+    display: flex;
 }

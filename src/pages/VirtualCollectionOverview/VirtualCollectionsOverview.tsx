@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 /* Import components */
 import { Badge, Card } from "@radix-ui/themes";
+import { Hero } from "components/Hero/Hero";
 
 /* Import styling */
 import './VirtualCollectionsOverview.scss';
@@ -36,10 +37,11 @@ const VirtualCollections = () => {
 
     return (
         <>
-            <header>
-                <h1>Virtual Collections</h1>
-                <p className="subtitle">DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. </p>
-            </header>
+            <Hero
+                title="Virtual Collections"
+                description="DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries."
+            >
+            </Hero>
             <main className="virtual-collections-main">
                 <div className="gallery-container">
                     {currentItems?.map((collection: any) => {
@@ -47,7 +49,7 @@ const VirtualCollections = () => {
                             <Card variant="surface" className="gallery-card" key={collection.id} asChild>
                                 <Link to={`/virtual-collections/${collection.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`} className="gallery-card">
                                     <Badge color="sky" variant="solid">{collection.attributes['ltc:basisOfScheme']}</Badge>
-                                    <p>{collection.attributes['ltc:collectionName']}</p>
+                                    <p className="subtitle">{collection.attributes['ltc:collectionName']}</p>
                                     <span id="updated-date">Updated: {collection.attributes['schema:dateModified'] ? format(collection.attributes['schema:dateModified'], 'yyyy-MM-dd') : 'Unknown'}</span>
                                 </Link>
                             </Card>

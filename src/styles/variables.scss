@@ -16,6 +16,11 @@ $media-queries: (
 
 /* Root variables */
 :root {
+    /* Background colors */
+    --background-white: var(--disscover-blueberry-contrast);
+    --background-gray: var(--gray-a2);
+    --divider-gray: var(--gray-a4);
+
     /* Font family*/
     --font-family: 'Inter', sans-serif;
     --code-font-family: 'Courier Prime', monospace;

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAllVirtualCollections, getVirtualCollectionDetails } from 'services/virtualCollectionService/virtualCollectionService';
+import { getAllVirtualCollections, getSelectedVirtualCollection, getVirtualCollectionDetails } from 'services/virtualCollectionService/virtualCollectionService';
 
 /* useQuery hook to retrieve all virtual collections by calling the getAllVirtualCollections service */
 export const useVirtualCollections = () => {
@@ -28,7 +28,6 @@ export const useVirtualCollectionDetails = ({ pageSize, pageNumber, virtualColle
         /* Only run query if we have an ID */
         enabled: !!virtualCollectionID,
     });
-    console.log('queryResult', queryResult);
 
     return {
         ...queryResult,
@@ -36,3 +35,14 @@ export const useVirtualCollectionDetails = ({ pageSize, pageNumber, virtualColle
         meta: queryResult.data?.meta,
     };
 };
+
+export const useSelectedVirtualCollection = ({ identifier }: { identifier: string }) => {
+    return useQuery({
+        queryKey: ['specificVirtualCollection', identifier],
+        queryFn: () => getSelectedVirtualCollection({ identifier }),
+        /* How long until the time is stale */
+        staleTime: 1000 * 60 * 5, 
+        /* Cache time: How long to store it in the cache */
+        gcTime: 1000 * 60 * 10,
+    });
+}

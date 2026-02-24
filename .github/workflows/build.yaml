@@ -49,6 +49,18 @@ jobs:
         restore-keys: |
           trivy-db-${{ runner.os }}-
 
+# --- NEW: SCAN NPM DEPENDENCIES DIRECTLY ---
+    - name: Trivy - Scan Filesystem (npm dependencies)
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'table'
+        exit-code: '1' # Fails the build if vulnerabilities are found
+        severity: 'CRITICAL,HIGH'
+        vuln-type: 'library' # Focuses on your package.json/npm deps
+        trivyignores: .github/workflows/.trivyignore
+
     # 2. Build the image locally for scanning (with matrix args)
     - name: Build local image for scanning
       run: |
@@ -57,19 +69,17 @@ jobs:
           --build-arg VITE_KEYCLOAK_SERVER=${{ matrix.keycloak_server }} \
           --build-arg VITE_KEYCLOAK_REALM=${{ matrix.keycloak_realm }} .
 
-    # 3. Run Trivy Scan
-    # This will fail the build on CRITICAL/HIGH if it's a Pull Request
-    - name: Trivy Security Scan
+    # This scan now focuses primarily on the OS/Nginx layer
+    - name: Trivy - Scan Docker Image (OS)
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: 'trivy-scan-target'
         format: 'table'
         cache-dir: .cache/trivy
-        exit-code: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+        exit-code: '1'
         ignore-unfixed: true
-        vuln-type: 'os,library'
+        vuln-type: 'os' # We already checked 'library' above
         severity: 'CRITICAL,HIGH'
-        trivyignores: .github/workflows/.trivyignore
 
     # --- TRIVY SECTION END ---
 

@@ -29,7 +29,7 @@
     "@tanstack/match-sorter-utils": "^8.19.4",
     "@tanstack/react-query": "^5.90.20",
     "@tanstack/react-table": "^8.20.5",
-    "axios": "^1.7.9",
+    "axios": "^1.13.5",
     "bootstrap": "^5.3.3",
     "bootstrap-css": "^4.0.0-alpha.5",
     "classnames": "^2.5.1",

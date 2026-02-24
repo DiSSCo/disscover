@@ -2,18 +2,20 @@
 import { format } from "date-fns";
 import { RetrieveEnvVariable } from "app/Utilities";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 /* Import components */
 import { Badge, Card } from "@radix-ui/themes";
 import { Hero } from "components/Hero/Hero";
+import { Pagination } from "components/pagination/Pagination";
 
 /* Import styling */
 import './VirtualCollectionsOverview.scss';
 
 /* Import hooks */
 import { useVirtualCollections } from "hooks/useVirtualCollections";
-import { Pagination } from "components/pagination/Pagination";
-import { useState } from "react";
+
+/* Import utils */
 import { paginateItems } from "utils/Pagination";
 
 /**

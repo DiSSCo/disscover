@@ -1,6 +1,8 @@
 /* Import styles */
-import { Button } from '@radix-ui/themes';
 import './Pagination.scss';
+
+/* Import components */
+import { Button } from '@radix-ui/themes';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 
 interface Props {

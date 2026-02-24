@@ -1,13 +1,17 @@
 /* Import dependencies */
 import { screen } from '@testing-library/react';
 import { render } from 'tests/test-utils'
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 /* Import components */
 import { Pagination } from './Pagination';
 
 describe('Pagination Component', () => {
     beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    afterEach(() => {
         vi.clearAllMocks();
     });
 
@@ -53,5 +57,20 @@ describe('Pagination Component', () => {
         expect(screen.getByText('100 dinosaurs')).toBeInTheDocument();
         expect(screen.getByText('Page 4 of 4')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /next/i })).toBeDisabled();
+    });
+
+    it('should call the onPageChange function when the previous button is clicked', () => {
+        const props = {
+            totalAmount: 100,
+            currentPage: 1,
+            maxPerPage: 24,
+            onPageChange: vi.fn(),
+            content: 'dinosaurs'
+        }
+        render(<Pagination {...props} />);
+
+        screen.getByRole('button', { name: /next/i }).click();
+        expect(props.onPageChange).toHaveBeenCalledWith(2);
+        expect(props.onPageChange).toHaveBeenCalledTimes(1);
     });
 });

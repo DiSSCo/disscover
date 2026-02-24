@@ -63,7 +63,7 @@
     "react-tabs": "^6.0.2",
     "rehype-raw": "^7.0.0",
     "sass": "^1.82.0",
-    "validator": "^13.12.0"
+    "validator": "^13.15.26"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",

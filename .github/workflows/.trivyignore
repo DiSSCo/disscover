@@ -1,12 +1,8 @@
-#jsonpath
-#CVE-2026-1615
+#jsonpath, no fixed dependency version, needs to be replaced
+CVE-2026-1615
 
 # qs
 CVE-2025-15284
-
-# React-router
-CVE-2026-21884
-CVE-2026-22029
 
 # Validator
 CVE-2025-12758

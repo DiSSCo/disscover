@@ -38,9 +38,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-# --- TRIVY SECTION START ---
-    
-    # 1. Automated DB Cache (Replaces your separate daily workflow)
     - name: Cache Trivy DB
       uses: actions/cache@v4
       with:
@@ -49,7 +46,7 @@ jobs:
         restore-keys: |
           trivy-db-${{ runner.os }}-
 
-# --- NEW: SCAN NPM DEPENDENCIES DIRECTLY ---
+    # Scan file system for the package.json dependencies with Trivy
     - name: Trivy - Scan Filesystem (npm dependencies)
       uses: aquasecurity/trivy-action@master
       with:
@@ -61,7 +58,6 @@ jobs:
         vuln-type: 'library' # Focuses on your package.json/npm deps
         trivyignores: .github/workflows/.trivyignore
 
-    # 2. Build the image locally for scanning (with matrix args)
     - name: Build local image for scanning
       run: |
         docker build -t trivy-scan-target \
@@ -69,7 +65,7 @@ jobs:
           --build-arg VITE_KEYCLOAK_SERVER=${{ matrix.keycloak_server }} \
           --build-arg VITE_KEYCLOAK_REALM=${{ matrix.keycloak_realm }} .
 
-    # This scan now focuses primarily on the OS/Nginx layer
+    # Scan Docker image with trivy
     - name: Trivy - Scan Docker Image (OS)
       uses: aquasecurity/trivy-action@master
       with:
@@ -80,8 +76,6 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os' # We already checked 'library' above
         severity: 'CRITICAL,HIGH'
-
-    # --- TRIVY SECTION END ---
 
     - name: Login to Public ECR
       if: github.event_name != 'pull_request'

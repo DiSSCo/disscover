@@ -21,6 +21,7 @@ export default defineConfig(({mode}) => {
         "redux-store": '/src/redux-store',
         sources: '/src/sources',
         tests: '/src/tests',
+        utils: '/src/utils',
         webroot: '/src/webroot'
       }
     },

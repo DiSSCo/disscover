@@ -2,15 +2,20 @@
 import { format } from "date-fns";
 import { RetrieveEnvVariable } from "app/Utilities";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 /* Import components */
 import { Badge, Card } from "@radix-ui/themes";
+import { Pagination } from "components/pagination/Pagination";
 
 /* Import styling */
 import './VirtualCollectionsOverview.scss';
 
 /* Import hooks */
 import { useVirtualCollections } from "hooks/useVirtualCollections";
+
+/* Import utils */
+import { paginateItems } from "utils/Pagination";
 
 /**
  * Base component that renders the Virtual Collections page
@@ -20,9 +25,16 @@ const VirtualCollections = () => {
     /* Calling the Virtual Collections hook */
     const { data, isLoading, isError } = useVirtualCollections();
 
+    /* Base variables */
+    const [currentPage, setCurrentPage] = useState(1);
+    const maxPerPage = 24;
+
     /* This will become more generic after migrating more services */
     if (isLoading) return <main><p>Retrieving the Virtual Collections...</p></main>;
     if (isError) return <main><p>Something went wrong with fetching the Virtual Collections. Please try again later.</p></main>;
+
+    /* Use pagination */
+    const { currentItems, totalAmount } = paginateItems(data, currentPage, maxPerPage);
 
     return (
         <>
@@ -30,9 +42,9 @@ const VirtualCollections = () => {
                 <h1>Virtual Collections</h1>
                 <p className="subtitle">DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. </p>
             </header>
-            <main>
+            <main className="virtual-collections-main">
                 <div className="gallery-container">
-                    {data?.map((collection: any) => {
+                    {currentItems?.map((collection: any) => {
                         return (
                             <Card variant="surface" className="gallery-card" key={collection.id} asChild>
                                 <Link to={`/virtual-collections/${collection.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`} className="gallery-card">
@@ -44,7 +56,14 @@ const VirtualCollections = () => {
                         )
                     })}
                 </div>
-            </main>
+                <Pagination
+                    totalAmount={totalAmount}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    currentPage={currentPage}
+                    maxPerPage={maxPerPage}
+                    content="collections"
+                />
+            </main> 
         </>
     );
 };

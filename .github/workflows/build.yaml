@@ -74,7 +74,7 @@ jobs:
         cache-dir: .cache/trivy
         exit-code: '1'
         ignore-unfixed: true
-        vuln-type: 'os' # We already checked 'library' above
+        vuln-type: 'os'
         severity: 'CRITICAL,HIGH'
 
     - name: Login to Public ECR

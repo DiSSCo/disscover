@@ -1,0 +1,5 @@
+#jsonpath, no fixed dependency version, needs to be replaced
+CVE-2026-1615
+
+# qs cannot be updated due to a Typescript issue in one of dependencies in annotorious/openseadragon
+CVE-2025-15284

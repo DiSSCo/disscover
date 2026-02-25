@@ -3,7 +3,7 @@ import apiClient from '../apiClient';
 /**
  * Service that retrieves the virtual collection details through the apiClient
  * Takes pageSize, pageNumber and virtualCollectionID as a parameter object
- * @returns An array with all digital specimen in the virtual collection
+ * @returns An array with all digital specimen in a specific virtual collection
  */
 export const getVirtualCollectionDetails = async ({ pageSize, pageNumber, virtualCollectionID }:
     { pageSize: number, pageNumber?: number, virtualCollectionID: string }) => {

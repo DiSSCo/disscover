@@ -11,10 +11,11 @@
         position: relative;
 
         .header-cell-link {
-            color: black;
+            color: inherit;
+            cursor: 'pointer';
         }
     }
-      
+    /* making the entire row clickable */
     .row-link a::after {
         content: "";
         position: absolute;
@@ -26,16 +27,16 @@
     }
       
     .row-link:hover {
-        background-color: var(--gray-3); /* Or your theme's hover color */
+        background-color: var(--gray-2);
     }
 }
 
 /* Radix overwrites */
 .rt-TableBody {
-    background-color: #fff;
+    background-color: var(--background-white);
 }
 
 .rt-TableRootTable {
-    min-width: 923px;
-    margin-bottom: 24px;
+    min-width: var(--breakpoint-lg);
+    margin-block-end: var(--spacing-l);
 }

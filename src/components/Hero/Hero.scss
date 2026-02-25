@@ -2,32 +2,32 @@ header {
     #hero-top-buttons {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 24px;
+        margin-block-end: var(--spacing-l);
     }
     h1 {
-        margin-top: 8px;
+        margin-block-start: var(--spacing-sm);
     }
     #hero-content {
         display: flex;
+
         .description-container {
             position: relative;
-            width: 600px;
+            width: var(--header-content-spacing);
+
             .clamped-description {
-                padding-right: 24px;
+                padding-inline-end: var(--spacing-l);
                 margin: 0;
                 overflow: hidden;
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
-                line-height: 1.5;
-                color: var(--gray-12); // Use Radix UI theme variables if available
             }
             .read-more-inline {
                 position: absolute;
-                bottom: 0;
+                top: 48px;
                 right: 24px;
-                background: white; // Match your background color
-                padding-left: 8px;
+                background: var(--background-white);
+                padding-inline-end: var(--spacing-sm);
                 border: none;
                 cursor: pointer;
                 font-size: var(--md-font-size);
@@ -38,10 +38,12 @@ header {
             }
         }
         .details-container {
-            padding-left: 24px;
+            padding-inline-start: var(--spacing-l);
             border-left: 1px solid var(--divider-gray);
+
             p {
                 font-size: var(--sm-font-size);
+                padding-block-start: var(--spacing-xs);
 
                 .details-label {
                     font-weight: var(--medium-font-weight);

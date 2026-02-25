@@ -8,11 +8,9 @@ import { Hero } from "components/Hero/Hero";
 
 /* Import hooks */
 import { useVirtualCollectionDetails, useSelectedVirtualCollection } from "hooks/useVirtualCollections";
-import { useNavigate } from "react-router-dom";
 
 /* Import utils */
 import { paginateItems } from "utils/Pagination";
-import { RetrieveEnvVariable } from "app/Utilities";
 
 /* Import styles */
 import './VirtualCollectionDetails.scss';
@@ -25,9 +23,6 @@ const VirtualCollectionDetails = () => {
     /* Base variables */
     const [currentPage, setCurrentPage] = useState(1);
     const maxPerPage = 25;
-
-    /* Hooks */
-    const navigate = useNavigate();
 
     /* Calling the Virtual Collection Details hook */
     const { 

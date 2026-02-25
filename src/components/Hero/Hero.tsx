@@ -1,17 +1,17 @@
+/* Import dependencies */
+import { useLayoutEffect, useRef, useState } from "react";
+import { format } from "date-fns";
+
 /* Import components */
 import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /* Import styling */
 import './Hero.scss';
 
 /* Import utilities */
 import { RetrieveEnvVariable } from "app/Utilities";
-
-/* Import dependencies */
-import { useLayoutEffect, useRef, useState } from "react";
-import { format } from "date-fns";
 
 type Props = {
     title: string;
@@ -38,6 +38,9 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const DOI = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
 
+    /* Hooks */
+    const navigate = useNavigate();
+
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
         const element = descriptionRef.current;
@@ -59,7 +62,6 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
 
     /* Function that copies text to the clipboard */
     const copyToCLipboard = (text: string) => {
-        console.log(text);
         navigator.clipboard.writeText(text);
     }
 
@@ -67,10 +69,10 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
         <header>
             <div id="hero-top-buttons">
             {navigateTo &&
-                <Link to={navigateTo?.pathName} className="navigation-link">
+                <Button variant="soft" className="navigation-link" onClick={() => navigate(navigateTo.pathName)}>
                     <ArrowLeftIcon />
-                    {navigateTo?.text}
-                </Link>
+                    {navigateTo.text}
+                </Button>
             }
             {share &&
                 <Button variant="solid" onClick={() => copyToCLipboard(globalThis.location.href)}>
@@ -122,7 +124,13 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                 <div className="details-container">
                     <p><span className="details-label">Last updated: </span>{format(details?.['schema:dateModified'], 'yyyy-dd-MM')}</p>
                     <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
-                    <p><span className="details-label">DOI:</span> <Button variant="ghost" onClick={() => copyToCLipboard(DOI)}>{DOI} <CopyIcon /> </Button> </p>
+                    <p>
+                        <span className="details-label">DOI:</span>
+                        <button className="btn-as-link"onClick={() => copyToCLipboard(DOI)}>
+                            {DOI}
+                            <CopyIcon />
+                        </button>
+                    </p>
                 </div>
                 }
             </div>

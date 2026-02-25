@@ -35,7 +35,6 @@ const VirtualCollectionDetailsTable = ({currentItems }: Props) => {
                                 <Link 
                                     className="header-cell-link"
                                     to={`/ds/${collection.id.replace(RetrieveEnvVariable('DOI_URL'), '')}`} 
-                                    style={{ cursor: 'pointer' }}
                                 >
                                     <span dangerouslySetInnerHTML={{__html: GetSpecimenNameHTMLLabel(collection.attributes)}} />
                                 </Link>

@@ -1,3 +1,5 @@
+@use "styles/mixins.scss" as *;
+
 header {
     #hero-top-buttons {
         display: flex;
@@ -9,10 +11,15 @@ header {
     }
     #hero-content {
         display: flex;
+        flex-direction: column;
+
+        @include largeAndUp {
+            flex-direction: row;
+        }
 
         .description-container {
             position: relative;
-            width: var(--header-content-spacing);
+            max-width: var(--header-content-spacing);
 
             .clamped-description {
                 padding-inline-end: var(--spacing-l);
@@ -24,8 +31,8 @@ header {
             }
             .read-more-inline {
                 position: absolute;
-                top: 48px;
-                right: 24px;
+                top: var(--spacing-xxxl);
+                right: var(--spacing-l);
                 background: var(--background-white);
                 padding-inline-end: var(--spacing-sm);
                 border: none;
@@ -38,8 +45,10 @@ header {
             }
         }
         .details-container {
-            padding-inline-start: var(--spacing-l);
-            border-left: 1px solid var(--divider-gray);
+            @include largeAndUp {
+                border-left: 1px solid var(--divider-gray);
+                padding-inline-start: var(--spacing-l);
+            }
 
             p {
                 font-size: var(--sm-font-size);
@@ -48,6 +57,29 @@ header {
                 .details-label {
                     font-weight: var(--medium-font-weight);
                 }
+                .dot-divider {
+                    margin-inline: var(--spacing-sm);
+                }
+                .btn-as-link svg {
+                    margin-inline-start: var(--spacing-xs);
+                }
+            }
+        }
+        .mobile-view {
+            display: block;
+            padding-block-start: var(--spacing-l);
+
+
+            @include largeAndUp {
+                display: none;
+            }
+        }
+
+        .desktop-view {
+            display: none;
+
+            @include largeAndUp {
+                display: block;
             }
         }
     }

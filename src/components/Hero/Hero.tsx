@@ -121,17 +121,33 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                 </div>
 
                 {details &&
-                <div className="details-container">
-                    <p><span className="details-label">Last updated: </span>{format(details?.['schema:dateModified'], 'yyyy-dd-MM')}</p>
-                    <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
-                    <p>
-                        <span className="details-label">DOI:</span>
-                        <button className="btn-as-link"onClick={() => copyToCLipboard(DOI)}>
-                            {DOI}
-                            <CopyIcon />
-                        </button>
-                    </p>
-                </div>
+                <>
+                    <div className="details-container desktop-view">
+                        <p><span className="details-label">Last updated: </span>{format(details?.['schema:dateModified'], 'yyyy-dd-MM')}</p>
+                        <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
+                        <p>
+                            <span className="details-label">DOI:</span>
+                            <button className="btn-as-link" onClick={() => copyToCLipboard(DOI)}>
+                                {DOI}
+                                <CopyIcon />
+                            </button>
+                        </p>
+                    </div>
+                    <div className="details-container mobile-view">
+                        <p>
+                            <span className="details-label">Last updated: </span>{format(details?.['schema:dateModified'], 'yyyy-dd-MM')}
+                            <span className="dot-divider">•</span>
+                            <span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}
+                            <span className="dot-divider">•</span>
+                            <span className="details-label">DOI:</span>
+                            <button className="btn-as-link" onClick={() => copyToCLipboard(DOI)}>
+                                {DOI}
+                                <CopyIcon />
+                            </button>
+                        </p>
+
+                    </div>
+                </>
                 }
             </div>
         </header>

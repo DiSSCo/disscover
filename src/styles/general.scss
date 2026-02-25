@@ -17,3 +17,17 @@ main {
         min-height: 50vh;
     }
 }
+
+/* Buttons */
+.btn-as-link {
+    border: none;
+    background-color: inherit;
+    color: var(--indigo-11);
+    svg {
+        fill: var(--indigo-11);
+    }
+}
+
+.btn-as-link:hover {
+    text-decoration: underline;
+}

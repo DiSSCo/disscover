@@ -6,7 +6,8 @@ import { useState } from "react";
 
 /* Import components */
 import { Badge, Card } from "@radix-ui/themes";
-import { Pagination } from "components/pagination/Pagination";
+import { Pagination } from "components/Pagination/Pagination";
+import { Hero } from "components/Hero/Hero";
 
 /* Import styling */
 import './VirtualCollectionsOverview.scss';
@@ -38,10 +39,11 @@ const VirtualCollections = () => {
 
     return (
         <>
-            <header>
-                <h1>Virtual Collections</h1>
-                <p className="subtitle">DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. </p>
-            </header>
+            <Hero
+                title="Virtual Collections"
+                description="DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries."
+            >
+            </Hero>
             <main className="virtual-collections-main">
                 <div className="gallery-container">
                     {currentItems?.map((collection: any) => {

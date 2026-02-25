@@ -1,0 +1,41 @@
+@use "styles/mixins.scss" as *;
+
+#desktop-view {
+    display: none;
+
+    @include smallAndUp {
+        display: flex;
+    }
+
+    .row-link {
+        position: relative;
+
+        .header-cell-link {
+            color: black;
+        }
+    }
+      
+    .row-link a::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+      
+    .row-link:hover {
+        background-color: var(--gray-3); /* Or your theme's hover color */
+    }
+}
+
+/* Radix overwrites */
+.rt-TableBody {
+    background-color: #fff;
+}
+
+.rt-TableRootTable {
+    min-width: 923px;
+    margin-bottom: 24px;
+}

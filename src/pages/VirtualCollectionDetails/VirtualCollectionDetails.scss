@@ -1,0 +1,50 @@
+@use "styles/mixins.scss" as *;
+
+#mobile-view {
+    display: block;
+
+    @include smallAndUp {
+        display: none;
+    }
+}
+
+#desktop-view {
+    display: none;
+
+    @include smallAndUp {
+        display: block;
+    }
+
+    .row-link {
+        position: relative;
+
+        .header-cell-link {
+            color: inherit;
+            cursor: 'pointer';
+        }
+    }
+    /* making the entire row clickable */
+    .row-link a::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+      
+    .row-link:hover {
+        background-color: var(--gray-2);
+    }
+}
+
+/* Radix overwrites */
+.rt-TableBody {
+    background-color: var(--background-white);
+}
+
+.rt-TableRootTable {
+    min-width: var(--breakpoint-lg);
+    margin-block-end: var(--spacing-l);
+}

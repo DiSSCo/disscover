@@ -25,6 +25,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
     /* Base variables */
     const [showMoreBtn, setShowMoreBtn] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
+    const DOI = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
 
     useLayoutEffect(() => {
         const element = descriptionRef.current;
@@ -46,6 +47,11 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
         return () => resizeObserver.disconnect();
     }, [description]);
 
+    const copyToCLipboard = (text: string) => {
+        console.log(text);
+        navigator.clipboard.writeText(text);
+    }
+
     return (
         <header>
             <div id="hero-top-buttons">
@@ -56,7 +62,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                 </Link>
             }
             {share &&
-                <Button variant="solid">
+                <Button variant="solid" onClick={() => copyToCLipboard(DOI)}>
                     Share
                     <ClipboardCopyIcon />
                 </Button>
@@ -105,7 +111,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                 <div className="details-container">
                     <p><span>Last updated: </span>{details?.['schema:dateModified']}</p>
                     <p><span>Curated by </span>{details?.['schema:creator']['schema:name']}</p>
-                    <p><span>DOI:</span> {details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '')} <CopyIcon /></p>
+                    <p><span>DOI:</span> <Button variant="ghost" onClick={() => copyToCLipboard(DOI)}>{DOI} <CopyIcon /> </Button> </p>
                 </div>
                 }
             </div>

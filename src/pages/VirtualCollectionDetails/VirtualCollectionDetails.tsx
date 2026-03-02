@@ -65,8 +65,7 @@ const VirtualCollectionDetails = () => {
         <>
             <Hero
                 title={selectedVirtualCollection?.['ltc:collectionName']}
-                // description={selectedVirtualCollection?.['ltc:description']}
-                description="DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries."
+                description={selectedVirtualCollection?.['ltc:description']}
                 badge={[selectedVirtualCollection?.['ltc:basisOfScheme']]}
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
                 share={true}

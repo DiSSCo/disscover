@@ -65,8 +65,7 @@ const VirtualCollectionDetails = () => {
         <>
             <Hero
                 title={selectedVirtualCollection?.['ltc:collectionName']}
-                // description={selectedVirtualCollection?.['ltc:description']}
-                description="DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries."
+                description={selectedVirtualCollection?.['ltc:description']}
                 badge={[selectedVirtualCollection?.['ltc:basisOfScheme']]}
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
                 share={true}
@@ -101,16 +100,19 @@ const VirtualCollectionDetails = () => {
                 />
             </main>
             <main id="desktop-view" className="virtual-collections-main">
-                <VirtualCollectionDetailsTable 
-                    currentItems={currentItems}
-                />
-                <Pagination
-                    totalAmount={totalAmount}
-                    onPageChange={(page) => setCurrentPage(page)}
-                    currentPage={currentPage}
-                    maxPerPage={maxPerPage}
-                    content="collections"
-                />
+                { currentItems && currentItems.length > 0 ? 
+                <>
+                    <VirtualCollectionDetailsTable
+                        currentItems={currentItems} />
+                    <Pagination
+                        totalAmount={totalAmount}
+                        onPageChange={(page) => setCurrentPage(page)}
+                        currentPage={currentPage}
+                        maxPerPage={maxPerPage}
+                        content="collections" />
+                </>
+                : <p>This virtual collection does not contain any digital specimen.</p>
+                }
             </main>
         </>
     );

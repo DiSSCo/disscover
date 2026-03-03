@@ -45,7 +45,9 @@ const VirtualCollections = () => {
             >
             </Hero>
             <main className="virtual-collections-main">
-                <div className="gallery-container">
+                { currentItems && currentItems.length > 0 ?
+                <>
+                    <div className="gallery-container">
                     {currentItems?.map((collection: any) => {
                         return (
                             <Card variant="surface" className="gallery-card" key={collection.id} asChild>
@@ -57,14 +59,17 @@ const VirtualCollections = () => {
                             </Card>
                         )
                     })}
-                </div>
-                <Pagination
-                    totalAmount={totalAmount}
-                    onPageChange={(page) => setCurrentPage(page)}
-                    currentPage={currentPage}
-                    maxPerPage={maxPerPage}
-                    content="collections"
-                />
+                    </div>
+                    <Pagination
+                        totalAmount={totalAmount}
+                        onPageChange={(page) => setCurrentPage(page)}
+                        currentPage={currentPage}
+                        maxPerPage={maxPerPage}
+                        content="collections"
+                    />
+                </>
+                : <p>No virtual collections yet</p>
+                }
             </main> 
         </>
     );

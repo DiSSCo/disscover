@@ -35,6 +35,9 @@ RUN npm run build
 # Setting up NGINX
 FROM nginx:alpine
 
+# Update and upgrade
+RUN apk update && apk upgrade --no-cache
+
 COPY --from=build /disscover/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 

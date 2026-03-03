@@ -51,6 +51,7 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         scan-type: 'fs'
+        cache-dir: .cache/trivy
         scan-ref: '.'
         format: 'table'
         exit-code: '1' # Fails the build if vulnerabilities are found
@@ -70,8 +71,8 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: 'trivy-scan-target'
-        format: 'table'
         cache-dir: .cache/trivy
+        format: 'table'
         exit-code: '1'
         ignore-unfixed: true
         vuln-type: 'os'

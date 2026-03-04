@@ -1,5 +1,5 @@
 # Pull official node image as base
-FROM node:24-alpine3.21 as build
+FROM node:24-alpine3.21 AS build
 
 # Set working directory
 WORKDIR /disscover
@@ -18,6 +18,8 @@ RUN npm install typescript -g
 
 RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
+# Update and upgrade
+RUN apk update && apk upgrade --no-cache
 RUN rm 'src/app/GenerateTypes.js'
 RUN node 'src/app/GenerateTypes.cjs'
 

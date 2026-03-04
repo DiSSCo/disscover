@@ -77,6 +77,7 @@ jobs:
         ignore-unfixed: true
         vuln-type: 'os'
         severity: 'CRITICAL,HIGH'
+        trivyignores: .github/workflows/.trivyignore
 
     - name: Login to Public ECR
       if: github.event_name != 'pull_request'

@@ -1,6 +1,6 @@
 @use "styles/mixins.scss" as *;
 
-#mobile-view {
+#vc-mobile-view {
     display: block;
 
     @include smallAndUp {
@@ -8,7 +8,7 @@
     }
 }
 
-#desktop-view {
+#vc-desktop-view {
     display: none;
 
     @include smallAndUp {

@@ -49,10 +49,12 @@ test.describe('Accessibility', () => {
 
       // Then the page should redirect to the virtual collection details page and show the heading 1
       await expect(page).toHaveURL(/\/virtual-collections\/TEST\//);
-      await expect(page.locator('h1')).toBeVisible();
+      await expect(page.locator('h1')).not.toBeEmpty();
+
+      await expect(page.locator('.virtual-collections-main')).toBeVisible();
       
       // Then the page should be checked for accessibility violations
-      const results = await checkA11y(page, 'Virtual Collections');
+      const results = await checkA11y(page, 'Virtual Collections details page');
 
       // And the results should be 0
       expect(results.length).toBe(0);

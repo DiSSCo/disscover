@@ -1,4 +1,4 @@
-import apiClient from '../apiClient';
+import apiClient from 'services/apiClient';
 
 /**
  * Service that retrieves very specific virtual collection details

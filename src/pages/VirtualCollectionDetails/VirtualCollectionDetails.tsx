@@ -1,16 +1,20 @@
 /* Import dependencies */
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 /* Import components */
 import VirtualCollectionDetailsTable from "components/Tables/VirtualCollectionDetailsTable";
 import { Pagination } from "components/Pagination/Pagination";
 import { Hero } from "components/Hero/Hero";
+import { Badge, Card } from "@radix-ui/themes";
 
 /* Import hooks */
 import { useVirtualCollectionDetails, useSelectedVirtualCollection } from "hooks/useVirtualCollections";
 
 /* Import utils */
 import { paginateItems } from "utils/Pagination";
+import { RetrieveEnvVariable } from "app/Utilities";
+import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
 
 /* Import styles */
 import './VirtualCollectionDetails.scss';
@@ -61,8 +65,7 @@ const VirtualCollectionDetails = () => {
         <>
             <Hero
                 title={selectedVirtualCollection?.['ltc:collectionName']}
-                // description={selectedVirtualCollection?.['ltc:description']}
-                description="DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries. DiSSCover Virtual Collections showcase a diverse range of specimens from across Europe, presented in curated galleries."
+                description={selectedVirtualCollection?.['ltc:description']}
                 badge={[selectedVirtualCollection?.['ltc:basisOfScheme']]}
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
                 share={true}
@@ -70,10 +73,31 @@ const VirtualCollectionDetails = () => {
             >
                 
             </Hero>
-            <main id="desktop-view" className="virtual-collections-main">
-                <VirtualCollectionDetailsTable 
-                    currentItems={currentItems}
-                />
+            <main className="virtual-collections-main">
+                <div id="vc-mobile-view">
+                    <div className="gallery-container">
+                        {currentItems?.map((collection: any) => {
+                            return (
+                                <Card variant="surface" className="gallery-card" key={collection.id} asChild>
+                                    <Link to={`/ds/${collection.id.replace(RetrieveEnvVariable('DOI_URL'), '')}`} className="gallery-card">
+                                        { collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus'] && 
+                                        <Badge color="sky" variant="solid">{collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus']}</Badge>}
+                                        <p dangerouslySetInnerHTML={{__html: GetSpecimenNameHTMLLabel(collection.attributes)}}></p>
+                                        <span>{collection.attributes['ods:hasEvents'][0]['ods:hasLocation']['dwc:country']}</span>
+                                        <span> • </span>
+                                        <span id="updated-date">{collection.attributes['ods:hasEvents'][0]['dwc:eventDate'] ? collection.attributes['ods:hasEvents'][0]['dwc:eventDate'] : 'Unknown'}</span>
+                                        <p>{collection.attributes['dcterms:rightsHolder']}</p>
+                                    </Link>
+                                </Card>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div id="vc-desktop-view">
+                    <VirtualCollectionDetailsTable 
+                        currentItems={currentItems}
+                    />
+                </div>
                 <Pagination
                     totalAmount={totalAmount}
                     onPageChange={(page) => setCurrentPage(page)}

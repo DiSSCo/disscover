@@ -1,10 +1,18 @@
 @use "styles/mixins.scss" as *;
 
-#desktop-view {
+#vc-mobile-view {
+    display: block;
+
+    @include smallAndUp {
+        display: none;
+    }
+}
+
+#vc-desktop-view {
     display: none;
 
     @include smallAndUp {
-        display: flex;
+        display: block;
     }
 
     .row-link {

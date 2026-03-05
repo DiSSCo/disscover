@@ -1,13 +1,14 @@
-import apiClient from '../apiClient';
+import apiClient from 'services/apiClient';
 
 /**
- * Service that retrieves all virtual collections through the apiClient
- * @returns An array with all virtual collections
+ * Service that retrieves very specific virtual collection details
+ * @param identifier Identifier for the specific virtual collection
+ * @returns An object with al virtual collection details
  */
-export const getAllVirtualCollections = async () => {
+export const getSelectedVirtualCollection = async ({ identifier }: { identifier: string }) => {
     try {
         /* Call service and wait for response */
-        const response = await apiClient.get('/virtual-collection/v1');
+        const response = await apiClient.get(`virtual-collection/v1/${identifier}`);
 
         /* Throw error if response is not as expected */
         if(!response.data?.data) {

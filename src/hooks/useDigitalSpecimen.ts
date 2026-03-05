@@ -14,8 +14,10 @@ export const useDigitalSpecimenComplete = ({ handle, version }:
         staleTime,
         gcTime
     });
+    console.log('queryResult', queryResult);
 
     return {
         ...queryResult,
+        data: queryResult.data,
     }
 };

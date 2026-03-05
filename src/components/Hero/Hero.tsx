@@ -125,7 +125,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                     <p><span className="details-label">Last updated: </span>{format(details?.['schema:dateModified'], 'yyyy-dd-MM')}</p>
                     <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
                     <p>
-                        <span className="details-label">DOI:</span>
+                        <span className="details-label">ID:</span>
                         <button className="btn-as-link"onClick={() => copyToCLipboard(DOI)}>
                             {DOI}
                             <CopyIcon />

@@ -14,10 +14,11 @@ export const useDigitalSpecimenComplete = ({ handle, version }:
         staleTime,
         gcTime
     });
-    console.log('queryResult', queryResult);
 
     return {
         ...queryResult,
-        data: queryResult.data,
+        digitalSpecimen: queryResult.data?.data?.attributes?.digitalSpecimen,
+        digitalMedia: queryResult.data?.data?.attributes?.digitalMedia,
+        annotations: queryResult.data?.data?.attributes?.annotations
     }
 };

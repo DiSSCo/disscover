@@ -34,9 +34,9 @@ type Props = {
  */
 export const Hero = ( { title, description, badge, navigateTo, share, details }: Props) => {
     /* Base variables */
-    const [showMoreBtn, setShowMoreBtn] = useState(false);
+    const [showMoreButton, setShowMoreButton] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
-    const DOI = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
+    const handle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
 
     /* Hooks */
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
         const checkOverflow = () => {
             /* Check if actual content height is greater than the visible clamped height */
             const hasOverflow = element.scrollHeight > element.clientHeight;
-            setShowMoreBtn(hasOverflow);
+            setShowMoreButton(hasOverflow);
         };
         /* Run function to check overflow on mount */
         checkOverflow();
@@ -94,7 +94,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                         {description}
                     </p>
 
-                    {showMoreBtn && (
+                    {showMoreButton && (
                         <Dialog.Root>
                             <Dialog.Trigger>
                                 <button className="read-more-inline">... more</button>
@@ -126,9 +126,9 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                     <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
                     <p>
                         <span className="details-label">ID:</span>
-                        <button className="btn-as-link"onClick={() => copyToCLipboard(DOI)}>
-                            {DOI}
-                            <CopyIcon />
+                        <button className="btn-as-link"onClick={() => copyToCLipboard(handle)}>
+                            {handle}
+                            <CopyIcon className="copy-icon" />
                         </button>
                     </p>
                 </div>

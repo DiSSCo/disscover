@@ -40,7 +40,9 @@ const VirtualCollectionDetailsTable = ({currentItems }: Props) => {
                                 </Link>
                             </Table.RowHeaderCell>
                             <Table.Cell>
+                            { collection.attributes['ods:hasEvents'][0]['ods:hasLocation']['dwc:country'] &&
                                 <span>{collection.attributes['ods:hasEvents'][0]['ods:hasLocation']['dwc:country']}</span>
+                            }
                             </Table.Cell>
                             <Table.Cell>
                                 <span id="updated-date">{collection.attributes['ods:hasEvents'][0]['dwc:eventDate'] ? collection.attributes['ods:hasEvents'][0]['dwc:eventDate'].split('-')[0].trim() : 'Unknown'}</span>
@@ -50,7 +52,9 @@ const VirtualCollectionDetailsTable = ({currentItems }: Props) => {
                                 <Badge color="sky" variant="solid">{collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus']}</Badge>}
                             </Table.Cell>
                             <Table.Cell>
+                            { collection.attributes['dcterms:rightsHolder'] &&
                                 <span>{collection.attributes['dcterms:rightsHolder']}</span>
+                            } 
                             </Table.Cell>
                         </Table.Row>
                         

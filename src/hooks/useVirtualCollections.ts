@@ -6,6 +6,10 @@ import { getAllVirtualCollections } from 'services/virtualCollectionService/getA
 import { getSelectedVirtualCollection } from 'services/virtualCollectionService/getSelectedVirtualCollection';
 import { getVirtualCollectionDetails } from 'services/virtualCollectionService/getVirtualCollectionDetails';
 
+/* Base constants */
+const staleTime = 1000 * 60 * 5; // How long until the time is stale
+const gcTime = 1000 * 60 * 10; // Cache time: How long to store it in the cache
+
 /**
  * Hook that calls the getAllVirtualCollections service and stores it in a key to be reused
  * @returns The response of the service
@@ -14,10 +18,8 @@ export const useVirtualCollections = () => {
     return useQuery({
         queryKey: ['virtualCollections'],
         queryFn: getAllVirtualCollections,
-        /* How long until the time is stale */
-        staleTime: 1000 * 60 * 5, 
-        /* Cache time: How long to store it in the cache */
-        gcTime: 1000 * 60 * 10,
+        staleTime,
+        gcTime,
     });
 };
 
@@ -34,10 +36,8 @@ export const useVirtualCollectionDetails = ({ pageSize, pageNumber, virtualColle
     const queryResult = useQuery({
         queryKey: ['virtualCollectionDetails', virtualCollectionID, { pageNumber: page, pageSize }],
         queryFn: () => getVirtualCollectionDetails({ pageSize, pageNumber: page, virtualCollectionID }),
-        /* How long until the time is stale */
-        staleTime: 1000 * 60 * 5, 
-        /* Cache time: How long to store it in the cache */
-        gcTime: 1000 * 60 * 10,
+        staleTime,
+        gcTime,
     });
 
     return {
@@ -56,9 +56,7 @@ export const useSelectedVirtualCollection = ({ identifier }: { identifier: strin
     return useQuery({
         queryKey: ['specificVirtualCollection', identifier],
         queryFn: () => getSelectedVirtualCollection({ identifier }),
-        /* How long until the time is stale */
-        staleTime: 1000 * 60 * 5, 
-        /* Cache time: How long to store it in the cache */
-        gcTime: 1000 * 60 * 10,
+        staleTime,
+        gcTime,
     });
 }

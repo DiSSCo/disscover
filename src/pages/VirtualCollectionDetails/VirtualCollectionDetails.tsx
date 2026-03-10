@@ -73,6 +73,7 @@ const VirtualCollectionDetails = () => {
             >
                 
             </Hero>
+            { currentItems.length > 0 ?
             <main className="virtual-collections-main">
                 <div id="vc-mobile-view">
                     <div className="gallery-container">
@@ -106,6 +107,10 @@ const VirtualCollectionDetails = () => {
                     content="collections"
                 />
             </main>
+            : <main>
+                <p>This Virtual Collection is currently empty.</p>
+            </main>
+            }
         </>
     );
 }

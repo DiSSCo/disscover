@@ -19,7 +19,7 @@ header {
 
         .description-container {
             position: relative;
-            max-width: var(--header-content-spacing);
+            width: var(--header-content-spacing);
 
             .clamped-description {
                 padding-inline-end: var(--spacing-l);

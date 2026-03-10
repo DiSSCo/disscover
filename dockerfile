@@ -1,5 +1,5 @@
 # Pull official node image as base
-FROM node:24-alpine3.21 as build
+FROM node:24-alpine3.21 AS build
 
 # Set working directory
 WORKDIR /disscover

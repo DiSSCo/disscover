@@ -9,3 +9,6 @@ CVE-2026-25646
 
 # underscore is a fixed dependency of jsonpath and cannot be upgraded by us Mar-10-2026
 CVE-2026-27601
+
+# immutable is a fixed dependency of sass and upgrading to sass does not fix this issue Mar-10-2026
+CVE-2026-29063

@@ -12,3 +12,6 @@ CVE-2026-27601
 
 # immutable is a fixed dependency of sass and upgrading to sass does not fix this issue Mar-10-2026
 CVE-2026-29063
+
+# Vulnerability in image dependency zlib that is included in the image and we cannot fix Mar-10-2026
+CVE-2026-22184

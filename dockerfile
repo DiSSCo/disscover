@@ -18,7 +18,6 @@ RUN npm install typescript -g
 
 RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
-
 RUN rm 'src/app/GenerateTypes.js'
 RUN node 'src/app/GenerateTypes.cjs'
 

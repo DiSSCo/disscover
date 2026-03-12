@@ -2,11 +2,10 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { render } from 'tests/test-utils'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { useNavigate } from 'react-router-dom';
 
 /* Import components */
 import { Hero } from './Hero';
-
-import { useNavigate } from 'react-router-dom';
 
 /* Mock router */
 vi.mock(import('react-router-dom'), async (importOriginal) => {

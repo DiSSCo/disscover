@@ -1,7 +1,6 @@
 /* Import dependencies */
 import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
-import KeycloakService from "app/Keycloak";
 
 /* Import components */
 import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, PlusIcon } from "@radix-ui/react-icons";
@@ -13,6 +12,9 @@ import './Hero.scss';
 
 /* Import utilities */
 import { RetrieveEnvVariable } from "app/Utilities";
+
+/* Import hooks */
+import { useHasRole } from "hooks/roleChecker";
 
 type Props = {
     title: string;
@@ -40,10 +42,10 @@ export const Hero = ( { title, description, badge, navigateTo, share, details, c
     const [showMoreButton, setShowMoreButton] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const handle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
-    const hasVirtualCollectionRole = KeycloakService.HasRole(['dissco-virtual-collection']);
 
     /* Hooks */
     const navigate = useNavigate();
+    const isAllowed = useHasRole('dissco-virtual-collection');
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
@@ -98,7 +100,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details, c
             <div id="hero-title">
                 <h1>{title}</h1>
                 {create &&
-                    <Button variant="solid" disabled={!hasVirtualCollectionRole}>
+                    <Button variant="solid" disabled={!isAllowed}>
                         Create
                         <PlusIcon />
                     </Button>

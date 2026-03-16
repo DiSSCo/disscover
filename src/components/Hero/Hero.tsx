@@ -1,9 +1,10 @@
 /* Import dependencies */
 import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
+import KeycloakService from "app/Keycloak";
 
 /* Import components */
-import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, PlusIcon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +21,7 @@ type Props = {
     navigateTo?: { pathName: string; text: string };
     share?: boolean;
     details?: any;
+    create?: boolean;
 }
 
 /**
@@ -29,14 +31,16 @@ type Props = {
  * @param badge Array of strings to show one or more badges
  * @param navigateTo Object with pathName and text to make navigation functionality available
  * @param share Boolean that indicates if the URL should be shareable
- * @param details 
+ * @param details Object with detail information of a particular VC
+ * @param create Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, share, details }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, share, details, create }: Props) => {
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const handle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
+    const hasVirtualCollectionRole = KeycloakService.HasRole(['dissco-virtual-collection']);
 
     /* Hooks */
     const navigate = useNavigate();
@@ -68,18 +72,22 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
     return (
         <header>
             <div id="hero-top-buttons">
-            {navigateTo &&
-                <Button variant="soft" className="navigation-link" onClick={() => navigate(navigateTo.pathName)}>
-                    <ArrowLeftIcon />
-                    {navigateTo.text}
-                </Button>
-            }
-            {share &&
-                <Button variant="solid" onClick={() => copyToCLipboard(globalThis.location.href)}>
-                    Share
-                    <ClipboardCopyIcon />
-                </Button>
-            }
+                <div>
+                {navigateTo &&
+                    <Button variant="soft" className="navigation-link" onClick={() => navigate(navigateTo.pathName)}>
+                        <ArrowLeftIcon />
+                        {navigateTo.text}
+                    </Button>
+                }
+                </div>
+                <div>
+                {share &&
+                    <Button variant="solid" onClick={() => copyToCLipboard(globalThis.location.href)}>
+                        Share
+                        <ClipboardCopyIcon />
+                    </Button>
+                }
+                </div>
             </div>
 
             {badge?.map((badge: string) => {
@@ -87,7 +95,15 @@ export const Hero = ( { title, description, badge, navigateTo, share, details }:
                     <Badge color="sky" variant="solid" key={badge}>{badge}</Badge>
                 )
             })}
-            <h1>{title}</h1>
+            <div id="hero-title">
+                <h1>{title}</h1>
+                {create &&
+                    <Button variant="solid" disabled={!hasVirtualCollectionRole}>
+                        Create
+                        <PlusIcon />
+                    </Button>
+                }
+            </div>
             <div id="hero-content">
                 <div className="description-container">
                     <p ref={descriptionRef} className="clamped-description">

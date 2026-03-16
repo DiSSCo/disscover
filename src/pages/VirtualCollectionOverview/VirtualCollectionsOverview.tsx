@@ -42,6 +42,7 @@ const VirtualCollections = () => {
             <Hero
                 title="Virtual Collections"
                 description="DiSSCover Virtual Collections showcase a range of specimens from institutions across Europe, presented in curated galleries."
+                create={true}
             >
             </Hero>
             <main className="virtual-collections-main">

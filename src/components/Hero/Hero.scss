@@ -4,8 +4,14 @@ header {
         justify-content: space-between;
         margin-block-end: var(--spacing-l);
     }
-    h1 {
-        margin-block-start: var(--spacing-sm);
+    #hero-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        h1 {
+            margin-block-start: var(--spacing-sm);
+        }
     }
     #hero-content {
         display: flex;

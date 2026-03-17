@@ -21,9 +21,9 @@ type Props = {
     description: string;
     badge?: string[];
     navigateTo?: { pathName: string; text: string };
-    share?: boolean;
+    showShareButton?: boolean;
     details?: any;
-    create?: boolean;
+    showCreateButton?: boolean;
 }
 
 /**
@@ -37,15 +37,15 @@ type Props = {
  * @param create Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, share, details, create }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton }: Props) => {
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
-    const handle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
+    const digitalSpecimenHandle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
 
     /* Hooks */
     const navigate = useNavigate();
-    const isAllowed = useHasRole('dissco-virtual-collection');
+    const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
@@ -83,7 +83,7 @@ export const Hero = ( { title, description, badge, navigateTo, share, details, c
                 }
                 </div>
                 <div>
-                {share &&
+                {showShareButton &&
                     <Button variant="solid" onClick={() => copyToCLipboard(globalThis.location.href)}>
                         Share
                         <ClipboardCopyIcon />
@@ -99,8 +99,8 @@ export const Hero = ( { title, description, badge, navigateTo, share, details, c
             })}
             <div id="hero-title">
                 <h1>{title}</h1>
-                {create &&
-                    <Button variant="solid" disabled={!isAllowed}>
+                {showCreateButton &&
+                    <Button variant="solid" disabled={!isAllowedToCreateVC}>
                         Create
                         <PlusIcon />
                     </Button>
@@ -144,8 +144,8 @@ export const Hero = ( { title, description, badge, navigateTo, share, details, c
                     <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
                     <p>
                         <span className="details-label">ID:</span>
-                        <button className="btn-as-link"onClick={() => copyToCLipboard(handle)}>
-                            {handle}
+                        <button className="btn-as-link"onClick={() => copyToCLipboard(digitalSpecimenHandle)}>
+                            {digitalSpecimenHandle}
                             <CopyIcon className="copy-icon" />
                         </button>
                     </p>

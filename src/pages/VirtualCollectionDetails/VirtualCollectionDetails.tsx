@@ -68,7 +68,7 @@ const VirtualCollectionDetails = () => {
                 description={selectedVirtualCollection?.['ltc:description']}
                 badge={[selectedVirtualCollection?.['ltc:basisOfScheme']]}
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
-                share={true}
+                showShareButton={true}
                 details={selectedVirtualCollection}
             >
                 

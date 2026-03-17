@@ -1,0 +1,11 @@
+.digital-specimen-card {
+    .ds-card-header {
+        margin-bottom: 16px;
+    }
+    .ds-card-body {
+        display: grid;
+        grid-template-columns: 200px 1fr; /* Fixed width for labels, flexible for values */
+        gap: 8px 16px; /* Row gap and Column gap */
+        align-items: start;
+    }
+}

@@ -1,13 +1,18 @@
 import { CopyIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { Button, Card } from "@radix-ui/themes";
+import { LabelValuePair } from "components/LabelValuePair/LabelValuePair";
+
+/* Import styles */
+import './DigitalSpecimenCard.scss';
 
 type Props = {
     cardHeader: string,
     annotate?: boolean,
-    copy?: boolean
+    copy?: boolean,
+    fragment: any
 }
 
-export const DigitalSpecimenCard = ({ cardHeader, annotate, copy }: Props) => {
+export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment }: Props) => {
     return (
         <Card className="digital-specimen-card">
             <div className="ds-card-header">
@@ -24,6 +29,11 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy }: Props) => {
                         <CopyIcon />
                     </Button>
                 }
+            </div>
+            <div className="ds-card-body">
+            {Object.entries(fragment).map(([key, item]) => (
+                <LabelValuePair key={key} item={item} />
+            ))}
             </div>
         </Card>
     )

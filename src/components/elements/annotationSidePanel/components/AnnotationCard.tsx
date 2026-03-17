@@ -51,10 +51,11 @@ const AnnotationCard = (props: Props) => {
     /* Base variables */
     const [showAllValues, setShowAllValues] = useState<boolean>(false);
     let userTag: string = annotation['dcterms:creator']['schema:name'] ?? annotation['dcterms:creator']['@id'] ?? '';
+    const loggedInUser = annotation['dcterms:creator']['@id']?.replace(RetrieveEnvVariable('ORCID_URL'), '') === KeycloakService.GetParsedToken()?.orcid
 
     /* Class Names */
     const userTagClass = classNames({
-        'tc-accent': annotation['dcterms:creator']['@id'] === KeycloakService.GetParsedToken()?.orcid
+        'tc-accent': loggedInUser
     });
 
     const showAnnotationValues = () => {
@@ -92,7 +93,7 @@ const AnnotationCard = (props: Props) => {
                 <Row>
                     <Col>
                         <p className={`${userTagClass} fs-4 tc-primary fw-lightBold`}>
-                            {`${userTag}${(annotation['dcterms:creator']['@id'] === KeycloakService.GetParsedToken()?.orcid ? ' (you)' : '')}`}
+                            {`${userTag}${(loggedInUser ? ' (you)' : '')}`}
                         </p>
                     </Col>
                     <Col lg="auto">
@@ -162,7 +163,7 @@ const AnnotationCard = (props: Props) => {
                     </Col>
                 </Row>
                 {/* Modify or delete (tombstone) the annotation actions, if the annotation was made by the logged in user */}
-                {annotation['dcterms:creator']['@id'] === KeycloakService.GetParsedToken()?.orcid &&
+                {loggedInUser &&
                     <Row className="flex-row-reverse">
                         <Col lg="auto"
                             className="ps-0"

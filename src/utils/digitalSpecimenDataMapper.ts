@@ -174,7 +174,7 @@ const SCHEMA_MAP = {
 			resolve: (ds:any) => ds["dcterms:license"]
 		}
     }
-  };
+};
   
 /**
  * Transforms raw Digital Specimen data into a UI-ready model 
@@ -190,16 +190,16 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
   
     // Iterate through each fragment (e.g., SPECIMEN_RECORD, LOCATION)
     Object.entries(SCHEMA_MAP).forEach(([fragmentKey, fields]) => {
-      uiModel[fragmentKey] = {};
-  
-      // Process each field within the fragment
-      Object.entries(fields).forEach(([fieldKey, config]) => {
-        uiModel[fragmentKey][fieldKey] = {
-          label: config.label,
-          value: config.resolve(ds),
-          isHtml: config.isHtml || false
-        };
-      });
+		uiModel[fragmentKey] = {};
+	
+		// Process each field within the fragment
+		Object.entries(fields).forEach(([fieldKey, config]) => {
+			uiModel[fragmentKey][fieldKey] = {
+			label: config.label,
+			value: config.resolve(ds),
+			isHtml: config.isHtml || false
+			};
+		});
     });
   
     return uiModel as DigitalSpecimenUIModel;

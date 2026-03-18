@@ -71,7 +71,7 @@ describe('Hero Component', () => {
         const props = {
             title: 'Wonderful Dinosaurs',
             description: 'Dino description',
-            share: true // Enable share button
+            showShareButton: true // Enable share button
         };
         
         render(<Hero {...props} />);

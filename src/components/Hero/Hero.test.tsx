@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 /* Import components */
 import { Hero } from './Hero';
 
+/* Import hooks */
+import { useHasRole } from 'hooks/roleChecker';
+
 /* Mock router */
 vi.mock(import('react-router-dom'), async (importOriginal) => {
     const routerContentToKeep = await importOriginal();
@@ -16,6 +19,11 @@ vi.mock(import('react-router-dom'), async (importOriginal) => {
     }
 });
 
+/* Mock roleChecker */
+vi.mock('hooks/roleChecker', () => ({
+    useHasRole: vi.fn(),
+  }));
+
 /* Mock navigator.clipboard function */
 Object.assign(navigator, {
     clipboard: {
@@ -23,9 +31,11 @@ Object.assign(navigator, {
     },
 });
 
+
 describe('Hero Component', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        vi.mocked(useHasRole).mockReturnValue(false);
     });
 
     afterEach(() => {

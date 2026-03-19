@@ -15,3 +15,6 @@ CVE-2026-29063
 
 # Vulnerability in image dependency zlib that is included in the image and we cannot fix Mar-10-2026
 CVE-2026-22184
+
+# Vulnerability in image dependency libexpat that is included in the image and we cannot fix Mar-19-2026
+CVE-2026-32767

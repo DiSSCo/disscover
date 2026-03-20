@@ -28,6 +28,11 @@ export default defineConfig(({mode}) => {
     server: {
       port: 3000,
       proxy: {
+        '^/api/source-system/.*': {
+          target: env.VITE_ORCHESTRATION_PROXY_TARGET,
+          changeOrigin: true,
+          secure: false,
+        },
         '^/api/.*': {
           target: env.VITE_PROXY_TARGET,
           changeOrigin: true,

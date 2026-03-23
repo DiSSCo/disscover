@@ -51,6 +51,10 @@ const DataExport = () => {
         {
             label: 'List DOI',
             value: 'DOI_LIST'
+        },
+        {
+            label: 'Darwin Core Archive',
+            value: 'DWCA'
         }
     ];
     const initialValues: {
@@ -119,8 +123,7 @@ const DataExport = () => {
                                         message: 'Failed to schedule the data export, please try again',
                                         template: 'error'
                                     });
-                                };
-
+                                }
                                 /* End loading */
                                 loading.End();
                             }}

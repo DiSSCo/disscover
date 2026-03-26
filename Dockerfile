@@ -21,7 +21,7 @@ RUN tsc 'src/app/GenerateTypes.ts' \
     --ignoreConfig \
     --types 'node' \
     --moduleResolution 'node16' \
-    --module CommonJS \
+    --module 'node16' \
     --esModuleInterop \
     --target es2020 \
     --lib 'es2020','dom'

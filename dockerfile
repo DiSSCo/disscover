@@ -16,7 +16,7 @@ COPY . ./
 # Generate Type Files
 RUN npm install typescript -g
 
-RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app'
+RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app' --ignoreConfig
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
 
 RUN rm 'src/app/GenerateTypes.js'

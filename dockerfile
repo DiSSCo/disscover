@@ -8,7 +8,7 @@ WORKDIR /disscover
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN npm install npm@11.6.3
+RUN npm ci
 
 # Copy application
 COPY . ./
@@ -16,11 +16,19 @@ COPY . ./
 # Generate Type Files
 RUN npm install typescript -g
 
-RUN tsc 'src/app/GenerateTypes.ts' --outDir 'src/app' --ignoreConfig
-RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs'
+RUN tsc 'src/app/GenerateTypes.ts' \
+    --outDir 'src/app' \
+    --ignoreConfig \
+    --types 'node' \
+    --moduleResolution 'node' \
+    --module CommonJS \
+    --esModuleInterop \
+    --target es2020 \
+    --lib 'es2020','dom'
 
-RUN rm 'src/app/GenerateTypes.js'
-RUN node 'src/app/GenerateTypes.cjs'
+RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs' \
+    && rm 'src/app/GenerateTypes.js' \
+    && node 'src/app/GenerateTypes.cjs'
 
 # Set env variables
 ARG VITE_KEYCLOAK_CLIENT

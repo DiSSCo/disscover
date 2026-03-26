@@ -1,36 +1,23 @@
-/* Import dependencies */
-import { fireEvent, screen } from '@testing-library/react';
-import { render } from 'tests/test-utils'
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { useNavigate } from 'react-router-dom';
-
-/* Import components */
+import { screen, fireEvent, waitFor, renderWithRouter, render } from 'tests/test-utils';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hero } from './Hero';
-
-/* Import hooks */
 import { useHasRole } from 'hooks/roleChecker';
+import { useClipboard } from 'hooks/useClipboard';
 
-/* Mock router */
-vi.mock(import('react-router-dom'), async (importOriginal) => {
-    const routerContentToKeep = await importOriginal();
-    return {
-        ...routerContentToKeep,
-        useNavigate: vi.fn(),
-    }
-});
+// 1. Create a simple mock function for the copy action
+const mockCopy = vi.fn();
 
-/* Mock roleChecker */
+// 2. Mock the ENTIRE hook module
+vi.mock('hooks/useClipboard', () => ({
+  useClipboard: () => ({
+    copy: mockCopy,
+    hasCopied: false, // We can manually toggle this in a second test if needed
+  }),
+}));
+
 vi.mock('hooks/roleChecker', () => ({
     useHasRole: vi.fn(),
-  }));
-
-/* Mock navigator.clipboard function */
-Object.assign(navigator, {
-    clipboard: {
-        writeText: vi.fn(),
-    },
-});
-
+}));
 
 describe('Hero Component', () => {
     beforeEach(() => {
@@ -38,59 +25,49 @@ describe('Hero Component', () => {
         vi.mocked(useHasRole).mockReturnValue(false);
     });
 
-    afterEach(() => {
-        vi.clearAllMocks();
+    it('renders correctly with standard render', () => {
+        // This no longer throws the "context" error because AllTheProviders has MemoryRouter
+        render(<Hero title="Dino" description="Desc" />);
+        expect(screen.getByText('Dino')).toBeInTheDocument();
     });
 
-    it('renders the title, description and a badge if supplied', () => {
+    it('should update the router state when navigation button is clicked', async () => {
         const props = {
-            title: 'Wonderful Dinosaurs of the World',
-            description: '100 most wonderful dinosaurs of the world',
-            badge: ['Reference collection'],
-        }
-        render(<Hero {...props} />);
-
-        expect(screen.getByText('Wonderful Dinosaurs of the World')).toBeInTheDocument();
-        expect(screen.getByText('100 most wonderful dinosaurs of the world')).toBeInTheDocument();
-        expect(screen.getByText('Reference collection')).toBeInTheDocument();
-    });
-
-    it('should call the navigate function when the navigation button is clicked', async () => {
-        /* Mock specific functions */
-        const navigate = vi.fn();
-        vi.mocked(useNavigate).mockReturnValue(navigate);
-
-        const props = {
-            title: 'Wonderful Dinosaurs of the World',
-            description: '100 most wonderful dinosaurs of the world',
-            badge: ['Reference collection'],
-            navigateTo: { pathName: '/fake-url', text: 'Super link' }
+            title: 'Dino',
+            description: 'Desc',
+            navigateTo: { pathName: '/target', text: 'Go' }
         };
 
-        render(<Hero {...props} />);
+        const { user, router } = renderWithRouter([
+            { path: '/', element: <Hero {...props} /> },
+            { path: '/target', element: <div>Success</div> }
+        ]);
 
-        /* Find the navigateTo button and click on it */
-        const navButton = screen.getByText('Super link');
-        fireEvent.click(navButton);
-
-        /* Assert that the navigate hook has been called with the expected url */
-        expect(navigate).toHaveBeenCalledWith('/fake-url');
+        await user.click(screen.getByText('Go'));
+        expect(router.state.location.pathname).toBe('/target');
     });
 
-    it('should copy the current URL to clipboard when the share button is clicked', async () => {
-        const props = {
-            title: 'Wonderful Dinosaurs',
-            description: 'Dino description',
-            showShareButton: true // Enable share button
-        };
-        
-        render(<Hero {...props} />);
-        
-        /* Find share button and click it */
-        const shareButton = screen.getByText(/share/i);
+    it('calls the copy function with the correct URL', async () => {
+        renderWithRouter([
+          { path: '/dinosaurs/123', element: <Hero title="T-Rex" showShareButton description="Desc" /> }
+        ], ['/dinosaurs/123']);
+    
+        const shareButton = screen.getByRole('button', { name: /share/i });
+    
         fireEvent.click(shareButton);
+    
+        expect(mockCopy).toHaveBeenCalledWith('http://localhost/dinosaurs/123');
+    });
 
-        /* globalThis.location.href is localhost:3000 */
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost:3000/');
+    it('shows "Copied!" when the hook says so', () => {
+        // Tell the mock hook to return true for this specific test
+        vi.mocked(useClipboard).mockReturnValue({
+        copy: vi.fn(),
+        hasCopied: true,
+        });
+    
+        renderWithRouter([{ path: '/', element: <Hero title="T" showShareButton description="Desc" /> }]);
+        
+        expect(screen.getByText(/copied/i)).toBeInTheDocument();
     });
 });

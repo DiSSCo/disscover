@@ -8,7 +8,7 @@ WORKDIR /disscover
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 # Copy application
 COPY . ./
@@ -20,7 +20,7 @@ RUN tsc 'src/app/GenerateTypes.ts' \
     --outDir 'src/app' \
     --ignoreConfig \
     --types 'node' \
-    --moduleResolution 'node' \
+    --moduleResolution 'node16' \
     --module CommonJS \
     --esModuleInterop \
     --target es2020 \
@@ -30,13 +30,15 @@ RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs' \
     && rm 'src/app/GenerateTypes.js' \
     && node 'src/app/GenerateTypes.cjs'
 
-# Set env variables
+# Set build arguments for React/Vite
 ARG VITE_KEYCLOAK_CLIENT
-ENV VITE_KEYCLOAK_CLIENT ${VITE_KEYCLOAK_CLIENT}
 ARG VITE_KEYCLOAK_SERVER
-ENV VITE_KEYCLOAK_SERVER ${VITE_KEYCLOAK_SERVER}
 ARG VITE_KEYCLOAK_REALM
-ENV VITE_KEYCLOAK_REALM ${VITE_KEYCLOAK_REALM}
+
+# Vite requires these to be available DURING 'npm run build'
+ENV VITE_KEYCLOAK_CLIENT=$VITE_KEYCLOAK_CLIENT
+ENV VITE_KEYCLOAK_SERVER=$VITE_KEYCLOAK_SERVER
+ENV VITE_KEYCLOAK_REALM=$VITE_KEYCLOAK_REALM
 
 # Setting app to production build
 RUN npm run build

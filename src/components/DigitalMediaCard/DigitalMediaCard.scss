@@ -1,0 +1,22 @@
+div {
+    .digital-media-card {
+        padding: 0px;
+        border-radius: 0px;
+        position: sticky;
+        top: 0;
+    
+        .digital-media-card-image {
+            width: 100%;
+        }
+    }
+    .digital-media-card-list {
+        display: flex;
+        padding-block-start: 16px;
+
+        img {
+            width: 80px;
+            height: 80px;
+            margin-inline-end: 8px;
+        }
+    }
+}

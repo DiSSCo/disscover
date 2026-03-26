@@ -204,3 +204,14 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
   
     return uiModel as DigitalSpecimenUIModel;
 };
+
+export const mapDigitalSpecimenMedia = (rawData: any) => {
+	const ds = rawData?.data?.attributes?.digitalSpecimen;
+	const dm = rawData?.data?.attributes?.digitalMedia;
+
+	if (!ds) return null;
+	return {
+		HAS_MEDIA: ds['ods:isKnownToContainMedia'],
+		DIGITAL_MEDIA: dm
+	}
+}

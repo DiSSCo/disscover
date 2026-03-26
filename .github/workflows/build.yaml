@@ -8,20 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false 
       matrix:
         include:
           - image: public.ecr.aws/dissco/${{ github.event.repository.name }}-production
             keycloak_client: disscover
             keycloak_server: https://keycloak.iam.naturalis.io
             keycloak_realm: dissco
+            is_prod: true
           - image: public.ecr.aws/dissco/${{ github.event.repository.name }}
             keycloak_client: disscover
             keycloak_server: https://keycloak.iam.naturalis.io
             keycloak_realm: dissco-dev
+            is_prod: false
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        fetch-depth: 0 
 
     - name: Install Dependencies
       run: npm install
@@ -35,7 +39,7 @@ jobs:
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Cache Trivy DB
@@ -46,7 +50,6 @@ jobs:
         restore-keys: |
           trivy-db-${{ runner.os }}-
 
-    # Scan file system for the package.json dependencies with Trivy
     - name: Trivy - Scan Filesystem (npm dependencies)
       uses: aquasecurity/trivy-action@master
       with:
@@ -54,7 +57,7 @@ jobs:
         cache-dir: .cache/trivy
         scan-ref: '.'
         format: 'table'
-        exit-code: '1' # Fails the build if vulnerabilities are found
+        exit-code: '1'
         severity: 'CRITICAL,HIGH'
         vuln-type: 'library'
         trivyignores: .github/workflows/.trivyignore
@@ -66,7 +69,6 @@ jobs:
           --build-arg VITE_KEYCLOAK_SERVER=${{ matrix.keycloak_server }} \
           --build-arg VITE_KEYCLOAK_REALM=${{ matrix.keycloak_realm }} .
 
-    # Scan Docker image with trivy
     - name: Trivy - Scan Docker Image (OS)
       uses: aquasecurity/trivy-action@master
       with:
@@ -81,7 +83,7 @@ jobs:
 
     - name: Login to Public ECR
       if: github.event_name != 'pull_request'
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       with:
         registry: public.ecr.aws
         username: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -89,7 +91,7 @@ jobs:
 
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       with:
         images: ${{ matrix.image }}
         tags: |
@@ -97,23 +99,24 @@ jobs:
           type=raw,value=latest
 
     - name: Build and push
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
-          "VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}"
-          "VITE_KEYCLOAK_SERVER=${{ matrix.keycloak_server }}"
-          "VITE_KEYCLOAK_REALM=${{ matrix.keycloak_realm }}"
+          VITE_KEYCLOAK_CLIENT=${{ matrix.keycloak_client }}
+          VITE_KEYCLOAK_SERVER=${{ matrix.keycloak_server }}
+          VITE_KEYCLOAK_REALM=${{ matrix.keycloak_realm }}
+
     - name: Set outputs
       id: vars
-      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
     - name: Push tag
-      if: github.event_name != 'pull_request'
-      uses: anothrNick/github-tag-action@1.36.0
+      if: github.event_name != 'pull_request' && matrix.is_prod == true
+      uses: anothrNick/github-tag-action@1.67.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         CUSTOM_TAG: sha-${{ steps.vars.outputs.sha_short }}-${{ matrix.keycloak_client }}

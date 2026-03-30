@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
 /**
- * Hook for copying a string to the clipboard. This hook is used within the application on multiple places
+ * Hook for copying a string to the clipboard. This hook is used within the application on multiple places.
  * @param resetTimeout The amount of time the timeout will wait before it sets the hasCopied status back to false
  * @returns The callback copy to execute and the variable hasCopied with either true or false
  */

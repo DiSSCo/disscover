@@ -6,7 +6,7 @@ import { Theme } from '@radix-ui/themes';
 import { ReactElement, ReactNode } from 'react';
 
 // Use a consistent origin for all tests
-Object.defineProperty(window, 'location', {
+Object.defineProperty(globalThis, 'location', {
 	value: { origin: 'http://localhost:3000' },
 	configurable: true,
   });

@@ -49,7 +49,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
     const [showMoreButton, setShowMoreButton] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const digitalSpecimenHandle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
-    const currentUrl = `${window.location.origin}${location.pathname}${location.search}`;
+    const currentUrl = `${globalThis.location.origin}${location.pathname}${location.search}`;
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {

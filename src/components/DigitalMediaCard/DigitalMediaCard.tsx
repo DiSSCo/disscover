@@ -11,12 +11,13 @@ type Props = {
 
 export const DigitalMediaCard = ({ specimen }: Props) => {
     /* Base variables */
-    const firstImageOfImages = specimen.DIGITAL_MEDIA[0]['digitalMediaObject']['ac:accessURI'];
+    const firstImageOfImages = specimen?.DIGITAL_MEDIA?.[0]?.['digitalMediaObject']?.['ac:accessURI'];
     const altText = `Image of ${specimen.IDENTIFICATION.scientificName.value}`;
     const [digitalSpecimenImage, setDigitalSpecimenImage] = useState<string>(firstImageOfImages);
-    const findAllImages = specimen.DIGITAL_MEDIA.map((image: any) => {
+    const findAllImages = specimen?.DIGITAL_MEDIA?.map((image: any) => {
         return image['digitalMediaObject']['ac:accessURI'];
-    })
+    });
+    console.log(findAllImages);
 
     const showImage = (image: any) => {
         return () => {

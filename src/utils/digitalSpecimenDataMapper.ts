@@ -173,7 +173,14 @@ const SCHEMA_MAP = {
 			label: 'License Agreement',
 			resolve: (ds:any) => ds["dcterms:license"]
 		}
-    }
+    },
+
+	GENERIC: {
+		is_verified: {
+			label: 'Verified',
+			resolve: (ds:any) => ds["ods:isVerifiedIdentification"]
+		}
+	}
 };
   
 /**

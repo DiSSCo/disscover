@@ -3,7 +3,7 @@
 	grid-template-columns: 1fr 1fr;
 	gap: 24px;
 
-	#ds-content-column {
+	#ds-right-column, #ds-left-column {
 		.digital-specimen-card {
 			margin-block-end: 24px;
 			padding: 16px;

@@ -1,6 +1,14 @@
 .digital-specimen-card {
     .ds-card-header {
         margin-bottom: 16px;
+        
+        #ds-card-header-title {
+            display: flex;
+
+            h2 {
+                padding-inline-end: 8px;
+            }
+        }
     }
     .ds-card-body {
         display: grid;

@@ -1,26 +1,56 @@
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+/* Import dependencies */
+import { render, RenderOptions } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { createMemoryRouter, RouterProvider, RouteObject, MemoryRouter } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
+import { ReactElement, ReactNode } from 'react';
+
+// Use a consistent origin for all tests
+Object.defineProperty(globalThis, 'location', {
+	value: { origin: 'http://localhost:3000' },
+	configurable: true,
+  });
 
 /**
- * Function to set up every test with the same context including the Router and the Radix Theme
- * @param children Our application components
- * @returns A custom render function that renders the Router and Theme to add context to all tests
+ * Standard wrapper for unit tests with Radix theme
  */
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <MemoryRouter>
-      <Theme>
-        {children}
-      </Theme>
-    </MemoryRouter>
-  );
-};
+const AllTheProviders = ({ children }: { children: ReactNode }) => (
+	<Theme hasBackground={false}>
+		{children}
+	</Theme>
+);
 
-/* We create a custom render here that does what the original render does but with our specific context */
-const customRender = (ui: React.ReactElement, options?: any) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+/**
+ * Wrapper for unit tests with whatever is in AllTheProviders and no real routing needs
+ */
+export const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) => ({
+	user: userEvent.setup(),
+	...render(ui, { 
+		wrapper: ({ children }) => (
+		<MemoryRouter>
+			<AllTheProviders>{children}</AllTheProviders>
+		</MemoryRouter>
+		), 
+		...options 
+	}),
+});
+
+/**
+ * Wrapper for unit tests that make use of complex routing. Also wrapped in the AllTheProviders wrapper.
+ */
+export function renderWithRouter(routes: RouteObject[], initialEntries = ['/']) {
+    const router = createMemoryRouter(routes, { initialEntries });
+
+    return {
+		user: userEvent.setup(),
+		router,
+		...render(
+			<AllTheProviders>
+				<RouterProvider router={router} />
+			</AllTheProviders>
+		),
+    };
+}
 
 export * from '@testing-library/react';
-/* We use this render in our tests */
 export { customRender as render };

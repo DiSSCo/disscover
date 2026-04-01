@@ -32,4 +32,11 @@ export async function checkA11y(page: any, pageName: string, options?: any) {
     }
 
     return results.violations;
-  }
+}
+
+export const testUrls = {
+    home: '/',
+    about: '/about',
+    virtualCollections: '/virtual-collections',
+    
+}

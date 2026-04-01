@@ -5,7 +5,7 @@ import { format } from "date-fns";
 /* Import components */
 import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, PlusIcon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /* Import styling */
 import './Hero.scss';
@@ -15,6 +15,7 @@ import { RetrieveEnvVariable } from "app/Utilities";
 
 /* Import hooks */
 import { useHasRole } from "hooks/roleChecker";
+import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
     title: string;
@@ -38,14 +39,17 @@ type Props = {
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
 export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton }: Props) => {
+    /* Hooks */
+    const navigate = useNavigate();
+    const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
+    const location = useLocation();
+    const { copy, hasCopied } = useClipboard();
+
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const digitalSpecimenHandle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
-
-    /* Hooks */
-    const navigate = useNavigate();
-    const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
+    const currentUrl = `${globalThis.location.origin}${location.pathname}${location.search}`;
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
@@ -66,11 +70,6 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
         return () => resizeObserver.disconnect();
     }, [description]);
 
-    /* Function that copies text to the clipboard */
-    const copyToCLipboard = (text: string) => {
-        navigator.clipboard.writeText(text);
-    }
-
     return (
         <header>
             <div id="hero-top-buttons">
@@ -84,8 +83,8 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 </div>
                 <div>
                 {showShareButton &&
-                    <Button variant="solid" onClick={() => copyToCLipboard(globalThis.location.href)}>
-                        Share
+                    <Button variant="solid" onClick={() => copy(currentUrl)}>
+                        {hasCopied ? 'Copied!' : 'Share'}
                         <ClipboardCopyIcon />
                     </Button>
                 }
@@ -139,17 +138,33 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 </div>
 
                 {details &&
-                <div className="details-container">
-                    <p><span className="details-label">Last updated: </span>{format(details?.['schema:dateModified'], 'yyyy-dd-MM')}</p>
-                    <p><span className="details-label">Curated by </span>{details?.['schema:creator']['schema:name']}</p>
-                    <p>
-                        <span className="details-label">ID:</span>
-                        <button className="btn-as-link"onClick={() => copyToCLipboard(digitalSpecimenHandle)}>
-                            {digitalSpecimenHandle}
-                            <CopyIcon className="copy-icon" />
-                        </button>
-                    </p>
-                </div>
+                <>
+                    <div className="details-container desktop-view">
+                        <p><span className="details-label">Last updated: </span>{format(details['schema:dateModified'], 'yyyy-dd-MM')}</p>
+                        <p><span className="details-label">Curated by </span>{details['schema:creator']['schema:name']}</p>
+                        <p>
+                            <span className="details-label">DOI:</span>
+                            <button className="btn-as-link" onClick={() => copy(digitalSpecimenHandle)}>
+                                {digitalSpecimenHandle}
+                                <CopyIcon />
+                            </button>
+                        </p>
+                    </div>
+                    <div className="details-container mobile-view">
+                        <p>
+                            <span className="details-label">Last updated: </span>{format(details['schema:dateModified'], 'yyyy-dd-MM')}
+                            <span className="dot-divider">•</span>
+                            <span className="details-label">Curated by </span>{details['schema:creator']['schema:name']}
+                            <span className="dot-divider">•</span>
+                            <span className="details-label">DOI:</span>
+                            <button className="btn-as-link" onClick={() => copy(digitalSpecimenHandle)}>
+                                {digitalSpecimenHandle}
+                                <CopyIcon />
+                            </button>
+                        </p>
+
+                    </div>
+                </>
                 }
             </div>
         </header>

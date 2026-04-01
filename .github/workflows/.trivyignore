@@ -4,9 +4,6 @@ CVE-2026-1615
 # qs cannot be updated due to a Typescript issue in one of dependencies in annotorious/openseadragon Mar-2-2026
 CVE-2025-15284
 
-# Vulnerability in image dependency libpng that is included in the image and we cannot fix Mar-4-2026
-CVE-2026-25646
-
 # underscore is a fixed dependency of jsonpath and cannot be upgraded by us Mar-10-2026
 CVE-2026-27601
 
@@ -18,3 +15,10 @@ CVE-2026-22184
 
 # Vulnerability in image dependency libexpat that is included in the image and we cannot fix Mar-20-2026
 CVE-2026-32767
+
+# Picomatch vulnerability in dependency version of vite and vitest but due to peer dependencies cannot be upgraded right now Apr-1-2026
+CVE-2026-33671
+
+# Vulnerability in image dependency libpng that is included in the image and we cannot fix Apr-1-2026
+CVE-2026-33416
+CVE-2026-33636

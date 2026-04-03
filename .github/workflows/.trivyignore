@@ -22,3 +22,6 @@ CVE-2026-33671
 # Vulnerability in image dependency libpng that is included in the image and we cannot fix Apr-1-2026
 CVE-2026-33416
 CVE-2026-33636
+
+# lodash-es is pinned as a dependency on a vulnerable version in formik and cannot be upgraded by us Apr-3-2026
+CVE-2026-4800

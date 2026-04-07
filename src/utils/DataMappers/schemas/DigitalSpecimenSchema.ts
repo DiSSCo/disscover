@@ -1,191 +1,142 @@
-/**
- * Function to get the accepted identification or the first one it can find
- * @param ds The digital specimen object
- * @returns Either the accepted identification or, if there is none, the first identification it can find
- */
-const getAcceptedIdentification = (ds: any) => {
-    const identifications = ds["ods:hasIdentifications"];
-    if (identifications) {
-        const availableIdentification = identifications.find((item: any) => item["ods:isVerifiedIdentification"]) || identifications[0];
-        return availableIdentification?.["ods:hasTaxonIdentifications"]?.[0];
-    }
-}
+import { FieldConfig } from "../types/dataMapperTypes";
 
 /* Data schema to map Digital Specimen data that we use in the UI, managed from one central data mapper */
-const DIGITAL_SPECIMEN_SCHEMA_MAP = {
+const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> = {
     SPECIMEN_RECORD: {
-		doi: {
-			label: 'DOI',
-			resolve: (ds: any) => ds["@id"],
+        doi: {
+            label: 'DOI',
+            resolve: (ds) => ds["@id"],
             type: 'copy'
-		},
-		catalogNumber: {
-			label: 'Catalog Number',
-			resolve: (ds: any) => {
-				const catalog = ds["ods:hasIdentifiers"].find((id: any) => id["dcterms:title"] === "dwc:catalogNumber");
-				const fallBack = ds["ods:hasIdentifiers"].find((id: any) => id["dcterms:title"] === "dwca:ID");
-				return catalog?.["dwc:catalogNumber"] || fallBack?.["dwca:id"];
-			}
-		},
-		specimenProvider: {
-			label: 'Specimen Provider',
-			resolve: (ds: any) => ds["ods:organisationName"]
-		},
-		sourceSystem: {
-			label: 'Source System',
-			resolve: (ds: any) => ds["ods:sourceSystemName"]
-		},
-		basisOfRecord: {
-			label: 'Basis of Record',
-			resolve: (ds: any) => ds["dwc:basisOfRecord"]
-		},
-		discipline: {
-			label: 'Discipline',
-			resolve: (ds: any) => ds["dwc:topicDiscipline"]
-		}
+        },
+        catalogNumber: {
+            label: 'Catalog Number',
+            resolve: (ds) => {
+                const catalog = ds["ods:hasIdentifiers"]?.find((id: any) => id["dcterms:title"] === "dwc:catalogNumber");
+                const fallBack = ds["ods:hasIdentifiers"]?.find((id: any) => id["dcterms:title"] === "dwca:ID");
+                return catalog?.["dwc:catalogNumber"] || fallBack?.["dwca:id"];
+            }
+        },
+        specimenProvider: {
+            label: 'Specimen Provider',
+            resolve: (ds) => ds["ods:organisationName"]
+        },
+        sourceSystem: {
+            label: 'Source System',
+            resolve: (ds) => ds["ods:sourceSystemName"]
+        },
+        basisOfRecord: {
+            label: 'Basis of Record',
+            resolve: (ds) => ds["dwc:basisOfRecord"]
+        },
+        discipline: {
+            label: 'Discipline',
+            resolve: (ds) => ds["dwc:topicDiscipline"]
+        }
     },
   
     IDENTIFICATION: {
         scientificName: {
             label: 'Scientific Name',
             isHtml: true,
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["ods:scientificNameHTMLLabel"] || acceptedIdentification?.["dwc:scientificName"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["ods:scientificNameHTMLLabel"] || acceptedIdentification?.["dwc:scientificName"]
         },
         taxonomicStatus: {
             label: 'Taxonomic Status',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["@id"];
-            },
-            type: 'url'
+            type: 'url',
+            resolve: (_, { acceptedIdentification: acc }) => acc?.["@id"]
         },
         verbatimName: {
             label: 'Identification Verbatim',
-            resolve: (ds: any) => ds["ods:hasIdentifications"]?.[0]?.["dwc:verbatimIdentification"],
-            type: 'verbatim'
+            type: 'verbatim',
+            resolve: (ds) => ds["ods:hasIdentifications"]?.[0]?.["dwc:verbatimIdentification"]
         },
         kingdom: {
             label: 'Kingdom',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:kingdom"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:kingdom"]
         },
         phylum: {
             label: 'Phylum',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:phylum"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:phylum"]
         },
         class: {
             label: 'Class',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:class"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:class"]
         },
         order: {
             label: 'Order',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:order"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:order"]
         },
         family: {
             label: 'Family',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:family"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:family"]
         },
         subFamily: {
             label: 'Sub-family',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:subfamily"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:subfamily"]
         },
         genus: {
             label: 'Genus',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:genus"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:genus"]
         },
         species: {
             label: 'Species',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:species"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:species"]
         },
         specificEpithet: {
             label: 'Specific Epithet',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:specificEpithet"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:specificEpithet"]
         },
         nomenClaturalCode: {
             label: 'Nomen/Clatural Code',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:nomenclaturalCode"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:nomenclaturalCode"]
         },
         scientificNameAuthorship: {
             label: 'Scientific Name Authorship',
-            resolve: (ds: any) => {
-                const acceptedIdentification = getAcceptedIdentification(ds);
-                return acceptedIdentification?.["dwc:scientificNameAuthorship"];
-            }
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:scientificNameAuthorship"]
         },
     },
   
     LOCATION: {
-		country: {
-			label: 'Country',
-			resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["ods:hasLocation"]?.["dwc:country"]
-		},
-		locality: {
-			label: 'Locality',
-			resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["ods:hasLocation"]?.["dwc:locality"]
-		},
-        verbatimLocality: {
-            label: 'Locality Verbatim',
-            resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["ods:hasLocation"]?.["dwc:verbatimLocality"],
-            type: 'verbatim'
+        country: {
+            label: 'Country',
+            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:country"]
         },
-		geodeticDatum: {
-			label: 'Geodetic Datum',
-			resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["ods:hasLocation"]?.["dwc:geodeticDatum"]
-		}
+        locality: {
+            label: 'Locality',
+            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:locality"]
+        },
+        verbatimLocality: { 
+            label: 'Locality Verbatim', 
+            type: 'verbatim',
+            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:verbatimLocality"],
+        },
+        geodeticDatum: {
+            label: 'Geodetic Datum',
+            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:geodeticDatum"]
+        }
     },
   
     COLLECTING_EVENT: {
-		collector: {
-			label: 'Collector',
-			resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["ods:hasAgents"]?.[0]?.["schema:name"]
-		},
-		date: {
-			label: 'Date',
-			resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["dwc:eventDate"]
-		},
-		verbatimDate: {
-			label: 'Date verbatim',
-			resolve: (ds: any) => ds["ods:hasEvents"]?.[0]?.["dwc:verbatimEventDate"]
-		}
+        collector: {
+            label: 'Collector',
+            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasAgents"]?.[0]?.["schema:name"]
+        },
+        date: {
+            label: 'Date',
+            resolve: (_, { primaryEvent: ev }) => ev?.["dwc:eventDate"]
+        },
+        verbatimDate: {
+            label: 'Date verbatim',
+            resolve: (_, { primaryEvent: ev }) => ev?.["dwc:verbatimEventDate"],
+            type: 'verbatim'
+        }
     },
   
     CITATION_LICENSE: {
-		license: {
-			label: 'License Agreement',
-			resolve: (ds:any) => ds["dcterms:license"]
-		}
+        license: {
+            label: 'License Agreement',
+            resolve: (ds) => ds["dcterms:license"]
+        }
     }
 };
 

@@ -1,3 +1,9 @@
+/* MapperContext to set the context of the data, e.g. acceptedIdentification */
+interface MapperContext {
+    acceptedIdentification?: any;
+    primaryEvent?: any;
+}
+
 /* UI Property interface to map data to */
 interface UIProperty {
     label: string;
@@ -9,7 +15,7 @@ interface UIProperty {
 /* Corresponding field config interface for DigitalSpecimen schema */
 interface FieldConfig {
     label: string;
-    resolve: (ds: any) => any;
+    resolve: (ds: any, context: MapperContext) => any;
     isHtml?: boolean;
     type?: string;
 }

@@ -117,7 +117,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP = {
             }
         },
         species: {
-            label: 'Kingdom',
+            label: 'Species',
             resolve: (ds: any) => {
                 const acceptedIdentification = getAcceptedIdentification(ds);
                 return acceptedIdentification?.["dwc:species"];

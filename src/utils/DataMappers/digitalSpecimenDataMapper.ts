@@ -1,21 +1,8 @@
 /* Import schemas */
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/DigitalSpecimenSchema";
 
-/* Define interfaces */
-interface UIProperty {
-    label: string;
-    value: any;
-    isHtml: boolean;
-    type: string;
-}
-
-interface DigitalSpecimenUIModel {
-    SPECIMEN_RECORD: Record<string, UIProperty>;
-    IDENTIFICATION: Record<string, UIProperty>;
-    LOCATION: Record<string, UIProperty>;
-    COLLECTING_EVENT: Record<string, UIProperty>;
-    CITATION_LICENSE: Record<string, UIProperty>;
-}
+/* Import types */
+import { DigitalSpecimenUIModel, SchemaMap, UIProperty } from "./types/dataMapperTypes";
 
 /**
  * Transforms raw Digital Specimen data into a UI-ready model 
@@ -24,23 +11,22 @@ interface DigitalSpecimenUIModel {
  */
 export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null => {
     const ds = rawData?.data?.attributes?.digitalSpecimen;
-    
     if (!ds) return null;
-  
-    let digitalSpecimenUiDataModel = {};
-  
-    Object.entries(DIGITAL_SPECIMEN_SCHEMA_MAP).forEach(([fragmentKey, fields]) => {
-		digitalSpecimenUiDataModel[fragmentKey] = {};
-	
-		Object.entries(fields).forEach(([fieldKey, config]) => {
-			digitalSpecimenUiDataModel[fragmentKey][fieldKey] = {
+
+    // Use reduce to build the object cleanly
+    return Object.entries(DIGITAL_SPECIMEN_SCHEMA_MAP as SchemaMap).reduce((acc, [groupKey, fields]) => {
+        const mappedFields: Record<string, UIProperty> = {};
+
+        Object.entries(fields).forEach(([fieldKey, config]) => {
+            mappedFields[fieldKey] = {
                 label: config.label,
                 value: config.resolve(ds),
-                isHtml: config.isHtml || false,
+                isHtml: !!config.isHtml,
                 type: config.type || 'base',
-			};
-		});
-    });
+            };
+        });
 
-    return digitalSpecimenUiDataModel as DigitalSpecimenUIModel;
+        acc[groupKey as keyof DigitalSpecimenUIModel] = mappedFields;
+        return acc;
+    }, {} as DigitalSpecimenUIModel);
 };

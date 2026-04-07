@@ -35,7 +35,7 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
         Object.entries(fields).forEach(([fieldKey, config]) => {
             mappedFields[fieldKey] = {
                 label: config.label,
-                value: config.resolve(ds, acceptedIdentification),
+                value: config.resolve(ds, {acceptedIdentification}),
                 isHtml: !!config.isHtml,
                 type: config.type || 'base',
             };

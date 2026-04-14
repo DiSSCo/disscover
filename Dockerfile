@@ -32,14 +32,13 @@ RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs' \
     && node 'src/app/GenerateTypes.cjs'
 
 # Set build arguments for React/Vite
+# Set env variables
 ARG VITE_KEYCLOAK_CLIENT
+ENV VITE_KEYCLOAK_CLIENT ${VITE_KEYCLOAK_CLIENT}
 ARG VITE_KEYCLOAK_SERVER
+ENV VITE_KEYCLOAK_SERVER ${VITE_KEYCLOAK_SERVER}
 ARG VITE_KEYCLOAK_REALM
-
-# Vite requires these to be available DURING 'npm run build'
-ENV VITE_KEYCLOAK_CLIENT=$VITE_KEYCLOAK_CLIENT
-ENV VITE_KEYCLOAK_SERVER=$VITE_KEYCLOAK_SERVER
-ENV VITE_KEYCLOAK_REALM=$VITE_KEYCLOAK_REALM
+ENV VITE_KEYCLOAK_REALM ${VITE_KEYCLOAK_REALM}
 
 # Setting app to production build
 RUN npm run build

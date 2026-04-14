@@ -31,7 +31,6 @@ RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs' \
     && rm 'src/app/GenerateTypes.js' \
     && node 'src/app/GenerateTypes.cjs'
 
-# Set build arguments for React/Vite
 # Set env variables
 ARG VITE_KEYCLOAK_CLIENT
 ENV VITE_KEYCLOAK_CLIENT ${VITE_KEYCLOAK_CLIENT}

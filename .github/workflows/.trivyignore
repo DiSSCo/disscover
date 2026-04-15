@@ -28,3 +28,6 @@ CVE-2026-4800
 
 # Vulnerability in image dependency libcrypto3 and libssl3 that is included in the image and we cannot fix Apr-15-2026
 CVE-2026-28390
+
+# Vulnerability in image dependency musl and musl-utils that is included in the image and we cannot fix Apr-15-2026
+CVE-2026-40200

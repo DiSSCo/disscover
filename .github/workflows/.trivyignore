@@ -25,3 +25,6 @@ CVE-2026-33636
 
 # lodash-es cannot be upgraded as it is an indirect dependency of formik and we cannot fix it Apr-14-2026
 CVE-2026-4800
+
+# Vulnerability in image dependency libcrypto3 and libssl3 that is included in the image and we cannot fix Apr-15-2026
+CVE-2026-28390

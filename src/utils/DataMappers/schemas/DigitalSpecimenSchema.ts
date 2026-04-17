@@ -37,13 +37,20 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
     IDENTIFICATION: {
         scientificName: {
             label: 'Scientific Name',
-            isHtml: true,
-            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["ods:scientificNameHTMLLabel"] || acceptedIdentification?.["dwc:scientificName"]
+            resolve: (_, { acceptedIdentification }) => {
+                const htmlLabel = acceptedIdentification?.["ods:scientificNameHTMLLabel"];
+                const fallbackLabel = acceptedIdentification?.["dwc:scientificName"];
+                
+                return {
+                    value: htmlLabel || fallbackLabel,
+                    isHtml: !!htmlLabel
+                };
+            }
         },
         taxonomicStatus: {
             label: 'Taxonomic Status',
             type: 'url',
-            resolve: (_, { acceptedIdentification: acc }) => acc?.["@id"]
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
         },
         verbatimName: {
             label: 'Identification Verbatim',
@@ -87,7 +94,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:specificEpithet"]
         },
         nomenClaturalCode: {
-            label: 'Nomen/Clatural Code',
+            label: 'Nomenclatural Code',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:nomenclaturalCode"]
         },
         scientificNameAuthorship: {
@@ -99,35 +106,35 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
     LOCATION: {
         country: {
             label: 'Country',
-            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:country"]
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["dwc:country"]
         },
         locality: {
             label: 'Locality',
-            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:locality"]
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["dwc:locality"]
         },
         verbatimLocality: { 
             label: 'Locality Verbatim', 
             type: 'verbatim',
-            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:verbatimLocality"],
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["dwc:verbatimLocality"],
         },
         geodeticDatum: {
             label: 'Geodetic Datum',
-            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasLocation"]?.["dwc:geodeticDatum"]
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]["dwc:geodeticDatum"]
         }
     },
   
     COLLECTING_EVENT: {
         collector: {
             label: 'Collector',
-            resolve: (_, { primaryEvent: ev }) => ev?.["ods:hasAgents"]?.[0]?.["schema:name"]
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasAgents"]?.[0]?.["schema:name"]
         },
         date: {
             label: 'Date',
-            resolve: (_, { primaryEvent: ev }) => ev?.["dwc:eventDate"]
+            resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:eventDate"]
         },
         verbatimDate: {
             label: 'Date verbatim',
-            resolve: (_, { primaryEvent: ev }) => ev?.["dwc:verbatimEventDate"],
+            resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:verbatimEventDate"],
             type: 'verbatim'
         }
     },

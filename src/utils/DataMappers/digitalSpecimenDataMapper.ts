@@ -23,7 +23,7 @@ const getAcceptedIdentification = (ds: any) => {
 /**
  * Function to retrieve the primary event once
  * @param ds The digital specimen object
- * @returns Either the primary event or null
+ * @returns Either the primary event if there is one or null
  */
 const getPrimaryEvent = (ds: any) => {
     return ds["ods:hasEvents"]?.[0] ?? null;

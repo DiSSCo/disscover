@@ -23,9 +23,10 @@ const DigitalSpecimenDetails = () => {
         <>
             <Hero
                 title={specimen?.IDENTIFICATION?.scientificName.value}
-                description="Synonym of something something 1964"
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
+                isHtml={specimen?.IDENTIFICATION?.scientificName?.isHtml}
+                // badge={[{ content: specimen?.IDENTIFICATION?.taxonRank.value, type: 'solid'}]}
             >
             </Hero>
             <main className="digital-specimen-container">

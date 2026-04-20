@@ -19,12 +19,13 @@ import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
     title: string;
-    description: string;
-    badge?: string[];
+    description?: string;
+    badge?: [{ content: string, type: "soft" | "solid" | "outline" | "surface" }];
     navigateTo?: { pathName: string; text: string };
     showShareButton?: boolean;
     details?: any;
     showCreateButton?: boolean;
+    isHtml?: boolean;
 }
 
 /**
@@ -38,7 +39,7 @@ type Props = {
  * @param create Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -91,13 +92,17 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 </div>
             </div>
 
-            {badge?.map((badge: string) => {
+            {badge?.map(({ content, type }) => {
                 return (
-                    <Badge color="sky" variant="solid" key={badge}>{badge}</Badge>
+                    <Badge color="sky" variant={type} key={content}>{content}</Badge>
                 )
             })}
             <div id="hero-title">
-                <h1>{title}</h1>
+                {isHtml ? (
+                    <h1 dangerouslySetInnerHTML={{ __html: title }} />
+                ) : (
+                    <h1>{ title }</h1>
+                )}
                 {showCreateButton &&
                     <Button variant="solid" disabled={!isAllowedToCreateVC}>
                         Create
@@ -106,6 +111,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
             </div>
             <div id="hero-content">
+                {description &&
                 <div className="description-container">
                     <p ref={descriptionRef} className="clamped-description">
                         {description}
@@ -136,6 +142,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                         </Dialog.Root>
                     )}
                 </div>
+                }
 
                 {details &&
                 <>

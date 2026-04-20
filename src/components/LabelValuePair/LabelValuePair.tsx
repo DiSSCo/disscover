@@ -18,15 +18,15 @@ export const LabelValuePair = ({ item }: Props) => {
     if (!item.value) return null;
   
     return (
-      <div className="property-row-fragment">
-        <span className="property-label">{item.label}</span>
-        <span className="property-value">
-          {item.isHtml ? (
-            <span dangerouslySetInnerHTML={{ __html: item.value }} />
-          ) : (
-            item.value
-          )}
-        </span>
-      </div>
+		<div className="property-row-fragment">
+			<span className="property-label">{item.label}</span>
+			<span className="property-value">
+			{item.isHtml ? (
+				<span dangerouslySetInnerHTML={{ __html: item.value }} />
+			) : (
+				item.value
+			)}
+			</span>
+		</div>
     );
   };

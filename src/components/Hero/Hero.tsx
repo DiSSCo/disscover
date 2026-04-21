@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 
 /* Import components */
-import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, PlusIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -20,12 +20,13 @@ import { useClipboard } from "hooks/useClipboard";
 type Props = {
     title: string;
     description?: string;
-    badge?: [{ content: string, type: "soft" | "solid" | "outline" | "surface", color: "sky" | "green" }];
+    badge?: { content: string, type: "soft" | "solid" | "outline" | "surface", color: "sky" | "grass" }[];
     navigateTo?: { pathName: string; text: string };
     showShareButton?: boolean;
     details?: any;
     showCreateButton?: boolean;
     isHtml?: boolean;
+    annotate?: boolean;
 }
 
 /**
@@ -39,7 +40,7 @@ type Props = {
  * @param create Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -83,6 +84,12 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
                 <div>
+                {annotate &&
+                    <Button variant="solid">
+                        Annotate
+                        <Pencil2Icon />
+                    </Button>
+                }
                 {showShareButton &&
                     <Button variant="solid" onClick={() => copy(currentUrl)}>
                         {hasCopied ? 'Copied!' : 'Share'}
@@ -91,12 +98,15 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
             </div>
-
-            {badge?.map(({ content, type, color }) => {
-                return (
-                    <Badge color={color} variant={type} key={content}>{content}</Badge>
-                )
-            })}
+            
+            <div id="hero-badges">
+                {badge?.map(({ content, type, color }) => {
+                    if (!content) return null;
+                    return (
+                        <Badge color={color} variant={type} key={content}>{content}</Badge>
+                    )
+                })}
+            </div>
             <div id="hero-title">
                 {isHtml ? (
                     <h1 dangerouslySetInnerHTML={{ __html: title }} />

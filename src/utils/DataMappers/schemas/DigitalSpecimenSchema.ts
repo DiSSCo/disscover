@@ -44,15 +44,19 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
                 return htmlLabel || fallbackLabel;
             },
         },
-        taxonomicStatus: {
-            label: 'Taxonomic Status',
-            type: 'url',
-            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
-        },
         verbatimName: {
             label: 'Identification Verbatim',
             type: 'verbatim',
             resolve: (ds) => ds["ods:hasIdentifications"]?.[0]?.["dwc:verbatimIdentification"]
+        },
+        rank: {
+            label: 'Rank',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonRank"]
+        },
+        taxonomicStatus: {
+            label: 'Taxonomic Status',
+            type: 'url',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
         },
         kingdom: {
             label: 'Kingdom',
@@ -90,6 +94,14 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             label: 'Specific Epithet',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:specificEpithet"]
         },
+        infragenericEpithet: {
+            label: 'Infrageneric Epithet',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:infragenericEpithet"]
+        },
+        infraspecificEpithet: {
+            label: 'Infraspecific Epithet',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:infraspecificEpithet"]
+        },
         nomenClaturalCode: {
             label: 'Nomenclatural Code',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:nomenclaturalCode"]
@@ -98,6 +110,14 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             label: 'Scientific Name Authorship',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:scientificNameAuthorship"]
         },
+        sex: {
+            label: 'Sex',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:sex"]
+        },
+        lifeStage: {
+            label: 'Life Stage',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:lifeStage"]
+        }
     },
   
     LOCATION: {
@@ -116,7 +136,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
         },
         geodeticDatum: {
             label: 'Geodetic Datum',
-            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]["dwc:geodeticDatum"]
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:geodeticDatum"]
         }
     },
   
@@ -146,6 +166,10 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
         taxonRank: {
             label: 'Taxonomic Rank',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonRank"]
+        },
+        typeStatus: {
+            label: 'Type Status',
+            resolve: (ds) => ds["ods:hasIdentifications"]?.[0]?.["dwc:typeStatus"]
         }
     }
 };

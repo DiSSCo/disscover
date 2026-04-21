@@ -26,7 +26,8 @@ const DigitalSpecimenDetails = () => {
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
                 isHtml={specimen?.IDENTIFICATION?.scientificName?.value?.isHtml}
-                badge={[{ content: specimen?.UI_COMPONENTS_DATA?.taxonRank.value, type: 'solid', color: 'green'}]}
+                badge={[{ content: specimen?.UI_COMPONENTS_DATA?.taxonRank.value.toLowerCase(), type: 'solid', color: 'grass'}, { content: specimen?.UI_COMPONENTS_DATA?.typeStatus.value, type: 'solid', color: 'sky'}]}
+                annotate={true}
             >
             </Hero>
             <main className="digital-specimen-container">

@@ -66,7 +66,7 @@ const VirtualCollectionDetails = () => {
             <Hero
                 title={selectedVirtualCollection?.['ltc:collectionName']}
                 description={selectedVirtualCollection?.['ltc:description']}
-                badge={[{ content: selectedVirtualCollection?.['ltc:basisOfScheme'], type: 'solid'}]}
+                badge={[{ content: selectedVirtualCollection?.['ltc:basisOfScheme'], type: 'solid', color: 'sky'}]}
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
                 showShareButton={true}
                 details={selectedVirtualCollection}

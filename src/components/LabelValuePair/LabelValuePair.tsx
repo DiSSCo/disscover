@@ -29,4 +29,4 @@ export const LabelValuePair = ({ item }: Props) => {
 			</span>
 		</div>
     );
-  };
+};

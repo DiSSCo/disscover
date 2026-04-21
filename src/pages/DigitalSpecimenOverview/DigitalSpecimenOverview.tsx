@@ -13,7 +13,7 @@ const DigitalSpecimenDetails = () => {
     const url = new URL(globalThis.location.href);
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
-    const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ handle: identifier});
+    const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
     if (!specimen) return <main><p>No data found</p></main>
@@ -25,8 +25,8 @@ const DigitalSpecimenDetails = () => {
                 title={specimen?.IDENTIFICATION?.scientificName.value}
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
-                isHtml={specimen?.IDENTIFICATION?.scientificName?.isHtml}
-                // badge={[{ content: specimen?.IDENTIFICATION?.taxonRank.value, type: 'solid'}]}
+                isHtml={specimen?.IDENTIFICATION?.scientificName?.value?.isHtml}
+                badge={[{ content: specimen?.UI_COMPONENTS_DATA?.taxonRank.value, type: 'solid', color: 'green'}]}
             >
             </Hero>
             <main className="digital-specimen-container">

@@ -4,7 +4,7 @@ interface MapperContext {
     primaryEvent?: any;
 }
 
-/* UI Property interface to map data to */
+/* UI Property interface to map data */
 interface UIProperty {
     label: string;
     value: any;

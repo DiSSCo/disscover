@@ -20,7 +20,7 @@ import { useClipboard } from "hooks/useClipboard";
 type Props = {
     title: string;
     description?: string;
-    badge?: [{ content: string, type: "soft" | "solid" | "outline" | "surface" }];
+    badge?: [{ content: string, type: "soft" | "solid" | "outline" | "surface", color: "sky" | "green" }];
     navigateTo?: { pathName: string; text: string };
     showShareButton?: boolean;
     details?: any;
@@ -92,9 +92,9 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 </div>
             </div>
 
-            {badge?.map(({ content, type }) => {
+            {badge?.map(({ content, type, color }) => {
                 return (
-                    <Badge color="sky" variant={type} key={content}>{content}</Badge>
+                    <Badge color={color} variant={type} key={content}>{content}</Badge>
                 )
             })}
             <div id="hero-title">

@@ -2,23 +2,23 @@ import apiClient from '../apiClient';
 
 /**
  * Service that retrieves the complete digital specimen details through the apiClient
- * Takes handle and version as a parameter object
+ * Takes doi and version as a parameter object
  * @returns An array with complete digital specimen data on specimen, media and annotations
  */
-export const getDigitalSpecimenComplete = async ({ handle, version }:
-    { handle: string, version?: number }) => {
+export const getDigitalSpecimenComplete = async ({ doi, version }:
+    { doi: string, version?: number }) => {
     let endPoint: string;
 
     if (version) {
-        endPoint = `digital-specimen/v1/${handle}/${version}/full`;
+        endPoint = `digital-specimen/v1/${doi}/${version}/full`;
     } else {
-        endPoint = `digital-specimen/v1/${handle}/full`;
+        endPoint = `digital-specimen/v1/${doi}/full`;
     }
     try {
         /* Call service and wait for response */
         const response = await apiClient.get(endPoint, {
             params: {
-                handle,
+                doi,
                 version
             }
         });

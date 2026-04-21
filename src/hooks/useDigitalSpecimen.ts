@@ -7,11 +7,11 @@ const staleTime = 1000 * 60 * 5; // How long until the time is stale
 const gcTime = 1000 * 60 * 10; // Cache time: How long to store it in the cache
 
 /* useQuery hook to retrieve the complete Digital Specimen data object by calling the getDigitalSpecimenComplete service */
-export const useDigitalSpecimenComplete = ({ handle, version }:
-    { handle: string, version?: number }) => {
+export const useDigitalSpecimenComplete = ({ doi, version }:
+    { doi: string, version?: number }) => {
     return useQuery({
-        queryKey: ['digitalSpecimen', handle, version],
-        queryFn: () => getDigitalSpecimenComplete({ handle, version }),
+        queryKey: ['digitalSpecimen', doi, version],
+        queryFn: () => getDigitalSpecimenComplete({ doi, version }),
         select: (data) => {
             return {
                 ...data,

@@ -1,0 +1,23 @@
+.digital-specimen-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+
+	#ds-right-column, #ds-left-column {
+		.digital-specimen-card {
+			margin-block-end: 24px;
+			padding: 16px;
+
+			.ds-card-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				h2 {
+					font-size: 16px;
+					margin: 0;
+				}
+			}
+		}
+	}
+}

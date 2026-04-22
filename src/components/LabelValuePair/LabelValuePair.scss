@@ -1,0 +1,39 @@
+.property-row-fragment {
+    display: contents;
+
+    .property-label {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .verbatim {
+        font-size: 12px;
+        color: grey;
+    }
+    .property-value {
+        font-size: 14px;
+        font-weight: 400;
+
+        a {
+            svg {
+                margin-inline-start: 4px;
+            }
+        }
+
+        .verbatim {
+            font-size: 12px;
+            color: grey;
+
+            span {
+                margin-inline-start: 8px;
+            }
+        }
+        .btn-as-link {
+            padding: 0;
+            
+            svg {
+                margin-inline-start: var(--spacing-xs);
+            }
+        }
+    }
+}

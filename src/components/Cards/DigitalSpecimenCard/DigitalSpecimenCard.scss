@@ -7,10 +7,27 @@
         height: 320px;
         margin-block-end: 8px;
     }
+    .ds-card-citation {
+        max-height: 92px;
+        width: 100%;
+        background-color: #F2F3F8;
+        padding: 16px;
+        margin-block-end: 8px;
+
+        p {
+            font-size: 14px;
+
+            a {
+                color: black;
+                text-decoration: underline;
+            }
+
+        }
+    }
     .ds-card-body {
         display: grid;
-        grid-template-columns: 200px 1fr; /* Fixed width for labels, flexible for values */
-        gap: 8px 16px; /* Row gap and Column gap */
+        grid-template-columns: 200px 1fr;
+        gap: 8px 16px;
         align-items: start;
     }
 }

@@ -178,6 +178,31 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
         license: {
             label: 'License Agreement',
             resolve: (ds) => ds["dcterms:license"]
+        },
+        organisationId: {
+            label: 'Organisation ID',
+            resolve: (ds) => ds["ods:organisationID"],
+            hidden: true
+        },
+        organisationName: {
+            label: 'Organisation Name',
+            resolve: (ds) => ds["ods:organisationName"],
+            hidden: true
+        },
+        scientificName: {
+            label: 'Scientific Name',
+            resolve: (_, { acceptedIdentification }) => {
+                const htmlLabel = acceptedIdentification?.["ods:scientificNameHTMLLabel"];
+                const fallbackLabel = acceptedIdentification?.["dwc:scientificName"];
+                
+                return htmlLabel || fallbackLabel;
+            },
+            hidden: true
+        },
+        digitalSpecimenId: {
+            label: 'Digital Specimen ID',
+            resolve: (ds) => ds["@id"],
+            hidden: true
         }
     },
     UI_COMPONENTS_DATA: {

@@ -17,6 +17,7 @@ type Props = {
         value: string;
         isHtml: boolean;
         type: string;
+		hidden: boolean;
     }
 }
 
@@ -25,7 +26,7 @@ type Props = {
  * If the value is missing/null, it returns null to hide the row.
  */
 export const LabelValuePair = ({ item }: Props) => {
-    if (!item.value) return null;
+    if (!item.value || item.hidden) return null;
 
 	/* Base variables */
 	const { copy } = useClipboard();

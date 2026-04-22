@@ -1,31 +1,29 @@
 /* Import Dependencies */
 import { MapContainer, TileLayer } from 'react-leaflet';
 
-/* Import Types */
-import { Dict } from 'app/Types';
-
 /* Import Components */
 import OpenStreetMapMarker from './OpenStreetMapMarker';
 
 
 /* Props Type */
 type Props = {
-    georeference: Dict | undefined
+    longitude?: number,
+    latitude?: number,
 };
 
 
 /**
  * Component that renders a Leaflet map based on the given geological reference,
- * @param georeference A geological reference object holding the latitude and longitude among other properties
+ * @param longitude Longitude decimal number
+ * @param latitude Latitude decimal number
  * @returns JSX Component
  */
-const OpenStreetMap = (props: Props) => {
-    const { georeference } = props;
-    
+const OpenStreetMap = ({longitude, latitude}: Props) => {
+    console.log(longitude, latitude)
     return (
         <div className="h-100 w-100 d-flex align-items-center justify-content-center bgc-grey-light">
-            {(georeference && 'dwc:decimalLatitude' in georeference && 'dwc:decimalLongitude' in georeference) ?
-                <MapContainer center={[georeference['dwc:decimalLatitude'], georeference['dwc:decimalLongitude']]}
+            {(longitude && latitude) ?
+                <MapContainer center={[latitude, longitude]}
                     zoom={13} scrollWheelZoom={false} style={{ width: "100%", height: "100%" }}
                 >
                     <TileLayer
@@ -33,7 +31,7 @@ const OpenStreetMap = (props: Props) => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
-                    <OpenStreetMapMarker georeference={georeference} />
+                    <OpenStreetMapMarker longitude={longitude} latitude={latitude} />
                 </MapContainer>
                 : <p className="fs-5">Geographical map could not be created due to a lack of coordinates</p>
             }

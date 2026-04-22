@@ -271,7 +271,10 @@ const DigitalSpecimenOverview = (props: Props) => {
                         {/* Geological reference map */}
                         <Row className="py-2 h-100">
                             <Col>
-                                <OpenStreetMap georeference={digitalSpecimen['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']} />
+                                <OpenStreetMap
+                                    longitude={digitalSpecimen['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']?.['dwc:decimalLongitude']}
+                                    latitude={digitalSpecimen['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']?.['dwc:decimalLatitude']}    
+                                    />
                             </Col>
                         </Row>
                     </Card>

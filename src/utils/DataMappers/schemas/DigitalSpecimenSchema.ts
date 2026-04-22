@@ -137,7 +137,25 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
         geodeticDatum: {
             label: 'Geodetic Datum',
             resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:geodeticDatum"]
-        }
+        },
+        decimalLongitude: {
+            label: 'Decimal Longitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:decimalLongitude"]
+        },
+        verbatimLongitude: {
+            label: 'Decimal Longitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:verbatimLongitude"],
+            type: 'verbatim'
+        },
+        decimalLatitude: {
+            label: 'Decimal Latitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:decimalLatitude"]
+        },
+        verbatimLatitude: {
+            label: 'Decimal Latitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:verbatimLatitude"],
+            type: 'verbatim'
+        },
     },
   
     COLLECTING_EVENT: {

@@ -1,6 +1,8 @@
+/* Import components */
 import { CopyIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { Button, Card } from "@radix-ui/themes";
 import { LabelValuePair } from "components/LabelValuePair/LabelValuePair";
+import { OpenStreetMap } from "components/elements/customUI/CustomUI";
 
 /* Import styles */
 import './DigitalSpecimenCard.scss';
@@ -9,10 +11,11 @@ type Props = {
     cardHeader: string,
     annotate?: boolean,
     copy?: boolean,
-    fragment: any
+    fragment: any,
+    georeference?: boolean
 }
 
-export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment }: Props) => {
+export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, georeference = false }: Props) => {
     return (
         <Card className="digital-specimen-card">
             <div className="ds-card-header">
@@ -30,6 +33,11 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment }: Pr
                     </Button>
                 }
             </div>
+            {georeference &&
+            <div className="ds-card-georeference">
+                <OpenStreetMap latitude={fragment?.['decimalLatitude'].value} longitude={fragment?.['decimalLongitude'].value} />
+            </div>
+            }
             <div className="ds-card-body">
             {Object.entries(fragment).map(([key, item]: [string, any]) => (
                 <LabelValuePair key={key} item={item as { label: string; value: string; isHtml: boolean; type: string; }} />

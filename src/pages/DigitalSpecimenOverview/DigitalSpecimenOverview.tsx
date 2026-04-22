@@ -34,7 +34,7 @@ const DigitalSpecimenDetails = () => {
                 <div id="ds-content-column">
                     <DigitalSpecimenCard cardHeader="Specimen record" fragment={specimen.SPECIMEN_RECORD}/>
                     <DigitalSpecimenCard cardHeader="Identification" annotate={true} fragment={specimen.IDENTIFICATION}/>
-                    <DigitalSpecimenCard cardHeader="Location" annotate={true} fragment={specimen.LOCATION}/>
+                    <DigitalSpecimenCard cardHeader="Location" annotate={true} fragment={specimen.LOCATION} georeference={true}/>
                     <DigitalSpecimenCard cardHeader="Collecting event" fragment={specimen.COLLECTING_EVENT}/>
                     <DigitalSpecimenCard cardHeader="Citation and license" copy={true} fragment={specimen.CITATION_LICENSE}/>
                 </div>

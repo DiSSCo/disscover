@@ -26,10 +26,10 @@ type Props = {
  * If the value is missing/null, it returns null to hide the row.
  */
 export const LabelValuePair = ({ item }: Props) => {
-    if (!item.value || item.hidden) return null;
-
 	/* Base variables */
 	const { copy } = useClipboard();
+
+	if (!item.value || item.hidden) return null;
 
 	/* Return correct piece of HTML based on the type */
 	const setCorrectItemType = () => {

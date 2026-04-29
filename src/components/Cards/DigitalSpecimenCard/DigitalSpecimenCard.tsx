@@ -20,26 +20,26 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, geor
     const craftCitation = (fragment: any) => {
         return (
         <>
-        <a href={fragment['organisationId'].value}
-            target="_blank"
-            rel="noreferer"
-        >
-            {fragment['organisationName'].value ?? fragment['organisationId'].value}
-        </a>
-        {` (${new Date().getFullYear()}). `}
-        <a href="https://ror.org/02wddde16"
-            target="_blank"
-            rel="noreferer"
-        >
-            Distributed System of Scientific Collections
-        </a>
-        {`. [Dataset]. `}
-        <a href={fragment['digitalSpecimenId'].value}
-            target="_blank"
-            rel="noreferer"
-        >
-            {fragment['digitalSpecimenId'].value}
-        </a>
+            <a href={fragment['organisationId'].value}
+                target="_blank"
+                rel="noreferer"
+            >
+                {fragment['organisationName'].value ?? fragment['organisationId'].value}
+            </a>
+            {` (${new Date().getFullYear()}). `}
+            <a href="https://ror.org/02wddde16"
+                target="_blank"
+                rel="noreferer"
+            >
+                Distributed System of Scientific Collections
+            </a>
+            {`. [Dataset]. `}
+            <a href={fragment['digitalSpecimenId'].value}
+                target="_blank"
+                rel="noreferer"
+            >
+                {fragment['digitalSpecimenId'].value}
+            </a>
         </>
         )
     

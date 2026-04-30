@@ -1,24 +1,24 @@
 .digital-specimen-card {
     .ds-card-header {
-        margin-bottom: 16px;
+        margin-bottom: var(--spacing-m);
     }
     .ds-card-georeference {
         width: 100%;
-        height: 320px;
-        margin-block-end: 8px;
+        height: var(--general-card-width);
+        margin-block-end: var(--spacing-sm);
     }
     .ds-card-citation {
-        max-height: 92px;
+        max-height: var(--citation-content-spacing);
         width: 100%;
         background-color: #F2F3F8;
-        padding: 16px;
-        margin-block-end: 8px;
+        padding: var(--spacing-m);
+        margin-block-end: var(--spacing-sm);
 
         p {
-            font-size: 14px;
+            font-size: var(--sm-font-size);
 
             a {
-                color: black;
+                color: inherit;
                 text-decoration: underline;
             }
 
@@ -26,8 +26,8 @@
     }
     .ds-card-body {
         display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 8px 16px;
+        grid-template-columns: var(--general-card-height) 1fr;
+        gap: var(--spacing-sm) var(--spacing-m);
         align-items: start;
     }
 }

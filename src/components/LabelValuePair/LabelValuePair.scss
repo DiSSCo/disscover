@@ -2,30 +2,30 @@
     display: contents;
 
     .property-label {
-        font-size: 14px;
-        font-weight: 500;
+        font-size: var(--sm-font-size);
+        font-weight: var(--medium-font-weight);
     }
 
     .verbatim {
-        font-size: 12px;
-        color: grey;
+        font-size: var(--xs-font-size);
+        color: var(--gray-a9);
     }
     .property-value {
-        font-size: 14px;
-        font-weight: 400;
+        font-size: var(--sm-font-size);
+        font-weight: var(--regular-font-weight);
 
         a {
             svg {
-                margin-inline-start: 4px;
+                margin-inline-start: var(--spacing-xs);
             }
         }
 
         .verbatim {
-            font-size: 12px;
-            color: grey;
+            font-size: var(--xs-font-size);
+            color: var(--gray-a9);
 
             span {
-                margin-inline-start: 8px;
+                margin-inline-start: var(--spacing-sm);
             }
         }
         .btn-as-link {

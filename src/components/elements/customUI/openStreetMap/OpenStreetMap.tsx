@@ -19,7 +19,6 @@ type Props = {
  * @returns JSX Component
  */
 const OpenStreetMap = ({longitude, latitude}: Props) => {
-    console.log(longitude, latitude)
     return (
         <div className="h-100 w-100 d-flex align-items-center justify-content-center bgc-grey-light">
             {(longitude && latitude) ?

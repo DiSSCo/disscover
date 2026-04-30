@@ -1,0 +1,39 @@
+.property-row-fragment {
+    display: contents;
+
+    .property-label {
+        font-size: var(--sm-font-size);
+        font-weight: var(--medium-font-weight);
+    }
+
+    .verbatim {
+        font-size: var(--xs-font-size);
+        color: var(--gray-a9);
+    }
+    .property-value {
+        font-size: var(--sm-font-size);
+        font-weight: var(--regular-font-weight);
+
+        a {
+            svg {
+                margin-inline-start: var(--spacing-xs);
+            }
+        }
+
+        .verbatim {
+            font-size: var(--xs-font-size);
+            color: var(--gray-a9);
+
+            span {
+                margin-inline-start: var(--spacing-sm);
+            }
+        }
+        .btn-as-link {
+            padding: 0;
+            
+            svg {
+                margin-inline-start: var(--spacing-xs);
+            }
+        }
+    }
+}

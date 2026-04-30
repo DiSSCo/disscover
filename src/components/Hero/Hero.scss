@@ -5,6 +5,12 @@ header {
         display: flex;
         justify-content: space-between;
         margin-block-end: var(--spacing-l);
+
+        div {
+            button {
+                margin-inline-end: var(--spacing-sm);
+            }
+        }
     }
     #hero-title {
         display: flex;
@@ -13,6 +19,11 @@ header {
         
         h1 {
             margin-block-start: var(--spacing-sm);
+        }
+    }
+    #hero-badges {
+        span {
+            margin-inline-end: var(--spacing-sm);
         }
     }
     #hero-content {

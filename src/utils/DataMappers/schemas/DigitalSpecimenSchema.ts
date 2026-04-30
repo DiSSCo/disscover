@@ -41,21 +41,22 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
                 const htmlLabel = acceptedIdentification?.["ods:scientificNameHTMLLabel"];
                 const fallbackLabel = acceptedIdentification?.["dwc:scientificName"];
                 
-                return {
-                    value: htmlLabel || fallbackLabel,
-                    isHtml: !!htmlLabel
-                };
-            }
-        },
-        taxonomicStatus: {
-            label: 'Taxonomic Status',
-            type: 'url',
-            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
+                return htmlLabel || fallbackLabel;
+            },
         },
         verbatimName: {
             label: 'Identification Verbatim',
             type: 'verbatim',
             resolve: (ds) => ds["ods:hasIdentifications"]?.[0]?.["dwc:verbatimIdentification"]
+        },
+        rank: {
+            label: 'Rank',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonRank"]
+        },
+        taxonomicStatus: {
+            label: 'Taxonomic Status',
+            type: 'url',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
         },
         kingdom: {
             label: 'Kingdom',
@@ -93,6 +94,14 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             label: 'Specific Epithet',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:specificEpithet"]
         },
+        infragenericEpithet: {
+            label: 'Infrageneric Epithet',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:infragenericEpithet"]
+        },
+        infraspecificEpithet: {
+            label: 'Infraspecific Epithet',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:infraspecificEpithet"]
+        },
         nomenClaturalCode: {
             label: 'Nomenclatural Code',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:nomenclaturalCode"]
@@ -101,6 +110,14 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             label: 'Scientific Name Authorship',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:scientificNameAuthorship"]
         },
+        sex: {
+            label: 'Sex',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:sex"]
+        },
+        lifeStage: {
+            label: 'Life Stage',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:lifeStage"]
+        }
     },
   
     LOCATION: {
@@ -119,8 +136,26 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
         },
         geodeticDatum: {
             label: 'Geodetic Datum',
-            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]["dwc:geodeticDatum"]
-        }
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:geodeticDatum"]
+        },
+        decimalLongitude: {
+            label: 'Decimal Longitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:decimalLongitude"]
+        },
+        verbatimLongitude: {
+            label: 'Decimal Longitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:verbatimLongitude"],
+            type: 'verbatim'
+        },
+        decimalLatitude: {
+            label: 'Decimal Latitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:decimalLatitude"]
+        },
+        verbatimLatitude: {
+            label: 'Decimal Latitude',
+            resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:verbatimLatitude"],
+            type: 'verbatim'
+        },
     },
   
     COLLECTING_EVENT: {
@@ -143,6 +178,41 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
         license: {
             label: 'License Agreement',
             resolve: (ds) => ds["dcterms:license"]
+        },
+        organisationId: {
+            label: 'Organisation ID',
+            resolve: (ds) => ds["ods:organisationID"],
+            hidden: true
+        },
+        organisationName: {
+            label: 'Organisation Name',
+            resolve: (ds) => ds["ods:organisationName"],
+            hidden: true
+        },
+        scientificName: {
+            label: 'Scientific Name',
+            resolve: (_, { acceptedIdentification }) => {
+                const htmlLabel = acceptedIdentification?.["ods:scientificNameHTMLLabel"];
+                const fallbackLabel = acceptedIdentification?.["dwc:scientificName"];
+                
+                return htmlLabel || fallbackLabel;
+            },
+            hidden: true
+        },
+        digitalSpecimenId: {
+            label: 'Digital Specimen ID',
+            resolve: (ds) => ds["@id"],
+            hidden: true
+        }
+    },
+    UI_COMPONENTS_DATA: {
+        taxonRank: {
+            label: 'Taxonomic Rank',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonRank"]
+        },
+        typeStatus: {
+            label: 'Type Status',
+            resolve: (ds) => ds["ods:hasIdentifications"]?.[0]?.["dwc:typeStatus"]
         }
     }
 };

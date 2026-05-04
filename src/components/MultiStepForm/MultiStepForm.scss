@@ -1,0 +1,35 @@
+#multi-step-form {
+    background-color: white;
+    width: 600px;
+    max-width: 600px;
+    padding: 24px;
+
+    #multi-step-form-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        .form-step-container {
+            width: 100%;
+            margin-inline-end: 8px;
+
+            .form-step-indicator {
+                height: 10px;
+                width: 100%;
+                background-color: lightgray;
+                border-radius: 3px;
+                display: block;
+            }
+
+            .active-form-step {
+                background-color: green;
+            }
+        }
+    }
+
+    #multi-step-form-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-block-start: 32px;
+    }
+}

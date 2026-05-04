@@ -19,7 +19,7 @@ import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
     title: string;
-    description: string;
+    description?: string;
     badge?: string[];
     navigateTo?: { pathName: string; text: string };
     showShareButton?: boolean;
@@ -41,7 +41,7 @@ type Props = {
 export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
-    const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
+    // const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
     const location = useLocation();
     const { copy, hasCopied } = useClipboard();
 
@@ -69,6 +69,10 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
 
         return () => resizeObserver.disconnect();
     }, [description]);
+
+    const handleCreateVC = () => {
+        navigate('/virtual-collections/create');
+    }
 
     return (
         <header>
@@ -99,7 +103,8 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
             <div id="hero-title">
                 <h1>{title}</h1>
                 {showCreateButton &&
-                    <Button variant="solid" disabled={!isAllowedToCreateVC}>
+                    // <Button variant="solid" disabled={!isAllowedToCreateVC}>
+                    <Button variant="solid" onClick={() => {handleCreateVC()}}>
                         Create
                         <PlusIcon />
                     </Button>
@@ -107,10 +112,11 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
             </div>
             <div id="hero-content">
                 <div className="description-container">
-                    <p ref={descriptionRef} className="clamped-description">
+                    {description && 
+                        <p ref={descriptionRef} className="clamped-description">
                         {description}
                     </p>
-
+                    }
                     {showMoreButton && (
                         <Dialog.Root>
                             <Dialog.Trigger>

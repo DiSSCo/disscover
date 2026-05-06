@@ -6,7 +6,7 @@ header {
         justify-content: space-between;
         margin-block-end: var(--spacing-l);
 
-        div {
+        #hero-top-buttons-right, #hero-top-buttons-left {
             button {
                 margin-inline-end: var(--spacing-sm);
             }

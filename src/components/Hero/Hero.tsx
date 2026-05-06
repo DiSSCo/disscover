@@ -75,7 +75,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
     return (
         <header>
             <div id="hero-top-buttons">
-                <div>
+                <div id="hero-top-buttons-left">
                 {navigateTo &&
                     <Button variant="soft" className="navigation-link" onClick={() => navigate(navigateTo.pathName)}>
                         <ArrowLeftIcon />
@@ -83,7 +83,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                     </Button>
                 }
                 </div>
-                <div>
+                <div id="hero-top-buttons-right">
                 {annotate &&
                     <Button variant="solid">
                         Annotate

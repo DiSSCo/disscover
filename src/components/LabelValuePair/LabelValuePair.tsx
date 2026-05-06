@@ -11,6 +11,9 @@ import { useClipboard } from 'hooks/useClipboard';
 /* Import utils */
 import { RetrieveEnvVariable } from 'app/Utilities';
 
+/* Import dependencies */
+import DOMPurify from 'dompurify';
+
 type Props = {
     item: {
         label: string;
@@ -58,7 +61,7 @@ export const LabelValuePair = ({ item }: Props) => {
 			default:
 				return (
 					item?.isHtml ? (
-						<span dangerouslySetInnerHTML={{ __html: item.value }} />
+						<span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.value) }} />
 					) : (
 						<span>{item.value}</span>
 					)

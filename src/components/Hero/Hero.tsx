@@ -1,6 +1,7 @@
 /* Import dependencies */
 import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
+import DOMPurify from 'dompurify';
 
 /* Import components */
 import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
@@ -109,7 +110,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
             </div>
             <div id="hero-title">
                 {isHtml ? (
-                    <h1 dangerouslySetInnerHTML={{ __html: title }} />
+                    <h1 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(title) }} />
                 ) : (
                     <h1>{ title }</h1>
                 )}

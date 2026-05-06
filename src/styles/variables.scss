@@ -59,8 +59,11 @@ $media-queries: (
     --spacing-xxxl: 48px;
     --spacing-xxxxl: 64px;
 
+    /* Very specific spacing */
+    --odd-spacing-xs: 3px;
+
     /* Container spacing */
     --general-card-width: 320px;
-    --header-content-spacing: 600px;
+    --content-spacing: 600px;
 }
 

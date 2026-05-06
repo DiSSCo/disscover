@@ -1,28 +1,32 @@
 #multi-step-form {
     background-color: white;
-    width: 600px;
-    max-width: 600px;
-    padding: 24px;
+    max-width: var(--content-spacing);
+    padding: var(--spacing-l);
 
     #multi-step-form-header {
         display: flex;
         align-items: center;
         width: 100%;
+        margin-block-end: var(--spacing-xl);
 
         .form-step-container {
             width: 100%;
-            margin-inline-end: 8px;
+            margin-inline-end: var(--spacing-sm);
 
             .form-step-indicator {
                 height: 10px;
                 width: 100%;
-                background-color: lightgray;
-                border-radius: 3px;
+                background-color: var(--gray-a4);
+                border-radius: var(--odd-spacing-xs);
                 display: block;
             }
 
             .active-form-step {
-                background-color: green;
+                background-color: var(--success);
+            }
+
+            .form-step-title {
+                font-size: var(--xs-font-size);
             }
         }
     }
@@ -30,6 +34,6 @@
     #multi-step-form-navigation {
         display: flex;
         justify-content: space-between;
-        margin-block-start: 32px;
+        margin-block-start: var(--spacing-xl);
     }
 }

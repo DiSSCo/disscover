@@ -43,7 +43,7 @@ const CreateVirtualCollection = ({ steps, views, handleCancel, handleSubmit }: P
     }
 
     return (
-        <div id="multi-step-form">
+        <form id="multi-step-form">
             <div id="multi-step-form-header">
                 {steps.map(({stepNumber, title}) => {
                     return (
@@ -83,7 +83,7 @@ const CreateVirtualCollection = ({ steps, views, handleCancel, handleSubmit }: P
                     </Button>
                 }
             </div>
-        </div>
+        </form>
     )
 }
 

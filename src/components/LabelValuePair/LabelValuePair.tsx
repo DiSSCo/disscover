@@ -1,9 +1,9 @@
 /* Import styles */
-import { Badge } from '@radix-ui/themes';
 import './LabelValuePair.scss';
 
 /* Import components */
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
+import { Badge } from '@radix-ui/themes';
 
 /* Import hooks */
 import { useClipboard } from 'hooks/useClipboard';
@@ -11,8 +11,8 @@ import { useClipboard } from 'hooks/useClipboard';
 /* Import utils */
 import { RetrieveEnvVariable } from 'app/Utilities';
 
-/* Import dependencies */
-import DOMPurify from 'dompurify';
+/* Import utils */
+import { sanitizeHtmlWrapper } from 'utils/Utils';
 
 type Props = {
     item: {
@@ -61,7 +61,7 @@ export const LabelValuePair = ({ item }: Props) => {
 			default:
 				return (
 					item?.isHtml ? (
-						<span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.value) }} />
+						<span dangerouslySetInnerHTML={{ __html: sanitizeHtmlWrapper(item.value) }} />
 					) : (
 						<span>{item.value}</span>
 					)

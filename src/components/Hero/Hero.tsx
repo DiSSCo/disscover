@@ -1,7 +1,6 @@
 /* Import dependencies */
 import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
-import DOMPurify from 'dompurify';
 
 /* Import components */
 import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
@@ -13,6 +12,7 @@ import './Hero.scss';
 
 /* Import utilities */
 import { RetrieveEnvVariable } from "app/Utilities";
+import { sanitizeHtmlWrapper } from "utils/Utils";
 
 /* Import hooks */
 import { useHasRole } from "hooks/roleChecker";
@@ -110,7 +110,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
             </div>
             <div id="hero-title">
                 {isHtml ? (
-                    <h1 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(title) }} />
+                    <h1 dangerouslySetInnerHTML={{ __html: sanitizeHtmlWrapper(title) }} />
                 ) : (
                     <h1>{ title }</h1>
                 )}

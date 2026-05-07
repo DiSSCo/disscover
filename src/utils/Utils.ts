@@ -1,3 +1,6 @@
+/* Import dependencies */
+import DOMPurify from 'dompurify';
+
 /**
  * Paginates an array of items based on the current page and limit.
  * This utility can do both server-side and client-side pagination. We need both.
@@ -31,3 +34,12 @@ export const paginateItems = <T>(items: T[] | undefined, currentPage: number, ma
         totalAmount,
     };
 };
+
+/**
+ * Wrapper function for the DOMPurify package to sanitize html when dangerously setting it
+ * @param htmlString html string that needs to be sanitized 
+ * @returns a sanitized HTML string
+ */
+export const sanitizeHtmlWrapper = (htmlString: string) => {
+    return DOMPurify.sanitize(htmlString);
+}

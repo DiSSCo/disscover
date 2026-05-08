@@ -12,7 +12,7 @@ import { Badge, Card } from "@radix-ui/themes";
 import { useVirtualCollectionDetails, useSelectedVirtualCollection } from "hooks/useVirtualCollections";
 
 /* Import utils */
-import { paginateItems } from "utils/Pagination";
+import { paginateItems } from "utils/Utils";
 import { RetrieveEnvVariable } from "app/Utilities";
 import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
 
@@ -66,7 +66,7 @@ const VirtualCollectionDetails = () => {
             <Hero
                 title={selectedVirtualCollection?.['ltc:collectionName']}
                 description={selectedVirtualCollection?.['ltc:description']}
-                badge={[selectedVirtualCollection?.['ltc:basisOfScheme']]}
+                badge={[{ content: selectedVirtualCollection?.['ltc:basisOfScheme'], type: 'solid', color: 'sky'}]}
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
                 showShareButton={true}
                 details={selectedVirtualCollection}

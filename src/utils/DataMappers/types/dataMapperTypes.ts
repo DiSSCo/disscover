@@ -10,6 +10,7 @@ interface UIProperty {
     value: any;
     isHtml: boolean;
     type: string;
+    hidden: boolean;
 }
 
 /* Corresponding field config interface for DigitalSpecimen schema */
@@ -18,6 +19,7 @@ interface FieldConfig {
     resolve: (ds: any, context: MapperContext) => any;
     isHtml?: boolean;
     type?: string;
+    hidden?: boolean;
 }
 
 /* Result of the Digital Specimen data mapper */

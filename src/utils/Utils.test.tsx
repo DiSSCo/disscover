@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { paginateItems } from 'utils/Pagination';
+import { paginateItems } from 'utils/Utils';
 
 /**
  * Test suite for the pagination utilities

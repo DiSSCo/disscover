@@ -16,7 +16,7 @@ import './VirtualCollectionsOverview.scss';
 import { useVirtualCollections } from "hooks/useVirtualCollections";
 
 /* Import utils */
-import { paginateItems } from "utils/Pagination";
+import { paginateItems } from "utils/Utils";
 
 /**
  * Base component that renders the Virtual Collections page

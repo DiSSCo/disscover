@@ -4,29 +4,54 @@ import { RadioCards, TextArea, TextField } from "@radix-ui/themes";
 /* Import styling */
 import "./Views.scss";
 
+/* Import store */
+import { useVirtualCollectionStore } from 'store/useVirtualCollectionStore';
+
 /**
  * The About View
  * @returns A JSX element that contains the About View for the Multi Step Form
  */
 const AboutView = () => {
+    /* Base variables from the Virtual Collection store */
+    const title = useVirtualCollectionStore((state) => state.formData.title);
+    const description = useVirtualCollectionStore((state) => state.formData.description);
+    const type = useVirtualCollectionStore((state) => state.formData.type);
+    const updateField = useVirtualCollectionStore((state) => state.updateField);
+
     return (
         <div id="about-view">
             <h2>About this collection</h2>
             <p>Enter title, description and the type of your virtual collection. In the next step, you can add the list of specimens to include in this collection.</p>
 
             <label htmlFor="form-title">Title</label>
-            <TextField.Root id="form-title" name="title" placeholder="Short and concise. Max 128 chars.">
+            <TextField.Root
+                id="form-title"
+                name="title"
+                placeholder="Short and concise. Max 128 chars."
+                value={title} 
+                onChange={(e) => updateField('title', e.target.value)}
+            >
                 <TextField.Slot>
                 </TextField.Slot>
             </TextField.Root>
 
             <label htmlFor="form-description">Description</label>
-            <TextArea id="form-description" name="description" placeholder="Describe the collection. You may include aspects such as the purpose of the collection, geographic / taxonomic limitations, included species etc. Max 2048 chars." />
+            <TextArea 
+                id="form-description" 
+                name="description" 
+                placeholder="Describe the collection. You may include aspects such as the purpose of the collection, geographic / taxonomic limitations, included species etc. Max 2048 chars." 
+                value={description} 
+                onChange={(e) => updateField('description', e.target.value)}
+            />
 
             <label htmlFor="form-type">Type</label>
             <RadioCards.Root id="form-type" name="type">
-                <RadioCards.Item value="reference-collection" checked>
-                    <h4>Reference collection</h4>
+                <RadioCards.Item 
+                    value="Reference Collection" 
+                    checked
+                    onChange={(e) => updateField('type', (e.target as HTMLInputElement).value)}
+                >
+                    <h4>{type}</h4>
                     <p>When publishing a gold-standard collection for others to use as an identification key.</p>
                 </RadioCards.Item>
             </RadioCards.Root>

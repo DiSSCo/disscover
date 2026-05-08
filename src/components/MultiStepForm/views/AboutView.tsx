@@ -1,4 +1,8 @@
+/* Import components */
 import { RadioCards, TextArea, TextField } from "@radix-ui/themes";
+
+/* Import styling */
+import "./Views.scss";
 
 /**
  * The About View
@@ -6,7 +10,7 @@ import { RadioCards, TextArea, TextField } from "@radix-ui/themes";
  */
 const AboutView = () => {
     return (
-        <div>
+        <div id="about-view">
             <h2>About this collection</h2>
             <p>Enter title, description and the type of your virtual collection. In the next step, you can add the list of specimens to include in this collection.</p>
 
@@ -17,7 +21,7 @@ const AboutView = () => {
             </TextField.Root>
 
             <label htmlFor="form-description">Description</label>
-            <TextArea id="form-description" name="description" placeholder="Describe the collection. You may include aspects such as the purpose of the collection, geographic / taxonomic limitations, included species etc. Max 20248 chars." />
+            <TextArea id="form-description" name="description" placeholder="Describe the collection. You may include aspects such as the purpose of the collection, geographic / taxonomic limitations, included species etc. Max 2048 chars." />
 
             <label htmlFor="form-type">Type</label>
             <RadioCards.Root id="form-type" name="type">
@@ -26,7 +30,7 @@ const AboutView = () => {
                     <p>When publishing a gold-standard collection for others to use as an identification key.</p>
                 </RadioCards.Item>
             </RadioCards.Root>
-            <p>Note: only Reference Collections are available at this time. Community Collections will be introduced in a future update.</p>
+            <p id="form-type-subtitle">Note: only Reference Collections are available at this time. Community Collections will be introduced in a future update.</p>
         </div>
     )
 }

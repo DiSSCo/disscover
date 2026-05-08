@@ -1,0 +1,107 @@
+#about-view {
+    h2 {
+        font-size: var(--md-font-size);
+        font-weight: var(--bold-font-weight);
+    }
+    label {
+        font-size: var(--sm-font-size);
+        font-weight: var(--medium-font-weight);
+        padding-block-end: var(--spacing-sm);
+        padding-block-start: var(--spacing-xl);
+    }
+    p {
+        font-size: var(--sm-font-size);
+    }
+    #form-type {
+        max-width: 360px;
+
+        button {
+            flex-direction: column;
+            text-align: center;
+            padding: var(--spacing-m);            
+            h4 {
+                font-size: var(--sm-font-size);
+                font-weight: var(--medium-font-weight);
+                margin: 0;
+            }
+            p {
+                font-size: var(--sm-font-size);
+                font-weight: var(--regular-font-weight);
+                color: var(--gray-a11);
+            }
+        }
+    }
+    #form-type-subtitle {
+        max-width: 360px;
+        font-size: var(--xs-font-size);
+        font-weight: var(--regular-font-weight);
+        color: var(--gray-a11);
+        padding-block-start: var(--spacing-sm);
+    }
+
+    #form-description {
+        height: 200px;
+    }
+}
+
+#specimen-view {
+    h2 {
+        font-size: var(--md-font-size);
+        font-weight: var(--bold-font-weight);
+    }
+    label {
+        font-size: var(--sm-font-size);
+        font-weight: var(--medium-font-weight);
+        padding-block-end: var(--spacing-sm);
+        padding-block-start: var(--spacing-xl);
+    }
+    ul {
+        margin: 0;
+        li {
+            font-size: var(--sm-font-size);
+        }
+    }
+    #form-description {
+        height: 200px;
+    }
+}
+
+#confirm-view {
+    h2 {
+        font-size: var(--md-font-size);
+        font-weight: var(--bold-font-weight);
+    }
+    p {
+        font-size: var(--sm-font-size);
+    }
+    .form-review-container {
+        padding: var(--spacing-sm);
+        background-color: var(--gray-a2);
+        margin-block-start: var(--spacing-xl);
+        border-radius: 4px;
+
+        h3 {
+            font-size: var(--sm-font-size);
+            font-weight: var(--bold-font-weight);
+            padding-block-end: var(--spacing-sm);
+            margin: 0;
+        }
+        p {
+            font-size: var(--sm-font-size);
+            font-weight: var(--regular-font-weight);
+        }
+
+        .form-review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            a {
+                text-decoration: underline;
+                font-size: var(--xs-font-size);
+                font-weight: var(--medium-font-weight);
+                color: var(--indigo-11);
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@ import { Button } from '@radix-ui/themes';
 import './MultiStepForm.scss';
 
 /* Import dependencies */
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 /* Import components */
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
@@ -25,7 +25,7 @@ interface Props {
  * @param handleSubmit object with title and action for the submit button
  * @returns A JSX element that contains the Create Virtual Collection page with the multistep form
  */
-const CreateVirtualCollection = ({ steps, views, handleCancel, handleSubmit }: Props) => {
+const MultiStepForm = ({ steps, views, handleCancel, handleSubmit }: Props) => {
     /* Base variables */
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -42,8 +42,14 @@ const CreateVirtualCollection = ({ steps, views, handleCancel, handleSubmit }: P
         return views[currentStep - 1];
     }
 
+    /* On form submit, to prevent reloading of page and to execute action */
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        handleSubmit.action();
+    }
+
     return (
-        <div id="multi-step-form">
+        <form id="multi-step-form" onSubmit={onSubmit}>
             <div id="multi-step-form-header">
                 {steps.map(({stepNumber, title}) => {
                     return (
@@ -55,36 +61,36 @@ const CreateVirtualCollection = ({ steps, views, handleCancel, handleSubmit }: P
                 })
                 }
             </div>
-            <div id="multi-step-form-content">
+            <div id="multi-step-form-content" aria-live="polite">
                 {showAppropriateView()}
             </div>
             <div id="multi-step-form-navigation">
                 {currentStep === 1 &&
-                    <Button variant="soft" onClick={() => handleCancel.action()}>
+                    <Button type="button" variant="soft" onClick={() => handleCancel.action()}>
                         {handleCancel.title}
                     </Button>
                 }
                 {currentStep > 1 && 
-                    <Button variant="soft" onClick={() => handlePreviousStep()}>
+                    <Button type="button" variant="soft" onClick={() => handlePreviousStep()}>
                         <ArrowLeftIcon />
                         Back
                     </Button>
                 }
                 {currentStep < steps.length && 
-                    <Button onClick={() => handleNextStep()}>
+                    <Button type="button" onClick={() => handleNextStep()}>
                         Next
                         <ArrowRightIcon />
                     </Button>
                 }
                 {currentStep === steps.length &&
-                    <Button onClick={() => handleSubmit.action()}>
+                    <Button type="submit">
                         {handleSubmit.title}
                         <ArrowRightIcon />
                     </Button>
                 }
             </div>
-        </div>
+        </form>
     )
 }
 
-export default CreateVirtualCollection;
+export default MultiStepForm;

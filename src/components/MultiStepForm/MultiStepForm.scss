@@ -3,6 +3,21 @@
     max-width: var(--content-spacing);
     padding: var(--spacing-l);
 
+    .form-error {
+        display: none;
+    }
+
+    &.was-validated {
+        input:invalid, textarea:invalid {
+            border: 1.5px solid #e5484d;
+        }
+        
+        input:invalid ~ .form-error, 
+        textarea:invalid ~ .form-error {
+            display: block;
+        }
+    }
+
     #multi-step-form-header {
         display: flex;
         align-items: center;

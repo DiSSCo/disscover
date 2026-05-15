@@ -1,5 +1,5 @@
 /* Import components */
-import { RadioCards, TextArea, TextField } from "@radix-ui/themes";
+import { RadioCards } from "@radix-ui/themes";
 
 /* Import styling */
 import "./Views.scss";
@@ -19,30 +19,46 @@ const AboutView = () => {
     const updateField = useVirtualCollectionStore((state) => state.updateField);
 
     return (
-        <div id="about-view">
+        <div id="about-view" className="form-view-container">
             <h2>About this collection</h2>
             <p>Enter title, description and the type of your virtual collection. In the next step, you can add the list of specimens to include in this collection.</p>
 
-            <label htmlFor="form-title">Title</label>
-            <TextField.Root
-                id="form-title"
-                name="title"
-                placeholder="Short and concise. Max 128 chars."
-                value={title} 
-                onChange={(e) => updateField('title', e.target.value)}
-            >
-                <TextField.Slot>
-                </TextField.Slot>
-            </TextField.Root>
+            {/* TITLE FIELD */}
+            <div className="input-group">
+                <label htmlFor="form-title">Title</label>
+                <input 
+                    type="text"
+                    id="form-title"
+                    name="title"
+                    value={title} 
+                    onChange={(e) => updateField('title', e.target.value)}
+                    required
+                    maxLength={128}
+                    aria-describedby="title-error"
+                    placeholder="Short and concise. Max 128 chars."
+                />
+                <div className="form-error" id="title-error" aria-live="polite">
+                    <p>Please enter a title.</p>
+                </div>
+            </div>
 
-            <label htmlFor="form-description">Description</label>
-            <TextArea 
-                id="form-description" 
-                name="description" 
-                placeholder="Describe the collection. You may include aspects such as the purpose of the collection, geographic / taxonomic limitations, included species etc. Max 2048 chars." 
-                value={description} 
-                onChange={(e) => updateField('description', e.target.value)}
-            />
+            {/* DESCRIPTION FIELD */}
+            <div className="input-group">
+                <label htmlFor="form-description">Description</label>
+                <textarea 
+                    id="form-description"
+                    name="description" 
+                    value={description} 
+                    onChange={(e) => updateField('description', e.target.value)}
+                    required
+                    maxLength={2048}
+                    aria-describedby="description-error"
+                    placeholder="Describe the collection. You may include aspects such as the purpose of the collection, geographic / taxonomic limitations, included species etc. Max 2048 chars."
+                />
+                <div className="form-error" id="description-error" aria-live="polite">
+                    <p>Please describe your virtual collection.</p>
+                </div>
+            </div>
 
             <label htmlFor="form-type">Type</label>
             <RadioCards.Root id="form-type" name="type">

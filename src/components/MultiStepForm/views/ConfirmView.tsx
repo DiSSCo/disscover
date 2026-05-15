@@ -12,7 +12,7 @@ const ConfirmView = () => {
     const specimen = useVirtualCollectionStore((state) => state.formData.specimen);
 
     return (
-        <div id="confirm-view">
+        <div id="confirm-view" className="form-view-container">
             <h2>Review and confirm</h2>
             <p>Please the review collection details and create your collection when ready.</p>
 

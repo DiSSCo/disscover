@@ -1,6 +1,3 @@
-/* Import components */
-import { TextArea } from "@radix-ui/themes";
-
 /* Import styling */
 import "./Views.scss";
 import { useVirtualCollectionStore } from "store/useVirtualCollectionStore";
@@ -15,7 +12,7 @@ const SpecimenView = () => {
     const updateField = useVirtualCollectionStore((state) => state.updateField);
 
     return (
-        <div id="specimen-view">
+        <div id="specimen-view" className="form-view-container">
             <h2>Link specimen to collection</h2>
             <ul>
                 <li>Paste your list of specimen identifiers or DOIs below</li>
@@ -23,14 +20,23 @@ const SpecimenView = () => {
                 <li>Separate items by line breaks, commas, or semicolons.</li>
             </ul>
 
-            <label htmlFor="form-description">Specimen DOIs</label>
-            <TextArea
-                id="form-description" 
-                name="description"
-                placeholder="Paste list of specimen identifiers or DOIs here..."
-                value={specimen}
-                onChange={(e) => updateField('specimen', e.target.value)}
-            />
+            {/* SPECIMEN FIELD */}
+            <div className="input-group">
+                <label htmlFor="form-specimen">Specimen DOIs</label>
+                <textarea 
+                    id="form-specimen" 
+                    name="specimen" 
+                    value={specimen} 
+                    onChange={(e) => updateField('specimen', e.target.value)}
+                    required
+                    maxLength={2048}
+                    aria-describedby="specimen-error"
+                    placeholder="Paste list of specimen DOIs here..."
+                />
+                <div className="form-error" id="specimen-error" aria-live="polite">
+                    <p>Please enter the specimen DOIs for this Virtual Collection</p>
+                </div>
+            </div>
         </div>
     )
 }

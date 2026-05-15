@@ -5,7 +5,7 @@ import { Button } from '@radix-ui/themes';
 import './MultiStepForm.scss';
 
 /* Import dependencies */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 /* Import components */
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
@@ -28,10 +28,20 @@ interface Props {
 const MultiStepForm = ({ steps, views, handleCancel, handleSubmit }: Props) => {
     /* Base variables */
     const [currentStep, setCurrentStep] = useState(1);
+    const formRef = useRef<HTMLFormElement>(null);
+    const [wasValidated, setWasValidated] = useState(false);
 
     /* Form navigation */
     const handleNextStep = () => {
-        if(currentStep < steps.length) setCurrentStep(currentStep + 1);
+        if (formRef.current) {
+            if (formRef.current.checkValidity()) {
+                setWasValidated(false); // Reset for next step
+                setCurrentStep(currentStep + 1);
+            } else {
+                setWasValidated(true); // This will trigger the red borders
+                formRef.current.reportValidity();
+            }
+        }
     }
     const handlePreviousStep = () => {
         if(currentStep > 1) setCurrentStep(currentStep - 1);
@@ -48,8 +58,19 @@ const MultiStepForm = ({ steps, views, handleCancel, handleSubmit }: Props) => {
         handleSubmit.action();
     }
 
+    /* Prevent native required popup to appear on vaidating the form */
+    const handleInvalid = (e: React.FormEvent) => {
+        e.preventDefault();
+    };
+
     return (
-        <form id="multi-step-form" onSubmit={onSubmit}>
+        <form
+            id="multi-step-form"
+            onSubmit={onSubmit}
+            className={wasValidated ? 'was-validated' : ''} 
+            ref={formRef}
+            onInvalidCapture={handleInvalid}
+            >
             <div id="multi-step-form-header">
                 {steps.map(({stepNumber, title}) => {
                     return (

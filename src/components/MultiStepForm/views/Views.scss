@@ -1,20 +1,55 @@
-#about-view {
+.form-view-container {
     h2 {
         font-size: var(--md-font-size);
         font-weight: var(--bold-font-weight);
     }
+
+    p {
+        font-size: var(--sm-font-size);
+    }
+
     label {
+        display: block;
         font-size: var(--sm-font-size);
         font-weight: var(--medium-font-weight);
         padding-block-end: var(--spacing-sm);
         padding-block-start: var(--spacing-xl);
     }
-    p {
-        font-size: var(--sm-font-size);
+
+    input, textarea {
+        width: 100%;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid var(--gray-a4);
+        resize: none;
+        margin-block-end: 8px;
     }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-error {
+        color: var(--error);
+        padding: 8px;
+        background-color: #FFF7F7;
+        border-radius: 4px;
+        p { font-size: 14px; margin: 0; }
+    }
+}
+
+/* About view overrides */
+#about-view {
+    @extend .form-view-container;
+
+    #form-description {
+        height: 200px;
+    }
+
     #form-type {
         max-width: 360px;
-
         button {
             flex-direction: column;
             text-align: center;
@@ -25,55 +60,38 @@
                 margin: 0;
             }
             p {
-                font-size: var(--sm-font-size);
-                font-weight: var(--regular-font-weight);
                 color: var(--gray-a11);
             }
         }
     }
+
     #form-type-subtitle {
         max-width: 360px;
         font-size: var(--xs-font-size);
-        font-weight: var(--regular-font-weight);
         color: var(--gray-a11);
         padding-block-start: var(--spacing-sm);
     }
-
-    #form-description {
-        height: 200px;
-    }
 }
 
+/* Specimen view overrides */
 #specimen-view {
-    h2 {
-        font-size: var(--md-font-size);
-        font-weight: var(--bold-font-weight);
-    }
-    label {
-        font-size: var(--sm-font-size);
-        font-weight: var(--medium-font-weight);
-        padding-block-end: var(--spacing-sm);
-        padding-block-start: var(--spacing-xl);
-    }
+    @extend .form-view-container;
+
     ul {
         margin: 0;
         li {
             font-size: var(--sm-font-size);
         }
     }
-    #form-description {
+    #form-description, #form-specimen {
         height: 200px;
     }
 }
 
+/* Confirm view overrides */
 #confirm-view {
-    h2 {
-        font-size: var(--md-font-size);
-        font-weight: var(--bold-font-weight);
-    }
-    p {
-        font-size: var(--sm-font-size);
-    }
+    @extend .form-view-container;
+
     .form-review-container {
         padding: var(--spacing-sm);
         background-color: var(--gray-a2);
@@ -86,16 +104,11 @@
             padding-block-end: var(--spacing-sm);
             margin: 0;
         }
-        p {
-            font-size: var(--sm-font-size);
-            font-weight: var(--regular-font-weight);
-        }
 
         .form-review-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             a {
                 text-decoration: underline;
                 font-size: var(--xs-font-size);

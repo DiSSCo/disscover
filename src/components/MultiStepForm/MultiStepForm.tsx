@@ -48,7 +48,7 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
             <div id="multi-step-form-header">
                 {steps.map(({title}, index) => {
                     return (
-                        <div key={`step-` + index + `-` + title} className="form-step-container">
+                        <div key={`step-` + title} className="form-step-container">
                             <span className={`form-step-indicator ${currentStep === index ? 'active-form-step' : ''}`}></span>
                             <span className="form-step-title">{index + 1}. {title}</span>
                         </div>
@@ -60,24 +60,24 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
                 {steps[currentStep]?.view}
             </div>
             <div id="multi-step-form-navigation">
-                {currentStep === 0 &&
+                {isFirstStep &&
                     <Button type="button" variant="soft" onClick={() => handleCancel.action()}>
                         {handleCancel.title}
                     </Button>
                 }
-                {currentStep > 0 && 
+                {!isFirstStep && 
                     <Button type="button" variant="soft" onClick={() => handlePreviousStep()}>
                         <ArrowLeftIcon />
                         Back
                     </Button>
                 }
-                {currentStep < (steps.length - 1) && 
+                {!isLastStep && 
                     <Button type="button" onClick={() => handleNextStep()}>
                         Next
                         <ArrowRightIcon />
                     </Button>
                 }
-                {(currentStep + 1) === steps.length &&
+                {isLastStep &&
                     <Button type="submit">
                         {handleSubmit.title}
                         <ArrowRightIcon />

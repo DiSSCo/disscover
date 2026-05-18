@@ -124,10 +124,11 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
             <div id="hero-content">
                 {description &&
                 <div className="description-container">
-                    <p ref={descriptionRef} className="clamped-description">
+                    {description && 
+                        <p ref={descriptionRef} className="clamped-description">
                         {description}
                     </p>
-
+                    }
                     {showMoreButton && (
                         <Dialog.Root>
                             <Dialog.Trigger>

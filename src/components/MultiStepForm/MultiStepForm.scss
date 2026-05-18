@@ -1,0 +1,39 @@
+#multi-step-form {
+    background-color: white;
+    max-width: var(--content-spacing);
+    padding: var(--spacing-l);
+
+    #multi-step-form-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-block-end: var(--spacing-xl);
+
+        .form-step-container {
+            width: 100%;
+            margin-inline-end: var(--spacing-sm);
+
+            .form-step-indicator {
+                height: 10px;
+                width: 100%;
+                background-color: var(--medium-gray);
+                border-radius: var(--odd-spacing-xs);
+                display: block;
+            }
+
+            .active-form-step {
+                background-color: var(--success);
+            }
+
+            .form-step-title {
+                font-size: var(--xs-font-size);
+            }
+        }
+    }
+
+    #multi-step-form-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-block-start: var(--spacing-xl);
+    }
+}

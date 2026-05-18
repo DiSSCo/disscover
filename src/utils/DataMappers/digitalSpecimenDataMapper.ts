@@ -52,6 +52,7 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
                         value: config.resolve(ds, {acceptedIdentification, primaryEvent}),
                         isHtml: Boolean(config.isHtml),
                         type: config.type || 'base',
+                        hidden: config.hidden || false
                     }
                 ])
             );

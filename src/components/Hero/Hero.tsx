@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 
 /* Import components */
-import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, PlusIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import './Hero.scss';
 
 /* Import utilities */
 import { RetrieveEnvVariable } from "app/Utilities";
+import { sanitizeHtmlWrapper } from "utils/Utils";
 
 /* Import hooks */
 import { useHasRole } from "hooks/roleChecker";
@@ -20,11 +21,13 @@ import { useClipboard } from "hooks/useClipboard";
 type Props = {
     title: string;
     description?: string;
-    badge?: string[];
+    badge?: { content: string, type: "soft" | "solid" | "outline" | "surface", color: "sky" | "grass" }[];
     navigateTo?: { pathName: string; text: string };
     showShareButton?: boolean;
     details?: any;
     showCreateButton?: boolean;
+    isHtml?: boolean;
+    annotate?: boolean;
 }
 
 /**
@@ -38,7 +41,7 @@ type Props = {
  * @param create Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -73,7 +76,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
     return (
         <header>
             <div id="hero-top-buttons">
-                <div>
+                <div id="hero-top-buttons-left">
                 {navigateTo &&
                     <Button variant="soft" className="navigation-link" onClick={() => navigate(navigateTo.pathName)}>
                         <ArrowLeftIcon />
@@ -81,7 +84,13 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                     </Button>
                 }
                 </div>
-                <div>
+                <div id="hero-top-buttons-right">
+                {annotate &&
+                    <Button variant="solid">
+                        Annotate
+                        <Pencil2Icon />
+                    </Button>
+                }
                 {showShareButton &&
                     <Button variant="solid" onClick={() => copy(currentUrl)}>
                         {hasCopied ? 'Copied!' : 'Share'}
@@ -90,14 +99,21 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
             </div>
-
-            {badge?.map((badge: string) => {
-                return (
-                    <Badge color="sky" variant="solid" key={badge}>{badge}</Badge>
-                )
-            })}
+            
+            <div id="hero-badges">
+                {badge?.map(({ content, type, color }) => {
+                    if (!content) return null;
+                    return (
+                        <Badge color={color} variant={type} key={content}>{content}</Badge>
+                    )
+                })}
+            </div>
             <div id="hero-title">
-                <h1>{title}</h1>
+                {isHtml ? (
+                    <h1 dangerouslySetInnerHTML={{ __html: sanitizeHtmlWrapper(title) }} />
+                ) : (
+                    <h1>{ title }</h1>
+                )}
                 {showCreateButton &&
                     <Button variant="solid" disabled={!isAllowedToCreateVC}>
                         Create
@@ -106,6 +122,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
             </div>
             <div id="hero-content">
+                {description &&
                 <div className="description-container">
                     {description && 
                         <p ref={descriptionRef} className="clamped-description">
@@ -137,6 +154,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                         </Dialog.Root>
                     )}
                 </div>
+                }
 
                 {details &&
                 <>

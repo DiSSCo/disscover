@@ -3,7 +3,7 @@
 
 footer {
     padding: var(--spacing-l) var(--spacing-m);
-    border-top: 1px solid var(--gray-a5);
+    border-top: 1px solid var(--medium-gray);
     
     @include smallAndUp {
         padding: var(--spacing-l) var(--spacing-xl);

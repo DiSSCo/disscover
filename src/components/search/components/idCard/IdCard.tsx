@@ -178,7 +178,10 @@ const IdCard = () => {
                         ) &&
                             <Row className="h-50 pb-2">
                                 <Col>
-                                    <OpenStreetMap georeference={digitalSpecimen?.['ods:hasEvents']?.[0]['ods:hasLocation']?.['ods:hasGeoreference']} />
+                                    <OpenStreetMap
+                                        longitude={digitalSpecimen?.['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']?.['dwc:decimalLongitude']}
+                                        latitude={digitalSpecimen?.['ods:hasEvents']?.[0]?.['ods:hasLocation']?.['ods:hasGeoreference']?.['dwc:decimalLatitude']}    
+                                    />
                                 </Col>
                             </Row>
                         }

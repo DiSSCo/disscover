@@ -25,3 +25,6 @@ CVE-2026-33636
 
 # lodash-es is pinned as a dependency on a vulnerable version in formik and cannot be upgraded by us Apr-3-2026
 CVE-2026-4800
+
+# Vulnerability in image dependency nghttp2-libs that is included in the image and we cannot fix May-6-2026
+CVE-2026-27135

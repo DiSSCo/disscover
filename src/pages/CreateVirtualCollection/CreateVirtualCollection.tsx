@@ -4,6 +4,8 @@ import MultiStepForm from 'components/MultiStepForm/MultiStepForm';
 import AboutView from 'components/MultiStepForm/views/AboutView';
 import ConfirmView from 'components/MultiStepForm/views/ConfirmView';
 import SpecimenView from 'components/MultiStepForm/views/SpecimensView';
+
+/* Import hooks */
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -14,15 +16,12 @@ const CreateVirtualCollection = () => {
     /* Hooks */
     const navigate = useNavigate();
 
-    /* Form views */
-    const virtualCollectionViews = [
-        <AboutView key="about-view"></AboutView>,
-        <SpecimenView key="specimens-view"></SpecimenView>,
-        <ConfirmView key="confirm-view"></ConfirmView>
-    ]
-
     /* Form steps */
-    const formSteps = [{ stepNumber: 1, title: 'About' }, { stepNumber: 2, title: 'Specimens' }, { stepNumber: 3, title: 'Confirm' }];
+    const formSteps = [
+        { title: 'About', view: <AboutView></AboutView>},
+        { title: 'Specimens', view: <SpecimenView></SpecimenView> },
+        { title: 'Confirm', view: <ConfirmView></ConfirmView> }
+    ];
 
     return (
         <>
@@ -34,7 +33,6 @@ const CreateVirtualCollection = () => {
             <main>
                 <MultiStepForm
                     steps={formSteps}
-                    views={virtualCollectionViews}
                     handleCancel={{ title: 'Cancel', action: () => navigate('/virtual-collections') }}
                     handleSubmit={{ title: 'Create collection', action: () => navigate('/virtual-collections') }}
                 ></MultiStepForm>

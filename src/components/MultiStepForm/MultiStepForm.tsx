@@ -25,7 +25,7 @@ interface Props {
  */
 const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
     /* Base variables */
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(0);
     const formRef = useRef<HTMLFormElement>(null);
     const [wasValidated, setWasValidated] = useState(false);
     const isFirstStep = currentStep === 0;
@@ -70,7 +70,7 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
                 {steps.map(({title}, index) => {
                     return (
                         <div key={`step-` + title} className="form-step-container">
-                            <span className={`form-step-indicator ${currentStep === index ? 'active-form-step' : ''}`}></span>
+                            <span className={`form-step-indicator ${currentStep === index || currentStep > index ? 'active-form-step' : ''}`}></span>
                             <span className="form-step-title">{index + 1}. {title}</span>
                         </div>
                     )

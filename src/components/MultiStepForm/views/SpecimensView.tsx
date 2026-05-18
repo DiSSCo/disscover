@@ -1,4 +1,5 @@
 /* Import styling */
+import { ChangeEvent } from "react";
 import "./Views.scss";
 import { useVirtualCollectionStore } from "store/useVirtualCollectionStore";
 
@@ -8,8 +9,24 @@ import { useVirtualCollectionStore } from "store/useVirtualCollectionStore";
  */
 const SpecimenView = () => {
     /* Base variables from the Virtual Collection store */
-    const specimen = useVirtualCollectionStore((state) => state.formData.specimen);
+    const specimenRawList = useVirtualCollectionStore((state) => state.formData.specimenRawList);
     const updateField = useVirtualCollectionStore((state) => state.updateField);
+
+    /* Function to update the specimenRawList field in the store on input change */
+    const handleOnChangeTextarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        updateField('specimenRawList', e.target.value);
+    }
+
+    /* Function to transform string to array of strings, clean it and check for duplicate items */
+    const handleOnBlurTextarea = () => {
+        const rawArray = specimenRawList.split(/[\n,;]+/);
+        const cleanArray = rawArray
+            .map((item: string) => item.trim())
+            .filter((item: string) => item.length > 0);
+        const uniqueDOIs = [...new Set(cleanArray)];
+        
+        updateField('specimen', uniqueDOIs);
+    }
 
     return (
         <div id="specimen-view" className="form-view-container">
@@ -26,8 +43,9 @@ const SpecimenView = () => {
                 <textarea 
                     id="form-specimen" 
                     name="specimen" 
-                    value={specimen} 
-                    onChange={(e) => updateField('specimen', e.target.value)}
+                    value={specimenRawList}
+                    onChange={handleOnChangeTextarea}
+                    onBlur={handleOnBlurTextarea}
                     required
                     maxLength={2048}
                     aria-describedby="specimen-error"

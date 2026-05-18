@@ -4,7 +4,8 @@ interface CreateVirtualCollectionData {
     title: string,
     description: string,
     type: string,
-    specimen: string
+    specimen: string[],
+    specimenRawList: string
 }
 
 interface VirtualCollectionState {
@@ -18,7 +19,8 @@ export const useVirtualCollectionStore = create<VirtualCollectionState>((set) =>
         title: '',
         description: '',
         type: 'Reference Collection',
-        specimen: ''
+        specimen: [],
+        specimenRawList: ''
     },
     updateField: (field, value) => 
         set((state) => ({
@@ -28,6 +30,7 @@ export const useVirtualCollectionStore = create<VirtualCollectionState>((set) =>
         title: '',
         description: '',
         type: 'Reference Collection',
-        specimen: ''
+        specimen: [],
+        specimenRawList: ''
     }})
 }));

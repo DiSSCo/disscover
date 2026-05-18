@@ -20,6 +20,7 @@ export default defineConfig(({mode}) => {
         styles: '/src/styles',
         "redux-store": '/src/redux-store',
         sources: '/src/sources',
+        store: '/src/store',
         tests: '/src/tests',
         utils: '/src/utils',
         webroot: '/src/webroot'

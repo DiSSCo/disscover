@@ -5,7 +5,7 @@ import { Button } from '@radix-ui/themes';
 import './MultiStepForm.scss';
 
 /* Import dependencies */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 /* Import components */
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
@@ -26,12 +26,22 @@ interface Props {
 const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
     /* Base variables */
     const [currentStep, setCurrentStep] = useState(0);
+    const formRef = useRef<HTMLFormElement>(null);
+    const [wasValidated, setWasValidated] = useState(false);
     const isFirstStep = currentStep === 0;
     const isLastStep = currentStep === steps.length - 1;
 
     /* Form navigation */
     const handleNextStep = () => {
-        if (!isLastStep) setCurrentStep((previousStep) => previousStep + 1);
+        if (formRef.current) {
+            if (formRef.current.checkValidity()) {
+                setWasValidated(false); // Reset for next step
+                setCurrentStep(currentStep + 1);
+            } else {
+                setWasValidated(true); // This will trigger the red borders
+                formRef.current.reportValidity();
+            }
+        }
     }
     const handlePreviousStep = () => {
         if (!isFirstStep) setCurrentStep((previousStep) => previousStep - 1);
@@ -43,13 +53,24 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
         handleSubmit.action();
     }
 
+    /* Prevent native required popup to appear on vaidating the form */
+    const handleInvalid = (e: React.FormEvent) => {
+        e.preventDefault();
+    };
+
     return (
-        <form id="multi-step-form" onSubmit={onSubmit}>
+        <form
+            id="multi-step-form"
+            onSubmit={onSubmit}
+            className={wasValidated ? 'was-validated' : ''} 
+            ref={formRef}
+            onInvalidCapture={handleInvalid}
+            >
             <div id="multi-step-form-header">
                 {steps.map(({title}, index) => {
                     return (
                         <div key={`step-` + title} className="form-step-container">
-                            <span className={`form-step-indicator ${currentStep === index ? 'active-form-step' : ''}`}></span>
+                            <span className={`form-step-indicator ${currentStep === index || currentStep > index ? 'active-form-step' : ''}`}></span>
                             <span className="form-step-title">{index + 1}. {title}</span>
                         </div>
                     )

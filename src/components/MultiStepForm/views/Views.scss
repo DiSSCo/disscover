@@ -1,0 +1,143 @@
+.form-view-container {
+    h2 {
+        font-size: var(--md-font-size);
+        font-weight: var(--bold-font-weight);
+    }
+
+    p {
+        font-size: var(--sm-font-size);
+    }
+
+    label {
+        display: block;
+        font-size: var(--sm-font-size);
+        font-weight: var(--medium-font-weight);
+        padding-block-end: var(--spacing-sm);
+        padding-block-start: var(--spacing-xl);
+    }
+
+    input, textarea {
+        width: 100%;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid var(--gray-a4);
+        resize: none;
+        margin-block-end: 8px;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        border: 1px solid var(--indigo-11);
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-error {
+        color: var(--error);
+        padding: 8px;
+        background-color: #FFF7F7;
+        border-radius: 4px;
+        p { font-size: 14px; margin: 0; }
+    }
+}
+
+/* About view overrides */
+#about-view {
+    @extend .form-view-container;
+
+    #form-description {
+        height: 200px;
+    }
+
+    #form-type {
+        max-width: 360px;
+        button {
+            flex-direction: column;
+            text-align: center;
+            padding: var(--spacing-m);            
+            h4 {
+                font-size: var(--sm-font-size);
+                font-weight: var(--medium-font-weight);
+                margin: 0;
+            }
+            p {
+                color: var(--gray-a11);
+            }
+        }
+    }
+
+    #form-type-subtitle {
+        max-width: 360px;
+        font-size: var(--xs-font-size);
+        color: var(--gray-a11);
+        padding-block-start: var(--spacing-sm);
+    }
+}
+
+/* Specimen view overrides */
+#specimen-view {
+    @extend .form-view-container;
+
+    ul {
+        margin: 0;
+        li {
+            font-size: var(--sm-font-size);
+        }
+    }
+    #form-description, #form-specimen {
+        height: 200px;
+    }
+}
+
+/* Confirm view overrides */
+#confirm-view {
+    @extend .form-view-container;
+
+    .form-review-container {
+        padding: var(--spacing-sm);
+        background-color: var(--gray-a2);
+        margin-block-start: var(--spacing-xl);
+        border-radius: 4px;
+
+        h3 {
+            font-size: var(--sm-font-size);
+            font-weight: var(--bold-font-weight);
+            margin: 0;
+        }
+
+        h4 {
+            font-size: var(--sm-font-size);
+            font-weight: var(--semi-bold-font-weight);
+            padding-block-start: var(--spacing-m);
+            padding-block-end: var(--spacing-xs);
+            margin: 0;
+        }
+
+        .form-review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            a {
+                text-decoration: underline;
+                font-size: var(--xs-font-size);
+                font-weight: var(--medium-font-weight);
+                color: var(--indigo-11);
+            }
+        }
+        #description-review {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+        }
+        #specimen-list {
+            max-height: var(--general-card-height);
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+    }
+}

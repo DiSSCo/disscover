@@ -11,7 +11,7 @@ import React, { useRef, useState } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 
 interface Props {
-    steps: { title?: string, view: JSX.Element }[];
+    steps: { title?: string, render: (goToStep: (stepIndex: number) => void) => JSX.Element }[];
     handleCancel: { title: string, action: () => void };
     handleSubmit: { title: string, action: () => void };
 }
@@ -78,7 +78,7 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
                 }
             </div>
             <div id="multi-step-form-content" aria-live="polite">
-                {steps[currentStep]?.view}
+                {steps[currentStep]?.render((stepIndex) => setCurrentStep(stepIndex))}
             </div>
             <div id="multi-step-form-navigation">
                 {isFirstStep &&

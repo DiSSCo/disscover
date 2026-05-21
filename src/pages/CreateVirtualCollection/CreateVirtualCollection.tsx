@@ -18,9 +18,18 @@ const CreateVirtualCollection = () => {
 
     /* Form steps */
     const formSteps = [
-        { title: 'About', view: <AboutView></AboutView>},
-        { title: 'Specimens', view: <SpecimenView></SpecimenView> },
-        { title: 'Confirm', view: <ConfirmView></ConfirmView> }
+        { title: "About", render: () => <AboutView /> },
+        {
+            title:"Specimens", render: () => <SpecimenView /> },
+        { 
+            title: "Confirm", 
+            render: (goToStep: (arg0: number) => void) => (
+                <ConfirmView 
+                    onEditAbout={() => goToStep(0)}
+                    onEditSpecimens={() => goToStep(1)}
+                />
+            ) 
+        }
     ];
 
     return (

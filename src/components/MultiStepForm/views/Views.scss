@@ -121,23 +121,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            a {
-                text-decoration: underline;
-                font-size: var(--xs-font-size);
-                font-weight: var(--medium-font-weight);
-                color: var(--indigo-11);
-            }
         }
-        #description-review {
+        .clamped-text {
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
             overflow: hidden;
+            text-overflow: ellipsis;
         }
         #specimen-list {
             max-height: var(--general-card-height);
-            overflow: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
+
+            &::-webkit-scrollbar {
+                width: var(--spacing-sm);
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: var(--medium-gray);
+                border-radius: 4px;
+                
+                &:hover {
+                    background: var(--medium-gray);
+                }
+            }
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--medium-gray) transparent;
         }
     }
 }

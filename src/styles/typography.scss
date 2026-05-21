@@ -60,4 +60,6 @@ button.helper-button {
     text-decoration: underline;
     font-weight: var(--medium-font-weight);
     letter-spacing: 0.04px;
+    text-underline-offset: var(--spacing-xs);
+    text-decoration-color: var(--indigo-5);
 }

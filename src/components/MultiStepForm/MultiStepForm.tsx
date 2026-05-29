@@ -11,9 +11,12 @@ import React, { useRef, useState } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 
 interface Props {
-    steps: { title?: string, render: (goToStep: (stepIndex: number) => void) => JSX.Element }[];
-    handleCancel: { title: string, action: () => void };
-    handleSubmit: { title: string, action: () => void };
+    steps: { 
+        title?: string; 
+        render: (goToStep: (stepIndex: number) => void, wasValidated?: boolean | undefined) => JSX.Element; 
+    }[];
+    handleCancel: { title: string; action: () => void };
+    handleSubmit: { title: string; action: () => void };
 }
 
 /**
@@ -35,10 +38,10 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
     const handleNextStep = () => {
         if (formRef.current) {
             if (formRef.current.checkValidity()) {
-                setWasValidated(false); // Reset for next step
+                setWasValidated(false);
                 setCurrentStep(currentStep + 1);
             } else {
-                setWasValidated(true); // This will trigger the red borders
+                setWasValidated(true);
                 formRef.current.reportValidity();
             }
         }
@@ -53,7 +56,7 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
         handleSubmit.action();
     }
 
-    /* Prevent native required popup to appear on vaidating the form */
+    /* Prevent native required popup to appear on validating the form */
     const handleInvalid = (e: React.FormEvent) => {
         e.preventDefault();
     };
@@ -65,21 +68,22 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
             className={wasValidated ? 'was-validated' : ''} 
             ref={formRef}
             onInvalidCapture={handleInvalid}
-            >
+        >
             <div id="multi-step-form-header">
-                {steps.map(({title}, index) => {
+                {steps.map(({ title }, index) => {
                     return (
-                        <div key={`step-` + title} className="form-step-container">
+                        <div key={`step-` + (title || index)} className="form-step-container">
                             <span className={`form-step-indicator ${currentStep === index || currentStep > index ? 'active-form-step' : ''}`}></span>
                             <span className="form-step-title">{index + 1}. {title}</span>
                         </div>
                     )
-                })
-                }
+                })}
             </div>
+            
             <div id="multi-step-form-content" aria-live="polite">
-                {steps[currentStep]?.render((stepIndex) => setCurrentStep(stepIndex))}
+                {steps[currentStep]?.render((stepIndex) => setCurrentStep(stepIndex), wasValidated)}
             </div>
+
             <div id="multi-step-form-navigation">
                 {isFirstStep &&
                     <Button type="button" variant="soft" onClick={() => handleCancel.action()}>

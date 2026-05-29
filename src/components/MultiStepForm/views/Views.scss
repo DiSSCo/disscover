@@ -8,40 +8,29 @@
         font-size: var(--sm-font-size);
     }
 
-    label {
-        display: block;
-        font-size: var(--sm-font-size);
-        font-weight: var(--medium-font-weight);
-        padding-block-end: var(--spacing-sm);
-        padding-block-start: var(--spacing-xl);
-    }
-
-    input, textarea {
-        width: 100%;
-        border-radius: 4px;
-        padding: 8px;
-        font-size: 14px;
-        border: 1px solid var(--gray-a4);
-        resize: none;
-        margin-block-end: 8px;
-    }
-
-    input:focus, textarea:focus {
-        outline: none;
-        border: 1px solid var(--indigo-11);
-    }
-
     .input-group {
         display: flex;
         flex-direction: column;
-    }
 
-    .form-error {
-        color: var(--error);
-        padding: 8px;
-        background-color: #FFF7F7;
-        border-radius: 4px;
-        p { font-size: 14px; margin: 0; }
+        label {
+            display: block;
+            font-size: var(--sm-font-size);
+            font-weight: var(--medium-font-weight);
+            padding-block-end: var(--spacing-sm);
+            padding-block-start: var(--spacing-xl);
+        }
+    
+        .form-error {
+            color: var(--error);
+            padding: var(--spacing-sm);
+            background-color: #F3000D14;
+            border-radius: var(--border-radius-sm);
+            p {
+                font-size: var(--sm-font-size);
+                margin: 0;
+            }
+        }
+    
     }
 }
 
@@ -101,7 +90,7 @@
         padding: var(--spacing-sm);
         background-color: var(--gray-a2);
         margin-block-start: var(--spacing-xl);
-        border-radius: 4px;
+        border-radius: var(--border-radius-sm);
 
         h3 {
             font-size: var(--sm-font-size);
@@ -144,7 +133,7 @@
 
             &::-webkit-scrollbar-thumb {
                 background: var(--medium-gray);
-                border-radius: 4px;
+                border-radius: var(--border-radius-sm);
                 
                 &:hover {
                     background: var(--medium-gray);

@@ -1,10 +1,14 @@
 /* Import dependencies */
 import { useLayoutEffect, useRef, useState } from "react";
 
-/* Import store */
-import { useVirtualCollectionStore } from "store/useVirtualCollectionStore";
-
 interface ConfirmViewProps {
+    data: {
+        title: string,
+        description: string,
+        type: string,
+        specimenRawList: string,
+        specimens: string[],
+    };
     onEditAbout: () => void;
     onEditSpecimens: () => void;
 }
@@ -15,16 +19,10 @@ interface ConfirmViewProps {
  * @param onEditSpecimens Function that triggers an action when clicked
  * @returns A JSX element that contains the Confirm View for the Multi Step Form
  */
-const ConfirmView = ({ onEditAbout, onEditSpecimens }: ConfirmViewProps) => {
-    /* Base variables from the Virtual Collection store */
-    const title = useVirtualCollectionStore((state) => state.formData.title);
-    const description = useVirtualCollectionStore((state) => state.formData.description);
-    const type = useVirtualCollectionStore((state) => state.formData.type);
-    const specimen = useVirtualCollectionStore((state) => state.formData.specimen);
-
+const ConfirmView = ({ data, onEditAbout, onEditSpecimens }: ConfirmViewProps) => {
     /* UI Toggle States */
     const [showDescription, setShowDescription] = useState(false);
-    const [showAllSpecimen, setShowAllSpecimen] = useState(false); // <-- Restored state!
+    const [showAllSpecimen, setShowAllSpecimen] = useState(false);
     const [isDescriptionClamped, setIsDescriptionClamped] = useState(false);
     
     const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -36,15 +34,15 @@ const ConfirmView = ({ onEditAbout, onEditSpecimens }: ConfirmViewProps) => {
             const isTruncated = element.scrollHeight > element.clientHeight;
             setIsDescriptionClamped(isTruncated);
         }
-    }, [description]);
+    }, [data.description]);
 
     /* Specimen calculation logic */
     const MAX_INITIAL_ITEMS = 3;
-    const hasTooManySpecimens = specimen.length > MAX_INITIAL_ITEMS;
+    const hasTooManySpecimens = data.specimens.length > MAX_INITIAL_ITEMS;
     const shownSpecimen = hasTooManySpecimens && !showAllSpecimen 
-        ? specimen.slice(0, MAX_INITIAL_ITEMS) 
-        : specimen;
-    const specimenCount = specimen.length;
+        ? data.specimens.slice(0, MAX_INITIAL_ITEMS) 
+        : data.specimens;
+    const specimenCount = data.specimens.length;
 
     return (
         <div id="confirm-view" className="form-view-container">
@@ -57,14 +55,14 @@ const ConfirmView = ({ onEditAbout, onEditSpecimens }: ConfirmViewProps) => {
                     <button type="button" onClick={onEditAbout} className="helper-button">Edit</button>
                 </div>
                 <h4>Title</h4>
-                <p>{title}</p>
+                <p>{data.title}</p>
                 <h4>Description</h4>
                 <p 
                     ref={descriptionRef}
                     id="description-review" 
                     className={showDescription ? '' : 'clamped-text'}
                 >
-                    {description}
+                    {data.description}
                 </p>
                 {isDescriptionClamped && (
                     <button 
@@ -78,7 +76,7 @@ const ConfirmView = ({ onEditAbout, onEditSpecimens }: ConfirmViewProps) => {
                     </button>
                 )}
                 <h4>Type</h4>
-                <p>{type}</p>
+                <p>{data.type}</p>
             </div>
             <div className="form-review-container">
                 <div className="form-review-header">

@@ -9,7 +9,7 @@
 
     &.was-validated {
         input:invalid, textarea:invalid {
-            border: 1.5px solid #e5484d;
+            border: 1.5px solid var(--error);
         }
         
         input:invalid ~ .form-error, 

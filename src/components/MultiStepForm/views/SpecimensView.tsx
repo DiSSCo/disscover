@@ -1,31 +1,42 @@
-/* Import styling */
+/* Import dependecies */
 import { ChangeEvent } from "react";
+
+/* Import styling */
 import "./Views.scss";
-import { useVirtualCollectionStore } from "store/useVirtualCollectionStore";
+
+/* SpecimenView interface */
+interface SpecimenViewProps {
+    data: {
+        specimenRawList: string;
+        specimens: string[];
+    };
+    onUpdate: (fields: Partial<{ specimenRawList: string; specimens: string[] }>) => void;
+    wasValidated: boolean;
+}
 
 /**
  * The Specimen View
  * @returns A JSX element that contains the Specimen View for the Multi Step Form
  */
-const SpecimenView = () => {
-    /* Base variables from the Virtual Collection store */
-    const specimenRawList = useVirtualCollectionStore((state) => state.formData.specimenRawList);
-    const updateField = useVirtualCollectionStore((state) => state.updateField);
+const SpecimenView = ({data, onUpdate, wasValidated}: SpecimenViewProps) => {
+    /* Base variables */
+    const areSpecimensInvalid = wasValidated && !data.specimenRawList.trim();
 
     /* Function to update the specimenRawList field in the store on input change */
     const handleOnChangeTextarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        updateField('specimenRawList', e.target.value);
+        onUpdate({ specimenRawList: e.target.value });
     }
 
     /* Function to transform string to array of strings, clean it and check for duplicate items */
     const handleOnBlurTextarea = () => {
-        const rawArray = specimenRawList.split(/[\n,;]+/);
+        /* Regex depicts a split on either new line, comma or semicolon */
+        const rawArray = data.specimenRawList.split(/[\n,;]+/);
         const cleanArray = rawArray
-            .map((item: string) => item.trim())
-            .filter((item: string) => item.length > 0);
+            .map((item) => item.trim())
+            .filter((item) => item.length > 0);
         const uniqueDOIs = [...new Set(cleanArray)];
         
-        updateField('specimen', uniqueDOIs);
+        onUpdate({ specimens: uniqueDOIs });
     }
 
     return (
@@ -38,23 +49,24 @@ const SpecimenView = () => {
             </ul>
 
             {/* SPECIMEN FIELD */}
-            <div className="input-group">
+            <fieldset className="input-group">
                 <label htmlFor="form-specimen">Specimen DOIs</label>
                 <textarea 
                     id="form-specimen" 
                     name="specimen" 
-                    value={specimenRawList}
+                    value={data.specimenRawList}
                     onChange={handleOnChangeTextarea}
                     onBlur={handleOnBlurTextarea}
                     required
                     maxLength={2048}
                     aria-describedby="specimen-error"
+                    aria-invalid={areSpecimensInvalid ? "true" : "false"}
                     placeholder="Paste list of specimen DOIs here..."
                 />
                 <div className="form-error" id="specimen-error" aria-live="polite">
                     <p>Please enter the specimen DOIs for this Virtual Collection</p>
                 </div>
-            </div>
+            </fieldset>
         </div>
     )
 }

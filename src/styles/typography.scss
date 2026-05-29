@@ -63,3 +63,18 @@ button.helper-button {
     text-underline-offset: var(--spacing-xs);
     text-decoration-color: var(--indigo-5);
 }
+
+/* Form controls */
+input, textarea {
+    width: 100%;
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-sm);
+    font-size: var(--sm-font-size);
+    border: 1px solid var(--gray-a4);
+    resize: none;
+    margin-block-end: var(--spacing-sm);
+}
+
+input:focus, textarea:focus {
+    outline: 1px solid var(--indigo-11);
+}

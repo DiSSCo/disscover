@@ -59,7 +59,6 @@ button.helper-button {
     cursor: pointer;
     text-decoration: underline;
     font-weight: var(--medium-font-weight);
-    letter-spacing: 0.04px;
     text-underline-offset: var(--spacing-xs);
     text-decoration-color: var(--indigo-5);
 }
@@ -67,10 +66,8 @@ button.helper-button {
 /* Form controls */
 input, textarea {
     width: 100%;
-    border-radius: var(--border-radius-sm);
     padding: var(--spacing-sm);
     font-size: var(--sm-font-size);
-    border: 1px solid var(--gray-a4);
     resize: none;
     margin-block-end: var(--spacing-sm);
 }

@@ -65,9 +65,11 @@ $media-queries: (
 
     /* Border-radius */
     --border-radius-sm: 4px;
+    --border-radius-md: 6px;
 
     /* Container spacing */
     --general-card-width: 320px;
+    --medium-card-width: 360px;
     --general-card-height: 200px;
     --content-spacing: 600px;
     --citation-content-spacing: 92px;

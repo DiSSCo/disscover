@@ -62,6 +62,7 @@ const SpecimenView = ({data, onUpdate, wasValidated}: SpecimenViewProps) => {
                     aria-describedby="specimen-error"
                     aria-invalid={areSpecimensInvalid ? "true" : "false"}
                     placeholder="Paste list of specimen DOIs here..."
+                    className="form-input"
                 />
                 <div className="form-error" id="specimen-error" aria-live="polite">
                     <p>Please enter the specimen DOIs for this Virtual Collection</p>

@@ -54,7 +54,7 @@ button.helper-button {
     padding: 0;
     margin: 0;
     background: none;
-    font-size: 12px;
+    font-size: var(--xs-font-size);
     color: var(--indigo-11);
     cursor: pointer;
     text-decoration: underline;

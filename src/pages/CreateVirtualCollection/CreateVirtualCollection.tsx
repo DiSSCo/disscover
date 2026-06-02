@@ -43,7 +43,6 @@ const CreateVirtualCollection = () => {
     }
 
     const handleFormSubmit = () => {
-        console.log(collectionData);
         navigate('/virtual-collections');
     }
 

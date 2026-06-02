@@ -28,3 +28,6 @@ CVE-2026-4800
 
 # Vulnerability in image dependency nghttp2-libs that is included in the image and we cannot fix May-6-2026
 CVE-2026-27135
+
+# Vulnerability in image dependency libxml2 that is included in the image and we cannot fix June-2-2026
+CVE-2026-6732

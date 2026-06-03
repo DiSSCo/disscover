@@ -43,3 +43,23 @@ export const paginateItems = <T>(items: T[] | undefined, currentPage: number, ma
 export const sanitizeHtmlWrapper = (htmlString: string) => {
     return DOMPurify.sanitize(htmlString);
 }
+
+/**
+ * Util function to clean up and validate DOIs in string and convert to array
+ * @param doiInputString User input string
+ * @returns An array of cleaned up and validated DOIs that adhere to the provided regex
+ */
+export const cleanAndValidateDOIs = (doiInputString: string) => {
+    if (!doiInputString) return [];
+
+    /* Split by newline, comma or semicolon and trim whitespaces */
+    const rawDois = doiInputString
+        .split(/[n,;]+/)
+        .map((doi) => doi.trim())
+        .filter(doi => doi.length > 0);
+
+    /* DOI regex to check if string adheres to https://doi.org/TEST|SANDBOX|10.xxxx/xxx-xxx-xxx */
+    const doiRegex = /^(https?:\/\/(dx\.)?doi\.org\/)?(10\.\d{4,9}|TEST|SANDBOX)\/[-._;()/:A-Z0-9]+$/i;
+
+    return rawDois.filter(doi => doiRegex.test(doi));
+}

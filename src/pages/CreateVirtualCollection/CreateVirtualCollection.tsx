@@ -1,9 +1,11 @@
 /* Import components */
+import { RetrieveEnvVariable } from 'app/Utilities';
 import { Hero } from 'components/Hero/Hero';
 import MultiStepForm from 'components/MultiStepForm/MultiStepForm';
 import AboutView from 'components/MultiStepForm/views/AboutView';
 import ConfirmView from 'components/MultiStepForm/views/ConfirmView';
 import SpecimenView from 'components/MultiStepForm/views/SpecimensView';
+import { useCreateVirtualCollection } from 'hooks/useVirtualCollections';
 import { useState } from 'react';
 
 /* Import hooks */
@@ -42,8 +44,32 @@ const CreateVirtualCollection = () => {
         }));
     }
 
+    const { mutate } = useCreateVirtualCollection();
+
     const handleFormSubmit = () => {
-        navigate('/virtual-collections');
+        const requestBody = {
+            data: {
+                type: "ods:VirtualCollection",
+                attributes: {
+                    "ltc:collectionName": collectionData.title,
+                    "ltc:description": collectionData.description,
+                    "ltc:basisOfScheme": collectionData.type,
+                    "ods:hasTargetDigitalObjectFilter": {
+                        "ods:predicateType": "in",
+                        "ods:predicateKey": "$['dcterms:identifier']",
+                        "ods:predicateValues": collectionData.specimens
+                    }
+                }
+            }
+        }
+        mutate(requestBody, {
+            onSuccess: (response) => {
+                navigate(`${'/virtual-collections/' + response.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`);
+            },
+            onError: (error) => {
+                console.error("Failed to create collection:", error);
+            }
+        });
     }
 
     /* Form steps */

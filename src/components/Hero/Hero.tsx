@@ -115,7 +115,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                     <h1>{ title }</h1>
                 )}
                 {showCreateButton &&
-                    <Button variant="solid" disabled={!isAllowedToCreateVC}>
+                    <Button variant="solid" disabled={!isAllowedToCreateVC} onClick={() => navigate('/virtual-collections/create')}>
                         Create
                         <PlusIcon />
                     </Button>

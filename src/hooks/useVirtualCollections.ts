@@ -1,10 +1,11 @@
 /* Import dependencies */
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 /* Import services */
 import { getAllVirtualCollections } from 'services/virtualCollectionService/getAllVirtualCollections';
 import { getSelectedVirtualCollection } from 'services/virtualCollectionService/getSelectedVirtualCollection';
 import { getVirtualCollectionDetails } from 'services/virtualCollectionService/getVirtualCollectionDetails';
+import { postNewVirtualCollection } from 'services/virtualCollectionService/postNewVirtualCollection';
 
 /* Base constants */
 const staleTime = 1000 * 60 * 5; // How long until the time is stale
@@ -59,4 +60,16 @@ export const useSelectedVirtualCollection = ({ identifier }: { identifier: strin
         staleTime,
         gcTime,
     });
+}
+
+/**
+ * Hook that calls the postNewVirtualCollection service that creates a new Virtual Collection
+ * @returns The response of the service
+ */
+export const useCreateVirtualCollection = () => {
+    return useMutation({
+        mutationFn: (requestBody: any) => {
+            return postNewVirtualCollection(requestBody);
+        }
+    })
 }

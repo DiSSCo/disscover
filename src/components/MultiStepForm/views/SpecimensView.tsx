@@ -49,8 +49,8 @@ const SpecimenView = ({data, onUpdate, wasValidated}: SpecimenViewProps) => {
             </ul>
 
             {/* SPECIMEN FIELD */}
-            <fieldset className="input-group">
-                <label htmlFor="form-specimen">Specimen DOIs</label>
+            <div className="input-group">
+                <label htmlFor="form-specimen" className="form-label">Specimen DOIs</label>
                 <textarea 
                     id="form-specimen" 
                     name="specimen" 
@@ -67,7 +67,7 @@ const SpecimenView = ({data, onUpdate, wasValidated}: SpecimenViewProps) => {
                 <div className="form-error" id="specimen-error" aria-live="polite">
                     <p>Please enter the specimen DOIs for this Virtual Collection</p>
                 </div>
-            </fieldset>
+            </div>
         </div>
     )
 }

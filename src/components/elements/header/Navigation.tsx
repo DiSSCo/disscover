@@ -21,8 +21,7 @@ export const Navigation = () => {
     const navItems = [
         { url: '/search', label: 'Specimens' },
         { url: '/virtual-collections', label: 'Virtual Collections' },
-        ...(KeycloakService.IsLoggedIn() ? [{ url: '/data-export', label: 'Data Export' }] : []),
-        { url: '/about', label: 'About' }
+        ...(KeycloakService.IsLoggedIn() ? [{ url: '/data-export', label: 'Export Data' }] : [])
     ];
 
     /* Reusable dropdown content for the MyDiSSCover functionality */

@@ -18,7 +18,10 @@ const GetSourceSystems = async () => {
     try {
         const result = await axios({
             method: "get",
-            baseURL: `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`.replace('dev', 'dev-orchestration').replace('sandbox', 'acc.orchestration'),
+            baseURL: `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/api`
+                .replace('dev', 'dev-orchestration')
+                .replace('sandbox', 'acc.orchestration')
+                .replace('disscover.dissco.eu/api/', 'api.dissco.eu/'),
             url: endPoint,
             params: {
                 pageSize: 50

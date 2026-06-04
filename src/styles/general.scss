@@ -54,7 +54,7 @@ button.helper-button {
     resize: none;
     margin-block-end: var(--spacing-sm);
 
-    input:focus-visible, textarea:focus-visible {
+    &:focus-visible {
         outline: 1px solid var(--indigo-11);
     }
 }

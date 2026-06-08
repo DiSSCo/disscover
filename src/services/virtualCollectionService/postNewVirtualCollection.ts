@@ -17,7 +17,7 @@ export const postNewVirtualCollection = async (requestBody: any) => {
             throw new Error('Incorrect response format');
         }
 
-        /* Return response data */
+        /* Return response data with status of POST */
         return response.data.data;
     } catch (error) {
         /* If error, throw error with generic error message */

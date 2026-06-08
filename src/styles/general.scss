@@ -31,3 +31,31 @@ main {
 .btn-as-link:hover {
     text-decoration: underline;
 }
+
+button.helper-button {
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    font-size: var(--xs-font-size);
+    color: var(--indigo-11);
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: var(--medium-font-weight);
+    text-underline-offset: var(--spacing-xs);
+    text-decoration-color: var(--indigo-5);
+}
+
+/* Form controls */
+:is(input, textarea) {
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-size: var(--sm-font-size);
+    resize: none;
+    margin-block-end: var(--spacing-sm);
+
+    &:focus-visible {
+        outline: 1px solid var(--indigo-11);
+    }
+}
+

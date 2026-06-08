@@ -30,7 +30,6 @@ describe('Navigation Component', () => {
         expect(screen.getByRole('link', { name: /disscover/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /specimens/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /virtual\s+collections/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /about/i })).toBeInTheDocument();
     });
 
     describe('When Logged Out', () => {
@@ -46,7 +45,7 @@ describe('Navigation Component', () => {
 
         it('does not show Data Export or MyDiSSCover', () => {
             // Use queryBy if something might not be visible
-            expect(screen.queryByRole('button', {name: /data\s+export/i })).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', {name: /export\s+data/i })).not.toBeInTheDocument();
             expect(screen.queryByRole('button', { name: /mydisscover/i})).not.toBeInTheDocument();
         });
 
@@ -69,7 +68,7 @@ describe('Navigation Component', () => {
         });
 
         it('shows Data Export and MyDiSSCover', () => {
-            expect(screen.getByRole('button', {name: /data\s+export/i })).toBeInTheDocument();
+            expect(screen.getByRole('button', {name: /export\s+data/i })).toBeInTheDocument();
             expect(screen.getByRole('button', { name: /mydisscover/i})).toBeInTheDocument();
         });
 

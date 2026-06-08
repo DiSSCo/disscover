@@ -1,0 +1,205 @@
+.form-view-container {
+    h2 {
+        font-size: var(--md-font-size);
+        font-weight: var(--bold-font-weight);
+    }
+
+    p {
+        font-size: var(--sm-font-size);
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+
+        /* Specifically targeting the inputs here, due to specificity of Radix, Bootstrap and then the inputs */
+        .form-input {
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--sm-font-size);
+            font-weight: var(--medium-font-weight);
+            padding-block-end: var(--spacing-sm);
+            padding-block-start: var(--spacing-xl);
+            margin: 0;
+        }
+    
+        .form-error {
+            color: var(--error);
+            padding: var(--spacing-sm);
+            background-color: var(--error-background);
+            border-radius: var(--border-radius-sm);
+            p {
+                font-size: var(--sm-font-size);
+                margin: 0;
+            }
+        }
+    }
+}
+
+#about-view {
+    @extend .form-view-container;
+
+    #form-description {
+        height: var(--general-card-height);
+    }
+
+    .radio-card-fieldset {
+        border: none;
+        padding: 0;
+        margin: 0;
+
+        .form-label {
+            font-size: var(--sm-font-size);
+            font-weight: var(--medium-font-weight);
+            padding-block-end: var(--spacing-sm);
+            padding-block-start: var(--spacing-xl);
+            display: block;
+            margin: 0;
+        }
+
+        .radio-card-group {
+            display: flex;
+            flex-direction: column;
+
+            .radio-card-wrapper {
+                max-width: var(--medium-card-width);
+
+                /* Visually hide input but keep accessible */
+                .radio-card-input {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    padding: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    border: 0;
+
+                    &:checked + .radio-card-label {
+                        border: 2px solid var(--indigo-9);
+                    }
+
+                    &:focus-visible + .radio-card-label {
+                        outline: 2px solid var(--indigo-9);
+                    }
+
+                    &:disabled + .radio-card-label {
+                        border-color: var(--medium-gray);
+                        background-color: var(--light-gray);
+                        cursor: not-allowed;
+                        opacity: 0.6;
+                    }
+                }
+
+                .radio-card-label {
+                    display: block;
+                    padding: var(--spacing-m);
+                    border: 1px solid var(--medium-gray);
+                    border-radius: var(--border-radius-md);
+                    cursor: pointer;
+                    text-align: center;
+
+                    .radio-card-title {
+                        font-size: var(--sm-font-size);
+                        font-weight: var(--medium-font-weight);
+                        margin: 0;
+                    }
+
+                    .radio-card-description {
+                        color: var(--dark-gray);
+                        font-size: var(--xs-font-size);
+                    }
+                }
+            }
+        }
+    }
+
+    #form-type-subtitle {
+        max-width: var(--medium-card-width);
+        font-size: var(--xs-font-size);
+        color: var(--dark-gray);
+        padding-block-start: var(--spacing-sm);
+    }
+}
+
+/* Specimen view overrides */
+#specimen-view {
+    @extend .form-view-container;
+
+    ul {
+        margin: 0;
+        li {
+            font-size: var(--sm-font-size);
+        }
+    }
+    #form-description, #form-specimen {
+        height: 200px;
+    }
+}
+
+/* Confirm view overrides */
+#confirm-view {
+    @extend .form-view-container;
+
+    .form-review-container {
+        padding: var(--spacing-sm);
+        background-color: var(--gray-a2);
+        margin-block-start: var(--spacing-xl);
+        border-radius: var(--border-radius-sm);
+
+        h3 {
+            font-size: var(--sm-font-size);
+            font-weight: var(--bold-font-weight);
+            margin: 0;
+        }
+
+        h4 {
+            font-size: var(--sm-font-size);
+            font-weight: var(--semi-bold-font-weight);
+            padding-block-start: var(--spacing-m);
+            padding-block-end: var(--spacing-xs);
+            margin: 0;
+        }
+
+        .form-review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .clamped-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #specimen-list {
+            max-height: var(--general-card-height);
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            &::-webkit-scrollbar {
+                width: var(--spacing-sm);
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: var(--medium-gray);
+                border-radius: var(--border-radius-sm);
+                
+                &:hover {
+                    background: var(--medium-gray);
+                }
+            }
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--medium-gray) transparent;
+        }
+    }
+}

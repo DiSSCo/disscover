@@ -5,15 +5,18 @@ import { Button } from '@radix-ui/themes';
 import './MultiStepForm.scss';
 
 /* Import dependencies */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 /* Import components */
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 
 interface Props {
-    steps: { title?: string, view: JSX.Element }[];
-    handleCancel: { title: string, action: () => void };
-    handleSubmit: { title: string, action: () => void };
+    steps: { 
+        title?: string; 
+        render: (goToStep: (stepIndex: number) => void, wasValidated?: boolean | undefined) => JSX.Element; 
+    }[];
+    handleCancel: { title: string; action: () => void };
+    handleSubmit: { title: string; action: () => void };
 }
 
 /**
@@ -26,12 +29,22 @@ interface Props {
 const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
     /* Base variables */
     const [currentStep, setCurrentStep] = useState(0);
+    const formRef = useRef<HTMLFormElement>(null);
+    const [wasValidated, setWasValidated] = useState(false);
     const isFirstStep = currentStep === 0;
     const isLastStep = currentStep === steps.length - 1;
 
     /* Form navigation */
     const handleNextStep = () => {
-        if (!isLastStep) setCurrentStep((previousStep) => previousStep + 1);
+        if (formRef.current) {
+            if (formRef.current.checkValidity()) {
+                setWasValidated(false);
+                setCurrentStep(currentStep + 1);
+            } else {
+                setWasValidated(true);
+                formRef.current.reportValidity();
+            }
+        }
     }
     const handlePreviousStep = () => {
         if (!isFirstStep) setCurrentStep((previousStep) => previousStep - 1);
@@ -43,22 +56,34 @@ const MultiStepForm = ({ steps, handleCancel, handleSubmit }: Props) => {
         handleSubmit.action();
     }
 
+    /* Prevent native required popup to appear on validating the form */
+    const handleInvalid = (e: React.FormEvent) => {
+        e.preventDefault();
+    };
+
     return (
-        <form id="multi-step-form" onSubmit={onSubmit}>
+        <form
+            id="multi-step-form"
+            onSubmit={onSubmit}
+            className={wasValidated ? 'was-validated' : ''} 
+            ref={formRef}
+            onInvalidCapture={handleInvalid}
+        >
             <div id="multi-step-form-header">
-                {steps.map(({title}, index) => {
+                {steps.map(({ title }, index) => {
                     return (
-                        <div key={`step-` + title} className="form-step-container">
-                            <span className={`form-step-indicator ${currentStep === index ? 'active-form-step' : ''}`}></span>
+                        <div key={`step-` + (title || index)} className="form-step-container">
+                            <span className={`form-step-indicator ${currentStep === index || currentStep > index ? 'active-form-step' : ''}`}></span>
                             <span className="form-step-title">{index + 1}. {title}</span>
                         </div>
                     )
-                })
-                }
+                })}
             </div>
+            
             <div id="multi-step-form-content" aria-live="polite">
-                {steps[currentStep]?.view}
+                {steps[currentStep]?.render((stepIndex) => setCurrentStep(stepIndex), wasValidated)}
             </div>
+
             <div id="multi-step-form-navigation">
                 {isFirstStep &&
                     <Button type="button" variant="soft" onClick={() => handleCancel.action()}>

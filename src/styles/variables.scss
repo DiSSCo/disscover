@@ -18,7 +18,7 @@ $media-queries: (
 :root {
     /* Background colors */
     --background-white: var(--disscover-blueberry-contrast);
-    --background-gray: var(--gray-a2);
+    --background-gray: var(--gray-a3);
     --divider-gray: var(--gray-a4);
 
     /* Font family*/
@@ -40,6 +40,7 @@ $media-queries: (
     --light-font-weight: 300;
     --regular-font-weight: 400;
     --medium-font-weight: 500;
+    --semi-bold-font-weight: 600;
     --bold-font-weight: 700;
 
     /* Breakpoints */
@@ -62,8 +63,13 @@ $media-queries: (
     /* Very specific spacing */
     --odd-spacing-xs: 3px;
 
+    /* Border-radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 6px;
+
     /* Container spacing */
     --general-card-width: 320px;
+    --medium-card-width: 360px;
     --general-card-height: 200px;
     --content-spacing: 600px;
     --citation-content-spacing: 92px;

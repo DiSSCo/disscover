@@ -1,10 +1,13 @@
 import apiClient from 'services/apiClient';
 
+/* Import types */
+import { NewVirtualCollectionRequest } from 'types/Types';
+
 /**
  * Service that creates a new Virtual Collection by POST through the apiClient
  * @returns The result of the create, either successful or error
  */
-export const postNewVirtualCollection = async (requestBody: any) => {
+export const postNewVirtualCollection = async (requestBody: NewVirtualCollectionRequest) => {
     try {
         /* Call service and wait for response */
         const response = await apiClient.post(

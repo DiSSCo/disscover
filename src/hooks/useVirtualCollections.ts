@@ -7,6 +7,9 @@ import { getSelectedVirtualCollection } from 'services/virtualCollectionService/
 import { getVirtualCollectionDetails } from 'services/virtualCollectionService/getVirtualCollectionDetails';
 import { postNewVirtualCollection } from 'services/virtualCollectionService/postNewVirtualCollection';
 
+/* Import types */
+import { NewVirtualCollectionRequest } from 'types/Types';
+
 /* Base constants */
 const staleTime = 1000 * 60 * 5; // How long until the time is stale
 const gcTime = 1000 * 60 * 10; // Cache time: How long to store it in the cache
@@ -68,7 +71,7 @@ export const useSelectedVirtualCollection = ({ identifier }: { identifier: strin
  */
 export const useCreateVirtualCollection = () => {
     return useMutation({
-        mutationFn: (requestBody: any) => {
+        mutationFn: (requestBody: NewVirtualCollectionRequest) => {
             return postNewVirtualCollection(requestBody);
         }
     })

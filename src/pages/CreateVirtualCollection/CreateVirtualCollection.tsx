@@ -1,15 +1,17 @@
-/* Import components */
+/* Import dependencies */
 import { RetrieveEnvVariable } from 'app/Utilities';
+import { useState } from 'react';
+
+/* Import components */
 import { Hero } from 'components/Hero/Hero';
 import MultiStepForm from 'components/MultiStepForm/MultiStepForm';
 import AboutView from 'components/MultiStepForm/views/AboutView';
 import ConfirmView from 'components/MultiStepForm/views/ConfirmView';
 import SpecimenView from 'components/MultiStepForm/views/SpecimensView';
-import { useCreateVirtualCollection } from 'hooks/useVirtualCollections';
-import { useState } from 'react';
 
 /* Import hooks */
 import { useNavigate } from 'react-router-dom';
+import { useCreateVirtualCollection } from 'hooks/useVirtualCollections';
 
 /* Interface VirtualCollectionData */
 interface VirtualCollectionData {

@@ -55,7 +55,7 @@ const CreateVirtualCollection = () => {
                     "ltc:description": collectionData.description,
                     "ltc:basisOfScheme": collectionData.type,
                     "ods:hasTargetDigitalObjectFilter": {
-                        "ods:predicateType": "in",
+                        "ods:predicateType": "equals",
                         "ods:predicateKey": "$['dcterms:identifier']",
                         "ods:predicateValues": collectionData.specimens
                     }

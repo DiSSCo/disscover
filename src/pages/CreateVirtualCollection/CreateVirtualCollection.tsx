@@ -66,7 +66,7 @@ const CreateVirtualCollection = () => {
         }
         mutate(requestBody, {
             onSuccess: (response) => {
-                navigate(`${'/virtual-collections/' + response.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`);
+                navigate(`/virtual-collections/${response.id.replace(RetrieveEnvVariable('HANDLE_URL'), '')}`);
             },
             onError: (error) => {
                 console.error("Failed to create collection:", error);

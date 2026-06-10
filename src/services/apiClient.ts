@@ -2,7 +2,7 @@ import KeycloakService from 'app/Keycloak';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: `${globalThis.location.protocol}//${globalThis.location.hostname}${globalThis.location.port ? ':' + globalThis.location.port : ''}/api`,
+  baseURL: `${globalThis.location.origin}/api`,
   headers: {
     'Content-Type': 'application/json'
   },

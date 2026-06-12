@@ -4,6 +4,9 @@ import { ChangeEvent } from "react";
 /* Import styling */
 import "./Views.scss";
 
+/* Import utils */
+import { cleanAndValidateDOIs } from "utils/Utils";
+
 /* SpecimenView interface */
 interface SpecimenViewProps {
     data: {
@@ -29,12 +32,7 @@ const SpecimenView = ({data, onUpdate, wasValidated}: SpecimenViewProps) => {
 
     /* Function to transform string to array of strings, clean it and check for duplicate items */
     const handleOnBlurTextarea = () => {
-        /* Regex depicts a split on either new line, comma or semicolon */
-        const rawArray = data.specimenRawList.split(/[\n,;]+/);
-        const cleanArray = rawArray
-            .map((item) => item.trim())
-            .filter((item) => item.length > 0);
-        const uniqueDOIs = [...new Set(cleanArray)];
+        const uniqueDOIs = cleanAndValidateDOIs(data.specimenRawList);
         
         onUpdate({ specimens: uniqueDOIs });
     }

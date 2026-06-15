@@ -36,9 +36,9 @@ type Props = {
  * @param description String with description of the page
  * @param badge Array of strings to show one or more badges
  * @param navigateTo Object with pathName and text to make navigation functionality available
- * @param share Boolean that indicates if the URL should be shareable
+ * @param showShareButton Boolean that indicates if the URL should be shareable
  * @param details Object with detail information of a particular VC
- * @param create Boolean that indicates if the functionality for creating a VC should be working
+ * @param showCreateButton Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
 export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate }: Props) => {
@@ -114,8 +114,8 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 ) : (
                     <h1>{ title }</h1>
                 )}
-                {showCreateButton &&
-                    <Button variant="solid" disabled={!isAllowedToCreateVC} onClick={() => navigate('/virtual-collections/create')}>
+                {showCreateButton && isAllowedToCreateVC &&
+                    <Button variant="solid" onClick={() => navigate('/virtual-collections/create')}>
                         Create
                         <PlusIcon />
                     </Button>

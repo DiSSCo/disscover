@@ -54,7 +54,7 @@ export const cleanAndValidateDOIs = (doiInputString: string) => {
 
     /* Split by newline, comma or semicolon and trim whitespaces */
     const rawDois = doiInputString
-        .split(/[n,;]+/)
+        .split(/[\n,;]+/)
         .map((doi) => doi.trim())
         .filter(doi => doi.length > 0);
 

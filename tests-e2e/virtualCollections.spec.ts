@@ -1,10 +1,15 @@
 /* Import test helpers */
 import { test, expect } from '@playwright/test';
 import { testUrls } from './test-utils';
+import { mockGetSelectedVirtualCollection, mockGetVirtualCollectionDetails, mockGetVirtualCollections } from './mocks/routes/routeMocks';
 
 /* Virtual Collections flow E2E test suite */
 test.describe('Virtual Collections', () => {
     test('should open the content of a virtual collection and route to the digital specimen page of a specific collection', async ({ page }) => {
+        await mockGetVirtualCollections(page);
+        await mockGetSelectedVirtualCollection(page);
+        await mockGetVirtualCollectionDetails(page);
+
         // Given a user goes to the virtual collections page
         await page.goto(testUrls.virtualCollections);
 
@@ -23,6 +28,10 @@ test.describe('Virtual Collections', () => {
         await expect(page).toHaveURL(/\/ds\/TEST\//);
     });
     test('should route to the virtual collection details page and back', async ({ page }) => {
+        await mockGetVirtualCollections(page);
+        await mockGetSelectedVirtualCollection(page);
+        await mockGetVirtualCollectionDetails(page);
+
         // Given a user goes to the virtual collections page
         await page.goto(testUrls.virtualCollections);
 
@@ -41,6 +50,10 @@ test.describe('Virtual Collections', () => {
         await expect(page).toHaveURL(/\/virtual-collections/);
     });
     test('should use paginator to go through virtual collections', async ({ page }) => {
+        await mockGetVirtualCollections(page);
+        await mockGetSelectedVirtualCollection(page);
+        await mockGetVirtualCollectionDetails(page);
+
         // Given a user goes to the virtual collections page
         await page.goto(testUrls.virtualCollections);
 

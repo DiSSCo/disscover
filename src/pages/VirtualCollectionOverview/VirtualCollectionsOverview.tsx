@@ -23,19 +23,19 @@ import { paginateItems } from "utils/Utils";
  * @returns JSX Component
  */
 const VirtualCollections = () => {
-    /* Calling the Virtual Collections hook */
-    const { data, isLoading, isError } = useVirtualCollections();
-
     /* Base variables */
     const [currentPage, setCurrentPage] = useState(1);
-    const maxPerPage = 24;
+    const maxPerPage = 60;
+
+    /* Calling the Virtual Collections hook */
+    const { data, meta, isLoading, isError } = useVirtualCollections({ pageSize: maxPerPage, pageNumber: currentPage });
 
     /* This will become more generic after migrating more services */
     if (isLoading) return <main><p>Retrieving the Virtual Collections...</p></main>;
     if (isError) return <main><p>Something went wrong with fetching the Virtual Collections. Please try again later.</p></main>;
 
     /* Use pagination */
-    const { currentItems, totalAmount } = paginateItems(data, currentPage, maxPerPage);
+    const { currentItems, totalAmount } = paginateItems(data, currentPage, maxPerPage, meta?.totalRecords);
 
     return (
         <>

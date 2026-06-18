@@ -104,7 +104,7 @@ const VirtualCollectionDetails = () => {
                     onPageChange={(page) => setCurrentPage(page)}
                     currentPage={currentPage}
                     maxPerPage={maxPerPage}
-                    content="collections"
+                    content="items"
                 />
             </main>
             : <main>

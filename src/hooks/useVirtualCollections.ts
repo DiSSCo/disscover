@@ -16,15 +16,24 @@ const gcTime = 1000 * 60 * 10; // Cache time: How long to store it in the cache
 
 /**
  * Hook that calls the getAllVirtualCollections service and stores it in a key to be reused
+ * Takes pageSize and pageNumber as a parameter object
  * @returns The response of the service
  */
-export const useVirtualCollections = () => {
-    return useQuery({
-        queryKey: ['virtualCollections'],
-        queryFn: getAllVirtualCollections,
+export const useVirtualCollections = ({ pageSize, pageNumber }: { pageSize: number, pageNumber?: number }) => {
+    const page = pageNumber ?? 1;
+
+    const queryResult = useQuery({
+        queryKey: ['virtualCollections', { pageNumber, pageSize: page }],
+        queryFn: () => getAllVirtualCollections({ pageSize, pageNumber: page }),
         staleTime,
         gcTime,
     });
+
+    return {
+        ...queryResult,
+        data: queryResult.data?.data,
+        meta: queryResult.data?.meta,
+    };
 };
 
 /**

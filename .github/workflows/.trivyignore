@@ -14,6 +14,9 @@ CVE-2026-33671
 # underscore is a fixed dependency of jsonpath and cannot be upgraded by us Jun-12-2026
 CVE-2026-27601
 
+# form-data is a dependency of two other packages and it cannot be automatically updated Jun-18-2026
+CVE-2026-12143
+
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Jun-12-2026
 CVE-2026-45447

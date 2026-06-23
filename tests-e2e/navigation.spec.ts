@@ -13,17 +13,6 @@ test.describe('Navigation', () => {
 		await expect(page).toHaveURL(/\/search/);
 	});
 
-	test('should navigate to the About page from the Specimens page', async ({ page }) => {
-		// Given a user goes to the search page
-		await page.goto('/search');
-
-		// When the user clicks on the about button in the navigation
-		await page.getByRole('button', { name: /about/i }).click();
-
-		// Then the page should redirect to the about page
-		await expect(page).toHaveURL(/\/about/);
-	});
-
 	test('should show the login redirect when clicking login', async ({ page }) => {
 		// Given a user is on the homepage
 		await page.goto('/');

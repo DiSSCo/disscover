@@ -9,9 +9,6 @@ import { Badge } from '@radix-ui/themes';
 import { useClipboard } from 'hooks/useClipboard';
 
 /* Import utils */
-import { RetrieveEnvVariable } from 'app/Utilities';
-
-/* Import utils */
 import { sanitizeHtmlWrapper } from 'utils/Utils';
 
 type Props = {
@@ -21,14 +18,21 @@ type Props = {
         isHtml: boolean;
         type: string;
 		hidden: boolean;
-    }
+    },
+	extraItem?: {
+		label: string;
+        value: string;
+        isHtml: boolean;
+        type: string;
+		hidden: boolean;
+	}
 }
 
 /**
  * Renders a single row of data.
  * If the value is missing/null, it returns null to hide the row.
  */
-export const LabelValuePair = ({ item }: Props) => {
+export const LabelValuePair = ({ item, extraItem }: Props) => {
 	/* Base variables */
 	const { copy } = useClipboard();
 
@@ -39,10 +43,14 @@ export const LabelValuePair = ({ item }: Props) => {
 		switch (item.type) {
 			case 'url':
 				return (
-					<a href={item.value} target="_blank" rel="noopener noreferrer">
-						Catalogue of Life
-						<ExternalLinkIcon></ExternalLinkIcon>
-					</a>
+					<div className="taxonomic-status">
+						<a href={item.value} target="_blank" rel="noopener noreferrer">
+							Catalogue of Life
+							<ExternalLinkIcon></ExternalLinkIcon>
+						</a>
+						{extraItem?.value && <Badge color="green">{extraItem.value}</Badge>}
+					</div>
+
 				);
 			case 'verbatim':
 				return (
@@ -54,7 +62,7 @@ export const LabelValuePair = ({ item }: Props) => {
 			case 'copy':
 				return (
 					<button className="btn-as-link" onClick={() => copy(item?.value)}>
-						{item?.value.replace(RetrieveEnvVariable('DOI_URL'), '')}
+						{item?.value}
 						<CopyIcon />
 					</button>
 				)
@@ -72,10 +80,7 @@ export const LabelValuePair = ({ item }: Props) => {
   
     return (
 		<div className="property-row-fragment">
-			{item.type === 'verbatim' ?
-				<span className="property-label verbatim">{item.label}</span>
-				: <span className="property-label">{item.label}</span>
-			}
+			<span className={"property-label " + (item.type === 'verbatim' ? "verbatim" : "")}>{item.label}</span>
 		
 			<span className="property-value">
 				{setCorrectItemType()}

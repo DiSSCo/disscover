@@ -1,6 +1,10 @@
 /* Import components */
-import { DigitalSpecimenCard } from 'components/Cards/DigitalSpecimenCard/DigitalSpecimenCard';
 import { Hero } from 'components/Hero/Hero';
+import { SpecimenRecordCard } from 'components/Cards/SpecimenRecordCard';
+import { IdentificationCard } from 'components/Cards/IdentificationCard';
+import { GeoreferenceCard } from 'components/Cards/GeoreferenceCard';
+import { CollectingEventCard } from 'components/Cards/CollectingEventCard';
+import { CitationLicenseCard } from 'components/Cards/CitationLicenseCard';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
@@ -8,7 +12,7 @@ import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
 
-const DigitalSpecimenDetails = () => {
+const DigitalSpecimenOverview = () => {
     /* Base variables */
     const url = new URL(globalThis.location.href);
     const segments = url.pathname.split('/');
@@ -32,17 +36,17 @@ const DigitalSpecimenDetails = () => {
             </Hero>
             <main className="digital-specimen-container">
                 <div id="ds-left-column">
-                    <DigitalSpecimenCard cardHeader="Specimen record" fragment={specimen.SPECIMEN_RECORD}/>
-                    <DigitalSpecimenCard cardHeader="Identification" annotate={true} fragment={specimen.IDENTIFICATION}/>
+                    <SpecimenRecordCard fragment={specimen.SPECIMEN_RECORD}></SpecimenRecordCard>
+                    <IdentificationCard fragment={specimen.IDENTIFICATION}></IdentificationCard>
                 </div>
                 <div id="ds-right-column">
-                    <DigitalSpecimenCard cardHeader="Location" annotate={true} fragment={specimen.LOCATION} georeference={true}/>
-                    <DigitalSpecimenCard cardHeader="Collecting event" fragment={specimen.COLLECTING_EVENT}/>
-                    <DigitalSpecimenCard cardHeader="Citation and license" copy={true} fragment={specimen.CITATION_LICENSE} citation={true}/>
+                    <GeoreferenceCard fragment={specimen.LOCATION}></GeoreferenceCard>
+                    <CollectingEventCard fragment={specimen.COLLECTING_EVENT}></CollectingEventCard>
+                    <CitationLicenseCard fragment={specimen.CITATION_LICENSE}></CitationLicenseCard>
                 </div>
             </main>
         </>
     );
 };
 
-export default DigitalSpecimenDetails;
+export default DigitalSpecimenOverview;

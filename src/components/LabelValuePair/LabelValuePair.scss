@@ -3,13 +3,21 @@
 
     .property-label {
         font-size: var(--sm-font-size);
-        font-weight: var(--medium-font-weight);
+        font-weight: var(--semi-bold-font-weight);
     }
 
     .verbatim {
         font-size: var(--xs-font-size);
         color: var(--dark-gray);
+        font-weight: var(--regular-font-weight);
     }
+
+    .taxonomic-status {
+        a {
+            margin-inline-end: 8px;
+        }
+    }
+
     .property-value {
         font-size: var(--sm-font-size);
         font-weight: var(--regular-font-weight);

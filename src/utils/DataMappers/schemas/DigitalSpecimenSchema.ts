@@ -29,8 +29,12 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             resolve: (ds) => ds["dwc:basisOfRecord"]
         },
         discipline: {
-            label: 'Discipline',
+            label: 'Topic Discipline',
             resolve: (ds) => ds["dwc:topicDiscipline"]
+        },
+        virtualCollection: {
+            label: 'In Virtual Collection(s)',
+            resolve: (_) => 'Unknown'
         }
     },
   
@@ -45,7 +49,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             },
         },
         verbatimName: {
-            label: 'Identification Verbatim',
+            label: 'Verbatim Scientific Name',
             type: 'verbatim',
             resolve: (ds) => ds["ods:hasIdentifications"]?.[0]?.["dwc:verbatimIdentification"]
         },
@@ -53,10 +57,15 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             label: 'Rank',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonRank"]
         },
-        taxonomicStatus: {
+        catalogueOfLife: {
             label: 'Taxonomic Status',
             type: 'url',
             resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
+        },
+        taxonomicStatus: {
+            label: 'Taxonomic Status',
+            type: 'url',
+            resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonomicStatus"]
         },
         kingdom: {
             label: 'Kingdom',

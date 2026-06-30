@@ -71,3 +71,51 @@ test.describe('Virtual Collections', () => {
         await expect(secondPagePaginator).toBeVisible();
     });
 });
+
+test.describe('Create a Virtual Collection and everything is successfull', () => {
+    test('should go through the \'Create a virtual collection\' flow via the button on the VC page', async ({ page }) => {
+        await mockGetVirtualCollections(page);
+        await mockGetSelectedVirtualCollection(page);
+        await mockGetVirtualCollectionDetails(page);
+
+        // Given a user goes to the create a virtual collection page
+        await page.goto(testUrls.createVirtualCollection);
+
+        // When a user fails to fill in anything and clicks on the next
+        const nextButton = page.getByRole('button', { name: 'Next' });
+        await nextButton.click();
+
+        // Then the validation for the form should be shown
+        const titleValidation = page.getByText('Please enter a title.');
+        const descriptionValidation = page.getByText('Please describe your virtual collection.');
+        await expect(titleValidation).toBeVisible();
+        await expect(descriptionValidation).toBeVisible();
+
+        // When a user fills in title and description for a new virtual collection
+        await page.getByLabel('Title').fill('Dinosaur Virtual Collection');
+        await page.getByLabel('Description').fill('This Virtual Collection contains the coolest dinosaurs ever to walk the earth');
+
+        // Then the user should be able to proceed to the next page by clicking on the next button
+        await nextButton.click();
+
+        // When a user fails to fill in DOIs and tries to proceed to the next page
+        const specimenInput = page.getByLabel('Specimen DOIs');
+        await expect(specimenInput).toBeVisible();
+        await nextButton.click();
+
+        // Then the validation for the form should be shown
+        const specimenValidation = page.getByText('Please enter the specimen DOIs for this Virtual Collection');
+        await expect(specimenValidation).toBeVisible();
+
+        // When the user fills in a few DOIs and proceeds to the next page
+        await specimenInput.fill('https://doi.org/TEST/JDE-CGV-GNV, https://doi.org/TEST/W34-SKK-58F');
+        await nextButton.click();
+
+        // Then the user should see the confirm page with filled in information
+        await expect(page.getByText('Review and confirm')).toBeVisible();
+
+        // Then the request can be confirmed by clicking on the create collection button
+        const createCollectionButton = page.getByRole('button', { name: 'Create collection' });
+        await createCollectionButton.click();
+    });
+});

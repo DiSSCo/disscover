@@ -37,5 +37,6 @@ export async function checkA11y(page: any, pageName: string, options?: any) {
 export const testUrls = {
     home: '/',
     about: '/about',
-    virtualCollections: '/virtual-collections',   
+    virtualCollections: '/virtual-collections',
+    createVirtualCollection: '/virtual-collections/create'
 }

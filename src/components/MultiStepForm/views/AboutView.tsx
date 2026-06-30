@@ -90,7 +90,7 @@ const AboutView = ({data, onUpdate, wasValidated}: AboutViewProps) => {
                         />
                         
                         <label htmlFor={option.id} className="radio-card-label">
-                            <h4 className="radio-card-title">{option.title}</h4>
+                            <p className="radio-card-title">{option.title}</p>
                             <p className="radio-card-description">{option.description}</p>
                         </label>
                     </div>

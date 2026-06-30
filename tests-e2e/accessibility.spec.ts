@@ -89,7 +89,7 @@ test.describe('Accessibility', () => {
 		const resultsViewOne = await checkA11y(page, 'Create Virtual Collection flow view 1');
 
 		// And the results should be 0
-		expect(resultsViewOne.length).toBe(0);
+		expect(resultsViewOne).toHaveLength(0);
 
         // When a user fills in title and description for a new virtual collection and clicks next
         const nextButton = page.getByRole('button', { name: 'Next' });
@@ -101,7 +101,7 @@ test.describe('Accessibility', () => {
 		const resultsViewTwo = await checkA11y(page, 'Create Virtual Collection flow view 2');
 
 		// And the results should be 0
-		expect(resultsViewTwo.length).toBe(0);
+		expect(resultsViewTwo).toHaveLength(0);
         
         // When the user fills in a few DOIs and proceeds to the next page
         const specimenInput = page.getByLabel('Specimen DOIs');
@@ -112,6 +112,6 @@ test.describe('Accessibility', () => {
 		const resultsViewThree = await checkA11y(page, 'Create Virtual Collection flow view 3');
 
 		// And the results should be 0
-		expect(resultsViewThree.length).toBe(0);
+		expect(resultsViewThree).toHaveLength(0);
     });
 });

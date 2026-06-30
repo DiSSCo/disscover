@@ -36,11 +36,11 @@ export const Navigation = () => {
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content size="2">
                 <>
-                    <DropdownMenu.Item>
-                        <Link to="/profile" className="navigation-link">Profile</Link>
+                    <DropdownMenu.Item asChild>
+                        <button onClick={() => navigate('/profile')}>Profile</button>
                     </DropdownMenu.Item>
                     <DropdownMenu.Item asChild>
-                        <button className="login-btn" onClick={() => KeycloakService.Logout()}>Logout</button>
+                        <button onClick={() => KeycloakService.Logout()}>Logout</button>
                     </DropdownMenu.Item>
                 </>
                 </DropdownMenu.Content>
@@ -55,7 +55,9 @@ export const Navigation = () => {
             {/* Desktop navigation */}
             <ul className="desktop-nav">
                 {navItems.map((item) => (
-                    <li key={item.url}><Button variant="ghost" className="nav-buttons" onClick={() => navigate(item.url)}>{item.label}</Button></li>
+                    <li key={item.url}>
+                        <Button variant="ghost" className={"nav-buttons " + (item.url === globalThis.location.pathname ? "active-menu-item" : "")} onClick={() => navigate(item.url)}>{item.label}</Button>
+                    </li>
                 ))}
                 {KeycloakService.IsLoggedIn() ?
                     <li>

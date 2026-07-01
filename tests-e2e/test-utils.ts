@@ -37,5 +37,5 @@ export async function checkA11y(page: any, pageName: string, options?: any) {
 
 /* Utility function to execute all promises for setting up mock data for testing */
 export async function setUpMockData(page: any) {
-  Promise.all([mockGetVirtualCollections(page), mockGetSelectedVirtualCollection(page), mockGetVirtualCollectionDetails(page)]);
+  await Promise.all([mockGetVirtualCollections(page), mockGetSelectedVirtualCollection(page), mockGetVirtualCollectionDetails(page)]);
 }

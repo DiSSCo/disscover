@@ -17,6 +17,7 @@ export const ImageCard = ({ specimen }: Props ) => {
     const altText = `Image of ${specimen.IDENTIFICATION.scientificName.value}`;
     const allImages = specimen?.DIGITAL_MEDIA.map((item: any) => { return item['digitalMediaObject'] });
     const [correctImageFormats, setCorrectImageFormats] = useState<ImageFormat[]>([]);
+    const [mainImage, setMainImage] = useState(firstImageOfImages);
 
     useEffect(() => {
         (async () => {
@@ -38,22 +39,22 @@ export const ImageCard = ({ specimen }: Props ) => {
         <div className="digital-media-container">
             <div className="digital-media-card">
                 <a href={`/dm/${specimen?.DIGITAL_MEDIA?.[0]?.['digitalMediaObject']?.["@id"].replace(RetrieveEnvVariable('DOI_URL'), '')}`}>
-                    <img src={firstImageOfImages} alt={altText} className="digital-media-card-image" />
+                    <img src={mainImage} alt={altText} className="digital-media-card-image" />
                 </a>
             </div>
             { correctImageFormats && 
                 <div className="digital-media-list">
                     { correctImageFormats.map((image: any) => {
                         return (
-                            <a
+                            <button
                                 key={image?.['id']}
-                                href={`/dm/${image?.['id'].replace(RetrieveEnvVariable('DOI_URL'), '')}`}
+                                onClick={() => setMainImage(image?.['img'])}
                             >
                                 <img
                                     src={image.img} alt={"Image for " + image['id']}
-                                    className={image.img === firstImageOfImages ? 'active' : ''}
+                                    className={image.img === mainImage ? 'active' : ''}
                                 />
-                            </a>
+                            </button>
                         )
                     })}
                 </div>

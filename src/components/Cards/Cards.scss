@@ -67,7 +67,9 @@
         margin-block-start: var(--spacing-sm);
         position: sticky;
 
-        a {
+        button {
+            border: none;
+
             img {
                 width: 80px;
                 height: 80px;

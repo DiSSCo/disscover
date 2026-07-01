@@ -11,6 +11,7 @@ import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
+import { ImageCard } from 'components/Cards/ImageCard';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
@@ -18,6 +19,7 @@ const DigitalSpecimenOverview = () => {
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
+    const hasImages = specimen?.DIGITAL_MEDIA?.length > 0;
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
     if (!specimen) return <main><p>No data found</p></main>
@@ -30,16 +32,29 @@ const DigitalSpecimenOverview = () => {
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
                 isHtml={specimen?.IDENTIFICATION?.scientificName?.value?.isHtml}
-                badge={[{ content: specimen?.UI_COMPONENTS_DATA?.taxonRank.value.toLowerCase(), type: 'solid', color: 'grass'}, { content: specimen?.UI_COMPONENTS_DATA?.typeStatus.value, type: 'solid', color: 'sky'}]}
+                badge={[{ content: specimen?.UI_COMPONENTS_DATA?.taxonRank?.value?.toLowerCase(), type: 'solid', color: 'grass'}, { content: specimen?.UI_COMPONENTS_DATA?.typeStatus.value, type: 'solid', color: 'sky'}]}
                 annotate={true}
             >
             </Hero>
             <main className="digital-specimen-container">
                 <div id="ds-left-column">
-                    <SpecimenRecordCard fragment={specimen.SPECIMEN_RECORD}></SpecimenRecordCard>
-                    <IdentificationCard fragment={specimen.IDENTIFICATION}></IdentificationCard>
+                    { hasImages ? (
+                        <ImageCard specimen={specimen}></ImageCard>
+                    ) : (
+                        <>
+                            <SpecimenRecordCard fragment={specimen.SPECIMEN_RECORD}></SpecimenRecordCard>
+                            <IdentificationCard fragment={specimen.IDENTIFICATION}></IdentificationCard>
+                        </>
+                    )}
+                    
                 </div>
                 <div id="ds-right-column">
+                    { hasImages && (
+                        <>
+                            <SpecimenRecordCard fragment={specimen.SPECIMEN_RECORD}></SpecimenRecordCard>
+                            <IdentificationCard fragment={specimen.IDENTIFICATION}></IdentificationCard>
+                        </>
+                    )}
                     <GeoreferenceCard fragment={specimen.LOCATION}></GeoreferenceCard>
                     <CollectingEventCard fragment={specimen.COLLECTING_EVENT}></CollectingEventCard>
                     <CitationLicenseCard fragment={specimen.CITATION_LICENSE}></CitationLicenseCard>

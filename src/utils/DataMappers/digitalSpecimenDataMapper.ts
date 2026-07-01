@@ -61,3 +61,19 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
         })
     ) as unknown as DigitalSpecimenUIModel;
 };
+
+/**
+ * Adds digitalMedia to the UI-ready model, executed in the useDigitalSpecimen hook.
+ * @param rawData Digital Specimen data
+ * @returns Object with HAS_MEDIA and DIGITAL_MEDIA
+ */
+export const mapDigitalSpecimenMedia = (rawData: any) => {
+	const ds = rawData?.data?.attributes?.digitalSpecimen;
+	const dm = rawData?.data?.attributes?.digitalMedia;
+
+	if (!ds) return null;
+	return {
+		HAS_MEDIA: ds['ods:isKnownToContainMedia'],
+		DIGITAL_MEDIA: dm
+	}
+}

@@ -11,7 +11,6 @@ interface Props {
 }
 
 export const IdentificationCard = ({ fragment }: Props ) => {
-    console.log(fragment);
     return (
         <Card className="digital-specimen-card">
             <div className="digital-specimen-card-header">

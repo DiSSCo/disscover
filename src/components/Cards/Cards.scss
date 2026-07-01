@@ -51,3 +51,31 @@
         background-color: var(--gray-5);
     }
 }
+
+.digital-media-container {
+    position: sticky;
+    top: 0;
+    .digital-media-card { 
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    
+    .digital-media-list {
+        display: flex;
+        margin-block-start: var(--spacing-sm);
+        position: sticky;
+
+        a {
+            img {
+                width: 80px;
+                height: 80px;
+                margin-inline-end: var(--spacing-sm);
+            }
+        }
+        .active {
+            border: var(--odd-spacing-xs) solid var(--indigo-10);
+        }
+    }
+}

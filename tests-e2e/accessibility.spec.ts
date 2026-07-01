@@ -1,15 +1,12 @@
 /* Import test helpers */
 import { test, expect } from '@playwright/test';
-import { checkA11y, testUrls } from './test-utils';
-
-/* Import mock data */
-import { mockGetSelectedVirtualCollection, mockGetVirtualCollectionDetails, mockGetVirtualCollections } from './mocks/routes/routeMocks';
+import { checkA11y, setUpMockData } from './test-utils';
 
 /* Virtual Collections flow E2E test suite */
 test.describe('Accessibility', () => {
     test('About page components', async ({ page }) => {
         // When the accessibility suite goes to the about page
-        await page.goto(testUrls.about);
+        await page.goto('/about');
 
         // Then the navigation and footer should be visible
         await expect(page.getByRole('button', { name: 'Login / Sign-up'})).toBeVisible();
@@ -25,12 +22,10 @@ test.describe('Accessibility', () => {
 
 test.describe('Accessibility', () => {
     test('Virtual Collections page', async ({ page }) => {
-        await mockGetVirtualCollections(page);
-        await mockGetSelectedVirtualCollection(page);
-        await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
         // When the accessibility suite goes to the virtual collections page
-        await page.goto(testUrls.virtualCollections);
+        await page.goto('/virtual-collections');
 
         // Then the header should be visible
         await expect(page.getByRole('heading', { name: 'Virtual Collections' })).toBeVisible();
@@ -45,12 +40,10 @@ test.describe('Accessibility', () => {
 
 test.describe('Accessibility', () => {
   	test('Virtual Collection Details page', async ({ page }) => {
-		await mockGetVirtualCollections(page);
-		await mockGetSelectedVirtualCollection(page);
-		await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
 		// When the accessibility suite goes to the virtual collections page
-		await page.goto(testUrls.virtualCollections);
+		await page.goto('/virtual-collections');
 
 		// Then the header should be visible
 		await expect(page.getByRole('heading', { name: 'Virtual Collections' })).toBeVisible();
@@ -75,12 +68,10 @@ test.describe('Accessibility', () => {
 
 test.describe('Accessibility', () => {
     test('Create a Virtual Collection form flow', async ({ page }) => {
-        await mockGetVirtualCollections(page);
-		await mockGetSelectedVirtualCollection(page);
-		await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
 		// When the accessibility suite goes to the create virtual collections page
-		await page.goto(testUrls.createVirtualCollection);
+		await page.goto('/virtual-collections/create');
 
 		// Then the header should be visible
 		await expect(page.getByRole('heading', { name: 'Create Virtual Collection' })).toBeVisible();

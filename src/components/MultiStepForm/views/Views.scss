@@ -47,7 +47,7 @@
         height: var(--general-card-height);
     }
 
-    .radio-card-fieldset {
+    .reference-type {
         border: none;
         padding: 0;
         margin: 0;
@@ -61,57 +61,25 @@
             margin: 0;
         }
 
-        .radio-card-group {
-            display: flex;
-            flex-direction: column;
+        .reference-type-wrapper {
+            max-width: var(--medium-card-width);
 
-            .radio-card-wrapper {
-                max-width: var(--medium-card-width);
+            .reference-type-label {
+                display: block;
+                padding: var(--spacing-m);
+                border: 2px solid var(--indigo-9);
+                border-radius: var(--border-radius-md);
+                text-align: center;
 
-                /* Visually hide input but keep accessible */
-                .radio-card-input {
-                    position: absolute;
-                    width: 1px;
-                    height: 1px;
-                    padding: 0;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    border: 0;
-
-                    &:checked + .radio-card-label {
-                        border: 2px solid var(--indigo-9);
-                    }
-
-                    &:focus-visible + .radio-card-label {
-                        outline: 2px solid var(--indigo-9);
-                    }
-
-                    &:disabled + .radio-card-label {
-                        border-color: var(--medium-gray);
-                        background-color: var(--light-gray);
-                        cursor: not-allowed;
-                        opacity: 0.6;
-                    }
+                .reference-type-title {
+                    font-size: var(--sm-font-size);
+                    font-weight: var(--medium-font-weight);
+                    margin: 0;
                 }
 
-                .radio-card-label {
-                    display: block;
-                    padding: var(--spacing-m);
-                    border: 1px solid var(--medium-gray);
-                    border-radius: var(--border-radius-md);
-                    cursor: pointer;
-                    text-align: center;
-
-                    .radio-card-title {
-                        font-size: var(--sm-font-size);
-                        font-weight: var(--medium-font-weight);
-                        margin: 0;
-                    }
-
-                    .radio-card-description {
-                        color: var(--dark-gray);
-                        font-size: var(--xs-font-size);
-                    }
+                .reference-type-description {
+                    color: var(--dark-gray);
+                    font-size: var(--xs-font-size);
                 }
             }
         }

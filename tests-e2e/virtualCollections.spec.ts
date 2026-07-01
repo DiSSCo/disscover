@@ -1,17 +1,14 @@
 /* Import test helpers */
 import { test, expect } from '@playwright/test';
-import { testUrls } from './test-utils';
-import { mockGetSelectedVirtualCollection, mockGetVirtualCollectionDetails, mockGetVirtualCollections } from './mocks/routes/routeMocks';
+import { setUpMockData } from './test-utils';
 
 /* Virtual Collections flow E2E test suite */
 test.describe('Virtual Collections', () => {
     test('should open the content of a virtual collection and route to the digital specimen page of a specific collection', async ({ page }) => {
-        await mockGetVirtualCollections(page);
-        await mockGetSelectedVirtualCollection(page);
-        await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
         // Given a user goes to the virtual collections page
-        await page.goto(testUrls.virtualCollections);
+        await page.goto('/virtual-collections');
 
         // When the user clicks on the first available card on the virtual collection overview page
         const firstCard = page.getByRole('link', { name: 'Reference Collection Type'});
@@ -28,12 +25,10 @@ test.describe('Virtual Collections', () => {
         await expect(page).toHaveURL(/\/ds\/TEST\//);
     });
     test('should route to the virtual collection details page and back', async ({ page }) => {
-        await mockGetVirtualCollections(page);
-        await mockGetSelectedVirtualCollection(page);
-        await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
         // Given a user goes to the virtual collections page
-        await page.goto(testUrls.virtualCollections);
+        await page.goto('/virtual-collections');
 
         // When the user clicks on the first available card on the virtual collection overview page
         const firstCard = page.getByRole('link', { name: 'Reference Collection Type'});
@@ -50,12 +45,10 @@ test.describe('Virtual Collections', () => {
         await expect(page).toHaveURL(/\/virtual-collections/);
     });
     test('should use paginator to go through virtual collections', async ({ page }) => {
-        await mockGetVirtualCollections(page);
-        await mockGetSelectedVirtualCollection(page);
-        await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
         // Given a user goes to the virtual collections page
-        await page.goto(testUrls.virtualCollections);
+        await page.goto('/virtual-collections');
 
         // When the user clicks on the first available card on the virtual collection overview page
         const firstCardAvailable = page.locator('.gallery-card').first();
@@ -74,12 +67,10 @@ test.describe('Virtual Collections', () => {
 
 test.describe('Create a Virtual Collection and everything is successfull', () => {
     test('should go through the \'Create a virtual collection\' flow via the button on the VC page', async ({ page }) => {
-        await mockGetVirtualCollections(page);
-        await mockGetSelectedVirtualCollection(page);
-        await mockGetVirtualCollectionDetails(page);
+        setUpMockData(page);
 
         // Given a user goes to the create a virtual collection page
-        await page.goto(testUrls.createVirtualCollection);
+        await page.goto('/virtual-collections/create');
 
         // When a user fails to fill in anything and clicks on the next
         const nextButton = page.getByRole('button', { name: 'Next' });

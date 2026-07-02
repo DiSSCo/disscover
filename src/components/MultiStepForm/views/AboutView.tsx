@@ -17,16 +17,6 @@ const AboutView = ({data, onUpdate, wasValidated}: AboutViewProps) => {
     const isTitleInvalid = wasValidated && !data.title.trim();
     const isDescriptionInvalid = wasValidated && !data.description.trim();
 
-    const typeOptions = [
-        {
-          id: 'type-reference',
-          value: 'Reference Collection',
-          title: 'Reference Collection',
-          description: 'When publishing a gold-standard collection for others to use as an identification key.',
-          disabled: false,
-        }
-      ];
-
     return (
         <div id="about-view" className="form-view-container">
             <h2>About this collection</h2>
@@ -71,36 +61,19 @@ const AboutView = ({data, onUpdate, wasValidated}: AboutViewProps) => {
                 </div>
             </div>
 
-            <fieldset className="radio-card-fieldset">
-                {/* Legend provides context for screen readers */}
-                <legend className="form-label">Type</legend>
-                
-                <div className="radio-card-group">
-                    {typeOptions.map((option) => (
-                    <div key={option.id} className={`radio-card-wrapper ${option.disabled ? 'disabled' : ''}`}>
-                        <input
-                            type="radio"
-                            id={option.id}
-                            name="collection-type"
-                            value={option.value}
-                            checked={data.type === option.value}
-                            disabled={option.disabled}
-                            onChange={(e) => onUpdate({ type: e.target.value })}
-                            className="sr-only radio-card-input"
-                        />
-                        
-                        <label htmlFor={option.id} className="radio-card-label">
-                            <h4 className="radio-card-title">{option.title}</h4>
-                            <p className="radio-card-description">{option.description}</p>
-                        </label>
+            <div className="reference-type">
+                <span className="form-label">Type</span>
+                <div className='reference-type-wrapper'>
+                    <div className="reference-type-label">
+                        <p className="reference-type-title">Reference Collection</p>
+                        <p className="reference-type-description">When publishing a gold-standard collection for others to use as an identification key.</p>
                     </div>
-                    ))}
                 </div>
 
                 <p id="form-type-subtitle" className="form-note">
                     Note: only Reference Collections are available at this time. Community Collections will be introduced in a future update.
                 </p>
-            </fieldset>
+            </div>
         </div>
     )
 }

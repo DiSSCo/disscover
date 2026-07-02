@@ -8,7 +8,7 @@ import { mockSelectedVirtualCollection } from '../data/mockSelectedVirtualCollec
 
 /* Route mock for the getVirtualCollections service that fulfills the request with a mocked virtualCollections data */
 export async function mockGetVirtualCollections(page: Page) {
-    await page.route('**/virtual-collection/v1', async (route) => {
+    await page.route('**/virtual-collection/v1?pageSize=60&pageNumber=1', async (route) => {
         if(route.request().method() === 'GET') {
             await route.fulfill({
                 status: 200,
@@ -44,6 +44,19 @@ export async function mockGetSelectedVirtualCollection(page: Page) {
                 status: 200,
                 contentType: 'application/json',
                 body: JSON.stringify(mockSelectedVirtualCollection)
+            })
+        } else {
+            await route.continue();
+        }
+    })
+}
+
+/* Route mock for the postNewVirtualCollection service that intercepts the POST during testing and returns a status 200 OK. */
+export async function mockPostNewVirtualCollection(page: Page) {
+    await page.route('**/virtual-collection/v1', async (route) => {
+        if(route.request().method() === 'POST') {
+            await route.fulfill({
+                status: 200
             })
         } else {
             await route.continue();

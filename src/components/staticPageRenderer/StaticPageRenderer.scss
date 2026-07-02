@@ -42,7 +42,7 @@
             margin-block-start: var(--spacing-sm);
 
             @include smallAndUp {
-                margin-top: 0px;
+                margin-top: var(--odd-spacing-xxs);
             }
         }
     

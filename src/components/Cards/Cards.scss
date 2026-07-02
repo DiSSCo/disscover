@@ -13,14 +13,14 @@
         }
     }
     .digital-specimen-card-content {
-        padding: var(--spacing-m) 0px;
+        padding: var(--spacing-m) var(--odd-spacing-xxs);
         display: grid;
         grid-template-columns: var(--general-card-height) 1fr;
         gap: var(--spacing-sm) var(--spacing-m);
         align-items: start;
 
         &:last-of-type {
-            padding: var(--spacing-m) 0px 0px 0px
+            padding: var(--spacing-m) var(--odd-spacing-xxs) var(--odd-spacing-xxs) var(--odd-spacing-xxs)
         }
     }
     .ds-card-georeference {

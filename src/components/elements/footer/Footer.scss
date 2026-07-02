@@ -54,7 +54,7 @@ footer {
                 }
             }
             p {
-                margin: 0px;
+                margin: var(--odd-spacing-xxs);
                 font-weight: var(--medium-font-weight);
                 font-size: var(--md-font-size);
             }

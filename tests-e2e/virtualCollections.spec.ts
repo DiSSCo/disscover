@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test';
 import { setUpMockData } from './test-utils';
 
-/* Virtual Collections flow E2E test suite */
+/* Virtual Collections flows E2E test suite */
 test.describe('Virtual Collections', () => {
     test('should open the content of a virtual collection and route to the digital specimen page of a specific collection', async ({ page }) => {
         await setUpMockData(page);

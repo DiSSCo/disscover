@@ -5,7 +5,7 @@ import { setUpMockData } from './test-utils';
 /* Virtual Collections flow E2E test suite */
 test.describe('Virtual Collections', () => {
     test('should open the content of a virtual collection and route to the digital specimen page of a specific collection', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
         // Given a user goes to the virtual collections page
         await page.goto('/virtual-collections');
@@ -25,7 +25,7 @@ test.describe('Virtual Collections', () => {
         await expect(page).toHaveURL(/\/ds\/TEST\//);
     });
     test('should route to the virtual collection details page and back', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
         // Given a user goes to the virtual collections page
         await page.goto('/virtual-collections');
@@ -45,7 +45,7 @@ test.describe('Virtual Collections', () => {
         await expect(page).toHaveURL(/\/virtual-collections/);
     });
     test('should use paginator to go through virtual collections', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
         // Given a user goes to the virtual collections page
         await page.goto('/virtual-collections');
@@ -67,7 +67,7 @@ test.describe('Virtual Collections', () => {
 
 test.describe('Create a Virtual Collection and everything is successfull', () => {
     test('should go through the \'Create a virtual collection\' flow via the button on the VC page', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
         // Given a user goes to the create a virtual collection page
         await page.goto('/virtual-collections/create');

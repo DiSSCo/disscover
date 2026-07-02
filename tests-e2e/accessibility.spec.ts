@@ -22,7 +22,7 @@ test.describe('Accessibility', () => {
 
 test.describe('Accessibility', () => {
     test('Virtual Collections page', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
         // When the accessibility suite goes to the virtual collections page
         await page.goto('/virtual-collections');
@@ -40,7 +40,7 @@ test.describe('Accessibility', () => {
 
 test.describe('Accessibility', () => {
   	test('Virtual Collection Details page', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
 		// When the accessibility suite goes to the virtual collections page
 		await page.goto('/virtual-collections');
@@ -68,7 +68,7 @@ test.describe('Accessibility', () => {
 
 test.describe('Accessibility', () => {
     test('Create a Virtual Collection form flow', async ({ page }) => {
-        setUpMockData(page);
+        await setUpMockData(page);
 
 		// When the accessibility suite goes to the create virtual collections page
 		await page.goto('/virtual-collections/create');

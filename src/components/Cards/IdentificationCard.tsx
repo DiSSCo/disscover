@@ -6,8 +6,31 @@ import { Pencil2Icon } from '@radix-ui/react-icons';
 /* Import styles */
 import './Cards.scss';
 
+type FragmentType = 'verbatim' | 'copy' | 'default' | 'url';
+type isHtmlFragmentType = 'verbatim' | 'copy' | 'default';
+
 interface Props {
-    fragment: any;
+    fragment: {
+        scientificName: { label: string, value: string, isHtml: true, type: isHtmlFragmentType, hidden: boolean },
+        verbatimName: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        rank: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        catalogueOfLife: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        taxonomicStatus: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        kingdom: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        phylum: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        class: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        order: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        family: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        genus: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        species: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        specificEpithet: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        infragenericEpithet: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        infraspecificEpithet: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        nomenClaturalCode: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        scientificNameAuthorship: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        sex: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        lifeStage: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+    }
 }
 
 export const IdentificationCard = ({ fragment }: Props ) => {

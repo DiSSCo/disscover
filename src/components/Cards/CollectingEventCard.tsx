@@ -1,9 +1,18 @@
+/* Import components */
 import { Card } from '@radix-ui/themes';
-import './Cards.scss';
 import { LabelValuePair } from 'components/LabelValuePair/LabelValuePair';
 
+/* Import styles */
+import './Cards.scss';
+
+type FragmentType = 'verbatim' | 'copy' | 'default' | 'url';
+
 interface Props {
-    fragment: any;
+    fragment: {
+        collector: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        date: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        verbatimDate: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+    }
 }
 
 export const CollectingEventCard = ({ fragment }: Props ) => {

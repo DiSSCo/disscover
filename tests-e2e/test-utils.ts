@@ -1,4 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
+import { mockGetSelectedVirtualCollection, mockGetVirtualCollectionDetails, mockGetVirtualCollections } from "./mocks/routes/routeMocks";
 
 /**
  * This utility function logs a console.error if any violations in the A11Y scan are found
@@ -34,8 +35,7 @@ export async function checkA11y(page: any, pageName: string, options?: any) {
     return results.violations;
 }
 
-export const testUrls = {
-    home: '/',
-    about: '/about',
-    virtualCollections: '/virtual-collections',   
+/* Utility function to execute all promises for setting up mock data for testing */
+export async function setUpMockData(page: any) {
+  return Promise.all([mockGetVirtualCollections(page), mockGetSelectedVirtualCollection(page), mockGetVirtualCollectionDetails(page)]);
 }

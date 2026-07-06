@@ -13,22 +13,22 @@
         }
     }
     .digital-specimen-card-content {
-        padding: var(--spacing-m) 0px;
+        padding: var(--spacing-m) var(--odd-spacing-xxs);
         display: grid;
         grid-template-columns: var(--general-card-height) 1fr;
         gap: var(--spacing-sm) var(--spacing-m);
         align-items: start;
 
         &:last-of-type {
-            padding: var(--spacing-m) 0px 0px 0px
+            padding: var(--spacing-m) var(--odd-spacing-xxs) var(--odd-spacing-xxs) var(--odd-spacing-xxs)
         }
     }
-    .ds-card-georeference {
+    .digital-specimen-card-georeference {
         width: 100%;
         height: var(--general-card-width);
         margin-block-end: var(--spacing-sm);
     }
-    .ds-card-citation {
+    .digital-specimen-card-citation {
         max-height: var(--citation-content-spacing);
         width: 100%;
         background-color: var(--indigo-2);
@@ -48,7 +48,7 @@
     .card-divider {
         height: 1px;
         width: 100%;
-        background-color: var(--gray-5);
+        background-color: var(--medium-gray);
     }
 }
 

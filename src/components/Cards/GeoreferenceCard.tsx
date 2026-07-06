@@ -1,14 +1,25 @@
-/* Import styles */
-import './Cards.scss';
-
 /* Import components */
 import { Button, Card } from '@radix-ui/themes';
 import { OpenStreetMap } from 'components/elements/customUI/CustomUI';
 import { LabelValuePair } from 'components/LabelValuePair/LabelValuePair';
 import { Pencil2Icon } from '@radix-ui/react-icons';
 
+/* Import styles */
+import './Cards.scss';
+
+type FragmentType = 'verbatim' | 'copy' | 'default';
+
 interface Props {
-    fragment: any;
+    fragment: {
+        country: { label: string, value: string, isHtml: boolean, type: FragmentType, hidden: boolean },
+        decimalLatitude: { label: string, value: number, isHtml: false, type: FragmentType, hidden: boolean },
+        decimalLongitude: { label: string, value: number, isHtml: false, type: FragmentType, hidden: boolean },
+        geodeticDatum: { label: string, value: number, isHtml: false, type: FragmentType, hidden: boolean },
+        locality: { label: string, value: string, isHtml: boolean, type: FragmentType, hidden: boolean },
+        verbatimLatitude: { label: string, value: number, isHtml: false, type: FragmentType, hidden: boolean },
+        verbatimLocality: { label: string, value: number, isHtml: false, type: FragmentType, hidden: boolean },
+        verbatimLongitude: { label: string, value: number, isHtml: false, type: FragmentType, hidden: boolean },
+    };
 }
 
 export const GeoreferenceCard = ({ fragment }: Props ) => {
@@ -21,7 +32,7 @@ export const GeoreferenceCard = ({ fragment }: Props ) => {
                     <Pencil2Icon />
                 </Button>
             </div>
-            <div className="ds-card-georeference">
+            <div className="digital-specimen-card-georeference">
                 <OpenStreetMap latitude={fragment?.['decimalLatitude'].value} longitude={fragment?.['decimalLongitude'].value} />
             </div>
             <div className="digital-specimen-card-content">

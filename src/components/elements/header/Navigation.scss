@@ -26,6 +26,9 @@ nav {
         .nav-buttons {
             height: 100%
         }
+        .active-menu-item {
+            background-color: var(--indigo-3);
+        }
     }
     #text-logo-disscover {
         font-size: var(--4xl-font-size);

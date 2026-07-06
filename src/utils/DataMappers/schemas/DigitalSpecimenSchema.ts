@@ -32,10 +32,6 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             label: 'Topic Discipline',
             resolve: (ds) => ds["dwc:topicDiscipline"]
         },
-        virtualCollection: {
-            label: 'In Virtual Collection(s)',
-            resolve: (_) => 'Unknown'
-        }
     },
   
     IDENTIFICATION: {
@@ -186,6 +182,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
     CITATION_LICENSE: {
         license: {
             label: 'License Agreement',
+            type: 'url',
             resolve: (ds) => ds["dcterms:license"]
         },
         organisationId: {
@@ -198,14 +195,9 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: Record<string, Record<string, FieldConfig>> =
             resolve: (ds) => ds["ods:organisationName"],
             hidden: true
         },
-        scientificName: {
-            label: 'Scientific Name',
-            resolve: (_, { acceptedIdentification }) => {
-                const htmlLabel = acceptedIdentification?.["ods:scientificNameHTMLLabel"];
-                const fallbackLabel = acceptedIdentification?.["dwc:scientificName"];
-                
-                return htmlLabel || fallbackLabel;
-            },
+        specimenName: {
+            label: 'Specimen Name',
+            resolve: (ds) => ds["ods:specimenName"],
             hidden: true
         },
         digitalSpecimenId: {

@@ -23,12 +23,12 @@
             padding: var(--spacing-m) var(--odd-spacing-xxs) var(--odd-spacing-xxs) var(--odd-spacing-xxs)
         }
     }
-    .ds-card-georeference {
+    .digital-specimen-card-georeference {
         width: 100%;
         height: var(--general-card-width);
         margin-block-end: var(--spacing-sm);
     }
-    .ds-card-citation {
+    .digital-specimen-card-citation {
         max-height: var(--citation-content-spacing);
         width: 100%;
         background-color: var(--indigo-2);
@@ -48,6 +48,6 @@
     .card-divider {
         height: 1px;
         width: 100%;
-        background-color: var(--gray-5);
+        background-color: var(--medium-gray);
     }
 }

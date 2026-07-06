@@ -4,12 +4,20 @@ import { LabelValuePair } from "components/LabelValuePair/LabelValuePair";
 /* Import styles */
 import './Cards.scss';
 
+type FragmentType = 'verbatim' | 'copy' | 'default' | 'url';
+
 interface Props {
-    fragment: any
+    fragment: {
+        doi: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        catalogNumber: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        specimenProvider: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        sourceSystem: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        basisOfRecord: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+        discipline: { label: string, value: string, isHtml: false, type: FragmentType, hidden: boolean },
+    }
 }
 
 export const SpecimenRecordCard = ({ fragment }: Props ) => {
-    console.log(fragment);
     return (
         <Card className="digital-specimen-card">
             <div className="digital-specimen-card-header">
@@ -22,10 +30,6 @@ export const SpecimenRecordCard = ({ fragment }: Props ) => {
                 <LabelValuePair item={fragment['sourceSystem']}></LabelValuePair>
                 <LabelValuePair item={fragment['basisOfRecord']}></LabelValuePair>
                 <LabelValuePair item={fragment['discipline']}></LabelValuePair>
-            </div>
-            <div className="card-divider"></div>
-            <div className="digital-specimen-card-content">
-                <LabelValuePair item={fragment['virtualCollection']}></LabelValuePair>
             </div>
         </Card>
     )

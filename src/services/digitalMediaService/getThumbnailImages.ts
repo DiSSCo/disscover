@@ -2,7 +2,7 @@
  * Service that retrieves the jpeg images for IIIF images
  * @returns A string that contains the jpeg url
  */
-export async function getThumbnailImages(image: any) {
+export async function getJpegFromIIIFImages(image: any) {
     try {
         const response = await fetch(image["ac:accessURI"]);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -21,9 +21,8 @@ export async function getThumbnailImages(image: any) {
 
         // 2. Format the URL for an 80px by 80px bounding box
         // Uses '!80,80' to scale the image proportionally to fit inside 80x80 pixels
-        const thumbnailUrl = `${imageServiceId}/full/!80,80/0/default.jpg`;
+        return `${imageServiceId}/full/max/0/default.jpg`;
 
-        return thumbnailUrl;
     } catch (error) {
         console.error("Failed to parse IIIF manifest:", 'error');
 

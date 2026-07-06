@@ -56,9 +56,14 @@
     position: sticky;
     top: 0;
     .digital-media-card { 
-        img {
-            max-width: 100%;
-            height: auto;
+        a {
+            .digital-media-card-image {
+                width: 100%;
+                aspect-ratio: 1/1;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+            }
         }
     }
     
@@ -67,8 +72,10 @@
         margin-block-start: var(--spacing-sm);
         position: sticky;
 
-        button {
+        .digital-media-thumb-btn {
             border: none;
+            margin: var(--odd-spacing-xxs);
+            padding: var(--odd-spacing-xxs);
 
             img {
                 width: 80px;
@@ -77,7 +84,7 @@
             }
         }
         .active {
-            border: var(--odd-spacing-xs) solid var(--indigo-10);
+            border: var(--odd-spacing-sm) solid var(--indigo-10);
         }
     }
 }

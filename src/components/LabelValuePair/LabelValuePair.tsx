@@ -58,7 +58,7 @@ export const LabelValuePair = ({ item, extraItem }: Props) => {
     const renderValueContent = () => {
         switch (item.type) {
             case 'url':
-                return item.value === 'Taxonomic Status' ? (
+                return item.label === 'Taxonomic Status' ? (
                     <div className="url-label-value">
                         <a href={item.value} target="_blank" rel="noopener noreferrer">
                             Catalogue of Life

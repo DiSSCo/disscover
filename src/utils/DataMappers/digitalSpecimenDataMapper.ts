@@ -2,7 +2,7 @@
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/DigitalSpecimenSchema";
 
 /* Import types */
-import { DigitalSpecimenUIModel, SchemaMap, UIProperty } from "./types/dataMapperTypes";
+import { DigitalSpecimenUIModel, UIProperty } from "./types/dataMapperTypes";
 
 /**
  * Function to get the accepted identification or the first one it can find
@@ -38,26 +38,25 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
     const ds = rawData?.data?.attributes?.digitalSpecimen;
     if (!ds) return null;
 
-    /* Find acceptedIdentification or second best option */
     const acceptedIdentification = getAcceptedIdentification(ds);
     const primaryEvent = getPrimaryEvent(ds);
+    
+    const mappedCategories = DIGITAL_SPECIMEN_SCHEMA_MAP.map((category) => {
+        const mappedFields: UIProperty[] = category.data.map((field) => {
+            return {
+                label: field.label,
+                value: field.resolve(ds, { acceptedIdentification, primaryEvent }),
+                type: field.type || 'base',
+                hidden: field.hidden || false
+            } as UIProperty;
+        });
+        return {
+            name: category.name,
+            data: mappedFields
+        }
+    })
 
-    return Object.fromEntries(
-        Object.entries(DIGITAL_SPECIMEN_SCHEMA_MAP as SchemaMap).map(([groupKey, fields]) => {
-            const mappedFields: Record<string, UIProperty> = Object.fromEntries(
-                Object.entries(fields).map(([fieldKey, config]) => [
-                    fieldKey,
-                    {
-                        label: config.label,
-                        value: config.resolve(ds, {acceptedIdentification, primaryEvent}),
-                        isHtml: Boolean(config.isHtml),
-                        type: config.type || 'base',
-                        hidden: config.hidden || false
-                    }
-                ])
-            );
-
-            return [groupKey, mappedFields];
-        })
-    ) as unknown as DigitalSpecimenUIModel;
-};
+    return {
+        mappedData: mappedCategories
+    };
+}

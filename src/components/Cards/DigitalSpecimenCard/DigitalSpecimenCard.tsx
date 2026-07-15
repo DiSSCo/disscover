@@ -7,43 +7,61 @@ import { OpenStreetMap } from "components/elements/customUI/CustomUI";
 /* Import styles */
 import './DigitalSpecimenCard.scss';
 
+type SpecimenField = {
+    label: string;
+    value: any;
+    type: string;
+    hidden: boolean;
+}
+
 type Props = {
     cardHeader: string,
     annotate?: boolean,
     copy?: boolean,
-    fragment: any,
+    fragment: SpecimenField[],
     georeference?: boolean
     citation?: boolean
 }
 
 export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, georeference = false, citation = false }: Props) => {
-    const craftCitation = (fragment: any) => {
+    /* Base variables */
+    const getFieldValueByLabel = (labelName: string) => {
+        return fragment.find((item) => item.label === labelName)?.value;
+    };
+
+    /* Craft citation based on a number of fields */
+    const craftCitation = () => {
+        const orgId = getFieldValueByLabel('Organisation ID');
+        const orgName = getFieldValueByLabel('Organisation Name') ?? orgId;
+        const digitalSpecimenId = getFieldValueByLabel('DOI') ?? getFieldValueByLabel('Digital Specimen ID');
+
         return (
-        <>
-            <a href={fragment['organisationId'].value}
-                target="_blank"
-                rel="noreferer"
-            >
-                {fragment['organisationName'].value ?? fragment['organisationId'].value}
-            </a>
-            {` (${new Date().getFullYear()}). `}
-            <a href="https://ror.org/02wddde16"
-                target="_blank"
-                rel="noreferer"
-            >
-                Distributed System of Scientific Collections
-            </a>
-            {`. [Dataset]. `}
-            <a href={fragment['digitalSpecimenId'].value}
-                target="_blank"
-                rel="noreferer"
-            >
-                {fragment['digitalSpecimenId'].value}
-            </a>
-        </>
-        )
-    
-    }
+            <>
+                {orgId ? (
+                    <a href={orgId} target="_blank" rel="noopener noreferrer">
+                        {orgName}
+                    </a>
+                ) : (
+                    orgName
+                )}
+                {` (${new Date().getFullYear()}). `}
+                <a href="https://ror.org/02wddde16" target="_blank" rel="noopener noreferrer">
+                    Distributed System of Scientific Collections
+                </a>
+                {`. [Dataset]. `}
+                {digitalSpecimenId && (
+                    <a href={digitalSpecimenId} target="_blank" rel="noopener noreferrer">
+                        {digitalSpecimenId}
+                    </a>
+                )}
+            </>
+        );
+    };
+
+    /* Find coordinate values */
+    const latitude = getFieldValueByLabel('Decimal Latitude') || getFieldValueByLabel('Latitude');
+    const longitude = getFieldValueByLabel('Decimal Longitude') || getFieldValueByLabel('Longitude');
+
     return (
         <Card className="digital-specimen-card">
             <div className="ds-card-header">
@@ -63,18 +81,24 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, geor
             </div>
             { georeference &&
                 <div className="ds-card-georeference">
-                    <OpenStreetMap latitude={fragment?.['decimalLatitude'].value} longitude={fragment?.['decimalLongitude'].value} />
+                    <OpenStreetMap latitude={latitude} longitude={longitude} />
                 </div>
             }
             { citation &&
                 <div className="ds-card-citation">
-                    <p>{craftCitation(fragment)}</p>
+                    <p>{craftCitation()}</p>
                 </div>
             }
             <div className="ds-card-body">
-            {Object.entries(fragment).map(([key, item]: [string, any]) => (
-                <LabelValuePair key={key} item={item as { label: string; value: string; isHtml: boolean; type: string; hidden: boolean; }} />
-            ))}
+                {fragment
+                    .filter((item: any) => !item.hidden)
+                    .map((item: any, index: number) => (
+                        <LabelValuePair 
+                            key={item.label || index} 
+                            item={item as { label: string; value: string; isHtml: boolean; type: string; hidden: boolean; }} 
+                        />
+                    ))
+                }
             </div>
         </Card>
     )

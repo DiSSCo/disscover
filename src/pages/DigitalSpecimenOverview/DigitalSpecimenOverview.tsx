@@ -5,6 +5,9 @@ import { Hero } from 'components/Hero/Hero';
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
+/* Import types and enums */
+import { CardCategory, CARDS_LEFT_COLUMN, CARDS_RIGHT_COLUMN, CARD_CONFIGS } from './types';
+
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
 
@@ -19,6 +22,11 @@ const DigitalSpecimenDetails = () => {
     if (!specimen) return <main><p>No data found</p></main>
     if (isError) return <main><p>Something went wrong with fetching the Digital Specimen. Please try again later.</p></main>;
 
+    /* Get the correct card category data */
+    const getCardFragment = (category: CardCategory) => {
+        return specimen?.mappedData?.find((cat: any) => cat.name === category)?.data || [];
+    };
+
     return (
         <>
             <Hero
@@ -32,13 +40,26 @@ const DigitalSpecimenDetails = () => {
             </Hero>
             <main className="digital-specimen-container">
                 <div id="ds-left-column">
-                    <DigitalSpecimenCard cardHeader="Specimen record" fragment={specimen.SPECIMEN_RECORD}/>
-                    <DigitalSpecimenCard cardHeader="Identification" annotate={true} fragment={specimen.IDENTIFICATION}/>
+                    {CARDS_LEFT_COLUMN.map((category) => {
+                        return (
+                            <DigitalSpecimenCard
+                                key={category}
+                                cardHeader={category}
+                                fragment={getCardFragment(category)}
+                                { ...CARD_CONFIGS[category]}
+                            />
+                        )
+                    })}
                 </div>
                 <div id="ds-right-column">
-                    <DigitalSpecimenCard cardHeader="Location" annotate={true} fragment={specimen.LOCATION} georeference={true}/>
-                    <DigitalSpecimenCard cardHeader="Collecting event" fragment={specimen.COLLECTING_EVENT}/>
-                    <DigitalSpecimenCard cardHeader="Citation and license" copy={true} fragment={specimen.CITATION_LICENSE} citation={true}/>
+                    {CARDS_RIGHT_COLUMN.map((category) => (
+                            <DigitalSpecimenCard 
+                                key={category}
+                                cardHeader={category} 
+                                fragment={getCardFragment(category)} 
+                                {...CARD_CONFIGS[category]}
+                            />
+                        ))}
                 </div>
             </main>
         </>

@@ -8,7 +8,6 @@ interface MapperContext {
 interface UIProperty {
     label: string;
     value: any;
-    isHtml: boolean;
     type: string;
     hidden: boolean;
 }
@@ -22,19 +21,19 @@ interface FieldConfig {
     hidden?: boolean;
 }
 
-/* Result of the Digital Specimen data mapper */
-interface DigitalSpecimenUIModel {
-    SPECIMEN_RECORD: Record<string, UIProperty>;
-    IDENTIFICATION: Record<string, UIProperty>;
-    LOCATION: Record<string, UIProperty>;
-    COLLECTING_EVENT: Record<string, UIProperty>;
-    CITATION_LICENSE: Record<string, UIProperty>;
+interface CategoryConfig {
+    data: FieldConfig[],
+    name: string
 }
 
-/* Generic map to handle schemas for the digitalSpecimenUIModel */
-type SchemaMap = {
-    [Key in keyof DigitalSpecimenUIModel]: Record<string, FieldConfig>;
-};
+interface MappedCategories {
+    data: UIProperty[],
+    name: string
+}
 
-export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, SchemaMap };
+/* Result of the Digital Specimen data mapper */
+interface DigitalSpecimenUIModel {
+    mappedData: MappedCategories[]
+}
 
+export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, CategoryConfig };

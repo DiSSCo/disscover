@@ -6,11 +6,11 @@ import { Hero } from 'components/Hero/Hero';
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Import types and enums */
-import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES } from 'types/DigitalSpecimenTypes';
+import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES } from 'types/digitalSpecimenTypes';
 
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
-import { MappedCategories } from 'types/DataMapperTypes';
+import { MappedCategories } from 'types/dataMapperTypes';
 
 const DigitalSpecimenDetails = () => {
     /* Base variables */

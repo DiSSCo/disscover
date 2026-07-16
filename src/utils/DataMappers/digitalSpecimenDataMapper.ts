@@ -1,8 +1,8 @@
 /* Import schemas */
-import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/DigitalSpecimenSchema";
+import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
 
 /* Import types */
-import { DigitalSpecimenUIModel, UIProperty } from "types/DataMapperTypes";
+import { DigitalSpecimenUIModel, UIProperty } from "types/dataMapperTypes";
 
 /**
  * Function to get the accepted identification or the first one it can find

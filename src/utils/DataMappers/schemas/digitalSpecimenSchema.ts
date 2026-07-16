@@ -1,5 +1,5 @@
-import { CardCategory } from 'types/DigitalSpecimenTypes';
-import { CategoryConfig } from 'types/DataMapperTypes';
+import { CardCategory } from 'types/digitalSpecimenTypes';
+import { CategoryConfig } from 'types/dataMapperTypes';
 
 /* Data schema to map Digital Specimen data that we use in the UI, managed from one central data mapper */
 const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [

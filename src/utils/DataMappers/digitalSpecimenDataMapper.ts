@@ -2,7 +2,7 @@
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/DigitalSpecimenSchema";
 
 /* Import types */
-import { DigitalSpecimenUIModel, UIProperty } from "./types/dataMapperTypes";
+import { DigitalSpecimenUIModel, UIProperty } from "types/DataMapperTypes";
 
 /**
  * Function to get the accepted identification or the first one it can find
@@ -42,21 +42,31 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
     const primaryEvent = getPrimaryEvent(ds);
     
     const mappedCategories = DIGITAL_SPECIMEN_SCHEMA_MAP.map((category) => {
-        const mappedFields: UIProperty[] = category.data.map((field) => {
-            return {
-                label: field.label,
-                value: field.resolve(ds, { acceptedIdentification, primaryEvent }),
-                type: field.type || 'base',
-                hidden: field.hidden || false
-            } as UIProperty;
-        });
+        const mappedFields = category.data.reduce<UIProperty[]>((accumulator, field) => {
+            console.log(accumulator, field);
+            const value = field.resolve(ds, { acceptedIdentification, primaryEvent });
+
+            // Only push to the array if a valid value exists
+            if (value !== undefined && value !== null && value !== "") {
+                accumulator.push({
+                    label: field.label,
+                    value: value,
+                    type: field.type || 'base',
+                    hidden: field.hidden || false
+                });
+            }
+
+            return accumulator;
+        }, []);
+
         return {
             name: category.name,
             data: mappedFields
-        }
-    })
+        };
+    });
 
     return {
-        mappedData: mappedCategories
+        // Only keep categories that have at least one valid data field
+        mappedData: mappedCategories.filter(category => category.data.length > 0)
     };
-}
+};

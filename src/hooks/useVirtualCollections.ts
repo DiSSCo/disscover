@@ -8,7 +8,7 @@ import { getVirtualCollectionDetails } from 'services/virtualCollectionService/g
 import { postNewVirtualCollection } from 'services/virtualCollectionService/postNewVirtualCollection';
 
 /* Import types */
-import { NewVirtualCollectionRequest } from 'types/Types';
+import { NewVirtualCollectionRequest } from 'types/ServiceTypes';
 
 /* Base constants */
 const staleTime = 1000 * 60 * 5; // How long until the time is stale

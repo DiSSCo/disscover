@@ -6,16 +6,10 @@ export enum CardCategory {
     CitationAndLicense = 'Citation and license'
 }
 
-export const CARDS_LEFT_COLUMN: CardCategory[] = [
+export const LEFT_COLUMN_CATEGORIES = new Set<string>([
     CardCategory.SpecimenRecord,
     CardCategory.Identification
-];
-
-export const CARDS_RIGHT_COLUMN: CardCategory[] = [
-    CardCategory.Location,
-    CardCategory.CollectingEvent,
-    CardCategory.CitationAndLicense
-];
+]);
 
 export interface CardConfig {
     category: CardCategory;

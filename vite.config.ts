@@ -22,6 +22,7 @@ export default defineConfig(({mode}) => {
         sources: '/src/sources',
         store: '/src/store',
         tests: '/src/tests',
+        types: '/src/types',
         utils: '/src/utils',
         webroot: '/src/webroot'
       }

@@ -36,4 +36,4 @@ interface DigitalSpecimenUIModel {
     mappedData: MappedCategories[]
 }
 
-export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, CategoryConfig };
+export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories };

@@ -89,7 +89,7 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, geor
                     <p>{craftCitation()}</p>
                 </div>
             }
-            <div className="ds-card-body">
+            <dd className="ds-card-body">
                 {fragment
                     .filter((item: any) => !item.hidden)
                     .map((item: any, index: number) => (
@@ -99,7 +99,7 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, geor
                         />
                     ))
                 }
-            </div>
+            </dd>
         </Card>
     )
 }

@@ -14,7 +14,7 @@ RUN npm ci --ignore-scripts
 COPY . ./
 
 # Generate Type Files
-RUN npm install typescript -g
+RUN npm install typescript@5 -g
 
 RUN tsc 'src/app/GenerateTypes.ts' \
     --outDir 'src/app' \

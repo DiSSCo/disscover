@@ -14,17 +14,14 @@ RUN npm ci --ignore-scripts
 COPY . ./
 
 # Generate Type Files
-RUN npm install typescript@5 -g
-
-RUN tsc 'src/app/GenerateTypes.ts' \
+RUN npx tsc 'src/app/GenerateTypes.ts' \
     --outDir 'src/app' \
     --types 'node' \
     --moduleResolution 'node' \
     --module 'CommonJS' \
     --target 'es2020' \
     --lib 'es2020','dom' \
-    --esModuleInterop \
-    --ignoreDeprecations '6.0'
+    --esModuleInterop
 
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs' \
     && rm 'src/app/GenerateTypes.js' \

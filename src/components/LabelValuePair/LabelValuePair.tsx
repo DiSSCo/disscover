@@ -73,13 +73,13 @@ export const LabelValuePair = ({ item }: Props) => {
     return (
 		<div className="property-row-fragment">
 			{item.type === 'verbatim' ?
-				<span className="property-label verbatim">{item.label}</span>
-				: <span className="property-label">{item.label}</span>
+				<dt className="property-label verbatim">{item.label}</dt>
+				: <dt className="property-label">{item.label}</dt>
 			}
 		
-			<span className="property-value">
+			<dd className="property-value">
 				{setCorrectItemType()}
-			</span>
+			</dd>
 		</div>
     );
 };

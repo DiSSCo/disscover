@@ -5,6 +5,10 @@ import { Hero } from 'components/Hero/Hero';
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
+/* Import types and enums */
+import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES } from 'types/digitalSpecimenTypes';
+import { CategoryConfig, MappedCategories, UIProperty } from 'types/dataMapperTypes';
+
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
 
@@ -19,26 +23,56 @@ const DigitalSpecimenDetails = () => {
     if (!specimen) return <main><p>No data found</p></main>
     if (isError) return <main><p>Something went wrong with fetching the Digital Specimen. Please try again later.</p></main>;
 
+    const actualData = specimen?.mappedData || [];
+    
+    const leftColumnCards = actualData.filter((category: MappedCategories) => LEFT_COLUMN_CATEGORIES.has(category.name));
+    const rightColumnCards = actualData.filter((category: MappedCategories) => !LEFT_COLUMN_CATEGORIES.has(category.name));
+
+    // Helper to get raw data array by Category Enum
+    const getCardFragment = (category: CardCategory) => {
+        return specimen?.mappedData?.find((cat: CategoryConfig) => cat.name === category)?.data || [];
+    };
+
+    // Helper to get a field value
+    const getFieldValue = (category: CardCategory, label: string) => {
+        return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
+    };
+
     return (
         <>
             <Hero
-                title={specimen?.IDENTIFICATION?.scientificName.value}
+                title={getFieldValue(CardCategory.Identification, 'Scientific Name')}
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
                 isHtml={specimen?.IDENTIFICATION?.scientificName?.value?.isHtml}
-                badge={[{ content: specimen?.UI_COMPONENTS_DATA?.taxonRank.value.toLowerCase(), type: 'solid', color: 'grass'}, { content: specimen?.UI_COMPONENTS_DATA?.typeStatus.value, type: 'solid', color: 'sky'}]}
+                badge={[{
+                    content: getFieldValue(CardCategory.Identification, 'Rank')?.toLowerCase(),
+                    type: 'solid',
+                    color: 'grass'
+                }]}
                 annotate={true}
             >
             </Hero>
             <main className="digital-specimen-container">
                 <div id="ds-left-column">
-                    <DigitalSpecimenCard cardHeader="Specimen record" fragment={specimen.SPECIMEN_RECORD}/>
-                    <DigitalSpecimenCard cardHeader="Identification" annotate={true} fragment={specimen.IDENTIFICATION}/>
+                    {leftColumnCards.map((category: MappedCategories) => (
+                        <DigitalSpecimenCard 
+                            key={category.name}
+                            cardHeader={category.name} 
+                            fragment={category.data}
+                            {...CARD_CONFIGS[category.name as CardCategory]} 
+                        />
+                    ))}
                 </div>
                 <div id="ds-right-column">
-                    <DigitalSpecimenCard cardHeader="Location" annotate={true} fragment={specimen.LOCATION} georeference={true}/>
-                    <DigitalSpecimenCard cardHeader="Collecting event" fragment={specimen.COLLECTING_EVENT}/>
-                    <DigitalSpecimenCard cardHeader="Citation and license" copy={true} fragment={specimen.CITATION_LICENSE} citation={true}/>
+                    {rightColumnCards.map((category: MappedCategories) => (
+                        <DigitalSpecimenCard 
+                            key={category.name}
+                            cardHeader={category.name} 
+                            fragment={category.data} 
+                            {...CARD_CONFIGS[category.name as CardCategory]} 
+                        />
+                    ))}
                 </div>
             </main>
         </>

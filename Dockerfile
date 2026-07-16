@@ -18,14 +18,12 @@ RUN npm install typescript -g
 
 RUN tsc 'src/app/GenerateTypes.ts' \
     --outDir 'src/app' \
-    --ignoreConfig \
     --types 'node' \
-    --moduleResolution 'node' \
     --module 'CommonJS' \
     --target 'es2020' \
     --lib 'es2020','dom' \
     --esModuleInterop \
-    --ignoreDeprecations '6.0'
+    --ignoreConfig
 
 RUN cp 'src/app/GenerateTypes.js' 'src/app/GenerateTypes.cjs' \
     && rm 'src/app/GenerateTypes.js' \

@@ -1,7 +1,7 @@
 import apiClient from 'services/apiClient';
 
 /* Import types */
-import { NewVirtualCollectionRequest } from 'types/Types';
+import { NewVirtualCollectionRequest } from 'types/serviceTypes';
 
 /**
  * Service that creates a new Virtual Collection by POST through the apiClient

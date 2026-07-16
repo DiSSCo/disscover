@@ -1,8 +1,8 @@
 /* Import schemas */
-import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/DigitalSpecimenSchema";
+import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
 
 /* Import types */
-import { DigitalSpecimenUIModel, SchemaMap, UIProperty } from "./types/dataMapperTypes";
+import { DigitalSpecimenUIModel, UIProperty } from "types/dataMapperTypes";
 
 /**
  * Function to get the accepted identification or the first one it can find
@@ -38,26 +38,34 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
     const ds = rawData?.data?.attributes?.digitalSpecimen;
     if (!ds) return null;
 
-    /* Find acceptedIdentification or second best option */
     const acceptedIdentification = getAcceptedIdentification(ds);
     const primaryEvent = getPrimaryEvent(ds);
 
-    return Object.fromEntries(
-        Object.entries(DIGITAL_SPECIMEN_SCHEMA_MAP as SchemaMap).map(([groupKey, fields]) => {
-            const mappedFields: Record<string, UIProperty> = Object.fromEntries(
-                Object.entries(fields).map(([fieldKey, config]) => [
-                    fieldKey,
-                    {
-                        label: config.label,
-                        value: config.resolve(ds, {acceptedIdentification, primaryEvent}),
-                        isHtml: Boolean(config.isHtml),
-                        type: config.type || 'base',
-                        hidden: config.hidden || false
-                    }
-                ])
-            );
+    const mappedCategories = DIGITAL_SPECIMEN_SCHEMA_MAP.map((category) => {
+        const mappedFields: UIProperty[] = [];
 
-            return [groupKey, mappedFields];
-        })
-    ) as unknown as DigitalSpecimenUIModel;
+        for (const field of category.data) {
+            const value = field.resolve(ds, { acceptedIdentification, primaryEvent });
+
+            /* Only push to the array if a valid value exists */
+            if (value) {
+                mappedFields.push({
+                    label: field.label,
+                    value: value,
+                    type: field.type || 'base',
+                    hidden: field.hidden || false
+                });
+            }
+        }
+
+        return {
+            name: category.name,
+            data: mappedFields
+        }
+    })
+
+    return {
+        /* Only keep categories that have at least one valid data field */
+        mappedData: mappedCategories.filter(category => category.data.length > 0)
+    };
 };

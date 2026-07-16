@@ -14,7 +14,7 @@ RUN npm ci --ignore-scripts
 COPY . ./
 
 # Generate Type Files
-RUN npx tsc 'src/app/GenerateTypes.ts' \
+RUN tsc 'src/app/GenerateTypes.ts' \
     --outDir 'src/app' \
     --types 'node' \
     --moduleResolution 'node' \

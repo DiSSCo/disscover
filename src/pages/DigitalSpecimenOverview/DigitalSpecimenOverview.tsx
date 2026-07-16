@@ -7,10 +7,10 @@ import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Import types and enums */
 import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES } from 'types/digitalSpecimenTypes';
+import { CategoryConfig, MappedCategories, UIProperty } from 'types/dataMapperTypes';
 
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
-import { MappedCategories } from 'types/dataMapperTypes';
 
 const DigitalSpecimenDetails = () => {
     /* Base variables */
@@ -30,12 +30,12 @@ const DigitalSpecimenDetails = () => {
 
     // Helper to get raw data array by Category Enum
     const getCardFragment = (category: CardCategory) => {
-        return specimen?.mappedData?.find((cat: any) => cat.name === category)?.data || [];
+        return specimen?.mappedData?.find((cat: CategoryConfig) => cat.name === category)?.data || [];
     };
 
     // Helper to get a field value
     const getFieldValue = (category: CardCategory, label: string) => {
-        return getCardFragment(category).find((field: any) => field.label === label)?.value;
+        return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
     };
 
     return (

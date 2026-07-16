@@ -40,33 +40,32 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
 
     const acceptedIdentification = getAcceptedIdentification(ds);
     const primaryEvent = getPrimaryEvent(ds);
-    
+
     const mappedCategories = DIGITAL_SPECIMEN_SCHEMA_MAP.map((category) => {
-        const mappedFields = category.data.reduce<UIProperty[]>((accumulator, field) => {
-            console.log(accumulator, field);
+        const mappedFields: UIProperty[] = [];
+
+        for (const field of category.data) {
             const value = field.resolve(ds, { acceptedIdentification, primaryEvent });
 
-            // Only push to the array if a valid value exists
-            if (value !== undefined && value !== null && value !== "") {
-                accumulator.push({
+            /* Only push to the array if a valid value exists */
+            if (value) {
+                mappedFields.push({
                     label: field.label,
                     value: value,
                     type: field.type || 'base',
                     hidden: field.hidden || false
                 });
             }
-
-            return accumulator;
-        }, []);
+        }
 
         return {
             name: category.name,
             data: mappedFields
-        };
-    });
+        }
+    })
 
     return {
-        // Only keep categories that have at least one valid data field
+        /* Only keep categories that have at least one valid data field */
         mappedData: mappedCategories.filter(category => category.data.length > 0)
     };
 };

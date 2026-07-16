@@ -7,6 +7,9 @@ import { OpenStreetMap } from "components/elements/customUI/CustomUI";
 /* Import styles */
 import './DigitalSpecimenCard.scss';
 
+/* Import types */
+import { UIProperty } from "types/dataMapperTypes";
+
 type SpecimenField = {
     label: string;
     value: any;
@@ -89,17 +92,17 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, geor
                     <p>{craftCitation()}</p>
                 </div>
             }
-            <dd className="ds-card-body">
+            <dl className="ds-card-body">
                 {fragment
-                    .filter((item: any) => !item.hidden)
-                    .map((item: any, index: number) => (
+                    .filter((item: UIProperty) => !item.hidden)
+                    .map((item: UIProperty, index: number) => (
                         <LabelValuePair 
                             key={item.label || index} 
                             item={item as { label: string; value: string; isHtml: boolean; type: string; hidden: boolean; }} 
                         />
                     ))
                 }
-            </dd>
+            </dl>
         </Card>
     )
 }

@@ -61,7 +61,9 @@ $media-queries: (
     --spacing-xxxxl: 64px;
 
     /* Very specific spacing */
-    --odd-spacing-xs: 3px;
+    --odd-spacing-xxs: 0px;
+    --odd-spacing-xs: 1px;
+    --odd-spacing-sm: 3px;
 
     /* Border-radius */
     --border-radius-sm: 4px;

@@ -1,6 +1,7 @@
 /* Import components */
 import { DigitalSpecimenCard } from 'components/Cards/DigitalSpecimenCard/DigitalSpecimenCard';
 import { Hero } from 'components/Hero/Hero';
+import { ImageCard } from 'components/Cards/DigitalMediaCard/DigitalMediaCard';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
@@ -18,15 +19,25 @@ const DigitalSpecimenDetails = () => {
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
+    const hasImages = specimen?.digitalMedia?.length > 0;
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
     if (!specimen) return <main><p>No data found</p></main>
     if (isError) return <main><p>Something went wrong with fetching the Digital Specimen. Please try again later.</p></main>;
 
     const actualData = specimen?.mappedData || [];
+
+    /* Set the columns based on whether an image can be found */
+    let leftColumnCards = [];
+    let rightColumnCards = [];
     
-    const leftColumnCards = actualData.filter((category: MappedCategories) => LEFT_COLUMN_CATEGORIES.has(category.name));
-    const rightColumnCards = actualData.filter((category: MappedCategories) => !LEFT_COLUMN_CATEGORIES.has(category.name));
+    if (hasImages) {
+        leftColumnCards = []; 
+        rightColumnCards = actualData; 
+    } else {
+        leftColumnCards = actualData.filter((category: MappedCategories) => LEFT_COLUMN_CATEGORIES.has(category.name));
+        rightColumnCards = actualData.filter((category: MappedCategories) => !LEFT_COLUMN_CATEGORIES.has(category.name));
+    }
 
     // Helper to get raw data array by Category Enum
     const getCardFragment = (category: CardCategory) => {
@@ -55,14 +66,19 @@ const DigitalSpecimenDetails = () => {
             </Hero>
             <main className="digital-specimen-container">
                 <div id="ds-left-column">
-                    {leftColumnCards.map((category: MappedCategories) => (
-                        <DigitalSpecimenCard 
-                            key={category.name}
-                            cardHeader={category.name} 
-                            fragment={category.data}
-                            {...CARD_CONFIGS[category.name as CardCategory]} 
-                        />
-                    ))}
+                    { hasImages ? (
+                        <ImageCard specimen={specimen}></ImageCard>
+                    ) : (
+                        leftColumnCards.map((category: MappedCategories) => (
+                            <DigitalSpecimenCard 
+                                key={category.name}
+                                cardHeader={category.name} 
+                                fragment={category.data}
+                                {...CARD_CONFIGS[category.name as CardCategory]} 
+                            />
+                        ))
+                    )}
+                    
                 </div>
                 <div id="ds-right-column">
                     {rightColumnCards.map((category: MappedCategories) => (

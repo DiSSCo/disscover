@@ -19,8 +19,6 @@ export async function getJpegFromIIIFImages(image: any) {
         // IIIF v2 uses '@id', IIIF v3 uses 'id'
         const imageServiceId = service['@id'] || service.id;
 
-        // 2. Format the URL for an 80px by 80px bounding box
-        // Uses '!80,80' to scale the image proportionally to fit inside 80x80 pixels
         return `${imageServiceId}/full/max/0/default.jpg`;
 
     } catch (error) {

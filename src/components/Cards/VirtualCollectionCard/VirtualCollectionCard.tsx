@@ -23,7 +23,7 @@ export const VirtualCollectionCard = ({ collection, type: viewType }: Props) => 
                         </div>
                         }
                         <div className="vc-card-content-container">
-                            { collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus'] && 
+                            { collection.attributes?.['ods:hasIdentifications']?.[0]?.['dwc:typeStatus'] && 
                             <Badge color="sky" variant="solid">{collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus']}</Badge>
                             }
                             <p dangerouslySetInnerHTML={{__html: GetSpecimenNameHTMLLabel(collection.attributes)}}></p>

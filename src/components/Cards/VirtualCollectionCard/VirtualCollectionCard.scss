@@ -1,0 +1,27 @@
+.gallery-card {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    p {
+        font-weight: var(--bold-font-weight);
+        font-size: var(--sm-font-size);
+        margin-block-start: var(--spacing-sm);
+    }
+    span {
+        font-size: var(--xs-font-size);
+    }
+
+    .vc-card-image-container {
+        width: 100%;
+        background-color: var(--medium-gray);
+        height: var(--image-card-height);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .vc-card-content-container {
+        padding: var(--spacing-sm);
+    }
+}

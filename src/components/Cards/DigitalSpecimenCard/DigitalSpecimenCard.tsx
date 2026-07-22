@@ -9,6 +9,9 @@ import './DigitalSpecimenCard.scss';
 
 /* Import types */
 import { UIProperty } from "types/dataMapperTypes";
+import { AnnotationTargetPayload } from 'types/digitalSpecimenTypes';
+
+/* Import hooks */
 import { useClipboard } from "hooks/useClipboard";
 
 type SpecimenField = {
@@ -19,16 +22,26 @@ type SpecimenField = {
 }
 
 type Props = {
-    cardHeader: string,
-    annotate?: boolean,
-    copy?: boolean,
-    fragment: SpecimenField[],
-    georeference?: boolean
-    citation?: boolean,
-    AnnotateHelper?: Function
-}
+    cardHeader: string;
+    annotate?: boolean;
+    copy?: boolean;
+    fragment: SpecimenField[];
+    georeference?: boolean;
+    citation?: boolean;
+    annotationTarget?: AnnotationTargetPayload;
+    AnnotateHelper?: (target?: AnnotationTargetPayload) => void;
+};
 
-export const DigitalSpecimenCard = ({ cardHeader, annotate, copy: copyFunctionality, fragment, georeference = false, citation = false, AnnotateHelper }: Props) => {
+export const DigitalSpecimenCard = ({
+    cardHeader,
+    annotate,
+    copy: copyFunctionality,
+    fragment,
+    georeference = false,
+    citation = false,
+    annotationTarget,
+    AnnotateHelper
+}: Props) => {
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
         return fragment.find((item) => item.label === labelName)?.value;
@@ -82,7 +95,10 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy: copyFunctional
             <div className="ds-card-header">
                 <h2>{cardHeader}</h2>
                 { annotate && AnnotateHelper &&
-                    <Button variant="ghost" onClick={() => AnnotateHelper()}>
+                    <Button 
+                        variant="ghost" 
+                        onClick={() => AnnotateHelper(annotationTarget)}
+                    >
                         Annotate
                         <Pencil2Icon />
                     </Button>

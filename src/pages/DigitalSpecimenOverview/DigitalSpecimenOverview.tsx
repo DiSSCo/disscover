@@ -6,7 +6,7 @@ import { Hero } from 'components/Hero/Hero';
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Import types and enums */
-import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES } from 'types/digitalSpecimenTypes';
+import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES, AnnotationTargetPayload } from 'types/digitalSpecimenTypes';
 import { CategoryConfig, MappedCategories, UIProperty } from 'types/dataMapperTypes';
 
 /* Import styling */
@@ -20,17 +20,26 @@ import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
 import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
 import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
 
-/* Schemas */
+/* Import schemas */
 import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
 import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
+/* Import hooks */
+import { useAppDispatch } from 'app/Hooks';
+
+/* Import store */
+import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+
 const DigitalSpecimenDetails = () => {
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
     /* Base variables */
     const url = new URL(globalThis.location.href);
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
-    const [ annotationMode, setAnnotationMode ] = useState(false);
+    const [annotationMode, setAnnotationMode] = useState(false);
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
     if (!specimen) return <main><p>No data found</p></main>
@@ -51,6 +60,20 @@ const DigitalSpecimenDetails = () => {
         return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
     };
 
+    const handleOpenAnnotation = (target?: AnnotationTargetPayload) => {
+        if (target) {
+            dispatch(setAnnotationTarget(target));
+        } else {
+            /* Fallback if no target is specified, jsonPath resolves to entire class */
+            dispatch(setAnnotationTarget({
+                type: 'class',
+                jsonPath: "",
+                directPath: true
+            }));
+        }
+        setAnnotationMode(true);
+    };
+
     return (
         <div className="digital-specimen-page">
             <Hero
@@ -64,7 +87,7 @@ const DigitalSpecimenDetails = () => {
                     color: 'grass'
                 }]}
                 annotate={true}
-                AnnotateHelper={() => setAnnotationMode(true)}
+                AnnotateHelper={() => handleOpenAnnotation()}
             >
             </Hero>
             <main className="digital-specimen-container">
@@ -74,7 +97,7 @@ const DigitalSpecimenDetails = () => {
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
-                            AnnotateHelper={() => setAnnotationMode(true)}
+                            AnnotateHelper={handleOpenAnnotation}
                             {...CARD_CONFIGS[category.name as CardCategory]} 
                         />
                     ))}
@@ -85,7 +108,7 @@ const DigitalSpecimenDetails = () => {
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
-                            AnnotateHelper={() => setAnnotationMode(true)}
+                            AnnotateHelper={handleOpenAnnotation}
                             {...CARD_CONFIGS[category.name as CardCategory]} 
                         />
                     ))}

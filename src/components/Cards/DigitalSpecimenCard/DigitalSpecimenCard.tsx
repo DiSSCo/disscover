@@ -9,6 +9,7 @@ import './DigitalSpecimenCard.scss';
 
 /* Import types */
 import { UIProperty } from "types/dataMapperTypes";
+import { useClipboard } from "hooks/useClipboard";
 
 type SpecimenField = {
     label: string;
@@ -23,13 +24,24 @@ type Props = {
     copy?: boolean,
     fragment: SpecimenField[],
     georeference?: boolean
-    citation?: boolean
+    citation?: boolean,
+    AnnotateHelper?: Function
 }
 
-export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, georeference = false, citation = false }: Props) => {
+export const DigitalSpecimenCard = ({ cardHeader, annotate, copy: copyFunctionality, fragment, georeference = false, citation = false, AnnotateHelper }: Props) => {
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
         return fragment.find((item) => item.label === labelName)?.value;
+    };
+    const { copy, hasCopied } = useClipboard();
+
+    /* Craft plain text citation for the copy button */
+    const getCitationText = () => {
+        const orgId = getFieldValueByLabel('Organisation ID');
+        const orgName = getFieldValueByLabel('Organisation Name') ?? orgId ?? '';
+        const digitalSpecimenId = getFieldValueByLabel('DOI') ?? getFieldValueByLabel('Digital Specimen ID') ?? '';
+
+        return `${orgName} (${new Date().getFullYear()}). Distributed System of Scientific Collections. [Dataset]. ${digitalSpecimenId}`.trim();
     };
 
     /* Craft citation based on a number of fields */
@@ -69,15 +81,15 @@ export const DigitalSpecimenCard = ({ cardHeader, annotate, copy, fragment, geor
         <Card className="digital-specimen-card">
             <div className="ds-card-header">
                 <h2>{cardHeader}</h2>
-                { annotate &&
-                    <Button variant="ghost">
+                { annotate && AnnotateHelper &&
+                    <Button variant="ghost" onClick={() => AnnotateHelper()}>
                         Annotate
                         <Pencil2Icon />
                     </Button>
                 }
-                { copy && 
-                    <Button variant="ghost">
-                        Copy
+                { copyFunctionality && 
+                    <Button variant="ghost" onClick={() => copy(getCitationText())}>
+                         {hasCopied ? 'Copied!' : 'Copy'}
                         <CopyIcon />
                     </Button>
                 }

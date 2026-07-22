@@ -28,6 +28,7 @@ type Props = {
     showCreateButton?: boolean;
     isHtml?: boolean;
     annotate?: boolean;
+    AnnotateHelper?: Function
 }
 
 /**
@@ -41,7 +42,7 @@ type Props = {
  * @param showCreateButton Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, AnnotateHelper }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -85,8 +86,8 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
                 <div id="hero-top-buttons-right">
-                {annotate &&
-                    <Button variant="solid">
+                {annotate && AnnotateHelper &&
+                    <Button variant="solid" onClick={() => AnnotateHelper()}>
                         Annotate
                         <Pencil2Icon />
                     </Button>

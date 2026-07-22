@@ -11,6 +11,18 @@ import { CategoryConfig, MappedCategories, UIProperty } from 'types/dataMapperTy
 
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
+import { useState } from 'react';
+import { AnnotationSidePanel } from 'components/elements/Elements';
+
+/* Import API */
+import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
+import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
+import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
+import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
+
+/* Schemas */
+import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
+import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
 const DigitalSpecimenDetails = () => {
     /* Base variables */
@@ -18,6 +30,7 @@ const DigitalSpecimenDetails = () => {
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
+    const [ annotationMode, setAnnotationMode ] = useState(false);
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
     if (!specimen) return <main><p>No data found</p></main>
@@ -39,7 +52,7 @@ const DigitalSpecimenDetails = () => {
     };
 
     return (
-        <>
+        <div className="digital-specimen-page">
             <Hero
                 title={getFieldValue(CardCategory.Identification, 'Scientific Name')}
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
@@ -51,6 +64,7 @@ const DigitalSpecimenDetails = () => {
                     color: 'grass'
                 }]}
                 annotate={true}
+                AnnotateHelper={() => setAnnotationMode(true)}
             >
             </Hero>
             <main className="digital-specimen-container">
@@ -60,6 +74,7 @@ const DigitalSpecimenDetails = () => {
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
+                            AnnotateHelper={() => setAnnotationMode(true)}
                             {...CARD_CONFIGS[category.name as CardCategory]} 
                         />
                     ))}
@@ -69,13 +84,41 @@ const DigitalSpecimenDetails = () => {
                         <DigitalSpecimenCard 
                             key={category.name}
                             cardHeader={category.name} 
-                            fragment={category.data} 
+                            fragment={category.data}
+                            AnnotateHelper={() => setAnnotationMode(true)}
                             {...CARD_CONFIGS[category.name as CardCategory]} 
                         />
                     ))}
                 </div>
             </main>
-        </>
+            {annotationMode && (
+                <>
+                    <button 
+                        className="annotation-panel-overlay"
+                        tabIndex={0}
+                        aria-label="Close annotation panel"
+                        onClick={() => setAnnotationMode(false)} 
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                setAnnotationMode(false);
+                            }
+                        }}
+                    ></button>
+                    <aside className="annotation-panel-container">
+                        <AnnotationSidePanel
+                            superClass={specimen.data.attributes.digitalSpecimen}
+                            schema={DigitalSpecimenSchema}
+                            annotationCases={DigitalSpecimenAnnotationCases.annotationCases}
+                            GetAnnotations={GetDigitalSpecimenComplete}
+                            GetMas={GetDigitalSpecimenMas}
+                            GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
+                            ScheduleMas={ScheduleDigitalSpecimenMas}
+                            HideAnnotationSidePanel={() => setAnnotationMode(false)}
+                        />
+                    </aside>
+                </>
+            )}
+        </div>
     );
 };
 

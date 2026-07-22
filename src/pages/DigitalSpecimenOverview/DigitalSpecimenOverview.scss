@@ -1,23 +1,64 @@
-.digital-specimen-container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: var(--spacing-l);
+/* Page Wrapper context */
+.digital-specimen-page {
+	position: relative;
+	min-height: 100vh;
 
-	#ds-right-column, #ds-left-column {
-		.digital-specimen-card {
-			margin-block-end: var(--spacing-l);
-			padding: var(--spacing-m);
-
-			.ds-card-header {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-
-				h2 {
-					font-size: var(--md-font-size);
-					margin: 0;
+	.digital-specimen-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--spacing-l);
+	
+		#ds-right-column, #ds-left-column {
+			.digital-specimen-card {
+				margin-block-end: var(--spacing-l);
+				padding: var(--spacing-m);
+	
+				.ds-card-header {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+	
+					h2 {
+						font-size: var(--md-font-size);
+						margin: 0;
+					}
 				}
 			}
 		}
+	}
+
+	.annotation-panel-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.25);
+		z-index: 998;
+		border: none;
+	}
+	.annotation-panel-container {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 420px; /* Adjust width as preferred */
+		max-width: 90vw;
+		height: 100vh;
+		background-color: #ffffff;
+		box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+		z-index: 999;
+		overflow-y: auto;
+		
+		/* Smooth enter animation */
+		animation: slideInRight 0.25s ease-out forwards;
+	}
+}
+
+@keyframes slideInRight {
+	from {
+	  transform: translateX(100%);
+	}
+	to {
+	  transform: translateX(0);
 	}
 }

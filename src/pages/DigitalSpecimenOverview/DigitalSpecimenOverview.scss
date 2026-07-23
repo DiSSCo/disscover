@@ -1,3 +1,5 @@
+@use "styles/animations.scss" as *;
+
 /* Page Wrapper context */
 .digital-specimen-page {
 	position: relative;
@@ -33,32 +35,20 @@
 		left: 0;
 		width: 100vw;
 		height: 100vh;
-		background-color: rgba(0, 0, 0, 0.25);
-		z-index: 998;
+		background-color: var(--overlay-black);
 		border: none;
 	}
 	.annotation-panel-container {
 		position: fixed;
 		top: 0;
 		right: 0;
-		width: 420px; /* Adjust width as preferred */
-		max-width: 90vw;
+		width: var(--content-spacing);
 		height: 100vh;
-		background-color: #ffffff;
-		box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
-		z-index: 999;
+		box-shadow: -4px 0 var(--spacing-m) var(--overlay-black);
+		z-index: 1;
 		overflow-y: auto;
 		
 		/* Smooth enter animation */
 		animation: slideInRight 0.25s ease-out forwards;
-	}
-}
-
-@keyframes slideInRight {
-	from {
-	  transform: translateX(100%);
-	}
-	to {
-	  transform: translateX(0);
 	}
 }

@@ -134,7 +134,8 @@ const DigitalSpecimenDetails = () => {
             </main>
             {annotationMode && (
                 <>
-                    <button 
+                    <button
+                        type="button"
                         className="annotation-panel-overlay"
                         tabIndex={0}
                         aria-label="Close annotation panel"

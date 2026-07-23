@@ -1,24 +1,48 @@
+/* Import dependencies */
+import { useState } from 'react';
+
 /* Import components */
 import { DigitalSpecimenCard } from 'components/Cards/DigitalSpecimenCard/DigitalSpecimenCard';
 import { Hero } from 'components/Hero/Hero';
 import { ImageCard } from 'components/Cards/DigitalMediaCard/DigitalMediaCard';
+import { AnnotationSidePanel } from 'components/elements/Elements';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Import types and enums */
-import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES } from 'types/digitalSpecimenTypes';
+import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES, AnnotationTargetPayload } from 'types/digitalSpecimenTypes';
 import { CategoryConfig, MappedCategories, UIProperty } from 'types/dataMapperTypes';
 
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
 
+/* Import API */
+import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
+import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
+import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
+import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
+
+/* Import schemas */
+import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
+import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
+
+/* Import hooks */
+import { useAppDispatch } from 'app/Hooks';
+
+/* Import store */
+import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+
 const DigitalSpecimenDetails = () => {
+    /* Hooks */
+    const dispatch = useAppDispatch();
+
     /* Base variables */
     const url = new URL(globalThis.location.href);
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
+    const [annotationMode, setAnnotationMode] = useState(false);
     const hasImages = specimen?.digitalMedia?.length > 0;
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
@@ -50,8 +74,22 @@ const DigitalSpecimenDetails = () => {
         return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
     };
 
+    const handleOpenAnnotation = (target?: AnnotationTargetPayload) => {
+        if (target) {
+            dispatch(setAnnotationTarget(target));
+        } else {
+            /* Fallback if no target is specified, jsonPath resolves to entire class */
+            dispatch(setAnnotationTarget({
+                type: 'class',
+                jsonPath: "",
+                directPath: true
+            }));
+        }
+        setAnnotationMode(true);
+    };
+
     return (
-        <>
+        <div className="digital-specimen-page">
             <Hero
                 title={getFieldValue(CardCategory.Identification, 'Scientific Name')}
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
@@ -63,6 +101,7 @@ const DigitalSpecimenDetails = () => {
                     color: 'grass'
                 }]}
                 annotate={true}
+                AnnotateHelper={() => handleOpenAnnotation()}
             >
             </Hero>
             <main className="digital-specimen-container">
@@ -86,13 +125,42 @@ const DigitalSpecimenDetails = () => {
                         <DigitalSpecimenCard 
                             key={category.name}
                             cardHeader={category.name} 
-                            fragment={category.data} 
+                            fragment={category.data}
+                            AnnotateHelper={handleOpenAnnotation}
                             {...CARD_CONFIGS[category.name as CardCategory]} 
                         />
                     ))}
                 </div>
             </main>
-        </>
+            {annotationMode && (
+                <>
+                    <button
+                        type="button"
+                        className="annotation-panel-overlay"
+                        tabIndex={0}
+                        aria-label="Close annotation panel"
+                        onClick={() => setAnnotationMode(false)} 
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                setAnnotationMode(false);
+                            }
+                        }}
+                    ></button>
+                    <aside className="annotation-panel-container">
+                        <AnnotationSidePanel
+                            superClass={specimen.data.attributes.digitalSpecimen}
+                            schema={DigitalSpecimenSchema}
+                            annotationCases={DigitalSpecimenAnnotationCases.annotationCases}
+                            GetAnnotations={GetDigitalSpecimenComplete}
+                            GetMas={GetDigitalSpecimenMas}
+                            GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
+                            ScheduleMas={ScheduleDigitalSpecimenMas}
+                            HideAnnotationSidePanel={() => setAnnotationMode(false)}
+                        />
+                    </aside>
+                </>
+            )}
+        </div>
     );
 };
 

@@ -1,23 +1,54 @@
-.digital-specimen-container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: var(--spacing-l);
+@use "styles/animations.scss" as *;
 
-	#ds-right-column, #ds-left-column {
-		.digital-specimen-card {
-			margin-block-end: var(--spacing-l);
-			padding: var(--spacing-m);
+/* Page Wrapper context */
+.digital-specimen-page {
+	position: relative;
+	min-height: 100vh;
 
-			.ds-card-header {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-
-				h2 {
-					font-size: var(--md-font-size);
-					margin: 0;
+	.digital-specimen-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--spacing-l);
+	
+		#ds-right-column, #ds-left-column {
+			.digital-specimen-card {
+				margin-block-end: var(--spacing-l);
+				padding: var(--spacing-m);
+	
+				.ds-card-header {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+	
+					h2 {
+						font-size: var(--md-font-size);
+						margin: 0;
+					}
 				}
 			}
 		}
+	}
+
+	.annotation-panel-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: var(--overlay-black);
+		border: none;
+	}
+	.annotation-panel-container {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: var(--content-spacing);
+		height: 100vh;
+		box-shadow: -4px 0 var(--spacing-m) var(--overlay-black);
+		z-index: 1;
+		overflow-y: auto;
+		
+		/* Smooth enter animation */
+		animation: slideInRight 0.25s ease-out forwards;
 	}
 }

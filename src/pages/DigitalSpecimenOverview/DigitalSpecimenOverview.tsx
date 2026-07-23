@@ -104,7 +104,8 @@ const DigitalSpecimenDetails = () => {
                 AnnotateHelper={() => handleOpenAnnotation()}
             >
             </Hero>
-            <main className="digital-specimen-container">
+            {/* Desktop view */}
+            <main className="digital-specimen-container" id="ds-desktop-view">
                 <div id="ds-left-column">
                     { hasImages ? (
                         <ImageCard specimen={specimen}></ImageCard>
@@ -130,6 +131,24 @@ const DigitalSpecimenDetails = () => {
                             {...CARD_CONFIGS[category.name as CardCategory]} 
                         />
                     ))}
+                </div>
+            </main>
+            {/* Mobile view */}
+            <main className="digital-specimen-container" id="ds-mobile-view">
+                <div id="ds-left-column">
+                    { hasImages &&
+                        <ImageCard specimen={specimen}></ImageCard>
+                    }
+                    {actualData.map((category: MappedCategories) => (
+                        <DigitalSpecimenCard 
+                            key={category.name}
+                            cardHeader={category.name} 
+                            fragment={category.data}
+                            AnnotateHelper={handleOpenAnnotation}
+                            {...CARD_CONFIGS[category.name as CardCategory]} 
+                        />
+                    ))}
+                    
                 </div>
             </main>
             {annotationMode && (

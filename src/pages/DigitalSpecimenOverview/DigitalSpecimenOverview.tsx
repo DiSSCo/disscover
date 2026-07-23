@@ -25,6 +25,7 @@ const DigitalSpecimenDetails = () => {
     if (!specimen) return <main><p>No data found</p></main>
     if (isError) return <main><p>Something went wrong with fetching the Digital Specimen. Please try again later.</p></main>;
 
+    /* Human readable data mapped from the JSON data to use in UI*/
     const actualData = specimen?.mappedData || [];
 
     /* Set the columns based on whether an image can be found */
@@ -39,12 +40,12 @@ const DigitalSpecimenDetails = () => {
         rightColumnCards = actualData.filter((category: MappedCategories) => !LEFT_COLUMN_CATEGORIES.has(category.name));
     }
 
-    // Helper to get raw data array by Category Enum
+    /* Helper to get raw data array by Category Enum */
     const getCardFragment = (category: CardCategory) => {
         return specimen?.mappedData?.find((cat: CategoryConfig) => cat.name === category)?.data || [];
     };
 
-    // Helper to get a field value
+    /* Helper to get a field value */
     const getFieldValue = (category: CardCategory, label: string) => {
         return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
     };

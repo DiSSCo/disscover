@@ -33,11 +33,9 @@ export const ImageCard = ({ specimen }: Props ) => {
 
             const promises = allImages.map(async (img: any) => {
                 const format = img["dcterms:format"]?.toLowerCase();
-                const isJson = format === 'application/json';
-                const isJpeg = format === 'image/jpeg' || format === 'image/jpg';
                 
-                if (isJpeg) return { img: img["ac:accessURI"], id: img["@id"] };
-                if (isJson) return { img: await getJpegFromIIIFImages(img), id: img["@id"] };
+                if (format === 'image/jpeg' || format === 'image/jpg') return { img: img["ac:accessURI"], id: img["@id"] };
+                if (format === 'application/json') return { img: await getJpegFromIIIFImages(img), id: img["@id"] };
                 return null;
             });
     

@@ -72,6 +72,7 @@ export const ImageCard = ({ specimen }: Props ) => {
                             key={image.id}
                             onClick={() => setMainImage(image.img)}
                             className="digital-media-thumb-btn"
+                            type="button"
                         >
                             <img
                                 src={image.img} 

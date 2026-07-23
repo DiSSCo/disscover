@@ -1,0 +1,36 @@
+.digital-media-container {
+    position: sticky;
+    top: 0;
+    .digital-media-card { 
+        a {
+            .digital-media-card-image {
+                width: 100%;
+                aspect-ratio: 1/1;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+            }
+        }
+    }
+    
+    .digital-media-list {
+        display: flex;
+        margin-block-start: var(--spacing-sm);
+        position: sticky;
+
+        .digital-media-thumb-btn {
+            border: none;
+            margin: var(--odd-spacing-xxs);
+            padding: var(--odd-spacing-xxs);
+
+            img {
+                width: 80px;
+                height: 80px;
+                margin-inline-end: var(--spacing-sm);
+            }
+        }
+        .active {
+            border: var(--odd-spacing-sm) solid var(--indigo-10);
+        }
+    }
+}

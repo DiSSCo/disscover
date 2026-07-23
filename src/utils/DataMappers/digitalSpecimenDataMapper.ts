@@ -69,3 +69,18 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
         mappedData: mappedCategories.filter(category => category.data.length > 0)
     };
 };
+
+/**
+ * Adds digitalMedia to the UI-ready model, executed in the useDigitalSpecimen hook.
+ * @param rawData Digital Specimen data
+ * @returns Object with digitalMedia
+ */
+export const mapDigitalSpecimenMedia = (rawData: any) => {
+	const ds = rawData?.data?.attributes?.digitalSpecimen;
+	const dm = rawData?.data?.attributes?.digitalMedia;
+
+	if (!ds) return null;
+	return {
+		digitalMedia: dm
+	}
+}

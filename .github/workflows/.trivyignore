@@ -1,6 +1,8 @@
 # NPM dependencies we cannot fix
-# immutable is a fixed dependency of sass and upgrading to sass does not fix this issue Jun-12-2026
+# immutable is a fixed dependency of sass and upgrading to sass does not fix this issue Jul-22-2026
 CVE-2026-29063
+CVE-2026-59879
+CVE-2026-59880
 
 # jsonpath, no fixed dependency version, needs to be replaced Jun-12-2026
 CVE-2026-1615
@@ -16,6 +18,9 @@ CVE-2026-27601
 
 # form-data is a dependency of two other packages and it cannot be automatically updated Jun-18-2026
 CVE-2026-12143
+
+# js-yaml is a dependency of json-schema-to-typescript and cannot be updated Jul-22-2026
+CVE-2026-59869
 
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Jun-12-2026

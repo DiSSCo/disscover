@@ -115,6 +115,7 @@ const DigitalSpecimenDetails = () => {
                                 key={category.name}
                                 cardHeader={category.name} 
                                 fragment={category.data}
+                                AnnotateHelper={handleOpenAnnotation}
                                 {...CARD_CONFIGS[category.name as CardCategory]} 
                             />
                         ))

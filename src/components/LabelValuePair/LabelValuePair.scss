@@ -1,3 +1,5 @@
+@use "styles/mixins.scss" as *;
+
 .property-row-fragment {
     display: contents;
 
@@ -13,7 +15,11 @@
     .property-value {
         font-size: var(--sm-font-size);
         font-weight: var(--regular-font-weight);
+        margin-block-end: var(--spacing-m);
 
+        @include smallAndUp {
+            margin-block-end: var(--spacing-sm);
+        }
         a {
             svg {
                 margin-inline-start: var(--spacing-xs);

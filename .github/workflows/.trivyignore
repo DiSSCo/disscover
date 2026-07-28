@@ -22,6 +22,9 @@ CVE-2026-12143
 # js-yaml is a dependency of json-schema-to-typescript and cannot be updated Jul-22-2026
 CVE-2026-59869
 
+# React-router-dom needs to be upgraded from 7 to 8 Jul-28-2926
+GHSA-qwww-vcr4-c8h2
+
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Jun-12-2026
 CVE-2026-45447

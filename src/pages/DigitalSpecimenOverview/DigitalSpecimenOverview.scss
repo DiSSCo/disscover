@@ -1,4 +1,5 @@
 @use "styles/animations.scss" as *;
+@use "styles/mixins.scss" as *;
 
 /* Page Wrapper context */
 .digital-specimen-page {
@@ -6,28 +7,43 @@
 	min-height: 100vh;
 
 	.digital-specimen-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: var(--spacing-l);
-	
-		#ds-right-column, #ds-left-column {
-			.digital-specimen-card {
-				margin-block-end: var(--spacing-l);
-				padding: var(--spacing-m);
-	
-				.ds-card-header {
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-	
-					h2 {
-						font-size: var(--md-font-size);
-						margin: 0;
-					}
-				}
-			}
-		}
-	}
+        gap: var(--spacing-l);
+
+        #ds-right-column, #ds-left-column {
+            .digital-specimen-card {
+                margin-block-end: var(--spacing-l);
+                padding: var(--spacing-m);
+
+                .ds-card-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    h2 {
+                        font-size: var(--md-font-size);
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    #ds-mobile-view {
+        display: block;
+
+        @include mediumAndUp {
+            display: none;
+        }
+    }
+
+    #ds-desktop-view {
+        display: none;
+
+        @include mediumAndUp {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
 
 	.annotation-panel-overlay {
 		position: fixed;

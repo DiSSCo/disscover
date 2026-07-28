@@ -1,3 +1,5 @@
+@use "styles/mixins.scss" as *;
+
 .digital-specimen-card {
     .ds-card-header {
         margin-bottom: var(--spacing-m);
@@ -25,9 +27,13 @@
         }
     }
     .ds-card-body {
-        display: grid;
-        grid-template-columns: var(--general-card-height) 1fr;
-        gap: var(--spacing-sm) var(--spacing-m);
-        align-items: start;
+        display: block;
+    
+        @include smallAndUp {
+            display: grid;
+            grid-template-columns: var(--general-card-height) 1fr;
+            gap: var(--spacing-sm) var(--spacing-m);
+            align-items: start;
+        }
     }
 }

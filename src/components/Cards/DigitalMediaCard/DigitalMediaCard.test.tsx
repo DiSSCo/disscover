@@ -48,9 +48,12 @@ describe('DigitalMediaCard component', () => {
         vi.mocked(getJpegFromIIIFImages).mockResolvedValue('https://herbarium.bgbm.org/data/iiif/resolved_image.jpg');
     });
 
-    it('renders the loading placeholder initially before processing images', () => {
+    it('renders the loading placeholder initially before processing images', async () => {
         render(<DigitalMediaCard specimen={mockSpecimen} />);
+
         expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+        await screen.findByAltText('https://doi.org/TEST/K05-DG7-0EM');
     });
 
     it('processes images, calls IIIF resolver for json, and renders thumbnails', async () => {

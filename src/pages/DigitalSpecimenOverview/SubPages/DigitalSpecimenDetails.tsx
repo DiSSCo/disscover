@@ -33,7 +33,9 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
     }
 
     return (
-        <main className="digital-specimen-container">
+        <>
+            {/* Desktop view */}
+            <main className="digital-specimen-container" id="ds-desktop-view">
                 <div id="ds-left-column">
                     { hasImages ? (
                         <ImageCard specimen={specimen}></ImageCard>
@@ -62,5 +64,24 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
                     ))}
                 </div>
             </main>
+            {/* Mobile view */}
+            <main className="digital-specimen-container" id="ds-mobile-view">
+                <div id="ds-left-column">
+                    { hasImages &&
+                        <ImageCard specimen={specimen}></ImageCard>
+                    }
+                    {actualData.map((category: MappedCategories) => (
+                        <DigitalSpecimenCard 
+                            key={category.name}
+                            cardHeader={category.name} 
+                            fragment={category.data}
+                            AnnotateHelper={onAnnotate}
+                            {...CARD_CONFIGS[category.name as CardCategory]} 
+                        />
+                    ))}
+                    
+                </div>
+            </main>
+        </>
     )
 }

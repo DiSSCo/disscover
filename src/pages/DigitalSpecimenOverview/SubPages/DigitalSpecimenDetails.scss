@@ -1,3 +1,5 @@
+@use "styles/mixins.scss" as *;
+
 .digital-specimen-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -19,5 +21,22 @@
                 }
             }
         }
+    }
+}
+
+#ds-mobile-view {
+    display: block;
+
+    @include mediumAndUp {
+        display: none;
+    }
+}
+
+#ds-desktop-view {
+    display: none;
+
+    @include mediumAndUp {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 }

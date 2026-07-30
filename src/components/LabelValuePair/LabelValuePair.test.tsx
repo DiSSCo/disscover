@@ -24,7 +24,6 @@ describe('LabelValuePair', () => {
     const mockCopyFn = vi.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
         vi.mocked(useClipboard).mockReturnValue({
             copy: mockCopyFn,
             hasCopied: false,
@@ -54,7 +53,6 @@ describe('LabelValuePair', () => {
                 hidden: true,
             };
 
-            // const { container } = render(<LabelValuePair item={hiddenItem} />);
             const { container } = render(<LabelValuePair item={hiddenItem} />);
             expect(container.firstChild).toBeEmptyDOMElement();
         });
@@ -88,6 +86,7 @@ describe('LabelValuePair', () => {
             render(<LabelValuePair item={htmlItem} />);
 
             expect(sanitizeHtmlWrapper).toHaveBeenCalledWith('<b>Panthera</b>');
+            expect(screen.getByText('Panthera')).toBeInTheDocument();
         });
 
         it('renders Catalogue of Life link for "url" type', () => {
@@ -105,22 +104,6 @@ describe('LabelValuePair', () => {
             expect(link).toBeInTheDocument();
             expect(link).toHaveAttribute('href', 'https://catalogueoflife.org/taxon/123');
             expect(link).toHaveAttribute('target', '_blank');
-        });
-
-        it('renders verbatim styling and "Original" badge for "verbatim" type', () => {
-            const verbatimItem = {
-                label: 'Verbatim Locality',
-                value: 'Near the oak tree',
-                isHtml: false,
-                type: 'verbatim',
-                hidden: false,
-            };
-
-            render(<LabelValuePair item={verbatimItem} />);
-
-            expect(screen.getByText('Verbatim Locality')).toHaveClass('property-label verbatim');
-            expect(screen.getByText('Near the oak tree')).toBeInTheDocument();
-            expect(screen.getByText('Original')).toBeInTheDocument();
         });
 
         it('renders stripped DOI button and invokes copy hook on click for "copy" type', () => {

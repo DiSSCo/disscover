@@ -44,7 +44,6 @@ const mockSpecimen = {
 
 describe('DigitalMediaCard component', () => {
     beforeEach(() => {
-        vi.clearAllMocks();
         vi.mocked(getJpegFromIIIFImages).mockResolvedValue('https://herbarium.bgbm.org/data/iiif/resolved_image.jpg');
     });
 

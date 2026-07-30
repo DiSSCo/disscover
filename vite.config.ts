@@ -55,7 +55,10 @@ export default defineConfig(({mode}) => {
         '**/node_modules/**',
         '**/dist/**',
         '**/tests-e2e/**'
-      ]
+      ],
+      clearMocks: true,
+      mockReset: true,
+      restoreMocks: true,
     },
     build: {
       outDir: './build',

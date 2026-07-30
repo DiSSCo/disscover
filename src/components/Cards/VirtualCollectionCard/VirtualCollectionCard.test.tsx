@@ -34,10 +34,6 @@ const mockCollection = {
 };
 
 describe('VirtualCollectionCard', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
-
     it('renders the card details view with sanitized link and attributes', () => {
         render(<VirtualCollectionCard collection={mockCollection} type="details" />);
 

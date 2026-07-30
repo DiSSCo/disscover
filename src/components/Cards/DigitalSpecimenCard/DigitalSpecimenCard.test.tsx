@@ -19,18 +19,18 @@ vi.mock('hooks/useClipboard', () => ({
 /* Mock OpenStreetMap to check props passed to it without rendering the full map canvas */
 vi.mock('components/elements/customUI/CustomUI', () => ({
     OpenStreetMap: ({ latitude, longitude }: { latitude?: number; longitude?: number }) => (
-        <div data-testid="mock-map" data-lat={latitude} data-lng={longitude}>
+        <figure data-lat={latitude} data-lng={longitude}>
             Map
-        </div>
+        </figure>
     ),
 }));
 
 /* Mock LabelValuePair to easily test key rendering and hidden item filtering */
 vi.mock('components/LabelValuePair/LabelValuePair', () => ({
     LabelValuePair: ({ item }: { item: any }) => (
-        <div data-testid="label-value-pair">
-            <span>{item.label}:</span> <span>{String(item.value)}</span>
-        </div>
+        <dl role="list">
+            <dt>{item.label}:</dt> <dd>{String(item.value)}</dd>
+        </dl>
     ),
 }));
 
@@ -48,7 +48,6 @@ describe('DigitalSpecimenCard', () => {
     const mockCopyFn = vi.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
         vi.mocked(useClipboard).mockReturnValue({
             copy: mockCopyFn,
             hasCopied: false,
@@ -61,7 +60,7 @@ describe('DigitalSpecimenCard', () => {
         expect(screen.getByRole('heading', { name: 'Specimen Overview' })).toBeInTheDocument();
 
         /* LabelValuePair elements (5 visible items out of 6 in mockFragment) */
-        const renderedPairs = screen.getAllByTestId('label-value-pair');
+        const renderedPairs = screen.getAllByRole('list');
         expect(renderedPairs).toHaveLength(5);
         expect(screen.getByText('Organisation Name:')).toBeInTheDocument();
         expect(screen.queryByText('Internal Secret:')).not.toBeInTheDocument();
@@ -192,7 +191,7 @@ describe('DigitalSpecimenCard', () => {
                 />
             );
 
-            const map = screen.getByTestId('mock-map');
+            const map = screen.getByRole('figure');
             expect(map).toBeInTheDocument();
             expect(map).toHaveAttribute('data-lat', '52.1601');
             expect(map).toHaveAttribute('data-lng', '4.497');
@@ -207,7 +206,7 @@ describe('DigitalSpecimenCard', () => {
                 />
             );
 
-            expect(screen.queryByTestId('mock-map')).not.toBeInTheDocument();
+            expect(screen.queryByRole('figure')).not.toBeInTheDocument();
         });
     });
 });

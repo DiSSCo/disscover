@@ -83,10 +83,6 @@ const mockValidPayload = {
 };
 
 describe('mapDigitalSpecimen utilities', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
-
     describe('mapDigitalSpecimen', () => {
         it('returns null if rawData or digitalSpecimen payload is missing', () => {
             expect(mapDigitalSpecimen(null)).toBeNull();

@@ -29,7 +29,7 @@ const TaxonomicIdentificationMapper = (taxonomicTree: TaxonomicIdentificationIte
             return taxonomicTree?.usage?.name?.infragenericEpithet;
         default:
             if (classificationItem) {
-                return classificationItem.label;
+                return classificationItem.labelHtml || classificationItem.label;
             }
             return value;
     }

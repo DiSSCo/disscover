@@ -1,5 +1,5 @@
 /* Import test dependencies */
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 /* Import methods to test and mock */
 import { mapDigitalSpecimen, mapDigitalSpecimenMedia } from './digitalSpecimenDataMapper';

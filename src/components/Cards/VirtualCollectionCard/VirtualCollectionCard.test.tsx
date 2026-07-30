@@ -1,6 +1,6 @@
 /* Import test dependencies */
 import { screen, render } from 'tests/test-utils';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 /* Import components */
 import { VirtualCollectionCard } from './VirtualCollectionCard';

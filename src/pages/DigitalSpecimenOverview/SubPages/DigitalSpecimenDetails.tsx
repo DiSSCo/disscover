@@ -1,5 +1,5 @@
 /* Import components */
-import { ImageCard } from "components/Cards/DigitalMediaCard/DigitalMediaCard";
+import { DigitalMediaCard } from "components/Cards/DigitalMediaCard/DigitalMediaCard";
 import { DigitalSpecimenCard } from "components/Cards/DigitalSpecimenCard/DigitalSpecimenCard";
 
 /* Import types */
@@ -38,7 +38,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
             <main className="digital-specimen-container" id="ds-desktop-view">
                 <div id="ds-left-column">
                     { hasImages ? (
-                        <ImageCard specimen={specimen}></ImageCard>
+                        <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
                     ) : (
                         leftColumnCards.map((category: MappedCategories) => (
                             <DigitalSpecimenCard 
@@ -68,7 +68,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
             <main className="digital-specimen-container" id="ds-mobile-view">
                 <div id="ds-left-column">
                     { hasImages &&
-                        <ImageCard specimen={specimen}></ImageCard>
+                        <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
                     }
                     {actualData.map((category: MappedCategories) => (
                         <DigitalSpecimenCard 

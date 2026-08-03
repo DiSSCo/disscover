@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 
 /* Import components */
-import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, GridIcon, ListBulletIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -29,6 +29,8 @@ type Props = {
     isHtml?: boolean;
     annotate?: boolean;
     AnnotateHelper?: Function
+    selectedView?: 'table' | 'grid';
+    onViewChange?: (view: 'table' | 'grid') => void;
 }
 
 /**
@@ -42,7 +44,8 @@ type Props = {
  * @param showCreateButton Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, AnnotateHelper }: Props) => {
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, AnnotateHelper, selectedView,
+    onViewChange }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -186,6 +189,30 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                     </div>
                 </>
                 }
+            </div>
+            <div id="hero-footer">
+            {selectedView && onViewChange && (
+                <div aria-label="View switch" className="view-toggle">
+                    <Button
+                        variant="ghost"
+                        type="button"
+                        aria-pressed={selectedView === 'table'}
+                        onClick={() => onViewChange('table')}
+                        className={selectedView === 'table' ? 'active-view' : ''}
+                    >
+                        <ListBulletIcon /> Table
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        type="button"
+                        aria-pressed={selectedView === 'grid'}
+                        onClick={() => onViewChange('grid')}
+                        className={selectedView === 'grid' ? 'active-view' : ''}
+                    >
+                        <GridIcon /> Gallery
+                    </Button>
+                </div>
+            )}
             </div>
         </header>
     )

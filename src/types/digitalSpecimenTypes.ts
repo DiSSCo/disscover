@@ -47,3 +47,10 @@ export const CARD_CONFIGS: Record<CardCategory, Partial<CardConfig> & { annotati
     [CardCategory.CollectingEvent]: {},
     [CardCategory.CitationAndLicense]: { copy: true, citation: true }
 };
+
+export type SpecimenField = {
+    label: string;
+    value: any;
+    type: string;
+    hidden: boolean;
+}

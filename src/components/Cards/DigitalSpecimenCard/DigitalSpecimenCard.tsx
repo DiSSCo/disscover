@@ -1,25 +1,17 @@
 /* Import components */
 import { CopyIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { Button, Card } from "@radix-ui/themes";
-import { LabelValuePair } from "components/LabelValuePair/LabelValuePair";
 import { OpenStreetMap } from "components/elements/customUI/CustomUI";
+import { DescriptionList } from "components/DescriptionList/DescriptionList";
 
 /* Import styles */
 import './DigitalSpecimenCard.scss';
 
 /* Import types */
-import { UIProperty } from "types/dataMapperTypes";
-import { AnnotationTargetPayload } from 'types/digitalSpecimenTypes';
+import { AnnotationTargetPayload, SpecimenField } from 'types/digitalSpecimenTypes';
 
 /* Import hooks */
 import { useClipboard } from "hooks/useClipboard";
-
-type SpecimenField = {
-    label: string;
-    value: any;
-    type: string;
-    hidden: boolean;
-}
 
 type Props = {
     cardHeader: string;
@@ -120,17 +112,7 @@ export const DigitalSpecimenCard = ({
                     <p>{craftCitation()}</p>
                 </div>
             }
-            <dl className="ds-card-body">
-                {fragment
-                    .filter((item: UIProperty) => !item.hidden)
-                    .map((item: UIProperty, index: number) => (
-                        <LabelValuePair 
-                            key={item.label || index} 
-                            item={item as { label: string; value: string; isHtml: boolean; type: string; hidden: boolean; }} 
-                        />
-                    ))
-                }
-            </dl>
+            <DescriptionList fragment={fragment}></DescriptionList>
         </Card>
     )
 }

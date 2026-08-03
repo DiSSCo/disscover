@@ -1,5 +1,8 @@
+/* Import dependencies */
 import { RetrieveEnvVariable } from "app/Utilities";
 import { useEffect, useState } from "react";
+
+/* Import services*/
 import { getJpegFromIIIFImages } from 'services/digitalMediaService/getJpegFromIIIFImages';
 
 /* Import styling */
@@ -14,7 +17,7 @@ interface ImageFormat {
     id: string;
 }
 
-export const ImageCard = ({ specimen }: Props ) => {
+export const DigitalMediaCard = ({ specimen }: Props ) => {
     /* Base variables */
     const allImages = specimen?.digitalMedia?.map((item: any) => item['digitalMediaObject']) || [];
     const [correctImageFormats, setCorrectImageFormats] = useState<ImageFormat[]>([]);

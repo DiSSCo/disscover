@@ -4,7 +4,7 @@ import { useState } from 'react';
 /* Import components */
 import { DigitalSpecimenCard } from 'components/Cards/DigitalSpecimenCard/DigitalSpecimenCard';
 import { Hero } from 'components/Hero/Hero';
-import { ImageCard } from 'components/Cards/DigitalMediaCard/DigitalMediaCard';
+import { DigitalMediaCard } from 'components/Cards/DigitalMediaCard/DigitalMediaCard';
 import { AnnotationSidePanel } from 'components/elements/Elements';
 
 /* Import hooks */
@@ -108,13 +108,14 @@ const DigitalSpecimenDetails = () => {
             <main className="digital-specimen-container" id="ds-desktop-view">
                 <div id="ds-left-column">
                     { hasImages ? (
-                        <ImageCard specimen={specimen}></ImageCard>
+                        <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
                     ) : (
                         leftColumnCards.map((category: MappedCategories) => (
                             <DigitalSpecimenCard 
                                 key={category.name}
                                 cardHeader={category.name} 
                                 fragment={category.data}
+                                AnnotateHelper={handleOpenAnnotation}
                                 {...CARD_CONFIGS[category.name as CardCategory]} 
                             />
                         ))
@@ -137,7 +138,7 @@ const DigitalSpecimenDetails = () => {
             <main className="digital-specimen-container" id="ds-mobile-view">
                 <div id="ds-left-column">
                     { hasImages &&
-                        <ImageCard specimen={specimen}></ImageCard>
+                        <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
                     }
                     {actualData.map((category: MappedCategories) => (
                         <DigitalSpecimenCard 

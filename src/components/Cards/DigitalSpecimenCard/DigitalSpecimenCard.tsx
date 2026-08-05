@@ -21,7 +21,7 @@ type Props = {
     georeference?: boolean;
     citation?: boolean;
     annotationTarget?: AnnotationTargetPayload;
-    AnnotateHelper?: (target?: AnnotationTargetPayload) => void;
+    AnnotateHelper?: Function
 };
 
 export const DigitalSpecimenCard = ({

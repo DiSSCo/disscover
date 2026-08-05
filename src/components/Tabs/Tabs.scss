@@ -1,0 +1,6 @@
+/* Overwriting styling of Radix Tabs component*/
+.rt-TabsRoot {
+    .rt-TabsList {
+        padding: 0 var(--spacing-xl);
+    }
+}

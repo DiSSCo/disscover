@@ -8,13 +8,12 @@ header {
     }
 }
 
-main {
+section {
     padding: var(--spacing-l) var(--spacing-m);
     background-color: var(--background-gray);
 
     @include smallAndUp {
         padding: var(--spacing-l) var(--spacing-xl);
-        min-height: 40vh;
     }
 }
 

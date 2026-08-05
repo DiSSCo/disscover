@@ -1,9 +1,12 @@
 /* Import test dependencies */
 import { screen, render } from 'tests/test-utils';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 /* Import components */
 import { VirtualCollectionCard } from './VirtualCollectionCard';
+
+/* Import custom hook for mocking */
+import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Mock external utilities */
 vi.mock('app/Utilities', () => ({
@@ -12,6 +15,11 @@ vi.mock('app/Utilities', () => ({
 
 vi.mock('app/utilities/NomenclaturalUtilities', () => ({
     GetSpecimenNameHTMLLabel: vi.fn((attributes) => `<i>${attributes?.['dwc:scientificName'] || 'Specimen Name'}</i>`),
+}));
+
+/* Mock the hook that VirtualCollectionImage depends on */
+vi.mock('hooks/useDigitalSpecimen', () => ({
+    useDigitalSpecimenComplete: vi.fn()
 }));
 
 /* Mock Data */
@@ -34,26 +42,37 @@ const mockCollection = {
 };
 
 describe('VirtualCollectionCard', () => {
-    it('renders the card details view with sanitized link and attributes', () => {
+    it('renders card details and image background when media is present and loaded', () => {
+        vi.mocked(useDigitalSpecimenComplete).mockReturnValue({
+            data: {
+                digitalMedia: [
+                    {
+                        digitalMediaObject: {
+                            'dcterms:format': 'image/jpeg',
+                            'ac:accessURI': 'https://example.com/specimen.jpg'
+                        }
+                    }
+                ]
+            }
+        } as any);
+
         render(<VirtualCollectionCard collection={mockCollection} type="details" />);
 
         /* Verify DOI is stripped from link */
         const cardLink = screen.getByRole('link');
         expect(cardLink).toHaveAttribute('href', '/ds/10.1234/SAMPLE-123');
 
-        /* Check badge */
+        /* Check badge and metadata details */
         expect(screen.getByText('Holotype')).toBeInTheDocument();
-
-        /* Check inner HTML output from helper */
         expect(screen.getByText('Panthera leo')).toBeInTheDocument();
-
-        /* Check metadata details */
         expect(screen.getByText('Netherlands')).toBeInTheDocument();
         expect(screen.getByText('2023-05-18')).toBeInTheDocument();
         expect(screen.getByText('Naturalis Biodiversity Center')).toBeInTheDocument();
     });
 
     it('displays "No image" fallback container when media flag is false', () => {
+        vi.mocked(useDigitalSpecimenComplete).mockReturnValue({ data: undefined } as any);
+
         const noMediaCollection = {
             ...mockCollection,
             attributes: {
@@ -67,7 +86,28 @@ describe('VirtualCollectionCard', () => {
         expect(screen.getByText('No image')).toBeInTheDocument();
     });
 
+    it('displays "Error loading image" when hasMedia is true but no JPG is returned', () => {
+        vi.mocked(useDigitalSpecimenComplete).mockReturnValue({
+            data: {
+                digitalMedia: [
+                    {
+                        digitalMediaObject: {
+                            'dcterms:format': 'application/pdf',
+                            'ac:accessURI': 'https://example.com/doc.pdf'
+                        }
+                    }
+                ]
+            }
+        } as any);
+
+        render(<VirtualCollectionCard collection={mockCollection} type="details" />);
+
+        expect(screen.getByText('Error loading image')).toBeInTheDocument();
+    });
+
     it('renders "Unknown" for date when eventDate is missing', () => {
+        vi.mocked(useDigitalSpecimenComplete).mockReturnValue({ data: undefined } as any);
+
         const missingDateCollection = {
             ...mockCollection,
             attributes: {

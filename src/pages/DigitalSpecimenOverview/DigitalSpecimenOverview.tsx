@@ -83,8 +83,10 @@ const DigitalSpecimenOverview = () => {
             >
             </Hero>
 
-            {/* Tabs of the Digital Specimen */}
-            <DigitalSpecimenTabs defaultValue="overview" tabs={tabs}></DigitalSpecimenTabs>
+            <main>
+                {/* Tabs of the Digital Specimen */}
+                <DigitalSpecimenTabs defaultValue="overview" tabs={tabs}></DigitalSpecimenTabs>
+            </main>
 
             {annotationMode && (
                 <>

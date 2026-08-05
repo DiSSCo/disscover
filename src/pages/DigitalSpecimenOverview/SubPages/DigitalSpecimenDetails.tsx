@@ -35,7 +35,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
     return (
         <>
             {/* Desktop view */}
-            <section  className="digital-specimen-container" id="ds-desktop-view">
+            <section className="digital-specimen-container" id="ds-desktop-view">
                 <div id="ds-left-column">
                     { hasImages ? (
                         <DigitalMediaCard specimen={specimen}></DigitalMediaCard>

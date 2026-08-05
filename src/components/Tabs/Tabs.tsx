@@ -24,15 +24,13 @@ export const DigitalSpecimenTabs = ({ defaultValue, tabs }: Props) => {
                 })}
             </Tabs.List>
 
-            <main>
-                { tabs.map((tab) => {
-                    return (
-                        <Tabs.Content key={'second-' + tab.value} value={tab.value}>
-                            {tab.component}
-                        </Tabs.Content>
-                    )
-                })}
-            </main>
+            { tabs.map((tab) => {
+                return (
+                    <Tabs.Content key={'second-' + tab.value} value={tab.value}>
+                        {tab.component}
+                    </Tabs.Content>
+                )
+            })}
         </Tabs.Root>
     )
 }

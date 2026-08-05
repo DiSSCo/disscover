@@ -23,7 +23,8 @@ import './VirtualCollectionDetails.scss';
 const VirtualCollectionDetails = () => {
     /* Base variables */
     const [currentPage, setCurrentPage] = useState(1);
-    const maxPerPage = 25;
+    const [ selectedView, setSelectedView ] = useState<'table' | 'grid'>('table');
+    const maxPerPage = selectedView === 'table' ? 25 : 9;
 
     /* Calling the Virtual Collection Details hook */
     const { 
@@ -67,8 +68,9 @@ const VirtualCollectionDetails = () => {
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
                 showShareButton={true}
                 details={selectedVirtualCollection}
+                selectedView={selectedView}
+                onViewChange={setSelectedView}
             >
-                
             </Hero>
             { currentItems.length > 0 ?
             <main className="virtual-collections-main">

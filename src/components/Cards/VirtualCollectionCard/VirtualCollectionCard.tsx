@@ -17,11 +17,9 @@ export const VirtualCollectionCard = ({ collection, type: viewType }: Props) => 
             { viewType === "details" && 
                 <Card variant="surface" className="gallery-card" asChild>
                     <Link to={`/ds/${collection.id.replace(RetrieveEnvVariable('DOI_URL'), '')}`}>
-                        { !collection.attributes['ods:isKnownToContainMedia'] &&
                         <div className="vc-card-image-container">
-                            <span>No image</span>
+                            <span>{!collection.attributes['ods:isKnownToContainMedia'] ? 'No image' : 'image'}</span>
                         </div>
-                        }
                         <div className="vc-card-content-container">
                             { collection.attributes?.['ods:hasIdentifications']?.[0]?.['dwc:typeStatus'] && 
                             <Badge color="sky" variant="solid">{collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus']}</Badge>

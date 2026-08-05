@@ -103,17 +103,21 @@ header {
 
     #hero-footer {
         .view-toggle {
-            padding: var(--spacing-s) 0;
-            display: flex;
-            justify-content: end;
-
-            button {
-                margin: 0px 2px;
+            display: none;
+            @include smallAndUp {
+                padding: var(--spacing-s) 0;
+                display: flex;
+                justify-content: end;
+    
+                button {
+                    margin: 0px 2px;
+                }
+                
+                .active-view {
+                    background-color: var(--indigo-3);
+                }
             }
             
-            .active-view {
-                background-color: var(--indigo-3);
-            }
         }
     }
 }

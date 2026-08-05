@@ -24,7 +24,7 @@ export const DigitalSpecimenTabs = ({ defaultValue, tabs }: Props) => {
                 })}
             </Tabs.List>
 
-            <div>
+            <main>
                 { tabs.map((tab) => {
                     return (
                         <Tabs.Content key={'second-' + tab.value} value={tab.value}>
@@ -32,7 +32,7 @@ export const DigitalSpecimenTabs = ({ defaultValue, tabs }: Props) => {
                         </Tabs.Content>
                     )
                 })}
-            </div>
+            </main>
         </Tabs.Root>
     )
 }

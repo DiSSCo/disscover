@@ -35,7 +35,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
     return (
         <>
             {/* Desktop view */}
-            <main className="digital-specimen-container" id="ds-desktop-view">
+            <section  className="digital-specimen-container" id="ds-desktop-view">
                 <div id="ds-left-column">
                     { hasImages ? (
                         <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
@@ -63,9 +63,9 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
                         />
                     ))}
                 </div>
-            </main>
+            </section>
             {/* Mobile view */}
-            <main className="digital-specimen-container" id="ds-mobile-view">
+            <section className="digital-specimen-container" id="ds-mobile-view">
                 <div id="ds-left-column">
                     { hasImages &&
                         <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
@@ -81,7 +81,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props ) => {
                     ))}
                     
                 </div>
-            </main>
+            </section>
         </>
     )
 }

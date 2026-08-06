@@ -2,17 +2,16 @@
 import { useState } from 'react';
 
 /* Import components */
-import { DigitalSpecimenCard } from 'components/Cards/DigitalSpecimenCard/DigitalSpecimenCard';
 import { Hero } from 'components/Hero/Hero';
-import { DigitalMediaCard } from 'components/Cards/DigitalMediaCard/DigitalMediaCard';
 import { AnnotationSidePanel } from 'components/elements/Elements';
+import { DigitalSpecimenTabs } from 'components/Tabs/Tabs';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
 
 /* Import types and enums */
-import { CardCategory, CARD_CONFIGS, LEFT_COLUMN_CATEGORIES, AnnotationTargetPayload } from 'types/digitalSpecimenTypes';
-import { CategoryConfig, MappedCategories, UIProperty } from 'types/dataMapperTypes';
+import { CardCategory } from 'types/digitalSpecimenTypes';
+import { CategoryConfig, UIProperty } from 'types/dataMapperTypes';
 
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
@@ -28,41 +27,25 @@ import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
 import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
 /* Import hooks */
-import { useAppDispatch } from 'app/Hooks';
+import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import store */
-import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
+import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 
-const DigitalSpecimenDetails = () => {
-    /* Hooks */
-    const dispatch = useAppDispatch();
-
+const DigitalSpecimenOverview = () => {
     /* Base variables */
     const url = new URL(globalThis.location.href);
     const segments = url.pathname.split('/');
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
     const [annotationMode, setAnnotationMode] = useState(false);
-    const hasImages = specimen?.digitalMedia?.length > 0;
+
+    /* Hooks */
+    const handleOpenAnnotation = useAnnotationHandler(setAnnotationMode);
 
     if (isLoading) return <main><p>Retrieving the Digital Specimen Details...</p></main>;
     if (!specimen) return <main><p>No data found</p></main>
     if (isError) return <main><p>Something went wrong with fetching the Digital Specimen. Please try again later.</p></main>;
-
-    /* Human readable data mapped from the JSON data to use in UI*/
-    const actualData = specimen?.mappedData || [];
-
-    /* Set the columns based on whether an image can be found */
-    let leftColumnCards = [];
-    let rightColumnCards = [];
-    
-    if (hasImages) {
-        leftColumnCards = []; 
-        rightColumnCards = actualData; 
-    } else {
-        leftColumnCards = actualData.filter((category: MappedCategories) => LEFT_COLUMN_CATEGORIES.has(category.name));
-        rightColumnCards = actualData.filter((category: MappedCategories) => !LEFT_COLUMN_CATEGORIES.has(category.name));
-    }
 
     /* Helper to get raw data array by Category Enum */
     const getCardFragment = (category: CardCategory) => {
@@ -74,19 +57,14 @@ const DigitalSpecimenDetails = () => {
         return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
     };
 
-    const handleOpenAnnotation = (target?: AnnotationTargetPayload) => {
-        if (target) {
-            dispatch(setAnnotationTarget(target));
-        } else {
-            /* Fallback if no target is specified, jsonPath resolves to entire class */
-            dispatch(setAnnotationTarget({
-                type: 'class',
-                jsonPath: "",
-                directPath: true
-            }));
+    /* Tabs */
+    const tabs = [
+        {
+            value: 'overview',
+            title: 'Overview',
+            component: <DigitalSpecimenDetails specimen={specimen} onAnnotate={handleOpenAnnotation}></DigitalSpecimenDetails>
         }
-        setAnnotationMode(true);
-    };
+    ]
 
     return (
         <div className="digital-specimen-page">
@@ -104,54 +82,12 @@ const DigitalSpecimenDetails = () => {
                 AnnotateHelper={() => handleOpenAnnotation()}
             >
             </Hero>
-            {/* Desktop view */}
-            <main className="digital-specimen-container" id="ds-desktop-view">
-                <div id="ds-left-column">
-                    { hasImages ? (
-                        <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
-                    ) : (
-                        leftColumnCards.map((category: MappedCategories) => (
-                            <DigitalSpecimenCard 
-                                key={category.name}
-                                cardHeader={category.name} 
-                                fragment={category.data}
-                                AnnotateHelper={handleOpenAnnotation}
-                                {...CARD_CONFIGS[category.name as CardCategory]} 
-                            />
-                        ))
-                    )}
-                    
-                </div>
-                <div id="ds-right-column">
-                    {rightColumnCards.map((category: MappedCategories) => (
-                        <DigitalSpecimenCard 
-                            key={category.name}
-                            cardHeader={category.name} 
-                            fragment={category.data}
-                            AnnotateHelper={handleOpenAnnotation}
-                            {...CARD_CONFIGS[category.name as CardCategory]} 
-                        />
-                    ))}
-                </div>
+
+            <main>
+                {/* Tabs of the Digital Specimen */}
+                <DigitalSpecimenTabs defaultValue="overview" tabs={tabs}></DigitalSpecimenTabs>
             </main>
-            {/* Mobile view */}
-            <main className="digital-specimen-container" id="ds-mobile-view">
-                <div id="ds-left-column">
-                    { hasImages &&
-                        <DigitalMediaCard specimen={specimen}></DigitalMediaCard>
-                    }
-                    {actualData.map((category: MappedCategories) => (
-                        <DigitalSpecimenCard 
-                            key={category.name}
-                            cardHeader={category.name} 
-                            fragment={category.data}
-                            AnnotateHelper={handleOpenAnnotation}
-                            {...CARD_CONFIGS[category.name as CardCategory]} 
-                        />
-                    ))}
-                    
-                </div>
-            </main>
+
             {annotationMode && (
                 <>
                     <button
@@ -184,4 +120,4 @@ const DigitalSpecimenDetails = () => {
     );
 };
 
-export default DigitalSpecimenDetails;
+export default DigitalSpecimenOverview;

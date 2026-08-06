@@ -74,7 +74,7 @@ const VirtualCollectionDetails = () => {
             </Hero>
             { currentItems.length > 0 ?
             <main className="virtual-collections-main">
-                <div id="vc-mobile-view">
+                <section id="vc-mobile-view">
                     <div className="gallery-container">
                         {currentItems?.map((collection: any) => {
                             return (
@@ -82,8 +82,8 @@ const VirtualCollectionDetails = () => {
                             )
                         })}
                     </div>
-                </div>
-                <div id="vc-desktop-view">
+                </section>
+                <section id="vc-desktop-view">
                     { selectedView === 'table' ? (
                         <VirtualCollectionDetailsTable 
                             currentItems={currentItems}
@@ -95,17 +95,21 @@ const VirtualCollectionDetails = () => {
                             ))}
                         </div>
                         )}
-                </div>
-                <Pagination
-                    totalAmount={totalAmount}
-                    onPageChange={(page) => setCurrentPage(page)}
-                    currentPage={currentPage}
-                    maxPerPage={maxPerPage}
-                    content="items"
-                />
+                </section>
+                <section>
+                    <Pagination
+                        totalAmount={totalAmount}
+                        onPageChange={(page) => setCurrentPage(page)}
+                        currentPage={currentPage}
+                        maxPerPage={maxPerPage}
+                        content="items"
+                    />
+                </section>
             </main>
             : <main>
-                <p>This Virtual Collection is currently empty.</p>
+                <section>
+                    <p>This Virtual Collection is currently empty.</p>
+                </section>
             </main>
             }
         </>

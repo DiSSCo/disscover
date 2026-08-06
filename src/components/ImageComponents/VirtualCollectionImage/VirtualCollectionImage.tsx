@@ -26,7 +26,12 @@ export const VirtualCollectionImage = ({ collection }: Props) => {
     const firstJpgUrl = firstJpgItem?.digitalMediaObject?.['ac:accessURI'];
 
     return hasMedia && firstJpgUrl ? (
-        <div className="vc-card-image-container" role="img" style={{ backgroundImage: `url(${firstJpgUrl})` }} />
+        <div 
+            className="vc-card-image-container"
+            role="img"
+            aria-label={`Image of digital specimen ${specimenDoi}`}
+            style={{ backgroundImage: `url(${firstJpgUrl})` }} 
+        />
     ) : (
         <div className="vc-card-box-container">
             <span>{hasMedia ? 'Error loading image' : 'No image'}</span>

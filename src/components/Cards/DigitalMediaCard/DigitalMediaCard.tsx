@@ -59,6 +59,7 @@ export const DigitalMediaCard = ({ specimen }: Props ) => {
                 {mainImage ? (
                     <a href={`/dm/${cleanDoiPath}`}>
                         <div 
+                            role="img"
                             style={{ backgroundImage: `url(${mainImage})` }} 
                             className="digital-media-card-image"
                         ></div>

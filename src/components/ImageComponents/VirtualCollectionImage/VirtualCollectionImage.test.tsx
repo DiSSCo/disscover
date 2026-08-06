@@ -38,14 +38,14 @@ describe('VirtualCollectionImage', () => {
             },
         } as any);
 
-        const { container } = render(<VirtualCollectionImage collection={baseCollection} />);
+        render(<VirtualCollectionImage collection={baseCollection} />);
 
         expect(useDigitalSpecimenComplete).toHaveBeenCalledWith({
             doi: '10.1234/SAMPLE-123',
             enabled: true,
         });
 
-        const imageDiv = container.querySelector('.vc-card-image-container');
+        const imageDiv = screen.getByRole('img');
         expect(imageDiv).toBeInTheDocument();
         expect(imageDiv).toHaveStyle({ backgroundImage: 'url(https://example.com/specimen.jpg)' });
     });
@@ -103,9 +103,9 @@ describe('VirtualCollectionImage', () => {
             },
         } as any);
 
-        const { container } = render(<VirtualCollectionImage collection={baseCollection} />);
+        render(<VirtualCollectionImage collection={baseCollection} />);
 
-        const imageDiv = container.querySelector('.vc-card-image-container');
+        const imageDiv = screen.getByRole('img');
         expect(imageDiv).toHaveStyle({ backgroundImage: 'url(https://example.com/specimen_alt.jpg)' });
     });
 });

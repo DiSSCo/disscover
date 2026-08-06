@@ -1,0 +1,16 @@
+.vc-card-box-container {
+    width: 100%;
+    background-color: var(--medium-gray);
+    height: var(--image-card-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vc-card-image-container {
+    width: 100%;
+    height: var(--image-card-height);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

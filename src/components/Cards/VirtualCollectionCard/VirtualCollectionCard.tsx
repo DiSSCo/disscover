@@ -1,7 +1,13 @@
+/* Import dependencies */
+import { Link } from "react-router-dom";
+
+/* Import components */
 import { Badge, Card } from "@radix-ui/themes";
+import { VirtualCollectionImage } from "components/ImageComponents/VirtualCollectionImage/VirtualCollectionImage";
+
+/* Import utils */
 import { RetrieveEnvVariable } from "app/Utilities";
 import { GetSpecimenNameHTMLLabel } from "app/utilities/NomenclaturalUtilities";
-import { Link } from "react-router-dom";
 
 /* Import styling */
 import './VirtualCollectionCard.scss';
@@ -17,9 +23,10 @@ export const VirtualCollectionCard = ({ collection, type: viewType }: Props) => 
             { viewType === "details" && 
                 <Card variant="surface" className="gallery-card" asChild>
                     <Link to={`/ds/${collection.id.replace(RetrieveEnvVariable('DOI_URL'), '')}`}>
-                        <div className="vc-card-image-container">
-                            <span>{!collection.attributes['ods:isKnownToContainMedia'] ? 'No image' : 'image'}</span>
-                        </div>
+
+                        {/* Virtual Collection Image */}
+                        <VirtualCollectionImage collection={collection}></VirtualCollectionImage>
+
                         <div className="vc-card-content-container">
                             { collection.attributes?.['ods:hasIdentifications']?.[0]?.['dwc:typeStatus'] && 
                             <Badge color="sky" variant="solid">{collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus']}</Badge>

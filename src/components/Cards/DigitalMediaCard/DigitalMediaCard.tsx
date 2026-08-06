@@ -59,6 +59,8 @@ export const DigitalMediaCard = ({ specimen }: Props ) => {
                 {mainImage ? (
                     <a href={`/dm/${cleanDoiPath}`}>
                         <div 
+                            role="img"
+                            aria-label={`Image of digital specimen ${activeId}`}
                             style={{ backgroundImage: `url(${mainImage})` }} 
                             className="digital-media-card-image"
                         ></div>

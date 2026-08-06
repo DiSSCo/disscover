@@ -84,9 +84,17 @@ const VirtualCollectionDetails = () => {
                     </div>
                 </section>
                 <section id="vc-desktop-view">
-                    <VirtualCollectionDetailsTable 
-                        currentItems={currentItems}
-                    />
+                    { selectedView === 'table' ? (
+                        <VirtualCollectionDetailsTable 
+                            currentItems={currentItems}
+                        />
+                    ) : (
+                        <div className="gallery-container">
+                            {currentItems?.map((collection: any) => (
+                                <VirtualCollectionCard key={collection.id} collection={collection} type="details" />
+                            ))}
+                        </div>
+                        )}
                 </section>
                 <section>
                     <Pagination
@@ -99,7 +107,9 @@ const VirtualCollectionDetails = () => {
                 </section>
             </main>
             : <main>
-                <p>This Virtual Collection is currently empty.</p>
+                <section>
+                    <p>This Virtual Collection is currently empty.</p>
+                </section>
             </main>
             }
         </>

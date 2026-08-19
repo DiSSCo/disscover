@@ -1,5 +1,5 @@
 /* Import dependencies */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 
 /* Import services */
 import { getAllVirtualCollections } from 'services/virtualCollectionService/getAllVirtualCollections';
@@ -51,6 +51,7 @@ export const useVirtualCollectionDetails = ({ pageSize, pageNumber, virtualColle
         queryFn: () => getVirtualCollectionDetails({ pageSize, pageNumber: page, virtualCollectionID }),
         staleTime,
         gcTime,
+        placeholderData: keepPreviousData
     });
 
     return {

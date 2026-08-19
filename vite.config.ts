@@ -13,6 +13,7 @@ export default defineConfig(({mode}) => {
       alias: {
         api: '/src/api',
         app: '/src/app',
+        assets: '/src/assets',
         components: '/src/components',
         hooks: '/src/hooks',
         pages: '/src/pages',

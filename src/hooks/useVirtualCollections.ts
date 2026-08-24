@@ -39,6 +39,7 @@ export const useVirtualCollections = ({ pageSize, pageNumber }: { pageSize: numb
 /**
  * Hook that calls the getVirtualCollectionDetails service and stores it in a key to be reused
  * Takes pageSize, pageNumber and virtualCollectionID as a parameter object
+ * We use keepPreviousData here to show previous data until new data has been retrieved
  * @returns The response of the service
  */
 export const useVirtualCollectionDetails = ({ pageSize, pageNumber, virtualCollectionID }:

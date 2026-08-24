@@ -86,7 +86,7 @@ describe('VirtualCollectionCard', () => {
         expect(screen.getByText('No image')).toBeInTheDocument();
     });
 
-    it('displays "Error loading image" when hasMedia is true but no JPG is returned', () => {
+    it('displays "No image" when hasMedia is true but no JPG is returned', () => {
         vi.mocked(useDigitalSpecimenComplete).mockReturnValue({
             data: {
                 digitalMedia: [
@@ -102,7 +102,7 @@ describe('VirtualCollectionCard', () => {
 
         render(<VirtualCollectionCard collection={mockCollection} type="details" />);
 
-        expect(screen.getByText('Error loading image')).toBeInTheDocument();
+        expect(screen.getByText('No image')).toBeInTheDocument();
     });
 
     it('renders "Unknown" for date when eventDate is missing', () => {

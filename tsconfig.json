@@ -22,6 +22,7 @@
     "paths": {
       "api/*": ["api/*"],
       "app/*": ["app/*"],
+      "assets": ["/src/assets/*"],
       "components/*": ["components/*"],
       "redux-store/*": ["redux-store/*"],
       "sources/*": ["sources/*"],

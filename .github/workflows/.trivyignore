@@ -19,11 +19,16 @@ CVE-2026-27601
 # form-data is a dependency of two other packages and it cannot be automatically updated Jun-18-2026
 CVE-2026-12143
 
-# js-yaml is a dependency of json-schema-to-typescript and cannot be updated Jul-22-2026
+# js-yaml is a dependency of json-schema-to-typescript and cannot be updated Aug-19-2026
 CVE-2026-59869
+GHSA-5p4m-2wfm-xmqj
 
 # React-router-dom needs to be upgraded from 7 to 8 Jul-28-2926
 GHSA-qwww-vcr4-c8h2
+
+# nanoid is a dependency of annotorious and we are not touching that until the redesign of annotation flow Aug-19-2026
+CVE-2026-67213
+CVE-2026-67214
 
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Jun-12-2026

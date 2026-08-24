@@ -37,7 +37,7 @@ export const VirtualCollectionImage = ({ collection }: Props) => {
         <>
             {showLoading && (
                 <div className="vc-card-box-container">
-                    <img src={spinner} alt="Loading spinner" id="spinner"/>
+                    <img src={spinner} alt="Loading spinner" id="spinner" role="status" aria-live="polite"/>
                 </div>
             )}
 

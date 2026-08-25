@@ -30,7 +30,7 @@ const VirtualCollectionDetails = () => {
     const { 
         data: collections, 
         meta, 
-        isLoading: isLoadingCollections, 
+        isPending: isPendingCollections,
         isError: isErrorCollections 
     } = useVirtualCollectionDetails({ 
         pageSize: maxPerPage, 
@@ -41,19 +41,19 @@ const VirtualCollectionDetails = () => {
     /* Calling the Selected Virtual Collection hook */
     const { 
         data: selectedVC, 
-        isLoading: isLoadingSelected, 
+        isPending: isPendingSelected, 
         isError: isErrorSelected 
     } = useSelectedVirtualCollection({ 
         identifier: location.pathname.replace('/virtual-collections/', '')
     });
     
     /* Response variables */
-    const isLoading = isLoadingCollections || isLoadingSelected;
+    const isInitialPending = isPendingCollections || isPendingSelected;
     const isError = isErrorCollections || isErrorSelected;
     const selectedVirtualCollection = selectedVC?.attributes;
 
     /* This will become more generic after migrating more services */
-    if (isLoading) return <main><p>Retrieving the Virtual Collection Details...</p></main>;
+    if (isInitialPending) return <main><p>Retrieving the Virtual Collection Details...</p></main>;
     if (isError) return <main><p>Something went wrong with fetching the Virtual Collection Details. Please try again later.</p></main>;
 
     /* Use pagination */

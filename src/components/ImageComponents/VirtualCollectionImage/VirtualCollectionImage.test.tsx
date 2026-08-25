@@ -50,7 +50,7 @@ describe('VirtualCollectionImage', () => {
         expect(imageDiv).toHaveStyle({ backgroundImage: 'url(https://example.com/specimen.jpg)' });
     });
 
-    it('renders "Error loading image" when hasMedia is true but no JPEG is found', () => {
+    it('renders "No image" when hasMedia is true but no JPEG is found', () => {
         vi.mocked(useDigitalSpecimenComplete).mockReturnValue({
             data: {
                 digitalMedia: [
@@ -66,7 +66,7 @@ describe('VirtualCollectionImage', () => {
 
         render(<VirtualCollectionImage collection={baseCollection} />);
 
-        expect(screen.getByText('Error loading image')).toBeInTheDocument();
+        expect(screen.getByText('No image')).toBeInTheDocument();
     });
 
     it('renders "No image" and disables query when isKnownToContainMedia is false', () => {

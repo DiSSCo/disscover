@@ -14,7 +14,7 @@ import { AnnotationTargetPayload, SpecimenField } from 'types/digitalSpecimenTyp
 import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
-    cardHeader: string;
+    cardHeader?: string;
     annotate?: boolean;
     copy?: boolean;
     fragment: SpecimenField[];
@@ -84,6 +84,7 @@ export const DigitalSpecimenCard = ({
 
     return (
         <Card className="digital-specimen-card">
+            { cardHeader &&
             <div className="ds-card-header">
                 <h2>{cardHeader}</h2>
                 { annotate && AnnotateHelper &&
@@ -102,6 +103,7 @@ export const DigitalSpecimenCard = ({
                     </Button>
                 }
             </div>
+            }
             { georeference &&
                 <div className="ds-card-georeference">
                     <OpenStreetMap latitude={latitude} longitude={longitude} />

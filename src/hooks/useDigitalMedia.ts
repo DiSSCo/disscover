@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDigitalMedia } from "services/digitalMediaService/getDigitalMedia";
-
+import { mapDigitalMedia } from "utils/DataMappers/digitalSpecimenDataMapper";
 
 /* Base constants */
 const staleTime = 1000 * 60 * 5; // How long until the time is stale
@@ -15,6 +15,10 @@ export const useDigitalMedia = ({ handle, version }: { handle: string, version?:
     return useQuery({
         queryKey: ['digitalMedia', handle, version],
         queryFn: () => getDigitalMedia({ handle, version }),
+        select: (data) => ({
+            ...data,
+            ...mapDigitalMedia(data),
+        }),
         staleTime,
         gcTime,
     });

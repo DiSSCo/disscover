@@ -31,11 +31,11 @@ CVE-2026-67213
 CVE-2026-67214
 
 # Vulnerabilities in Image
-# libcrypto3 included in the image, cannot fix Jun-12-2026
-CVE-2026-45447
+# libcrypto3 included in the image, cannot fix Aug-26-2026
+CVE-2026-14456
 
-# libssl3 included in the image, cannot fix Jun-12-2026
-CVE-2026-45447
+# libssl3 included in the image, cannot fix Aug-26-2026
+CVE-2026-14456
 
 # libxml2 included in the image, cannot fix Jun-12-2026
 CVE-2026-6732

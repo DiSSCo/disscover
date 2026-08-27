@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
 import { mapDigitalSpecimen, mapDigitalSpecimenMedia } from 'utils/DataMappers/digitalSpecimenDataMapper';
-
-/* Base constants */
-const staleTime = 1000 * 60 * 5; // How long until the time is stale
-const gcTime = 1000 * 60 * 10; // Cache time: How long to store it in the cache
+import { STALE_TIME, GC_TIME } from "utils/Constants";
 
 type UseDigitalSpecimenOptions = {
     doi: string;
@@ -27,7 +24,7 @@ export const useDigitalSpecimenComplete = ({
             ...mapDigitalSpecimenMedia(data)
         }),
         enabled,
-        staleTime,
-        gcTime
+        staleTime: STALE_TIME,
+        gcTime: GC_TIME
     });
 };

@@ -9,12 +9,14 @@ interface Props {
 export const Identifications = ({ data, onAnnotate }: Props) => {
     return (
         <section className="digital-specimen-container">
-            <DigitalSpecimenCard 
-                cardHeader="Identification" 
-                fragment={data}
-                AnnotateHelper={onAnnotate}
-                {...CARD_CONFIGS[CardCategory.Identification]} 
-            />
+            <div id="ds-left-column">
+                <DigitalSpecimenCard 
+                    cardHeader="Identification" 
+                    fragment={data}
+                    AnnotateHelper={onAnnotate}
+                    {...CARD_CONFIGS[CardCategory.Identification]} 
+                />
+            </div>
         </section>
     )
 }

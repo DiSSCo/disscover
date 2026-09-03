@@ -12,14 +12,14 @@ const keycloak = new Keycloak({
     clientId: import.meta.env.VITE_KEYCLOAK_CLIENT,
 });
 
-const InitKeyCloak = (callback?: Callback, token?: string) => {
+const InitKeyCloak = (callback?: Callback, token?: string, refreshToken?: string) => {
     keycloak.init({
         onLoad: "check-sso",
         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
         pkceMethod: "S256",
         scope: 'roles profile email',
         token: token,
-        refreshToken: token
+        refreshToken: refreshToken
     })
         .then((authenticated) => {
             if (!authenticated) {
@@ -54,9 +54,15 @@ const GetSubject = () => keycloak.subject;
 
 const HasRole = (roles: any) => roles.some((role: any) => keycloak.hasResourceRole(role));
 
+/* Update keycloak with token that lasts 30 min */
 keycloak.onTokenExpired = () => {
-    Logout();
-}
+    keycloak.updateToken(30)
+        .then()
+        .catch(() => {
+            console.error('Failed to refresh token, logging out...');
+            keycloak.logout();
+        });
+};
 
 const KeycloakService = {
     InitKeyCloak,

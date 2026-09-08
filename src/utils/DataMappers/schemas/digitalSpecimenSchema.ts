@@ -123,6 +123,14 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
             {
                 label: 'Life Stage',
                 resolve: (_, { primaryEvent }) => primaryEvent?.["dwc:lifeStage"]
+            },
+            {
+                label: 'Verified identification',
+                resolve: (ds) => {
+                    const verifiedIdentification = ds['ods:hasIdentifications'].find((item: any) => item["ods:isVerifiedIdentification"]);
+                    return verifiedIdentification["ods:isVerifiedIdentification"];
+                },
+                hidden: true
             }
         ]
     },

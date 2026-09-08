@@ -31,6 +31,7 @@ import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import store */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
+import { Identifications } from './SubPages/Identifications';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
@@ -63,6 +64,11 @@ const DigitalSpecimenOverview = () => {
             value: 'overview',
             title: 'Overview',
             component: <DigitalSpecimenDetails specimen={specimen} onAnnotate={handleOpenAnnotation}></DigitalSpecimenDetails>
+        },
+        {
+            value: 'identifications',
+            title: 'Identifications',
+            component: <Identifications data={getCardFragment(CardCategory.Identification)} onAnnotate={handleOpenAnnotation}></Identifications>
         }
     ]
 

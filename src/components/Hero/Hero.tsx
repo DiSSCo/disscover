@@ -21,7 +21,7 @@ import { useClipboard } from "hooks/useClipboard";
 type Props = {
     title: string;
     description?: string;
-    badge?: { content: string, type: "soft" | "solid" | "outline" | "surface", color: "sky" | "grass" }[];
+    badge?: { content: string, type: "soft" | "solid" | "outline" | "surface", color: "sky" | "grass" | "amber" }[];
     navigateTo?: { pathName: string; text: string };
     showShareButton?: boolean;
     details?: any;

@@ -29,6 +29,7 @@ GHSA-qwww-vcr4-c8h2
 # nanoid is a dependency of annotorious and we are not touching that until the redesign of annotation flow Aug-19-2026
 CVE-2026-67213
 CVE-2026-67214
+CVE-2026-73086
 
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Jun-12-2026

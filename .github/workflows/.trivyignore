@@ -39,4 +39,7 @@ CVE-2026-45447
 CVE-2026-45447
 
 # libxml2 included in the image, cannot fix Jun-12-2026
-CVE-2026-6732
+CVE-2026-6732.
+
+# js-yaml: js-yaml: Denial of Service vulnerability in YAML, cannot fix Sep-16-2026
+CVE-2026-84375

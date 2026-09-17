@@ -98,7 +98,7 @@ export const mapDigitalSpecimenMedia = (rawData: any) => {
  * @param rawData Digital Media data
  * @returns Object with digital media data from a single item
  */
-export const mapDigitalMedia = (rawData: any) => {
+export const mapDigitalMediaData = (rawData: any) => {
     const dm = rawData?.data?.attributes;
     if(!dm) return null;
 

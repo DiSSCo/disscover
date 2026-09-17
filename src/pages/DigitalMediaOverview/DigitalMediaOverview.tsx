@@ -1,9 +1,15 @@
 /* Import components */
-import { RetrieveEnvVariable } from 'app/Utilities';
 import { Hero } from 'components/Hero/Hero';
-import { useDigitalMedia } from 'hooks/useDigitalMedia';
-import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
 import { DigitalSpecimenTabs } from 'components/Tabs/Tabs';
+
+/* Import dependencies */
+import { RetrieveEnvVariable } from 'app/Utilities';
+
+/* Import hooks */
+import { useDigitalMedia } from 'hooks/useDigitalMedia';
+
+/* Import subPages */
+import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
 
 export const DigitalMediaOverview = () => {
     /* Base variables */

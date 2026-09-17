@@ -9,16 +9,22 @@ interface UIProperty {
     label: string;
     value: any;
     type: string;
-    hidden: boolean;
+    hidden?: boolean;
 }
 
 /* Corresponding field config interface for DigitalSpecimen schema */
-interface FieldConfig {
+interface DsFieldConfig {
     label: string;
     resolve: (ds: any, context: MapperContext) => any;
     isHtml?: boolean;
     type?: string;
     hidden?: boolean;
+}
+
+interface DmFieldConfig {
+    label: string;
+    resolve: (dm: any) => any;
+    type?: string;
 }
 
 interface IdentificationConfig {
@@ -28,7 +34,7 @@ interface IdentificationConfig {
 }
 
 interface CategoryConfig {
-    data: FieldConfig[],
+    data: DsFieldConfig[],
     name: string
 }
 
@@ -43,4 +49,4 @@ interface DigitalSpecimenUIModel {
     mappedData: MappedCategories[]
 }
 
-export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig };
+export type { UIProperty, DsFieldConfig, DmFieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig };

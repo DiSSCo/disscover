@@ -1,5 +1,6 @@
 /* Import schemas */
 import { CardCategory } from "types/digitalSpecimenTypes";
+import DIGITAL_MEDIA_SCHEMA_MAP from "./schemas/digitalMediaSchema";
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
 import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 
@@ -88,7 +89,37 @@ export const mapDigitalSpecimenMedia = (rawData: any) => {
 	return {
 		digitalMedia: dm
 	}
-};
+}
+
+/**
+ * Transforms raw Digital Media data into a UI-ready model 
+ * based on the DIGITAL_MEDIA_SCHEMA_MAP definitions.
+ * It is executed in the useDigitalMedia hook immediately when the call is being done.
+ * @param rawData Digital Media data
+ * @returns Object with digital media data from a single item
+ */
+export const mapDigitalMediaData = (rawData: any) => {
+    const dm = rawData?.data?.attributes;
+    if(!dm) return null;
+
+    const mappedFields: UIProperty[] = []
+
+    DIGITAL_MEDIA_SCHEMA_MAP.forEach((category) => {
+        const value = category.resolve(dm);
+
+        /* Only push to the array if a valid value exists */
+        if (value) {
+            mappedFields.push({
+                label: category.label,
+                value: value,
+                type: category.type || 'base'
+            });
+        }
+    });
+
+    return { digitalMediaData: mappedFields };
+}
+
 
 /**
  * Adds Identification data to the UI-ready model, executed in the useDigitalSpecimen hook.

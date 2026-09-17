@@ -14,7 +14,7 @@ import { AnnotationTargetPayload, SpecimenField } from 'types/digitalSpecimenTyp
 import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
-    cardHeader: string;
+    cardHeader?: string;
     annotate?: boolean;
     copy?: boolean;
     fragment: SpecimenField[];
@@ -22,7 +22,8 @@ type Props = {
     citation?: boolean;
     annotationTarget?: AnnotationTargetPayload;
     AnnotateHelper?: Function,
-    isVerified?: boolean
+    isVerified?: boolean,
+    layout?: 'grid' | 'three-column';
 };
 
 export const DigitalSpecimenCard = ({
@@ -34,7 +35,8 @@ export const DigitalSpecimenCard = ({
     citation = false,
     annotationTarget,
     AnnotateHelper,
-    isVerified
+    isVerified,
+    layout = 'grid'
 }: Props) => {
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
@@ -85,7 +87,8 @@ export const DigitalSpecimenCard = ({
     const longitude = getFieldValueByLabel('Decimal Longitude') || getFieldValueByLabel('Longitude');
 
     return (
-        <Card className="digital-specimen-card">
+        <Card className={`digital-specimen-card layout-${layout}`}>
+            { cardHeader &&
             <div className="ds-card-header">
                 <div>
                     <h2>{cardHeader}</h2>
@@ -109,6 +112,7 @@ export const DigitalSpecimenCard = ({
                     </Button>
                 }
             </div>
+            }
             { georeference &&
                 <div className="ds-card-georeference">
                     <OpenStreetMap latitude={latitude} longitude={longitude} />

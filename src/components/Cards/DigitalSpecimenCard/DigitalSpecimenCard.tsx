@@ -1,6 +1,6 @@
 /* Import components */
 import { CopyIcon, Pencil2Icon } from "@radix-ui/react-icons";
-import { Button, Card } from "@radix-ui/themes";
+import { Badge, Button, Card } from "@radix-ui/themes";
 import { OpenStreetMap } from "components/elements/customUI/CustomUI";
 import { DescriptionList } from "components/DescriptionList/DescriptionList";
 
@@ -21,7 +21,8 @@ type Props = {
     georeference?: boolean;
     citation?: boolean;
     annotationTarget?: AnnotationTargetPayload;
-    AnnotateHelper?: Function
+    AnnotateHelper?: Function,
+    isVerified?: boolean
 };
 
 export const DigitalSpecimenCard = ({
@@ -32,7 +33,8 @@ export const DigitalSpecimenCard = ({
     georeference = false,
     citation = false,
     annotationTarget,
-    AnnotateHelper
+    AnnotateHelper,
+    isVerified
 }: Props) => {
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
@@ -85,7 +87,12 @@ export const DigitalSpecimenCard = ({
     return (
         <Card className="digital-specimen-card">
             <div className="ds-card-header">
-                <h2>{cardHeader}</h2>
+                <div>
+                    <h2>{cardHeader}</h2>
+                    {isVerified && 
+                        <Badge variant="soft" color="grass">Primary</Badge>
+                    }
+                </div>
                 { annotate && AnnotateHelper &&
                     <Button 
                         variant="ghost" 

@@ -21,6 +21,12 @@ interface FieldConfig {
     hidden?: boolean;
 }
 
+interface IdentificationConfig {
+    label: string;
+    resolve: (identification, context: { taxonIdentification: any }) => any;
+    type?: string;
+}
+
 interface CategoryConfig {
     data: FieldConfig[],
     name: string
@@ -28,7 +34,8 @@ interface CategoryConfig {
 
 interface MappedCategories {
     data: UIProperty[],
-    name: string
+    name: string,
+    isVerified?: boolean
 }
 
 /* Result of the Digital Specimen data mapper */
@@ -36,4 +43,4 @@ interface DigitalSpecimenUIModel {
     mappedData: MappedCategories[]
 }
 
-export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories };
+export type { UIProperty, FieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig };

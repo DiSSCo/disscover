@@ -8,7 +8,7 @@ interface MapperContext {
 interface UIProperty {
     label: string;
     value: any;
-    type?: string;
+    type: string;
     hidden?: boolean;
 }
 
@@ -24,6 +24,7 @@ interface DsFieldConfig {
 interface DmFieldConfig {
     label: string;
     resolve: (dm: any) => any;
+    type?: string;
 }
 
 interface IdentificationConfig {

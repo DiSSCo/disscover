@@ -111,7 +111,8 @@ export const mapDigitalMedia = (rawData: any) => {
         if (value) {
             mappedFields.push({
                 label: category.label,
-                value: value
+                value: value,
+                type: category.type || 'base'
             });
         }
     });

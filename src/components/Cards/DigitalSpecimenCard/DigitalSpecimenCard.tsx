@@ -22,7 +22,8 @@ type Props = {
     citation?: boolean;
     annotationTarget?: AnnotationTargetPayload;
     AnnotateHelper?: Function,
-    isVerified?: boolean
+    isVerified?: boolean,
+    layout?: 'grid' | 'three-column';
 };
 
 export const DigitalSpecimenCard = ({
@@ -34,7 +35,8 @@ export const DigitalSpecimenCard = ({
     citation = false,
     annotationTarget,
     AnnotateHelper,
-    isVerified
+    isVerified,
+    layout = 'grid'
 }: Props) => {
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
@@ -85,7 +87,7 @@ export const DigitalSpecimenCard = ({
     const longitude = getFieldValueByLabel('Decimal Longitude') || getFieldValueByLabel('Longitude');
 
     return (
-        <Card className="digital-specimen-card">
+        <Card className={`digital-specimen-card layout-${layout}`}>
             { cardHeader &&
             <div className="ds-card-header">
                 <div>

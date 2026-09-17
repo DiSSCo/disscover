@@ -7,7 +7,7 @@ interface Props {
 export const DigitalMediaDetails = ({data}: Props) => {
     return (
         <section>
-            <DigitalSpecimenCard fragment={data}></DigitalSpecimenCard>
+            <DigitalSpecimenCard fragment={data} layout="three-column"></DigitalSpecimenCard>
         </section>
     )
 }

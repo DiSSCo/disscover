@@ -1,5 +1,6 @@
 /* Import schemas */
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
+import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 
 /* Import types */
 import { DigitalSpecimenUIModel, UIProperty } from "types/dataMapperTypes";
@@ -83,4 +84,41 @@ export const mapDigitalSpecimenMedia = (rawData: any) => {
 	return {
 		digitalMedia: dm
 	}
+};
+
+/**
+ * Adds Identification data to the UI-ready model, executed in the useDigitalSpecimen hook.
+ * @param rawData Digital Specimen data
+ * @returns Object with all identification data
+ */
+export const mapIdentificationData = (rawData: any) => {
+    const identificationData = rawData?.data?.attributes?.digitalSpecimen?.['ods:hasIdentifications'];
+
+    if (!identificationData) return null;
+
+    const mappedIdentifications: { mappedFields: { label: string; value: any; }[]; isVerified: any; }[] = [];
+
+    identificationData.forEach((identification: any) => {
+        const taxonIdentification = identification['ods:hasTaxonIdentifications'][0];
+        const isVerified = identification['ods:isVerifiedIdentification'];
+
+        const mappedFields: { label: string; value: any; }[] = [];
+
+        IDENTIFICATION_SCHEMA_MAP.forEach((id) => {
+            const value = id.resolve(identification, { taxonIdentification });
+            if (value) {
+                mappedFields.push({
+                    label: id.label,
+                    value: value,
+                });
+            }
+            return mappedFields;
+        });
+
+        mappedIdentifications.push({ mappedFields, isVerified});
+    });
+
+    return {
+        identifications: mappedIdentifications
+    }
 }

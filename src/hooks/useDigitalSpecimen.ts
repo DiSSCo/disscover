@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
-import { mapDigitalSpecimen, mapDigitalSpecimenMedia } from 'utils/DataMappers/digitalSpecimenDataMapper';
+import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
 
 /* Base constants */
 const staleTime = 1000 * 60 * 5; // How long until the time is stale
@@ -24,7 +24,8 @@ export const useDigitalSpecimenComplete = ({
         select: (data) => ({
             ...data,
             ...mapDigitalSpecimen(data),
-            ...mapDigitalSpecimenMedia(data)
+            ...mapDigitalSpecimenMedia(data),
+            ...mapIdentificationData(data)
         }),
         enabled,
         staleTime,

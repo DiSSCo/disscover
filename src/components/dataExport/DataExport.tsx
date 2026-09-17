@@ -55,6 +55,10 @@ const DataExport = () => {
         {
             label: 'Darwin Core Archive',
             value: 'DWCA'
+        },
+        {
+            label: 'Darwin Core Data Package (Preview)',
+            value: 'DWC_DP'
         }
     ];
     const initialValues: {
@@ -145,7 +149,7 @@ const DataExport = () => {
                                                 ))}
                                             </Col>
                                         </Row>
-                                        {/* Eport type dropdown */}
+                                        {/* Export type dropdown */}
                                         <Row className="mt-3">
                                             <Col>
                                                 <p className="fs-4 mb-1 fw-lightBold">

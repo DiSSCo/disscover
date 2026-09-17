@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDigitalMedia } from "services/digitalMediaService/getDigitalMedia";
-import { STALE_TIME, GC_TIME } from "utils/Constants";
+import { LONG_STALE_TIME, LONG_GC_TIME } from "utils/Constants";
 
 /**
  * Hook that calls the getDigitalMedia service and stores it in a key to be reused
@@ -11,7 +11,7 @@ export const useDigitalMedia = ({ handle, version }: { handle: string, version?:
     return useQuery({
         queryKey: ['digitalMedia', handle, version],
         queryFn: () => getDigitalMedia({ handle, version }),
-        staleTime: STALE_TIME,
-        gcTime: GC_TIME
+        staleTime: LONG_STALE_TIME,
+        gcTime: LONG_GC_TIME
     });
 };

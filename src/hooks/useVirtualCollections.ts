@@ -1,6 +1,6 @@
 /* Import dependencies */
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
-import { STALE_TIME, GC_TIME } from "utils/Constants";
+import { SHORT_STALE_TIME, SHORT_GC_TIME } from "utils/Constants";
 
 /* Import services */
 import { getAllVirtualCollections } from 'services/virtualCollectionService/getAllVirtualCollections';
@@ -22,8 +22,8 @@ export const useVirtualCollections = ({ pageSize, pageNumber }: { pageSize: numb
     const queryResult = useQuery({
         queryKey: ['virtualCollections', { pageNumber, pageSize: page }],
         queryFn: () => getAllVirtualCollections({ pageSize, pageNumber: page }),
-        staleTime: STALE_TIME,
-        gcTime: GC_TIME
+        staleTime: SHORT_STALE_TIME,
+        gcTime: SHORT_GC_TIME
     });
 
     return {
@@ -47,8 +47,8 @@ export const useVirtualCollectionDetails = ({ pageSize, pageNumber, virtualColle
     const queryResult = useQuery({
         queryKey: ['virtualCollectionDetails', virtualCollectionID, { pageNumber: page, pageSize }],
         queryFn: () => getVirtualCollectionDetails({ pageSize, pageNumber: page, virtualCollectionID }),
-        staleTime: STALE_TIME,
-        gcTime: GC_TIME,
+        staleTime: SHORT_STALE_TIME,
+        gcTime: SHORT_GC_TIME,
         placeholderData: keepPreviousData
     });
 
@@ -68,8 +68,8 @@ export const useSelectedVirtualCollection = ({ identifier }: { identifier: strin
     return useQuery({
         queryKey: ['specificVirtualCollection', identifier],
         queryFn: () => getSelectedVirtualCollection({ identifier }),
-        staleTime: STALE_TIME,
-        gcTime: GC_TIME
+        staleTime: SHORT_STALE_TIME,
+        gcTime: SHORT_GC_TIME
     });
 }
 

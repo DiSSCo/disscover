@@ -36,7 +36,6 @@ export const DigitalSpecimenCard = ({
     AnnotateHelper,
     isVerified
 }: Props) => {
-    console.log(fragment);
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
         return fragment.find((item) => item.label === labelName)?.value;

@@ -34,7 +34,8 @@ interface CategoryConfig {
 
 interface MappedCategories {
     data: UIProperty[],
-    name: string
+    name: string,
+    isVerified?: boolean
 }
 
 /* Result of the Digital Specimen data mapper */

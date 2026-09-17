@@ -151,7 +151,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
                 resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:decimalLongitude"]
             },
             {
-                label: 'Decimal Longitude',
+                label: 'Verbatim Longitude',
                 resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:verbatimLongitude"],
                 type: 'verbatim'
             },
@@ -160,7 +160,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
                 resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:decimalLatitude"]
             },
             {
-                label: 'Decimal Latitude',
+                label: 'Verbatim Latitude',
                 resolve: (_, { primaryEvent }) => primaryEvent?.["ods:hasLocation"]?.["ods:hasGeoreference"]?.["dwc:verbatimLatitude"],
                 type: 'verbatim'
             },

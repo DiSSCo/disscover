@@ -2,7 +2,7 @@ import { DigitalSpecimenCard } from "components/Cards/DigitalSpecimenCard/Digita
 import { AnnotationTargetPayload, CARD_CONFIGS, CardCategory, SpecimenField } from "types/digitalSpecimenTypes";
 
 interface Props {
-    identificationData: any,
+    identificationData:  [{ mappedFields: SpecimenField[]; isVerified: boolean | undefined; key: string }],
     onAnnotate?: (target?: AnnotationTargetPayload) => void;
 }
 

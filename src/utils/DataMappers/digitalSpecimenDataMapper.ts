@@ -1,6 +1,8 @@
 /* Import schemas */
+import { CardCategory } from "types/digitalSpecimenTypes";
 import DIGITAL_MEDIA_SCHEMA_MAP from "./schemas/digitalMediaSchema";
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
+import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 
 /* Import types */
 import { DigitalSpecimenUIModel, UIProperty } from "types/dataMapperTypes";
@@ -17,8 +19,10 @@ const getAcceptedIdentification = (ds: any) => {
     const primary = identifications?.find((item: any) => item["ods:isVerifiedIdentification"]) 
         ?? identifications?.[0];
 
-    /* Return the taxon identification or null if for some reason there is no identification*/
-    return primary?.["ods:hasTaxonIdentifications"]?.[0] ?? null;
+    return {
+        acceptedIdentification: primary?.["ods:hasTaxonIdentifications"]?.[0] ?? null,
+        isVerified: primary?.["ods:isVerifiedIdentification"] ?? false
+    };
 }
 
 /**
@@ -39,7 +43,7 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
     const ds = rawData?.data?.attributes?.digitalSpecimen;
     if (!ds) return null;
 
-    const acceptedIdentification = getAcceptedIdentification(ds);
+    const { acceptedIdentification, isVerified } = getAcceptedIdentification(ds);
     const primaryEvent = getPrimaryEvent(ds);
 
     const mappedCategories = DIGITAL_SPECIMEN_SCHEMA_MAP.map((category) => {
@@ -61,8 +65,9 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
 
         return {
             name: category.name,
-            data: mappedFields
-        }
+            data: mappedFields,
+            ...(category.name === CardCategory.Identification && { isVerified })
+        };
     })
 
     return {
@@ -106,11 +111,46 @@ export const mapDigitalMedia = (rawData: any) => {
         if (value) {
             mappedFields.push({
                 label: category.label,
-                value: value,
-                type: category.type || 'base',
+                value: value
             });
         }
     });
 
     return { digitalMediaData: mappedFields };
 }
+
+
+/**
+ * Adds Identification data to the UI-ready model, executed in the useDigitalSpecimen hook.
+ * @param rawData Digital Specimen data
+ * @returns Object with all identification data
+ */
+export const mapIdentificationData = (rawData: any) => {
+    const identificationData = rawData?.data?.attributes?.digitalSpecimen?.['ods:hasIdentifications'];
+
+    if (!identificationData) return null;
+
+    const mappedIdentifications = identificationData.map((identification: any) => {
+        const taxonIdentification = identification['ods:hasTaxonIdentifications']?.[0];
+        const isVerified = identification['ods:isVerifiedIdentification'];
+
+        const mappedFields: { label: string; value: any; type: string }[] = [];
+
+        IDENTIFICATION_SCHEMA_MAP.forEach((id) => {
+            const value = id.resolve(identification, { taxonIdentification });
+            if (value) {
+                mappedFields.push({
+                    label: id.label,
+                    value: value,
+                    type: id.type || 'base'
+                });
+            }
+        });
+
+        return { mappedFields, isVerified, key: (identification['dwc:verbatimIdentification'] || taxonIdentification['dwc:scientificName']) };
+    });
+
+    return {
+        identifications: mappedIdentifications
+    };
+};

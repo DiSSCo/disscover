@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
-import { mapDigitalSpecimen, mapDigitalSpecimenMedia } from 'utils/DataMappers/digitalSpecimenDataMapper';
+import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
 import { LONG_STALE_TIME, LONG_GC_TIME } from "utils/Constants";
 
 type UseDigitalSpecimenOptions = {
@@ -21,7 +21,8 @@ export const useDigitalSpecimenComplete = ({
         select: (data) => ({
             ...data,
             ...mapDigitalSpecimen(data),
-            ...mapDigitalSpecimenMedia(data)
+            ...mapDigitalSpecimenMedia(data),
+            ...mapIdentificationData(data)
         }),
         enabled,
         staleTime: LONG_STALE_TIME,

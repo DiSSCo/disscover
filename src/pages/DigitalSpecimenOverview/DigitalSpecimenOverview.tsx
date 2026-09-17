@@ -40,7 +40,6 @@ const DigitalSpecimenOverview = () => {
     const identifier = segments.slice(2).join("/");
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
     const [annotationMode, setAnnotationMode] = useState(false);
-    console.log(specimen);
 
     /* Hooks */
     const handleOpenAnnotation = useAnnotationHandler(setAnnotationMode);

@@ -1,5 +1,4 @@
 import { DigitalSpecimenCard } from "components/Cards/DigitalSpecimenCard/DigitalSpecimenCard"
-import { Key } from "react";
 import { AnnotationTargetPayload, CARD_CONFIGS, CardCategory, SpecimenField } from "types/digitalSpecimenTypes";
 
 interface Props {
@@ -8,13 +7,12 @@ interface Props {
 }
 
 export const Identifications = ({ identificationData, onAnnotate }: Props) => {
-    console.log('data', identificationData);
     return (
         <section className="digital-specimen-container">
             <div id="ds-left-column">
-                { identificationData.map((id: { mappedFields: SpecimenField[]; isVerified: boolean | undefined; }, index: Key | null | undefined) => {
+                { identificationData.map((id: { mappedFields: SpecimenField[]; isVerified: boolean | undefined; key: string }) => {
                     return <DigitalSpecimenCard 
-                        key={index}
+                        key={id.key}
                         cardHeader="Identification" 
                         fragment={id.mappedFields}
                         AnnotateHelper={onAnnotate}

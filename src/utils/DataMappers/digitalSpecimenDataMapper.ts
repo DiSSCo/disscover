@@ -117,7 +117,7 @@ export const mapIdentificationData = (rawData: any) => {
             }
         });
 
-        return { mappedFields, isVerified };
+        return { mappedFields, isVerified, key: (identification['dwc:verbatimIdentification'] || taxonIdentification['dwc:scientificName']) };
     });
 
     return {

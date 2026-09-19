@@ -24,7 +24,7 @@ const VirtualCollectionDetails = () => {
     /* Base variables */
     const [currentPage, setCurrentPage] = useState(1);
     const [ selectedView, setSelectedView ] = useState<'table' | 'grid'>('table');
-    const maxPerPage = selectedView === 'table' ? 25 : 9;
+    const maxPerPage = 25;
 
     /* Calling the Virtual Collection Details hook */
     const { 

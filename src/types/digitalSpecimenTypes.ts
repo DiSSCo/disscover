@@ -52,5 +52,5 @@ export type SpecimenField = {
     label: string;
     value: any;
     type: string;
-    hidden: boolean;
+    hidden?: boolean;
 }

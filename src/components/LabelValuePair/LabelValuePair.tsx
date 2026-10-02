@@ -58,6 +58,10 @@ export const LabelValuePair = ({ item }: Props) => {
 						<CopyIcon />
 					</button>
 				)
+			case 'download':
+				return (
+					<a href={item.value} download={item.value} target="_blank">Download</a>
+				)
 			default:
 				return (
 					item?.isHtml ? (

@@ -5,14 +5,15 @@ import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
 import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 
 /* Import types */
-import { DigitalSpecimenUIModel, UIProperty } from "types/dataMapperTypes";
+import { DigitalSpecimenUIModel, RawSpecimenData, UIProperty } from "types/dataMapperTypes";
+import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 
 /**
  * Function to get the accepted identification or the first one it can find
  * @param ds The digital specimen object
  * @returns Either the accepted identification, the first identification it can find or null in the edge case that there is none
  */
-const getAcceptedIdentification = (ds: any) => {
+const getAcceptedIdentification = (ds: DigitalSpecimen) => {
     const identifications = ds["ods:hasIdentifications"];
     
     /* Find verified identification or fallback to first identification */
@@ -30,7 +31,7 @@ const getAcceptedIdentification = (ds: any) => {
  * @param ds The digital specimen object
  * @returns Either the primary event if there is one or null
  */
-const getPrimaryEvent = (ds: any) => {
+const getPrimaryEvent = (ds: DigitalSpecimen) => {
     return ds["ods:hasEvents"]?.[0] ?? null;
 }
 
@@ -39,7 +40,7 @@ const getPrimaryEvent = (ds: any) => {
  * based on the DIGITAL_SPECIMEN_SCHEMA_MAP definitions.
  * It is executed in the useDigitalSpecimen hook immediately when the call is being done.
  */
-export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null => {
+export const mapDigitalSpecimen = (rawData: RawSpecimenData): DigitalSpecimenUIModel | null => {
     const ds = rawData?.data?.attributes?.digitalSpecimen;
     if (!ds) return null;
 
@@ -81,7 +82,7 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
  * @param rawData Digital Specimen data
  * @returns Object with digitalMedia
  */
-export const mapDigitalSpecimenMedia = (rawData: any) => {
+export const mapDigitalSpecimenMedia = (rawData: RawSpecimenData) => {
 	const ds = rawData?.data?.attributes?.digitalSpecimen;
 	const dm = rawData?.data?.attributes?.digitalMedia;
 
@@ -98,7 +99,7 @@ export const mapDigitalSpecimenMedia = (rawData: any) => {
  * @param rawData Digital Media data
  * @returns Object with digital media data from a single item
  */
-export const mapDigitalMediaData = (rawData: any) => {
+export const mapDigitalMediaData = (rawData: RawSpecimenData) => {
     const dm = rawData?.data?.attributes;
     if(!dm) return null;
 
@@ -126,7 +127,7 @@ export const mapDigitalMediaData = (rawData: any) => {
  * @param rawData Digital Specimen data
  * @returns Object with all identification data
  */
-export const mapIdentificationData = (rawData: any) => {
+export const mapIdentificationData = (rawData: RawSpecimenData) => {
     const identificationData = rawData?.data?.attributes?.digitalSpecimen?.['ods:hasIdentifications'];
 
     if (!identificationData) return null;

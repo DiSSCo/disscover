@@ -1,3 +1,8 @@
+/* Import types */
+import { Annotation } from "app/types/Annotation";
+import { DigitalMedia } from "app/types/DigitalMedia";
+import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+
 /* MapperContext to set the context of the data, e.g. acceptedIdentification */
 interface MapperContext {
     acceptedIdentification?: any;
@@ -49,4 +54,19 @@ interface DigitalSpecimenUIModel {
     mappedData: MappedCategories[]
 }
 
-export type { UIProperty, DsFieldConfig, DmFieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig };
+/* Interfaces for raw digitalSpecimen data */
+interface RawSpecimenData {
+    data: {
+        attributes: {
+            digitalSpecimen: DigitalSpecimen,
+            digitalMedia: DigitalMedia[],
+            annotations: Annotation[]
+        },
+        id: string,
+        type: string
+    },
+    links?: Record<string, string>;
+    meta?: Record<string, unknown>
+}
+
+export type { UIProperty, DsFieldConfig, DmFieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig, RawSpecimenData };

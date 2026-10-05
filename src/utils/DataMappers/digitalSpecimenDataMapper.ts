@@ -1,17 +1,19 @@
 /* Import schemas */
 import { CardCategory } from "types/digitalSpecimenTypes";
+import DIGITAL_MEDIA_SCHEMA_MAP from "./schemas/digitalMediaSchema";
 import DIGITAL_SPECIMEN_SCHEMA_MAP from "./schemas/digitalSpecimenSchema";
 import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 
 /* Import types */
-import { DigitalSpecimenUIModel, UIProperty } from "types/dataMapperTypes";
+import { DigitalSpecimenUIModel, RawSpecimenData, UIProperty } from "types/dataMapperTypes";
+import { DigitalSpecimen } from "app/types/DigitalSpecimen";
 
 /**
  * Function to get the accepted identification or the first one it can find
  * @param ds The digital specimen object
  * @returns Either the accepted identification, the first identification it can find or null in the edge case that there is none
  */
-const getAcceptedIdentification = (ds: any) => {
+const getAcceptedIdentification = (ds: DigitalSpecimen) => {
     const identifications = ds["ods:hasIdentifications"];
     
     /* Find verified identification or fallback to first identification */
@@ -29,7 +31,7 @@ const getAcceptedIdentification = (ds: any) => {
  * @param ds The digital specimen object
  * @returns Either the primary event if there is one or null
  */
-const getPrimaryEvent = (ds: any) => {
+const getPrimaryEvent = (ds: DigitalSpecimen) => {
     return ds["ods:hasEvents"]?.[0] ?? null;
 }
 
@@ -38,7 +40,7 @@ const getPrimaryEvent = (ds: any) => {
  * based on the DIGITAL_SPECIMEN_SCHEMA_MAP definitions.
  * It is executed in the useDigitalSpecimen hook immediately when the call is being done.
  */
-export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null => {
+export const mapDigitalSpecimen = (rawData: RawSpecimenData | null | undefined): DigitalSpecimenUIModel | null => {
     const ds = rawData?.data?.attributes?.digitalSpecimen;
     if (!ds) return null;
 
@@ -80,7 +82,7 @@ export const mapDigitalSpecimen = (rawData: any): DigitalSpecimenUIModel | null 
  * @param rawData Digital Specimen data
  * @returns Object with digitalMedia
  */
-export const mapDigitalSpecimenMedia = (rawData: any) => {
+export const mapDigitalSpecimenMedia = (rawData: RawSpecimenData | null | undefined) => {
 	const ds = rawData?.data?.attributes?.digitalSpecimen;
 	const dm = rawData?.data?.attributes?.digitalMedia;
 
@@ -88,14 +90,44 @@ export const mapDigitalSpecimenMedia = (rawData: any) => {
 	return {
 		digitalMedia: dm
 	}
-};
+}
+
+/**
+ * Transforms raw Digital Media data into a UI-ready model 
+ * based on the DIGITAL_MEDIA_SCHEMA_MAP definitions.
+ * It is executed in the useDigitalMedia hook immediately when the call is being done.
+ * @param rawData Digital Media data
+ * @returns Object with digital media data from a single item
+ */
+export const mapDigitalMediaData = (rawData: RawSpecimenData) => {
+    const dm = rawData?.data?.attributes;
+    if(!dm) return null;
+
+    const mappedFields: UIProperty[] = []
+
+    DIGITAL_MEDIA_SCHEMA_MAP.forEach((category) => {
+        const value = category.resolve(dm);
+
+        /* Only push to the array if a valid value exists */
+        if (value) {
+            mappedFields.push({
+                label: category.label,
+                value: value,
+                type: category.type || 'base'
+            });
+        }
+    });
+
+    return { digitalMediaData: mappedFields };
+}
+
 
 /**
  * Adds Identification data to the UI-ready model, executed in the useDigitalSpecimen hook.
  * @param rawData Digital Specimen data
  * @returns Object with all identification data
  */
-export const mapIdentificationData = (rawData: any) => {
+export const mapIdentificationData = (rawData: RawSpecimenData) => {
     const identificationData = rawData?.data?.attributes?.digitalSpecimen?.['ods:hasIdentifications'];
 
     if (!identificationData) return null;
@@ -104,7 +136,7 @@ export const mapIdentificationData = (rawData: any) => {
         const taxonIdentification = identification['ods:hasTaxonIdentifications']?.[0];
         const isVerified = identification['ods:isVerifiedIdentification'];
 
-        const mappedFields: { label: string; value: any; type: string }[] = [];
+        const mappedFields: UIProperty[] = [];
 
         IDENTIFICATION_SCHEMA_MAP.forEach((id) => {
             const value = id.resolve(identification, { taxonIdentification });

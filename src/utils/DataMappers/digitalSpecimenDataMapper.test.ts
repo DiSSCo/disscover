@@ -1,10 +1,10 @@
 /* Import test dependencies */
 import { describe, it, expect, vi } from 'vitest';
 
-/* Import methods to test and mock */
+/* Import schemas & types */
 import { mapDigitalSpecimen, mapDigitalSpecimenMedia } from './digitalSpecimenDataMapper';
 
-/* Mock the schema map so test outcomes don't depend on actual schema definitions */
+/* Mock the schema map*/
 vi.mock('./schemas/digitalSpecimenSchema', () => ({
     default: [
         {
@@ -49,9 +49,11 @@ vi.mock('./schemas/digitalSpecimenSchema', () => ({
     ],
 }));
 
-/* Mock Specimen Payloads */
-const mockValidPayload = {
+/* Mock Specimen Payloads casted as any for loose payload testing */
+const mockValidPayload: any = {
     data: {
+        id: 'test-123',
+        type: 'digitalSpecimen',
         attributes: {
             digitalSpecimen: {
                 'ods:hasIdentifications': [
@@ -85,9 +87,9 @@ const mockValidPayload = {
 describe('mapDigitalSpecimen utilities', () => {
     describe('mapDigitalSpecimen', () => {
         it('returns null if rawData or digitalSpecimen payload is missing', () => {
-            expect(mapDigitalSpecimen(null)).toBeNull();
-            expect(mapDigitalSpecimen({})).toBeNull();
-            expect(mapDigitalSpecimen({ data: {} })).toBeNull();
+            expect(mapDigitalSpecimen(null as any)).toBeNull();
+            expect(mapDigitalSpecimen({} as any)).toBeNull();
+            expect(mapDigitalSpecimen({ data: {} } as any)).toBeNull();
         });
 
         it('correctly selects verified identification over unverified ones', () => {
@@ -100,7 +102,7 @@ describe('mapDigitalSpecimen utilities', () => {
         });
 
         it('falls back to the first identification when no identification is verified', () => {
-            const unverifiedPayload = {
+            const unverifiedPayload: any = {
                 data: {
                     attributes: {
                         digitalSpecimen: {
@@ -162,7 +164,7 @@ describe('mapDigitalSpecimen utilities', () => {
         });
 
         it('returns null if digitalSpecimen object does not exist in payload', () => {
-            const invalidPayload = {
+            const invalidPayload: any = {
                 data: {
                     attributes: {
                         digitalMedia: [

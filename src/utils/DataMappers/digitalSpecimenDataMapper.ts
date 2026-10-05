@@ -40,7 +40,7 @@ const getPrimaryEvent = (ds: DigitalSpecimen) => {
  * based on the DIGITAL_SPECIMEN_SCHEMA_MAP definitions.
  * It is executed in the useDigitalSpecimen hook immediately when the call is being done.
  */
-export const mapDigitalSpecimen = (rawData: RawSpecimenData): DigitalSpecimenUIModel | null => {
+export const mapDigitalSpecimen = (rawData: RawSpecimenData | null | undefined): DigitalSpecimenUIModel | null => {
     const ds = rawData?.data?.attributes?.digitalSpecimen;
     if (!ds) return null;
 
@@ -82,7 +82,7 @@ export const mapDigitalSpecimen = (rawData: RawSpecimenData): DigitalSpecimenUIM
  * @param rawData Digital Specimen data
  * @returns Object with digitalMedia
  */
-export const mapDigitalSpecimenMedia = (rawData: RawSpecimenData) => {
+export const mapDigitalSpecimenMedia = (rawData: RawSpecimenData | null | undefined) => {
 	const ds = rawData?.data?.attributes?.digitalSpecimen;
 	const dm = rawData?.data?.attributes?.digitalMedia;
 
@@ -136,7 +136,7 @@ export const mapIdentificationData = (rawData: RawSpecimenData) => {
         const taxonIdentification = identification['ods:hasTaxonIdentifications']?.[0];
         const isVerified = identification['ods:isVerifiedIdentification'];
 
-        const mappedFields: { label: string; value: any; type: string }[] = [];
+        const mappedFields: UIProperty[] = [];
 
         IDENTIFICATION_SCHEMA_MAP.forEach((id) => {
             const value = id.resolve(identification, { taxonIdentification });

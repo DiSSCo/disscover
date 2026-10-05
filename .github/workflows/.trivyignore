@@ -44,3 +44,9 @@ CVE-2026-14456
 
 # libxml2 included in the image, cannot fix Jun-12-2026
 CVE-2026-6732
+
+# pcre2  included in the image, cannot fix Okt-05-2026
+CVE-2026-103111
+
+# libexpat included in the image, cannot fix Okt-05-2026
+ CVE-2026-93990

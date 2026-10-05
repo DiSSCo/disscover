@@ -57,9 +57,8 @@ export const cleanAndValidateDOIs = (doiInputString: string) => {
         .split(/[\n,;]+/)
         .map((doi) => doi.trim())
         .filter(doi => doi.length > 0);
-
     /* DOI regex to check if string adheres to https://doi.org/TEST|SANDBOX|10.xxxx/xxx-xxx-xxx */
-    const doiRegex = /^(https?:\/\/(dx\.)?doi\.org\/)?(10\.\d{4,9}|TEST|SANDBOX)\/[-._;()/:A-Z0-9]+$/i;
+    const doiRegex = /^(https?:\/\/((dx|www)\.)?doi\.org\/)?(10\.\d{4,9}|TEST|SANDBOX)\/[-._;()/:A-Z0-9]+$/i;
 
     return rawDois.filter(doi => doiRegex.test(doi));
 }

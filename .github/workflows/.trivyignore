@@ -32,6 +32,9 @@ CVE-2026-67213
 CVE-2026-67214
 CVE-2026-73086
 
+# braces is a dependency of another dependency and cannot be upgraded by us Okt-05-2026
+CVE-2026-93687
+
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Aug-26-2026
 CVE-2026-14456
@@ -41,3 +44,9 @@ CVE-2026-14456
 
 # libxml2 included in the image, cannot fix Jun-12-2026
 CVE-2026-6732
+
+# pcre2  included in the image, cannot fix Okt-05-2026
+CVE-2026-103111
+
+# libexpat included in the image, cannot fix Okt-05-2026
+ CVE-2026-93990

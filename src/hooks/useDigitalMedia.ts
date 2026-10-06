@@ -53,8 +53,8 @@ export const useDigitalMediaRetriever = (specimen?: any) => {
             setMainImage(null);
             return;
         }
-    
-        (async () => {
+
+        const fetchImages = async () => {
             try {
                 const promises = allImages.map(async (img: any) => {
                     const format = img["dcterms:format"]?.toLowerCase();
@@ -80,7 +80,9 @@ export const useDigitalMediaRetriever = (specimen?: any) => {
             } catch (error) {
                 console.error("Failed to process image formats:", error);
             }
-        })();
+        };
+
+        void fetchImages();
 
         return () => {
             isMounted = false;

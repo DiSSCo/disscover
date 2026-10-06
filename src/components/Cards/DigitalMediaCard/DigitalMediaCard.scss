@@ -1,42 +1,82 @@
 @use "styles/mixins.scss" as *;
 
 .digital-media-container {
-    position: initial;
+    position: relative;
+    width: 100%;
 
-    @include mediumAndUp {
-        position: sticky;
-        top: 0;
+    /* Opt-in sticky positioning for side-by-side or overview layouts */
+    &--sticky {
+        position: initial;
+
+        @include mediumAndUp {
+            position: sticky;
+            top: var(--spacing-m, 1rem);
+            align-self: start;
+        }
     }
 
     .digital-media-card { 
+        width: 100%;
+
         a {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+        }
+
+        .digital-media-card-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: var(--border-radius-s, --spacing-xs);
+
+            &.placeholder {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--neutral-10, #f0f0f0);
+            }
+        }
+
+        &.full-view {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+    
             .digital-media-card-image {
-                width: 100%;
-                aspect-ratio: 1/1;
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: cover;
+                aspect-ratio: auto; 
+                max-width: 100%;
+                max-height: 80vh;
+                object-fit: contain;
             }
         }
     }
     
     .digital-media-list {
         display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-xs, --spacing-sm);
         margin-block: var(--spacing-m) var(--spacing-l);
 
         .digital-media-thumb-btn {
             border: none;
-            margin: var(--odd-spacing-xxs);
-            padding: var(--odd-spacing-xxs);
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
 
             img {
-                width: 80px;
-                height: 80px;
-                margin-inline-end: var(--spacing-sm);
+                width: var(--spacing-5xl);
+                height: var(--spacing-5xl);
+                object-fit: cover;
+                border-radius: var(--border-radius-xs, --spacing-xxs);
             }
-        }
-        .active {
-            border: var(--odd-spacing-sm) solid var(--indigo-10);
+
+            &.active img {
+                outline: var(--odd-spacing-sm, --spacing-xxs) solid var(--indigo-10, #4f46e5);
+            }
         }
     }
 }

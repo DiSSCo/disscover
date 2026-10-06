@@ -50,3 +50,6 @@ CVE-2026-103111
 
 # libexpat included in the image, cannot fix Okt-05-2026
  CVE-2026-93990
+
+ # source-map-js included in the image, cannot fix Okt-06-2026
+ CVE-2026-93749

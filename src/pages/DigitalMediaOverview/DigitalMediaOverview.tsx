@@ -11,9 +11,13 @@ import { useDigitalMedia } from 'hooks/useDigitalMedia';
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
 
+/* Import utils */
+import { getIdFromUrl } from 'utils/Utils';
+
 export const DigitalMediaOverview = () => {
     /* Base variables */
-    const { data: digitalMedia, isLoading } = useDigitalMedia({ handle: 'TEST/9LV-YBE-QY3' });
+    const { identifier } = getIdFromUrl();
+    const { data: digitalMedia, isLoading } = useDigitalMedia({ handle: identifier });
 
     const getFieldValue = (label: string) => {
         return digitalMedia?.digitalMediaData?.find((item: { label: string; }) => item.label === label).value;
@@ -26,7 +30,7 @@ export const DigitalMediaOverview = () => {
         {
             value: 'media',
             title: 'Media',
-            component: <DigitalMediaDetails data={digitalMedia?.digitalMediaData}></DigitalMediaDetails>
+            component: <DigitalMediaDetails data={digitalMedia}></DigitalMediaDetails>
         }
     ]
 

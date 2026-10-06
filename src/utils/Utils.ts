@@ -62,3 +62,17 @@ export const cleanAndValidateDOIs = (doiInputString: string) => {
 
     return rawDois.filter(doi => doiRegex.test(doi));
 }
+
+/**
+ * Function to take the url and get the handle or DOI
+ * @returns An identifier that is a handle or DOI
+ */
+export const getIdFromUrl = () => {
+    const url = new URL(globalThis.location.href);
+    const segments = url.pathname.split('/');
+    const identifier = segments.slice(2).join("/");
+
+    return {
+        identifier
+    }
+}

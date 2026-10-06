@@ -8,6 +8,7 @@ import { DigitalSpecimenTabs } from 'components/Tabs/Tabs';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
+import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import types and enums */
 import { CardCategory } from 'types/digitalSpecimenTypes';
@@ -26,8 +27,8 @@ import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpeci
 import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
 import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
 
-/* Import hooks */
-import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
+/* Import utils */
+import { getIdFromUrl } from 'utils/Utils';
 
 /* Import store */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
@@ -35,9 +36,7 @@ import { Identifications } from './SubPages/Identifications';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
-    const url = new URL(globalThis.location.href);
-    const segments = url.pathname.split('/');
-    const identifier = segments.slice(2).join("/");
+    const { identifier } = getIdFromUrl();
     const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
     const [annotationMode, setAnnotationMode] = useState(false);
 

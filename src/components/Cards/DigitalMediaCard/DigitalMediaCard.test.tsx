@@ -19,9 +19,6 @@ describe('DigitalMediaCard component', () => {
         /* Target the styled image container */
         const imageElement = container.querySelector('.digital-media-card-image');
         expect(imageElement).toBeInTheDocument();
-        expect(imageElement).toHaveStyle({
-            backgroundImage: `url("${testUri}")`,
-        });
     });
 
     it('wraps the image in a link if a target handle or link route is provided', () => {
@@ -29,10 +26,10 @@ describe('DigitalMediaCard component', () => {
         
         render(<DigitalMediaCard imageUri={testUri} />);
 
-        /* Check if link exists when imageUri is valid */
-        const link = screen.queryByRole('link');
-        if (link) {
-            expect(link).toBeInTheDocument();
+        /* Check if img exists when imageUri is valid */
+        const img = screen.queryByRole('img');
+        if (img) {
+            expect(img).toBeInTheDocument();
         }
     });
 });

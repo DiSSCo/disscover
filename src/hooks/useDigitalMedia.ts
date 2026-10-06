@@ -54,29 +54,35 @@ export const useDigitalMediaRetriever = (specimen?: any) => {
             return;
         }
 
-        (async () => {
-            const promises = allImages.map(async (img: any) => {
-                const format = img["dcterms:format"]?.toLowerCase();
+        const fetchImages = async () => {
+            try {
+                const promises = allImages.map(async (img: any) => {
+                    const format = img["dcterms:format"]?.toLowerCase();
 
-                if (format === 'image/jpeg' || format === 'image/jpg') {
-                    return { img: img["ac:accessURI"], id: img["@id"] };
-                }
-                if (format === 'application/json') {
-                    return { img: await getJpegFromIIIFImages(img["ac:accessURI"]), id: img["@id"] };
-                }
-                return null;
-            });
+                    if (format === 'image/jpeg' || format === 'image/jpg') {
+                        return { img: img["ac:accessURI"], id: img["@id"] };
+                    }
+                    if (format === 'application/json') {
+                        return { img: await getJpegFromIIIFImages(img["ac:accessURI"]), id: img["@id"] };
+                    }
+                    return null;
+                });
 
-            const results = await Promise.all(promises);
-            const filteredResults = results.filter((item): item is ImageFormat => item !== null);
+                const results = await Promise.all(promises);
+                const filteredResults = results.filter((item): item is ImageFormat => item !== null);
 
-            if (isMounted) {
-                setCorrectImageFormats(filteredResults);
-                if (filteredResults.length > 0) {
-                    setMainImage(filteredResults[0].img);
+                if (isMounted) {
+                    setCorrectImageFormats(filteredResults);
+                    if (filteredResults.length > 0) {
+                        setMainImage(filteredResults[0].img);
+                    }
                 }
+            } catch (error) {
+                console.error("Failed to process image formats:", error);
             }
-        })();
+        };
+
+        fetchImages();
 
         return () => {
             isMounted = false;

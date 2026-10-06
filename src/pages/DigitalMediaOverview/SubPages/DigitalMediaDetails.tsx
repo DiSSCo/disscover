@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const DigitalMediaDetails = ({ data }: Props) => {
-    console.log(data);
     /* Base variables */
     const accessUri = data?.data?.attributes?.['ac:accessURI'] || data?.mainImage;
 

@@ -14,7 +14,7 @@ export const DigitalMediaDetails = ({ data }: Props) => {
         <>                      
             {/* Standard flow layout for details view */}
             <section className="digital-media-container">
-                <DigitalMediaCard imageUri={accessUri} />
+                <DigitalMediaCard imageUri={accessUri} isFullView={true}/>
             </section>
             
             {data?.digitalMediaData && (

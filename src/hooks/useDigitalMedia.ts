@@ -62,7 +62,7 @@ export const useDigitalMediaRetriever = (specimen?: any) => {
                     return { img: img["ac:accessURI"], id: img["@id"] };
                 }
                 if (format === 'application/json') {
-                    return { img: await getJpegFromIIIFImages(img), id: img["@id"] };
+                    return { img: await getJpegFromIIIFImages(img["ac:accessURI"]), id: img["@id"] };
                 }
                 return null;
             });

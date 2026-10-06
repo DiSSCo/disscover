@@ -4,7 +4,7 @@
  */
 export async function getJpegFromIIIFImages(image: any) {
     try {
-        const response = await fetch(image["ac:accessURI"]);
+        const response = await fetch(image);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();

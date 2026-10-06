@@ -39,6 +39,20 @@
                 background-color: var(--neutral-10, #f0f0f0);
             }
         }
+
+        &.full-view {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+    
+            .digital-media-card-image {
+                aspect-ratio: auto; 
+                max-width: 100%;
+                max-height: 80vh;
+                object-fit: contain;
+            }
+        }
     }
     
     .digital-media-list {

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
 import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
 import { LONG_STALE_TIME, LONG_GC_TIME } from "utils/Constants";
+import { getDigitalSpecimenVersions } from 'services/digitalSpecimenService/getDigitalSpecimenVersions';
 
 type UseDigitalSpecimenOptions = {
     doi: string;
@@ -25,6 +26,18 @@ export const useDigitalSpecimenComplete = ({
             ...mapIdentificationData(data)
         }),
         enabled,
+        staleTime: LONG_STALE_TIME,
+        gcTime: LONG_GC_TIME
+    });
+};
+
+/* UseQuery hook to retrieve the versions that a digital specimen has */
+export const useDigitalSpecimenVersions = ({
+    handle,
+}: { handle: string }) => {
+    return useQuery({
+        queryKey: ['digitalSpecimenVersions', handle ],
+        queryFn: () => getDigitalSpecimenVersions({ handle }),
         staleTime: LONG_STALE_TIME,
         gcTime: LONG_GC_TIME
     });

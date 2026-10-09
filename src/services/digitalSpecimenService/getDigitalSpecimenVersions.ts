@@ -1,19 +1,12 @@
 import apiClient from '../apiClient';
 
 /**
- * Service that retrieves the complete digital specimen details through the apiClient
- * Takes doi and version as a parameter object
- * @returns An array with complete digital specimen data on specimen, media and annotations
+ * Service that retrieves the versions of a specific digital specimen details through the apiClient
+ * Takes doi as a parameter object
+ * @returns An array of numbers corresponding to the amount of versions a digital specimen has
  */
-export const getDigitalSpecimenComplete = async ({ doi, version }:
-    { doi: string, version?: number }) => {
-    let endPoint: string;
-
-    if (version) {
-        endPoint = `digital-specimen/v1/${doi}/${version}/full`;
-    } else {
-        endPoint = `digital-specimen/v1/${doi}/full`;
-    }
+export const getDigitalSpecimenVersions = async ({ handle }: { handle: string }) => {
+    const endPoint: string = `digital-specimen/v1/${handle}/versions`;
     try {
         /* Call service and wait for response */
         const response = await apiClient.get(endPoint);

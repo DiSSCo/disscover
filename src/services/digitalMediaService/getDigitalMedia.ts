@@ -17,12 +17,7 @@ export const getDigitalMedia = async ({ handle, version }:
     }
     try {
         /* Call service and wait for response */
-        const response = await apiClient.get(endPoint, {
-            params: {
-                handle,
-                version
-            }
-        });
+        const response = await apiClient.get(endPoint);
 
         /* Throw error if response is not as expected */
         if(!response.data?.data) {

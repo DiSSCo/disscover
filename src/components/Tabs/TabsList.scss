@@ -1,0 +1,15 @@
+.tabs-list {
+    display: flex;
+
+    .tab {
+        padding: 0 var(--spacing-m);
+
+        &.active {
+            border-bottom: 2px solid var(--indigo-10);
+        }
+
+        button {
+            color: var(--gray-a11);
+        }
+    }
+}

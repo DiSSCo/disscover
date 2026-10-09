@@ -4,14 +4,15 @@ import { useState } from 'react';
 /* Import components */
 import { Hero } from 'components/Hero/Hero';
 import { AnnotationSidePanel } from 'components/elements/Elements';
-import { DigitalSpecimenTabs } from 'components/Tabs/Tabs';
+import { TabsList } from 'components/Tabs/TabsList';
+import { TabsContent } from 'components/Tabs/TabsContent';
 
 /* Import hooks */
-import { useDigitalSpecimenComplete } from 'hooks/useDigitalSpecimen';
+import { useDigitalSpecimenComplete, useDigitalSpecimenVersions } from 'hooks/useDigitalSpecimen';
 import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import types and enums */
-import { CardCategory } from 'types/digitalSpecimenTypes';
+import { CardCategory, TabItem } from 'types/digitalSpecimenTypes';
 import { CategoryConfig, UIProperty } from 'types/dataMapperTypes';
 
 /* Import styling */
@@ -30,15 +31,19 @@ import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpeci
 /* Import utils */
 import { getIdFromUrl } from 'utils/Utils';
 
-/* Import store */
+/* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
+import { VersionDropdown } from 'components/VersionDropdown/VersionDropdown';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
+    const [currentVersion, setCurrentVersion] = useState<number|undefined>();
     const { identifier } = getIdFromUrl();
-    const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier});
+    const { data: specimen, isLoading, isError } = useDigitalSpecimenComplete({ doi: identifier, version: currentVersion});
+    const { data: versions } = useDigitalSpecimenVersions({ handle: identifier });
     const [annotationMode, setAnnotationMode] = useState(false);
+    const [currentTab, setCurrentTab] = useState('overview');
 
     /* Hooks */
     const handleOpenAnnotation = useAnnotationHandler(setAnnotationMode);
@@ -58,7 +63,7 @@ const DigitalSpecimenOverview = () => {
     };
 
     /* Tabs */
-    const tabs = [
+    const tabs: TabItem[] = [
         {
             value: 'overview',
             title: 'Overview',
@@ -89,8 +94,17 @@ const DigitalSpecimenOverview = () => {
             </Hero>
 
             <main>
-                {/* Tabs of the Digital Specimen */}
-                <DigitalSpecimenTabs defaultValue="overview" tabs={tabs}></DigitalSpecimenTabs>
+                {/* Tabs of the Digital Specimen & the version dropdown*/}
+                <div className="specimen-content-controller">
+                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                    <VersionDropdown
+                        versions={versions?.data?.attributes?.versions.toReversed()}
+                        onSelectVersion={(version: number) => setCurrentVersion(version)}
+                        currentVersion={currentVersion}
+                    >
+                    </VersionDropdown>
+                </div>
+                <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>
 
             {annotationMode && (

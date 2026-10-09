@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export enum CardCategory {
     SpecimenRecord = 'Specimen Record',
     Identification = 'Identification',
@@ -53,4 +55,10 @@ export type SpecimenField = {
     value: any;
     type: string;
     hidden?: boolean;
+}
+
+export type TabItem = {
+    value: string,
+    title: string,
+    component: ReactElement
 }

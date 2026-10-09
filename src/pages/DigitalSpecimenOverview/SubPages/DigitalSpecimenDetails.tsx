@@ -5,6 +5,7 @@ import { DigitalSpecimenCard } from "components/Cards/DigitalSpecimenCard/Digita
 
 /* Import hooks */
 import { useDigitalMediaRetriever } from "hooks/useDigitalMedia";
+import { useNavigate } from "react-router-dom";
 
 /* Import types */
 import { MappedCategories } from "types/dataMapperTypes";
@@ -12,6 +13,7 @@ import { AnnotationTargetPayload, CARD_CONFIGS, CardCategory, LEFT_COLUMN_CATEGO
 
 /* Import styling */
 import "./DigitalSpecimenDetails.scss";
+
 
 interface Props {
     specimen: any;
@@ -21,6 +23,7 @@ interface Props {
 export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
     /* Execute hook to get the IIIF images or fallback to JPEG */
     const { mainImage, setMainImage, activeId, cleanDoiPath, correctImageFormats } = useDigitalMediaRetriever(specimen);
+    const navigate = useNavigate();
 
     /* Base variables */
     const hasImages = specimen?.digitalMedia?.length > 0;
@@ -40,11 +43,11 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
     }
 
     const renderMediaGallery = () => (
-        <div className="digital-media-container digital-media-container--sticky">
+        <div className="digital-media-container--sticky">
             <DigitalMediaCard 
                 imageUri={mainImage} 
-                cleanDoiPath={cleanDoiPath} 
-                activeId={activeId} 
+                activeId={activeId}
+                ImageAction={() => navigate(`/dm/${cleanDoiPath}`)}
             />
             <DigitalMediaList 
                 images={correctImageFormats} 

@@ -1,40 +1,35 @@
-/* Import components */
-import { Link } from "react-router-dom";
-
 /* Import styling */
 import './DigitalMediaCard.scss';
 
 interface Props {
     imageUri?: string | null;
-    cleanDoiPath?: string;
     activeId?: string;
+    ImageAction?: Function;
     isFullView?: boolean;
 }
 
-export const DigitalMediaCard = ({ imageUri, cleanDoiPath = '', activeId = '', isFullView =  false }: Props) => {
+export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isFullView = false }: Props) => {
     if (!imageUri) {
-        return <div className="digital-media-card-image placeholder">Loading...</div>;
+        return <div className="image-placeholder"><p>Something went wrong with the image</p></div>;
     }
 
     return (
-        <div className={`digital-media-card ${isFullView ? 'full-view' : ''}`}>
-            { cleanDoiPath ? 
-            <Link to={`/dm/${cleanDoiPath}`}>
-                <div 
-                    role="img"
+        <>
+        { ImageAction ? 
+            <button onClick={() => ImageAction()}>
+                <img 
+                    src={`${imageUri}`}
                     aria-label={`Image of digital specimen ${activeId}`}
-                    style={{ backgroundImage: `url(${imageUri})` }} 
-                    className="digital-media-card-image"
+                    className={`digital-media-card-image ${isFullView ? 'fullView' : ''}`}
                 />
-            </Link>
-            :
-            <img 
-                src={`${imageUri}`}
-                aria-label={`Image of digital specimen ${activeId}`}
-                className="digital-media-card-image"
-            />
-            }
-            
-        </div>
+            </button>
+        :
+        <img 
+            src={`${imageUri}`}
+            aria-label={`Image of digital specimen ${activeId}`}
+            className={`digital-media-card-image ${isFullView ? 'fullView' : ''}`}
+        />
+        }
+        </>
     );
 };

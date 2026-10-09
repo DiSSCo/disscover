@@ -1,0 +1,24 @@
+.digital-media-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs, --spacing-sm);
+    margin-block: var(--spacing-m) var(--spacing-l);
+
+    .digital-media-thumb-btn {
+        border: none;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+
+        img {
+            width: var(--spacing-5xl);
+            height: var(--spacing-5xl);
+            object-fit: cover;
+            border-radius: var(--border-radius-xs, --spacing-xxs);
+        }
+
+        &.active img {
+            outline: var(--odd-spacing-sm, --spacing-xxs) solid var(--indigo-10, #4f46e5);
+        }
+    }
+}

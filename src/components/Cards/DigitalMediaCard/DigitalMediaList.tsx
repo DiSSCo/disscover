@@ -1,6 +1,9 @@
 /* Import types */
 import { ImageFormat } from "types/digitalMediaTypes";
 
+/* Import styling */
+import './DigitalMediaList.scss'
+
 interface Props {
     images: ImageFormat[];
     activeImage: string | null;

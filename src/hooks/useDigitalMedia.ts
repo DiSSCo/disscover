@@ -32,17 +32,37 @@ export const useDigitalMedia = ({ handle, version }: { handle: string, version?:
     });
 };
 
+/** 
+ * Hook that calls the jpegToIiif service to convert a single uri into jpg
+ * Takes imageUri as a parameter
+ * @returns the response of the service, in this case a jpg uri of the image
+ */
+export const useSingleIIIFConverter = (imageUri: string | null) => {
+    return useQuery({
+        queryKey: ['iiifConverter', imageUri],
+        queryFn: () => getJpegFromIIIFImages(imageUri),
+        staleTime: LONG_STALE_TIME,
+        gcTime: LONG_GC_TIME,
+        enabled: Boolean(imageUri),
+    })
+}
+
 /**
  * This useEffect hook retrieves the jpg/jpeg url from IIIF images upon loading
  * @returns mainImage, the activeId of the image active, cleanDoi path,function to set image
  */
 export const useDigitalMediaRetriever = (specimen?: any) => {
+    /* Array to use for the digital media list */
     const [correctImageFormats, setCorrectImageFormats] = useState<ImageFormat[]>([]);
+
+    /* Very first image to show on digital specimen overview */
     const [mainImage, setMainImage] = useState<string | null>(null);
 
     const allImages = specimen?.digitalMedia?.map((item: any) => item['digitalMediaObject']) || [];
     const activeImageObject = correctImageFormats.find(item => item.img === mainImage);
     const activeId = activeImageObject?.id || specimen?.digitalMedia?.[0]?.['digitalMediaObject']?.["@id"] || '';
+
+    /* Getting the doi path for the selected image to navigate */
     const cleanDoiPath = activeId ? activeId.replace(RetrieveEnvVariable('DOI_URL'), '') : '';
 
     useEffect(() => {

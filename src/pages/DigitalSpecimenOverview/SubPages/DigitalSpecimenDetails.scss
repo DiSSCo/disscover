@@ -21,6 +21,16 @@
                 }
             }
         }
+
+        .digital-media-container--sticky {
+            position: initial;
+    
+            @include mediumAndUp {
+                position: sticky;
+                top: var(--spacing-m, 1rem);
+                align-self: start;
+            }
+        }
     }
 }
 

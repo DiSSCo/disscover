@@ -2,6 +2,8 @@ import { Button } from "@radix-ui/themes";
 
 /* Import styling */
 import './TabsList.scss';
+
+/* Import types */
 import { TabItem } from "types/digitalSpecimenTypes";
 
 interface TabListProps {

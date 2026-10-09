@@ -4,6 +4,8 @@ import { DigitalSpecimenCard } from "components/Cards/DigitalSpecimenCard/Digita
 
 /* Import styling */
 import './DigitalMediaDetails.scss';
+
+/* Import hooks */
 import { useSingleIIIFConverter } from "hooks/useDigitalMedia";
 
 interface Props {

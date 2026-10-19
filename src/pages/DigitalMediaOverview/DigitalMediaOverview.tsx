@@ -24,7 +24,6 @@ export const DigitalMediaOverview = () => {
     /* Base variables */
     const { identifier } = getIdFromUrl();
     const { data: digitalMedia, isLoading } = useDigitalMedia({ handle: identifier });
-    console.log(digitalMedia);
     const [currentTab, setCurrentTab] = useState('media');
 
     const getFieldValue = (label: string) => {
@@ -43,6 +42,7 @@ export const DigitalMediaOverview = () => {
         {
             value: 'links',
             title: 'Links',
+            component: <RelatedLinks data={digitalMedia.entityRelationships}></RelatedLinks>
         }
     ]
 

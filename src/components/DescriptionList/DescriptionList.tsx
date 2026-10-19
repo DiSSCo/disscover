@@ -16,7 +16,7 @@ export const DescriptionList = ({ fragment }: Props) => {
                 .filter((item: UIProperty) => !item.hidden)
                 .map((item: UIProperty, index: number) => (
                     <LabelValuePair 
-                        key={item.label || index} 
+                        key={item.label + index || index} 
                         item={item as { label: string; value: string; isHtml: boolean; type: string; hidden: boolean; }} 
                     />
                 ))

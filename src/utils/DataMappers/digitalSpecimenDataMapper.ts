@@ -7,6 +7,7 @@ import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 /* Import types */
 import { DigitalSpecimenUIModel, RawSpecimenData, UIProperty } from "types/dataMapperTypes";
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+import { DigitalMedia } from "app/types/DigitalMedia";
 
 /**
  * Function to get the accepted identification or the first one it can find
@@ -157,8 +158,8 @@ export const mapIdentificationData = (rawData: RawSpecimenData) => {
     };
 };
 
-export const mapEntityRelationships = (rawData: RawSpecimenData) => {
-    const entityRelationshipData = rawData?.data?.attributes?.digitalSpecimen?.['ods:hasEntityRelationships'];
+export const mapEntityRelationships = (rawData: DigitalSpecimen | DigitalMedia ) => {
+    const entityRelationshipData = rawData?.['ods:hasEntityRelationships'];
 
     if (!entityRelationshipData) return null;
 

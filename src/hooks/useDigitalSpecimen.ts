@@ -24,7 +24,7 @@ export const useDigitalSpecimenComplete = ({
             ...mapDigitalSpecimen(data),
             ...mapDigitalSpecimenMedia(data),
             ...mapIdentificationData(data),
-            ...mapEntityRelationships(data)
+            ...mapEntityRelationships(data?.data?.attributes?.digitalSpecimen)
         }),
         enabled,
         staleTime: LONG_STALE_TIME,

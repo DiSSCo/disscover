@@ -26,7 +26,7 @@ export const useDigitalMedia = ({ handle, version }: { handle: string, version?:
         select: (data) => ({
             ...data,
             ...mapDigitalMediaData(data),
-            ...mapEntityRelationships(data),
+            ...mapEntityRelationships(data?.data?.attributes),
         }),
         staleTime: LONG_STALE_TIME,
         gcTime: LONG_GC_TIME

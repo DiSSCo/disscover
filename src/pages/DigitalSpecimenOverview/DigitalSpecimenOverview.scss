@@ -6,6 +6,12 @@
 	position: relative;
 	min-height: 100vh;
 
+	.specimen-content-controller {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 var(--spacing-xl);
+	}
+
 	.annotation-panel-overlay {
 		position: fixed;
 		top: 0;

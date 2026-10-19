@@ -16,12 +16,7 @@ export const getDigitalSpecimenComplete = async ({ doi, version }:
     }
     try {
         /* Call service and wait for response */
-        const response = await apiClient.get(endPoint, {
-            params: {
-                doi,
-                version
-            }
-        });
+        const response = await apiClient.get(endPoint);
 
         /* Throw error if response is not as expected */
         if(!response.data?.data) {

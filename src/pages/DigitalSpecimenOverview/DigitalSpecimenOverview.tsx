@@ -35,7 +35,7 @@ import { getIdFromUrl } from 'utils/Utils';
 /* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
-import { RelatedLinks } from './SubPages/RelatedLinks';
+import { RelatedLinks } from '../ReusableTemplates/RelatedLinks';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */

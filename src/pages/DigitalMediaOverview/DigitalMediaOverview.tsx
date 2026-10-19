@@ -18,7 +18,7 @@ import { getIdFromUrl } from 'utils/Utils';
 
 /* Import types */
 import { TabItem } from 'types/digitalSpecimenTypes';
-import { RelatedLinks } from 'pages/DigitalSpecimenOverview/SubPages/RelatedLinks';
+import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 export const DigitalMediaOverview = () => {
     /* Base variables */

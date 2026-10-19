@@ -6,6 +6,7 @@ import { Hero } from 'components/Hero/Hero';
 import { AnnotationSidePanel } from 'components/elements/Elements';
 import { TabsList } from 'components/Tabs/TabsList';
 import { TabsContent } from 'components/Tabs/TabsContent';
+import { VersionDropdown } from 'components/VersionDropdown/VersionDropdown';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete, useDigitalSpecimenVersions } from 'hooks/useDigitalSpecimen';
@@ -34,7 +35,6 @@ import { getIdFromUrl } from 'utils/Utils';
 /* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
-import { VersionDropdown } from 'components/VersionDropdown/VersionDropdown';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */

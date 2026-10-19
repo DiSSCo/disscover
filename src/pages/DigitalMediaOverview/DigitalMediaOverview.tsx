@@ -18,11 +18,13 @@ import { getIdFromUrl } from 'utils/Utils';
 
 /* Import types */
 import { TabItem } from 'types/digitalSpecimenTypes';
+import { RelatedLinks } from 'pages/DigitalSpecimenOverview/SubPages/RelatedLinks';
 
 export const DigitalMediaOverview = () => {
     /* Base variables */
     const { identifier } = getIdFromUrl();
     const { data: digitalMedia, isLoading } = useDigitalMedia({ handle: identifier });
+    console.log(digitalMedia);
     const [currentTab, setCurrentTab] = useState('media');
 
     const getFieldValue = (label: string) => {
@@ -37,6 +39,10 @@ export const DigitalMediaOverview = () => {
             value: 'media',
             title: 'Media',
             component: <DigitalMediaDetails data={digitalMedia}></DigitalMediaDetails>
+        },
+        {
+            value: 'links',
+            title: 'Links',
         }
     ]
 
@@ -53,7 +59,9 @@ export const DigitalMediaOverview = () => {
             >
             </Hero>
             <main>
-                <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                <div className="specimen-content-controller">
+                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                </div>
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>
         </div>

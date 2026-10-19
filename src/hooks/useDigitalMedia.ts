@@ -8,7 +8,7 @@ import { getDigitalMedia } from "services/digitalMediaService/getDigitalMedia";
 import { getJpegFromIIIFImages } from "services/digitalMediaService/getJpegFromIIIFImages";
 
 /* Import utils */
-import { mapDigitalMediaData } from "utils/DataMappers/digitalSpecimenDataMapper";
+import { mapDigitalMediaData, mapEntityRelationships } from "utils/DataMappers/digitalSpecimenDataMapper";
 import { LONG_STALE_TIME, LONG_GC_TIME } from "utils/Constants";
 
 /* Types & interfaces */
@@ -26,6 +26,7 @@ export const useDigitalMedia = ({ handle, version }: { handle: string, version?:
         select: (data) => ({
             ...data,
             ...mapDigitalMediaData(data),
+            ...mapEntityRelationships(data),
         }),
         staleTime: LONG_STALE_TIME,
         gcTime: LONG_GC_TIME

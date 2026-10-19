@@ -21,7 +21,7 @@ const IDENTIFICATION_SCHEMA_MAP: IdentificationConfig[] = [
     },
     {
         label: 'Taxonomic Status',
-        type: 'url',
+        type: 'link',
         resolve: (_, { taxonIdentification }) => taxonIdentification?.["@id"]
     },
     {

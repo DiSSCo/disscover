@@ -156,3 +156,21 @@ export const mapIdentificationData = (rawData: RawSpecimenData) => {
         identifications: mappedIdentifications
     };
 };
+
+export const mapEntityRelationships = (rawData: RawSpecimenData) => {
+    const entityRelationshipData = rawData?.data?.attributes?.digitalSpecimen?.['ods:hasEntityRelationships'];
+
+    if (!entityRelationshipData) return null;
+
+    const mappedFields: UIProperty[] = [];
+
+    entityRelationshipData.forEach((relationship) => {
+        mappedFields.push({
+            label: relationship['dwc:relationshipOfResource'],
+            value: relationship['ods:relatedResourceURI'],
+            type: 'url'
+        })
+    });
+
+    return { entityRelationships: mappedFields };
+}

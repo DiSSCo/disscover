@@ -61,7 +61,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
             },
             {
                 label: 'Taxonomic Status',
-                type: 'url',
+                type: 'link',
                 resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["@id"]
             },
             {

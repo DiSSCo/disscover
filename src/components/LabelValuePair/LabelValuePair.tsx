@@ -40,7 +40,14 @@ export const LabelValuePair = ({ item }: Props) => {
 			case 'url':
 				return (
 					<a href={item.value} target="_blank" rel="noopener noreferrer">
-						Catalogue of Life
+						{item.value}
+						<ExternalLinkIcon></ExternalLinkIcon>
+					</a>
+				);
+			case 'link':
+				return (
+					<a href={item.value} target="_blank" rel="noopener noreferrer">
+						Catelogue of Life
 						<ExternalLinkIcon></ExternalLinkIcon>
 					</a>
 				);

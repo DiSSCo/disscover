@@ -35,6 +35,7 @@ import { getIdFromUrl } from 'utils/Utils';
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
 import { VersionDropdown } from 'components/VersionDropdown/VersionDropdown';
+import { RelatedLinks } from './SubPages/RelatedLinks';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
@@ -73,6 +74,11 @@ const DigitalSpecimenOverview = () => {
             value: 'identifications',
             title: 'Identifications',
             component: <Identifications identificationData={specimen.identifications} onAnnotate={handleOpenAnnotation}></Identifications>
+        },
+        {
+            value: 'links',
+            title: 'Links',
+            component: <RelatedLinks data={specimen.entityRelationships}></RelatedLinks>
         }
     ]
 

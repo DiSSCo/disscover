@@ -1,0 +1,35 @@
+.json-viewer-card {
+    #mids-indicator {
+        margin-inline-start: var(--spacing-m);
+        display: flex;
+        align-items: center;
+
+        p {
+            font-size: var(--sm-font-size);
+            color: var(--indigo-11);
+            margin-inline-end: var(--spacing-sm);
+        }
+        .mids-progress-dot {
+            height: var(--spacing-sm);
+            width: var(--spacing-sm);
+            margin-inline-end: var(--spacing-xxs);
+            border-radius: 50%;
+            border: var(--odd-spacing-xs) solid var(--indigo-11);
+
+            &.active {
+                background-color: var(--indigo-11);
+            }
+        }
+    }
+    pre {
+        max-height: 100vh;
+        overflow: scroll;
+        margin: var(--odd-spacing-xxs);
+    }
+
+    &:first-child {
+        margin-block-end: var(--spacing-l);
+        display: flex;
+        align-items: center;
+    }
+}

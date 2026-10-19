@@ -12,6 +12,7 @@ import { useDigitalMedia } from 'hooks/useDigitalMedia';
 
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
+import { JsonViewer } from 'pages/ReusableTemplates/JsonViewer';
 
 /* Import utils */
 import { getIdFromUrl } from 'utils/Utils';
@@ -37,8 +38,13 @@ export const DigitalMediaOverview = () => {
             value: 'media',
             title: 'Media',
             component: <DigitalMediaDetails data={digitalMedia}></DigitalMediaDetails>
+        },
+        {
+            value: 'full-data',
+            title: 'Full Data',
+            component: <JsonViewer json={digitalMedia.data}></JsonViewer>
         }
-    ]
+]
 
     return (
         <div className="digital-specimen-page">
@@ -53,7 +59,9 @@ export const DigitalMediaOverview = () => {
             >
             </Hero>
             <main>
-                <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                <div className="specimen-content-controller">
+                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                </div>
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>
         </div>

@@ -35,6 +35,7 @@ import { getIdFromUrl } from 'utils/Utils';
 /* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
+import { JsonViewer } from 'pages/ReusableTemplates/JsonViewer';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
@@ -73,6 +74,11 @@ const DigitalSpecimenOverview = () => {
             value: 'identifications',
             title: 'Identifications',
             component: <Identifications identificationData={specimen.identifications} onAnnotate={handleOpenAnnotation}></Identifications>
+        },
+        {
+            value: 'full-data',
+            title: 'Full Data',
+            component: <JsonViewer json={specimen.data}></JsonViewer>
         }
     ]
 

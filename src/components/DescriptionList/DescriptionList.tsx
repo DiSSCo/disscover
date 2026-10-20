@@ -14,9 +14,9 @@ export const DescriptionList = ({ fragment }: Props) => {
         <dl className="ds-card-body">
             {fragment
                 .filter((item: UIProperty) => !item.hidden)
-                .map((item: UIProperty, index: number) => (
+                .map((item: UIProperty) => (
                     <LabelValuePair 
-                        key={item.label + index || index} 
+                        key={item.label + item.value || item.value} 
                         item={item as { label: string; value: string; isHtml: boolean; type: string; hidden: boolean; }} 
                     />
                 ))

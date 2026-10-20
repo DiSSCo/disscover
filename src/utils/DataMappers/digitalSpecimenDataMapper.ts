@@ -163,14 +163,12 @@ export const mapEntityRelationships = (rawData: DigitalSpecimen | DigitalMedia )
 
     if (!entityRelationshipData) return null;
 
-    const mappedFields: UIProperty[] = [];
-
-    entityRelationshipData.forEach((relationship) => {
-        mappedFields.push({
+    const mappedFields: UIProperty[] = entityRelationshipData.map((relationship) => {
+        return {
             label: relationship['dwc:relationshipOfResource'],
             value: relationship['ods:relatedResourceURI'],
             type: 'url'
-        })
+        }
     });
 
     return { entityRelationships: mappedFields };

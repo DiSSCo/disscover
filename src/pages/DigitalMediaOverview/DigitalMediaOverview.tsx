@@ -60,7 +60,7 @@ export const DigitalMediaOverview = () => {
             </Hero>
             <main>
                 <div className="specimen-content-controller">
-                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                    <TabsList tabs={tabs} setCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
                 </div>
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>

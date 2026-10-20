@@ -102,7 +102,7 @@ const DigitalSpecimenOverview = () => {
             <main>
                 {/* Tabs of the Digital Specimen & the version dropdown*/}
                 <div className="specimen-content-controller">
-                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                    <TabsList tabs={tabs} setCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
                     {versions &&
                         <VersionDropdown
                             versions={versions?.data?.attributes?.versions.toReversed()}

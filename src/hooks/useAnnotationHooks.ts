@@ -3,12 +3,6 @@ import { useAppDispatch } from 'app/Hooks';
 import { setAnnotationTarget } from 'redux-store/AnnotateSlice';
 import { AnnotationTargetPayload } from 'types/digitalSpecimenTypes';
 
-const DefaultTarget: AnnotationTargetPayload = {
-    type: 'class',
-    jsonPath: '',
-    directPath: true,
-};
-
 /**
  * Hook to set the annotationMode
  * @param setAnnotationMode Local state 
@@ -18,7 +12,7 @@ export const useAnnotationHandler = (setAnnotationMode: (active: boolean) => voi
     const dispatch = useAppDispatch();
 
     const handleOpenAnnotation = useCallback((target?: AnnotationTargetPayload) => {
-        dispatch(setAnnotationTarget(target ?? DefaultTarget));
+        dispatch(setAnnotationTarget(target ?? undefined));
         setAnnotationMode(true);
     }, [dispatch, setAnnotationMode]);
 

@@ -22,26 +22,26 @@ export const JsonViewer = ({ json }: JsonViewerProps) => {
     /* Base variables */
     const isSpecimen = isDigitalSpecimenJson(json);
     const currentMidsLevel = isSpecimen 
-    ? json.attributes.digitalSpecimen['ods:midsLevel'] 
-    : undefined;
+        ? json.attributes.digitalSpecimen['ods:midsLevel'] 
+        : undefined;
     
     const version = isSpecimen 
-    ? json.attributes.digitalSpecimen['ods:version'] ?? 1 
-    : json.attributes['ods:version'] ?? 1;
+        ? json.attributes.digitalSpecimen['ods:version'] ?? 1 
+        : json.attributes['ods:version'] ?? 1;
 
     const totalMidsLevel = [1, 2, 3];
 
     const downloadJsonHandler = () => {
-    const jsonData = JSON.stringify(json);
-    const jsonFile = new Blob([jsonData], { type: "application/json" });
-    const link = document.createElement("a");
-    
-    const doiUrl = RetrieveEnvVariable('DOI_URL') as string;
-    const cleanId = json.id.replace(doiUrl, '');
+        const jsonData = JSON.stringify(json);
+        const jsonFile = new Blob([jsonData], { type: "application/json" });
+        const link = document.createElement("a");
+        
+        const doiUrl = RetrieveEnvVariable('DOI_URL') as string;
+        const cleanId = json.id.replace(doiUrl, '');
 
-    link.href = URL.createObjectURL(jsonFile);
-    link.download = `${cleanId}_${version}.json`;
-    link.click();
+        link.href = URL.createObjectURL(jsonFile);
+        link.download = `${cleanId}_${version}.json`;
+        link.click();
     };
 
     return (

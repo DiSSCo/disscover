@@ -89,12 +89,12 @@ describe('LabelValuePair', () => {
             expect(screen.getByText('Panthera')).toBeInTheDocument();
         });
 
-        it('renders Catalogue of Life link for "url" type', () => {
+        it('renders Catalogue of Life link for "link" type', () => {
             const urlItem = {
                 label: 'Taxon Link',
                 value: 'https://catalogueoflife.org/taxon/123',
                 isHtml: false,
-                type: 'url',
+                type: 'link',
                 hidden: false,
             };
 

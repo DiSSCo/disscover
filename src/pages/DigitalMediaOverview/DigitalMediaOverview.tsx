@@ -18,6 +18,7 @@ import { getIdFromUrl } from 'utils/Utils';
 
 /* Import types */
 import { TabItem } from 'types/digitalSpecimenTypes';
+import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 export const DigitalMediaOverview = () => {
     /* Base variables */
@@ -37,6 +38,11 @@ export const DigitalMediaOverview = () => {
             value: 'media',
             title: 'Media',
             component: <DigitalMediaDetails data={digitalMedia}></DigitalMediaDetails>
+        },
+        {
+            value: 'links',
+            title: 'Links',
+            component: <RelatedLinks data={digitalMedia.entityRelationships}></RelatedLinks>
         }
     ]
 
@@ -53,7 +59,9 @@ export const DigitalMediaOverview = () => {
             >
             </Hero>
             <main>
-                <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                <div className="specimen-content-controller">
+                    <TabsList tabs={tabs} setCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                </div>
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>
         </div>

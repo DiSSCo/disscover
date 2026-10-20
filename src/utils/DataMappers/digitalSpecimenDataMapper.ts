@@ -7,6 +7,7 @@ import IDENTIFICATION_SCHEMA_MAP from "./schemas/identificationSchema";
 /* Import types */
 import { DigitalSpecimenUIModel, RawSpecimenData, UIProperty } from "types/dataMapperTypes";
 import { DigitalSpecimen } from "app/types/DigitalSpecimen";
+import { DigitalMedia } from "app/types/DigitalMedia";
 
 /**
  * Function to get the accepted identification or the first one it can find
@@ -156,3 +157,19 @@ export const mapIdentificationData = (rawData: RawSpecimenData) => {
         identifications: mappedIdentifications
     };
 };
+
+export const mapEntityRelationships = (rawData: DigitalSpecimen | DigitalMedia ) => {
+    const entityRelationshipData = rawData?.['ods:hasEntityRelationships'];
+
+    if (!entityRelationshipData) return null;
+
+    const mappedFields: UIProperty[] = entityRelationshipData.map((relationship) => {
+        return {
+            label: relationship['dwc:relationshipOfResource'],
+            value: relationship['ods:relatedResourceURI'],
+            type: 'url'
+        }
+    });
+
+    return { entityRelationships: mappedFields };
+}

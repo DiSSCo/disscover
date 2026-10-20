@@ -35,6 +35,7 @@ import { getIdFromUrl } from 'utils/Utils';
 /* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
+import { RelatedLinks } from '../ReusableTemplates/RelatedLinks';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
@@ -73,6 +74,11 @@ const DigitalSpecimenOverview = () => {
             value: 'identifications',
             title: 'Identifications',
             component: <Identifications identificationData={specimen.identifications} onAnnotate={handleOpenAnnotation}></Identifications>
+        },
+        {
+            value: 'links',
+            title: 'Links',
+            component: <RelatedLinks data={specimen.entityRelationships}></RelatedLinks>
         }
     ]
 
@@ -96,7 +102,7 @@ const DigitalSpecimenOverview = () => {
             <main>
                 {/* Tabs of the Digital Specimen & the version dropdown*/}
                 <div className="specimen-content-controller">
-                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                    <TabsList tabs={tabs} setCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
                     {versions &&
                         <VersionDropdown
                             versions={versions?.data?.attributes?.versions.toReversed()}

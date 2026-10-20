@@ -69,4 +69,12 @@ interface RawSpecimenData {
     meta?: Record<string, unknown>
 }
 
-export type { UIProperty, DsFieldConfig, DmFieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig, RawSpecimenData };
+interface RawDigitalMediaData {
+    data: {
+        attributes: DigitalMedia
+    },
+    links?: Record<string, string>;
+    meta?: Record<string, unknown>
+}
+
+export type { UIProperty, DsFieldConfig, DmFieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig, RawSpecimenData, RawDigitalMediaData };

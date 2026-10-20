@@ -8,29 +8,40 @@ import { DownloadIcon } from "@radix-ui/react-icons";
 /* Import styling */
 import './JsonViewer.scss';
 
+/* Import types*/
+import { JsonViewerData } from "types/dataMapperTypes";
+
+/* Import utils */
+import { isDigitalSpecimenJson } from "utils/Utils";
+
 interface JsonViewerProps {
-    json: any
+    json: JsonViewerData;
 }
 
 export const JsonViewer = ({ json }: JsonViewerProps) => {
     /* Base variables */
-    const currentMidsLevel = json?.attributes?.digitalSpecimen?.['ods:midsLevel'] || undefined;
+    const isSpecimen = isDigitalSpecimenJson(json);
+    const currentMidsLevel = isSpecimen 
+    ? json.attributes.digitalSpecimen['ods:midsLevel'] 
+    : undefined;
+    
+    const version = isSpecimen 
+    ? json.attributes.digitalSpecimen['ods:version'] ?? 1 
+    : json.attributes['ods:version'] ?? 1;
+
     const totalMidsLevel = [1, 2, 3];
 
     const downloadJsonHandler = () => {
-        /* Parse object to JSON */
-        const jsonData = JSON.stringify(json);
+    const jsonData = JSON.stringify(json);
+    const jsonFile = new Blob([jsonData], { type: "application/json" });
+    const link = document.createElement("a");
+    
+    const doiUrl = RetrieveEnvVariable('DOI_URL') as string;
+    const cleanId = json.id.replace(doiUrl, '');
 
-        /* Create JSON file */
-        const jsonFile = new Blob([jsonData], { type: "application/json" });
-
-        /* Create and click on link to download file */
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(jsonFile);
-
-        link.download = `${json["id"].replace(RetrieveEnvVariable('DOI_URL') as string, '')}_${json['ods:version'] || 1}.json`;
-
-        link.click();
+    link.href = URL.createObjectURL(jsonFile);
+    link.download = `${cleanId}_${version}.json`;
+    link.click();
     };
 
     return (
@@ -40,7 +51,7 @@ export const JsonViewer = ({ json }: JsonViewerProps) => {
                     Download JSON
                     <DownloadIcon></DownloadIcon>
                 </Button>
-                {currentMidsLevel >= 0 &&
+                {currentMidsLevel && currentMidsLevel >= 0 &&
                     <div id="mids-indicator">
                         <p>
                             MIDS level: {currentMidsLevel}

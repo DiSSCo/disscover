@@ -1,6 +1,9 @@
 /* Import dependencies */
 import DOMPurify from 'dompurify';
 
+/* Import types */
+import { DigitalMediaJson, DigitalSpecimenJson, JsonViewerData } from 'types/dataMapperTypes';
+
 /**
  * Paginates an array of items based on the current page and limit.
  * This utility can do both server-side and client-side pagination. We need both.
@@ -75,4 +78,13 @@ export const getIdFromUrl = () => {
     return {
         identifier
     }
+}
+
+/* Generic functions to check whether a data object is digital media or digital specimen */
+export function isDigitalSpecimenJson(data: JsonViewerData): data is DigitalSpecimenJson {
+    return data.type === 'ods:DigitalSpecimen' || 'digitalSpecimen' in data.attributes;
+}
+  
+export function isDigitalMediaJson(data: JsonViewerData): data is DigitalMediaJson {
+    return !isDigitalSpecimenJson(data);
 }

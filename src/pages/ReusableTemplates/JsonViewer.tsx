@@ -40,14 +40,14 @@ export const JsonViewer = ({ json }: JsonViewerProps) => {
                     Download JSON
                     <DownloadIcon></DownloadIcon>
                 </Button>
-                {currentMidsLevel &&
+                {currentMidsLevel >= 0 &&
                     <div id="mids-indicator">
                         <p>
                             MIDS level: {currentMidsLevel}
                         </p>
                         { totalMidsLevel.map((level) => {
                             return (
-                                <div className={'mids-progress-dot ' + (level === currentMidsLevel ? 'active' : '')} key={'mids-' + level}></div>
+                                <div className={'mids-progress-dot ' + ((level === currentMidsLevel) || (level < currentMidsLevel) ? 'active' : '')} key={'mids-' + level}></div>
                             )
                         })}
                     </div>

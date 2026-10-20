@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
-import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
+import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapEntityRelationships, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
 import { LONG_STALE_TIME, LONG_GC_TIME } from "utils/Constants";
 import { getDigitalSpecimenVersions } from 'services/digitalSpecimenService/getDigitalSpecimenVersions';
 
@@ -23,7 +23,8 @@ export const useDigitalSpecimenComplete = ({
             ...data,
             ...mapDigitalSpecimen(data),
             ...mapDigitalSpecimenMedia(data),
-            ...mapIdentificationData(data)
+            ...mapIdentificationData(data),
+            ...mapEntityRelationships(data?.data?.attributes?.digitalSpecimen)
         }),
         enabled,
         staleTime: LONG_STALE_TIME,
@@ -39,6 +40,8 @@ export const useDigitalSpecimenVersions = ({
         queryKey: ['digitalSpecimenVersions', handle ],
         queryFn: () => getDigitalSpecimenVersions({ handle }),
         staleTime: LONG_STALE_TIME,
-        gcTime: LONG_GC_TIME
+        gcTime: LONG_GC_TIME,
+        /* Added retry limit for this hook, due to data issues out of our control */
+        retry: 3,
     });
 };

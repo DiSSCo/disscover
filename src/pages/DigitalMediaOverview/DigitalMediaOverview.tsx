@@ -13,6 +13,7 @@ import { useDigitalMedia } from 'hooks/useDigitalMedia';
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
 import { JsonViewer } from 'pages/ReusableTemplates/JsonViewer';
+import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 /* Import utils */
 import { getIdFromUrl } from 'utils/Utils';
@@ -40,11 +41,16 @@ export const DigitalMediaOverview = () => {
             component: <DigitalMediaDetails data={digitalMedia}></DigitalMediaDetails>
         },
         {
+            value: 'links',
+            title: 'Links',
+            component: <RelatedLinks data={digitalMedia.entityRelationships}></RelatedLinks>
+        },
+        {
             value: 'full-data',
             title: 'Full Data',
             component: <JsonViewer json={digitalMedia.data}></JsonViewer>
         }
-]
+    ]
 
     return (
         <div className="digital-specimen-page">
@@ -60,7 +66,7 @@ export const DigitalMediaOverview = () => {
             </Hero>
             <main>
                 <div className="specimen-content-controller">
-                    <TabsList tabs={tabs} SetCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
+                    <TabsList tabs={tabs} setCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>
                 </div>
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>

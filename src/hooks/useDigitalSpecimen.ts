@@ -39,6 +39,7 @@ export const useDigitalSpecimenVersions = ({
         queryKey: ['digitalSpecimenVersions', handle ],
         queryFn: () => getDigitalSpecimenVersions({ handle }),
         staleTime: LONG_STALE_TIME,
-        gcTime: LONG_GC_TIME
+        gcTime: LONG_GC_TIME,
+        retry: 3,
     });
 };

@@ -25,6 +25,7 @@ import { getIdFromUrl } from 'utils/Utils';
 /* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
+import { JsonViewer } from 'pages/ReusableTemplates/JsonViewer';
 import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 const DigitalSpecimenOverview = () => {
@@ -69,6 +70,11 @@ const DigitalSpecimenOverview = () => {
             value: 'links',
             title: 'Links',
             component: <RelatedLinks data={specimen.entityRelationships}></RelatedLinks>
+        },
+        {
+            value: 'full-data',
+            title: 'Full Data',
+            component: <JsonViewer json={specimen.data}></JsonViewer>
         }
     ]
 

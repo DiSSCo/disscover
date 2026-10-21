@@ -1,6 +1,9 @@
 /* Import dependencies */
 import DOMPurify from 'dompurify';
 
+/* Import types */
+import { DigitalMediaJson, DigitalSpecimenJson, JsonViewerData } from 'types/dataMapperTypes';
+
 /**
  * Paginates an array of items based on the current page and limit.
  * This utility can do both server-side and client-side pagination. We need both.
@@ -76,3 +79,65 @@ export const getIdFromUrl = () => {
         identifier
     }
 }
+
+/* Generic functions to check whether a data object is digital media or digital specimen */
+export function isDigitalSpecimenJson(data: JsonViewerData): data is DigitalSpecimenJson {
+    return data.type === 'ods:DigitalSpecimen' || 'digitalSpecimen' in data.attributes;
+}
+  
+export function isDigitalMediaJson(data: JsonViewerData): data is DigitalMediaJson {
+    return !isDigitalSpecimenJson(data);
+}
+
+interface DownloadJsonOptions {
+    data: unknown;
+    filename: string;
+}
+
+/**
+ * Downloads JSON data using Progressive Enhancement:
+ * Uses native File System Access API (showSaveFilePicker) if supported,
+ * falling back to an invisible <a> tag Blob download.
+ */
+export const downloadJsonFile = async ({ data, filename }: DownloadJsonOptions): Promise<void> => {
+    const jsonString = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    /* Progressive Enhancement: Check if File System Access API is supported */
+    if ("showSaveFilePicker" in window) {
+        try {
+            const handle = await (window as any).showSaveFilePicker({
+                suggestedName: filename,
+                types: [
+                    {
+                        description: "JSON File",
+                        accept: { "application/json": [".json"] },
+                    },
+                ],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            return;
+        } catch (err: any) {
+            /* When user cancels the accept question */
+            if (err.name === "AbortError") {
+                return;
+            }
+            console.error("File System Access API error, falling back to Blob link:", err);
+        }
+    }
+
+    /* Fallback: Dynamic a tag acting as link */
+    const link = document.createElement("a");
+    const objectUrl = URL.createObjectURL(blob);
+    
+    link.href = objectUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    
+    /* Clean up DOM and memory */
+    link.remove();
+    URL.revokeObjectURL(objectUrl);
+};

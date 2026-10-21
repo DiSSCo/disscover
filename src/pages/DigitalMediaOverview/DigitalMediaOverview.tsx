@@ -14,6 +14,7 @@ import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
+import { JsonViewer } from 'pages/ReusableTemplates/JsonViewer';
 import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 /* Import utils */
@@ -49,6 +50,11 @@ export const DigitalMediaOverview = () => {
             value: 'links',
             title: 'Links',
             component: <RelatedLinks data={digitalMedia.entityRelationships}></RelatedLinks>
+        },
+        {
+            value: 'full-data',
+            title: 'Full Data',
+            component: <JsonViewer json={digitalMedia.data}></JsonViewer>
         }
     ]
 

@@ -24,6 +24,9 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props
           type: 'image',
           url: imageUri
         },
+        /* Zoom adjustments */
+        maxZoomLevel: 5,
+        minZoomLevel: 0.4,
         prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
         showNavigationControl: true,
     }), [imageUri]);

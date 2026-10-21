@@ -2,6 +2,7 @@
 import { Hero } from 'components/Hero/Hero';
 import { TabsContent } from 'components/Tabs/TabsContent';
 import { TabsList } from 'components/Tabs/TabsList';
+import { AnnotationRenderer } from 'components/AnnotationRenderer/AnnotationRenderer';
 
 /* Import dependencies */
 import { RetrieveEnvVariable } from 'app/Utilities';
@@ -9,6 +10,7 @@ import { useState } from 'react';
 
 /* Import hooks */
 import { useDigitalMedia } from 'hooks/useDigitalMedia';
+import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
@@ -25,7 +27,11 @@ export const DigitalMediaOverview = () => {
     /* Base variables */
     const { identifier } = getIdFromUrl();
     const { data: digitalMedia, isLoading } = useDigitalMedia({ handle: identifier });
+    const [annotationMode, setAnnotationMode] = useState(false);
     const [currentTab, setCurrentTab] = useState('media');
+
+    /* Hooks */
+    const handleOpenAnnotation = useAnnotationHandler(setAnnotationMode);
 
     const getFieldValue = (label: string) => {
         return digitalMedia?.digitalMediaData?.find((item: { label: string; }) => item.label === label).value;
@@ -62,6 +68,8 @@ export const DigitalMediaOverview = () => {
                     type: 'solid',
                     color: 'amber'
                 }]}
+                annotate={true}
+                AnnotateHelper={() => handleOpenAnnotation()}
             >
             </Hero>
             <main>
@@ -70,6 +78,9 @@ export const DigitalMediaOverview = () => {
                 </div>
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>
+            {annotationMode && (
+                <AnnotationRenderer digitalMedia={digitalMedia} setAnnotationMode={() => setAnnotationMode(false)}></AnnotationRenderer>
+            )}
         </div>
     )
 }

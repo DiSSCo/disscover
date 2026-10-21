@@ -12,13 +12,14 @@ import { useDigitalMedia } from 'hooks/useDigitalMedia';
 
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
+import { JsonViewer } from 'pages/ReusableTemplates/JsonViewer';
+import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 /* Import utils */
 import { getIdFromUrl } from 'utils/Utils';
 
 /* Import types */
 import { TabItem } from 'types/digitalSpecimenTypes';
-import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 export const DigitalMediaOverview = () => {
     /* Base variables */
@@ -43,6 +44,11 @@ export const DigitalMediaOverview = () => {
             value: 'links',
             title: 'Links',
             component: <RelatedLinks data={digitalMedia.entityRelationships}></RelatedLinks>
+        },
+        {
+            value: 'full-data',
+            title: 'Full Data',
+            component: <JsonViewer json={digitalMedia.data}></JsonViewer>
         }
     ]
 

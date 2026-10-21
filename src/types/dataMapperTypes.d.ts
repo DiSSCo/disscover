@@ -77,4 +77,37 @@ interface RawDigitalMediaData {
     meta?: Record<string, unknown>
 }
 
-export type { UIProperty, DsFieldConfig, DmFieldConfig, DigitalSpecimenUIModel, CategoryConfig, MappedCategories, IdentificationConfig, RawSpecimenData, RawDigitalMediaData };
+interface DigitalSpecimenAttributes {
+  digitalSpecimen: DigitalSpecimen;
+  digitalMedia: DigitalMedia[];
+  annotations: Annotation[];
+}
+
+interface DigitalSpecimenJson {
+  type: 'ods:DigitalSpecimen';
+  id: string;
+  attributes: DigitalSpecimenAttributes;
+}
+
+interface DigitalMediaJson {
+  type: 'ods:DigitalMedia';
+  id: string;
+  attributes: DigitalMedia;
+}
+
+type JsonViewerData = DigitalSpecimenJson | DigitalMediaJson;
+
+export type {
+    UIProperty,
+    DsFieldConfig,
+    DmFieldConfig,
+    DigitalSpecimenUIModel,
+    CategoryConfig,
+    MappedCategories,
+    IdentificationConfig,
+    RawSpecimenData,
+    RawDigitalMediaData,
+    JsonViewerData,
+    DigitalSpecimenJson,
+    DigitalMediaJson
+};

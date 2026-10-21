@@ -1,3 +1,4 @@
+/* Import components */
 import { AnnotationSidePanel } from "components/elements/Elements";
 
 /* Import API */
@@ -16,52 +17,74 @@ import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpeci
 import DigitalMediaSchema from 'sources/dataModel/digitalMedia.json';
 import DigitalMediaAnnotationCases from 'sources/annotationCases/DigitalMediaAnnotationCases.json';
 
-type AnnotationProps = {
-    setAnnotationMode: Function,
-    specimen?: any,
-    digitalMedia?: any
-}
+/* Import types */
+import { RawDigitalMediaData, RawSpecimenData } from "types/dataMapperTypes";
 
-export const AnnotationRenderer = ({ setAnnotationMode, specimen, digitalMedia }: AnnotationProps ) => {
+type AnnotationProps = {
+    setAnnotationMode: (mode: boolean) => void;
+    specimen?: RawSpecimenData;
+    digitalMedia?: RawDigitalMediaData;
+};
+
+export const AnnotationRenderer = ({ setAnnotationMode, specimen, digitalMedia }: AnnotationProps) => {
+    /* Define closing function */
+    const handleClose = () => setAnnotationMode(false);
+
+    /* Set annotation panel props on either digital specimen or digital media as those are the only two options */
+    const getPanelProps = () => {
+        if (digitalMedia) {
+            return {
+                superClass: digitalMedia.data?.attributes,
+                schema: DigitalMediaSchema,
+                annotationCases: DigitalMediaAnnotationCases.annotationCases,
+                GetAnnotations: GetDigitalMediaAnnotations,
+                GetMas: GetDigitalMediaMas,
+                GetMasJobRecords: GetDigitalMediaMasJobRecords,
+                ScheduleMas: ScheduleDigitalMediaMas,
+            };
+        }
+        
+        if (specimen) {
+            return {
+                superClass: specimen.data?.attributes?.digitalSpecimen,
+                schema: DigitalSpecimenSchema,
+                annotationCases: DigitalSpecimenAnnotationCases.annotationCases,
+                GetAnnotations: GetDigitalSpecimenComplete,
+                GetMas: GetDigitalSpecimenMas,
+                GetMasJobRecords: GetDigitalSpecimenMasJobRecords,
+                ScheduleMas: ScheduleDigitalSpecimenMas,
+            };
+        }
+
+        return null;
+    };
+
+    /* Get panel props */
+    const panelProps = getPanelProps();
+
+    /* Return if no props can be set, because specimen and digitalMedia are not provided */
+    if (!panelProps) return null;
+
     return (
         <>
-        <button
-            type="button"
-            className="annotation-panel-overlay"
-            tabIndex={0}
-            aria-label="Close annotation panel"
-            onClick={() => setAnnotationMode(false)} 
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    setAnnotationMode(false);
-                }
-            }}
-        ></button>
-        <aside className="annotation-panel-container">
-            {   digitalMedia ?
-            <AnnotationSidePanel
-                superClass={digitalMedia.data.attributes}
-                schema={DigitalMediaSchema}
-                annotationCases={DigitalMediaAnnotationCases.annotationCases}
-                GetAnnotations={GetDigitalMediaAnnotations}
-                GetMas={GetDigitalMediaMas}
-                GetMasJobRecords={GetDigitalMediaMasJobRecords}
-                ScheduleMas={ScheduleDigitalMediaMas}
-                HideAnnotationSidePanel={() => setAnnotationMode(false)}
+            <button
+                type="button"
+                className="annotation-panel-overlay"
+                tabIndex={0}
+                aria-label="Close annotation panel"
+                onClick={handleClose} 
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        handleClose();
+                    }
+                }}
             />
-            :
-            <AnnotationSidePanel
-                superClass={specimen.data.attributes.digitalSpecimen}
-                schema={DigitalSpecimenSchema}
-                annotationCases={DigitalSpecimenAnnotationCases.annotationCases}
-                GetAnnotations={GetDigitalSpecimenComplete}
-                GetMas={GetDigitalSpecimenMas}
-                GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
-                ScheduleMas={ScheduleDigitalSpecimenMas}
-                HideAnnotationSidePanel={() => setAnnotationMode(false)}
-            />
-            }
-        </aside>
-    </>
-    )
-}
+            <aside className="annotation-panel-container">
+                <AnnotationSidePanel
+                    {...panelProps}
+                    HideAnnotationSidePanel={handleClose}
+                />
+            </aside>
+        </>
+    );
+};

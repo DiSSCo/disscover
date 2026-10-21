@@ -89,9 +89,6 @@ export function isDigitalMediaJson(data: JsonViewerData): data is DigitalMediaJs
     return !isDigitalSpecimenJson(data);
 }
 
-/**
- * Generic download function to download json files
- */
 interface DownloadJsonOptions {
     data: unknown;
     filename: string;

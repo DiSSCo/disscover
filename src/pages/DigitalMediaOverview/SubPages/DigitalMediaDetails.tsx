@@ -34,7 +34,7 @@ export const DigitalMediaDetails = ({ data }: Props) => {
         <>
             {imageUri && (
                 <section className="digital-media-details-container">
-                    <DigitalMediaCard imageUri={imageUri} isFullView={true} />
+                    <DigitalMediaCard imageUri={imageUri} />
                 </section>
             )}
             

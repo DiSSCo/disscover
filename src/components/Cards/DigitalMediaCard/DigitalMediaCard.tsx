@@ -10,10 +10,9 @@ interface Props {
     imageUri?: string | null;
     activeId?: string;
     ImageAction?: Function;
-    isFullView?: boolean;
 }
 
-export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isFullView = false }: Props) => {
+export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props) => {
     /* Base variables */
     if (!imageUri) {
         return <div className="image-placeholder"><p>Something went wrong with the image</p></div>;

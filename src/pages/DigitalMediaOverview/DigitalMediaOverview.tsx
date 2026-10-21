@@ -2,7 +2,7 @@
 import { Hero } from 'components/Hero/Hero';
 import { TabsContent } from 'components/Tabs/TabsContent';
 import { TabsList } from 'components/Tabs/TabsList';
-import { AnnotationSidePanel } from 'components/elements/Elements';
+import { AnnotationRenderer } from 'components/AnnotationRenderer/AnnotationRenderer';
 
 /* Import dependencies */
 import { RetrieveEnvVariable } from 'app/Utilities';
@@ -10,6 +10,7 @@ import { useState } from 'react';
 
 /* Import hooks */
 import { useDigitalMedia } from 'hooks/useDigitalMedia';
+import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
 
 /* Import subPages */
 import { DigitalMediaDetails } from './SubPages/DigitalMediaDetails';
@@ -18,20 +19,8 @@ import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 /* Import utils */
 import { getIdFromUrl } from 'utils/Utils';
 
-/* Import Sources */
-import DigitalMediaSchema from 'sources/dataModel/digitalMedia.json';
-import DigitalMediaAnnotationCases from 'sources/annotationCases/DigitalMediaAnnotationCases.json';
-
 /* Import types */
 import { TabItem } from 'types/digitalSpecimenTypes';
-
-import { useAnnotationHandler } from 'hooks/useAnnotationHooks';
-
-/* Import services */
-import GetDigitalMediaAnnotations from 'api/digitalMedia/GetDigitalMediaAnnotations';
-import GetDigitalMediaMas from 'api/digitalMedia/GetDigitalMediaMas';
-import GetDigitalMediaMasJobRecords from 'api/digitalMedia/GetDigitalMediaMasJobRecords';
-import ScheduleDigitalMediaMas from 'api/digitalMedia/ScheduleDigitalMediaMas';
 
 export const DigitalMediaOverview = () => {
     /* Base variables */
@@ -84,32 +73,7 @@ export const DigitalMediaOverview = () => {
                 <TabsContent tabs={tabs} currentTab={currentTab}></TabsContent>
             </main>
             {annotationMode && (
-                <>
-                    <button
-                        type="button"
-                        className="annotation-panel-overlay"
-                        tabIndex={0}
-                        aria-label="Close annotation panel"
-                        onClick={() => setAnnotationMode(false)} 
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                setAnnotationMode(false);
-                            }
-                        }}
-                    ></button>
-                    <aside className="annotation-panel-container">
-                        <AnnotationSidePanel
-                            superClass={digitalMedia.data.attributes}
-                            schema={DigitalMediaSchema}
-                            annotationCases={DigitalMediaAnnotationCases.annotationCases}
-                            GetAnnotations={GetDigitalMediaAnnotations}
-                            GetMas={GetDigitalMediaMas}
-                            GetMasJobRecords={GetDigitalMediaMasJobRecords}
-                            ScheduleMas={ScheduleDigitalMediaMas}
-                            HideAnnotationSidePanel={() => setAnnotationMode(false)}
-                        />
-                    </aside>
-                </>
+                <AnnotationRenderer digitalMedia={digitalMedia} setAnnotationMode={() => setAnnotationMode(false)}></AnnotationRenderer>
             )}
         </div>
     )

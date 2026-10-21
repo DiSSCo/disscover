@@ -3,10 +3,10 @@ import { useState } from 'react';
 
 /* Import components */
 import { Hero } from 'components/Hero/Hero';
-import { AnnotationSidePanel } from 'components/elements/Elements';
 import { TabsList } from 'components/Tabs/TabsList';
 import { TabsContent } from 'components/Tabs/TabsContent';
 import { VersionDropdown } from 'components/VersionDropdown/VersionDropdown';
+import { AnnotationRenderer } from 'components/AnnotationRenderer/AnnotationRenderer';
 
 /* Import hooks */
 import { useDigitalSpecimenComplete, useDigitalSpecimenVersions } from 'hooks/useDigitalSpecimen';
@@ -19,23 +19,13 @@ import { CategoryConfig, UIProperty } from 'types/dataMapperTypes';
 /* Import styling */
 import './DigitalSpecimenOverview.scss';
 
-/* Import API */
-import GetDigitalSpecimenComplete from 'api/digitalSpecimen/GetDigitalSpecimenComplete';
-import GetDigitalSpecimenMas from 'api/digitalSpecimen/GetDigitalSpecimenMas';
-import GetDigitalSpecimenMasJobRecords from 'api/digitalSpecimen/GetDigitalSpecimenMasJobRecords';
-import ScheduleDigitalSpecimenMas from 'api/digitalSpecimen/ScheduleDigitalSpecimenMas';
-
-/* Import schemas */
-import DigitalSpecimenSchema from 'sources/dataModel/digitalSpecimen.json';
-import DigitalSpecimenAnnotationCases from 'sources/annotationCases/DigitalSpecimenAnnotationCases.json';
-
 /* Import utils */
 import { getIdFromUrl } from 'utils/Utils';
 
 /* Import subPages */
 import { DigitalSpecimenDetails } from './SubPages/DigitalSpecimenDetails';
 import { Identifications } from './SubPages/Identifications';
-import { RelatedLinks } from '../ReusableTemplates/RelatedLinks';
+import { RelatedLinks } from 'pages/ReusableTemplates/RelatedLinks';
 
 const DigitalSpecimenOverview = () => {
     /* Base variables */
@@ -116,32 +106,7 @@ const DigitalSpecimenOverview = () => {
             </main>
 
             {annotationMode && (
-                <>
-                    <button
-                        type="button"
-                        className="annotation-panel-overlay"
-                        tabIndex={0}
-                        aria-label="Close annotation panel"
-                        onClick={() => setAnnotationMode(false)} 
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                setAnnotationMode(false);
-                            }
-                        }}
-                    ></button>
-                    <aside className="annotation-panel-container">
-                        <AnnotationSidePanel
-                            superClass={specimen.data.attributes.digitalSpecimen}
-                            schema={DigitalSpecimenSchema}
-                            annotationCases={DigitalSpecimenAnnotationCases.annotationCases}
-                            GetAnnotations={GetDigitalSpecimenComplete}
-                            GetMas={GetDigitalSpecimenMas}
-                            GetMasJobRecords={GetDigitalSpecimenMasJobRecords}
-                            ScheduleMas={ScheduleDigitalSpecimenMas}
-                            HideAnnotationSidePanel={() => setAnnotationMode(false)}
-                        />
-                    </aside>
-                </>
+                <AnnotationRenderer specimen={specimen} setAnnotationMode={() => setAnnotationMode(false)}></AnnotationRenderer>
             )}
         </div>
     );

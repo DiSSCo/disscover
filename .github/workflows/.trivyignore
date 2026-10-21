@@ -35,6 +35,10 @@ CVE-2026-73086
 # braces is a dependency of another dependency and cannot be upgraded by us Okt-05-2026
 CVE-2026-93687
 
+# follow-redirects is a dependency of another dependency and cannot be upgraded by us Okt-21-2026
+CVE-2026-111755
+CVE-2026-111756
+
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Aug-26-2026
 CVE-2026-14456

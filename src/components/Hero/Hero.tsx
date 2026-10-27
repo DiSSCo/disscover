@@ -28,7 +28,7 @@ type Props = {
     showCreateButton?: boolean;
     isHtml?: boolean;
     annotate?: boolean;
-    AnnotateHelper?: Function
+    annotateHelper?: Function
     selectedView?: 'table' | 'grid';
     onViewChange?: (view: 'table' | 'grid') => void;
 }
@@ -44,7 +44,7 @@ type Props = {
  * @param showCreateButton Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, AnnotateHelper, selectedView,
+export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, annotateHelper, selectedView,
     onViewChange }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
@@ -89,8 +89,8 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
                 <div id="hero-top-buttons-right">
-                {annotate && AnnotateHelper &&
-                    <Button variant="solid" onClick={() => AnnotateHelper()}>
+                {annotate && annotateHelper &&
+                    <Button variant="solid" onClick={() => annotateHelper()}>
                         Annotate
                         <Pencil2Icon />
                     </Button>

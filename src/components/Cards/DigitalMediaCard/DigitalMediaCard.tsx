@@ -6,6 +6,9 @@ import '@annotorious/react/annotorious-react.css';
 import { OpenSeadragonAnnotator, OpenSeadragonViewer, W3CImageFormat, Annotorious } from '@annotorious/react';
 import { useMemo } from 'react';
 
+/* Import constants */
+import { OSD_URL } from 'utils/Constants';
+
 interface Props {
     imageUri?: string | null;
     activeId?: string;
@@ -27,7 +30,7 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props
         /* Zoom adjustments */
         maxZoomLevel: 5,
         minZoomLevel: 0.4,
-        prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
+        prefixUrl: OSD_URL,
         showNavigationControl: true,
     }), [imageUri]);
 

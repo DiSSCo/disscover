@@ -69,7 +69,7 @@ export const DigitalMediaOverview = () => {
                     color: 'amber'
                 }]}
                 annotate={true}
-                AnnotateHelper={() => handleOpenAnnotation()}
+                annotateHelper={handleOpenAnnotation}
             >
             </Hero>
             <main>

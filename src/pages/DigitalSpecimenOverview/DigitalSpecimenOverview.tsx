@@ -91,7 +91,7 @@ const DigitalSpecimenOverview = () => {
                     color: 'grass'
                 }]}
                 annotate={true}
-                AnnotateHelper={() => handleOpenAnnotation()}
+                annotateHelper={handleOpenAnnotation}
             >
             </Hero>
 

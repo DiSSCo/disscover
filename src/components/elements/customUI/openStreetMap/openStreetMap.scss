@@ -7,6 +7,6 @@
     background-color: var(--medium-gray);
 
     &.placeholder {
-        height: 100px;
+        height: var(--citation-content-spacing);
     }
 }

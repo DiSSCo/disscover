@@ -60,6 +60,6 @@
         }
     }
     .ds-card-body {
-        margin: 0;
+        margin: var(--odd-spacing-xxs);
     }
 }

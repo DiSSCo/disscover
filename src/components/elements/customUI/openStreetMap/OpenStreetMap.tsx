@@ -4,6 +4,8 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 /* Import Components */
 import OpenStreetMapMarker from './OpenStreetMapMarker';
 
+/* Import styling */
+import './openStreetMap.scss'
 
 /* Props Type */
 type Props = {
@@ -20,8 +22,9 @@ type Props = {
  */
 const OpenStreetMap = ({longitude, latitude}: Props) => {
     return (
-        <div className="h-100 w-100 d-flex align-items-center justify-content-center bgc-grey-light">
+        <>
             {(longitude && latitude) ?
+            <div className="open-street-map">
                 <MapContainer center={[latitude, longitude]}
                     zoom={13} scrollWheelZoom={false} style={{ width: "100%", height: "100%" }}
                 >
@@ -32,9 +35,13 @@ const OpenStreetMap = ({longitude, latitude}: Props) => {
 
                     <OpenStreetMapMarker longitude={longitude} latitude={latitude} />
                 </MapContainer>
-                : <p className="fs-5">Geographical map could not be created due to a lack of coordinates</p>
+                </div>
+                :
+                <div className="open-street-map placeholder">
+                    <p className="fs-5">Geographical map could not be created due to a lack of coordinates</p>
+                </div>
             }
-        </div>
+        </>
     );
 };
 

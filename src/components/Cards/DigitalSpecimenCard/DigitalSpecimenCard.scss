@@ -1,6 +1,8 @@
 @use "styles/mixins.scss" as *;
 
 .digital-specimen-card {
+    padding: var(--spacing-m);
+
     .ds-card-header {
         margin-bottom: var(--spacing-m);
 
@@ -14,7 +16,6 @@
     }
     .ds-card-georeference {
         width: 100%;
-        height: var(--general-card-width);
         margin-block-end: var(--spacing-sm);
     }
     .ds-card-citation {
@@ -57,5 +58,8 @@
             grid-auto-columns: 1fr;
             gap: var(--spacing-s) var(--spacing-l);
         }
+    }
+    .ds-card-body {
+        margin: 0;
     }
 }

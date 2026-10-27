@@ -2,7 +2,7 @@
 import './LabelValuePair.scss';
 
 /* Import components */
-import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
+import { CopyIcon, DownloadIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
 import { Badge } from '@radix-ui/themes';
 
 /* Import hooks */
@@ -67,7 +67,7 @@ export const LabelValuePair = ({ item }: Props) => {
 				)
 			case 'download':
 				return (
-					<a href={item.value} download={item.value} target="_blank">Download</a>
+					<a href={item.value} download={item.value} target="_blank">Download <DownloadIcon></DownloadIcon></a>
 				)
 			default:
 				return (

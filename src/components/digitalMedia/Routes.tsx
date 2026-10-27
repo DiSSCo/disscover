@@ -2,14 +2,11 @@
 import { Route } from "react-router-dom";
 
 /* Import Components */
-// import DigitalMedia from "./DigitalMedia";
-import { DigitalMediaOverview } from "pages/DigitalMediaOverview/DigitalMediaOverview";
-
+import DigitalMedia from "./DigitalMedia";
 
 /* Routes associated with the Digital Media page */
 const routes = [
-    // <Route key="digitalMedia" path="/dm/:prefix/:suffix/:version?" element={<DigitalMedia />} />
-    <Route key="digitalMedia" path="/dm/:prefix/:suffix/:version?" element={<DigitalMediaOverview />} />
+    <Route key="digitalMedia" path="/dm/:prefix/:suffix/:version?" element={<DigitalMedia />} />
 ];
 
 export default routes;

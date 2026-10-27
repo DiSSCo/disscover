@@ -63,3 +63,9 @@ CVE-2026-4775
 
 # libx11 included in the image, cannot fix Okt-19-2026
 CVE-2026-88806
+
+# brotli-libs included in the image, cannot fix Okt-27-2026
+CVE-2026-111497
+
+# curl and libcurl included in the image, cannot fix Okt-27-2026
+CVE-2026-92392

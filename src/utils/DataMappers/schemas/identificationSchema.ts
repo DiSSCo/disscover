@@ -9,6 +9,7 @@ const IDENTIFICATION_SCHEMA_MAP: IdentificationConfig[] = [
             
             return htmlLabel || fallbackLabel;
         },
+        isHtml: true
     },
     {
         label: 'Identification Verbatim',

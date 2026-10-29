@@ -10,7 +10,7 @@
             display: flex;
 
             h2 {
-                padding-inline-end: var(--spacing-xs);
+                padding-inline-end: var(--spacing-sm);
             }
         }
     }
@@ -61,5 +61,9 @@
     }
     .ds-card-body {
         margin: var(--odd-spacing-xxs);
+    }
+
+    .ds-more-identifications {
+        margin-block-start: var(--spacing-m);
     }
 }

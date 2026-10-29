@@ -60,7 +60,8 @@ export const mapDigitalSpecimen = (rawData: RawSpecimenData | null | undefined):
                     label: field.label,
                     value: value,
                     type: field.type || 'base',
-                    hidden: field.hidden || false
+                    hidden: field.hidden || false,
+                    isHtml: field.isHtml || false,
                 });
             }
         }
@@ -145,7 +146,8 @@ export const mapIdentificationData = (rawData: RawSpecimenData) => {
                 mappedFields.push({
                     label: id.label,
                     value: value,
-                    type: id.type || 'base'
+                    type: id.type || 'base',
+                    isHtml: id.isHtml || false
                 });
             }
         });

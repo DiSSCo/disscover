@@ -18,9 +18,10 @@ import "./DigitalSpecimenDetails.scss";
 interface Props {
     specimen: any;
     onAnnotate?: (target?: AnnotationTargetPayload) => void;
+    setCurrentTab: (tab: string) => void;
 }
 
-export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
+export const DigitalSpecimenDetails = ({ specimen, onAnnotate, setCurrentTab }: Props) => {
     /* Execute hook to get the IIIF images or fallback to JPEG */
     const { mainImage, setMainImage, activeId, cleanDoiPath, correctImageFormats } = useDigitalMediaRetriever(specimen);
     const navigate = useNavigate();
@@ -41,6 +42,9 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
         leftColumnCards = actualData.filter((category: MappedCategories) => LEFT_COLUMN_CATEGORIES.has(category.name));
         rightColumnCards = actualData.filter((category: MappedCategories) => !LEFT_COLUMN_CATEGORIES.has(category.name));
     }
+
+    /* Check number of identifications */
+    const numberOfIdentifications = specimen.identifications.length;
 
     const renderMediaGallery = () => (
         <div className="digital-media-container--sticky">
@@ -72,7 +76,9 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
                                 fragment={category.data}
                                 isVerified={category.isVerified}
                                 AnnotateHelper={onAnnotate}
-                                {...CARD_CONFIGS[category.name as CardCategory]} 
+                                {...CARD_CONFIGS[category.name as CardCategory]}
+                                numberOfIdentifications={numberOfIdentifications}
+                                setCurrentTab={setCurrentTab}
                             />
                         ))
                     )}
@@ -83,8 +89,11 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
+                            isVerified={category.isVerified}
                             AnnotateHelper={onAnnotate}
-                            {...CARD_CONFIGS[category.name as CardCategory]} 
+                            {...CARD_CONFIGS[category.name as CardCategory]}
+                            numberOfIdentifications={numberOfIdentifications}
+                            setCurrentTab={setCurrentTab}
                         />
                     ))}
                 </div>
@@ -99,8 +108,11 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate }: Props) => {
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
+                            isVerified={category.isVerified}
                             AnnotateHelper={onAnnotate}
-                            {...CARD_CONFIGS[category.name as CardCategory]} 
+                            {...CARD_CONFIGS[category.name as CardCategory]}
+                            numberOfIdentifications={numberOfIdentifications}
+                            setCurrentTab={setCurrentTab}
                         />
                     ))}
                 </div>

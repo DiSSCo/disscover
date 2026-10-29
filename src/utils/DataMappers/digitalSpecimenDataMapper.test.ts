@@ -142,6 +142,7 @@ describe('mapDigitalSpecimen utilities', () => {
                 value: '2023-05-18',
                 type: 'string',
                 hidden: false,
+                isHtml: false,
             });
         });
     });

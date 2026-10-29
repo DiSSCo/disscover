@@ -49,6 +49,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
                     
                     return htmlLabel || fallbackLabel;
                 },
+                isHtml: true
             },
             {
                 label: 'Identification Verbatim',

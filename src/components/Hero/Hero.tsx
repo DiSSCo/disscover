@@ -108,7 +108,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 {badge?.map(({ content, type, color }) => {
                     if (!content) return null;
                     return (
-                        <Badge color={color} variant={type} key={content}>{content}</Badge>
+                        <Badge color={color} variant={type} key={content} size="2">{content}</Badge>
                     )
                 })}
             </div>

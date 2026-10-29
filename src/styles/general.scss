@@ -17,6 +17,12 @@ section {
     }
 }
 
+/* Link */
+.link-as-button:hover {
+    background-color: var(--indigo-2);
+    border-radius: 2px;
+}
+
 /* Buttons */
 .btn-as-link {
     border: none;

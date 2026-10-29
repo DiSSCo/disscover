@@ -13,6 +13,7 @@ import { JsonViewerData } from "types/dataMapperTypes";
 
 /* Import utils */
 import { downloadJsonFile, isDigitalSpecimenJson } from "utils/Utils";
+import { MIDS_URL } from "utils/Constants";
 
 interface JsonViewerProps {
     json: JsonViewerData;
@@ -62,13 +63,14 @@ export const JsonViewer = ({ json }: JsonViewerProps) => {
                 </Button>
                 {hasValidMidsLevel && (
                     <div id="mids-indicator">
-                        <p>MIDS level: {currentMidsLevel}</p>
-                        {totalMidsLevel.map((level) => (
-                            <div 
-                                key={`mids-${level}`} 
-                                className={getMidsDotClass(level)} 
-                            />
-                        ))}
+                        <a href={MIDS_URL} className="link-as-button mids-link" target="_blank">
+                            <p>MIDS level: {currentMidsLevel}</p>
+                            {totalMidsLevel.map((level) => (
+                                <div
+                                    key={`mids-${level}`}
+                                    className={getMidsDotClass(level)} />
+                            ))}
+                        </a>
                     </div>
                 )}
             </Card>

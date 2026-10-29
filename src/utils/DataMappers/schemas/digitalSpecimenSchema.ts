@@ -3,7 +3,7 @@ import { CardCategory } from 'types/digitalSpecimenTypes';
 import { CategoryConfig } from 'types/dataMapperTypes';
 
 /* Import utils */
-import { capitalizeFirst, splitPascalCase } from 'utils/Utils';
+import { capitalizeFirst, splitOnEveryCapital } from 'utils/Utils';
 
 /* Data schema to map Digital Specimen data that we use in the UI, managed from one central data mapper */
 const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
@@ -34,7 +34,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
             },
             {
                 label: 'Basis of Record',
-                resolve: (ds) => splitPascalCase(ds["dwc:basisOfRecord"])
+                resolve: (ds) => splitOnEveryCapital(ds["dwc:basisOfRecord"])
             },
             {
                 label: 'Discipline',

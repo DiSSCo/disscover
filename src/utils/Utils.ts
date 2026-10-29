@@ -146,10 +146,10 @@ export const downloadJsonFile = async ({ data, filename }: DownloadJsonOptions):
  * Splits conjoined camelCase or PascalCase strings into space-separated words.
  * 
  * @example
- * splitPascalCase('PreservedSpecimen') = 'Preserved Specimen'
- * splitPascalCase('myCamelCase')       = 'my Camel Case'
+ * splitOnEveryCapital('PreservedSpecimen') = 'Preserved Specimen'
+ * splitOnEveryCapital('myCamelCase')       = 'my Camel Case'
  */
-export function splitPascalCase(str: string): string {
+export function splitOnEveryCapital(str: string): string {
     if (!str) return '';
     return str
       /* Insert a space before capital letters preceded by a lowercase letter */

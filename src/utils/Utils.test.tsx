@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { capitalizeFirst, paginateItems, splitPascalCase } from 'utils/Utils';
+import { capitalizeFirst, paginateItems, splitOnEveryCapital } from 'utils/Utils';
 
 /**
  * Test suite for the pagination utilities
@@ -18,7 +18,7 @@ describe('Pagination utils', () => {
 });
 
 /* Test suite for the word formatter utils */
-describe('Word formatter utils splitPascalCase and capitalizeFirst', () => {
+describe('Word formatter utils splitOnEveryCapital and capitalizeFirst', () => {
     it.each([
         ['SPECIES', 'Species'],
         ['species', 'Species'],
@@ -32,7 +32,7 @@ describe('Word formatter utils splitPascalCase and capitalizeFirst', () => {
       	['PreservedSpecimen', 'Preserved Specimen'],
 		['coolDinosaur', 'cool Dinosaur'],
     ])('should return %s as a split string based on capitals', (word, result) => {
-		const response = splitPascalCase(word);
+		const response = splitOnEveryCapital(word);
 		expect(response).toEqual(result);
 	});
 });

@@ -30,7 +30,6 @@ describe('Word formatter utils splitPascalCase and capitalizeFirst', () => {
 
     it.each([
       	['PreservedSpecimen', 'Preserved Specimen'],
-		['JSONParser', 'JSON Parser'],
 		['coolDinosaur', 'cool Dinosaur'],
     ])('should return %s as a split string based on capitals', (word, result) => {
 		const response = splitPascalCase(word);

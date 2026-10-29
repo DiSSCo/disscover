@@ -24,8 +24,8 @@ type Props = {
     AnnotateHelper?: Function;
     isVerified?: boolean;
     layout?: 'grid' | 'three-column';
-    numberOfIdentifications: number;
-    setCurrentTab: (tab: string) => void;
+    numberOfIdentifications?: number;
+    setCurrentTab?: (tab: string) => void;
 };
 
 export const DigitalSpecimenCard = ({
@@ -129,7 +129,7 @@ export const DigitalSpecimenCard = ({
             }
             <DescriptionList fragment={fragment}></DescriptionList>
 
-            { (cardHeader === CardCategory.Identification && numberOfIdentifications > 1) &&
+            { numberOfIdentifications && setCurrentTab && (cardHeader === CardCategory.Identification && numberOfIdentifications > 1) &&
                 <div className="ds-more-identifications">
                     <Button variant="ghost" onClick={() => setCurrentTab('identifications')}>
                         {`Show all identifications (${numberOfIdentifications})`}

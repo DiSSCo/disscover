@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { paginateItems } from 'utils/Utils';
+import { capitalizeFirst, paginateItems, splitPascalCase } from 'utils/Utils';
 
 /**
  * Test suite for the pagination utilities
@@ -15,4 +15,25 @@ describe('Pagination utils', () => {
         expect(totalPages).toEqual(4);
         expect(totalAmount).toEqual(20);
     })
+});
+
+/* Test suite for the word formatter utils */
+describe('Word formatter utils splitPascalCase and capitalizeFirst', () => {
+    it.each([
+        ['SPECIES', 'Species'],
+        ['species', 'Species'],
+        ['sPecIes', 'Species'],
+    ])(`should return a word starting with a capital character when word is %s`, (word, result) => {
+        const response = capitalizeFirst(word);
+        expect(response).toEqual(result);
+    });
+
+    it.each([
+      	['PreservedSpecimen', 'Preserved Specimen'],
+		['JSONParser', 'JSON Parser'],
+		['coolDinosaur', 'cool Dinosaur'],
+    ])('should return %s as a split string based on capitals', (word, result) => {
+		const response = splitPascalCase(word);
+		expect(response).toEqual(result);
+	});
 });

@@ -89,9 +89,12 @@ export const useDigitalMediaRetriever = (specimen?: any) => {
                     return null;
                 });
 
-                const results = await Promise.all(promises);
-                const filteredResults = results.filter((item): item is ImageFormat => item !== null);
-
+                const results = await Promise.allSettled(promises);
+                const filteredResults = results
+                    .filter((result): result is PromiseFulfilledResult<ImageFormat | null> => result.status === 'fulfilled')
+                    .map(result => result.value)
+                    .filter((item): item is ImageFormat => item !== null);
+        
                 if (isMounted) {
                     setCorrectImageFormats(filteredResults);
                     if (filteredResults.length > 0) {

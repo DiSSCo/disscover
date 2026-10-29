@@ -1,5 +1,9 @@
+/* Import types */
 import { CardCategory } from 'types/digitalSpecimenTypes';
 import { CategoryConfig } from 'types/dataMapperTypes';
+
+/* Import utils */
+import { capitalizeFirst, splitPascalCase } from 'utils/Utils';
 
 /* Data schema to map Digital Specimen data that we use in the UI, managed from one central data mapper */
 const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
@@ -30,7 +34,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
             },
             {
                 label: 'Basis of Record',
-                resolve: (ds) => ds["dwc:basisOfRecord"]
+                resolve: (ds) => splitPascalCase(ds["dwc:basisOfRecord"])
             },
             {
                 label: 'Discipline',
@@ -58,7 +62,7 @@ const DIGITAL_SPECIMEN_SCHEMA_MAP: CategoryConfig[] = [
             },
             {
                 label: 'Rank',
-                resolve: (_, { acceptedIdentification }) => acceptedIdentification?.["dwc:taxonRank"]
+                resolve: (_, { acceptedIdentification }) => capitalizeFirst(acceptedIdentification?.["dwc:taxonRank"])
             },
             {
                 label: 'Taxonomic Status',

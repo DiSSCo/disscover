@@ -42,7 +42,7 @@ export const DigitalMediaDetails = ({ data }: Props) => {
                 <section>
                     <DigitalSpecimenCard 
                         fragment={data.digitalMediaData} 
-                        layout="three-column" 
+                        layout="three-column"
                     />
                 </section>
             )}

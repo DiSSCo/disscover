@@ -2,6 +2,7 @@
 
 .property-row-fragment {
     display: contents;
+    line-height: 1.7;
 
     .property-label {
         font-size: var(--sm-font-size);
@@ -23,7 +24,7 @@
 
         .verbatim {
             font-size: var(--xs-font-size);
-            color: var(--gray-a9);
+            color: var(--gray-11);
 
             span {
                 margin-inline-start: var(--spacing-sm);

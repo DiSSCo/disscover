@@ -17,8 +17,8 @@
             border-radius: var(--border-radius-xs, --spacing-xxs);
         }
 
-        &.active img {
-            outline: var(--odd-spacing-sm, --spacing-xxs) solid var(--indigo-10, #4f46e5);
+        .active {
+            outline: var(--odd-spacing-sm) solid var(--indigo-10, #4f46e5);
         }
     }
 }

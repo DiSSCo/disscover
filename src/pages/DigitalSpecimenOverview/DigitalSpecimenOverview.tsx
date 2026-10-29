@@ -86,7 +86,7 @@ const DigitalSpecimenOverview = () => {
                 showShareButton={true}
                 isHtml={getField(CardCategory.Identification, 'Scientific Name').isHtml}
                 badge={[{
-                    content: getField(CardCategory.Identification, 'Rank')?.value.toLowerCase(),
+                    content: getField(CardCategory.Identification, 'Rank')?.value,
                     type: 'solid',
                     color: 'grass'
                 }]}

@@ -28,6 +28,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate, setCurrentTab }: 
 
     /* Base variables */
     const hasImages = specimen?.digitalMedia?.length > 0;
+    const moreThanOneImage = specimen?.digitalMedia?.length > 1;
     /* Human readable data mapped from the JSON data to use in UI*/
     const actualData = specimen?.mappedData || [];
 
@@ -53,11 +54,13 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate, setCurrentTab }: 
                 activeId={activeId}
                 ImageAction={() => navigate(`/dm/${cleanDoiPath}`)}
             />
-            <DigitalMediaList 
-                images={correctImageFormats} 
-                activeImage={mainImage} 
-                onSelectImage={setMainImage} 
-            />
+            { moreThanOneImage &&
+                <DigitalMediaList 
+                    images={correctImageFormats} 
+                    activeImage={mainImage} 
+                    onSelectImage={setMainImage} 
+                />
+            }
         </div>
     );
 

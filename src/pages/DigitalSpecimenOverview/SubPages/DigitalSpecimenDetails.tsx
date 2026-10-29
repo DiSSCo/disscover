@@ -89,6 +89,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate, setCurrentTab }: 
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
+                            isVerified={category.isVerified}
                             AnnotateHelper={onAnnotate}
                             {...CARD_CONFIGS[category.name as CardCategory]}
                             numberOfIdentifications={numberOfIdentifications}
@@ -107,6 +108,7 @@ export const DigitalSpecimenDetails = ({ specimen, onAnnotate, setCurrentTab }: 
                             key={category.name}
                             cardHeader={category.name} 
                             fragment={category.data}
+                            isVerified={category.isVerified}
                             AnnotateHelper={onAnnotate}
                             {...CARD_CONFIGS[category.name as CardCategory]}
                             numberOfIdentifications={numberOfIdentifications}

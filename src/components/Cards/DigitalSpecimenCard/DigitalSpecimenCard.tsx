@@ -1,5 +1,5 @@
 /* Import components */
-import { CopyIcon, Pencil2Icon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, CopyIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { Badge, Button, Card } from "@radix-ui/themes";
 import { OpenStreetMap } from "components/elements/customUI/CustomUI";
 import { DescriptionList } from "components/DescriptionList/DescriptionList";
@@ -8,7 +8,7 @@ import { DescriptionList } from "components/DescriptionList/DescriptionList";
 import './DigitalSpecimenCard.scss';
 
 /* Import types */
-import { AnnotationTargetPayload, SpecimenField } from 'types/digitalSpecimenTypes';
+import { AnnotationTargetPayload, CardCategory, SpecimenField } from 'types/digitalSpecimenTypes';
 
 /* Import hooks */
 import { useClipboard } from "hooks/useClipboard";
@@ -21,9 +21,11 @@ type Props = {
     georeference?: boolean;
     citation?: boolean;
     annotationTarget?: AnnotationTargetPayload;
-    AnnotateHelper?: Function,
-    isVerified?: boolean,
+    AnnotateHelper?: Function;
+    isVerified?: boolean;
     layout?: 'grid' | 'three-column';
+    numberOfIdentifications: number;
+    setCurrentTab: (tab: string) => void;
 };
 
 export const DigitalSpecimenCard = ({
@@ -36,7 +38,9 @@ export const DigitalSpecimenCard = ({
     annotationTarget,
     AnnotateHelper,
     isVerified,
-    layout = 'grid'
+    layout = 'grid',
+    numberOfIdentifications,
+    setCurrentTab,
 }: Props) => {
     /* Base variables */
     const getFieldValueByLabel = (labelName: string) => {
@@ -124,6 +128,13 @@ export const DigitalSpecimenCard = ({
                 </div>
             }
             <DescriptionList fragment={fragment}></DescriptionList>
+
+            { (cardHeader === CardCategory.Identification && numberOfIdentifications > 1) &&
+                <Button variant="ghost" onClick={() => setCurrentTab('identifications')}>
+                    {'Show all identifications (' + numberOfIdentifications + ')'}
+                    <ArrowRightIcon></ArrowRightIcon>
+                </Button>
+            }
         </Card>
     )
 }

@@ -23,6 +23,11 @@ import { getIdFromUrl } from 'utils/Utils';
 /* Import types */
 import { TabItem } from 'types/digitalSpecimenTypes';
 
+type EntitityRelationship = {
+    label: string,
+    value: string
+}
+
 export const DigitalMediaOverview = () => {
     /* Base variables */
     const { identifier } = getIdFromUrl();
@@ -38,6 +43,11 @@ export const DigitalMediaOverview = () => {
     }
 
     if (isLoading) return <main><p>Retrieving the Digital Media Details...</p></main>;
+
+    /* Find first digital specimen in entity relationships */
+    const firstDigitalSpecimen = 
+        digitalMedia.entityRelationships.find((item: EntitityRelationship) => item.label === 'hasDigitalSpecimen').value.replace(RetrieveEnvVariable('DOI_URL'), '');
+
 
     /* Tabs */
     const tabs: TabItem[] = [
@@ -70,6 +80,7 @@ export const DigitalMediaOverview = () => {
                 }]}
                 annotate={true}
                 annotateHelper={handleOpenAnnotation}
+                navigateTo={firstDigitalSpecimen ? {pathName: `/ds/${firstDigitalSpecimen}`, text: 'Specimen'} : undefined}
             >
             </Hero>
             <main>

@@ -15,6 +15,7 @@ interface UIProperty {
     value: any;
     type: string;
     hidden?: boolean;
+    isHtml?: boolean;
 }
 
 /* Corresponding field config interface for DigitalSpecimen schema */
@@ -36,6 +37,7 @@ interface IdentificationConfig {
     label: string;
     resolve: (identification, context: { taxonIdentification: any }) => any;
     type?: string;
+    isHtml?: boolean
 }
 
 interface CategoryConfig {

@@ -49,9 +49,9 @@ const DigitalSpecimenOverview = () => {
         return specimen?.mappedData?.find((cat: CategoryConfig) => cat.name === category)?.data || [];
     };
 
-    /* Helper to get a field value */
-    const getFieldValue = (category: CardCategory, label: string) => {
-        return getCardFragment(category).find((field: UIProperty) => field.label === label)?.value;
+    /* Helper to get a field */
+    const getField = (category: CardCategory, label: string) => {
+        return getCardFragment(category).find((field: UIProperty) => field.label === label);
     };
 
     /* Tabs */
@@ -59,7 +59,7 @@ const DigitalSpecimenOverview = () => {
         {
             value: 'overview',
             title: 'Overview',
-            component: <DigitalSpecimenDetails specimen={specimen} onAnnotate={handleOpenAnnotation}></DigitalSpecimenDetails>
+            component: <DigitalSpecimenDetails specimen={specimen} onAnnotate={handleOpenAnnotation} setCurrentTab={setCurrentTab}></DigitalSpecimenDetails>
         },
         {
             value: 'identifications',
@@ -81,12 +81,12 @@ const DigitalSpecimenOverview = () => {
     return (
         <div className="digital-specimen-page">
             <Hero
-                title={getFieldValue(CardCategory.Identification, 'Scientific Name')}
+                title={getField(CardCategory.Identification, 'Scientific Name').value}
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
-                isHtml={specimen?.IDENTIFICATION?.scientificName?.value?.isHtml}
+                isHtml={getField(CardCategory.Identification, 'Scientific Name').isHtml}
                 badge={[{
-                    content: getFieldValue(CardCategory.Identification, 'Rank')?.toLowerCase(),
+                    content: getField(CardCategory.Identification, 'Rank')?.value.toLowerCase(),
                     type: 'solid',
                     color: 'grass'
                 }]}

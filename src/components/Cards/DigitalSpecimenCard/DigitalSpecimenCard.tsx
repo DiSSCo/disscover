@@ -132,7 +132,7 @@ export const DigitalSpecimenCard = ({
             { (cardHeader === CardCategory.Identification && numberOfIdentifications > 1) &&
                 <div className="ds-more-identifications">
                     <Button variant="ghost" onClick={() => setCurrentTab('identifications')}>
-                        {'Show all identifications (' + numberOfIdentifications + ')'}
+                        {`Show all identifications (${numberOfIdentifications})`}
                         <ArrowRightIcon></ArrowRightIcon>
                     </Button>
                 </div>

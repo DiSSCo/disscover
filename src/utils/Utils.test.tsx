@@ -18,7 +18,7 @@ describe('Pagination utils', () => {
 });
 
 /* Test suite for the word formatter utils */
-describe('Word formatter utils splitOnEveryCapital and capitalizeFirst', () => {
+describe('Word formatter utils called splitOnEveryCapital and capitalizeFirst', () => {
     it.each([
         ['SPECIES', 'Species'],
         ['species', 'Species'],

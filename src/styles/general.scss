@@ -17,6 +17,11 @@ section {
     }
 }
 
+dd, dt {
+    margin: 0;
+    padding: 0;
+}
+
 /* Link */
 .link-as-button:hover {
     background-color: var(--indigo-2);
@@ -24,6 +29,11 @@ section {
 }
 
 /* Buttons */
+button {
+    margin: 0;
+    padding: 0;
+}
+
 .btn-as-link {
     border: none;
     background-color: inherit;

@@ -38,11 +38,13 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props
         <>
         { ImageAction ? 
             <button onClick={() => ImageAction()}>
-                <img 
-                    src={`${imageUri}`}
-                    aria-label={`Image of digital specimen ${activeId}`}
-                    className='digital-media-card-image'
-                />
+                <div className="digital-media-card-container">
+                    <img 
+                        src={`${imageUri}`}
+                        aria-label={`Image of digital specimen ${activeId}`}
+                        className='digital-media-card-image'
+                    />
+                </div>
             </button>
         :
         <div className="osd-container">

@@ -141,3 +141,30 @@ export const downloadJsonFile = async ({ data, filename }: DownloadJsonOptions):
     link.remove();
     URL.revokeObjectURL(objectUrl);
 };
+
+/**
+ * Splits conjoined camelCase or PascalCase strings into space-separated words.
+ * 
+ * @example
+ * splitOnEveryCapital('PreservedSpecimen') = 'Preserved Specimen'
+ * splitOnEveryCapital('myCamelCase')       = 'my Camel Case'
+ */
+export function splitOnEveryCapital(str: string): string {
+    if (!str) return '';
+    return str
+      /* Insert a space before capital letters preceded by a lowercase letter */
+      .replace(/([a-z])([A-Z])/g, '$1 $2');
+}
+
+/**
+ * Converts a string so that only the first character is capitalized 
+ * and the remaining characters are lowercase.
+ * 
+ * @example
+ * capitalizeFirst('KINGDOM') = 'Kingdom'
+ * capitalizeFirst('kInGdOm') = 'Kingdom'
+ */
+export function capitalizeFirst(str: string): string {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

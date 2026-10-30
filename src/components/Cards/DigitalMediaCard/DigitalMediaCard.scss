@@ -3,14 +3,20 @@
 /* Button separated from -digital-media-card-image because it is an optional component */
 button {
     display: block;
-    border: none; 
+    border: none;
+}
+
+.digital-media-card-container {
+    aspect-ratio: 1/1;
+    background-color: var(--gray-5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .digital-media-card-image {
-    width: 100%;
-    aspect-ratio: 1/1;
-    border-radius: var(--spacing-sm);
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
 }
 .osd-container {
     width: 100%;

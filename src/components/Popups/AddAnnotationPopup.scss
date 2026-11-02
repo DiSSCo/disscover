@@ -1,0 +1,16 @@
+.add-annotation-popup {
+    background: white;
+    min-width: 350px;
+    max-width: 480px;
+
+    .add-annotation-popup-controls {
+        margin-block: 16px;
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    .add-annotation-footer {
+        font-size: 12px;
+    }
+}

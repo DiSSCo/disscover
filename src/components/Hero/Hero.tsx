@@ -31,6 +31,9 @@ type Props = {
     annotateHelper?: Function
     selectedView?: 'table' | 'grid';
     onViewChange?: (view: 'table' | 'grid') => void;
+    isDigitalMedia?: boolean;
+    visualAnnotateHelper?: () => void;
+    isDrawingEnabled?: boolean
 }
 
 /**
@@ -44,8 +47,22 @@ type Props = {
  * @param showCreateButton Boolean that indicates if the functionality for creating a VC should be working
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, annotateHelper, selectedView,
-    onViewChange }: Props) => {
+export const Hero = ( {
+    title,
+    description,
+    badge,
+    navigateTo,
+    showShareButton,
+    details,
+    showCreateButton,
+    isHtml = false,
+    annotate,
+    annotateHelper,
+    selectedView,
+    onViewChange,
+    isDigitalMedia = false,
+    visualAnnotateHelper,
+    isDrawingEnabled }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -89,6 +106,11 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
                 <div id="hero-top-buttons-right">
+                { (isDigitalMedia && visualAnnotateHelper) &&
+                    <Button variant="solid" onClick={() => visualAnnotateHelper()}>
+                        { isDrawingEnabled ? 'Cancel visual annotation' : 'Visual annotation'}
+                    </Button>
+                }
                 {annotate && annotateHelper &&
                     <Button variant="solid" onClick={() => annotateHelper()}>
                         Annotate

@@ -412,11 +412,15 @@ const ProvideReadableMotivation = (motivation: 'ods:adding' | 'ods:deleting' | '
  * @param imageDimenstions An object containg the x and y dimensions of the image
  * @returns Annotation according to Annotorious format
  */
-const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: string, imageDimenstions: { x: number, y: number }) => {
+const ReformatToAnnotoriousAnnotation = (
+    annotation: Annotation,
+    mediaUrl: string,
+    imageDimenstions: { x: number; y: number }
+): W3CImageAnnotation => {
     let annotoriousAnnotation: W3CImageAnnotation = {} as W3CImageAnnotation;
 
-    /* Check if the annotation is a visual one and */
-    if (annotation['oa:hasTarget']['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector') {
+    /* Check if the annotation is a visual one */
+    if (annotation['oa:hasTarget']?.['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector') {
         /* Calculate the W3C pixels relative to the TDWG AC position */
         const ROI = annotation['oa:hasTarget']['oa:hasSelector']['ac:hasROI'] as {
             "ac:xFrac": number,
@@ -425,10 +429,11 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
             "ac:heightFrac": number
         };
 
-        const x = ROI["ac:xFrac"] * imageDimenstions.x;
-        const y = ROI["ac:yFrac"] * imageDimenstions.y;
-        const w = ROI["ac:widthFrac"] * imageDimenstions.x;
-        const h = ROI["ac:heightFrac"] * imageDimenstions.y;
+        // Round all pixel values to integers so the regex parser matches clean values
+        const x = Math.round((ROI["ac:xFrac"] || 0) * imageDimenstions.x);
+        const y = Math.round((ROI["ac:yFrac"] || 0) * imageDimenstions.y);
+        const w = Math.round((ROI["ac:widthFrac"] || 0) * imageDimenstions.x);
+        const h = Math.round((ROI["ac:heightFrac"] || 0) * imageDimenstions.y);
 
         annotoriousAnnotation = {
             id: annotation['@id'],

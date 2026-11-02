@@ -34,6 +34,7 @@ export const DigitalMediaOverview = () => {
     const { data: digitalMedia, isLoading } = useDigitalMedia({ handle: identifier });
     const [annotationMode, setAnnotationMode] = useState(false);
     const [currentTab, setCurrentTab] = useState('media');
+    const [isDrawing, setIsDrawing] = useState(false);
 
     /* Hooks */
     const handleOpenAnnotation = useAnnotationHandler(setAnnotationMode);
@@ -54,7 +55,7 @@ export const DigitalMediaOverview = () => {
         {
             value: 'media',
             title: 'Media',
-            component: <DigitalMediaDetails data={digitalMedia}></DigitalMediaDetails>
+            component: <DigitalMediaDetails data={digitalMedia} isDrawingEnabled={isDrawing}></DigitalMediaDetails>
         },
         {
             value: 'links',
@@ -81,6 +82,9 @@ export const DigitalMediaOverview = () => {
                 annotate={true}
                 annotateHelper={handleOpenAnnotation}
                 navigateTo={firstDigitalSpecimen ? {pathName: `/ds/${firstDigitalSpecimen}`, text: 'Specimen'} : undefined}
+                isDigitalMedia={true}
+                visualAnnotateHelper={() => setIsDrawing((prev) => !prev)}
+                isDrawingEnabled={isDrawing}
             >
             </Hero>
             <main>

@@ -1,0 +1,20 @@
+.info-popup {
+    background-color: white;
+    min-width: 350px;
+    max-width: 480px;
+
+    .info-popup-value {
+        font-size: 14px;
+    }
+    .info-popup-details {
+        margin-top: 16px;
+
+        .info-popup-creator {
+            font-weight: 500;
+            font-size: 12px;
+        }
+        .info-popup-info {
+            font-size: 12px;
+        }
+    }
+}

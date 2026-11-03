@@ -24,14 +24,29 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props
     /* Set OpenSeaDragon options based on ImageUri (that is already converted to jpg) */
     const options = useMemo(() => ({
         tileSources: {
-          type: 'image',
-          url: imageUri
-        },
-        /* Zoom adjustments */
-        maxZoomLevel: 5,
-        minZoomLevel: 0.4,
-        prefixUrl: OSD_URL,
-        showNavigationControl: true,
+            type: 'image',
+            url: imageUri
+          },
+          prefixUrl: OSD_URL,
+          showNavigationControl: true,
+          defaultZoomLevel: 0,
+          minZoomLevel: 0.1,
+          maxZoomLevel: 10,
+          visibilityRatio: 0.2,
+          constrainDuringPan: false,
+          homeFillsViewer: false,
+          gestureSettingsMouse: {
+              clickToZoom: false,
+              dblClickToZoom: false,
+          },
+          gestureSettingsPen: {
+              clickToZoom: false,
+              dblClickToZoom: false,
+          },
+          gestureSettingsTouch: {
+              clickToZoom: false,
+              pinchToZoom: false,
+          }
     }), [imageUri]);
 
     return (

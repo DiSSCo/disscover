@@ -7,6 +7,7 @@ import {
     useAnnotator,
     UserSelectAction,
     useSelection,
+    W3CImageAnnotation,
     W3CImageFormat
 } from "@annotorious/react";
 import { useEffect, useRef, useState } from "react";
@@ -16,11 +17,13 @@ import { InfoAnnotationPopup } from "components/Popups/InfoAnnotationPopup";
 import { AddAnnotationPopup } from "components/Popups/AddAnnotationPopup";
 
 /* Import utils */
-import { ConstructAnnotationObject } from 'app/utilities/AnnotateUtilities';
+import { ConstructAnnotationObject, ReformatToAnnotoriousAnnotation } from 'app/utilities/AnnotateUtilities';
 
 /* Import services */
+import GetDigitalMediaAnnotations from 'api/digitalMedia/GetDigitalMediaAnnotations';
 import InsertAnnotation from 'api/annotation/InsertAnnotation';
 import PatchAnnotation from 'api/annotation/PatchAnnotation';
+import { RetrieveEnvVariable } from "app/Utilities";
 
 type AnnotatorControlsProps = {
     options: any;
@@ -39,15 +42,88 @@ export const AnnotationControls = ({
 }: AnnotatorControlsProps) => {
     /* Base variables & state */
     const [inputValue, setInputValue] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
 
     /* Hooks */
     const osdAnnotator = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
+    console.log(osdAnnotator);
     const selection = useSelection();
 
     // Track the last selected annotation ID
     const lastSelectedIdRef = useRef<string | null>(null);
 
-    // Synchronize selection changes and clean up unsubmitted shapes on click-away
+    /* -----------------------------------------------------------------
+       1. Load Existing DiSSCo Annotations on Mount / Viewer Open
+       ----------------------------------------------------------------- */
+       useEffect(() => {
+        if (!osdAnnotator || !digitalMedia?.['@id']) return;
+    
+        let isMounted = true;
+    
+        const loadExistingAnnotations = async () => {
+            try {
+                const viewer = osdAnnotator.viewer;
+                const item = viewer?.world?.getItemAt(0);
+    
+                if (!item) return;
+    
+                const contentSize = item.getContentSize();
+                if (!contentSize?.x || !contentSize?.y) return;
+    
+                // 1. Fetch raw DiSSCo annotations from API
+                const disscoAnnotations = await GetDigitalMediaAnnotations({
+                    handle: digitalMedia['@id'].replace(RetrieveEnvVariable('DOI_URL'), '')
+                });
+    
+                if (!disscoAnnotations || !isMounted) return;
+    
+                // Format DiSSCo relative fractions into W3C Annotorious objects
+                const w3cAnnotations = disscoAnnotations
+                    .map((anno: any) => ReformatToAnnotoriousAnnotation(anno, imageUri, contentSize))
+                    .filter((anno): anno is W3CImageAnnotation => Boolean(anno));
+
+                // Parse via W3CImageFormat adapter
+                const adapter = W3CImageFormat(imageUri);
+
+                const parsedAnnotations = w3cAnnotations
+                    .map((w3c) => {
+                        const result = adapter.parse(w3c);
+                        if (result.error) {
+                            console.warn('W3C Parsing Failed for Annotation:', result.error, w3c);
+                        }
+                        return result.parsed;
+                    })
+                    .filter((anno): anno is NonNullable<typeof anno> => Boolean(anno));
+
+                // Populate store
+                if (parsedAnnotations.length > 0) {
+                    osdAnnotator.setAnnotations(parsedAnnotations);
+                }
+            } catch (error) {
+                console.error('Failed to load existing DiSSCo annotations:', error);
+            }
+        };
+    
+        const viewer = osdAnnotator.viewer;
+        if (viewer) {
+            if (viewer.world?.getItemAt(0)) {
+                loadExistingAnnotations();
+            } else {
+                viewer.addHandler('open', loadExistingAnnotations);
+            }
+        }
+    
+        return () => {
+            isMounted = false;
+            if (viewer) {
+                viewer.removeHandler('open', loadExistingAnnotations);
+            }
+        };
+    }, [osdAnnotator, digitalMedia, imageUri]);
+
+    /* -----------------------------------------------------------------
+       2. Selection Monitor & Click-Away Cleanup for Drafts
+       ----------------------------------------------------------------- */
     useEffect(() => {
         const currentlySelected = selection?.selected?.[0]?.annotation;
 
@@ -61,7 +137,7 @@ export const AnnotationControls = ({
             const previousId = lastSelectedIdRef.current;
             const targetAnnotation = osdAnnotator?.getAnnotationById(previousId);
 
-            // Check if annotation has no bodies attached (unsubmitted)
+            // Check if annotation has no bodies attached (unsubmitted draft)
             const isUnsubmitted = !targetAnnotation?.bodies || targetAnnotation.bodies.length === 0;
 
             if (isUnsubmitted && osdAnnotator) {
@@ -70,10 +146,13 @@ export const AnnotationControls = ({
 
             lastSelectedIdRef.current = null;
             setInputValue('');
+            setIsEditing(false);
         }
     }, [selection, osdAnnotator]);
 
-    /* Cancel handler to remove the uncommitted/selected shape */
+    /* -----------------------------------------------------------------
+       3. Cancel Handler (Removes draft or resets selection)
+       ----------------------------------------------------------------- */
     const handleCancel = () => {
         if (!osdAnnotator) return;
 
@@ -81,16 +160,24 @@ export const AnnotationControls = ({
 
         if (selected && selected.length > 0) {
             selected.forEach((sel) => {
-                osdAnnotator.removeAnnotation(sel.annotation.id);
+                const targetAnnotation = osdAnnotator.getAnnotationById(sel.annotation.id);
+                const isUnsubmitted = !targetAnnotation?.bodies || targetAnnotation.bodies.length === 0;
+                
+                if (isUnsubmitted) {
+                    osdAnnotator.removeAnnotation(sel.annotation.id);
+                }
             });
         }
 
         osdAnnotator.setSelected();
         lastSelectedIdRef.current = null;
         setInputValue('');
+        setIsEditing(false);
     };
 
-    /* Submit Handler for DiSSCover */
+    /* -----------------------------------------------------------------
+       4. Submit Handler (Add / Edit DiSSCo Annotation)
+       ----------------------------------------------------------------- */
     const handleSubmit = async () => {
         const selectedItem = selection?.selected?.[0];
         if (!selectedItem || !osdAnnotator || !inputValue.trim()) return;
@@ -185,25 +272,20 @@ export const AnnotationControls = ({
     
             // 7. Update local Annotorious v3 instance state
             osdAnnotator.removeAnnotation(activeAnnotation.id);
-            
-            // Pass the W3C object directly; osdAnnotator will automatically parse it using W3CImageFormat
             osdAnnotator.addAnnotation(w3cAnnotation as any);
     
             // 8. Clear state
             lastSelectedIdRef.current = null;
             osdAnnotator.setSelected();
             setInputValue('');
+            setIsEditing(false);
             onAnnotationSaved?.();
         } catch (error) {
             console.error('Failed to submit annotation:', error);
         }
     };
 
-    /* Annotation popup renderer */
-    /* State to track if an existing annotation is currently in edit mode */
-    const [isEditing, setIsEditing] = useState(false);
-
-    /* Dynamic Popup Renderer */
+    /* Render either an add annotation or info popup */
     const annotationPopup = () => {
         const selectedAnnotation = selection?.selected?.[0]?.annotation;
 
@@ -231,22 +313,14 @@ export const AnnotationControls = ({
                 setIsEditing={setIsEditing}
                 inputValue={inputValue}
                 setInputValue={setInputValue}
-            ></AddAnnotationPopup>
+            />
         );
     };
 
     return (
-        <div className="osd-annotator-wrapper" style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <OpenSeadragonAnnotator
-                adapter={W3CImageFormat(imageUri)}
-                drawingEnabled={isDrawingEnabled}
-                tool="rectangle"
-                drawingMode="click"
-                userSelectAction={UserSelectAction.SELECT}
-            >
-                <OpenSeadragonViewer options={options} className="osd-viewer" />
-                <OpenSeadragonAnnotationPopup popup={annotationPopup} />
-            </OpenSeadragonAnnotator>
-        </div>
+        <>
+            <OpenSeadragonViewer options={options} className="osd-viewer" />
+            <OpenSeadragonAnnotationPopup popup={annotationPopup} />
+        </>
     );
 };

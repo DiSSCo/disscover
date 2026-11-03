@@ -3,7 +3,7 @@ import './DigitalMediaCard.scss';
 import '@annotorious/react/annotorious-react.css';
 
 /* Import dependencies */
-import { Annotorious } from '@annotorious/react';
+import { Annotorious, OpenSeadragonAnnotator, UserSelectAction, W3CImageFormat } from '@annotorious/react';
 import { useMemo } from 'react';
 
 /* Import constants */
@@ -71,13 +71,23 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
         :
         <div className="osd-container">
             <Annotorious>
-                <AnnotationControls
-                    options={options}
-                    imageUri={imageUri}
-                    isDrawingEnabled={isDrawingEnabled}
-                    digitalMedia={digitalMedia}
-                    onAnnotationSaved={onAnnotationSaved}
-                ></AnnotationControls>
+                <div className="osd-annotator-wrapper" style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <OpenSeadragonAnnotator
+                        adapter={W3CImageFormat(imageUri)}
+                        drawingEnabled={isDrawingEnabled}
+                        tool="rectangle"
+                        drawingMode="click"
+                        userSelectAction={UserSelectAction.SELECT}
+                    >
+                        <AnnotationControls
+                            options={options}
+                            imageUri={imageUri}
+                            isDrawingEnabled={isDrawingEnabled}
+                            digitalMedia={digitalMedia}
+                            onAnnotationSaved={onAnnotationSaved}
+                        ></AnnotationControls>
+                    </OpenSeadragonAnnotator>
+                </div>
             </Annotorious>
         </div>
         }

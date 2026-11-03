@@ -413,52 +413,62 @@ const ProvideReadableMotivation = (motivation: 'ods:adding' | 'ods:deleting' | '
  * @returns Annotation according to Annotorious format
  */
 const ReformatToAnnotoriousAnnotation = (
-    annotation: Annotation,
+    annotation: any,
     mediaUrl: string,
-    imageDimenstions: { x: number; y: number }
-): W3CImageAnnotation => {
-    let annotoriousAnnotation: W3CImageAnnotation = {} as W3CImageAnnotation;
-
-    /* Check if the annotation is a visual one */
-    if (annotation['oa:hasTarget']?.['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector') {
-        /* Calculate the W3C pixels relative to the TDWG AC position */
-        const ROI = annotation['oa:hasTarget']['oa:hasSelector']['ac:hasROI'] as {
-            "ac:xFrac": number,
-            "ac:yFrac": number,
-            "ac:widthFrac": number,
-            "ac:heightFrac": number
-        };
-
-        // Round all pixel values to integers so the regex parser matches clean values
-        const x = Math.round((ROI["ac:xFrac"] || 0) * imageDimenstions.x);
-        const y = Math.round((ROI["ac:yFrac"] || 0) * imageDimenstions.y);
-        const w = Math.round((ROI["ac:widthFrac"] || 0) * imageDimenstions.x);
-        const h = Math.round((ROI["ac:heightFrac"] || 0) * imageDimenstions.y);
-
-        annotoriousAnnotation = {
-            id: annotation['@id'],
-            "@context": 'http://www.w3.org/ns/anno.jsonld',
-            type: 'Annotation',
-            body: [{
-                type: 'TextualBody',
-                value: annotation['oa:hasBody']?.['oa:value'][0] ?? '',
-                purpose: 'commenting',
-                creator: {
-                    id: annotation['dcterms:creator']['@id'] ?? ''
-                }
-            }],
-            target: {
-                selector: {
-                    conformsTo: 'http://www.w3.org/TR/media-frags/',
-                    type: 'FragmentSelector',
-                    value: `xywh=pixel:${x},${y},${w},${h}`
-                },
-                source: mediaUrl
-            }
-        };
+    imageDimensions: { x: number; y: number }
+): W3CImageAnnotation | null => {
+    // 1. Target & Selector Check
+    const selector = annotation['oa:hasTarget']?.['oa:hasSelector'];
+    if (selector?.['@type'] !== 'oa:FragmentSelector') {
+        return null;
     }
 
-    return annotoriousAnnotation;
+    const ROI = selector?.['ac:hasROI'] as {
+        "ac:xFrac": number;
+        "ac:yFrac": number;
+        "ac:widthFrac": number;
+        "ac:heightFrac": number;
+    } | undefined;
+
+    if (!ROI) return null;
+
+    // 2. Round pixel values to integers
+    const x = Math.round((ROI["ac:xFrac"] || 0) * imageDimensions.x);
+    const y = Math.round((ROI["ac:yFrac"] || 0) * imageDimensions.y);
+    const w = Math.round((ROI["ac:widthFrac"] || 0) * imageDimensions.x);
+    const h = Math.round((ROI["ac:heightFrac"] || 0) * imageDimensions.y);
+
+    if (w <= 0 || h <= 0) return null;
+
+    // 3. Extract text value safely
+    const rawValue = annotation['oa:hasBody']?.['oa:value'];
+    const bodyValue = Array.isArray(rawValue) ? rawValue[0] : (rawValue ?? '');
+
+    // 4. Extract creator safely
+    const creatorId = annotation['dcterms:creator']?.['@id'];
+
+    // 5. Build strict W3C Image Annotation
+    return {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        id: annotation['@id'] || annotation.id,
+        type: "Annotation",
+        body: [
+            {
+                type: "TextualBody",
+                value: bodyValue,
+                purpose: "commenting",
+                ...(creatorId ? { creator: { id: creatorId } } : {})
+            }
+        ],
+        target: {
+            source: mediaUrl,
+            selector: {
+                type: "FragmentSelector",
+                conformsTo: "http://www.w3.org/TR/media-frags/",
+                value: `xywh=pixel:${x},${y},${w},${h}`
+            }
+        }
+    };
 };
 
 type AnnotationTopicValues = `${AnnotationTopic}`

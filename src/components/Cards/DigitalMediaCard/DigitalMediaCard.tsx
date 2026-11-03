@@ -3,19 +3,26 @@ import './DigitalMediaCard.scss';
 import '@annotorious/react/annotorious-react.css';
 
 /* Import dependencies */
-import { OpenSeadragonAnnotator, OpenSeadragonViewer, W3CImageFormat, Annotorious } from '@annotorious/react';
+import { Annotorious, OpenSeadragonAnnotator, UserSelectAction, W3CImageFormat } from '@annotorious/react';
 import { useMemo } from 'react';
 
 /* Import constants */
 import { OSD_URL } from 'utils/Constants';
 
+/* Import components */
+import { AnnotationControls } from 'components/AnnotationControls/AnnotationControls';
+
 interface Props {
     imageUri?: string | null;
     activeId?: string;
     ImageAction?: Function;
+    isDrawingEnabled: boolean;
+    digitalMedia?: any;
+    onAnnotationSaved?: () => void;
 }
 
-export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props) => {
+export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawingEnabled, digitalMedia,
+    onAnnotationSaved }: Props) => {
     /* Base variables */
     if (!imageUri) {
         return <div className="image-placeholder"><p>Something went wrong with the image</p></div>;
@@ -64,11 +71,23 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction }: Props
         :
         <div className="osd-container">
             <Annotorious>
-                <OpenSeadragonAnnotator
-                    adapter={W3CImageFormat(imageUri)}
-                >
-                    <OpenSeadragonViewer options={options} className="osd-viewer" />
-                </OpenSeadragonAnnotator>
+                <div className="osd-annotator-wrapper" style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <OpenSeadragonAnnotator
+                        adapter={W3CImageFormat(imageUri)}
+                        drawingEnabled={isDrawingEnabled}
+                        tool="rectangle"
+                        drawingMode="click"
+                        userSelectAction={UserSelectAction.SELECT}
+                    >
+                        <AnnotationControls
+                            options={options}
+                            imageUri={imageUri}
+                            isDrawingEnabled={isDrawingEnabled}
+                            digitalMedia={digitalMedia}
+                            onAnnotationSaved={onAnnotationSaved}
+                        ></AnnotationControls>
+                    </OpenSeadragonAnnotator>
+                </div>
             </Annotorious>
         </div>
         }

@@ -36,3 +36,14 @@ button {
     justify-content: center;
     background-color: var(--neutral-10, #f0f0f0);
 }
+
+.a9s-annotation .a9s-inner {
+    stroke: #ff3b30 !important;
+    stroke-width: 2px !important;
+    fill: rgba(255, 59, 48, 0.15) !important;
+}
+
+.a9s-annotation.selected .a9s-inner {
+    stroke: #007aff !important;
+    fill: rgba(0, 122, 255, 0.25) !important;
+}

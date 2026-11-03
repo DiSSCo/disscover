@@ -97,7 +97,7 @@ export const DigitalSpecimenCard = ({
                 <div>
                     <h2>{cardHeader}</h2>
                     {isVerified && 
-                        <Badge variant="soft" color="grass">Primary</Badge>
+                        <Badge variant="soft" color="grass">Verified</Badge>
                     }
                 </div>
                 { annotate && AnnotateHelper &&

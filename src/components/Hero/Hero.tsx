@@ -17,6 +17,7 @@ import { sanitizeHtmlWrapper } from "utils/Utils";
 /* Import hooks */
 import { useHasRole } from "hooks/roleChecker";
 import { useClipboard } from "hooks/useClipboard";
+import KeycloakService from "app/Keycloak";
 
 type Props = {
     title: string;
@@ -68,6 +69,8 @@ export const Hero = ( {
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
     const location = useLocation();
     const { copy, hasCopied } = useClipboard();
+    const isUserLoggedIn = KeycloakService.IsLoggedIn();
+    console.log(isUserLoggedIn);
 
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
@@ -106,7 +109,7 @@ export const Hero = ( {
                 }
                 </div>
                 <div id="hero-top-buttons-right">
-                { (isDigitalMedia && visualAnnotateHelper) &&
+                { (isDigitalMedia && visualAnnotateHelper && isUserLoggedIn) &&
                     <Button variant="solid" onClick={() => visualAnnotateHelper()}>
                         { isDrawingEnabled ? 'Cancel visual annotation' : 'Visual annotation'}
                     </Button>

@@ -34,16 +34,25 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
           type: 'image',
           url: imageUri
         },
-        /* Zoom adjustments */
-        maxZoomLevel: 5,
-        minZoomLevel: 0.8,
         prefixUrl: OSD_URL,
         showNavigationControl: true,
+        defaultZoomLevel: 0,
+        minZoomLevel: 0.1,
+        maxZoomLevel: 10,
+        visibilityRatio: 1,
+        constrainDuringPan: true,
+        homeFillsViewer: false,
         gestureSettingsMouse: {
-            clickToZoom: false
+            clickToZoom: false,
+            dblClickToZoom: false,
         },
         gestureSettingsPen: {
-            clickToZoom: false
+            clickToZoom: false,
+            dblClickToZoom: false,
+        },
+        gestureSettingsTouch: {
+            clickToZoom: false,
+            pinchToZoom: false,
         }
     }), [imageUri]);
 

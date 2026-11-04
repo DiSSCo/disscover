@@ -44,6 +44,7 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri }: Annoto
                 return ReformatToAnnotoriousAnnotation(anno.attributes, imageUri, imageDimensions);
             });
     
+            /* If we have transformed annotations and the osdAnnotator is still defined, we set the annotorious annotations */
             if (transformAnnotations.length > 0 && osdAnnotator) {
                 osdAnnotator.setAnnotations(transformAnnotations);
             };

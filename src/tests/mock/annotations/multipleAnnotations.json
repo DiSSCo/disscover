@@ -1,0 +1,204 @@
+{
+    "data": [
+        {
+            "id": "https://hdl.handle.net/TEST/PJT-448-ETG",
+            "type": "ods:Annotation",
+            "attributes": {
+                "@id": "https://hdl.handle.net/TEST/PJT-448-ETG",
+                "@type": "ods:Annotation",
+                "dcterms:identifier": "https://hdl.handle.net/TEST/PJT-448-ETG",
+                "ods:fdoType": "https://doi.org/21.T11148/cf458ca9ee1d44a5608f",
+                "ods:status": "Active",
+                "ods:version": 1,
+                "oa:motivation": "ods:adding",
+                "oa:motivatedBy": "New information received from Source System with id: https://hdl.handle.net/TEST/TDR-3SJ-LBF",
+                "oa:hasTarget": {
+                    "@id": "https://doi.org/TEST/145-SXG-KZS",
+                    "@type": "ods:DigitalMedia",
+                    "dcterms:identifier": "https://doi.org/TEST/145-SXG-KZS",
+                    "ods:fdoType": "https://doi.org/21.T11148/bbad8c4e101e8af01115",
+                    "oa:hasSelector": {
+                        "@type": "ods:ClassSelector",
+                        "ods:class": "$"
+                    }
+                },
+                "oa:hasBody": {
+                    "@type": "oa:TextualBody",
+                    "oa:value": [
+                        "{\"@id\":\"https://doi.org/TEST/145-SXG-KZS\",\"@type\":\"ods:DigitalMedia\",\"dcterms:identifier\":\"https://doi.org/TEST/145-SXG-KZS\",\"ods:fdoType\":\"https://doi.org/21.T11148/bbad8c4e101e8af01115\",\"ods:version\":1,\"ods:status\":\"Active\",\"dcterms:modified\":\"2026-03-01T07:17:53.117Z\",\"dcterms:created\":\"2026-03-02T06:22:29.837Z\",\"dcterms:type\":\"InteractiveResource\",\"ac:accessURI\":\"https://herbarium.bgbm.org/data/iiif/B100603416/manifest.json\",\"ods:sourceSystemID\":\"https://hdl.handle.net/TEST/TDR-3SJ-LBF\",\"ods:sourceSystemName\":\"Herbarium Berolinense, Berlin\",\"ods:organisationID\":\"https://ror.org/00bv4cx53\",\"ods:organisationName\":\"Botanic Garden and Botanical Museum Berlin\",\"dcterms:format\":\"application/json\",\"dcterms:rights\":\"https://creativecommons.org/licenses/by-sa/3.0/\",\"dcterms:source\":\"https://iiif.bgbm.org/?manifest=https://herbarium.bgbm.org/object/B100603416/manifest.json\",\"ods:hasEntityRelationships\":[{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasURL\",\"dwc:relatedResourceID\":\"https://herbarium.bgbm.org/data/iiif/B100603416/manifest.json\",\"ods:relatedResourceURI\":\"https://herbarium.bgbm.org/data/iiif/B100603416/manifest.json\",\"dwc:relationshipEstablishedDate\":\"2026-03-01T07:17:53.117Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"schema:name\":\"DiSSCo Translator Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"data-translator\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]},{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasOrganisationID\",\"dwc:relatedResourceID\":\"https://ror.org/00bv4cx53\",\"ods:relatedResourceURI\":\"https://ror.org/00bv4cx53\",\"dwc:relationshipEstablishedDate\":\"2026-03-01T07:17:53.117Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"schema:name\":\"DiSSCo Translator Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"data-translator\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]},{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasFDOType\",\"dwc:relatedResourceID\":\"https://doi.org/21.T11148/bbad8c4e101e8af01115\",\"ods:relatedResourceURI\":\"https://doi.org/21.T11148/bbad8c4e101e8af01115\",\"dwc:relationshipEstablishedDate\":\"2026-03-01T07:17:53.117Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"schema:name\":\"DiSSCo Translator Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"data-translator\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]},{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasSourceSystemID\",\"dwc:relatedResourceID\":\"https://hdl.handle.net/TEST/TDR-3SJ-LBF\",\"ods:relatedResourceURI\":\"https://hdl.handle.net/TEST/TDR-3SJ-LBF\",\"dwc:relationshipEstablishedDate\":\"2026-03-01T07:17:53.117Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"schema:name\":\"DiSSCo Translator Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"data-translator\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]},{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasLicense\",\"dwc:relatedResourceID\":\"https://creativecommons.org/licenses/by-sa/3.0/\",\"ods:relatedResourceURI\":\"https://creativecommons.org/licenses/by-sa/3.0/\",\"dwc:relationshipEstablishedDate\":\"2026-03-01T07:17:53.117Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"schema:name\":\"DiSSCo Translator Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"data-translator\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]},{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasSource\",\"dwc:relatedResourceID\":\"https://iiif.bgbm.org/?manifest=https://herbarium.bgbm.org/object/B100603416/manifest.json\",\"ods:relatedResourceURI\":\"https://iiif.bgbm.org/?manifest=https://herbarium.bgbm.org/object/B100603416/manifest.json\",\"dwc:relationshipEstablishedDate\":\"2026-03-01T07:17:53.117Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"schema:name\":\"DiSSCo Translator Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"data-translator\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14379776\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14379776\",\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]},{\"@type\":\"ods:EntityRelationship\",\"dwc:relationshipOfResource\":\"hasDigitalSpecimen\",\"dwc:relatedResourceID\":\"https://doi.org/TEST/DJT-JMZ-7MW\",\"ods:relatedResourceURI\":\"https://doi.org/TEST/DJT-JMZ-7MW\",\"dwc:relationshipEstablishedDate\":\"2026-03-02T06:22:29.837Z\",\"ods:hasAgents\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14383054\",\"@type\":\"schema:SoftwareApplication\",\"schema:identifier\":\"https://doi.org/10.5281/zenodo.14383054\",\"schema:name\":\"DiSSCo Digital Specimen Processing Service\",\"ods:hasRoles\":[{\"@type\":\"schema:Role\",\"schema:roleName\":\"processing-service\"}],\"ods:hasIdentifiers\":[{\"@id\":\"https://doi.org/10.5281/zenodo.14383054\",\"@type\":\"ods:Identifier\",\"dcterms:title\":\"DOI\",\"dcterms:type\":\"DOI\",\"dcterms:identifier\":\"https://doi.org/10.5281/zenodo.14383054\",\"ods:isPartOfLabel\":false,\"ods:gupriLevel\":\"GloballyUniqueStablePersistentResolvableFDOCompliant\",\"ods:identifierStatus\":\"Preferred\"}]}]}]}"
+                    ],
+                    "dcterms:references": "https://hdl.handle.net/TEST/TDR-3SJ-LBF"
+                },
+                "dcterms:creator": {
+                    "@id": "https://hdl.handle.net/TEST/TDR-3SJ-LBF",
+                    "@type": "schema:SoftwareApplication",
+                    "schema:identifier": "https://hdl.handle.net/TEST/TDR-3SJ-LBF",
+                    "schema:name": "Herbarium Berolinense, Berlin",
+                    "ods:hasRoles": [
+                        {
+                            "@type": "schema:Role",
+                            "schema:roleName": "source-system"
+                        }
+                    ],
+                    "ods:hasIdentifiers": [
+                        {
+                            "@id": "https://hdl.handle.net/TEST/TDR-3SJ-LBF",
+                            "@type": "ods:Identifier",
+                            "dcterms:title": "HANDLE",
+                            "dcterms:type": "Handle",
+                            "dcterms:identifier": "https://hdl.handle.net/TEST/TDR-3SJ-LBF",
+                            "ods:isPartOfLabel": false,
+                            "ods:gupriLevel": "GloballyUniqueStablePersistentResolvableFDOCompliant",
+                            "ods:identifierStatus": "Preferred"
+                        }
+                    ]
+                },
+                "dcterms:created": "2026-03-02T06:22:30.116Z",
+                "dcterms:modified": "2026-03-02T06:22:32.552Z",
+                "dcterms:issued": "2026-03-02T06:22:32.552Z",
+                "as:generator": {
+                    "@id": "https://doi.org/10.5281/zenodo.7533428",
+                    "@type": "schema:SoftwareApplication",
+                    "schema:identifier": "https://doi.org/10.5281/zenodo.7533428",
+                    "schema:name": "DiSSCo Annotation Processing Service",
+                    "ods:hasRoles": [
+                        {
+                            "@type": "schema:Role",
+                            "schema:roleName": "processing-service"
+                        }
+                    ],
+                    "ods:hasIdentifiers": [
+                        {
+                            "@id": "https://doi.org/10.5281/zenodo.7533428",
+                            "@type": "ods:Identifier",
+                            "dcterms:title": "DOI",
+                            "dcterms:type": "DOI",
+                            "dcterms:identifier": "https://doi.org/10.5281/zenodo.7533428",
+                            "ods:isPartOfLabel": false,
+                            "ods:gupriLevel": "GloballyUniqueStablePersistentResolvableFDOCompliant",
+                            "ods:identifierStatus": "Preferred"
+                        }
+                    ]
+                },
+                "ods:mergingDecisionStatus": "Approved",
+                "ods:mergingStateChangeDate": "2026-03-02T06:22:32.552Z",
+                "ods:hasMergingStateChangedBy": {
+                    "@id": "https://doi.org/10.5281/zenodo.14383054",
+                    "@type": "schema:SoftwareApplication",
+                    "schema:identifier": "https://doi.org/10.5281/zenodo.14383054",
+                    "schema:name": "DiSSCo Digital Specimen Processing Service",
+                    "ods:hasRoles": [
+                        {
+                            "@type": "schema:Role",
+                            "schema:roleName": "processing-service"
+                        }
+                    ],
+                    "ods:hasIdentifiers": [
+                        {
+                            "@id": "https://doi.org/10.5281/zenodo.14383054",
+                            "@type": "ods:Identifier",
+                            "dcterms:title": "DOI",
+                            "dcterms:type": "DOI",
+                            "dcterms:identifier": "https://doi.org/10.5281/zenodo.14383054",
+                            "ods:isPartOfLabel": false,
+                            "ods:gupriLevel": "GloballyUniqueStablePersistentResolvableFDOCompliant",
+                            "ods:identifierStatus": "Preferred"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "https://hdl.handle.net/TEST/5M4-NB9-M1D",
+            "type": "ods:Annotation",
+            "attributes": {
+                "@id": "https://hdl.handle.net/TEST/5M4-NB9-M1D",
+                "@type": "ods:Annotation",
+                "dcterms:identifier": "https://hdl.handle.net/TEST/5M4-NB9-M1D",
+                "ods:fdoType": "https://doi.org/21.T11148/cf458ca9ee1d44a5608f",
+                "ods:status": "Active",
+                "ods:version": 1,
+                "oa:motivation": "oa:commenting",
+                "oa:hasTarget": {
+                    "@id": "https://doi.org/TEST/145-SXG-KZS",
+                    "@type": "ods:DigitalMedia",
+                    "dcterms:identifier": "https://doi.org/TEST/145-SXG-KZS",
+                    "ods:fdoType": "https://doi.org/21.T11148/bbad8c4e101e8af01115",
+                    "oa:hasSelector": {
+                        "@type": "oa:FragmentSelector",
+                        "ac:hasROI": {
+                            "ac:xFrac": 0.37737041719342607,
+                            "ac:yFrac": 0.5121555915721232,
+                            "ac:widthFrac": 0.3606194690265487,
+                            "ac:heightFrac": 0.3324554294975689
+                        },
+                        "dcterms:conformsTo": "https://ac.tdwg.org/termlist/#711-region-of-interest-vocabulary"
+                    }
+                },
+                "oa:hasBody": {
+                    "oa:value": [
+                        "Annotation"
+                    ]
+                },
+                "dcterms:creator": {
+                    "@id": "https://orcid.org/0009-0003-3049-294X",
+                    "@type": "schema:Person",
+                    "schema:identifier": "https://orcid.org/0009-0003-3049-294X",
+                    "schema:name": "Melanie de Leeuw",
+                    "ods:hasRoles": [
+                        {
+                            "@type": "schema:Role",
+                            "schema:roleName": "annotator"
+                        }
+                    ],
+                    "ods:hasIdentifiers": [
+                        {
+                            "@id": "https://orcid.org/0009-0003-3049-294X",
+                            "@type": "ods:Identifier",
+                            "dcterms:title": "orcid",
+                            "dcterms:type": "URL",
+                            "dcterms:identifier": "https://orcid.org/0009-0003-3049-294X",
+                            "ods:isPartOfLabel": false,
+                            "ods:gupriLevel": "GloballyUniqueStablePersistentResolvable",
+                            "ods:identifierStatus": "Preferred"
+                        }
+                    ]
+                },
+                "dcterms:created": "2026-11-03T09:10:01.006Z",
+                "dcterms:modified": "2026-11-03T09:10:01.182Z",
+                "dcterms:issued": "2026-11-03T09:10:01.182Z",
+                "as:generator": {
+                    "@id": "https://doi.org/10.5281/zenodo.7533428",
+                    "@type": "schema:SoftwareApplication",
+                    "schema:identifier": "https://doi.org/10.5281/zenodo.7533428",
+                    "schema:name": "DiSSCo Annotation Processing Service",
+                    "ods:hasRoles": [
+                        {
+                            "@type": "schema:Role",
+                            "schema:roleName": "processing-service"
+                        }
+                    ],
+                    "ods:hasIdentifiers": [
+                        {
+                            "@id": "https://doi.org/10.5281/zenodo.7533428",
+                            "@type": "ods:Identifier",
+                            "dcterms:title": "DOI",
+                            "dcterms:type": "DOI",
+                            "dcterms:identifier": "https://doi.org/10.5281/zenodo.7533428",
+                            "ods:isPartOfLabel": false,
+                            "ods:gupriLevel": "GloballyUniqueStablePersistentResolvableFDOCompliant",
+                            "ods:identifierStatus": "Preferred"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "links": {
+        "first": null,
+        "next": null,
+        "prev": null,
+        "self": "https://dev.dissco.tech/api/digital-media/v1/TEST/145-SXG-KZS/annotations"
+    },
+    "meta": null
+}

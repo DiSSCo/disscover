@@ -1,0 +1,20 @@
+.info-popup {
+    background-color: white;
+    min-width: var(--general-card-width);
+    max-width: var(--large-card-width);
+
+    .info-popup-value {
+        font-size: var(--sm-font-size);
+    }
+    .info-popup-details {
+        margin-block-start: var(--spacing-m);
+
+        .info-popup-creator {
+            font-weight: 500;
+            font-size: var(--xs-font-size);
+        }
+        .info-popup-info {
+            font-size: var(--xs-font-size);
+        }
+    }
+}

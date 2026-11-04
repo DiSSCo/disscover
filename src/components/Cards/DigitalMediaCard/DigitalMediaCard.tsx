@@ -70,7 +70,7 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
                 </div>
             </button>
         :
-        (isDrawingEnabled && identifier) &&
+        (identifier) &&
             <div className="osd-container">
                 <Annotorious>
                     <OpenSeadragonAnnotator

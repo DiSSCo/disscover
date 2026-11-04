@@ -53,8 +53,10 @@ CVE-2026-6732
 # pcre2  included in the image, cannot fix Okt-05-2026
 CVE-2026-103111
 
-# libexpat included in the image, cannot fix Okt-05-2026
-CVE-2026-77214
+# libexpat included in the image, cannot fix Nov-03-2026
+CVE-2026-113351
+CVE-2026-117610
+CVE-2026-118370
 
 # source-map-js included in the image, cannot fix Okt-06-2026
 CVE-2026-93749

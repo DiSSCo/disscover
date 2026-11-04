@@ -1,6 +1,7 @@
 /* Import dependencies */
 import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
+import KeycloakService from "app/Keycloak";
 
 /* Import components */
 import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, GridIcon, ListBulletIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
@@ -31,6 +32,9 @@ type Props = {
     annotateHelper?: Function
     selectedView?: 'table' | 'grid';
     onViewChange?: (view: 'table' | 'grid') => void;
+    isDigitalMedia?: boolean;
+    visualAnnotateHelper?: () => void;
+    isDrawingEnabled?: boolean
 }
 
 /**
@@ -45,7 +49,7 @@ type Props = {
  * @returns A JSX element that shows a Hero banner with information and possibly navigation
  */
 export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, annotateHelper, selectedView,
-    onViewChange }: Props) => {
+    onViewChange, isDigitalMedia = false, visualAnnotateHelper, isDrawingEnabled }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
@@ -57,6 +61,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const digitalSpecimenHandle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
     const currentUrl = `${globalThis.location.origin}${location.pathname}${location.search}`;
+    const isUserLoggedIn = KeycloakService.IsLoggedIn();
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
@@ -89,6 +94,11 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
                 <div id="hero-top-buttons-right">
+                { (isDigitalMedia && visualAnnotateHelper && isUserLoggedIn) &&
+                    <Button variant="solid" onClick={() => visualAnnotateHelper()}>
+                        { isDrawingEnabled ? 'Cancel visual annotation' : 'Visual annotation'}
+                    </Button>
+                }
                 {annotate && annotateHelper &&
                     <Button variant="solid" onClick={() => annotateHelper()}>
                         Annotate

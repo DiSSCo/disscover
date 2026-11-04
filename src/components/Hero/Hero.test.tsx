@@ -12,6 +12,16 @@ vi.mock('hooks/roleChecker', () => ({
     useHasRole: vi.fn(),
 }));
 
+/* Mock the KeycloakService */
+vi.mock('app/Keycloak', () => ({
+    default: {
+        IsLoggedIn: vi.fn(),
+        Login: vi.fn(),
+        Logout: vi.fn(),
+    },
+}));
+
+
 describe('Hero Component', () => {
     beforeEach(() => {
         vi.mocked(useHasRole).mockReturnValue(false);

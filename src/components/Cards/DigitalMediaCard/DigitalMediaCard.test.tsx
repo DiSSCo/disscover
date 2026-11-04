@@ -8,7 +8,6 @@ import { DigitalMediaCard } from './DigitalMediaCard';
 /* Import mock data */
 import mockAnnotationData from 'tests/mock/annotations/multipleAnnotations.json';
 
-
 /* Mock @annotorious/react for JS/DOM environment */
 vi.mock('@annotorious/react', () => ({
     Annotorious: ({ children }: { children: React.ReactNode }) => <div data-testid="annotorious">{children}</div>,
@@ -30,6 +29,10 @@ vi.mock('hooks/useDigitalMedia', () => ({
     useDigitalMediaAnnotations: vi.fn(() => {
         return mockAnnotationData;
     })
+}));
+
+vi.mock('app/utilities/AnnotateUtilities', () => ({
+    ReformatToAnnotoriousAnnotation: vi.fn()
 }));
 
 describe('DigitalMediaCard component', () => {

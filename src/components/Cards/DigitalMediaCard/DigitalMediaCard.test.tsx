@@ -50,7 +50,7 @@ describe('DigitalMediaCard component', () => {
     });
 
     it('renders the OpenSeadragon viewer when ImageAction is not provided', () => {
-        render(<DigitalMediaCard imageUri={testUri} identifier={testId} isDrawingEnabled={false} />);
+        render(<DigitalMediaCard imageUri={testUri} identifier={testId} isDrawingEnabled={true} />);
 
         /* Check that the OpenSeadragon fallback renders */
         expect(screen.getByTestId('osd-viewer')).toBeInTheDocument();

@@ -19,8 +19,8 @@ interface Props {
     imageUri?: string | null;
     activeId?: string;
     ImageAction?: Function;
-    isDrawingEnabled: boolean;
-    identifier: string;
+    isDrawingEnabled?: boolean;
+    identifier?: string;
 }
 
 export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawingEnabled, identifier }: Props) => {
@@ -70,20 +70,21 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
                 </div>
             </button>
         :
-        <div className="osd-container">
-            <Annotorious>
-                <OpenSeadragonAnnotator
-                    adapter={W3CImageFormat(imageUri)}
-                    drawingEnabled={isDrawingEnabled}
-                    tool="rectangle"
-                    drawingMode="click"
-                    userSelectAction={UserSelectAction.SELECT}
-                >
-                    <AnnotoriousControls osdOptions={options} identifier={identifier} imageUri={imageUri}>
-                    </AnnotoriousControls>
-                </OpenSeadragonAnnotator>
-            </Annotorious>
-        </div>
+        (isDrawingEnabled && identifier) &&
+            <div className="osd-container">
+                <Annotorious>
+                    <OpenSeadragonAnnotator
+                        adapter={W3CImageFormat(imageUri)}
+                        drawingEnabled={isDrawingEnabled}
+                        tool="rectangle"
+                        drawingMode="click"
+                        userSelectAction={UserSelectAction.SELECT}
+                    >
+                        <AnnotoriousControls osdOptions={options} identifier={identifier} imageUri={imageUri}>
+                        </AnnotoriousControls>
+                    </OpenSeadragonAnnotator>
+                </Annotorious>
+            </div>
         }
         </>
     );

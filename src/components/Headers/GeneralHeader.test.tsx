@@ -1,6 +1,6 @@
 import { screen, fireEvent, renderWithRouter, render } from 'tests/test-utils';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { Hero } from './Hero';
+import { GeneralHeader } from './GeneralHeader';
 import { useHasRole } from 'hooks/roleChecker';
 import { useClipboard } from 'hooks/useClipboard';
 
@@ -12,7 +12,7 @@ vi.mock('hooks/roleChecker', () => ({
     useHasRole: vi.fn(),
 }));
 
-describe('Hero Component', () => {
+describe('GeneralHeader Component', () => {
     beforeEach(() => {
         vi.mocked(useHasRole).mockReturnValue(false);
         vi.mocked(useClipboard).mockReturnValue({
@@ -26,7 +26,7 @@ describe('Hero Component', () => {
       });
 
     it('renders correctly with standard render', () => {
-        render(<Hero title="Dino" description="Desc" />);
+        render(<GeneralHeader title="Dino" description="Desc" />);
         expect(screen.getByText('Dino')).toBeInTheDocument();
     });
 
@@ -38,7 +38,7 @@ describe('Hero Component', () => {
         };
 
         const { user, router } = renderWithRouter([
-            { path: '/', element: <Hero {...props} /> },
+            { path: '/', element: <GeneralHeader {...props} /> },
             { path: '/virtual-collections', element: <div>Success</div> }
         ]);
 
@@ -54,7 +54,7 @@ describe('Hero Component', () => {
         });
 
         renderWithRouter([
-          { path: '/dinosaurs/123', element: <Hero title="T-Rex" showShareButton description="Desc" /> }
+          { path: '/dinosaurs/123', element: <GeneralHeader title="T-Rex" showShareButton description="Desc" /> }
         ], ['/dinosaurs/123']);
     
         const shareButton = screen.getByRole('button', { name: /share/i });
@@ -70,7 +70,7 @@ describe('Hero Component', () => {
             hasCopied: true,
         });
     
-        renderWithRouter([{ path: '/', element: <Hero title="T-rex" showShareButton description="Description" /> }]);
+        renderWithRouter([{ path: '/', element: <GeneralHeader title="T-rex" showShareButton description="Description" /> }]);
         
         expect(screen.getByText(/copied/i)).toBeInTheDocument();
     });

@@ -1,5 +1,5 @@
 /* Import components */
-import { Hero } from 'components/Hero/Hero';
+import { GeneralHeader } from 'components/Headers/GeneralHeader';
 import { TabsContent } from 'components/Tabs/TabsContent';
 import { TabsList } from 'components/Tabs/TabsList';
 import { AnnotationRenderer } from 'components/AnnotationRenderer/AnnotationRenderer';
@@ -70,7 +70,7 @@ export const DigitalMediaOverview = () => {
 
     return (
         <div className="digital-specimen-page">
-            <Hero
+            <GeneralHeader
                 title={getFieldValue('DOI').replace(RetrieveEnvVariable('DOI_URL'), '')}
                 showShareButton={true}
                 badge={[{
@@ -82,7 +82,7 @@ export const DigitalMediaOverview = () => {
                 annotateHelper={handleOpenAnnotation}
                 navigateTo={firstDigitalSpecimen ? {pathName: `/ds/${firstDigitalSpecimen}`, text: 'Specimen'} : undefined}
             >
-            </Hero>
+            </GeneralHeader>
             <main>
                 <div className="specimen-content-controller">
                     <TabsList tabs={tabs} setCurrentTab={(tab: string) => setCurrentTab(tab)} currentTab={currentTab}></TabsList>

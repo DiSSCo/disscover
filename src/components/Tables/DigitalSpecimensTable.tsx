@@ -10,9 +10,9 @@ type Props = {
     currentItems: any;
 }
 
-const VirtualCollectionDetailsTable = ({currentItems }: Props) => {
+const DigitalSpecimensTable = ({currentItems }: Props) => {
     /* Base variables */
-    const columns = ['Scientific Name', 'Location', 'Year', 'Type status', 'Organisation'];
+    const columns = ['Scientific Name', 'Country', 'Year', 'Type status', 'Organisation'];
 
     return (
         <Table.Root size="2">
@@ -52,8 +52,8 @@ const VirtualCollectionDetailsTable = ({currentItems }: Props) => {
                                 <Badge color="sky" variant="solid">{collection.attributes['ods:hasIdentifications'][0]['dwc:typeStatus']}</Badge>}
                             </Table.Cell>
                             <Table.Cell>
-                            { collection.attributes['dcterms:rightsHolder'] &&
-                                <span>{collection.attributes['dcterms:rightsHolder']}</span>
+                            { (collection.attributes['dcterms:rightsHolder'] || collection.attributes['ods:organisationName']) &&
+                                <span>{collection.attributes['dcterms:rightsHolder'] || collection.attributes['ods:organisationName']}</span>
                             } 
                             </Table.Cell>
                         </Table.Row>
@@ -66,4 +66,4 @@ const VirtualCollectionDetailsTable = ({currentItems }: Props) => {
     )
 }
 
-export default VirtualCollectionDetailsTable;
+export default DigitalSpecimensTable;

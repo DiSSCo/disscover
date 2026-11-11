@@ -1,8 +1,17 @@
+/* import dependencies */
 import { useQuery } from '@tanstack/react-query';
+
+/* Import api services */
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
+import { getDigitalSpecimenVersions } from 'services/digitalSpecimenService/getDigitalSpecimenVersions';
+import { getDigitalSpecimens } from 'services/digitalSpecimenService/getDigitalSpecimens';
+
+/* Import utils */
 import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapEntityRelationships, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
 import { LONG_STALE_TIME, LONG_GC_TIME } from "utils/Constants";
-import { getDigitalSpecimenVersions } from 'services/digitalSpecimenService/getDigitalSpecimenVersions';
+
+/* Import types */
+import { SearchFilters } from 'app/Types';
 
 type UseDigitalSpecimenOptions = {
     doi: string;
@@ -45,3 +54,22 @@ export const useDigitalSpecimenVersions = ({
         retry: 3,
     });
 };
+
+/* UseQuery hook to retrieve (or: search) digital specimens, either all or based on search filters */
+export const useDigitalSpecimens = ({
+    pageSize, pageNumber, searchFilters
+}: { searchFilters?: SearchFilters, pageSize: number, pageNumber?: number }) => {
+    const page = pageNumber ?? 1;
+
+    const queryResult = useQuery({
+        queryKey: ['digitalSpecimens', { searchFilters, pageNumber, pageSize: page }],
+        queryFn: () => getDigitalSpecimens({ searchFilters, pageSize, pageNumber: page }),
+    });
+
+    /* Catching both data and meta data for pagination */
+    return {
+        ...queryResult,
+        data: queryResult.data?.data,
+        meta: queryResult.data?.meta,
+    };
+}

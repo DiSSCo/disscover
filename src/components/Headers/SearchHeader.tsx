@@ -18,7 +18,7 @@ export const SearchHeader = () => {
     return (
         <header>
             <div className="search-header-top-btns">
-                <Button variant="solid" onClick={() => copy(currentUrl)}>
+                <Button variant="ghost" onClick={() => copy(currentUrl)}>
                     {hasCopied ? 'Copied!' : 'Share'}
                     <Share2Icon />
                 </Button>

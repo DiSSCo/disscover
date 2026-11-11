@@ -12,9 +12,6 @@ import { OSD_URL } from 'utils/Constants';
 /* Import components */
 import { AnnotoriousControls } from 'components/AnnotoriousControls/AnnotoriousControls';
 
-/* Import types */
-import { OsdOptions } from 'types/annotationTypes';
-
 interface Props {
     imageUri?: string | null;
     activeId?: string;
@@ -30,7 +27,7 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
     }
 
     /* Set OpenSeaDragon options based on ImageUri (that is already converted to jpg) */
-    const options: OsdOptions = useMemo(() => ({
+    const options: OpenSeadragon.Options = useMemo(() => ({
         tileSources: {
             type: 'image',
             url: imageUri

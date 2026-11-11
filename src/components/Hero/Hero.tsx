@@ -1,5 +1,5 @@
 /* Import dependencies */
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import KeycloakService from "app/Keycloak";
 
@@ -58,10 +58,14 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
 
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(KeycloakService.IsLoggedIn());
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const digitalSpecimenHandle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
     const currentUrl = `${globalThis.location.origin}${location.pathname}${location.search}`;
-    const isUserLoggedIn = KeycloakService.IsLoggedIn();
+
+    useEffect(() => {
+        setIsLoggedIn(KeycloakService.IsLoggedIn());
+    }, []);
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
@@ -94,7 +98,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 }
                 </div>
                 <div id="hero-top-buttons-right">
-                { (isDigitalMedia && visualAnnotateHelper && isUserLoggedIn) &&
+                { (isDigitalMedia && visualAnnotateHelper && isLoggedIn) &&
                     <Button variant="solid" onClick={() => visualAnnotateHelper()}>
                         { isDrawingEnabled ? 'Cancel visual annotation' : 'Visual annotation'}
                     </Button>

@@ -4,7 +4,7 @@ import { useState } from "react";
 /* Import components */
 import VirtualCollectionDetailsTable from "components/Tables/VirtualCollectionDetailsTable";
 import { Pagination } from "components/Pagination/Pagination";
-import { Hero } from "components/Hero/Hero";
+import { GeneralHeader } from "components/Headers/GeneralHeader";
 import { VirtualCollectionCard } from "components/Cards/VirtualCollectionCard/VirtualCollectionCard";
 
 /* Import hooks */
@@ -61,7 +61,7 @@ const VirtualCollectionDetails = () => {
 
     return ( 
         <>
-            <Hero
+            <GeneralHeader
                 title={selectedVirtualCollection?.['ltc:collectionName']}
                 description={selectedVirtualCollection?.['ltc:description']}
                 badge={[{ content: selectedVirtualCollection?.['ltc:basisOfScheme'], type: 'solid', color: 'sky'}]}
@@ -71,7 +71,7 @@ const VirtualCollectionDetails = () => {
                 selectedView={selectedView}
                 onViewChange={setSelectedView}
             >
-            </Hero>
+            </GeneralHeader>
             { currentItems.length > 0 ?
             <main className="virtual-collections-main">
                 <section id="vc-mobile-view">

@@ -72,3 +72,7 @@ CVE-2026-111497
 
 # curl and libcurl included in the image, cannot fix Okt-27-2026
 CVE-2026-92392
+
+# libxslit included in the image, cannot fix Nov-11-2026
+CVE-2026-87636
+CVE-2026-9947

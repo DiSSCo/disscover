@@ -4,12 +4,12 @@ import { format } from "date-fns";
 import KeycloakService from "app/Keycloak";
 
 /* Import components */
-import { ArrowLeftIcon, ClipboardCopyIcon, CopyIcon, GridIcon, ListBulletIcon, Pencil2Icon, PlusIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, CopyIcon, GridIcon, ListBulletIcon, Pencil2Icon, PlusIcon, Share2Icon } from "@radix-ui/react-icons";
 import { Badge, Button, Dialog, Flex } from "@radix-ui/themes";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /* Import styling */
-import './Hero.scss';
+import './GeneralHeader.scss';
 
 /* Import utilities */
 import { RetrieveEnvVariable } from "app/Utilities";
@@ -38,7 +38,7 @@ type Props = {
 }
 
 /**
- * Hero component that illustrates important information of a page and offers extra functionality like navigation & buttons
+ * GeneralHeader component that illustrates important information of a page and offers extra functionality like navigation & buttons
  * @param title String with title of the page
  * @param description String with description of the page
  * @param badge Array of strings to show one or more badges
@@ -46,9 +46,9 @@ type Props = {
  * @param showShareButton Boolean that indicates if the URL should be shareable
  * @param details Object with detail information of a particular VC
  * @param showCreateButton Boolean that indicates if the functionality for creating a VC should be working
- * @returns A JSX element that shows a Hero banner with information and possibly navigation
+ * @returns A JSX element that shows a GeneralHeader banner with information and possibly navigation
  */
-export const Hero = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, annotateHelper, selectedView,
+export const GeneralHeader = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, annotateHelper, selectedView,
     onViewChange, isDigitalMedia = false, visualAnnotateHelper, isDrawingEnabled }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
@@ -88,8 +88,8 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
 
     return (
         <header>
-            <div id="hero-top-buttons">
-                <div id="hero-top-buttons-left">
+            <div id="header-top-buttons">
+                <div id="header-top-buttons-left">
                 {navigateTo &&
                     <Button variant="soft" className="navigation-link" onClick={() => navigate(navigateTo.pathName)}>
                         <ArrowLeftIcon />
@@ -112,13 +112,13 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 {showShareButton &&
                     <Button variant="solid" onClick={() => copy(currentUrl)}>
                         {hasCopied ? 'Copied!' : 'Share'}
-                        <ClipboardCopyIcon />
+                        <Share2Icon />
                     </Button>
                 }
                 </div>
             </div>
             
-            <div id="hero-badges">
+            <div id="header-badges">
                 {badge?.map(({ content, type, color }) => {
                     if (!content) return null;
                     return (
@@ -126,7 +126,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                     )
                 })}
             </div>
-            <div id="hero-title">
+            <div id="header-title">
                 {isHtml ? (
                     <h1 dangerouslySetInnerHTML={{ __html: sanitizeHtmlWrapper(title) }} />
                 ) : (
@@ -139,7 +139,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                     </Button>
                 }
             </div>
-            <div id="hero-content">
+            <div id="header-content">
                 {description &&
                 <div className="description-container">
                     {description && 
@@ -204,7 +204,7 @@ export const Hero = ( { title, description, badge, navigateTo, showShareButton, 
                 </>
                 }
             </div>
-            <div id="hero-footer">
+            <div id="header-footer">
             {selectedView && onViewChange && (
                 <div aria-label="View switch" className="view-toggle">
                     <Button

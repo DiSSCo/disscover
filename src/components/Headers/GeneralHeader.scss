@@ -1,18 +1,18 @@
 @use "styles/mixins.scss" as *;
 
 header {
-    #hero-top-buttons {
+    #header-top-buttons {
         display: flex;
         justify-content: space-between;
         margin-block-end: var(--spacing-l);
 
-        #hero-top-buttons-right, #hero-top-buttons-left {
+        #header-top-buttons-right, #header-top-buttons-left {
             button {
                 margin-inline-end: var(--spacing-sm);
             }
         }
     }
-    #hero-title {
+    #header-title {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -21,12 +21,12 @@ header {
             margin-block-start: var(--spacing-sm);
         }
     }
-    #hero-badges {
+    #header-badges {
         span {
             margin-inline-end: var(--spacing-sm);
         }
     }
-    #hero-content {
+    #header-content {
         display: flex;
         flex-direction: column;
 
@@ -101,7 +101,7 @@ header {
         }
     }
 
-    #hero-footer {
+    #header-footer {
         .view-toggle {
             display: none;
             @include smallAndUp {

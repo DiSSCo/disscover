@@ -1,8 +1,15 @@
+/* Import dependencies */
+import { useState } from "react";
+
+/* Import components */
 import { SearchHeader } from "components/Headers/SearchHeader"
 import { Pagination } from "components/Pagination/Pagination";
 import DigitalSpecimensTable from "components/Tables/DigitalSpecimensTable";
+
+/* Import hooks */
 import { useDigitalSpecimens } from "hooks/useDigitalSpecimen";
-import { useState } from "react";
+
+/* Import utils */
 import { paginateItems } from "utils/Utils";
 
 export const Search = () => {

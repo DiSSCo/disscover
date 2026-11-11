@@ -28,7 +28,6 @@ const DigitalSpecimensTable = ({currentItems }: Props) => {
 
             <Table.Body>
                 {currentItems?.map((collection: any) => {
-                    console.log(collection);
                     return (
                         <Table.Row key={collection.id} className="row-link">
                             <Table.RowHeaderCell>

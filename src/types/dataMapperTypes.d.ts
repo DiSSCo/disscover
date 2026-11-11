@@ -97,6 +97,12 @@ interface DigitalMediaJson {
   attributes: DigitalMedia;
 }
 
+interface AnnotationJson {
+    type: 'ods:Annotation';
+    id: string;
+    attributes: Annotation;
+}
+
 type JsonViewerData = DigitalSpecimenJson | DigitalMediaJson;
 
 export type {
@@ -111,5 +117,6 @@ export type {
     RawDigitalMediaData,
     JsonViewerData,
     DigitalSpecimenJson,
-    DigitalMediaJson
+    DigitalMediaJson,
+    AnnotationJson
 };

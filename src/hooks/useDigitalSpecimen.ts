@@ -59,11 +59,10 @@ export const useDigitalSpecimenVersions = ({
 export const useDigitalSpecimens = ({
     pageSize, pageNumber, searchFilters
 }: { searchFilters?: SearchFilters, pageSize: number, pageNumber?: number }) => {
-    const page = pageNumber ?? 1;
 
     const queryResult = useQuery({
-        queryKey: ['digitalSpecimens', { searchFilters, pageNumber, pageSize: page }],
-        queryFn: () => getDigitalSpecimens({ searchFilters, pageSize, pageNumber: page }),
+        queryKey: ['digitalSpecimens', { pageSize, pageNumber, searchFilters }],
+        queryFn: () => getDigitalSpecimens({ pageSize, pageNumber, searchFilters }),
     });
 
     /* Catching both data and meta data for pagination */

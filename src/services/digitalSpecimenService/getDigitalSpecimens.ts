@@ -9,7 +9,7 @@ import apiClient from "services/apiClient";
  * Takes pageSize, pageNumber and searchFilters as a parameter object
  * @returns An array with digital specimen objects
  */
-export const getDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters }:
+export const getDigitalSpecimens = async ({ pageSize, pageNumber = 1, searchFilters }:
     { searchFilters?: SearchFilters, pageSize: number, pageNumber?: number }
 ) => {
     let filters: string = '';
@@ -39,7 +39,6 @@ export const getDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters 
             throw new Error('Incorrect response format');
         }
 
-        console.log('response in service', response.data);
         /* Return response data */
         return response.data;
     } catch (error) {

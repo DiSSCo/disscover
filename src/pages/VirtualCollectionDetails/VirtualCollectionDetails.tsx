@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 /* Import components */
-import VirtualCollectionDetailsTable from "components/Tables/VirtualCollectionDetailsTable";
+import DigitalSpecimensTable from "components/Tables/DigitalSpecimensTable";
 import { Pagination } from "components/Pagination/Pagination";
 import { GeneralHeader } from "components/Headers/GeneralHeader";
 import { VirtualCollectionCard } from "components/Cards/VirtualCollectionCard/VirtualCollectionCard";
@@ -85,7 +85,7 @@ const VirtualCollectionDetails = () => {
                 </section>
                 <section id="vc-desktop-view">
                     { selectedView === 'table' ? (
-                        <VirtualCollectionDetailsTable 
+                        <DigitalSpecimensTable 
                             currentItems={currentItems}
                         />
                     ) : (

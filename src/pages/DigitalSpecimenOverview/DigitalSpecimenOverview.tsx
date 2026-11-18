@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 /* Import components */
-import { Hero } from 'components/Hero/Hero';
+import { GeneralHeader } from 'components/Headers/GeneralHeader';
 import { TabsList } from 'components/Tabs/TabsList';
 import { TabsContent } from 'components/Tabs/TabsContent';
 import { VersionDropdown } from 'components/VersionDropdown/VersionDropdown';
@@ -80,7 +80,7 @@ const DigitalSpecimenOverview = () => {
 
     return (
         <div className="digital-specimen-page">
-            <Hero
+            <GeneralHeader
                 title={getField(CardCategory.Identification, 'Scientific Name').value}
                 navigateTo={{ pathName:"/search", text: "Specimens"}}
                 showShareButton={true}
@@ -93,7 +93,7 @@ const DigitalSpecimenOverview = () => {
                 annotate={true}
                 annotateHelper={handleOpenAnnotation}
             >
-            </Hero>
+            </GeneralHeader>
 
             <main>
                 {/* Tabs of the Digital Specimen & the version dropdown*/}

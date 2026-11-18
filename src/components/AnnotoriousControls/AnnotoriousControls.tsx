@@ -11,14 +11,13 @@ import { useDigitalMediaAnnotations } from "hooks/useDigitalMedia";
 
 /* Import types */
 import { AnnotationJson } from "types/dataMapperTypes";
-import { OsdOptions } from "types/annotationTypes";
 
 /* Import components */
 import { AnnotationDetailsPopup } from "components/Popups/AnnotationDetailsPopup";
 import { AddVisualAnnotationPopup } from "components/Popups/AddVisualAnnotationPopup";
 
 type AnnotoriousControlsProps = {
-    osdOptions: OsdOptions;
+    osdOptions: OpenSeadragon.Options;
     identifier: string;
     imageUri: string;
     digitalMediaType: string;

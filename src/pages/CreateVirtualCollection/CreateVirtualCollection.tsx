@@ -3,7 +3,7 @@ import { RetrieveEnvVariable } from 'app/Utilities';
 import { useState } from 'react';
 
 /* Import components */
-import { Hero } from 'components/Hero/Hero';
+import { GeneralHeader } from 'components/Headers/GeneralHeader';
 import MultiStepForm from 'components/MultiStepForm/MultiStepForm';
 import AboutView from 'components/MultiStepForm/views/AboutView';
 import ConfirmView from 'components/MultiStepForm/views/ConfirmView';
@@ -110,11 +110,11 @@ const CreateVirtualCollection = () => {
 
     return (
         <>
-            <Hero
+            <GeneralHeader
                 title="Create Virtual Collection"
                 navigateTo={{pathName: '/virtual-collections', text: 'Virtual Collections'}}
             >
-            </Hero>
+            </GeneralHeader>
             <main>
                 <MultiStepForm
                     steps={formSteps}

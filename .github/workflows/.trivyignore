@@ -40,6 +40,9 @@ CVE-2026-111755
 CVE-2026-111756
 CVE-2026-116689
 
+# picomatch is a dependency of another dependency and cannot be upgraded by us Nov-18-2026
+CVE-2026-112366
+
 # Vulnerabilities in Image
 # libcrypto3 included in the image, cannot fix Aug-26-2026
 CVE-2026-14456
@@ -72,3 +75,10 @@ CVE-2026-111497
 
 # curl and libcurl included in the image, cannot fix Okt-27-2026
 CVE-2026-92392
+
+# libxslit included in the image, cannot fix Nov-11-2026
+CVE-2026-87636
+CVE-2026-9947
+
+# libxslt included in the image, cannot fix Nov-18-2026
+CVE-2026-125350

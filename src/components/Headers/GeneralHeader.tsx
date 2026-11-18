@@ -1,7 +1,6 @@
 /* Import dependencies */
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { format } from "date-fns";
-import KeycloakService from "app/Keycloak";
 
 /* Import components */
 import { ArrowLeftIcon, CopyIcon, GridIcon, ListBulletIcon, Pencil2Icon, PlusIcon, Share2Icon } from "@radix-ui/react-icons";
@@ -16,7 +15,7 @@ import { RetrieveEnvVariable } from "app/Utilities";
 import { sanitizeHtmlWrapper } from "utils/Utils";
 
 /* Import hooks */
-import { useHasRole } from "hooks/roleChecker";
+import { useHasRole, useIsLoggedIn } from "hooks/useKeycloakHooks";
 import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
@@ -55,17 +54,13 @@ export const GeneralHeader = ( { title, description, badge, navigateTo, showShar
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
     const location = useLocation();
     const { copy, hasCopied } = useClipboard();
+    const isLoggedIn = useIsLoggedIn();
 
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(KeycloakService.IsLoggedIn());
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const digitalSpecimenHandle = details?.['@id'].replace(RetrieveEnvVariable('HANDLE_URL'), '');
     const currentUrl = `${globalThis.location.origin}${location.pathname}${location.search}`;
-
-    useEffect(() => {
-        setIsLoggedIn(KeycloakService.IsLoggedIn());
-    }, []);
 
     /* On mount, useLayoutEffect is called to determine if a 'more' button needs to be shown in the description */
     useLayoutEffect(() => {
@@ -97,7 +92,7 @@ export const GeneralHeader = ( { title, description, badge, navigateTo, showShar
                     </Button>
                 }
                 </div>
-                <div id="hero-top-buttons-right">
+                <div id="header-top-buttons-right">
                 { (isDigitalMedia && visualAnnotateHelper && isLoggedIn) &&
                     <Button variant="solid" onClick={() => visualAnnotateHelper()}>
                         { isDrawingEnabled ? 'Cancel visual annotation' : 'Visual annotation'}

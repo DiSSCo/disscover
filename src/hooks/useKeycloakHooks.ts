@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import KeycloakService from "app/Keycloak";
 
 /**
@@ -15,4 +15,15 @@ export const useHasRole = (role: string) => {
     }, [role]);
 
     return hasRole;
+};
+
+/**
+ * Hook that gives us back Keycloak feedback on any changes
+ * @returns A boolean that indicates whether a user is logged in or not
+ */
+export const useIsLoggedIn = (): boolean => {
+    return useSyncExternalStore(
+        KeycloakService.Subscribe,
+        KeycloakService.IsLoggedIn
+    );
 };

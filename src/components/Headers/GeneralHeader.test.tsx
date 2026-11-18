@@ -1,15 +1,16 @@
 import { screen, fireEvent, renderWithRouter, render } from 'tests/test-utils';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { GeneralHeader } from './GeneralHeader';
-import { useHasRole } from 'hooks/roleChecker';
+import { useHasRole } from 'hooks/useKeycloakHooks';
 import { useClipboard } from 'hooks/useClipboard';
 
 /* Mocks */
 vi.mock('hooks/useClipboard', () => ({
     useClipboard: vi.fn()
 }))
-vi.mock('hooks/roleChecker', () => ({
+vi.mock('hooks/useKeycloakHooks', () => ({
     useHasRole: vi.fn(),
+    useIsLoggedIn: vi.fn()
 }));
 
 /* Mock the KeycloakService */

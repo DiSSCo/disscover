@@ -1,6 +1,23 @@
 header {
     .search-header-top-btns {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
+
+        .search-input-filter {
+            display: flex;
+            align-items: center;
+
+            :not(:last-child) {
+                margin-inline-end: var(--spacing-sm);
+            }   
+        }
     }
+}
+
+/* Radix overwrites */
+.rt-SelectTriggerInner, .rt-SelectItem {
+    font-weight: 500;
+    font-size: 14px;
+    color: #021179B2;
 }

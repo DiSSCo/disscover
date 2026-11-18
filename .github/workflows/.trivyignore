@@ -77,3 +77,6 @@ CVE-2026-92392
 # libxslit included in the image, cannot fix Nov-11-2026
 CVE-2026-87636
 CVE-2026-9947
+
+# libxslt included in the image, cannot fix Nov-18-2026
+CVE-2026-125350

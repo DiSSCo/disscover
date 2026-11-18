@@ -6,6 +6,7 @@ import { RetrieveEnvVariable } from "app/Utilities";
 /* Import services */
 import { getDigitalMedia } from "services/digitalMediaService/getDigitalMedia";
 import { getJpegFromIIIFImages } from "services/digitalMediaService/getJpegFromIIIFImages";
+import { getDigitalMediaAnnotations } from "services/digitalMediaService/getDigitalMediaAnnotations";
 
 /* Import utils */
 import { mapDigitalMediaData, mapEntityRelationships } from "utils/DataMappers/digitalSpecimenDataMapper";
@@ -120,4 +121,21 @@ export const useDigitalMediaRetriever = (specimen?: any) => {
         cleanDoiPath,
         correctImageFormats
     };
+};
+
+/**
+ * Hook that calls the getDigitalMediaAnnotations service and retrieves the digital media annotations
+ * @param handle Identifier of the digital media item
+ * @returns An object that contains the digital media annotations
+ */
+export const useDigitalMediaAnnotations = ({ handle }: { handle: string }) => {
+    return useQuery({
+        queryKey: ['digitalMediaAnnotations', handle ],
+        queryFn: () => getDigitalMediaAnnotations({ handle }),
+        select: (data) => ({
+            ...data,
+        }),
+        staleTime: LONG_STALE_TIME,
+        gcTime: LONG_GC_TIME
+    });
 };

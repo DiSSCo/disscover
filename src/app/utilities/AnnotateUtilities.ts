@@ -439,8 +439,10 @@ const ReformatToAnnotoriousAnnotation = (annotation: Annotation, mediaUrl: strin
                 value: annotation['oa:hasBody']?.['oa:value'][0] ?? '',
                 purpose: 'commenting',
                 creator: {
-                    id: annotation['dcterms:creator']['@id'] ?? ''
-                }
+                    id: annotation['dcterms:creator']['@id'] ?? '',
+                    name: annotation['dcterms:creator']['schema:name'] ?? ''
+                },
+                created: annotation['dcterms:created']
             }],
             target: {
                 selector: {

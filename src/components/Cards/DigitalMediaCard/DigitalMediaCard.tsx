@@ -18,9 +18,10 @@ interface Props {
     ImageAction?: Function;
     isDrawingEnabled?: boolean;
     identifier?: string;
+    digitalMediaType?: string;
 }
 
-export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawingEnabled, identifier }: Props) => {
+export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawingEnabled, identifier, digitalMediaType }: Props) => {
     /* Base variables */
     if (!imageUri) {
         return <div className="image-placeholder"><p>Something went wrong with the image</p></div>;
@@ -67,7 +68,7 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
                 </div>
             </button>
         :
-        (identifier) &&
+        (identifier && digitalMediaType) &&
             <div className="osd-container">
                 <Annotorious>
                     <OpenSeadragonAnnotator
@@ -77,7 +78,7 @@ export const DigitalMediaCard = ({ imageUri, activeId = '', ImageAction, isDrawi
                         drawingMode="click"
                         userSelectAction={UserSelectAction.SELECT}
                     >
-                        <AnnotoriousControls osdOptions={options} identifier={identifier} imageUri={imageUri}>
+                        <AnnotoriousControls osdOptions={options} identifier={identifier} digitalMediaType={digitalMediaType} imageUri={imageUri}>
                         </AnnotoriousControls>
                     </OpenSeadragonAnnotator>
                 </Annotorious>

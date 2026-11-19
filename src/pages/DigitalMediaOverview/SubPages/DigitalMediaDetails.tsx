@@ -15,6 +15,7 @@ interface Props {
 
 export const DigitalMediaDetails = ({ data, isDrawingEnabled }: Props) => {
     const digitalMediaIdentifier = data?.data?.attributes['@id'];
+    const digitalMediaType = data?.data?.attributes['@type'];
     const attributes = data?.data?.attributes;
     const format = attributes?.["dcterms:format"]?.toLowerCase();
     const rawUri = attributes?.["ac:accessURI"];
@@ -36,7 +37,7 @@ export const DigitalMediaDetails = ({ data, isDrawingEnabled }: Props) => {
         <>
             {imageUri && (
                 <section className="digital-media-details-container">
-                    <DigitalMediaCard imageUri={imageUri} isDrawingEnabled={isDrawingEnabled} identifier={digitalMediaIdentifier} />
+                    <DigitalMediaCard imageUri={imageUri} isDrawingEnabled={isDrawingEnabled} identifier={digitalMediaIdentifier} digitalMediaType={digitalMediaType}/>
                 </section>
             )}
             

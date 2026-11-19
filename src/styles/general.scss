@@ -74,3 +74,7 @@ button.helper-button {
     }
 }
 
+.form-input {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--medium-gray);
+}

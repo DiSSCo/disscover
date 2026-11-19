@@ -1,5 +1,5 @@
 /* Import dependencies */
-import { AnnotoriousOpenSeadragonAnnotator, ImageAnnotation, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, useAnnotator, useSelection } from "@annotorious/react";
+import { AnnotoriousOpenSeadragonAnnotator, ImageAnnotation, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, useAnnotator, useSelection, W3CAnnotation } from "@annotorious/react";
 import { useEffect, useState } from "react";
 
 /* Import utils */
@@ -15,6 +15,9 @@ import { AnnotationJson } from "types/dataMapperTypes";
 /* Import components */
 import { AnnotationDetailsPopup } from "components/Popups/AnnotationDetailsPopup";
 import { AddVisualAnnotationPopup } from "components/Popups/AddVisualAnnotationPopup";
+
+/* Import services */
+import InsertAnnotation from "api/annotation/InsertAnnotation";
 
 type AnnotoriousControlsProps = {
     osdOptions: OpenSeadragon.Options;
@@ -74,10 +77,8 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
                 return ReformatToAnnotoriousAnnotation(anno.attributes, imageUri, imageDimensions);
             });
     
-            /* If we have transformed annotations and the osdAnnotator is still defined, we set the annotorious annotations */
-            if (transformAnnotations.length > 0 && osdAnnotator) {
-                osdAnnotator.setAnnotations(transformAnnotations);
-            };
+            /* We set the annotorious annotations */
+            osdAnnotator.setAnnotations(transformAnnotations);
         }
         /* Set styling of annotations */
         osdAnnotator.setStyle({
@@ -91,7 +92,7 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
 
     }, [osdAnnotator, imageUri, identifier, annotations, imageDimensions]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         /* Select the draft annotation */
         const selectedAnnotation = selection.selected[0];
 
@@ -139,9 +140,50 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
                 annotationValues: [inputValue],
                 fragments: fragments
             });
-            console.log('new annotation', newAnnotationPayload);
 
-            
+            /* Insert annotation to DiSSCo backend */
+            const apiResult = await InsertAnnotation({ newAnnotation: newAnnotationPayload });
+
+            /* If no apiResult, return since we cannot execute all that follows */
+            if (!apiResult) {
+                throw new Error('API returned an empty response');
+            }
+
+            /* Build clean W3C annotation for Annotorious */
+            const persistentId = apiResult['@id'];
+            const w3cAnnotation: W3CAnnotation = {
+                '@context': 'http://www.w3.org/ns/anno.jsonld',
+                id: persistentId,
+                type: 'Annotation',
+                body: [
+                    {
+                        type: 'TextualBody',
+                        value: inputValue,
+                        purpose: 'commenting',
+                        creator: {
+                            id: apiResult['dcterms:creator']['@id'] ?? '',
+                            name: apiResult['dcterms:creator']['schema:name'] ?? ''
+                        },
+                        created: apiResult['dcterms:created']
+                    }
+                ],
+                target: {
+                    source: imageUri,
+                    selector: {
+                        type: 'FragmentSelector',
+                        conformsTo: 'http://www.w3.org/TR/media-frags/',
+                        value: `xywh=pixel:${x},${y},${w},${h}`
+                    }
+                }
+            };
+    
+            // 7. Update local Annotorious v3 instance state
+            osdAnnotator.removeAnnotation(activeAnnotation.id);
+            osdAnnotator.addAnnotation(w3cAnnotation as any);
+
+            /* Clear everything that needs to be clean for a following annotation */
+            osdAnnotator.setSelected();
+            setInputValue('');
 
         } catch (error) {
             console.error('Failed to submit annotation:', error);
@@ -173,9 +215,11 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
         setInputValue('');
     }
 
-    /* Renderer for annotation popups, either details or soon adding */
+    /* Renderer for annotation popups, either details or adding */
     const renderAnnotationPopup = () => {
         const selectedAnnotation = selection?.selected?.[0]?.annotation;
+
+        if (!selectedAnnotation) return null;
 
         const isSubmitted = selectedAnnotation.id.includes('/') || 
                             (selectedAnnotation.bodies && selectedAnnotation.bodies.length > 0);

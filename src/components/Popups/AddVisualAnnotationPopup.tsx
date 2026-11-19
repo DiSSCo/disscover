@@ -18,6 +18,7 @@ export const AddVisualAnnotationPopup = ({ inputValue, setInputValue, handleCanc
                 placeholder="Annotation value"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                className="form-input"
             />
             <div className="add-annotation-popup-controls">
                 <Button 
@@ -31,7 +32,7 @@ export const AddVisualAnnotationPopup = ({ inputValue, setInputValue, handleCanc
                     Submit annotation
                 </Button>
             </div>
-            <p className="add-annotation-footer">All annotations are public. By submitting you agree to our CC-0 license and Annotation Policy.</p>
+            <p className="add-annotation-footer">All annotations are public. By submitting you agree to our <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode.en" target="_blank">CC-0 license</a> and Annotation Policy.</p>
         </Card>
     )
 }

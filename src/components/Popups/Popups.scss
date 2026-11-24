@@ -20,18 +20,18 @@
 }
 
 .add-annotation-popup {
-    background: white;
-    min-width: 350px;
-    max-width: 480px;
+    background: var(--white);
+    min-width: var(--general-card-width);
+    max-width: var(--large-card-width);
 
     .add-annotation-popup-controls {
-        margin-block: 16px;
+        margin-block: var(--spacing-m);
         display: flex;
-        gap: 8px;
+        gap: var(--spacing-s);
         justify-content: flex-end;
     }
 
     .add-annotation-footer {
-        font-size: 12px;
+        font-size: var(--xs-font-size);
     }
 }

@@ -25,14 +25,22 @@ vi.mock('app/Utilities', () => ({
     RetrieveEnvVariable: vi.fn(() => 'https://doi.org/'),
 }));
 
+vi.mock('app/utilities/AnnotateUtilities', () => ({
+    ReformatToAnnotoriousAnnotation: vi.fn()
+}));
+
+/* Mock hook */
 vi.mock('hooks/useDigitalMedia', () => ({
     useDigitalMediaAnnotations: vi.fn(() => {
         return mockAnnotationData;
     })
 }));
 
-vi.mock('app/utilities/AnnotateUtilities', () => ({
-    ReformatToAnnotoriousAnnotation: vi.fn()
+/* Mock the KeycloakService */
+vi.mock('app/Keycloak', () => ({
+    default: {
+        GetToken: vi.fn(),
+    },
 }));
 
 describe('DigitalMediaCard component', () => {

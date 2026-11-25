@@ -1,18 +1,21 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
-import { TextField } from "@radix-ui/themes"
-
 type SearchInputBarProps = {
-    icon?: boolean
-}
+    value: string;
+    setInputValue: (value: string) => void;
+};
 
-export const SearchInputBar = ({ icon = false }: SearchInputBarProps ) => {
+export const SearchInputBar = ({
+    value,
+    setInputValue,
+}: SearchInputBarProps) => {
     return (
-        <TextField.Root placeholder="Search...">
-            <TextField.Slot>
-                { icon && 
-                <MagnifyingGlassIcon height="16" width="16" />
-                }
-            </TextField.Slot>
-        </TextField.Root>
-    )
-}
+        <div>
+            <input
+                type="text"
+                value={value}
+                placeholder="Search..."
+                className="form-input"
+                onChange={(e) => setInputValue(e.target.value.toString())}
+            />
+        </div>
+    );
+};

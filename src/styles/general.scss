@@ -64,7 +64,7 @@ button.helper-button {
 /* Form controls */
 :is(input, textarea) {
     width: 100%;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-xs);
     font-size: var(--sm-font-size);
     resize: none;
     margin-block-end: var(--spacing-sm);

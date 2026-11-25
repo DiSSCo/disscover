@@ -13,21 +13,19 @@ export const getDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters 
     { searchFilters?: SearchFilters, pageSize: number, pageNumber?: number }
 ) => {
     let filters: string = '';
-    const endPoint = `digital-specimen/v1/search${filters}`;
 
+    /* Loop through the filters to fit the URLSearchParam format without changing encoding characters, i.e. / to %2F */
     if (searchFilters) {
-        /* For each filter */
-        Object.entries(searchFilters).forEach(([key, values], index) => {
-            /* Apply each value */
-            values.forEach((value, valueIndex) => {
-                filters = filters.concat(`${(index > 0 || valueIndex > 0) ? '&' : '?'}${key}=${encodeURIComponent(value)}`);
+        Object.entries(searchFilters).forEach(([key, values]) => {
+            values.forEach((value) => {
+                filters += `${filters ? "&" : "?"}${key}=${value}`;
             });
         });
-    };
+    }
 
     try {
         /* Call service and wait for response */
-        const response = await apiClient.get(endPoint, {
+        const response = await apiClient.get(`digital-specimen/v1/search${filters}`, {
             params: {
                 pageSize,
                 pageNumber
@@ -39,7 +37,6 @@ export const getDigitalSpecimens = async ({ pageSize, pageNumber, searchFilters 
             throw new Error('Incorrect response format');
         }
 
-        console.log('response in service', response.data);
         /* Return response data */
         return response.data;
     } catch (error) {

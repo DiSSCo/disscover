@@ -62,7 +62,7 @@ export const useDigitalSpecimens = ({
     const page = pageNumber ?? 1;
 
     const queryResult = useQuery({
-        queryKey: ['digitalSpecimens', { searchFilters, pageNumber, pageSize: page }],
+        queryKey: ['digitalSpecimens', { searchFilters, pageSize, pageNumber: page }],
         queryFn: () => getDigitalSpecimens({ searchFilters, pageSize, pageNumber: page }),
     });
 

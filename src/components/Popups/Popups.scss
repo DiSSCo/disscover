@@ -18,3 +18,20 @@
         }
     }
 }
+
+.add-annotation-popup {
+    background: var(--white);
+    min-width: var(--general-card-width);
+    max-width: var(--large-card-width);
+
+    .add-annotation-popup-controls {
+        margin-block: var(--spacing-m);
+        display: flex;
+        gap: var(--spacing-s);
+        justify-content: flex-end;
+    }
+
+    .add-annotation-footer {
+        font-size: var(--xs-font-size);
+    }
+}

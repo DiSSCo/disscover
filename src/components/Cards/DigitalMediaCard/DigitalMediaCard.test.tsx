@@ -25,14 +25,22 @@ vi.mock('app/Utilities', () => ({
     RetrieveEnvVariable: vi.fn(() => 'https://doi.org/'),
 }));
 
+vi.mock('app/utilities/AnnotateUtilities', () => ({
+    ReformatToAnnotoriousAnnotation: vi.fn()
+}));
+
+/* Mock hook */
 vi.mock('hooks/useDigitalMedia', () => ({
     useDigitalMediaAnnotations: vi.fn(() => {
         return mockAnnotationData;
     })
 }));
 
-vi.mock('app/utilities/AnnotateUtilities', () => ({
-    ReformatToAnnotoriousAnnotation: vi.fn()
+/* Mock the KeycloakService */
+vi.mock('app/Keycloak', () => ({
+    default: {
+        GetToken: vi.fn(),
+    },
 }));
 
 describe('DigitalMediaCard component', () => {
@@ -50,7 +58,7 @@ describe('DigitalMediaCard component', () => {
     });
 
     it('renders the OpenSeadragon viewer when ImageAction is not provided', () => {
-        render(<DigitalMediaCard imageUri={testUri} identifier={testId} isDrawingEnabled={true} />);
+        render(<DigitalMediaCard imageUri={testUri} identifier={testId} isDrawingEnabled={true} digitalMediaType="ods:DigitalMedia"/>);
 
         /* Check that the OpenSeadragon fallback renders */
         expect(screen.getByTestId('osd-viewer')).toBeInTheDocument();

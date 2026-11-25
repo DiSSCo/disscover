@@ -10,6 +10,8 @@ const SHORT_GC_TIME = 1000 * 60 * 10; // 10 minutes to store data in the cache
 /* URLs */
 const OSD_URL = 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/';
 const MIDS_URL = 'https://mids.tdwg.org/information-elements/index.html#4-mids-levels';
+const W3C_ANNO_JSONID_URL = 'http://www.w3.org/ns/anno.jsonld';
+const W3C_MEDIA_FRAGS_URL = 'http://www.w3.org/TR/media-frags/';
 
 export {
     LONG_STALE_TIME,
@@ -17,5 +19,7 @@ export {
     SHORT_STALE_TIME,
     SHORT_GC_TIME,
     OSD_URL,
-    MIDS_URL
+    MIDS_URL,
+    W3C_ANNO_JSONID_URL,
+    W3C_MEDIA_FRAGS_URL
 }

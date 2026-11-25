@@ -15,7 +15,7 @@ import { RetrieveEnvVariable } from "app/Utilities";
 import { sanitizeHtmlWrapper } from "utils/Utils";
 
 /* Import hooks */
-import { useHasRole } from "hooks/roleChecker";
+import { useHasRole, useIsLoggedIn } from "hooks/useKeycloakHooks";
 import { useClipboard } from "hooks/useClipboard";
 
 type Props = {
@@ -31,6 +31,9 @@ type Props = {
     annotateHelper?: Function
     selectedView?: 'table' | 'grid';
     onViewChange?: (view: 'table' | 'grid') => void;
+    isDigitalMedia?: boolean;
+    visualAnnotateHelper?: () => void;
+    isDrawingEnabled?: boolean
 }
 
 /**
@@ -45,12 +48,13 @@ type Props = {
  * @returns A JSX element that shows a GeneralHeader banner with information and possibly navigation
  */
 export const GeneralHeader = ( { title, description, badge, navigateTo, showShareButton, details, showCreateButton, isHtml = false, annotate, annotateHelper, selectedView,
-    onViewChange }: Props) => {
+    onViewChange, isDigitalMedia = false, visualAnnotateHelper, isDrawingEnabled }: Props) => {
     /* Hooks */
     const navigate = useNavigate();
     const isAllowedToCreateVC = useHasRole('dissco-virtual-collection');
     const location = useLocation();
     const { copy, hasCopied } = useClipboard();
+    const isLoggedIn = useIsLoggedIn();
 
     /* Base variables */
     const [showMoreButton, setShowMoreButton] = useState(false);
@@ -89,6 +93,11 @@ export const GeneralHeader = ( { title, description, badge, navigateTo, showShar
                 }
                 </div>
                 <div id="header-top-buttons-right">
+                { (isDigitalMedia && visualAnnotateHelper && isLoggedIn) &&
+                    <Button variant="solid" onClick={() => visualAnnotateHelper()}>
+                        { isDrawingEnabled ? 'Cancel visual annotation' : 'Visual annotation'}
+                    </Button>
+                }
                 {annotate && annotateHelper &&
                     <Button variant="solid" onClick={() => annotateHelper()}>
                         Annotate

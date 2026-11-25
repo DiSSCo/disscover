@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getDigitalSpecimenComplete } from 'services/digitalSpecimenService/getDigitalSpecimenComplete';
 import { getDigitalSpecimenVersions } from 'services/digitalSpecimenService/getDigitalSpecimenVersions';
 import { getDigitalSpecimens } from 'services/digitalSpecimenService/getDigitalSpecimens';
+import { getDigitalSpecimenAggregations } from 'services/digitalSpecimenService/getDigitalSpecimenAggregations';
 
 /* Import utils */
 import { mapDigitalSpecimen, mapDigitalSpecimenMedia, mapEntityRelationships, mapIdentificationData } from 'utils/DataMappers/digitalSpecimenDataMapper';
@@ -59,11 +60,10 @@ export const useDigitalSpecimenVersions = ({
 export const useDigitalSpecimens = ({
     pageSize, pageNumber, searchFilters
 }: { searchFilters?: SearchFilters, pageSize: number, pageNumber?: number }) => {
-    const page = pageNumber ?? 1;
 
     const queryResult = useQuery({
-        queryKey: ['digitalSpecimens', { searchFilters, pageSize, pageNumber: page }],
-        queryFn: () => getDigitalSpecimens({ searchFilters, pageSize, pageNumber: page }),
+        queryKey: ['digitalSpecimens', { pageSize, pageNumber, searchFilters }],
+        queryFn: () => getDigitalSpecimens({ pageSize, pageNumber, searchFilters }),
     });
 
     /* Catching both data and meta data for pagination */
@@ -72,4 +72,12 @@ export const useDigitalSpecimens = ({
         data: queryResult.data?.data,
         meta: queryResult.data?.meta,
     };
+}
+
+/* UseQuery hook to retrieve aggregations of all digital specimens, either all or based on search filters */
+export const useDigitalSpecimenAggregations = ({ activeFilter, searchFilters }: { activeFilter?: string, searchFilters?: SearchFilters }) => {
+    return useQuery({
+        queryKey: ['digitalSpecimenAggregations', { activeFilter, searchFilters }],
+        queryFn: () => getDigitalSpecimenAggregations({ activeFilter, searchFilters }),
+    });
 }

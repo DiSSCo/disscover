@@ -2,14 +2,6 @@ import { DmFieldConfig } from "types/dataMapperTypes";
 
 const DIGITAL_MEDIA_SCHEMA_MAP: DmFieldConfig[] = [
     {
-        label: 'Title',
-        resolve: (_) => 'Not available'
-    },
-    {
-        label: 'Description',
-        resolve: (_) => 'Not available'
-    },
-    {
         label: 'Organisation',
         resolve: (dm) => dm["ods:organisationName"],
     },

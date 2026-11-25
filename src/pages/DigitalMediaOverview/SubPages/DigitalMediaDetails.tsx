@@ -10,9 +10,11 @@ import { useSingleIIIFConverter } from "hooks/useDigitalMedia";
 
 interface Props {
     data: any;
+    isDrawingEnabled: boolean;
 }
 
-export const DigitalMediaDetails = ({ data }: Props) => {
+export const DigitalMediaDetails = ({ data, isDrawingEnabled }: Props) => {
+    const digitalMediaIdentifier = data?.data?.attributes['@id'];
     const attributes = data?.data?.attributes;
     const format = attributes?.["dcterms:format"]?.toLowerCase();
     const rawUri = attributes?.["ac:accessURI"];
@@ -34,7 +36,7 @@ export const DigitalMediaDetails = ({ data }: Props) => {
         <>
             {imageUri && (
                 <section className="digital-media-details-container">
-                    <DigitalMediaCard imageUri={imageUri} />
+                    <DigitalMediaCard imageUri={imageUri} isDrawingEnabled={isDrawingEnabled} identifier={digitalMediaIdentifier} />
                 </section>
             )}
             

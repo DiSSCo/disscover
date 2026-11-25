@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 /* Import utils */
 import { RetrieveEnvVariable } from "app/Utilities";
 import { ConstructAnnotationObject, ReformatToAnnotoriousAnnotation } from "app/utilities/AnnotateUtilities";
+import { W3C_ANNO_JSONID_URL, W3C_MEDIA_FRAGS_URL } from "utils/Constants";
 
 /* Import hooks */
 import { useDigitalMediaAnnotations } from "hooks/useDigitalMedia";
@@ -141,7 +142,7 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
             /* Build clean W3C annotation for Annotorious */
             const persistentId = apiResult['@id'];
             const w3cAnnotation: W3CAnnotation = {
-                '@context': 'http://www.w3.org/ns/anno.jsonld',
+                '@context': W3C_ANNO_JSONID_URL,
                 id: persistentId,
                 type: 'Annotation',
                 body: [
@@ -160,7 +161,7 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
                     source: imageUri,
                     selector: {
                         type: 'FragmentSelector',
-                        conformsTo: 'http://www.w3.org/TR/media-frags/',
+                        conformsTo: W3C_MEDIA_FRAGS_URL,
                         value: `xywh=pixel:${x},${y},${w},${h}`
                     }
                 }

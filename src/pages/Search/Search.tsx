@@ -8,6 +8,7 @@ import DigitalSpecimensTable from "components/Tables/DigitalSpecimensTable";
 
 /* Import hooks */
 import { useDigitalSpecimens } from "hooks/useDigitalSpecimen";
+import { useSearchFilters } from "hooks/useSearchFilters";
 
 /* Import utils */
 import { paginateItems } from "utils/Utils";
@@ -17,8 +18,9 @@ export const Search = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const maxPerPage = 100;
 
-    /* Calling the digital specimens hook */
-    const { data: allDigitalSpecimens, meta } = useDigitalSpecimens({ pageSize: maxPerPage, pageNumber: currentPage });
+    /* Hooks */
+    const { searchFilters } = useSearchFilters();
+    const { data: allDigitalSpecimens, meta } = useDigitalSpecimens({ pageSize: maxPerPage, pageNumber: currentPage, searchFilters });
 
     /* Use pagination */
     const { currentItems, totalAmount } = paginateItems(allDigitalSpecimens, currentPage, maxPerPage, meta?.totalRecords);

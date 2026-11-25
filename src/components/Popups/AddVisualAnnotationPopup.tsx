@@ -4,10 +4,10 @@ import { Button, Card } from "@radix-ui/themes";
 import './Popups.scss';
 
 type AddAnnotationProps = {
-    inputValue: any;
-    setInputValue: any;
-    handleCancel: any;
-    handleSubmit: any;
+    inputValue: string;
+    setInputValue: (value: string) => void;
+    handleCancel: () => void;
+    handleSubmit: () => void;
 }
 
 export const AddVisualAnnotationPopup = ({ inputValue, setInputValue, handleCancel, handleSubmit }: AddAnnotationProps) => {

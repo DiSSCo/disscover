@@ -1,5 +1,5 @@
 /* Import dependencies */
-import { AnnotoriousOpenSeadragonAnnotator, ImageAnnotation, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, useAnnotator, useSelection, W3CAnnotation } from "@annotorious/react";
+import { AnnotoriousOpenSeadragonAnnotator, ImageAnnotation, OpenSeadragonAnnotationPopup, OpenSeadragonViewer, useAnnotator, useSelection, W3CAnnotation, W3CImageAnnotation } from "@annotorious/react";
 import { useEffect, useState } from "react";
 
 /* Import utils */
@@ -28,69 +28,58 @@ type AnnotoriousControlsProps = {
 
 export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalMediaType }: AnnotoriousControlsProps) => {
     /* Hooks */
-    const osdAnnotator = useAnnotator<AnnotoriousOpenSeadragonAnnotator>();
+    const osdAnnotator = useAnnotator<AnnotoriousOpenSeadragonAnnotator<ImageAnnotation, W3CImageAnnotation>>();
     const selection = useSelection();
     const { data: annotations } = useDigitalMediaAnnotations({ handle: identifier.replace(RetrieveEnvVariable('DOI_URL'), '')});
 
     /* Base variables */
     /* State to track when OSD has loaded the image and we have valid dimensions */
-    const [imageDimensions, setImageDimensions] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [inputValue, setInputValue] = useState('');
     const osdViewer = osdAnnotator?.viewer;
 
-    /* Listening to when the viewer is ready and dimensions can be used */
     useEffect(() => {
-        /* Set viewer */
-        if (!osdViewer) return;
-
-        /* Function to update dimensions */
-        const updateDimensions = () => {
-            const worldItem = osdViewer.world?.getItemAt(0);
-            const contentSize = worldItem?.getContentSize();
-            /* Set image dimensions once x and y are not the default 0 */
-            if (contentSize && contentSize.x > 0 && contentSize.y > 0) {
-                setImageDimensions({ x: contentSize.x, y: contentSize.y });
-            }
-        }
-
-        /* If viewer is loaded, set dimensions */
-        if (osdViewer.world?.getItemAt(0)) {
-            updateDimensions();
-        };
-
-        /* Attach listener to osd viewer so that we stay up to date of loading and update dimensions appropriately */
-        osdViewer.addHandler('open', updateDimensions);
-
-        return () => {
-            osdViewer.removeHandler('open', updateDimensions);
-        };
-    }, [osdAnnotator]);
-
-    /* use effect hook to set the annotations that we already have */
-    useEffect(() => {
-        if (!osdAnnotator || !annotations || !imageDimensions) return;
-
-        /* Function to filter on visual annotations and then transform those to Annotorious appropriate format */
-        const loadExistingAnnotations = () => {
-            const allImageAnnotations = annotations?.data?.filter((item: AnnotationJson) => item?.attributes?.['oa:hasTarget']?.['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector');
-            const transformAnnotations: ImageAnnotation[] = allImageAnnotations.map((anno: AnnotationJson) => {
-                return ReformatToAnnotoriousAnnotation(anno.attributes, imageUri, imageDimensions);
-            });
+        if (!osdAnnotator || !osdViewer || !annotations?.data) return;
     
-            /* We set the annotorious annotations */
-            osdAnnotator.setAnnotations(transformAnnotations);
-        }
-        /* Set styling of annotations */
+        /* Set styling once annotator is ready */
         osdAnnotator.setStyle({
             fill: '#0126CC2B',
             stroke: '#FFFFFF',
             strokeOpacity: 1
         });
+    
+        /* Get the existing images and transform them to the expected format */
+        const loadExistingAnnotations = () => {
+            const worldItem = osdViewer.world?.getItemAt(0);
+            const contentSize = worldItem?.getContentSize();
+    
+            if (!contentSize || contentSize.x === 0 || contentSize.y === 0) return;
+    
+            const dimensions = { x: contentSize.x, y: contentSize.y };
+    
+            const allImageAnnotations = annotations.data.filter(
+                (item: AnnotationJson) =>
+                    item?.attributes?.['oa:hasTarget']?.['oa:hasSelector']?.['@type'] === 'oa:FragmentSelector'
+            );
+    
+            const transformAnnotations: W3CImageAnnotation[] = allImageAnnotations.map(
+                (anno: AnnotationJson) => ReformatToAnnotoriousAnnotation(anno.attributes, imageUri, dimensions)
+            );
+    
+            /* Set the annotations to the osdAnnotator */
+            osdAnnotator.setAnnotations(transformAnnotations);
+        };
 
-        /* Load existing annotations */
-        loadExistingAnnotations();
-
-    }, [osdAnnotator, imageUri, identifier, annotations, imageDimensions]);
+        /* If viewer is loaded, set existing annotations without re-download of tiles */
+        if (osdViewer.world?.getItemAt(0)) {
+            loadExistingAnnotations();
+        } else {
+            osdViewer.addOnceHandler('open', loadExistingAnnotations);
+        }
+    
+        return () => {
+            osdViewer.removeHandler('open', loadExistingAnnotations);
+        };
+    }, [osdAnnotator, osdViewer, imageUri, identifier, annotations]);
 
     const handleSubmit = async () => {
         /* Select the draft annotation */
@@ -179,7 +168,7 @@ export const AnnotoriousControls = ({ osdOptions, identifier, imageUri, digitalM
     
             // 7. Update local Annotorious v3 instance state
             osdAnnotator.removeAnnotation(activeAnnotation.id);
-            osdAnnotator.addAnnotation(w3cAnnotation as any);
+            osdAnnotator.addAnnotation(w3cAnnotation as W3CImageAnnotation);
 
             /* Clear everything that needs to be clean for a following annotation */
             osdAnnotator.setSelected();
